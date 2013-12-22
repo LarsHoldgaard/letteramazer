@@ -1,0 +1,24 @@
+﻿@{
+    ViewBag.Title = "ContentPageLayout";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="jumbotron-white">
+    <div class="container">
+        <div class="text-center promotionMargin">
+
+            <div>
+                <p class="frontpageLead">
+                    @ViewBag.PageTitle
+                </p>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        @RenderBody()
+    </div>
+</div>

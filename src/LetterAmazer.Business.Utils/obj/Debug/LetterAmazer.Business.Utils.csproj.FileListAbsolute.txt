@@ -1,0 +1,9 @@
+C:\Users\larsholdgaard\Dropbox\Programmering\www.letteramazer.com\LetterAmazer\LetterAmazer.Business.Utils\bin\Debug\LetterAmazer.Business.Utils.dll
+C:\Users\larsholdgaard\Dropbox\Programmering\www.letteramazer.com\LetterAmazer\LetterAmazer.Business.Utils\bin\Debug\LetterAmazer.Business.Utils.pdb
+C:\Users\larsholdgaard\Dropbox\Programmering\www.letteramazer.com\LetterAmazer\LetterAmazer.Business.Utils\obj\Debug\LetterAmazer.Business.Utils.csprojResolveAssemblyReference.cache
+C:\Users\larsholdgaard\Dropbox\Programmering\www.letteramazer.com\LetterAmazer\LetterAmazer.Business.Utils\obj\Debug\LetterAmazer.Business.Utils.dll
+C:\Users\larsholdgaard\Dropbox\Programmering\www.letteramazer.com\LetterAmazer\LetterAmazer.Business.Utils\obj\Debug\LetterAmazer.Business.Utils.pdb
+C:\Users\larsholdgaard\Dropbox\Programmering\www.letteramazer.com\LetterAmazer\LetterAmazer.Business.Utils\bin\Debug\itextsharp.dll
+C:\Users\larsholdgaard\Dropbox\Programmering\www.letteramazer.com\LetterAmazer\LetterAmazer.Business.Utils\bin\Debug\Newtonsoft.Json.dll
+C:\Users\larsholdgaard\Dropbox\Programmering\www.letteramazer.com\LetterAmazer\LetterAmazer.Business.Utils\bin\Debug\itextsharp.xml
+C:\Users\larsholdgaard\Dropbox\Programmering\www.letteramazer.com\LetterAmazer\LetterAmazer.Business.Utils\bin\Debug\Newtonsoft.Json.xml
