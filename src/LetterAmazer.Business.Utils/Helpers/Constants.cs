@@ -11,8 +11,7 @@ namespace LetterAmazer.Business.Utils.Helpers
         public const string Sitename = "letteramazer.com";
 
         public const string GAnlyticsId = "UA-17514238-1";
-        public const string GoogleMapsApiCall =
-            "https://maps.googleapis.com/maps/api/js?key=AIzaSyBulh9LO7V3Eb80BF0-h6BW6MyiO-qNTC0&sensor=false";
+        public const string GoogleMapsApiCall ="https://maps.googleapis.com/maps/api/js?key=AIzaSyBulh9LO7V3Eb80BF0-h6BW6MyiO-qNTC0&sensor=false";
 
         public class Path
         {

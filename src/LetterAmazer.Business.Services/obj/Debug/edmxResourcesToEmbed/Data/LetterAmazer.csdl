@@ -1,0 +1,212 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="LetterAmazer" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+  <EntityContainer Name="LetterAmazerContext" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Customers" EntityType="LetterAmazer.Customer" />
+    <EntitySet Name="Letters" EntityType="LetterAmazer.Letter" />
+    <AssociationSet Name="CustomerLetter" Association="LetterAmazer.FK_Letter_Customer">
+      <End Role="Customer" EntitySet="Customers" />
+      <End Role="Letter" EntitySet="Letters" />
+    </AssociationSet>
+    <EntitySet Name="LetterDetails" EntityType="LetterAmazer.LetterDetail" />
+    <AssociationSet Name="LetterLetterDetail" Association="LetterAmazer.FK_LetterDetail_Letter">
+      <End Role="Letter" EntitySet="Letters" />
+      <End Role="LetterDetail" EntitySet="LetterDetails" />
+    </AssociationSet>
+    <EntitySet Name="Orders" EntityType="LetterAmazer.Order" />
+    <AssociationSet Name="OrderLetter" Association="LetterAmazer.FK_Letter_Order">
+      <End Role="Order" EntitySet="Orders" />
+      <End Role="Letter" EntitySet="Letters" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Order_Customer" Association="LetterAmazer.FK_Order_Customer">
+      <End Role="Customer" EntitySet="Customers" />
+      <End Role="Order" EntitySet="Orders" />
+    </AssociationSet>
+    <EntitySet Name="Coupons" EntityType="LetterAmazer.Coupon" />
+  </EntityContainer>
+  <EntityType Name="Customer">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CustomerInfo" Type="LetterAmazer.AddressInfo" Nullable="false" />
+    <Property Type="String" Name="Email" Nullable="false" FixedLength="false" MaxLength="100" Unicode="true" />
+    <Property Type="String" Name="Password" Nullable="false" FixedLength="false" MaxLength="100" Unicode="true" />
+    <Property Type="String" Name="Username" Nullable="false" FixedLength="false" MaxLength="100" Unicode="true" />
+    <Property Type="DateTime" Name="DateCreated" Nullable="false" Precision="3" />
+    <Property Type="DateTime" Name="DateUpdated" Nullable="false" Precision="3" />
+    <NavigationProperty Name="Letters" Relationship="LetterAmazer.FK_Letter_Customer" FromRole="Customer" ToRole="Letter" />
+    <Property Type="Decimal" Name="Credits" Precision="18" Scale="5" />
+    <NavigationProperty Name="Orders" Relationship="LetterAmazer.FK_Order_Customer" FromRole="Customer" ToRole="Order" />
+  </EntityType>
+  <ComplexType Name="AddressInfo">
+    <Property Type="String" Name="Address" Nullable="false" FixedLength="true" MaxLength="150" />
+    <Property Type="String" Name="Address2" Nullable="true" FixedLength="true" MaxLength="150" />
+    <Property Type="String" Name="AttPerson" Nullable="true" FixedLength="true" MaxLength="150" />
+    <Property Type="String" Name="City" Nullable="false" FixedLength="true" MaxLength="150" />
+    <Property Type="String" Name="CompanyName" Nullable="true" FixedLength="true" MaxLength="150" />
+    <Property Type="String" Name="Country" Nullable="true" FixedLength="true" MaxLength="150" />
+    <Property Type="String" Name="CountryCode" Nullable="true" FixedLength="true" MaxLength="10" />
+    <Property Type="String" Name="FirstName" Nullable="false" FixedLength="true" MaxLength="150" />
+    <Property Type="String" Name="LastName" Nullable="false" FixedLength="true" MaxLength="150" />
+    <Property Type="String" Name="Postal" Nullable="true" FixedLength="true" MaxLength="150" />
+    <Property Type="String" Name="VatNr" Nullable="true" FixedLength="true" MaxLength="159" />
+  </ComplexType>
+  <EntityType Name="Letter">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="CustomerId" Nullable="true" />
+    <Property Name="FromAddress" Type="LetterAmazer.AddressInfo" Nullable="false" />
+    <Property Name="ToAddress" Type="LetterAmazer.AddressInfo" Nullable="false" />
+    <NavigationProperty Name="Customer" Relationship="LetterAmazer.FK_Letter_Customer" FromRole="Letter" ToRole="Customer" />
+    <Property Name="LetterContent" Type="LetterAmazer.LetterContent" Nullable="false" />
+    <NavigationProperty Name="LetterDetails" Relationship="LetterAmazer.FK_LetterDetail_Letter" FromRole="Letter" ToRole="LetterDetail" />
+    <Property Type="LetterAmazer.LetterStatus" Name="LetterStatus" Nullable="false" />
+    <NavigationProperty Name="Order" Relationship="LetterAmazer.FK_Letter_Order" FromRole="Letter" ToRole="Order" />
+    <Property Type="Int32" Name="OrderId" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_Letter_Customer">
+    <End Type="LetterAmazer.Customer" Role="Customer" Multiplicity="0..1" />
+    <End Type="LetterAmazer.Letter" Role="Letter" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Customer">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Letter">
+        <PropertyRef Name="CustomerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <ComplexType Name="LetterContent">
+    <Property Type="String" Name="Path" Nullable="true" FixedLength="true" MaxLength="250" />
+    <Property Type="String" Name="WrittenContent" Nullable="true" FixedLength="true" MaxLength="Max" />
+    <Property Type="Binary" Name="Content" Nullable="true" />
+  </ComplexType>
+  <EntityType Name="LetterDetail">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="LetterAmazer.Color" Name="Color" Nullable="false" />
+    <Property Type="LetterAmazer.LetterStatus" Name="LetterStatus" Nullable="false" />
+    <Property Type="LetterAmazer.PaperQuality" Name="PaperQuality" Nullable="false" />
+    <Property Type="LetterAmazer.PrintSize" Name="Size" Nullable="false" />
+    <Property Type="LetterAmazer.PrintQuality" Name="PrintQuality" Nullable="false" />
+    <NavigationProperty Name="Letter" Relationship="LetterAmazer.FK_LetterDetail_Letter" FromRole="LetterDetail" ToRole="Letter" />
+    <Property Type="Int32" Name="LetterId" Nullable="false" />
+    <Property Type="LetterAmazer.LetterQuatity" Name="LetterQuality" Nullable="false" />
+  </EntityType>
+  <EnumType Name="LetterQuatity">
+    <Member Name="Normal" Value="0" />
+  </EnumType>
+  <EnumType Name="Color">
+    <Member Name="BlackAndWhite" Value="0" />
+    <Member Name="Color" Value="1" />
+  </EnumType>
+  <EnumType Name="LetterStatus">
+    <Member Name="Created" Value="0" />
+    <Member Name="Sending" Value="1" />
+    <Member Name="Sent" Value="2" />
+    <Member Name="Returned" Value="3" />
+    <Member Name="Cancelled" Value="4" />
+  </EnumType>
+  <EnumType Name="OrderStatus">
+    <Member Name="Created" Value="0" />
+    <Member Name="Paid" Value="1" />
+    <Member Name="InProgress" Value="2" />
+    <Member Name="Done" Value="3" />
+    <Member Name="Error" Value="4" />
+    <Member Name="Cancelled" Value="5" />
+  </EnumType>
+  <EnumType Name="PaperQuality">
+    <Member Name="Normal" Value="0" />
+  </EnumType>
+  <EnumType Name="PrintQuality">
+    <Member Name="Normal" Value="0" />
+  </EnumType>
+  <EnumType Name="PrintSize">
+    <Member Name="A4" Value="0" />
+    <Member Name="A3" Value="1" />
+    <Member Name="A5" Value="2" />
+    <Member Name="Letter" Value="3" />
+  </EnumType>
+  <Association Name="FK_LetterDetail_Letter">
+    <End Type="LetterAmazer.Letter" Role="Letter" Multiplicity="1" />
+    <End Type="LetterAmazer.LetterDetail" Role="LetterDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Letter">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="LetterDetail">
+        <PropertyRef Name="LetterId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Order">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="LetterAmazer.OrderStatus" Name="OrderStatus" Nullable="false" />
+    <Property Type="Int32" Name="CustomerId" />
+    <Property Type="DateTime" Name="DateCreated" Nullable="false" Precision="3" />
+    <Property Type="DateTime" Name="DateUpdated" Nullable="false" Precision="3" />
+    <NavigationProperty Name="Letters" Relationship="LetterAmazer.FK_Letter_Order" FromRole="Order" ToRole="Letter" />
+    <Property Type="String" Name="Guid" Nullable="false" FixedLength="false" MaxLength="100" Unicode="true" />
+    <Property Type="String" Name="OrderCode" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="TransactionCode" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Type="Decimal" Name="Cost" Nullable="false" Precision="18" Scale="5" />
+    <Property Type="String" Name="CouponCode" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Type="Decimal" Name="Discount" Nullable="false" Precision="18" Scale="5" />
+    <Property Type="Decimal" Name="Price" Nullable="false" Precision="18" Scale="5" />
+    <Property Type="String" Name="PaymentMethod" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="Email" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="Phone" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Customer" Relationship="LetterAmazer.FK_Order_Customer" FromRole="Order" ToRole="Customer" />
+  </EntityType>
+  <Association Name="FK_Letter_Order">
+    <End Type="LetterAmazer.Order" Role="Order" Multiplicity="1" />
+    <End Type="LetterAmazer.Letter" Role="Letter" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Order">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Letter">
+        <PropertyRef Name="OrderId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Order_Customer">
+    <End Type="LetterAmazer.Customer" Role="Customer" Multiplicity="0..1" />
+    <End Type="LetterAmazer.Order" Role="Order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Customer">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Order">
+        <PropertyRef Name="CustomerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Coupon">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Decimal" Name="CouponValue" Nullable="false" Precision="18" Scale="5" />
+    <Property Type="DateTime" Name="DateGiven" Precision="3" Nullable="false" />
+    <Property Type="Int32" Name="EarlierCouponRef" />
+    <Property Type="String" Name="RefSource" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="RefUserValue" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Type="DateTime" Name="CouponExpire" Precision="3" Nullable="false" />
+    <Property Type="String" Name="Code" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="Decimal" Name="CouponValueLeft" Nullable="false" Precision="18" Scale="5" />
+    <Property Type="LetterAmazer.CouponStatus" Name="CouponStatus" Nullable="false" />
+  </EntityType>
+  <EnumType Name="CouponStatus">
+    <Member Name="NotUsed" Value="0" />
+    <Member Name="Used" Value="1" />
+    <Member Name="Done" Value="2" />
+  </EnumType>
+</Schema>

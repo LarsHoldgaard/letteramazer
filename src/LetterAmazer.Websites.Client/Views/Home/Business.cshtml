@@ -1,9 +1,32 @@
-﻿@model dynamic
+﻿<div class="jumbotron-white">
+    <div class="container">
+        <div class="text-center promotionMargin">
+            <div>
+                <p class="frontpageLead">Send physical letters online for businesses</p>
+            </div>
+        </div>
+    </div>
+</div>
 
-@{
-    ViewBag.Title = "title";
-    Layout = "~/Views/Shared/ContentPageLayout.cshtml";
-    ViewBag.PageTitle = "Business";
-}
 
-<h2>title</h2>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <p>No employee loves the tiresome process of sending those physical letters. Let's make everyone's lives easier, and let us send them for you. Heck, it's probably even cheaper (and much cheaper if you count in the hourly wage).</p>
+
+            <p>As a business, you can either use our easy "send a letter" form, and then pay every time you need send a letter, <b>or</b> you can create an account. If you create an account, you can add credits, and then get a friendly e-mail when your credits are running out.</p>
+
+            <p>If you create an account and add credits, things get even more easy. You can:</p>
+            - Send letters by going to our website, upload the file and click "send"<br />
+            - (Coming soon) Instead of visiting our website, you can just send us an e-mail with a PDF attachment. Then we will automatically print the letter and send it
+
+            <p>For the IT-guys, we can even make a more automated solution:</p>
+            - (Coming soon) REST API which can be integrated into any system<br />
+            - (Coming soon) Upload files to our web-server using FTP
+
+            <p>BUT. Currently we are in beta. That means most of our features are being developed while you are reading this message. Get a message when we are ready by signing up here:</p>
+        
+            @Html.Partial("NewsletterForm")
+        </div>
+    </div>
+</div>

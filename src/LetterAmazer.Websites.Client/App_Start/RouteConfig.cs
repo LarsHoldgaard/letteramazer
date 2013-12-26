@@ -16,6 +16,12 @@ namespace LetterAmazer.Websites.Client
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
+                name: "SingleLetter",
+                url: "SingleLetter/{action}/{id}",
+                defaults: new { controller = "SingleLetter", action = "Index", id = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
                 name: "Default",
                 url: "{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
@@ -39,8 +45,7 @@ namespace LetterAmazer.Websites.Client
                     {
                         r.Constraints = new RouteValueDictionary();
                     }
-                    r.Constraints.Add("culture", new CultureConstraint(Culture.en.ToString(),
-         Culture.da.ToString()));
+                    r.Constraints.Add("culture", new CultureConstraint(Culture.en.ToString(), Culture.da.ToString()));
                 }
             }
 

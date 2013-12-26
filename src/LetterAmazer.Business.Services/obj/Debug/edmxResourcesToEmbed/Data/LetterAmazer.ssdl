@@ -1,0 +1,179 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="LetterAmazer.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="LetterAmazerStoreContainer">
+    <EntitySet Name="Coupons" EntityType="LetterAmazer.Store.Coupons" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Customers" EntityType="LetterAmazer.Store.Customers" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="LetterDetails" EntityType="LetterAmazer.Store.LetterDetails" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Letters" EntityType="LetterAmazer.Store.Letters" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Orders" EntityType="LetterAmazer.Store.Orders" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="FK_Letter_Customer" Association="LetterAmazer.Store.FK_Letter_Customer">
+      <End Role="Customers" EntitySet="Customers" />
+      <End Role="Letters" EntitySet="Letters" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Letter_Order" Association="LetterAmazer.Store.FK_Letter_Order">
+      <End Role="Orders" EntitySet="Orders" />
+      <End Role="Letters" EntitySet="Letters" />
+    </AssociationSet>
+    <AssociationSet Name="FK_LetterDetail_Letter" Association="LetterAmazer.Store.FK_LetterDetail_Letter">
+      <End Role="Letters" EntitySet="Letters" />
+      <End Role="LetterDetails" EntitySet="LetterDetails" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Order_Customer" Association="LetterAmazer.Store.FK_Order_Customer">
+      <End Role="Customers" EntitySet="Customers" />
+      <End Role="Orders" EntitySet="Orders" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Coupons">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="CouponValue" Type="decimal" Nullable="false" Scale="5" />
+    <Property Name="DateGiven" Type="datetime" Nullable="false" />
+    <Property Name="EarlierCouponRef" Type="int" />
+    <Property Name="RefSource" Type="nvarchar" MaxLength="150" />
+    <Property Name="RefUserValue" Type="nvarchar" MaxLength="150" />
+    <Property Name="CouponExpire" Type="datetime" Nullable="false" />
+    <Property Name="Code" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="CouponValueLeft" Type="decimal" Nullable="false" Scale="5" />
+    <Property Name="CouponStatus" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Customers">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="CustomerInfo_Address" Type="nvarchar" Nullable="false" MaxLength="150" />
+    <Property Name="CustomerInfo_Address2" Type="nvarchar" MaxLength="150" />
+    <Property Name="CustomerInfo_AttPerson" Type="nvarchar" MaxLength="150" />
+    <Property Name="CustomerInfo_City" Type="nvarchar" Nullable="false" MaxLength="150" />
+    <Property Name="CustomerInfo_CompanyName" Type="nvarchar" MaxLength="150" />
+    <Property Name="CustomerInfo_Country" Type="nvarchar" MaxLength="150" />
+    <Property Name="CustomerInfo_CountryCode" Type="nvarchar" MaxLength="10" />
+    <Property Name="CustomerInfo_FirstName" Type="nvarchar" Nullable="false" MaxLength="150" />
+    <Property Name="CustomerInfo_LastName" Type="nvarchar" Nullable="false" MaxLength="150" />
+    <Property Name="CustomerInfo_Postal" Type="nvarchar" MaxLength="150" />
+    <Property Name="CustomerInfo_VatNr" Type="nvarchar" MaxLength="159" />
+    <Property Name="Email" Type="nvarchar" Nullable="false" MaxLength="100" />
+    <Property Name="Password" Type="nvarchar" Nullable="false" MaxLength="100" />
+    <Property Name="Username" Type="nvarchar" Nullable="false" MaxLength="100" />
+    <Property Name="DateCreated" Type="datetime" Nullable="false" />
+    <Property Name="DateUpdated" Type="datetime" Nullable="false" />
+    <Property Name="Credits" Type="decimal" Scale="5" />
+  </EntityType>
+  <EntityType Name="LetterDetails">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Color" Type="int" Nullable="false" />
+    <Property Name="LetterQuality" Type="int" Nullable="false" />
+    <Property Name="PaperQuality" Type="int" Nullable="false" />
+    <Property Name="PrintQuality" Type="int" Nullable="false" />
+    <Property Name="LetterStatus" Type="int" Nullable="false" />
+    <Property Name="Size" Type="int" Nullable="false" />
+    <Property Name="LetterId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Letters">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="CustomerId" Type="int" />
+    <Property Name="FromAddress_Address" Type="nvarchar" Nullable="false" MaxLength="150" />
+    <Property Name="FromAddress_Address2" Type="nvarchar" MaxLength="150" />
+    <Property Name="FromAddress_AttPerson" Type="nvarchar" MaxLength="150" />
+    <Property Name="FromAddress_City" Type="nvarchar" Nullable="false" MaxLength="150" />
+    <Property Name="FromAddress_CompanyName" Type="nvarchar" MaxLength="150" />
+    <Property Name="FromAddress_Country" Type="nvarchar" MaxLength="150" />
+    <Property Name="FromAddress_CountryCode" Type="nvarchar" MaxLength="10" />
+    <Property Name="FromAddress_FirstName" Type="nvarchar" Nullable="false" MaxLength="150" />
+    <Property Name="FromAddress_LastName" Type="nvarchar" Nullable="false" MaxLength="150" />
+    <Property Name="FromAddress_Postal" Type="nvarchar" MaxLength="150" />
+    <Property Name="FromAddress_VatNr" Type="nvarchar" MaxLength="159" />
+    <Property Name="ToAddress_Address" Type="nvarchar" Nullable="false" MaxLength="150" />
+    <Property Name="ToAddress_Address2" Type="nvarchar" MaxLength="150" />
+    <Property Name="ToAddress_AttPerson" Type="nvarchar" MaxLength="150" />
+    <Property Name="ToAddress_City" Type="nvarchar" Nullable="false" MaxLength="150" />
+    <Property Name="ToAddress_CompanyName" Type="nvarchar" MaxLength="150" />
+    <Property Name="ToAddress_Country" Type="nvarchar" MaxLength="150" />
+    <Property Name="ToAddress_CountryCode" Type="nvarchar" MaxLength="10" />
+    <Property Name="ToAddress_FirstName" Type="nvarchar" Nullable="false" MaxLength="150" />
+    <Property Name="ToAddress_LastName" Type="nvarchar" Nullable="false" MaxLength="150" />
+    <Property Name="ToAddress_Postal" Type="nvarchar" MaxLength="150" />
+    <Property Name="ToAddress_VatNr" Type="nvarchar" MaxLength="159" />
+    <Property Name="LetterContent_Path" Type="nvarchar" MaxLength="250" />
+    <Property Name="LetterContent_WrittenContent" Type="nvarchar" />
+    <Property Name="LetterContent_Content" Type="varbinary(max)" />
+    <Property Name="LetterStatus" Type="int" Nullable="false" />
+    <Property Name="OrderId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Orders">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="OrderStatus" Type="int" Nullable="false" />
+    <Property Name="CustomerId" Type="int" />
+    <Property Name="DateCreated" Type="datetime" Nullable="false" />
+    <Property Name="DateUpdated" Type="datetime" Nullable="false" />
+    <Property Name="Guid" Type="nvarchar" Nullable="false" MaxLength="100" />
+    <Property Name="OrderCode" Type="nvarchar" MaxLength="20" />
+    <Property Name="TransactionCode" Type="nvarchar" Nullable="false" MaxLength="20" />
+    <Property Name="Cost" Type="decimal" Nullable="false" Scale="5" />
+    <Property Name="CouponCode" Type="nvarchar" MaxLength="20" />
+    <Property Name="Discount" Type="decimal" Nullable="false" Scale="5" />
+    <Property Name="Price" Type="decimal" Nullable="false" Scale="5" />
+    <Property Name="PaymentMethod" Type="nvarchar" MaxLength="20" />
+    <Property Name="Email" Type="nvarchar" Nullable="false" MaxLength="100" />
+    <Property Name="Phone" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <Association Name="FK_Letter_Customer">
+    <End Role="Customers" Type="LetterAmazer.Store.Customers" Multiplicity="0..1" />
+    <End Role="Letters" Type="LetterAmazer.Store.Letters" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Customers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Letters">
+        <PropertyRef Name="CustomerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Letter_Order">
+    <End Role="Orders" Type="LetterAmazer.Store.Orders" Multiplicity="1" />
+    <End Role="Letters" Type="LetterAmazer.Store.Letters" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Orders">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Letters">
+        <PropertyRef Name="OrderId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_LetterDetail_Letter">
+    <End Role="Letters" Type="LetterAmazer.Store.Letters" Multiplicity="1" />
+    <End Role="LetterDetails" Type="LetterAmazer.Store.LetterDetails" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Letters">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="LetterDetails">
+        <PropertyRef Name="LetterId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Order_Customer">
+    <End Role="Customers" Type="LetterAmazer.Store.Customers" Multiplicity="0..1" />
+    <End Role="Orders" Type="LetterAmazer.Store.Orders" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Customers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Orders">
+        <PropertyRef Name="CustomerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

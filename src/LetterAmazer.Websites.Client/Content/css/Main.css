@@ -85,3 +85,7 @@
 .submitAbe {
   margin-left: 11px;
 }
+.navbar-nav > li > a {
+    padding-top: 18px;
+    padding-bottom: 18px;
+}

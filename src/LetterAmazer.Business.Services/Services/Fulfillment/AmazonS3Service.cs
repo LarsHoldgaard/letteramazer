@@ -6,10 +6,11 @@ using Amazon.S3.Model;
 using Amazon.SQS;
 using Amazon.SQS.Model;
 using LetterAmazer.Business.Utils.Helpers;
+using LetterAmazer.Business.Services.Interfaces;
 
 namespace LetterAmazer.Business.Services.Services.Fulfillment
 {
-    public class AmazonS3Service 
+    public class AmazonS3Service : IFulfillmentService
     {
         private AmazonS3 client;
         private string accessKeyID;
@@ -61,8 +62,7 @@ namespace LetterAmazer.Business.Services.Services.Fulfillment
                 try
                 {
                     PutBucketRequest request = new PutBucketRequest();
-                    request.WithBucketName(bucketName)
-                           .WithBucketRegion(S3Region.EU);
+                    request.WithBucketName(bucketName).WithBucketRegion(S3Region.EU);
 
                     client.PutBucket(request);
                 }

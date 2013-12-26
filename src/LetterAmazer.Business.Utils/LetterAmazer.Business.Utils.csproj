@@ -46,19 +46,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Enums\Color.cs" />
-    <Compile Include="Enums\LetterQuality.cs" />
-    <Compile Include="Enums\LetterStatus.cs" />
-    <Compile Include="Enums\OrderStatus.cs" />
-    <Compile Include="Enums\PaperQuality.cs" />
-    <Compile Include="Enums\PrintQuality.cs" />
-    <Compile Include="Enums\Size.cs" />
     <Compile Include="Helpers\Constants.cs" />
     <Compile Include="Helpers\HelperMethods.cs" />
+    <Compile Include="Helpers\PasswordGenerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Enums\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

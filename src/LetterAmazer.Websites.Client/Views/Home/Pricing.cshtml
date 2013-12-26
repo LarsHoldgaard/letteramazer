@@ -1,25 +1,45 @@
-﻿@model dynamic
+﻿<div class="jumbotron-white">
+    <div class="container">
+        <div class="text-center promotionMargin">
 
-@{
-    ViewBag.Title = "title";
-    Layout = "~/Views/Shared/ContentPageLayout.cshtml";
-    ViewBag.PageTitle = "Pricing is awesome";
-}
+            <div>
+                <p class="frontpageLead">
+                    Prices to send physical letters around the globe
+                </p>
 
- <p>We are currently developing an API, so our system can be integrated into any software application or website. That means if you need automated physical letters, we are there to provide it.</p>
+            </div>
+        </div>
+    </div>
+</div>
 
-<p>We promise it will be an extremely simple REST API, and we expect it to be up in December 2013 or January 2014.</p>
 
-<p>Frankly, we hate FAQ's, where business owners invent their own questions and answer them by a sales speech. However, we will try to answer some of the obvious questions, we've met when we discuss our business with others.</p>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <p>So, when we started LetterAmazer, we found out sending letters isn't free. But! We have done anything in our power to find the cheapest prices, so you can send letters world-wide cheaply.</p>
 
-<h3>Can I integrate it into my intranet / portal / website?</h3>
-<p>Yes, that's the idea!</p>
+            <p>
+                Our price structure is really simple:<br />
+                <b>1.75 USD pr. letter (world wide)</b>
+            </p>
 
-<p>Unfortunately, it will require some IT-guys to make it work. It probably won't take too long, as we've made it as simple as possible for you to integrate.</p>
+            <p>
+                If you need to send additional pages:<br />
+                1 page: 1.75 USD<br />
+                2 pages: 1.95 USD<br />
+                3 pages: 2.15 USD<br />
+                4 pages: 2.35 USD<br />
+                ...
+            </p>
 
-<h3>Can you help with our integration?</h3>
-<p>Yes, and yes. Why yes, twice? </p>
+            <h3>Why no country specific prices?</h3>
+            <p>Unfortunately EVERY other company sending letters, gives you unique prices for each country. We got so tired of that complex price structure.</p>
 
-<p>First of all, we will of course the help IT-guys. If they have questions or problems, we help... For free. Unlike those 150 USD pr. hour bastards ;-)</p>
+            <p>One price, all countries. No more rubbish.</p>
 
-<p>If you don't have the IT resources inside your company, it gets more complex. We will help make the integration, depending on the system. Please make contact and we will figure something out.</p>
+            <p>Send some letters now! :-)</p>
+
+            @Html.Partial("NewsletterForm")
+        </div>
+    </div>
+</div>

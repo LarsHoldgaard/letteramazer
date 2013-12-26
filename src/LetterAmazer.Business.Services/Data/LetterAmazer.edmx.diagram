@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="d49d939ebf8f4e83baf6b52cf23b6326" Name="LetterAmazer" >
+        <EntityTypeShape EntityType="LetterAmazer.Customer" Width="1.5" PointX="4.125" PointY="1" />
+        <EntityTypeShape EntityType="LetterAmazer.Letter" Width="1.5" PointX="2.125" PointY="1" />
+        <AssociationConnector Association="LetterAmazer.FK_Letter_Customer" />
+        <EntityTypeShape EntityType="LetterAmazer.LetterDetail" Width="1.5" PointX="2.125" PointY="4.75" />
+        <AssociationConnector Association="LetterAmazer.FK_LetterDetail_Letter" />
+        <EntityTypeShape EntityType="LetterAmazer.Order" Width="1.5" PointX="4.125" PointY="4.5" />
+        <AssociationConnector Association="LetterAmazer.FK_Letter_Order" />
+        <AssociationConnector Association="LetterAmazer.FK_Order_Customer" />
+        <EntityTypeShape EntityType="LetterAmazer.Coupon" Width="1.5" PointX="6.875" PointY="2.875" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

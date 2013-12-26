@@ -1,43 +1,473 @@
-﻿@using LetterAmazer.Business.Utils.Helpers
-@model dynamic
+﻿@model LetterAmazer.Websites.Client.ViewModels.CreateSingleLetterModel
 
-@{
-    ViewBag.Title = "title";
-    Layout = "~/Views/Shared/ContentPageLayout.cshtml";
+@section header {
+    <script type="text/javascript" src="@Url.Content("~/Scripts/ckeditor/ckeditor.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/ckeditor/config.js")"></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBulh9LO7V3Eb80BF0-h6BW6MyiO-qNTC0&sensor=false"></script>
 }
 
-    <script type="text/javascript"
-        src='@Constants.GoogleMapsApiCall'>
-    </script>
-    <script>
-        function initialize(coords) {
-            var mapOptions = {
-                center: new google.maps.LatLng(coords.Item2, coords.Item1),
-                zoom: 14,
-                mapTypeId: google.maps.MapTypeId.ROADMAP
-            };
-            var map = new google.maps.Map(document.getElementById("map-canvas"),
-                mapOptions);
+<div class="jumbotron-white">
+    <div class="container">
+        <div class="text-center promotionMargin">
+            <img src="/Content/images/letteramazer.png" />
+            <div>
+                <p class="frontpageLead">
+                    1. Tell us where we should send your letter. 2. Tell us what your letter should contain. 3. Get the letter stamped!
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+@Html.HiddenFor(m => m.SelectedWriteMethod)
+<div class="jumbotron-lightblue">
+    <div class="container">
+        <div class="promotionMargin">
+            <div class="row">
+                <div class="col-lg-7">
+                    <div class="sendLettersForm">
+                        <div id="sendaletter-step1">
+                            <div class="row">
+                                <div class="col-lg-11 col-lg-offset-1">
+                                    <p class="frontpageLeadExplanation">1. Tell us where we should send your letter</p>
 
-            marker = new google.maps.Marker({
-                position: new google.maps.LatLng(coords.Item2, coords.Item1),
-                map: map
-            });
-            google.maps.event.addDomListener(window, 'load', initialize);
-        }
-    </script>
-
-    <div class="jumbotron-white">
-        <div class="container">
-            <div class="text-center promotionMargin">
-                <img src="Content/images/letteramazer.png" />
-                <div>
-                    <p class="frontpageLead">
-                        1. Tell us where we should send your letter. 2. Tell us what your letter should contain. 3. Get the letter stamped!
-                    </p>
+                                    <p>
+                                        Your e-mail:<br />
+                                        @Html.TextBoxFor(m => m.Email, new { @class = "input-lg", placeholder="Enter your e-mail" })
+                                    </p>
 
 
+                                    <p>
+                                        Recipient name:<br />
+                                        @Html.TextBoxFor(m => m.RecipientName, new { @class = "input-lg", placeholder="Enter recipient" })
+                                    </p>
+                                    <p>
+                                        Destination country:<br />
+                                        @Html.Partial("CountryList")
+                                        <br />
+                                    </p>
+
+                                    <p>
+                                        Destination ZIP code (and state if relevant):<br />
+                                        @Html.TextBoxFor(m => m.ZipCode, new { @class = "input-lg", placeholder="Enter destination ZIP code" })
+                                    </p>
+                                    <p>
+                                        Destination city:<br />
+                                        @Html.TextBoxFor(m => m.DestinationCity, new { @class = "input-lg", placeholder="Enter destination city" })
+                                    </p>
+
+                                    <p>
+                                        Destination address:<br />
+                                        @Html.TextBoxFor(m => m.DestinationAddress, new { @class = "input-lg", placeholder="Enter destination address" })
+                                    </p>
+                                    <input id="btn-proceed-12" type="button" class="btn btn-primary btn-lg" value="Proceed &raquo;" />
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div id="sendaletter-step2">
+                            <p class="frontpageLeadExplanation">2. Tell us what your letter should contain</p>
+                            <p class="caption frontpageCaption" style="margin-top: -10px; margin-bottom: 14px;">(We promise we don't look)</p>
+
+                            <div id="step2-choice" style="margin-bottom: 11px;">
+                                <%--<p class="frontpageLeadExplanation">Pick a choice:</p>
+                                --%>
+
+
+                                    <a id="lnkUploadPdf"><%--<img src="Content/images/uploadpdf.png" width="200px" />--%>
+                                        <p class="btn btn-primary btn-lg" style="margin-bottom: 5px;">Upload PDF file</p>
+                                    </a>&nbsp;Or&nbsp;<a id="lnkWriteText">
+
+                                        <p class="btn btn-primary btn-lg">Write letter here</p>
+                                    </a>
+
+
+                            </div>
+                            <div id="step2-upload" class="promotionMargin" style="margin-top: 25px;">
+                                <p class="frontpageLeadExplanation">Upload your PDF file:</p>
+
+                                <br />
+                                <br />
+                                <a id="uploadLetterBack" class="btn btn-default">Back</a>
+                            </div>
+                            <div id="step2-write" class="promotionMargin" style="margin-top: 25px;">
+                                <p class="frontpageLeadExplanation">Write your letter:</p>
+                                <textarea id="LetterBox" name="LetterBox">Write your letter here...</textarea>
+                                <script type="text/javascript">
+                                    CKEDITOR.replace('LetterBox');
+                                </script>
+                                <label id="currentChars"></label>
+                                <a class="pdfPreviewLnk" href="#">See preview of how the letter will look</a>
+                                <br />
+                                <br />
+                                <a id="writeLetterBack" class="btn btn-default">Back &raquo;</a>
+                            </div>
+
+                            <input id="btn-back-21" type="button" class="btn btn-default" value="Back" />
+                            <input id="btn-proceed-23" type="button" class="btn btn-primary btn-lg" value="Proceed &raquo;" />
+                        </div>
+                        <div id="sendaletter-step3">
+                            <p class="frontpageLeadExplanation">3. Get the letter stamped!</p>
+                            <p class="frontpageSmallLeadExplanation">Sending letters are not free, and when we send letters without stamps, the postal offices get really angry at us. <b>So we better get the letter stamped</b>.</p>
+                            <hr />
+
+                            <b>REMEMBER:</b> <a class="pdfPreviewLnk" href="#">See a preview of how the letter will look</a>
+
+                            <div class="row letterDestination">
+                                <div class="col-lg-6">
+                                    <dl>
+                                        <dt>Payment method</dt>
+                                        <dd>PayPal</dd>
+
+                                        <dt>Shipping time</dt>
+                                        <dd>3-6 work days</dd>
+
+                                        <dt>Price</dt>
+                                        <dd>
+                                            <label id="priceOfLetterLbl"></label>
+                                        </dd>
+                                    </dl>
+                                </div>
+                                <div class="col-lg-6 ">
+                                    <dl>
+                                        <dt>Letter destination</dt>
+                                        <dd>To
+                                            <label id="receiverLbl"></label>
+                                            <br />
+                                            <label id="addressLbl"></label>
+                                            <br />
+                                            <label id="postalLbl"></label>
+                                            <label id="cityLbl"></label>
+                                            <br />
+                                            <label id="countryLbl"></label>
+                                        </dd>
+
+                                    </dl>
+
+                                </div>
+
+                            </div>
+
+                            @Html.CheckBoxFor(m => m.SignUpNewsletter)
+                            Follow our exciting journey through e-mail
+                            <br />
+                            <br />
+                            <input id="btn-back-32" type="button" class="btn btn-default" value="Back" />
+                            <input id="btnsubmit" type="submit" class="btn btn-primary btn-lg submitAbe" value="Stamp and send letter &raquo;" />
+                            <br />
+                            <br />
+                            <a href="#" id="toggleVoucherLnk">(add voucher)</a>
+                            <div id="voucherDiv">
+                                <p>
+                                    Voucher:<br />
+                                    @Html.TextBoxFor(m => m.VoucherCode, new { @class = "input-lg", placeholder = "Enter voucher code", id = "voucherBox" })
+                                    <label id="voucherStatus"></label>
+                                </p>
+                            </div>
+                            @Html.HiddenFor(m => m.SelectedUpload)
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-lg-5">
+                    <div class="sendAletterSideboxSomething">
+                        <p><b>Oi mate!</b><br />
+                            Are you a company? Soon we're adding wonderful stuff so sending multiple letters will become extremely easy.<br />
+                            <a href="@Url.Action("NewsletterSignUp", "Home")">Get updates</a>.
+                        </p>
+                    </div>
+                    <div id="locationMap" style="margin-top: 15px;">
+                        <div class="google-map-canvas">
+                            <div id="mapsDiv" style="display: none;">
+                                <div id="map-canvas" style="width: 500px; height: 500px; border: 1px solid #d9d9d9; border-radius: 10px;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="sendAnimationFun">
+
+                        <div id="stampDiv" style="position: relative; z-index: 100">
+                            <img src="/Content/images/stamp.png" width="100" />
+                        </div>
+                        <div style="position: relative; top: 200px; z-index: 5">
+                            <img src="/Content/images/letter.png" width="100" />
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
+
+<script type="text/javascript">
+    var createLetterData = {
+
+    };
+
+    var stamped = false;
+    $(document).ready(function () {
+        $('#btn-proceed-12').click(function () {
+            $('#sendaletter-step1').hide();
+            $('#sendaletter-step2').show(400);
+            setDestinationLabels();
+            $('#btn-proceed-23').hide();
+
+        });
+
+        $('#btn-proceed-23').click(function () {
+            $('#sendaletter-step2').hide();
+            $('#sendaletter-step3').show(400);
+            $('#locationMap').hide();
+
+            $('#sendAnimationFun').show();
+            $('#sendAnimationFun').addClass('visible-md');
+            $('#sendAnimationFun').addClass('visible-lg');
+            setLetterCost();
+        });
+
+        $('#btn-back-21').click(function () {
+            $('#sendaletter-step1').show(400);
+            $('#sendaletter-step2').hide();
+        });
+
+        $('#btn-back-32').click(function () {
+            $('#sendaletter-step2').show(400);
+            $('#sendaletter-step3').hide();
+            $('#locationMap').show();
+            $('#sendAnimationFun').hide();
+            $('#sendAnimationFun').removeClass('visible-md');
+            $('#sendAnimationFun').removeClass('visible-lg');
+        });
+
+        $('.pdfPreviewLnk').click(function () {
+
+            var writtenContent = encodeURIComponent(htmlEncode(CKEDITOR.instances.LetterBox.getData()));
+
+            var url = '/services/handlers/generatepdf.ashx?content=' + writtenContent;
+            window.open(url);
+        });
+
+
+        $('#toggleVoucherLnk').click(function () {
+            $('#voucherDiv').toggle();
+        });
+
+        $('#<%=btnsubmit.ClientID %>').click(function () {
+
+            if (!stamped) {
+                $('#stampDiv').animate({
+                    top: '+=250px'
+                }, 800);
+                stamped = true;
+            }
+        });
+
+
+        $('#lnkUploadPdf').click(function () {
+            $('#step2-choice').hide();
+            $('#step2-upload').show(400);
+            $('#<%=SelectedUploadFld.ClientID %>').val('pdf');
+            $('.pdfPreviewLnk').hide();
+            $('#btn-proceed-23').show();
+            $('#btn-back-21').hide();
+            setWriteMethod('upload');
+        });
+
+        $('#lnkWriteText').click(function () {
+            $('#step2-choice').hide();
+            $('#step2-write').show(400);
+            $('#<%=SelectedUploadFld.ClientID %>').val('write');
+            $('.pdfPreviewLnk').show();
+            $('#btn-proceed-23').show();
+            $('#btn-back-21').hide();
+            setWriteMethod('write');
+        });
+
+        $('#uploadLetterBack').click(function () {
+            $('#step2-choice').show(400);
+            $('#step2-upload').hide();
+
+            $('#btn-proceed-23').hide();
+            $('#btn-back-21').show();
+        });
+
+        $('#writeLetterBack').click(function () {
+            $('#step2-choice').show(400);
+            $('#step2-write').hide();
+            $('#btn-proceed-23').hide();
+            $('#btn-back-21').show();
+        });
+
+    });
+
+    function setDestinationLabels() {
+        $('#addressLbl').text($('#<%=AddressBox.ClientID %>').val());
+        $('#cityLbl').text($('#<%=CityBox.ClientID %>').val());
+        $('#countryLbl').text($('#<%=CountryCodes.ClientID %>').val());
+        $('#receiverLbl').text($('#<%=Receiverbox.ClientID %>').val());
+        $('#postalLbl').text($('#<%=PostalBox.ClientID %>').val());
+    }
+
+    $('#<%=PostalBox.ClientID %>').blur(function () {
+        loadMaps();
+    });
+
+    $('#<%=CityBox.ClientID %>').blur(function () {
+        loadMaps();
+    });
+
+    $('#<%=AddressBox.ClientID %>').blur(function () {
+        loadMaps();
+    });
+
+    $('#<%=voucherBox.ClientID %>').blur(function () {
+        updateVoucherStatus();
+    });
+
+    $('.CountryListSelectorList').on('change', function () {
+        loadMaps();
+    });
+
+    var prev = 0;
+    var copied = false;
+    (function () {
+
+        var currentCharsBox = $('#currentChars');
+
+        var lengthOfBox = CKEDITOR.instances.LetterBox.getData().length;
+
+        var min = 4000;
+
+        if (lengthOfBox > min && ((lengthOfBox - prev) > 3000) || copied) {
+
+            currentCharsBox.text('Whoops. It seems you have copied the text directly from a text processing program like Word. Please use the "Insert from Word" button instead.');
+            currentCharsBox.css('color', 'red');
+            copied = true;
+        }
+        else if (lengthOfBox > min) {
+            currentCharsBox.text('It seems you are writing a longer letter? It might be easier to upload a PDF file');
+            currentCharsBox.css('color', 'yellow');
+        } else {
+            copied = false;
+        }
+
+        prev = lengthOfBox;
+
+        setTimeout(arguments.callee, 1500);
+    })();
+
+
+    function loadMaps() {
+        var address = $('#<%=AddressBox.ClientID %>').val();
+        var postal = $('#<%=PostalBox.ClientID %>').val();
+        var city = $('#<%=CityBox.ClientID %>').val();
+        var country = $('#<%=CountryCodes.ClientID %>').val();
+
+
+        var query = address + ' ' + postal + ' ' + city + ' ' + country;
+        var url = '<%= ResolveUrl("~/services/geolocationservice.asmx/getlatitudeandlongitude") %>';
+        $.ajax({
+            type: "POST",
+            data: "{'query':'" + query + "'}",
+            url: url,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (d) {
+                initialize(JSON.parse(d.d));
+            },
+            error: function () {
+
+            }
+        });
+
+        $('#mapsDiv').show();
+    }
+
+
+    function getWrittenHtmlPdfLink() {
+        var writtenContent = encodeURIComponent(htmlEncode(CKEDITOR.instances.LetterBox.getData()));
+
+        var url = '<%= ResolveUrl("~/services/letterservice.asmx/savewrittenpdf") %>';
+        $.ajax({
+            type: "POST",
+            data: "{'content':'" + writtenContent + "'}",
+            url: url,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (d) {
+                return d.tempPath;
+            },
+            error: function () {
+                return '';
+            }
+        });
+
+    }
+
+    function htmlEncode(value) {
+        return $('<div/>').text(value).html();
+    }
+
+    function updateVoucherStatus() {
+        var lbl = $('#voucherStatus');
+        var code = $('#<%=voucherBox.ClientID %>').val();
+        var url = '/services/letterservice.asmx/getvouchercredits';
+        $.ajax({
+            type: "POST",
+            data: "{'code':'" + code + "'}",
+            url: url,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                if (response.d > 0) {
+                    lbl.attr("color", "green");
+                    lbl.text(response.d + ' $ left on voucher');
+                } else {
+                    lbl.attr("color", "red");
+                    lbl.text('No code');
+                }
+
+            },
+            error: function () {
+                lbl.attr("color", "red");
+                lbl.text('Invalid voucher');
+            }
+        });
+
+    }
+
+    function setLetterCost() {
+        var writtenContent = encodeURIComponent(htmlEncode(CKEDITOR.instances.LetterBox.getData()));
+
+        var method = $('#<%=SelectedWriteMethodHdn.ClientID %>').val();
+        var address = $('#<%=AddressBox.ClientID %>').val();
+        var postal = $('#<%=PostalBox.ClientID %>').val();
+        var city = $('#<%=CityBox.ClientID %>').val();
+        var country = $('#<%=CountryCodes %>').val();
+        var content = writtenContent;
+
+        $.ajax({
+            url: '/Services/Handlers/PriceHandler.ashx?method=' + method +
+                '&address=' + address +
+                '&postal=' + postal +
+                '&city=' + city +
+                '&country=' + country +
+                '&content=' + content,
+
+            type: 'GET',
+            success: function (resData) {
+                $('#priceOfLetterLbl').text(resData);
+
+            },
+            error: function () {
+
+            }
+        });
+    }
+
+    function setWriteMethod(method) {
+        $('#<%=SelectedWriteMethodHdn.ClientID %>').val(method);
+
+    }
+
+
+</script>
