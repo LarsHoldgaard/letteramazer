@@ -5,15 +5,15 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="d49d939ebf8f4e83baf6b52cf23b6326" Name="LetterAmazer" >
-        <EntityTypeShape EntityType="LetterAmazer.Customer" Width="1.5" PointX="4.125" PointY="1" />
+        <EntityTypeShape EntityType="LetterAmazer.Customer" Width="1.5" PointX="4.625" PointY="1" />
         <EntityTypeShape EntityType="LetterAmazer.Letter" Width="1.5" PointX="2.125" PointY="1" />
-        <AssociationConnector Association="LetterAmazer.FK_Letter_Customer" />
-        <EntityTypeShape EntityType="LetterAmazer.LetterDetail" Width="1.5" PointX="2.125" PointY="4.75" />
-        <AssociationConnector Association="LetterAmazer.FK_LetterDetail_Letter" />
-        <EntityTypeShape EntityType="LetterAmazer.Order" Width="1.5" PointX="4.125" PointY="4.5" />
-        <AssociationConnector Association="LetterAmazer.FK_Letter_Order" />
-        <AssociationConnector Association="LetterAmazer.FK_Order_Customer" />
+        <EntityTypeShape EntityType="LetterAmazer.Order" Width="1.5" PointX="4.625" PointY="4.5" />
         <EntityTypeShape EntityType="LetterAmazer.Coupon" Width="1.5" PointX="6.875" PointY="2.875" />
+        <EntityTypeShape EntityType="LetterAmazer.OrderItem" Width="1.5" PointX="2.125" PointY="5.625" />
+        <AssociationConnector Association="LetterAmazer.FK_Letter_Customer" />
+        <AssociationConnector Association="LetterAmazer.FK_Order_Customer" />
+        <AssociationConnector Association="LetterAmazer.FK_OrderItem_Letter" />
+        <AssociationConnector Association="LetterAmazer.FK_OrderItem_Order" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

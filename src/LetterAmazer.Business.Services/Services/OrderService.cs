@@ -34,7 +34,13 @@ namespace LetterAmazer.Business.Services.Services
             order.OrderStatus = OrderStatus.Created;
             order.DateCreated = DateTime.Now;
             order.DateUpdated = DateTime.Now;
-            order.Cost = letterService.GetCost(order.Letters.Count, order.Letters.ElementAt(0).ToAddress);
+            order.Cost = 0m;
+            foreach (var orderItem in order.OrderItems)
+            {
+                repository.Create(orderItem.Letter);
+                orderItem.Price = letterService.GetCost(orderItem.Letter);
+                order.Cost += orderItem.Price;
+            }
             order.Discount = 0m;
             order.Price = order.Cost;
             if (!string.IsNullOrEmpty(order.CouponCode))
@@ -54,12 +60,27 @@ namespace LetterAmazer.Business.Services.Services
                     {
                         order.Price = 0.0m;
                         order.Discount = order.Cost;
+                        order.OrderStatus = OrderStatus.Paid;
                     }
                 }
             }
             repository.Create(order);
             unitOfWork.Commit();
+            
+            //Cusomer haven't to pay
+            if (order.Price == 0) return "/singleletter/confirmation";
+
             return paymentService.Process(orderContext);
+        }
+
+        public void MarkOrderIsPaid(int orderId)
+        {
+            Order order = repository.GetById<Order>(orderId);
+            if (order.OrderStatus == OrderStatus.Created)
+            {
+                order.OrderStatus = OrderStatus.Paid;
+                unitOfWork.Commit();
+            }
         }
     }
 }

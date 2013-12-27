@@ -10,13 +10,16 @@
 namespace LetterAmazer.Business.Services.Data
 {
     using System;
+    using System.Collections.Generic;
     
-    public partial class LetterDetail
+    public partial class OrderItem
     {
-        public Color Color { get; set; }
-        public PrintQuality PrintQuality { get; set; }
-        public LetterQuatity LetterQuality { get; set; }
-        public PaperQuality PaperQuality { get; set; }
-        public PrintSize Size { get; set; }
+        public int Id { get; set; }
+        public decimal Price { get; set; }
+        public Nullable<int> LetterId { get; set; }
+        public Nullable<int> OrderId { get; set; }
+    
+        public virtual Letter Letter { get; set; }
+        public virtual Order Order { get; set; }
     }
 }

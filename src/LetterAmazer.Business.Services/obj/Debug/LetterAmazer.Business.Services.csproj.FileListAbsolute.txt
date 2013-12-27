@@ -34,3 +34,5 @@ D:\Projects\letteramazer\source\src\LetterAmazer.Business.Services\obj\Debug\Let
 D:\Projects\letteramazer\source\src\LetterAmazer.Business.Services\obj\Debug\LetterAmazer.Business.Services.csproj.GenerateResource.Cache
 D:\Projects\letteramazer\source\src\LetterAmazer.Business.Services\obj\Debug\LetterAmazer.Business.Services.dll
 D:\Projects\letteramazer\source\src\LetterAmazer.Business.Services\obj\Debug\LetterAmazer.Business.Services.pdb
+D:\Projects\letteramazer\source\src\LetterAmazer.Business.Services\bin\Debug\log4net.dll
+D:\Projects\letteramazer\source\src\LetterAmazer.Business.Services\bin\Debug\log4net.xml

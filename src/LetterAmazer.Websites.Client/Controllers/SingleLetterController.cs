@@ -12,6 +12,8 @@ using LetterAmazer.Business.Services.Services.LetterContent;
 using LetterAmazer.Business.Utils.Helpers;
 using LetterAmazer.Business.Services.Model;
 using LetterAmazer.Business.Services.Interfaces;
+using LetterAmazer.Business.Services.Services.PaymentMethod;
+using System.Text;
 
 namespace LetterAmazer.Websites.Client.Controllers
 {
@@ -20,9 +22,11 @@ namespace LetterAmazer.Websites.Client.Controllers
         private static readonly ILog logger = LogManager.GetLogger(typeof(SingleLetterController));
 
         private IOrderService orderService;
-        public SingleLetterController(IOrderService orderService)
+        private IPaymentService paymentService;
+        public SingleLetterController(IOrderService orderService, IPaymentService paymentService)
         {
             this.orderService = orderService;
+            this.paymentService = paymentService;
         }
 
         [HttpGet]
@@ -57,44 +61,35 @@ namespace LetterAmazer.Websites.Client.Controllers
                 letterDetail.PrintQuality = PrintQuality.Normal;
                 letterDetail.Size = PrintSize.A4;
 
+                OrderItem orderItem = new OrderItem();
+
+                Letter letter = new Letter();
+                letter.LetterStatus = LetterStatus.Created;
+                letter.LetterDetail = letterDetail;
+                if (SecurityHelper.CurrentUser != null)
+                {
+                    letter.CustomerId = SecurityHelper.CurrentUser.Id;
+                    letter.Customer = SecurityHelper.CurrentUser;
+                }
+                letter.ToAddress = addressInfo;
+
                 if (model.UseUploadFile)
                 {
-                    foreach (var file in model.UploadFiles)
-                    {
-                        Letter letter = new Letter();
-                        letter.LetterStatus = LetterStatus.Created;
-                        letter.LetterDetails.Add(letterDetail);
-                        if (SecurityHelper.CurrentUser != null)
-                        {
-                            letter.CustomerId = SecurityHelper.CurrentUser.Id;
-                            letter.Customer = SecurityHelper.CurrentUser;
-                        }
-                        letter.ToAddress = addressInfo;
-                        letter.LetterContent.Path = Server.MapPath(string.Format("~/UserData/PdfLetters/{0}", file));
-
-                        order.Letters.Add(letter);
-                    }
+                    letter.LetterContent.Path = Server.MapPath(string.Format("~/UserData/PdfLetters/{0}", model.UploadFile));
                 }
                 else
                 {
-                    Letter letter = new Letter();
-                    letter.LetterStatus = LetterStatus.Created;
-                    letter.LetterDetails.Add(letterDetail);
-                    if (SecurityHelper.CurrentUser != null)
-                    {
-                        letter.CustomerId = SecurityHelper.CurrentUser.Id;
-                        letter.Customer = SecurityHelper.CurrentUser;
-                    }
-                    letter.ToAddress = addressInfo;
-                    letter.LetterContent.WrittenContent = model.WriteContent;
                     string tempPath = Server.MapPath(string.Format("~/UserData/PdfLetters/{0}.pdf", Guid.NewGuid().ToString()));
                     PdfManager m = new PdfManager();
                     var convertedText = HelperMethods.Utf8FixString(model.WriteContent);
                     m.ConvertToPdf(tempPath, convertedText);
                     letter.LetterContent.Path = tempPath;
-
-                    order.Letters.Add(letter);
                 }
+                letter.LetterContent.Content = System.IO.File.ReadAllBytes(letter.LetterContent.Path);
+
+                orderItem.Letter = letter;
+                orderItem.Order = order;
+                order.OrderItems.Add(orderItem);
 
                 OrderContext orderContext = new OrderContext();
                 orderContext.Order = order;
@@ -135,6 +130,31 @@ namespace LetterAmazer.Websites.Client.Controllers
             {
                 return Json(new { status = "error", message = ex.Message });
             }
+        }
+
+        public JsonResult PaypalIpn()
+        {
+            try 
+	        {
+                logger.Info("IPN called");
+		        byte[] param = Request.BinaryRead(Request.ContentLength);
+                string strRequest = Encoding.ASCII.GetString(param);
+                VerifyPaymentResult result = paymentService.Get(PaypalMethod.NAME).Verify(new VerifyPaymentContext() { Parameters = strRequest });
+
+                orderService.MarkOrderIsPaid(result.OrderId);
+
+                return Json(new { status = "success" }, JsonRequestBehavior.AllowGet);
+	        }
+	        catch (Exception ex)
+	        {
+		        logger.Error(ex);
+		        return Json(new { status = "error" }, JsonRequestBehavior.AllowGet);
+	        }
+        }
+
+        public ActionResult Confirmation()
+        {
+            return View();
         }
 
         private string GetTempFileName(string uploadFilename)

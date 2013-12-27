@@ -3,3 +3,4 @@
 
 /src/LetterAmazer.Business.Utils/obj
 /src/LetterAmazer.Business.Utils/bin
+src/LetterAmazer.Business.Services/bin/Debug/log4net.xml

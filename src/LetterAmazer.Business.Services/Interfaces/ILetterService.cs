@@ -9,6 +9,6 @@ namespace LetterAmazer.Business.Services.Interfaces
 {
     public interface ILetterService
     {
-        decimal GetCost(int numerOfPages, AddressInfo address);
+        decimal GetCost(Letter letter);
     }
 }

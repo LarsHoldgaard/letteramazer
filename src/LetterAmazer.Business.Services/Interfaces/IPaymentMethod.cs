@@ -11,5 +11,6 @@ namespace LetterAmazer.Business.Services.Interfaces
     {
         string Name { get; }
         string Process(OrderContext orderContext);
+        VerifyPaymentResult Verify(VerifyPaymentContext context);
     }
 }

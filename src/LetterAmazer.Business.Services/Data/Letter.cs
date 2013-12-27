@@ -16,23 +16,23 @@ namespace LetterAmazer.Business.Services.Data
     {
         public Letter()
         {
-            this.LetterDetails = new HashSet<LetterDetail>();
+            this.OrderItems = new HashSet<OrderItem>();
             this.FromAddress = new AddressInfo();
             this.ToAddress = new AddressInfo();
             this.LetterContent = new LetterContent();
+            this.LetterDetail = new LetterDetail();
         }
     
         public int Id { get; set; }
         public Nullable<int> CustomerId { get; set; }
         public LetterStatus LetterStatus { get; set; }
-        public int OrderId { get; set; }
     
         public AddressInfo FromAddress { get; set; }
         public AddressInfo ToAddress { get; set; }
         public LetterContent LetterContent { get; set; }
+        public LetterDetail LetterDetail { get; set; }
     
         public virtual Customer Customer { get; set; }
-        public virtual ICollection<LetterDetail> LetterDetails { get; set; }
-        public virtual Order Order { get; set; }
+        public virtual ICollection<OrderItem> OrderItems { get; set; }
     }
 }

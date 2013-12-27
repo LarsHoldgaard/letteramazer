@@ -64,21 +64,13 @@
             <ScalarProperty Name="Content" ColumnName="LetterContent_Content" />
           </ComplexProperty>
           <ScalarProperty Name="LetterStatus" ColumnName="LetterStatus" />
-          <ScalarProperty Name="OrderId" ColumnName="OrderId" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="LetterDetails">
-      <EntityTypeMapping TypeName="IsTypeOf(LetterAmazer.LetterDetail)">
-        <MappingFragment StoreEntitySet="LetterDetails">
-          <ScalarProperty Name="LetterQuality" ColumnName="LetterQuality" />
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Color" ColumnName="Color" />
-          <ScalarProperty Name="LetterStatus" ColumnName="LetterStatus" />
-          <ScalarProperty Name="PaperQuality" ColumnName="PaperQuality" />
-          <ScalarProperty Name="Size" ColumnName="Size" />
-          <ScalarProperty Name="PrintQuality" ColumnName="PrintQuality" />
-          <ScalarProperty Name="LetterId" ColumnName="LetterId" />
+          <ComplexProperty Name="LetterDetail">
+            <ScalarProperty Name="Size" ColumnName="LetterDetail_Size" />
+            <ScalarProperty Name="LetterQuality" ColumnName="LetterDetail_LetterQuality" />
+            <ScalarProperty Name="PaperQuality" ColumnName="LetterDetail_PaperQuality" />
+            <ScalarProperty Name="PrintQuality" ColumnName="LetterDetail_PrintQuality" />
+            <ScalarProperty Name="Color" ColumnName="LetterDetail_Color" />
+          </ComplexProperty>
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -115,6 +107,16 @@
           <ScalarProperty Name="EarlierCouponRef" ColumnName="EarlierCouponRef" />
           <ScalarProperty Name="DateGiven" ColumnName="DateGiven" />
           <ScalarProperty Name="CouponValue" ColumnName="CouponValue" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="OrderItems">
+      <EntityTypeMapping TypeName="LetterAmazer.OrderItem">
+        <MappingFragment StoreEntitySet="OrderItems">
+          <ScalarProperty Name="LetterId" ColumnName="LetterId" />
+          <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
           <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>
       </EntityTypeMapping>

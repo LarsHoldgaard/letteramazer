@@ -16,7 +16,7 @@ namespace LetterAmazer.Business.Services.Data
     {
         public Order()
         {
-            this.Letters = new HashSet<Letter>();
+            this.OrderItems = new HashSet<OrderItem>();
         }
     
         public int Id { get; set; }
@@ -35,7 +35,7 @@ namespace LetterAmazer.Business.Services.Data
         public string Email { get; set; }
         public string Phone { get; set; }
     
-        public virtual ICollection<Letter> Letters { get; set; }
         public virtual Customer Customer { get; set; }
+        public virtual ICollection<OrderItem> OrderItems { get; set; }
     }
 }

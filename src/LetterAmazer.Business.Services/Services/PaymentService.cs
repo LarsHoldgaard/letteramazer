@@ -23,12 +23,19 @@ namespace LetterAmazer.Business.Services.Services
 
         private void Register(IPaymentMethod method)
         {
-            if (!this.methods.ContainsKey(method.Name)) throw new PaymentMethodDuplicatedException();
+            if (this.methods.ContainsKey(method.Name)) throw new PaymentMethodDuplicatedException();
+            this.methods[method.Name] = method;
         }
 
         public string Process(Model.OrderContext orderContext)
         {
             return this.methods[orderContext.Order.PaymentMethod].Process(orderContext);
+        }
+
+        public IPaymentMethod Get(string methodName)
+        {
+            if (!this.methods.ContainsKey(methodName)) throw new PaymentMethodNotFoundException();
+            return this.methods[methodName];
         }
     }
 }

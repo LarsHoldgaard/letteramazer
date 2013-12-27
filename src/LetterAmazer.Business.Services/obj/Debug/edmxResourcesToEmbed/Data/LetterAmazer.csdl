@@ -3,25 +3,25 @@
   <EntityContainer Name="LetterAmazerContext" annotation:LazyLoadingEnabled="true">
     <EntitySet Name="Customers" EntityType="LetterAmazer.Customer" />
     <EntitySet Name="Letters" EntityType="LetterAmazer.Letter" />
-    <AssociationSet Name="CustomerLetter" Association="LetterAmazer.FK_Letter_Customer">
-      <End Role="Customer" EntitySet="Customers" />
-      <End Role="Letter" EntitySet="Letters" />
-    </AssociationSet>
-    <EntitySet Name="LetterDetails" EntityType="LetterAmazer.LetterDetail" />
-    <AssociationSet Name="LetterLetterDetail" Association="LetterAmazer.FK_LetterDetail_Letter">
-      <End Role="Letter" EntitySet="Letters" />
-      <End Role="LetterDetail" EntitySet="LetterDetails" />
-    </AssociationSet>
     <EntitySet Name="Orders" EntityType="LetterAmazer.Order" />
-    <AssociationSet Name="OrderLetter" Association="LetterAmazer.FK_Letter_Order">
-      <End Role="Order" EntitySet="Orders" />
+    <EntitySet Name="Coupons" EntityType="LetterAmazer.Coupon" />
+    <EntitySet Name="OrderItems" EntityType="LetterAmazer.OrderItem" />
+    <AssociationSet Name="FK_Letter_Customer" Association="LetterAmazer.FK_Letter_Customer">
+      <End Role="Customer" EntitySet="Customers" />
       <End Role="Letter" EntitySet="Letters" />
     </AssociationSet>
     <AssociationSet Name="FK_Order_Customer" Association="LetterAmazer.FK_Order_Customer">
       <End Role="Customer" EntitySet="Customers" />
       <End Role="Order" EntitySet="Orders" />
     </AssociationSet>
-    <EntitySet Name="Coupons" EntityType="LetterAmazer.Coupon" />
+    <AssociationSet Name="FK_OrderItem_Letter" Association="LetterAmazer.FK_OrderItem_Letter">
+      <End Role="Letter" EntitySet="Letters" />
+      <End Role="OrderItem" EntitySet="OrderItems" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OrderItem_Order" Association="LetterAmazer.FK_OrderItem_Order">
+      <End Role="Order" EntitySet="Orders" />
+      <End Role="OrderItem" EntitySet="OrderItems" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="Customer">
     <Key>
@@ -34,8 +34,8 @@
     <Property Type="String" Name="Username" Nullable="false" FixedLength="false" MaxLength="100" Unicode="true" />
     <Property Type="DateTime" Name="DateCreated" Nullable="false" Precision="3" />
     <Property Type="DateTime" Name="DateUpdated" Nullable="false" Precision="3" />
-    <NavigationProperty Name="Letters" Relationship="LetterAmazer.FK_Letter_Customer" FromRole="Customer" ToRole="Letter" />
     <Property Type="Decimal" Name="Credits" Precision="18" Scale="5" />
+    <NavigationProperty Name="Letters" Relationship="LetterAmazer.FK_Letter_Customer" FromRole="Customer" ToRole="Letter" />
     <NavigationProperty Name="Orders" Relationship="LetterAmazer.FK_Order_Customer" FromRole="Customer" ToRole="Order" />
   </EntityType>
   <ComplexType Name="AddressInfo">
@@ -59,44 +59,17 @@
     <Property Type="Int32" Name="CustomerId" Nullable="true" />
     <Property Name="FromAddress" Type="LetterAmazer.AddressInfo" Nullable="false" />
     <Property Name="ToAddress" Type="LetterAmazer.AddressInfo" Nullable="false" />
-    <NavigationProperty Name="Customer" Relationship="LetterAmazer.FK_Letter_Customer" FromRole="Letter" ToRole="Customer" />
     <Property Name="LetterContent" Type="LetterAmazer.LetterContent" Nullable="false" />
-    <NavigationProperty Name="LetterDetails" Relationship="LetterAmazer.FK_LetterDetail_Letter" FromRole="Letter" ToRole="LetterDetail" />
     <Property Type="LetterAmazer.LetterStatus" Name="LetterStatus" Nullable="false" />
-    <NavigationProperty Name="Order" Relationship="LetterAmazer.FK_Letter_Order" FromRole="Letter" ToRole="Order" />
-    <Property Type="Int32" Name="OrderId" Nullable="false" />
+    <Property Name="LetterDetail" Type="LetterAmazer.LetterDetail" Nullable="false" />
+    <NavigationProperty Name="Customer" Relationship="LetterAmazer.FK_Letter_Customer" FromRole="Letter" ToRole="Customer" />
+    <NavigationProperty Name="OrderItems" Relationship="LetterAmazer.FK_OrderItem_Letter" FromRole="Letter" ToRole="OrderItem" />
   </EntityType>
-  <Association Name="FK_Letter_Customer">
-    <End Type="LetterAmazer.Customer" Role="Customer" Multiplicity="0..1" />
-    <End Type="LetterAmazer.Letter" Role="Letter" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Customer">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Letter">
-        <PropertyRef Name="CustomerId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <ComplexType Name="LetterContent">
     <Property Type="String" Name="Path" Nullable="true" FixedLength="true" MaxLength="250" />
     <Property Type="String" Name="WrittenContent" Nullable="true" FixedLength="true" MaxLength="Max" />
     <Property Type="Binary" Name="Content" Nullable="true" />
   </ComplexType>
-  <EntityType Name="LetterDetail">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Type="LetterAmazer.Color" Name="Color" Nullable="false" />
-    <Property Type="LetterAmazer.LetterStatus" Name="LetterStatus" Nullable="false" />
-    <Property Type="LetterAmazer.PaperQuality" Name="PaperQuality" Nullable="false" />
-    <Property Type="LetterAmazer.PrintSize" Name="Size" Nullable="false" />
-    <Property Type="LetterAmazer.PrintQuality" Name="PrintQuality" Nullable="false" />
-    <NavigationProperty Name="Letter" Relationship="LetterAmazer.FK_LetterDetail_Letter" FromRole="LetterDetail" ToRole="Letter" />
-    <Property Type="Int32" Name="LetterId" Nullable="false" />
-    <Property Type="LetterAmazer.LetterQuatity" Name="LetterQuality" Nullable="false" />
-  </EntityType>
   <EnumType Name="LetterQuatity">
     <Member Name="Normal" Value="0" />
   </EnumType>
@@ -131,18 +104,6 @@
     <Member Name="A5" Value="2" />
     <Member Name="Letter" Value="3" />
   </EnumType>
-  <Association Name="FK_LetterDetail_Letter">
-    <End Type="LetterAmazer.Letter" Role="Letter" Multiplicity="1" />
-    <End Type="LetterAmazer.LetterDetail" Role="LetterDetail" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Letter">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="LetterDetail">
-        <PropertyRef Name="LetterId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <EntityType Name="Order">
     <Key>
       <PropertyRef Name="Id" />
@@ -152,7 +113,6 @@
     <Property Type="Int32" Name="CustomerId" />
     <Property Type="DateTime" Name="DateCreated" Nullable="false" Precision="3" />
     <Property Type="DateTime" Name="DateUpdated" Nullable="false" Precision="3" />
-    <NavigationProperty Name="Letters" Relationship="LetterAmazer.FK_Letter_Order" FromRole="Order" ToRole="Letter" />
     <Property Type="String" Name="Guid" Nullable="false" FixedLength="false" MaxLength="100" Unicode="true" />
     <Property Type="String" Name="OrderCode" MaxLength="20" FixedLength="false" Unicode="true" />
     <Property Type="String" Name="TransactionCode" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
@@ -164,31 +124,8 @@
     <Property Type="String" Name="Email" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
     <Property Type="String" Name="Phone" MaxLength="50" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="Customer" Relationship="LetterAmazer.FK_Order_Customer" FromRole="Order" ToRole="Customer" />
+    <NavigationProperty Name="OrderItems" Relationship="LetterAmazer.FK_OrderItem_Order" FromRole="Order" ToRole="OrderItem" />
   </EntityType>
-  <Association Name="FK_Letter_Order">
-    <End Type="LetterAmazer.Order" Role="Order" Multiplicity="1" />
-    <End Type="LetterAmazer.Letter" Role="Letter" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Order">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Letter">
-        <PropertyRef Name="OrderId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Order_Customer">
-    <End Type="LetterAmazer.Customer" Role="Customer" Multiplicity="0..1" />
-    <End Type="LetterAmazer.Order" Role="Order" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Customer">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Order">
-        <PropertyRef Name="CustomerId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <EntityType Name="Coupon">
     <Key>
       <PropertyRef Name="Id" />
@@ -209,4 +146,70 @@
     <Member Name="Used" Value="1" />
     <Member Name="Done" Value="2" />
   </EnumType>
+  <ComplexType Name="LetterDetail">
+    <Property Type="LetterAmazer.Color" Name="Color" Nullable="false" />
+    <Property Type="LetterAmazer.PrintQuality" Name="PrintQuality" Nullable="false" />
+    <Property Type="LetterAmazer.LetterQuatity" Name="LetterQuality" Nullable="false" />
+    <Property Type="LetterAmazer.PaperQuality" Name="PaperQuality" Nullable="false" />
+    <Property Type="LetterAmazer.PrintSize" Name="Size" Nullable="false" />
+  </ComplexType>
+  <EntityType Name="OrderItem">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Decimal" Name="Price" Nullable="false" Precision="18" Scale="5" />
+    <Property Type="Int32" Name="LetterId" Nullable="true" />
+    <Property Type="Int32" Name="OrderId" Nullable="true" />
+    <NavigationProperty Name="Letter" Relationship="LetterAmazer.FK_OrderItem_Letter" FromRole="OrderItem" ToRole="Letter" />
+    <NavigationProperty Name="Order" Relationship="LetterAmazer.FK_OrderItem_Order" FromRole="OrderItem" ToRole="Order" />
+  </EntityType>
+  <Association Name="FK_Letter_Customer">
+    <End Type="LetterAmazer.Customer" Role="Customer" Multiplicity="0..1" />
+    <End Type="LetterAmazer.Letter" Role="Letter" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Customer">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Letter">
+        <PropertyRef Name="CustomerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Order_Customer">
+    <End Type="LetterAmazer.Customer" Role="Customer" Multiplicity="0..1" />
+    <End Type="LetterAmazer.Order" Role="Order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Customer">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Order">
+        <PropertyRef Name="CustomerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OrderItem_Letter">
+    <End Type="LetterAmazer.Letter" Role="Letter" Multiplicity="0..1" />
+    <End Type="LetterAmazer.OrderItem" Role="OrderItem" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Letter">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="OrderItem">
+        <PropertyRef Name="LetterId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OrderItem_Order">
+    <End Type="LetterAmazer.Order" Role="Order" Multiplicity="0..1" />
+    <End Type="LetterAmazer.OrderItem" Role="OrderItem" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Order">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="OrderItem">
+        <PropertyRef Name="OrderId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema>

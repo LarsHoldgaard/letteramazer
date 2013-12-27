@@ -3,24 +3,24 @@
   <EntityContainer Name="LetterAmazerStoreContainer">
     <EntitySet Name="Coupons" EntityType="LetterAmazer.Store.Coupons" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Customers" EntityType="LetterAmazer.Store.Customers" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="LetterDetails" EntityType="LetterAmazer.Store.LetterDetails" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Letters" EntityType="LetterAmazer.Store.Letters" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="OrderItems" EntityType="LetterAmazer.Store.OrderItems" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Orders" EntityType="LetterAmazer.Store.Orders" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="FK_Letter_Customer" Association="LetterAmazer.Store.FK_Letter_Customer">
       <End Role="Customers" EntitySet="Customers" />
       <End Role="Letters" EntitySet="Letters" />
     </AssociationSet>
-    <AssociationSet Name="FK_Letter_Order" Association="LetterAmazer.Store.FK_Letter_Order">
-      <End Role="Orders" EntitySet="Orders" />
-      <End Role="Letters" EntitySet="Letters" />
-    </AssociationSet>
-    <AssociationSet Name="FK_LetterDetail_Letter" Association="LetterAmazer.Store.FK_LetterDetail_Letter">
-      <End Role="Letters" EntitySet="Letters" />
-      <End Role="LetterDetails" EntitySet="LetterDetails" />
-    </AssociationSet>
     <AssociationSet Name="FK_Order_Customer" Association="LetterAmazer.Store.FK_Order_Customer">
       <End Role="Customers" EntitySet="Customers" />
       <End Role="Orders" EntitySet="Orders" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OrderItem_Letter" Association="LetterAmazer.Store.FK_OrderItem_Letter">
+      <End Role="Letters" EntitySet="Letters" />
+      <End Role="OrderItems" EntitySet="OrderItems" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OrderItem_Order" Association="LetterAmazer.Store.FK_OrderItem_Order">
+      <End Role="Orders" EntitySet="Orders" />
+      <End Role="OrderItems" EntitySet="OrderItems" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="Coupons">
@@ -61,19 +61,6 @@
     <Property Name="DateUpdated" Type="datetime" Nullable="false" />
     <Property Name="Credits" Type="decimal" Scale="5" />
   </EntityType>
-  <EntityType Name="LetterDetails">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-    <Property Name="Color" Type="int" Nullable="false" />
-    <Property Name="LetterQuality" Type="int" Nullable="false" />
-    <Property Name="PaperQuality" Type="int" Nullable="false" />
-    <Property Name="PrintQuality" Type="int" Nullable="false" />
-    <Property Name="LetterStatus" Type="int" Nullable="false" />
-    <Property Name="Size" Type="int" Nullable="false" />
-    <Property Name="LetterId" Type="int" Nullable="false" />
-  </EntityType>
   <EntityType Name="Letters">
     <Key>
       <PropertyRef Name="Id" />
@@ -106,7 +93,20 @@
     <Property Name="LetterContent_WrittenContent" Type="nvarchar" />
     <Property Name="LetterContent_Content" Type="varbinary(max)" />
     <Property Name="LetterStatus" Type="int" Nullable="false" />
-    <Property Name="OrderId" Type="int" Nullable="false" />
+    <Property Name="LetterDetail_Color" Type="int" Nullable="false" />
+    <Property Name="LetterDetail_PrintQuality" Type="int" Nullable="false" />
+    <Property Name="LetterDetail_PaperQuality" Type="int" Nullable="false" />
+    <Property Name="LetterDetail_LetterQuality" Type="int" Nullable="false" />
+    <Property Name="LetterDetail_Size" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="OrderItems">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Price" Type="decimal" Nullable="false" Scale="5" />
+    <Property Name="OrderId" Type="int" />
+    <Property Name="LetterId" Type="int" />
   </EntityType>
   <EntityType Name="Orders">
     <Key>
@@ -140,30 +140,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_Letter_Order">
-    <End Role="Orders" Type="LetterAmazer.Store.Orders" Multiplicity="1" />
-    <End Role="Letters" Type="LetterAmazer.Store.Letters" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Orders">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Letters">
-        <PropertyRef Name="OrderId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_LetterDetail_Letter">
-    <End Role="Letters" Type="LetterAmazer.Store.Letters" Multiplicity="1" />
-    <End Role="LetterDetails" Type="LetterAmazer.Store.LetterDetails" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Letters">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="LetterDetails">
-        <PropertyRef Name="LetterId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_Order_Customer">
     <End Role="Customers" Type="LetterAmazer.Store.Customers" Multiplicity="0..1" />
     <End Role="Orders" Type="LetterAmazer.Store.Orders" Multiplicity="*" />
@@ -173,6 +149,30 @@
       </Principal>
       <Dependent Role="Orders">
         <PropertyRef Name="CustomerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OrderItem_Letter">
+    <End Role="Letters" Type="LetterAmazer.Store.Letters" Multiplicity="0..1" />
+    <End Role="OrderItems" Type="LetterAmazer.Store.OrderItems" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Letters">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="OrderItems">
+        <PropertyRef Name="LetterId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OrderItem_Order">
+    <End Role="Orders" Type="LetterAmazer.Store.Orders" Multiplicity="0..1" />
+    <End Role="OrderItems" Type="LetterAmazer.Store.OrderItems" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Orders">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="OrderItems">
+        <PropertyRef Name="OrderId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

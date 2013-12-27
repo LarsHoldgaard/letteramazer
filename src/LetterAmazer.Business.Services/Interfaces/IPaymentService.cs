@@ -10,5 +10,6 @@ namespace LetterAmazer.Business.Services.Interfaces
     public interface IPaymentService
     {
         string Process(OrderContext orderContext);
+        IPaymentMethod Get(string methodName);
     }
 }

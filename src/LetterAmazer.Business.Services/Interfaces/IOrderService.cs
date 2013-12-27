@@ -11,5 +11,6 @@ namespace LetterAmazer.Business.Services.Interfaces
     public interface IOrderService
     {
         string CreateOrder(OrderContext orderContext);
+        void MarkOrderIsPaid(int orderId);
     }
 }

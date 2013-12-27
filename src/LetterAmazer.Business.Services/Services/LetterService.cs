@@ -5,12 +5,25 @@ using System.Text;
 using System.Threading.Tasks;
 using LetterAmazer.Business.Services.Data;
 using LetterAmazer.Business.Services.Interfaces;
+using LetterAmazer.Business.Services.Services.LetterContent;
 
 namespace LetterAmazer.Business.Services.Services
 {
     public class LetterService : ILetterService
     {
-        public decimal GetCost(int numerOfPages, AddressInfo address)
+        private PdfManager pdfManager;
+        public LetterService()
+        {
+            this.pdfManager = new PdfManager();
+        }
+
+        public decimal GetCost(Letter letter)
+        {
+            int pagesCount = this.pdfManager.GetPagesCount(letter.LetterContent.Path);
+            return GetCost(pagesCount, letter.ToAddress);
+        }
+
+        private decimal GetCost(int numerOfPages, AddressInfo address)
         {
             return CalculateLetterCost(numerOfPages, address.Address, address.Postal, address.City, address.Country);
         }
