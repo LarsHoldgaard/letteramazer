@@ -135,4 +135,7 @@
   <data name="SendALetter" xml:space="preserve">
     <value>Send a letter</value>
   </data>
+  <data name="WriteYourLetterHere" xml:space="preserve">
+    <value>Write your letter here...</value>
+  </data>
 </root>

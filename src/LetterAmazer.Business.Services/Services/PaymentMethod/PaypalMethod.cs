@@ -50,7 +50,7 @@ namespace LetterAmazer.Business.Services.Services.PaymentMethod
 
             var volumeForUsd = Math.Round(volume, 2).ToString().Replace(",", ".");
             var url = string.Format("{0}first_name={1}&last_name={2}&item_name={3}&currency_code=USD&amount={4}&notify_url={5}&cmd=_xclick&country={6}&zip={7}&address1={8}&business={9}&city={10}&custom={11}&return={12}",
-                    serviceUrl, firstName, lastName, "Send a single letter", volumeForUsd, paypalIPN, country, postal, address, "mcoroklo@gmail.com", city, id, returnUrl);
+                    serviceUrl, firstName, lastName, "Send a single letter", volumeForUsd, paypalIPN, country, postal, address, "mcoroklo@gmail.com", city, id, string.Format(returnUrl, orderContext.CurrentCulture));
             return url;
         }
 

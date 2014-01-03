@@ -57,6 +57,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.5.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="RouteDebugger">
+      <HintPath>..\packages\routedebugger.2.1.4.0\lib\net40\RouteDebugger.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Entity" />
@@ -181,6 +184,7 @@
     <Content Include="Content\images\letteramazer.png" />
     <Content Include="Content\images\letteramazer_small.png" />
     <Content Include="Content\images\letteramazer_small_white.png" />
+    <Content Include="Content\images\pdf-icon.png" />
     <Content Include="Content\images\stamp.png" />
     <Content Include="Content\images\uploadpdf.png" />
     <Content Include="Content\images\writetext.png" />
@@ -521,14 +525,23 @@
     <Content Include="Scripts\dropzone\dropzone.min.js" />
     <Content Include="Scripts\dropzone\images\spritemap%402x.png" />
     <Content Include="Scripts\dropzone\images\spritemap.png" />
+    <Content Include="Scripts\internals\country.js" />
+    <Content Include="Scripts\internals\sendaletter-viewmodel.js" />
     <Content Include="Scripts\jquery-2.0.3.js" />
     <Content Include="Scripts\jquery-2.0.3.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery-ui-1.10.3.js" />
     <Content Include="Scripts\jquery-ui-1.10.3.min.js" />
+    <Content Include="Scripts\jquery.textchange.min.js" />
     <Content Include="Scripts\knockout-3.0.0.debug.js" />
     <Content Include="Scripts\knockout-3.0.0.js" />
     <Content Include="Scripts\modernizr-2.7.1.js" />
+    <Content Include="Scripts\uploadify\jquery.uploadify.js" />
+    <Content Include="Scripts\uploadify\jquery.uploadify.min.js" />
+    <Content Include="Scripts\uploadify\license.txt" />
+    <Content Include="Scripts\uploadify\uploadify-cancel.png" />
+    <Content Include="Scripts\uploadify\uploadify.css" />
+    <Content Include="Scripts\uploadify\uploadify.swf" />
     <Content Include="Views\Site.css" />
     <Content Include="Content\css\General\Sidewide.less" />
     <Content Include="Content\css\Main.less" />
@@ -564,6 +577,7 @@
     <Content Include="Views\Shared\NewsletterForm.cshtml" />
     <Content Include="Views\Shared\CountryList.cshtml" />
     <Content Include="Views\SingleLetter\DropZone.cshtml" />
+    <Content Include="Views\SingleLetter\Confirmation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

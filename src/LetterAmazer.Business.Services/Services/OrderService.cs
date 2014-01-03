@@ -31,6 +31,8 @@ namespace LetterAmazer.Business.Services.Services
         public string CreateOrder(OrderContext orderContext)
         {
             Order order = orderContext.Order;
+            order.Guid = Guid.NewGuid().ToString();
+            order.OrderCode = GenerateOrderCode();
             order.OrderStatus = OrderStatus.Created;
             order.DateCreated = DateTime.Now;
             order.DateUpdated = DateTime.Now;
@@ -71,6 +73,16 @@ namespace LetterAmazer.Business.Services.Services
             if (order.Price == 0) return "/singleletter/confirmation";
 
             return paymentService.Process(orderContext);
+        }
+
+        private string GenerateOrderCode()
+        {
+            string orderCode = "LA" + DateTime.Now.Ticks.GetHashCode();
+            while (repository.Exists<Order>(o => o.OrderCode == orderCode))
+            {
+                orderCode = "LA" + DateTime.Now.Ticks.GetHashCode();
+            }
+            return orderCode;
         }
 
         public void MarkOrderIsPaid(int orderId)

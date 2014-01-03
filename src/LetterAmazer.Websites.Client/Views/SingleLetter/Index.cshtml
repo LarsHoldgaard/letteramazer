@@ -4,6 +4,17 @@
     <script type="text/javascript" src="@Url.Content("~/Scripts/ckeditor/ckeditor.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Scripts/ckeditor/config.js")"></script>
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBulh9LO7V3Eb80BF0-h6BW6MyiO-qNTC0&sensor=false"></script>
+
+    <link href="@Url.Content("~/Scripts/uploadify/uploadify.css")" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="@Url.Content("~/Scripts/uploadify/jquery.uploadify.min.js")"></script>
+
+    <link type="text/css" rel="stylesheet" href="@Url.Content("~/Scripts/dropzone/css/dropzone.css")" />
+    <script type="text/javascript" src="@Url.Content("~/Scripts/dropzone/dropzone.min.js")"></script>
+
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.validate.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/knockout-3.0.0.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/internals/country.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/internals/sendaletter-viewmodel.js")"></script>
 }
 
 <div class="jumbotron-white">
@@ -18,100 +29,107 @@
         </div>
     </div>
 </div>
-@Html.HiddenFor(m => m.SelectedWriteMethod)
 <div class="jumbotron-lightblue">
     <div class="container">
         <div class="promotionMargin">
+            @using (Html.BeginForm("Index", "SingleLetter", FormMethod.Post, new { id = "sendALetterForm" }))
+            {
             <div class="row">
                 <div class="col-lg-7">
                     <div class="sendLettersForm">
-                        <div id="sendaletter-step1">
+                        <div id="sendaletter-step1" data-bind="visible: showStepOne()">
                             <div class="row">
                                 <div class="col-lg-11 col-lg-offset-1">
                                     <p class="frontpageLeadExplanation">1. Tell us where we should send your letter</p>
-
                                     <p>
                                         Your e-mail:<br />
-                                        @Html.TextBoxFor(m => m.Email, new { @class = "input-lg", placeholder="Enter your e-mail" })
+                                        @Html.TextBoxFor(m => m.Email, new { @class = "input-lg", placeholder = "Enter your e-mail" })
                                     </p>
-
-
                                     <p>
                                         Recipient name:<br />
-                                        @Html.TextBoxFor(m => m.RecipientName, new { @class = "input-lg", placeholder="Enter recipient" })
+                                        @Html.TextBoxFor(m => m.RecipientName, new Dictionary<string, object>{{"class","input-lg"}, {"placeholder","Enter recipient"}, {"data-bind","value: receiver"}})
                                     </p>
                                     <p>
                                         Destination country:<br />
-                                        @Html.Partial("CountryList")
+                                        <select class="address" data-bind="options: countries, optionsText: 'text', optionsValue: 'value', value: selectedCountry, event: {change: selectCountry}"></select>
+                                        @Html.HiddenFor(m => m.DestinationCountry, new Dictionary<string, object>{{"data-bind","value:country"}})
+                                        @Html.HiddenFor(m => m.DestinationCountryCode, new Dictionary<string, object>{{"data-bind","value:countryCode"}})
                                         <br />
                                     </p>
-
                                     <p>
                                         Destination ZIP code (and state if relevant):<br />
-                                        @Html.TextBoxFor(m => m.ZipCode, new { @class = "input-lg", placeholder="Enter destination ZIP code" })
+                                        @Html.TextBoxFor(m => m.ZipCode, new Dictionary<string, object>{{"class","input-lg address"}, {"placeholder","Enter destination ZIP code"}, {"data-bind","value:postal"}})
                                     </p>
                                     <p>
                                         Destination city:<br />
-                                        @Html.TextBoxFor(m => m.DestinationCity, new { @class = "input-lg", placeholder="Enter destination city" })
+                                        @Html.TextBoxFor(m => m.DestinationCity, new Dictionary<string, object>{{"class","input-lg address"}, {"placeholder","Enter destination city"}, {"data-bind","value:city"}})
                                     </p>
 
                                     <p>
                                         Destination address:<br />
-                                        @Html.TextBoxFor(m => m.DestinationAddress, new { @class = "input-lg", placeholder="Enter destination address" })
+                                        @Html.TextBoxFor(m => m.DestinationAddress, new Dictionary<string, object>{{"class","input-lg address"}, {"placeholder","Enter destination address"}, {"data-bind","value:address"}})
                                     </p>
-                                    <input id="btn-proceed-12" type="button" class="btn btn-primary btn-lg" value="Proceed &raquo;" />
+                                    <input id="btn-proceed-12" type="button" class="btn btn-primary btn-lg" value="Proceed &raquo;" data-bind="click: goToStepTwo" />
                                 </div>
                             </div>
-
-
                         </div>
-                        <div id="sendaletter-step2">
+
+                        <div id="sendaletter-step2" data-bind="visible: showStepTwo()">
                             <p class="frontpageLeadExplanation">2. Tell us what your letter should contain</p>
                             <p class="caption frontpageCaption" style="margin-top: -10px; margin-bottom: 14px;">(We promise we don't look)</p>
-
-                            <div id="step2-choice" style="margin-bottom: 11px;">
-                                <%--<p class="frontpageLeadExplanation">Pick a choice:</p>
-                                --%>
-
-
-                                    <a id="lnkUploadPdf"><%--<img src="Content/images/uploadpdf.png" width="200px" />--%>
-                                        <p class="btn btn-primary btn-lg" style="margin-bottom: 5px;">Upload PDF file</p>
-                                    </a>&nbsp;Or&nbsp;<a id="lnkWriteText">
-
-                                        <p class="btn btn-primary btn-lg">Write letter here</p>
-                                    </a>
-
-
+                            
+                            <div id="step2-choice" style="margin-bottom: 11px; overflow: auto;" data-bind="visible: uploadPdf() == 0">
+                                <a id="lnkUploadPdf" data-bind="click: useUploadPdfMode" style="float: left;">
+                                    <span class="btn btn-primary btn-lg" style="margin-bottom: 5px;">Upload PDF file</span>
+                                </a>
+                                <span style="float: left; padding: 10px;">Or</span>
+                                <a id="lnkWriteText" data-bind="click: useWriteContentMode" style="float: left;">
+                                    <span class="btn btn-primary btn-lg">Write letter here</span>
+                                </a>
                             </div>
-                            <div id="step2-upload" class="promotionMargin" style="margin-top: 25px;">
+                            <div id="step2-upload" class="promotionMargin" style="margin-top: 25px;" data-bind="visible: isUploadFile()">
                                 <p class="frontpageLeadExplanation">Upload your PDF file:</p>
-
+                                <div id="myDropzone" class="la-dropzone">
+                                    <div class="dz-default dz-message">
+                                        <span>
+                                            <strong>Drop files</strong> here to upload
+                                            <br />
+                                            <em>(or click)</em>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div id="uploadFallbackPanel" style="display: none;">
+                                    <input id="fileUpload" name="fileUpload" type="file" />
+                                </div>
                                 <br />
                                 <br />
-                                <a id="uploadLetterBack" class="btn btn-default">Back</a>
+                                <a id="uploadLetterBack" class="btn btn-default" data-bind="click: resetContentMode">Back</a>
                             </div>
-                            <div id="step2-write" class="promotionMargin" style="margin-top: 25px;">
+                            <div id="step2-write" class="promotionMargin" style="margin-top: 25px;" data-bind="visible: isWriteContent()">
                                 <p class="frontpageLeadExplanation">Write your letter:</p>
-                                <textarea id="LetterBox" name="LetterBox">Write your letter here...</textarea>
-                                <script type="text/javascript">
-                                    CKEDITOR.replace('LetterBox');
-                                </script>
+                                @Html.TextAreaFor(m => m.WriteContent)
                                 <label id="currentChars"></label>
-                                <a class="pdfPreviewLnk" href="#">See preview of how the letter will look</a>
+                                <a class="pdfPreviewLnk" href="#" data-bind="click: previewWrittenContent">See preview of how the letter will look</a>
                                 <br />
                                 <br />
-                                <a id="writeLetterBack" class="btn btn-default">Back &raquo;</a>
+                                <a id="writeLetterBack" class="btn btn-default" data-bind="click: resetContentMode">Back</a>
                             </div>
 
-                            <input id="btn-back-21" type="button" class="btn btn-default" value="Back" />
-                            <input id="btn-proceed-23" type="button" class="btn btn-primary btn-lg" value="Proceed &raquo;" />
+                            <input id="btn-back-21" type="button" class="btn btn-default" value="Back" data-bind="click: goToStepOne, visible: uploadPdf() == 0"/>
+                            <input id="btn-proceed-23" type="button" class="btn btn-primary btn-lg" value="Proceed &raquo;" data-bind="click: goToStepThree, visible: showStepTwoAction()"/>
                         </div>
-                        <div id="sendaletter-step3">
+                        
+                        <div id="sendaletter-step3" data-bind="visible: showStepThree()">
                             <p class="frontpageLeadExplanation">3. Get the letter stamped!</p>
                             <p class="frontpageSmallLeadExplanation">Sending letters are not free, and when we send letters without stamps, the postal offices get really angry at us. <b>So we better get the letter stamped</b>.</p>
                             <hr />
 
-                            <b>REMEMBER:</b> <a class="pdfPreviewLnk" href="#">See a preview of how the letter will look</a>
+                            <p data-bind="visible: uploadPdf() == 1">
+                                <b>REMEMBER:</b> <a class="pdfPreviewLnk" href="#" data-bind="click: previewPDF">See a preview of how the letter will look</a>
+                            </p>
+                            <p data-bind="visible: uploadPdf() == 2">
+                                <b>REMEMBER:</b> <a class="pdfPreviewLnk" href="#" data-bind="click: previewWrittenContent">See a preview of how the letter will look</a>
+                            </p>
 
                             <div class="row letterDestination">
                                 <div class="col-lg-6">
@@ -124,7 +142,7 @@
 
                                         <dt>Price</dt>
                                         <dd>
-                                            <label id="priceOfLetterLbl"></label>
+                                            <label id="priceOfLetterLbl" data-bind="text: cost"></label>
                                         </dd>
                                     </dl>
                                 </div>
@@ -132,42 +150,40 @@
                                     <dl>
                                         <dt>Letter destination</dt>
                                         <dd>To
-                                            <label id="receiverLbl"></label>
+                                            <label id="receiverLbl" data-bind="text: receiver"></label>
                                             <br />
-                                            <label id="addressLbl"></label>
+                                            <label id="addressLbl" data-bind="text: address"></label>
                                             <br />
-                                            <label id="postalLbl"></label>
-                                            <label id="cityLbl"></label>
+                                            <label id="postalLbl" data-bind="text: postal"></label>
+                                            <label id="cityLbl" data-bind="text: city"></label>
                                             <br />
-                                            <label id="countryLbl"></label>
+                                            <label id="countryLbl" data-bind="text: country"></label>
                                         </dd>
-
                                     </dl>
-
                                 </div>
-
                             </div>
 
                             @Html.CheckBoxFor(m => m.SignUpNewsletter)
                             Follow our exciting journey through e-mail
                             <br />
                             <br />
-                            <input id="btn-back-32" type="button" class="btn btn-default" value="Back" />
-                            <input id="btnsubmit" type="submit" class="btn btn-primary btn-lg submitAbe" value="Stamp and send letter &raquo;" />
+                            <input id="btn-back-32" type="button" class="btn btn-default" value="Back" data-bind="click: goToStepTwo"/>
+                            <input id="btnsubmit" type="submit" class="btn btn-primary btn-lg submitAbe" value="Stamp and send letter &raquo;" data-bind="click: save" />
+                            @Html.HiddenFor(m => m.UseUploadFile, new Dictionary<string, object>{{"data-bind", "value:useUploadFile"}})
+                            @Html.HiddenFor(m => m.UploadFile, new Dictionary<string, object>{{"data-bind", "value:uploadFileKey"}})
                             <br />
                             <br />
-                            <a href="#" id="toggleVoucherLnk">(add voucher)</a>
-                            <div id="voucherDiv">
+                            <a href="javascript:void(0)" id="toggleVoucherLnk" data-bind="click: toggleVoucherPanel">(add voucher)</a>
+                            <div id="voucherDiv" data-bind="visible: showVoucher()">
                                 <p>
                                     Voucher:<br />
-                                    @Html.TextBoxFor(m => m.VoucherCode, new { @class = "input-lg", placeholder = "Enter voucher code", id = "voucherBox" })
-                                    <label id="voucherStatus"></label>
+                                    @Html.TextBoxFor(m => m.VoucherCode,  new Dictionary<string, object>{{"id", "voucherBox"}, {"class", "input-lg"}, {"placeholder", "Enter voucher code"}, {"data-bind", "value:voucherCode"}})
+                                    <label id="voucherStatus" data-bind="text: voucherStatus, attr: {'style': voucherColor}"></label>
                                 </p>
                             </div>
-                            @Html.HiddenFor(m => m.SelectedUpload)
                         </div>
+                    
                     </div>
-
                 </div>
                 <div class="col-lg-5">
                     <div class="sendAletterSideboxSomething">
@@ -176,15 +192,14 @@
                             <a href="@Url.Action("NewsletterSignUp", "Home")">Get updates</a>.
                         </p>
                     </div>
-                    <div id="locationMap" style="margin-top: 15px;">
-                        <div class="google-map-canvas">
-                            <div id="mapsDiv" style="display: none;">
-                                <div id="map-canvas" style="width: 500px; height: 500px; border: 1px solid #d9d9d9; border-radius: 10px;"></div>
+                    <div id="locationMap" style="margin-top: 15px;" data-bind="visible: showMap()">
+                        <div class="google-map-canvas" data-bind="visible: initMap()">
+                            <div id="mapsDiv">
+                                <div id="map-canvas" style="width: 457px; height: 500px; border: 1px solid #d9d9d9; border-radius: 10px;"></div>
                             </div>
                         </div>
                     </div>
-                    <div id="sendAnimationFun">
-
+                    <div id="sendAnimationFun" data-bind="visible: showAnimation()">
                         <div id="stampDiv" style="position: relative; z-index: 100">
                             <img src="/Content/images/stamp.png" width="100" />
                         </div>
@@ -194,15 +209,86 @@
                     </div>
                 </div>
             </div>
+            }
         </div>
     </div>
 </div>
 
 <script type="text/javascript">
     var createLetterData = {
-
+        countryList: countryList,
+        currentFile: null,
+        generatePDFUrl: '@Url.Action("GeneratePDF")',
+        getPriceUrl: '@Url.Action("GetPrice")',
+        applyVoucherUrl: '@Url.Action("ApplyVoucher")',
+        previewPDFUrl: '@Url.Action("PreviewPDF")',
+        geocoder: new google.maps.Geocoder()
     };
 
+    CKEDITOR.replace('WriteContent');
+    createLetterData.writeContentEditor = CKEDITOR.instances.WriteContent;
+
+    var viewModel = new SendALetterViewModel('#sendALetterForm', createLetterData);
+    ko.applyBindings(viewModel, document.getElementById('sendALetterForm'));
+
+    $('div#myDropzone').dropzone({
+        url: '@Url.Action("Upload")',
+        acceptedFiles: 'application/pdf',
+        maxFilesize: 10,
+        fallback: function () {
+            $('div#myDropzone').hide();
+            $('div#uploadFallbackPanel').show();
+        },
+        success: function (file, data) {
+            var template = file.previewTemplate;
+            if (data.status == "success") {
+                if (createLetterData.currentFile != null) $(createLetterData.currentFile.previewTemplate).remove();
+                createLetterData.currentFile = file;
+                $(template).find('.dz-progress').hide();
+                $(template).find('.dz-details img').attr({
+                    'src': '@Url.Content("~/Content/images/pdf-icon.png")',
+                    'height': '100',
+                    'style': 'margin-top: 28px; margin-left: 20px; height: 65px; width: 65px; display: block;'
+                });
+            } else {
+                $(template).find('.dz-error-message').remove();
+                $(template).addClass('dz-error');
+                $(template).find('.dz-error-mark').on('click', function () {
+                    $(template).remove();
+                });
+            }
+        },
+        error: function (file, responseText) {
+            var template = file.previewTemplate;
+            $(template).find('.dz-error-message').remove();
+            $(template).addClass('dz-error');
+            $(template).find('.dz-error-mark').on('click', function () {
+                $(template).remove();
+            });
+        }
+    });
+
+    $('#fileUpload').uploadify({
+        'buttonText': 'Select PDF',
+        'fileTypeDesc': 'PDF Files',
+        'fileTypeExts': '*.pdf',
+        'fileObjName': 'uploadFile',
+        'removeCompleted': false,
+        'multi': false,
+        'swf': '@Url.Content("~/Scripts/uploadify/uploadify.swf")',
+        'uploader': '@Url.Action("Upload")',
+        'onUploadSuccess': function (file, data, response) {
+            console.info("data: ", data);
+            var result = $.parseJSON(data);
+            if (result.status == "success") {
+                viewModel.uploadFileKey(result.key);
+            }
+        },
+        'onUploadError': function (ex, e, er) {
+            console.log(er);
+        }
+    });
+    /*
     var stamped = false;
     $(document).ready(function () {
         $('#btn-proceed-12').click(function () {
@@ -468,6 +554,6 @@
         $('#<%=SelectedWriteMethodHdn.ClientID %>').val(method);
 
     }
-
+    */
 
 </script>

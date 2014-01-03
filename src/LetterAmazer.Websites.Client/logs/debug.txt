@@ -1,2 +1,57 @@
 2013-12-25 11:38:13,895 [11] DEBUG LetterAmazer.Websites.Client.Controllers.SingleLetterController - count: 1, count: huynhthevinh.doc
 2013-12-25 11:38:13,895 [45] DEBUG LetterAmazer.Websites.Client.Controllers.SingleLetterController - count: 1, count: huynhthevinh.pdf
+2014-01-03 11:41:28,878 [46] DEBUG LetterAmazer.Websites.Client.Controllers.SingleLetterController - path: D:\Projects\letteramazer\source\src\LetterAmazer.Websites.Client\UserData\PdfLetters\2014\1
+2014-01-03 12:09:31,180 [11] DEBUG LetterAmazer.Websites.Client.Controllers.SingleLetterController - path: D:\Projects\letteramazer\source\src\LetterAmazer.Websites.Client\UserData\PdfLetters\2014\1
+2014-01-03 12:19:58,231 [18] DEBUG LetterAmazer.Websites.Client.Controllers.SingleLetterController - path: D:\Projects\letteramazer\source\src\LetterAmazer.Websites.Client\UserData\PdfLetters\2014\1
+2014-01-03 12:23:13,671 [12] DEBUG LetterAmazer.Websites.Client.Controllers.SingleLetterController - path: D:\Projects\letteramazer\source\src\LetterAmazer.Websites.Client\UserData\PdfLetters\2014\1
+2014-01-03 12:24:52,148 [27] DEBUG LetterAmazer.Websites.Client.Controllers.SingleLetterController - path: D:\Projects\letteramazer\source\src\LetterAmazer.Websites.Client\UserData\PdfLetters\2014\1
+2014-01-03 12:26:04,216 [27] DEBUG LetterAmazer.Websites.Client.Controllers.SingleLetterController - path: D:\Projects\letteramazer\source\src\LetterAmazer.Websites.Client\UserData\PdfLetters\2014\1
+2014-01-03 12:26:35,084 [27] DEBUG LetterAmazer.Websites.Client.Controllers.SingleLetterController - path: D:\Projects\letteramazer\source\src\LetterAmazer.Websites.Client\UserData\PdfLetters\2014\1
+2014-01-03 12:27:01,759 [27] DEBUG LetterAmazer.Websites.Client.Controllers.SingleLetterController - path: D:\Projects\letteramazer\source\src\LetterAmazer.Websites.Client\UserData\PdfLetters\2014\1
+2014-01-03 12:28:12,944 [19] DEBUG LetterAmazer.Websites.Client.Controllers.SingleLetterController - path: D:\Projects\letteramazer\source\src\LetterAmazer.Websites.Client\UserData\PdfLetters\2014\1
+2014-01-03 12:56:32,322 [55] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.NullReferenceException: Object reference not set to an instance of an object.
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetAbsoluteFile(String filename) in d:\Projects\letteramazer\source\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 221
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetUploadFileName(String uploadFilename) in d:\Projects\letteramazer\source\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 204
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.Upload() in d:\Projects\letteramazer\source\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 122
+2014-01-03 15:25:42,746 [24] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.ArgumentException: Code has been used
+   at LetterAmazer.Business.Services.Services.CouponService.GetCoupon(String code) in d:\Projects\letteramazer\source\src\LetterAmazer.Business.Services\Services\CouponService.cs:line 103
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.ApplyVoucher(String code) in d:\Projects\letteramazer\source\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 188
+2014-01-03 15:25:42,921 [20] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.ArgumentException: Code has been used
+   at LetterAmazer.Business.Services.Services.CouponService.GetCoupon(String code) in d:\Projects\letteramazer\source\src\LetterAmazer.Business.Services\Services\CouponService.cs:line 103
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.ApplyVoucher(String code) in d:\Projects\letteramazer\source\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 188
+2014-01-03 15:27:28,865 [13] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.Data.Entity.Validation.DbEntityValidationException: Validation failed for one or more entities. See 'EntityValidationErrors' property for more details.
+   at System.Data.Entity.Internal.InternalContext.SaveChanges()
+   at LetterAmazer.Business.Services.Data.UnitOfWork.Commit() in d:\Projects\letteramazer\source\src\LetterAmazer.Business.Services\Data\UnitOfWork.cs:line 17
+   at LetterAmazer.Business.Services.Services.OrderService.CreateOrder(OrderContext orderContext) in d:\Projects\letteramazer\source\src\LetterAmazer.Business.Services\Services\OrderService.cs:line 68
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.Index(CreateSingleLetterModel model) in d:\Projects\letteramazer\source\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 102
+2014-01-03 15:28:20,079 [22] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.Data.Entity.Validation.DbEntityValidationException: Validation failed for one or more entities. See 'EntityValidationErrors' property for more details.
+   at System.Data.Entity.Internal.InternalContext.SaveChanges()
+   at LetterAmazer.Business.Services.Data.UnitOfWork.Commit() in d:\Projects\letteramazer\source\src\LetterAmazer.Business.Services\Data\UnitOfWork.cs:line 17
+   at LetterAmazer.Business.Services.Services.OrderService.CreateOrder(OrderContext orderContext) in d:\Projects\letteramazer\source\src\LetterAmazer.Business.Services\Services\OrderService.cs:line 68
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.Index(CreateSingleLetterModel model) in d:\Projects\letteramazer\source\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 102
+2014-01-03 15:43:17,593 [59] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.ArgumentException: Code has been used
+   at LetterAmazer.Business.Services.Services.CouponService.GetCoupon(String code) in d:\Projects\letteramazer\source\src\LetterAmazer.Business.Services\Services\CouponService.cs:line 103
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.ApplyVoucher(String code) in d:\Projects\letteramazer\source\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 188
+2014-01-03 15:43:18,112 [58] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.ArgumentException: Code has been used
+   at LetterAmazer.Business.Services.Services.CouponService.GetCoupon(String code) in d:\Projects\letteramazer\source\src\LetterAmazer.Business.Services\Services\CouponService.cs:line 103
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.ApplyVoucher(String code) in d:\Projects\letteramazer\source\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 188
+2014-01-03 15:43:18,745 [57] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.ArgumentException: Code has been used
+   at LetterAmazer.Business.Services.Services.CouponService.GetCoupon(String code) in d:\Projects\letteramazer\source\src\LetterAmazer.Business.Services\Services\CouponService.cs:line 103
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.ApplyVoucher(String code) in d:\Projects\letteramazer\source\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 188
+2014-01-03 15:43:22,320 [58] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.Data.Entity.Validation.DbEntityValidationException: Validation failed for one or more entities. See 'EntityValidationErrors' property for more details.
+   at System.Data.Entity.Internal.InternalContext.SaveChanges()
+   at LetterAmazer.Business.Services.Data.UnitOfWork.Commit() in d:\Projects\letteramazer\source\src\LetterAmazer.Business.Services\Data\UnitOfWork.cs:line 17
+   at LetterAmazer.Business.Services.Services.OrderService.CreateOrder(OrderContext orderContext) in d:\Projects\letteramazer\source\src\LetterAmazer.Business.Services\Services\OrderService.cs:line 70
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.Index(CreateSingleLetterModel model) in d:\Projects\letteramazer\source\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 102
+2014-01-03 15:44:56,473 [66] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.Data.Entity.Validation.DbEntityValidationException: Validation failed for one or more entities. See 'EntityValidationErrors' property for more details.
+   at System.Data.Entity.Internal.InternalContext.SaveChanges()
+   at LetterAmazer.Business.Services.Data.UnitOfWork.Commit() in d:\Projects\letteramazer\source\src\LetterAmazer.Business.Services\Data\UnitOfWork.cs:line 17
+   at LetterAmazer.Business.Services.Services.OrderService.CreateOrder(OrderContext orderContext) in d:\Projects\letteramazer\source\src\LetterAmazer.Business.Services\Services\OrderService.cs:line 70
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.Index(CreateSingleLetterModel model) in d:\Projects\letteramazer\source\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 102
+2014-01-03 15:44:56,530 [66] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - 
+2014-01-03 16:20:03,210 [52] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.ArgumentException: Code has been used
+   at LetterAmazer.Business.Services.Services.CouponService.GetCoupon(String code) in d:\Projects\letteramazer\source\src\LetterAmazer.Business.Services\Services\CouponService.cs:line 103
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.ApplyVoucher(String code) in d:\Projects\letteramazer\source\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 192
+2014-01-03 16:20:04,115 [12] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.ArgumentException: Code has been used
+   at LetterAmazer.Business.Services.Services.CouponService.GetCoupon(String code) in d:\Projects\letteramazer\source\src\LetterAmazer.Business.Services\Services\CouponService.cs:line 103
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.ApplyVoucher(String code) in d:\Projects\letteramazer\source\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 192

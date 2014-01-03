@@ -57,7 +57,7 @@ namespace LetterAmazer.Business.Services.Data
         {
             IDbSet<T> dbset = DataContext.Set<T>();
             var query = dbset.Where(t => true);
-            ApplyOrders<T>(query, orders);
+            query = ApplyOrders<T>(query, orders);
             return query.ToList<T>();
         }
 
@@ -77,7 +77,7 @@ namespace LetterAmazer.Business.Services.Data
         {
             IDbSet<T> dbset = DataContext.Set<T>();
             var query = dbset.Where(whereExpression);
-            ApplyOrders<T>(query, orders);
+            query = ApplyOrders<T>(query, orders);
             return query.SingleOrDefault<T>();
         }
 
@@ -86,7 +86,7 @@ namespace LetterAmazer.Business.Services.Data
             IDbSet<T> dbset = DataContext.Set<T>();
             PaginatedResult<T> results = new PaginatedResult<T>();
             var query = dbset.Where(whereExpression);
-            ApplyOrders<T>(query, orders);
+            query = ApplyOrders<T>(query, orders);
             results.Results = query.Skip<T>(pageIndex * pageSize).Take<T>(pageSize).ToList<T>();
             results.TotalItems = dbset.LongCount(whereExpression);
             return results;
@@ -97,15 +97,14 @@ namespace LetterAmazer.Business.Services.Data
             DataContext.Database.ExecuteSqlCommand(sql);
         }
 
-        private void ApplyOrders<T>(IQueryable<T> query, params OrderBy[] orders)
+        private IQueryable<T> ApplyOrders<T>(IQueryable<T> query, params OrderBy[] orders)
         {
-            if (orders == null || orders.Length == 0) return;
-            List<string> list = new List<string>();
-            foreach (var order in orders.Skip(1))
+            if (orders == null || orders.Length == 0) return query;
+            foreach (var order in orders)
             {
-                list.Add(orders[0].ToString());
+                query = query.OrderBy(order.ToString());
             }
-            query.OrderBy<T>(string.Join(", ", list.ToArray()));
+            return query;
         }
     }
 }

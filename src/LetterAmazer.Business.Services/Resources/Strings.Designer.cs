@@ -113,5 +113,14 @@ namespace LetterAmazer.Business.Services.Resources {
                 return ResourceManager.GetString("SendALetter", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Write your letter here....
+        /// </summary>
+        public static string WriteYourLetterHere {
+            get {
+                return ResourceManager.GetString("WriteYourLetterHere", resourceCulture);
+            }
+        }
     }
 }

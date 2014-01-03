@@ -11,6 +11,15 @@ namespace LetterAmazer.Websites.Client.Controllers
 {
     public class BaseController : Controller
     {
+        protected override void OnActionExecuting(ActionExecutingContext filterContext)
+        {
+            if (!(Request.Url.AbsolutePath.Contains("/en") || Request.Url.AbsolutePath.Contains("/da")))
+            {
+                filterContext.Result = new RedirectResult("~/en/" + Request.Url.PathAndQuery);
+            }
+            base.OnActionExecuting(filterContext);
+        }
+
         public virtual ActionResult RedirectToActionWithError(string actionName, object model)
         {
             return RedirectToActionWithError(actionName, model, null);

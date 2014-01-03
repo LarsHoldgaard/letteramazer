@@ -170,7 +170,7 @@
   -o-transition: opacity 0.3s ease-in-out;
   -ms-transition: opacity 0.3s ease-in-out;
   transition: opacity 0.3s ease-in-out;
-  background-image: url("../images/spritemap.png");
+  xbackground-image: url("../images/spritemap.png");
   background-repeat: no-repeat;
   background-position: 0 0;
   position: absolute;
@@ -180,7 +180,19 @@
   margin-top: -61.5px;
   top: 50%;
   left: 50%;
+  text-align: center;
 }
+.la-dropzone .dz-default.dz-message span {
+    font-size: 20px;
+    font-style: italic;
+}
+.la-dropzone .dz-default.dz-message span strong {
+    font-size: 30px;
+}
+.la-dropzone .dz-default.dz-message span em {
+    font-size: 15px;
+}
+
 @media all and (-webkit-min-device-pixel-ratio:1.5),(min--moz-device-pixel-ratio:1.5),(-o-min-device-pixel-ratio:1.5/1),(min-device-pixel-ratio:1.5),(min-resolution:138dpi),(min-resolution:1.5dppx) {
   .la-dropzone .dz-default.dz-message {
     background-image: url("../images/spritemap@2x.png");
@@ -190,7 +202,7 @@
   }
 }
 .la-dropzone .dz-default.dz-message span {
-  display: none;
+  xdisplay: none;
 }
 .la-dropzone.dz-square .dz-default.dz-message {
   background-position: 0 -123px;

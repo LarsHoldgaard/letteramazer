@@ -3,20 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Xml;
 
 namespace LetterAmazer.Websites.Client.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
-        //
-        // GET: /Home/
-
         public ActionResult Index()
         {
-            if (!(Request.Url.AbsolutePath.Contains("/en") || Request.Url.AbsolutePath.Contains("/da")))
-            {
-                Response.Redirect("~/en");
-            }
             return View();
         }
 
@@ -24,28 +18,30 @@ namespace LetterAmazer.Websites.Client.Controllers
         {
             return View();
         }
+
         public ActionResult Business()
         {
             return View();
         }
+
         public ActionResult Api()
         {
             return View();
         }
+
         public ActionResult About()
         {
             return View();
         }
+
         public ActionResult Contact()
         {
             return View();
         }
+
         public ActionResult Pricing()
         {
             return View();
         }
-
-
-
     }
 }

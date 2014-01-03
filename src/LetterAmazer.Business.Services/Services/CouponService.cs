@@ -1,6 +1,7 @@
 ﻿using LetterAmazer.Business.Services.Data;
 using LetterAmazer.Business.Services.Exceptions;
 using LetterAmazer.Business.Services.Interfaces;
+using LetterAmazer.Business.Services.Model;
 using LetterAmazer.Business.Utils.Helpers;
 using System;
 using System.Collections.Generic;
@@ -83,7 +84,7 @@ namespace LetterAmazer.Business.Services.Services
         public bool IsCouponActive(string code)
         {
             var lowerCode = code.ToLower();
-            var codes = repository.Find<Coupon>(c => c.Code.ToLower() == lowerCode && c.CouponExpire >= DateTime.Now && c.CouponStatus != CouponStatus.Done && c.CouponValueLeft > 0.0m, 0, int.MaxValue);
+            var codes = repository.Find<Coupon>(c => c.Code.ToLower() == lowerCode && c.CouponExpire >= DateTime.Now && c.CouponStatus != CouponStatus.Done && c.CouponValueLeft > 0.0m, 0, int.MaxValue, OrderBy.Desc("Id"));
             if (codes.Results.Any())
             {
                 return true;

@@ -57,5 +57,10 @@ namespace LetterAmazer.Business.Services.Services
         {
             return 1.8m;
         }
+
+        public string GetRelativeLetterStoragePath()
+        {
+            return "~/UserData/PdfLetters";
+        }
     }
 }
