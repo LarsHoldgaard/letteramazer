@@ -82,15 +82,16 @@ namespace LetterAmazer.Websites.Client.Controllers
 
                 if (model.UseUploadFile)
                 {
-                    letter.LetterContent.Path = Server.MapPath(string.Format("~/UserData/PdfLetters/{0}", model.UploadFile));
+                    letter.LetterContent.Path = GetAbsoluteFile(model.UploadFile);
                 }
                 else
                 {
-                    string tempPath = Server.MapPath(string.Format("~/UserData/PdfLetters/{0}.pdf", Guid.NewGuid().ToString()));
+                    string tempPath = GetAbsoluteFile(string.Format("{0}/{1}/{2}.pdf", DateTime.Now.Year, DateTime.Now.Month, Guid.NewGuid().ToString()));
                     PdfManager m = new PdfManager();
                     var convertedText = HelperMethods.Utf8FixString(model.WriteContent);
                     m.ConvertToPdf(tempPath, convertedText);
                     letter.LetterContent.Path = tempPath;
+                    letter.LetterContent.WrittenContent = model.WriteContent;
                 }
                 letter.LetterContent.Content = System.IO.File.ReadAllBytes(letter.LetterContent.Path);
 
@@ -219,7 +220,7 @@ namespace LetterAmazer.Websites.Client.Controllers
         public FileResult PreviewPDF(string key)
         {
             string filename = GetAbsoluteFile(key);
-            return File(filename, "application/pdf", "LetterAmazer_com.pdf");
+            return File(filename, "application/pdf", Path.GetFileName(filename));
         }
 
         public JsonResult PaypalIpn()
