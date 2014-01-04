@@ -7,6 +7,7 @@
     self.writeContentEditor = data.writeContentEditor;
     self.geocoder = data.geocoder;
     self.map = null;
+    self.marker = null;
     self.geocodeInterval = null;
     self.voucherInterval = null;
 
@@ -170,6 +171,7 @@
 
     self.initializeMap = function (position) {
         if (self.initMap() == true) {
+            self.marker.setPosition(position);
             self.map.setCenter(position);
             return;
         }
@@ -197,6 +199,10 @@
         };
 
         self.map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+        self.marker = new google.maps.Marker({
+            position: position,
+            map: self.map
+        });
     };
 
     self.applyVoucher = function () {
