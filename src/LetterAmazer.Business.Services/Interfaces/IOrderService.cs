@@ -12,5 +12,8 @@ namespace LetterAmazer.Business.Services.Interfaces
     {
         string CreateOrder(OrderContext orderContext);
         void MarkOrderIsPaid(int orderId);
+        PaginatedResult<Order> GetOrdersShouldBeDelivered(PaginatedCriteria criteria);
+        void MarkLetterIsSent(int letterId);
+        void MarkOrderIsDone(int orderId);
     }
 }

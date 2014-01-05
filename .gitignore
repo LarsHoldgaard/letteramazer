@@ -8,3 +8,5 @@ src/LetterAmazer.Business.Services/bin/Debug/log4net.xml
 /src/LetterAmazer.Websites.Client/UserData/PdfLetters/2014
 /src/LetterAmazer.Websites.Client/logs/error.txt
 /src/LetterAmazer.Websites.Client/logs/debug.txt
+/src/LetterAmazer.BackgroundService/obj
+/src/LetterAmazer.BackgroundService/bin

@@ -7,6 +7,7 @@ using Amazon.SQS;
 using Amazon.SQS.Model;
 using LetterAmazer.Business.Utils.Helpers;
 using LetterAmazer.Business.Services.Interfaces;
+using LetterAmazer.Business.Services.Data;
 
 namespace LetterAmazer.Business.Services.Services.Fulfillment
 {
@@ -117,6 +118,11 @@ namespace LetterAmazer.Business.Services.Services.Fulfillment
                     }
                 }
             }
+        }
+
+        public void DeliveryLetter(Letter letter)
+        {
+            // Send email here
         }
     }
 }

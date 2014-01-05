@@ -94,5 +94,30 @@ namespace LetterAmazer.Business.Services.Services
                 unitOfWork.Commit();
             }
         }
+
+        public void MarkOrderIsDone(int orderId)
+        {
+            Order order = repository.GetById<Order>(orderId);
+            if (order.OrderStatus == OrderStatus.Paid)
+            {
+                order.OrderStatus = OrderStatus.Done;
+                unitOfWork.Commit();
+            }
+        }
+
+        public PaginatedResult<Order> GetOrdersShouldBeDelivered(PaginatedCriteria criteria)
+        {
+            return repository.Find<Order>(o => o.OrderStatus == OrderStatus.Paid, criteria.PageIndex, criteria.PageSize, OrderBy.Asc("DateCreated"));
+        }
+
+        public void MarkLetterIsSent(int letterId)
+        {
+            Letter letter = repository.GetById<Letter>(letterId);
+            if (letter.LetterStatus == LetterStatus.Created)
+            {
+                letter.LetterStatus = LetterStatus.Sent;
+                unitOfWork.Commit();
+            }
+        }
     }
 }
