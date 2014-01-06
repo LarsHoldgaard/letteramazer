@@ -119,7 +119,6 @@ namespace LetterAmazer.Websites.Client.Controllers
 
         public ActionResult DropZone()
         {
-            couponService.GetCoupon("123");
             return View();
         }
 

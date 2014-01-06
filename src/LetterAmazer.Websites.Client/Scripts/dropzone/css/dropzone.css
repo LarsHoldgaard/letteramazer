@@ -368,12 +368,12 @@
   display: block;
   padding: 4px 5px;
   text-align: center;
-  color: #aaa;
+  color: #ff0000;
   margin-top: 26px;
 }
 .la-dropzone a.dz-remove:hover,
 .la-dropzone-previews a.dz-remove:hover {
-  color: #666;
+  color: #ff0000;
 }
 @-moz-keyframes loading {
   0% {
