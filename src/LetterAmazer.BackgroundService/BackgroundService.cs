@@ -1,5 +1,7 @@
-﻿using Common.Logging;
+﻿using Castle.Windsor;
+using Common.Logging;
 using LetterAmazer.BackgroundService.Jobs;
+using LetterAmazer.Business.Services;
 using Quartz;
 using Quartz.Impl;
 using Quartz.Impl.Triggers;
@@ -18,7 +20,7 @@ using System.Threading.Tasks;
 
 namespace LetterAmazer.BackgroundService
 {
-    partial class BackgroundService : ServiceBase
+    partial class BackgroundService : ServiceBase, IContainerAccessor
     {
         private static readonly ILog logger = LogManager.GetLogger(typeof(BackgroundService));
 
@@ -82,6 +84,7 @@ namespace LetterAmazer.BackgroundService
         public void Start()
         {
             logger.Info("Starting Background Service...");
+            Container.Install(Castle.Windsor.Installer.Configuration.FromXmlFile("components.config"));
 
             ISchedulerFactory scheduleFactory = new StdSchedulerFactory();
             scheduler = scheduleFactory.GetScheduler();
@@ -143,6 +146,11 @@ namespace LetterAmazer.BackgroundService
 
             logger.InfoFormat("Schedule job {0}", jobDetail.Key);
             scheduler.ScheduleJob(jobDetail, trigger);
+        }
+
+        public new IWindsorContainer Container
+        {
+            get { return ServiceFactory.Container; }
         }
     }
 }

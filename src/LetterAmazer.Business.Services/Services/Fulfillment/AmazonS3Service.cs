@@ -18,7 +18,12 @@ namespace LetterAmazer.Business.Services.Services.Fulfillment
         private string secretAccessKeyID;
         private AmazonS3Config config;
 
+        public AmazonS3Service()
+        { 
+        }
+        
         public AmazonS3Service(string accessKey, string secret, string serviceUrl)
+            : this()
         {
             accessKeyID = accessKey;
             secretAccessKeyID = secret;

@@ -18,6 +18,8 @@ namespace LetterAmazer.BackgroundService.Jobs
 
         protected override void ExecuteJob(IJobExecutionContext context)
         {
+            logger.DebugFormat("start delivery letter job at: {0}", DateTime.Now);
+
             IOrderService orderService;
             IFulfillmentService fulfillmentService;
             try
@@ -72,6 +74,10 @@ namespace LetterAmazer.BackgroundService.Jobs
             catch (Exception ex)
             {
                 logger.Error(ex);
+            }
+            finally
+            {
+                logger.DebugFormat("end delivery letter job at: {0}", DateTime.Now);
             }
         }
     }
