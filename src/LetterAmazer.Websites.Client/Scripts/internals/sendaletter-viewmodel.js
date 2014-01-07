@@ -27,6 +27,7 @@
     self.voucherStatus = ko.observable('');
     self.voucherColor = ko.observable('color:green');
     self.cost = ko.observable(0);
+    self.numberOfPages = ko.observable(0);
     self.countries = ko.observableArray(data.countryList);
     self.selectedCountry = ko.observable('');
     self.useUploadFile = ko.observable('');
@@ -80,11 +81,16 @@
             },
             dataType: 'json',
             success: function (data) {
-                thiz.cost(data.priceString);
+                thiz.cost(data.price);
+                thiz.numberOfPages(data.numberOfPages);
                 thiz.currentStep(3);
             }
         });
     };
+    
+    self.getPrice = ko.computed(function () {
+        return self.cost().toFixed(2) + ' $ (' + self.numberOfPages() + ' pages)';
+    });
 
     self.showStepOne = ko.computed(function () {
         return self.currentStep() == 1;
@@ -161,7 +167,8 @@
     };
 
     self.previewPDF = function () {
-        var url = self.previewPDFUrl + '?key=' + self.uploadFileKey();
+        console.log("param: ", encodeURIComponent(self.uploadFileKey()));
+        var url = self.previewPDFUrl + '?key=' + encodeURIComponent(self.uploadFileKey());
         window.open(url);
     };
 
@@ -215,6 +222,12 @@
             success: function (data) {
                 if (data.couponValueLeft > 0) {
                     thiz.voucherColor('color:green');
+                    var price = thiz.cost() - data.couponValueLeft;
+                    if (price < 0) {
+                        self.cost(0);
+                    } else {
+                        self.cost(price);
+                    }
                     thiz.voucherStatus(data.couponValueLeft + ' $ left on voucher');
                 } else {
                     thiz.voucherColor('color:red');
@@ -228,7 +241,9 @@
         });
     };
 
-    self.save = function () {
+    self.save = function (data, event) {
+        $(event.target).prop("disabled", "disabled");
+
         $('#stampDiv').animate({
             top: '+=250px'
         }, 800);

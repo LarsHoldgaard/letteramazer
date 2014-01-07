@@ -52,6 +52,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                 order.Email = model.Email;
                 order.Phone = model.Phone;
                 order.PaymentMethod = PaypalMethod.NAME;
+                order.CouponCode = model.VoucherCode;
 
                 AddressInfo addressInfo = new AddressInfo();
                 addressInfo.Address = model.DestinationAddress;
@@ -173,14 +174,21 @@ namespace LetterAmazer.Websites.Client.Controllers
                 }
                 var pages = pdfManager.GetPagesCount(letter.LetterContent.Path);
                 var price = letterService.GetCost(letter);
-                return Json(new { priceString = price.ToString("F2") + " $ (" + pages + " pages)" });
+                return Json(new { 
+                    price = price ,
+                    numberOfPages = pages 
+                });
             }
             catch (Exception ex)
             {
                 logger.Error(ex);   
             }
 
-            return Json(new { priceString = "0.00 $ (0 pages)" });
+            return Json(new
+            {
+                price = 0,
+                numberOfPages = 0
+            });
         }
 
         [HttpPost]
@@ -218,6 +226,7 @@ namespace LetterAmazer.Websites.Client.Controllers
 
         public FileResult PreviewPDF(string key)
         {
+            logger.DebugFormat("pdf key file: {0}", key);
             string filename = GetAbsoluteFile(key);
             return File(filename, "application/pdf", Path.GetFileName(filename));
         }
