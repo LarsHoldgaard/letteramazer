@@ -15,5 +15,6 @@ namespace LetterAmazer.Business.Services.Interfaces
         PaginatedResult<Order> GetOrdersShouldBeDelivered(PaginatedCriteria criteria);
         void MarkLetterIsSent(int letterId);
         void MarkOrderIsDone(int orderId);
+        void MarkOrdersIsDone(IList<Order> orders);
     }
 }

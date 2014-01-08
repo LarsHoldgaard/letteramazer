@@ -1,12 +1,11 @@
-﻿@section header {
+﻿@using LetterAmazer.Business.Services.Resources
+@section header {
 }
 <div class="jumbotron-white">
     <div class="container">
         <div class="text-center promotionMargin">
-
             <div>
-                <p class="frontpageLead">Fantastic!<br/>Your letter is now on its way.</p>
-                <p style="font-size: 24px; font-family: 'Kite One',sans-serif;">&#9839; ... and is leaving on an jet plane &#9839;</p>
+                @Html.Raw(Strings.ConfirmationContent)
                 <br/><br/>
                 <iframe width="250" height="188" src="//www.youtube.com/embed/vLBKOcUbHR0" frameborder="0" allowfullscreen></iframe>
                 <br/><br/>

@@ -70,7 +70,7 @@ namespace LetterAmazer.Business.Services.Services
             unitOfWork.Commit();
             
             //Cusomer haven't to pay
-            if (order.Price == 0) return "/singleletter/confirmation";
+            if (order.Price == 0) return string.Format("/{0}/singleletter/confirmation", orderContext.CurrentCulture);
 
             return paymentService.Process(orderContext);
         }
@@ -118,6 +118,19 @@ namespace LetterAmazer.Business.Services.Services
                 letter.LetterStatus = LetterStatus.Sent;
                 unitOfWork.Commit();
             }
+        }
+
+        public void MarkOrdersIsDone(IList<Order> orders)
+        {
+            foreach (var order in orders)
+            {
+                foreach (var item in order.OrderItems)
+                {
+                    item.Letter.LetterStatus = LetterStatus.Sent;
+                }
+                order.OrderStatus = OrderStatus.Done;
+            }
+            unitOfWork.Commit();
         }
     }
 }

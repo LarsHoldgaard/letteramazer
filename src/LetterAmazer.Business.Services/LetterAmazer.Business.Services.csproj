@@ -152,6 +152,7 @@
     <Compile Include="Interfaces\IOrderService.cs" />
     <Compile Include="Interfaces\IPaymentMethod.cs" />
     <Compile Include="Interfaces\IPaymentService.cs" />
+    <Compile Include="Model\JupisterS3.cs" />
     <Compile Include="Model\OrderBy.cs" />
     <Compile Include="Model\OrderContext.cs" />
     <Compile Include="Model\PaginatedCriteria.cs" />
@@ -167,6 +168,8 @@
     <Compile Include="Services\CouponService.cs" />
     <Compile Include="Services\CustomerService.cs" />
     <Compile Include="Services\Fulfillment\AmazonS3Service.cs" />
+    <Compile Include="Services\Fulfillment\DummyJupiterService.cs" />
+    <Compile Include="Services\Fulfillment\JupiterService.cs" />
     <Compile Include="Services\GeoLocationManager.cs" />
     <Compile Include="Services\Jobs\JupiterJob.cs" />
     <Compile Include="Services\LetterService.cs" />
@@ -207,6 +210,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Resources\Strings.da-DK.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Strings.da-DK.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resources\Strings.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Strings.Designer.cs</LastGenOutput>

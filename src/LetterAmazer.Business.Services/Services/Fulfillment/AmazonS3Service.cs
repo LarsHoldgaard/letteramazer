@@ -11,7 +11,7 @@ using LetterAmazer.Business.Services.Data;
 
 namespace LetterAmazer.Business.Services.Services.Fulfillment
 {
-    public class AmazonS3Service : IFulfillmentService
+    public class AmazonS3Service
     {
         private AmazonS3 client;
         private string accessKeyID;
@@ -25,10 +25,10 @@ namespace LetterAmazer.Business.Services.Services.Fulfillment
         public AmazonS3Service(string accessKey, string secret, string serviceUrl)
             : this()
         {
-            accessKeyID = accessKey;
-            secretAccessKeyID = secret;
-            config = new AmazonS3Config();
-            config.ServiceURL = serviceUrl;
+            this.accessKeyID = accessKey;
+            this.secretAccessKeyID = secret;
+            this.config = new AmazonS3Config();
+            this.config.ServiceURL = serviceUrl;
         }
 
         public void SendSQSMessage(string msg, string queue)
@@ -123,11 +123,6 @@ namespace LetterAmazer.Business.Services.Services.Fulfillment
                     }
                 }
             }
-        }
-
-        public void DeliveryLetter(Letter letter)
-        {
-            // Send email here
         }
     }
 }

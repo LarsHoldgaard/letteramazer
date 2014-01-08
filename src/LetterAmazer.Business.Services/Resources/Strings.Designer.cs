@@ -61,11 +61,73 @@ namespace LetterAmazer.Business.Services.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to About us.
+        /// </summary>
+        public static string AboutUs {
+            get {
+                return ResourceManager.GetString("AboutUs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;p&gt;We decided to start LetterAmazer to make letters easy. Our overall vision is to be &lt;b&gt;friendly&lt;/b&gt;. When you use our service or call us, you should feel &lt;b&gt;welcome!&lt;/b&gt;&lt;/p&gt;
+        ///
+        ///            &lt;p&gt;We&apos;ve made it extremely simple to send a single letter, with no extra charges just because you don&apos;t want to register a new account. For businesses it is extremely simple to use, with many ways of integrating to our service.&lt;/p&gt;
+        ///
+        ///            &lt;p&gt;We are two guys from Denmark. Lars Holdgaard is the tech-wizard and wor [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string AboutUsContent {
+            get {
+                return ResourceManager.GetString("AboutUsContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to add voucher.
+        /// </summary>
+        public static string AddVoucher {
+            get {
+                return ResourceManager.GetString("AddVoucher", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Api.
         /// </summary>
         public static string Api {
             get {
                 return ResourceManager.GetString("Api", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;p&gt;We are currently developing an API, so our system can be integrated into any software application or website. That means if you need automated physical letters, we are there to provide it.&lt;/p&gt;
+        ///
+        ///            &lt;p&gt;We promise it will be an extremely simple REST API, and we expect it to be up in December 2013 or January 2014.&lt;/p&gt;
+        ///
+        ///            &lt;p&gt;Frankly, we hate FAQ&apos;s, where business owners invent their own questions and answer them by a sales speech. However, we will try to answer some of the obvious quest [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string ApiContent {
+            get {
+                return ResourceManager.GetString("ApiContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to API to send physical letters automatically.
+        /// </summary>
+        public static string ApiHint {
+            get {
+                return ResourceManager.GetString("ApiHint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Back.
+        /// </summary>
+        public static string Back {
+            get {
+                return ResourceManager.GetString("Back", resourceCulture);
             }
         }
         
@@ -79,11 +141,218 @@ namespace LetterAmazer.Business.Services.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;p&gt;No employee loves the tiresome process of sending those physical letters. Let&apos;s make everyone&apos;s lives easier, and let us send them for you. Heck, it&apos;s probably even cheaper (and much cheaper if you count in the hourly wage).&lt;/p&gt;
+        ///
+        ///            &lt;p&gt;As a business, you can either use our easy &quot;send a letter&quot; form, and then pay every time you need send a letter, &lt;b&gt;or&lt;/b&gt; you can create an account. If you create an account, you can add credits, and then get a friendly e-mail when your credits are running out. [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string BusinessContent {
+            get {
+                return ResourceManager.GetString("BusinessContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Send physical letters online for businesses.
+        /// </summary>
+        public static string BusinessHint {
+            get {
+                return ResourceManager.GetString("BusinessHint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;p class=&quot;frontpageLead&quot;&gt;Fantastic!&lt;br/&gt;Your letter is now on its way.&lt;/p&gt;
+        ///                &lt;p style=&quot;font-size: 24px; font-family: &apos;Kite One&apos;,sans-serif;&quot;&gt;&amp;#9839; ... and is leaving on an jet plane &amp;#9839;&lt;/p&gt;.
+        /// </summary>
+        public static string ConfirmationContent {
+            get {
+                return ResourceManager.GetString("ConfirmationContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Contact us.
+        /// </summary>
+        public static string ContactUs {
+            get {
+                return ResourceManager.GetString("ContactUs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Destination address.
+        /// </summary>
+        public static string DestinationAddress {
+            get {
+                return ResourceManager.GetString("DestinationAddress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Destination city.
+        /// </summary>
+        public static string DestinationCity {
+            get {
+                return ResourceManager.GetString("DestinationCity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Destination country.
+        /// </summary>
+        public static string DestinationCountry {
+            get {
+                return ResourceManager.GetString("DestinationCountry", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Destination ZIP code (and state if relevant).
+        /// </summary>
+        public static string DestinationZipCode {
+            get {
+                return ResourceManager.GetString("DestinationZipCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Email address.
+        /// </summary>
+        public static string EmailAddress {
+            get {
+                return ResourceManager.GetString("EmailAddress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 1. Tell us where we should send your letter. 2. Tell us what your letter should contain. 3. Get the letter stamped!.
+        /// </summary>
+        public static string EmailSendingSteps {
+            get {
+                return ResourceManager.GetString("EmailSendingSteps", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter voucher code.
+        /// </summary>
+        public static string EnterVoucherCode {
+            get {
+                return ResourceManager.GetString("EnterVoucherCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error.
+        /// </summary>
+        public static string Error {
+            get {
+                return ResourceManager.GetString("Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occurred while processing your request..
+        /// </summary>
+        public static string ErrorHint {
+            get {
+                return ResourceManager.GetString("ErrorHint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to FAQ.
+        /// </summary>
+        public static string Faq {
+            get {
+                return ResourceManager.GetString("Faq", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Follow our exciting journey through e-mail.
+        /// </summary>
+        public static string FollowOurExcitingJourneyThroughEmail {
+            get {
+                return ResourceManager.GetString("FollowOurExcitingJourneyThroughEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to For business.
+        /// </summary>
+        public static string ForBusiness {
+            get {
+                return ResourceManager.GetString("ForBusiness", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;p&gt;Need to send a lot of letters? Need to integrate letters into an application? You&apos;ve arrived at the right place.&lt;/p&gt;
+        ///            &lt;p&gt;We provide a backend to companies who need to send multiple letters, which you with ease can use in your business. And yes, we send world-wide.&lt;/p&gt;.
+        /// </summary>
+        public static string ForBusinessContent {
+            get {
+                return ResourceManager.GetString("ForBusinessContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Get updates.
+        /// </summary>
+        public static string GetUpdates {
+            get {
+                return ResourceManager.GetString("GetUpdates", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Home.
         /// </summary>
         public static string Home {
             get {
                 return ResourceManager.GetString("Home", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;p&gt;&lt;b style=&quot;font-size: 16px; font-weight: bold;&quot;&gt;We don&apos;t get it.&lt;/b&gt;&lt;/p&gt;
+        ///            &lt;p&gt;15 Years ago we were blessed with the invention of e-mail, and communication has been extremely easy since. However, we all send physical letters from time to time. &lt;/p&gt;
+        ///
+        ///            &lt;p&gt;Sending physical letters is so tiresome. First you have to &lt;strong&gt;buy some windowed envelopes&lt;/strong&gt;. Then you have to &lt;strong&gt;manually adjust the document&lt;/strong&gt;, so the recipients address fit the window in the envelope. Then y [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string HomepageContent {
+            get {
+                return ResourceManager.GetString("HomepageContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;p class=&quot;frontpageLeadExplanation&quot;&gt;LetterAmazer makes it possible to send physical letters around the globe, without ever touching the letters yourself. And it is easy.&lt;/p&gt;
+        ///                    &lt;p class=&quot;frontpageSmallLeadExplanation&quot;&gt;
+        ///                        Today LetterAmazer are very good for consumers and soon we will treat businesses like angels. We will add amazing features like an API, mail merging, sending multiple letters plus many many more – it will be like letter heaven. &lt;a href=&quot;#newsletterSt [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string HomepageHint {
+            get {
+                return ResourceManager.GetString("HomepageHint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Letter destination.
+        /// </summary>
+        public static string LetterDestination {
+            get {
+                return ResourceManager.GetString("LetterDestination", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Oi mate.
+        /// </summary>
+        public static string OiMate {
+            get {
+                return ResourceManager.GetString("OiMate", resourceCulture);
             }
         }
         
@@ -97,11 +366,122 @@ namespace LetterAmazer.Business.Services.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Payment method.
+        /// </summary>
+        public static string PaymentMethod {
+            get {
+                return ResourceManager.GetString("PaymentMethod", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Price.
+        /// </summary>
+        public static string Price {
+            get {
+                return ResourceManager.GetString("Price", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Pricing.
         /// </summary>
         public static string Pricing {
             get {
                 return ResourceManager.GetString("Pricing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;p&gt;So, when we started LetterAmazer, we found out sending letters isn&apos;t free. But! We have done anything in our power to find the cheapest prices, so you can send letters world-wide cheaply.&lt;/p&gt;
+        ///
+        ///            &lt;p&gt;
+        ///                Our price structure is really simple:&lt;br /&gt;
+        ///                &lt;b&gt;1.75 USD pr. letter (world wide)&lt;/b&gt;
+        ///            &lt;/p&gt;
+        ///
+        ///            &lt;p&gt;
+        ///                If you need to send additional pages:&lt;br /&gt;
+        ///                1 page: 1.75 USD&lt;br /&gt;
+        ///                2 pages: 1.95 USD&lt;br /&gt;
+        /// [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string PricingContent {
+            get {
+                return ResourceManager.GetString("PricingContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Prices to send physical letters around the globe.
+        /// </summary>
+        public static string PricingHint {
+            get {
+                return ResourceManager.GetString("PricingHint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;p&gt;We have providers in all regions of the world, which means we get the cheapest prices.&lt;/p&gt;
+        ///            &lt;p&gt;We constantly try to push the prices down, so we have the most competitive prices on the market.&lt;/p&gt;.
+        /// </summary>
+        public static string PricingHomepageContent {
+            get {
+                return ResourceManager.GetString("PricingHomepageContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Proceed.
+        /// </summary>
+        public static string Proceed {
+            get {
+                return ResourceManager.GetString("Proceed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Recipient name.
+        /// </summary>
+        public static string RecipientName {
+            get {
+                return ResourceManager.GetString("RecipientName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to REMEMBER.
+        /// </summary>
+        public static string Remember {
+            get {
+                return ResourceManager.GetString("Remember", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove file.
+        /// </summary>
+        public static string RemoveFile {
+            get {
+                return ResourceManager.GetString("RemoveFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to See preview of how the letter will look.
+        /// </summary>
+        public static string SeePreviewHowLetterLook {
+            get {
+                return ResourceManager.GetString("SeePreviewHowLetterLook", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select PDF.
+        /// </summary>
+        public static string SelectPDF {
+            get {
+                return ResourceManager.GetString("SelectPDF", resourceCulture);
             }
         }
         
@@ -115,11 +495,212 @@ namespace LetterAmazer.Business.Services.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Send a letter now.
+        /// </summary>
+        public static string SendLetterNow {
+            get {
+                return ResourceManager.GetString("SendLetterNow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Send letters world-wide, automatically.
+        /// </summary>
+        public static string SendLettersWorldWideAutomatically {
+            get {
+                return ResourceManager.GetString("SendLettersWorldWideAutomatically", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you a company? Soon we&apos;re adding wonderful stuff so sending multiple letters will become extremely easy..
+        /// </summary>
+        public static string SendMultipleLettersHint {
+            get {
+                return ResourceManager.GetString("SendMultipleLettersHint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Send a single letter.
+        /// </summary>
+        public static string SendSingleALetter {
+            get {
+                return ResourceManager.GetString("SendSingleALetter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;p&gt;Want to send a letter to someone? It is very easy, and your letter should be on its way within 5 minutes.&lt;/p&gt;
+        ///            &lt;p&gt;You can either use our online text-formatter, or simply upload a PDF file. Then we will take care of your letter, and make sure it arrives as soon as possible.&lt;/p&gt;.
+        /// </summary>
+        public static string SendSingleALetterContent {
+            get {
+                return ResourceManager.GetString("SendSingleALetterContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Shipping time.
+        /// </summary>
+        public static string ShippingTime {
+            get {
+                return ResourceManager.GetString("ShippingTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sign up &amp;amp; get a surprise gift when we&apos;re up and running (it is NOT an e-book) ;-).
+        /// </summary>
+        public static string SignUpNewsletterHint {
+            get {
+                return ResourceManager.GetString("SignUpNewsletterHint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stamp and send letter.
+        /// </summary>
+        public static string StampAndSendLetter {
+            get {
+                return ResourceManager.GetString("StampAndSendLetter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 1. Tell us where we should send your letter.
+        /// </summary>
+        public static string StepOne {
+            get {
+                return ResourceManager.GetString("StepOne", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 3. Get the letter stamped!.
+        /// </summary>
+        public static string StepThree {
+            get {
+                return ResourceManager.GetString("StepThree", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 2. Tell us what your letter should contain.
+        /// </summary>
+        public static string StepTwo {
+            get {
+                return ResourceManager.GetString("StepTwo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subscribe.
+        /// </summary>
+        public static string Subscribe {
+            get {
+                return ResourceManager.GetString("Subscribe", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to To.
+        /// </summary>
+        public static string To {
+            get {
+                return ResourceManager.GetString("To", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;strong&gt;Drop files&lt;/strong&gt; here to upload
+        ///                                            &lt;br /&gt;
+        ///                                            &lt;em&gt;(or click)&lt;/em&gt;.
+        /// </summary>
+        public static string UploadHint {
+            get {
+                return ResourceManager.GetString("UploadHint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Upload PDF file.
+        /// </summary>
+        public static string UploadPDFFile {
+            get {
+                return ResourceManager.GetString("UploadPDFFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Upload your PDF file.
+        /// </summary>
+        public static string UploadYourPDFFile {
+            get {
+                return ResourceManager.GetString("UploadYourPDFFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to View details.
+        /// </summary>
+        public static string ViewDetails {
+            get {
+                return ResourceManager.GetString("ViewDetails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Voucher.
+        /// </summary>
+        public static string Voucher {
+            get {
+                return ResourceManager.GetString("Voucher", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to We promise we don&apos;t look.
+        /// </summary>
+        public static string WePromiseWeDontLook {
+            get {
+                return ResourceManager.GetString("WePromiseWeDontLook", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Write letter here.
+        /// </summary>
+        public static string WriteLetterHere {
+            get {
+                return ResourceManager.GetString("WriteLetterHere", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Write your letter.
+        /// </summary>
+        public static string WriteYourLetter {
+            get {
+                return ResourceManager.GetString("WriteYourLetter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Write your letter here....
         /// </summary>
         public static string WriteYourLetterHere {
             get {
                 return ResourceManager.GetString("WriteYourLetterHere", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your e-mail.
+        /// </summary>
+        public static string YourEmail {
+            get {
+                return ResourceManager.GetString("YourEmail", resourceCulture);
             }
         }
     }

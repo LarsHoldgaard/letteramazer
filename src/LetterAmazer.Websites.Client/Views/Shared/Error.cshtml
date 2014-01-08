@@ -1,17 +1,14 @@
-﻿@{
-    Layout = null;
-}
-
+﻿@using LetterAmazer.Business.Services.Resources
 <!DOCTYPE html>
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>Error</title>
+    <title>@Strings.Error</title>
 </head>
 <body>
     <hgroup>
-        <h1>Error.</h1>
-        <h2>An error occurred while processing your request.</h2>
+        <h1>@Strings.Error</h1>
+        <h2>@Strings.ErrorHint</h2>
     </hgroup>
 </body>
 </html>

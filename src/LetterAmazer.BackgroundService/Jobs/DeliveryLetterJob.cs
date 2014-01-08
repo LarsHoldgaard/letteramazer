@@ -29,46 +29,17 @@ namespace LetterAmazer.BackgroundService.Jobs
 
                 PaginatedCriteria criteria = new PaginatedCriteria();
                 criteria.PageIndex = 0;
-                criteria.PageSize = 50;
+                criteria.PageSize = int.MaxValue;
                 PaginatedResult<Order> orders = orderService.GetOrdersShouldBeDelivered(criteria);
-                while (orders.Results.Count > 0)
+
+                try
                 {
-                    foreach (var order in orders.Results)
-                    {
-                        foreach (var orderItem in order.OrderItems)
-                        {
-                            if (orderItem.Letter.LetterStatus != LetterStatus.Created) continue;
-
-                            try
-                            {
-                                fulfillmentService.DeliveryLetter(orderItem.Letter);
-                                orderService.MarkLetterIsSent(orderItem.Letter.Id);
-                            }
-                            catch (Exception e)
-                            {
-                                logger.Error(e);
-                            }
-                        }
-                    }
-
-                    foreach (var order in orders.Results)
-                    {
-                        var isDone = true;
-                        foreach (var orderItem in order.OrderItems)
-                        {
-                            if (orderItem.Letter.LetterStatus != LetterStatus.Sent)
-                            {
-                                isDone = false;
-                                break;
-                            }
-                        }
-                        if (isDone)
-                        {
-                            orderService.MarkOrderIsDone(order.Id);
-                        }
-                    }
-                    criteria.PageIndex++;
-                    orders = orderService.GetOrdersShouldBeDelivered(criteria);
+                    fulfillmentService.Process(orders.Results);
+                    orderService.MarkOrdersIsDone(orders.Results);
+                }
+                catch (Exception ex)
+                {
+                    logger.Error(ex);
                 }
             }
             catch (Exception ex)

@@ -9,6 +9,6 @@ namespace LetterAmazer.Business.Services.Interfaces
 {
     public interface IFulfillmentService
     {
-        void DeliveryLetter(Letter letter);
+        void Process(IList<Order> orders);
     }
 }

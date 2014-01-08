@@ -22,8 +22,6 @@ namespace LetterAmazer.Websites.Client.App_Start
             // Return true is the list of allowed values contains 
             // this value.
             return _values.Contains(value);
-
         }
-
     }
 }
