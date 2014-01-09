@@ -1,4 +1,4 @@
-﻿@using LetterAmazer.Business.Services.Resources
+﻿@using LetterAmazer.Websites.Client.Resources.Views.Home
 
 <div class="jumbotron-white">
     <div class="container">
@@ -6,7 +6,7 @@
 
             <div>
                 <p class="frontpageLead">
-                    @Strings.AboutUs
+                    @ViewRes.AboutUs
                 </p>
             </div>
         </div>
@@ -17,7 +17,7 @@
 <div class="container">
     <div class="row">
         <div class="col-lg-12">
-            @Html.Raw(Strings.AboutUsContent)
+            @Html.Raw(ViewRes.AboutUsContent)
             @Html.Partial("NewsletterForm")
         </div>
     </div>

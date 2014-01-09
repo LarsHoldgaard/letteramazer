@@ -1,4 +1,4 @@
-﻿@using LetterAmazer.Business.Services.Resources
+﻿@using LetterAmazer.Websites.Client.Resources.Views.SingleLetter
 @model LetterAmazer.Websites.Client.ViewModels.CreateSingleLetterModel
 
 @section header {
@@ -24,7 +24,7 @@
             <img src="/Content/images/letteramazer.png" />
             <div>
                 <p class="frontpageLead">
-                    @Strings.EmailSendingSteps
+                    @ViewRes.EmailSendingSteps
                 </p>
             </div>
         </div>
@@ -41,59 +41,59 @@
                         <div id="sendaletter-step1" data-bind="visible: showStepOne()">
                             <div class="row">
                                 <div class="col-lg-11 col-lg-offset-1">
-                                    <p class="frontpageLeadExplanation">@Strings.StepOne</p>
+                                    <p class="frontpageLeadExplanation">@ViewRes.StepOne</p>
                                     <p>
-                                        @Strings.YourEmail:<br />
+                                        @ViewRes.YourEmail:<br />
                                         @Html.TextBoxFor(m => m.Email, new { @class = "input-lg", placeholder = "Enter your e-mail" })
                                     </p>
                                     <p>
-                                        @Strings.RecipientName:<br />
+                                        @ViewRes.RecipientName:<br />
                                         @Html.TextBoxFor(m => m.RecipientName, new Dictionary<string, object>{{"class","input-lg"}, {"placeholder","Enter recipient"}, {"data-bind","value: receiver"}})
                                     </p>
                                     <p>
-                                        @Strings.DestinationCountry:<br />
+                                        @ViewRes.DestinationCountry:<br />
                                         <select class="address" data-bind="options: countries, optionsText: 'text', optionsValue: 'value', value: selectedCountry, event: {change: selectCountry}"></select>
                                         @Html.HiddenFor(m => m.DestinationCountry, new Dictionary<string, object>{{"data-bind","value:country"}})
                                         @Html.HiddenFor(m => m.DestinationCountryCode, new Dictionary<string, object>{{"data-bind","value:countryCode"}})
                                         <br />
                                     </p>
                                     <p>
-                                        @Strings.DestinationZipCode:<br />
+                                        @ViewRes.DestinationZipCode:<br />
                                         @Html.TextBoxFor(m => m.ZipCode, new Dictionary<string, object>{{"class","input-lg address"}, {"placeholder","Enter destination ZIP code"}, {"data-bind","value:postal"}})
                                     </p>
                                     <p>
-                                        @Strings.DestinationCity:<br />
+                                        @ViewRes.DestinationCity:<br />
                                         @Html.TextBoxFor(m => m.DestinationCity, new Dictionary<string, object>{{"class","input-lg address"}, {"placeholder","Enter destination city"}, {"data-bind","value:city"}})
                                     </p>
 
                                     <p>
-                                        @Strings.DestinationCountry:<br />
+                                        @ViewRes.DestinationCountry:<br />
                                         @Html.TextBoxFor(m => m.DestinationAddress, new Dictionary<string, object>{{"class","input-lg address"}, {"placeholder","Enter destination address"}, {"data-bind","value:address"}})
                                     </p>
-                                    <input id="btn-proceed-12" type="button" class="btn btn-primary btn-lg" value="@Strings.Proceed &raquo;" data-bind="click: goToStepTwo" />
+                                    <input id="btn-proceed-12" type="button" class="btn btn-primary btn-lg" value="@ViewRes.Proceed &raquo;" data-bind="click: goToStepTwo" />
                                 </div>
                             </div>
                         </div>
 
                         <div id="sendaletter-step2" data-bind="visible: showStepTwo()">
-                            <p class="frontpageLeadExplanation">@Strings.StepTwo</p>
-                            <p class="caption frontpageCaption" style="margin-top: -10px; margin-bottom: 14px;">(@Strings.WePromiseWeDontLook)</p>
+                            <p class="frontpageLeadExplanation">@ViewRes.StepTwo</p>
+                            <p class="caption frontpageCaption" style="margin-top: -10px; margin-bottom: 14px;">(@ViewRes.WePromiseWeDontLook)</p>
                             
                             <div id="step2-choice" style="margin-bottom: 11px; overflow: auto;" data-bind="visible: uploadPdf() == 0">
                                 <a id="lnkUploadPdf" data-bind="click: useUploadPdfMode" style="float: left;">
-                                    <span class="btn btn-primary btn-lg" style="margin-bottom: 5px;">@Strings.UploadPDFFile</span>
+                                    <span class="btn btn-primary btn-lg" style="margin-bottom: 5px;">@ViewRes.UploadPDFFile</span>
                                 </a>
                                 <span style="float: left; padding: 10px;">Or</span>
                                 <a id="lnkWriteText" data-bind="click: useWriteContentMode" style="float: left;">
-                                    <span class="btn btn-primary btn-lg">@Strings.WriteLetterHere</span>
+                                    <span class="btn btn-primary btn-lg">@ViewRes.WriteLetterHere</span>
                                 </a>
                             </div>
                             <div id="step2-upload" class="promotionMargin" style="margin-top: 25px;" data-bind="visible: isUploadFile()">
-                                <p class="frontpageLeadExplanation">@Strings.UploadYourPDFFile:</p>
+                                <p class="frontpageLeadExplanation">@ViewRes.UploadYourPDFFile:</p>
                                 <div id="myDropzone" class="la-dropzone">
                                     <div class="dz-default dz-message">
                                         <span>
-                                            @Html.Raw(Strings.UploadHint)
+                                            @Html.Raw(ViewRes.UploadHint)
                                         </span>
                                     </div>
                                 </div>
@@ -102,44 +102,44 @@
                                 </div>
                                 <br />
                                 <br />
-                                <a id="uploadLetterBack" class="btn btn-default" data-bind="click: resetContentMode">@Strings.Back</a>
+                                <a id="uploadLetterBack" class="btn btn-default" data-bind="click: resetContentMode">@ViewRes.Back</a>
                             </div>
                             <div id="step2-write" class="promotionMargin" style="margin-top: 25px;" data-bind="visible: isWriteContent()">
-                                <p class="frontpageLeadExplanation">@Strings.WriteYourLetter:</p>
+                                <p class="frontpageLeadExplanation">@ViewRes.WriteYourLetter:</p>
                                 @Html.TextAreaFor(m => m.WriteContent)
                                 <label id="currentChars"></label>
-                                <a class="pdfPreviewLnk" href="#" data-bind="click: previewWrittenContent">@Strings.SeePreviewHowLetterLook</a>
+                                <a class="pdfPreviewLnk" href="#" data-bind="click: previewWrittenContent">@ViewRes.SeePreviewHowLetterLook</a>
                                 <br />
                                 <br />
-                                <a id="writeLetterBack" class="btn btn-default" data-bind="click: resetContentMode">@Strings.Back</a>
+                                <a id="writeLetterBack" class="btn btn-default" data-bind="click: resetContentMode">@ViewRes.Back</a>
                             </div>
 
                             <input id="btn-back-21" type="button" class="btn btn-default" value="Back" data-bind="click: goToStepOne, visible: uploadPdf() == 0"/>
-                            <input id="btn-proceed-23" type="button" class="btn btn-primary btn-lg" value="@Strings.Proceed &raquo;" data-bind="click: goToStepThree, visible: showStepTwoAction()"/>
+                            <input id="btn-proceed-23" type="button" class="btn btn-primary btn-lg" value="@ViewRes.Proceed &raquo;" data-bind="click: goToStepThree, visible: showStepTwoAction()"/>
                         </div>
                         
                         <div id="sendaletter-step3" data-bind="visible: showStepThree()">
-                            <p class="frontpageLeadExplanation">@Strings.StepThree</p>
+                            <p class="frontpageLeadExplanation">@ViewRes.StepThree</p>
                             <p class="frontpageSmallLeadExplanation">Sending letters are not free, and when we send letters without stamps, the postal offices get really angry at us. <b>So we better get the letter stamped</b>.</p>
                             <hr />
 
                             <p data-bind="visible: uploadPdf() == 1">
-                                <b>@Strings.Remember:</b> <a class="pdfPreviewLnk" href="#" data-bind="click: previewPDF">@Strings.SeePreviewHowLetterLook</a>
+                                <b>@ViewRes.Remember:</b> <a class="pdfPreviewLnk" href="#" data-bind="click: previewPDF">@ViewRes.SeePreviewHowLetterLook</a>
                             </p>
                             <p data-bind="visible: uploadPdf() == 2">
-                                <b>@Strings.Remember:</b> <a class="pdfPreviewLnk" href="#" data-bind="click: previewWrittenContent">@Strings.SeePreviewHowLetterLook</a>
+                                <b>@ViewRes.Remember:</b> <a class="pdfPreviewLnk" href="#" data-bind="click: previewWrittenContent">@ViewRes.SeePreviewHowLetterLook</a>
                             </p>
 
                             <div class="row letterDestination">
                                 <div class="col-lg-6">
                                     <dl>
-                                        <dt>@Strings.PaymentMethod</dt>
+                                        <dt>@ViewRes.PaymentMethod</dt>
                                         <dd>PayPal</dd>
 
-                                        <dt>@Strings.ShippingTime</dt>
+                                        <dt>@ViewRes.ShippingTime</dt>
                                         <dd>3-6 work days</dd>
 
-                                        <dt>@Strings.Price</dt>
+                                        <dt>@ViewRes.Price</dt>
                                         <dd>
                                             <label id="priceOfLetterLbl" data-bind="text: getPrice"></label>
                                         </dd>
@@ -147,8 +147,8 @@
                                 </div>
                                 <div class="col-lg-6 ">
                                     <dl>
-                                        <dt>@Strings.LetterDestination</dt>
-                                        <dd>@Strings.To
+                                        <dt>@ViewRes.LetterDestination</dt>
+                                        <dd>@ViewRes.To
                                             <label id="receiverLbl" data-bind="text: receiver"></label>
                                             <br />
                                             <label id="addressLbl" data-bind="text: address"></label>
@@ -163,20 +163,20 @@
                             </div>
 
                             @Html.CheckBoxFor(m => m.SignUpNewsletter)
-                            @Strings.FollowOurExcitingJourneyThroughEmail
+                            @ViewRes.FollowOurExcitingJourneyThroughEmail
                             <br />
                             <br />
-                            <input id="btn-back-32" type="button" class="btn btn-default" value="@Strings.Back" data-bind="click: goToStepTwo"/>
-                            <input id="btnsubmit" type="submit" class="btn btn-primary btn-lg submitAbe" value="@Strings.StampAndSendLetter &raquo;" data-bind="click: save" />
+                            <input id="btn-back-32" type="button" class="btn btn-default" value="@ViewRes.Back" data-bind="click: goToStepTwo"/>
+                            <input id="btnsubmit" type="submit" class="btn btn-primary btn-lg submitAbe" value="@ViewRes.StampAndSendLetter &raquo;" data-bind="click: save" />
                             @Html.HiddenFor(m => m.UseUploadFile, new Dictionary<string, object>{{"data-bind", "value:useUploadFile"}})
                             @Html.HiddenFor(m => m.UploadFile, new Dictionary<string, object>{{"data-bind", "value:uploadFileKey"}})
                             <br />
                             <br />
-                            <a href="javascript:void(0)" id="toggleVoucherLnk" data-bind="click: toggleVoucherPanel">(@Strings.AddVoucher)</a>
+                            <a href="javascript:void(0)" id="toggleVoucherLnk" data-bind="click: toggleVoucherPanel">(@ViewRes.AddVoucher)</a>
                             <div id="voucherDiv" data-bind="visible: showVoucher()">
                                 <p>
-                                    @Strings.Voucher:<br />
-                                    @Html.TextBoxFor(m => m.VoucherCode,  new Dictionary<string, object>{{"id", "voucherBox"}, {"class", "input-lg"}, {"placeholder", Strings.EnterVoucherCode}, {"data-bind", "value:voucherCode"}})
+                                    @ViewRes.Voucher:<br />
+                                    @Html.TextBoxFor(m => m.VoucherCode,  new Dictionary<string, object>{{"id", "voucherBox"}, {"class", "input-lg"}, {"placeholder", ViewRes.EnterVoucherCode}, {"data-bind", "value:voucherCode"}})
                                     <label id="voucherStatus" data-bind="text: voucherStatus, attr: {'style': voucherColor}"></label>
                                 </p>
                             </div>
@@ -187,10 +187,10 @@
                 <div class="col-lg-5">
                     <div class="sendAletterSideboxSomething">
                         <p>
-                            <b>@Strings.OiMate!</b><br />
-                            @Strings.SendMultipleLettersHint
+                            <b>@ViewRes.OiMate!</b><br />
+                            @ViewRes.SendMultipleLettersHint
                             <br />
-                            <a href="@Url.Action("NewsletterSignUp", "Home")">@Strings.GetUpdates</a>.
+                            <a href="@Url.Action("NewsletterSignUp", "Home")">@ViewRes.GetUpdates</a>.
                         </p>
                     </div>
                     <div id="locationMap" style="margin-top: 15px;" data-bind="visible: showMap()">
@@ -237,7 +237,7 @@
         acceptedFiles: 'application/pdf',
         maxFilesize: 10,
         addRemoveLinks: true,
-        dictRemoveFile: '@Strings.RemoveFile',
+        dictRemoveFile: '@ViewRes.RemoveFile',
         fallback: function () {
             $('div#myDropzone').hide();
             $('div#uploadFallbackPanel').show();
@@ -274,7 +274,7 @@
     });
 
     $('#fileUpload').uploadify({
-        'buttonText': '@Strings.SelectPDF',
+        'buttonText': '@ViewRes.SelectPDF',
         'fileTypeDesc': 'PDF Files',
         'fileTypeExts': '*.pdf',
         'fileObjName': 'uploadFile',

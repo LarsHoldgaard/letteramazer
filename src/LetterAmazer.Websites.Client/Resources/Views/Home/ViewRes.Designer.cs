@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace LetterAmazer.Business.Services.Resources {
+namespace LetterAmazer.Websites.Client.Resources.Views.Home {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace LetterAmazer.Business.Services.Resources {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class Strings {
+    public class ViewRes {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Strings() {
+        internal ViewRes() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace LetterAmazer.Business.Services.Resources {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("LetterAmazer.Business.Services.Resources.Strings", typeof(Strings).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("LetterAmazer.Websites.Client.Resources.Views.Home.ViewRes", typeof(ViewRes).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -123,15 +123,6 @@ namespace LetterAmazer.Business.Services.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Back.
-        /// </summary>
-        public static string Back {
-            get {
-                return ResourceManager.GetString("Back", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Business.
         /// </summary>
         public static string Business {
@@ -161,16 +152,6 @@ namespace LetterAmazer.Business.Services.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;p class=&quot;frontpageLead&quot;&gt;Fantastic!&lt;br/&gt;Your letter is now on its way.&lt;/p&gt;
-        ///                &lt;p style=&quot;font-size: 24px; font-family: &apos;Kite One&apos;,sans-serif;&quot;&gt;&amp;#9839; ... and is leaving on an jet plane &amp;#9839;&lt;/p&gt;.
-        /// </summary>
-        public static string ConfirmationContent {
-            get {
-                return ResourceManager.GetString("ConfirmationContent", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Contact us.
         /// </summary>
         public static string ContactUs {
@@ -180,101 +161,11 @@ namespace LetterAmazer.Business.Services.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Destination address.
-        /// </summary>
-        public static string DestinationAddress {
-            get {
-                return ResourceManager.GetString("DestinationAddress", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Destination city.
-        /// </summary>
-        public static string DestinationCity {
-            get {
-                return ResourceManager.GetString("DestinationCity", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Destination country.
-        /// </summary>
-        public static string DestinationCountry {
-            get {
-                return ResourceManager.GetString("DestinationCountry", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Destination ZIP code (and state if relevant).
-        /// </summary>
-        public static string DestinationZipCode {
-            get {
-                return ResourceManager.GetString("DestinationZipCode", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Email address.
-        /// </summary>
-        public static string EmailAddress {
-            get {
-                return ResourceManager.GetString("EmailAddress", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to 1. Tell us where we should send your letter. 2. Tell us what your letter should contain. 3. Get the letter stamped!.
-        /// </summary>
-        public static string EmailSendingSteps {
-            get {
-                return ResourceManager.GetString("EmailSendingSteps", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Enter voucher code.
-        /// </summary>
-        public static string EnterVoucherCode {
-            get {
-                return ResourceManager.GetString("EnterVoucherCode", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Error.
-        /// </summary>
-        public static string Error {
-            get {
-                return ResourceManager.GetString("Error", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to An error occurred while processing your request..
-        /// </summary>
-        public static string ErrorHint {
-            get {
-                return ResourceManager.GetString("ErrorHint", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to FAQ.
         /// </summary>
         public static string Faq {
             get {
                 return ResourceManager.GetString("Faq", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Follow our exciting journey through e-mail.
-        /// </summary>
-        public static string FollowOurExcitingJourneyThroughEmail {
-            get {
-                return ResourceManager.GetString("FollowOurExcitingJourneyThroughEmail", resourceCulture);
             }
         }
         
@@ -339,51 +230,6 @@ namespace LetterAmazer.Business.Services.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Letter destination.
-        /// </summary>
-        public static string LetterDestination {
-            get {
-                return ResourceManager.GetString("LetterDestination", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Oi mate.
-        /// </summary>
-        public static string OiMate {
-            get {
-                return ResourceManager.GetString("OiMate", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to LetterAmazer - Send a physical letter to anywhere in the world.
-        /// </summary>
-        public static string PageTitle {
-            get {
-                return ResourceManager.GetString("PageTitle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Payment method.
-        /// </summary>
-        public static string PaymentMethod {
-            get {
-                return ResourceManager.GetString("PaymentMethod", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Price.
-        /// </summary>
-        public static string Price {
-            get {
-                return ResourceManager.GetString("Price", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Pricing.
         /// </summary>
         public static string Pricing {
@@ -432,69 +278,6 @@ namespace LetterAmazer.Business.Services.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Proceed.
-        /// </summary>
-        public static string Proceed {
-            get {
-                return ResourceManager.GetString("Proceed", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Recipient name.
-        /// </summary>
-        public static string RecipientName {
-            get {
-                return ResourceManager.GetString("RecipientName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to REMEMBER.
-        /// </summary>
-        public static string Remember {
-            get {
-                return ResourceManager.GetString("Remember", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Remove file.
-        /// </summary>
-        public static string RemoveFile {
-            get {
-                return ResourceManager.GetString("RemoveFile", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to See preview of how the letter will look.
-        /// </summary>
-        public static string SeePreviewHowLetterLook {
-            get {
-                return ResourceManager.GetString("SeePreviewHowLetterLook", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Select PDF.
-        /// </summary>
-        public static string SelectPDF {
-            get {
-                return ResourceManager.GetString("SelectPDF", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Send a letter.
-        /// </summary>
-        public static string SendALetter {
-            get {
-                return ResourceManager.GetString("SendALetter", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Send a letter now.
         /// </summary>
         public static string SendLetterNow {
@@ -509,15 +292,6 @@ namespace LetterAmazer.Business.Services.Resources {
         public static string SendLettersWorldWideAutomatically {
             get {
                 return ResourceManager.GetString("SendLettersWorldWideAutomatically", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Are you a company? Soon we&apos;re adding wonderful stuff so sending multiple letters will become extremely easy..
-        /// </summary>
-        public static string SendMultipleLettersHint {
-            get {
-                return ResourceManager.GetString("SendMultipleLettersHint", resourceCulture);
             }
         }
         
@@ -541,60 +315,6 @@ namespace LetterAmazer.Business.Services.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Shipping time.
-        /// </summary>
-        public static string ShippingTime {
-            get {
-                return ResourceManager.GetString("ShippingTime", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Sign up &amp;amp; get a surprise gift when we&apos;re up and running (it is NOT an e-book) ;-).
-        /// </summary>
-        public static string SignUpNewsletterHint {
-            get {
-                return ResourceManager.GetString("SignUpNewsletterHint", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Stamp and send letter.
-        /// </summary>
-        public static string StampAndSendLetter {
-            get {
-                return ResourceManager.GetString("StampAndSendLetter", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to 1. Tell us where we should send your letter.
-        /// </summary>
-        public static string StepOne {
-            get {
-                return ResourceManager.GetString("StepOne", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to 3. Get the letter stamped!.
-        /// </summary>
-        public static string StepThree {
-            get {
-                return ResourceManager.GetString("StepThree", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to 2. Tell us what your letter should contain.
-        /// </summary>
-        public static string StepTwo {
-            get {
-                return ResourceManager.GetString("StepTwo", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Subscribe.
         /// </summary>
         public static string Subscribe {
@@ -604,103 +324,11 @@ namespace LetterAmazer.Business.Services.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to To.
-        /// </summary>
-        public static string To {
-            get {
-                return ResourceManager.GetString("To", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to &lt;strong&gt;Drop files&lt;/strong&gt; here to upload
-        ///                                            &lt;br /&gt;
-        ///                                            &lt;em&gt;(or click)&lt;/em&gt;.
-        /// </summary>
-        public static string UploadHint {
-            get {
-                return ResourceManager.GetString("UploadHint", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Upload PDF file.
-        /// </summary>
-        public static string UploadPDFFile {
-            get {
-                return ResourceManager.GetString("UploadPDFFile", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Upload your PDF file.
-        /// </summary>
-        public static string UploadYourPDFFile {
-            get {
-                return ResourceManager.GetString("UploadYourPDFFile", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to View details.
         /// </summary>
         public static string ViewDetails {
             get {
                 return ResourceManager.GetString("ViewDetails", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Voucher.
-        /// </summary>
-        public static string Voucher {
-            get {
-                return ResourceManager.GetString("Voucher", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to We promise we don&apos;t look.
-        /// </summary>
-        public static string WePromiseWeDontLook {
-            get {
-                return ResourceManager.GetString("WePromiseWeDontLook", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Write letter here.
-        /// </summary>
-        public static string WriteLetterHere {
-            get {
-                return ResourceManager.GetString("WriteLetterHere", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Write your letter.
-        /// </summary>
-        public static string WriteYourLetter {
-            get {
-                return ResourceManager.GetString("WriteYourLetter", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Write your letter here....
-        /// </summary>
-        public static string WriteYourLetterHere {
-            get {
-                return ResourceManager.GetString("WriteYourLetterHere", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Your e-mail.
-        /// </summary>
-        public static string YourEmail {
-            get {
-                return ResourceManager.GetString("YourEmail", resourceCulture);
             }
         }
     }

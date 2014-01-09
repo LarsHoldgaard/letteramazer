@@ -1,4 +1,5 @@
-﻿@using LetterAmazer.Business.Services.Resources
+﻿@using LetterAmazer.Websites.Client.Resources.Views.Home
+
 @model dynamic
 
 <div class="jumbotron-white">
@@ -7,10 +8,10 @@
             <img src="/Content/images/letteramazer.png" />
             <div>
                 <p class="frontpageLead">
-                    @Html.Raw(Strings.SendLettersWorldWideAutomatically)
+                    @Html.Raw(ViewRes.SendLettersWorldWideAutomatically)
                 </p>
                 <p>
-                    <a class="btn btn-primary btn-lg" href="@Url.Action("Index", "SingleLetter")" style="font-size: 25px; padding: 0 30px; line-height: 2.33;">@Strings.SendLetterNow &raquo;</a>
+                    <a class="btn btn-primary btn-lg" href="@Url.Action("Index", "SingleLetter")" style="font-size: 25px; padding: 0 30px; line-height: 2.33;">@ViewRes.SendLetterNow &raquo;</a>
                 </p>
             </div>
         </div>
@@ -22,7 +23,7 @@
         <div class="promotionMargin">
             <div class="row">
                 <div class="col-md-10 col-md-offset-1">
-                    @Html.Raw(Strings.HomepageHint)
+                    @Html.Raw(ViewRes.HomepageHint)
                 </div>
             </div>
         </div>
@@ -32,19 +33,19 @@
 <div class="container frontpage-bottom-usp">
     <div class="row">
         <div class="col-lg-4">
-            <h2>@Strings.SendSingleALetter</h2>
-            @Html.Raw(Strings.SendSingleALetterContent)
-            <p><a class="btn btn-default" href="@Url.Action("Index", "SingleLetter")">@Strings.ViewDetails &raquo;</a></p>
+            <h2>@ViewRes.SendSingleALetter</h2>
+            @Html.Raw(ViewRes.SendSingleALetterContent)
+            <p><a class="btn btn-default" href="@Url.Action("Index", "SingleLetter")">@ViewRes.ViewDetails &raquo;</a></p>
         </div>
         <div class="col-lg-4">
-            <h2>@Strings.ForBusiness</h2>
-            @Html.Raw(Strings.ForBusinessContent)
-            <p><a class="btn btn-default" href="@Url.Action("Business", "Home")">@Strings.ViewDetails &raquo;</a></p>
+            <h2>@ViewRes.ForBusiness</h2>
+            @Html.Raw(ViewRes.ForBusinessContent)
+            <p><a class="btn btn-default" href="@Url.Action("Business", "Home")">@ViewRes.ViewDetails &raquo;</a></p>
         </div>
         <div class="col-lg-4">
-            <h2>@Strings.Pricing</h2>
-            @Html.Raw(Strings.PricingHomepageContent)
-            <p><a class="btn btn-default" href="@Url.Action("Pricing", "Home")">@Strings.ViewDetails &raquo;</a></p>
+            <h2>@ViewRes.Pricing</h2>
+            @Html.Raw(ViewRes.PricingHomepageContent)
+            <p><a class="btn btn-default" href="@Url.Action("Pricing", "Home")">@ViewRes.ViewDetails &raquo;</a></p>
         </div>
     </div>
 </div>
@@ -54,7 +55,7 @@
 <div class="container frontpage-bottom-usp frontpageBottomText">
     <div class="row">
         <div class="col-lg-8">
-            @Html.Raw(Strings.HomepageContent)
+            @Html.Raw(ViewRes.HomepageContent)
         </div>
         <div class="col-lg-4" id="newsletterStuff">
             @Html.Partial("NewsletterForm")

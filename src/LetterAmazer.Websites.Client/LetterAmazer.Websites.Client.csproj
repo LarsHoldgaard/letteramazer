@@ -165,6 +165,21 @@
     <Compile Include="IoC\WindsorExtensions.cs" />
     <Compile Include="IoC\WindsorFilterAttributeFilterProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resources\Views\Home\ViewRes.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ViewRes.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Views\Shared\ViewRes.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ViewRes.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Views\SingleLetter\ViewRes.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ViewRes.resx</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels\CreateSingleLetterModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -593,6 +608,20 @@
       <Project>{2a90535c-c0f2-4cbe-b0bf-8b70f5c4f635}</Project>
       <Name>LetterAmazer.Business.Utils</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Views\Home\ViewRes.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>ViewRes.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Views\Shared\ViewRes.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>ViewRes.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Views\SingleLetter\ViewRes.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>ViewRes.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

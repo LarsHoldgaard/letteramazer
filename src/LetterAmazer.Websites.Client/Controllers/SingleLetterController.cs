@@ -83,15 +83,17 @@ namespace LetterAmazer.Websites.Client.Controllers
 
                 if (model.UseUploadFile)
                 {
-                    letter.LetterContent.Path = GetAbsoluteFile(model.UploadFile);
+                    logger.DebugFormat("upload file key: {0}", model.UploadFile);
+                    letter.LetterContent.Path = model.UploadFile;
                 }
                 else
                 {
-                    string tempPath = GetAbsoluteFile(string.Format("{0}/{1}/{2}.pdf", DateTime.Now.Year, DateTime.Now.Month, Guid.NewGuid().ToString()));
+                    string tempKeyName = string.Format("{0}/{1}/{2}.pdf", DateTime.Now.Year, DateTime.Now.Month, Guid.NewGuid().ToString());
+                    string tempPath = GetAbsoluteFile(tempKeyName);
                     PdfManager m = new PdfManager();
                     var convertedText = HelperMethods.Utf8FixString(model.WriteContent);
                     m.ConvertToPdf(tempPath, convertedText);
-                    letter.LetterContent.Path = tempPath;
+                    letter.LetterContent.Path = tempKeyName;
                     letter.LetterContent.WrittenContent = model.WriteContent;
                 }
                 letter.LetterContent.Content = System.IO.File.ReadAllBytes(letter.LetterContent.Path);
@@ -258,22 +260,23 @@ namespace LetterAmazer.Websites.Client.Controllers
 
         private string GetUploadFileName(string uploadFilename)
         {
-            string filename = Path.GetFileName(uploadFilename);
-            filename = string.Format("{0}/{1}/{2}", DateTime.Now.Year, DateTime.Now.Month, filename);
-            string keyName = filename;
-            filename = GetAbsoluteFile(filename);
-            int index = 1;
-            while (System.IO.File.Exists(filename))
-            {
-                string ext = Path.GetExtension(uploadFilename);
-                string name = Path.GetFileNameWithoutExtension(uploadFilename);
-                filename = string.Format("{0}-{1}{2}", name, index, ext);
-                filename = string.Format("{0}/{1}/{2}", DateTime.Now.Year, DateTime.Now.Month, filename);
-                keyName = filename;
-                filename = GetAbsoluteFile(filename);
-                index++;
-            }
-            return keyName;
+            return string.Format("{0}/{1}/{2}.pdf", DateTime.Now.Year, DateTime.Now.Month, Guid.NewGuid().ToString());
+            //string filename = Path.GetFileName(uploadFilename);
+            //filename = string.Format("{0}/{1}/{2}", DateTime.Now.Year, DateTime.Now.Month, filename);
+            //string keyName = filename;
+            //filename = GetAbsoluteFile(filename);
+            //int index = 1;
+            //while (System.IO.File.Exists(filename))
+            //{
+            //    string ext = Path.GetExtension(uploadFilename);
+            //    string name = Path.GetFileNameWithoutExtension(uploadFilename);
+            //    filename = string.Format("{0}-{1}{2}", name, index, ext);
+            //    filename = string.Format("{0}/{1}/{2}", DateTime.Now.Year, DateTime.Now.Month, filename);
+            //    keyName = filename;
+            //    filename = GetAbsoluteFile(filename);
+            //    index++;
+            //}
+            //return keyName;
         }
 
         private string GetAbsoluteFile(string filename)

@@ -1,4 +1,4 @@
-﻿@using LetterAmazer.Business.Services.Resources
+﻿@using LetterAmazer.Websites.Client.Resources.Views.Shared
 @{
     var controller = ViewContext.RouteData.Values["controller"].ToString().ToLower();
     var action = ViewContext.RouteData.Values["action"].ToString().ToLower();
@@ -8,7 +8,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
-    <title>@Strings.PageTitle</title>
+    <title>@ViewRes.PageTitle</title>
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet" />
     <link type="text/css" rel="stylesheet" href="http://fonts.googleapis.com/css?family=Kite+One" />
 
@@ -32,11 +32,11 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li class="@(action == "index" && controller == "home" ? "active" : "")"><a href="@Url.Action("Index", "Home")">@Strings.Home</a></li>
-                    <li class="@(action == "index" && controller == "singleletter" ? "active" : "")"><a href="@Url.Action("Index", "SingleLetter")">@Strings.SendALetter</a></li>
-                    <li class="@(action == "business" && controller == "home" ? "active" : "")"><a href="@Url.Action("Business", "Home")">@Strings.Business</a></li>
-                    <li class="@(action == "api" && controller == "home" ? "active" : "")"><a href="@Url.Action("Api", "Home")">@Strings.Api</a></li>
-                    <li class="@(action == "pricing" && controller == "home" ? "active" : "")"><a href="@Url.Action("Pricing", "Home")">@Strings.Pricing</a></li>
+                    <li class="@(action == "index" && controller == "home" ? "active" : "")"><a href="@Url.Action("Index", "Home")">@ViewRes.Home</a></li>
+                    <li class="@(action == "index" && controller == "singleletter" ? "active" : "")"><a href="@Url.Action("Index", "SingleLetter")">@ViewRes.SendALetter</a></li>
+                    <li class="@(action == "business" && controller == "home" ? "active" : "")"><a href="@Url.Action("Business", "Home")">@ViewRes.Business</a></li>
+                    <li class="@(action == "api" && controller == "home" ? "active" : "")"><a href="@Url.Action("Api", "Home")">@ViewRes.Api</a></li>
+                    <li class="@(action == "pricing" && controller == "home" ? "active" : "")"><a href="@Url.Action("Pricing", "Home")">@ViewRes.Pricing</a></li>
                 </ul>
             </div>
         </div>
@@ -49,8 +49,8 @@
         <footer class="footer">
             <a href="/"><img src="/Content/images/letteramazer_small.png" height="25" class="navbar-left" /></a>
             <ul>
-                <li>@Html.ActionLink("About","About","Home")</li>
-                <li>@Html.ActionLink("Contact","Contact","Home")</li>
+                <li>@Html.ActionLink(ViewRes.AboutUs, "About", "Home")</li>
+                <li>@Html.ActionLink(ViewRes.ContactUs, "Contact", "Home")</li>
             </ul>
         </footer>
     </div>

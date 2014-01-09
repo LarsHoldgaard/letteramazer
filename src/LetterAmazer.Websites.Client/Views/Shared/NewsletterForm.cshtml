@@ -1,4 +1,4 @@
-﻿@using LetterAmazer.Business.Services.Resources
+﻿@using LetterAmazer.Websites.Client.Resources.Views.Shared
 <!-- Begin MailChimp Signup Form -->
 <link href="//cdn-images.mailchimp.com/embedcode/slim-081711.css" rel="stylesheet" type="text/css">
 <style type="text/css">
@@ -9,9 +9,9 @@
 </style>
 <div id="mc_embed_signup">
     <form action="http://letteramazer.us3.list-manage.com/subscribe/post?u=12770c45f964020a15b7e87ba&amp;id=93a764e395" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
-	    <label for="mce-EMAIL">@Html.Raw(Strings.SignUpNewsletterHint)</label>
-	    <input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="@Strings.EmailAddress" required />
-	    <div class="clear"><input type="submit" value="@Strings.Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
+	    <label for="mce-EMAIL">@Html.Raw(ViewRes.SignUpNewsletterHint)</label>
+	    <input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="@ViewRes.EmailAddress" required />
+	    <div class="clear"><input type="submit" value="@ViewRes.Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
     </form>
 </div>
 <!--End mc_embed_signup-->

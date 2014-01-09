@@ -160,9 +160,6 @@
   <data name="ApiHint" xml:space="preserve">
     <value>API to send physical letters automatically</value>
   </data>
-  <data name="Back" xml:space="preserve">
-    <value>Back</value>
-  </data>
   <data name="Business" xml:space="preserve">
     <value>Business</value>
   </data>
@@ -184,45 +181,11 @@
   <data name="BusinessHint" xml:space="preserve">
     <value>Send physical letters online for businesses</value>
   </data>
-  <data name="ConfirmationContent" xml:space="preserve">
-    <value>&lt;p class="frontpageLead"&gt;Fantastic!&lt;br/&gt;Your letter is now on its way.&lt;/p&gt;
-                &lt;p style="font-size: 24px; font-family: 'Kite One',sans-serif;"&gt;&amp;#9839; ... and is leaving on an jet plane &amp;#9839;&lt;/p&gt;</value>
-  </data>
   <data name="ContactUs" xml:space="preserve">
     <value>Contact us</value>
   </data>
-  <data name="DestinationAddress" xml:space="preserve">
-    <value>Destination address</value>
-  </data>
-  <data name="DestinationCity" xml:space="preserve">
-    <value>Destination city</value>
-  </data>
-  <data name="DestinationCountry" xml:space="preserve">
-    <value>Destination country</value>
-  </data>
-  <data name="DestinationZipCode" xml:space="preserve">
-    <value>Destination ZIP code (and state if relevant)</value>
-  </data>
-  <data name="EmailAddress" xml:space="preserve">
-    <value>Email address</value>
-  </data>
-  <data name="EmailSendingSteps" xml:space="preserve">
-    <value>1. Tell us where we should send your letter. 2. Tell us what your letter should contain. 3. Get the letter stamped!</value>
-  </data>
-  <data name="EnterVoucherCode" xml:space="preserve">
-    <value>Enter voucher code</value>
-  </data>
-  <data name="Error" xml:space="preserve">
-    <value>Error</value>
-  </data>
-  <data name="ErrorHint" xml:space="preserve">
-    <value>An error occurred while processing your request.</value>
-  </data>
   <data name="Faq" xml:space="preserve">
     <value>FAQ</value>
-  </data>
-  <data name="FollowOurExcitingJourneyThroughEmail" xml:space="preserve">
-    <value>Follow our exciting journey through e-mail</value>
   </data>
   <data name="ForBusiness" xml:space="preserve">
     <value>For business</value>
@@ -263,21 +226,6 @@
                         Today LetterAmazer are very good for consumers and soon we will treat businesses like angels. We will add amazing features like an API, mail merging, sending multiple letters plus many many more – it will be like letter heaven. &lt;a href="#newsletterStuff"&gt;Sign up for our exiting newsletter, to get all the inside scoops&lt;/a&gt;.
                     &lt;/p&gt;</value>
   </data>
-  <data name="LetterDestination" xml:space="preserve">
-    <value>Letter destination</value>
-  </data>
-  <data name="OiMate" xml:space="preserve">
-    <value>Oi mate</value>
-  </data>
-  <data name="PageTitle" xml:space="preserve">
-    <value>LetterAmazer - Send a physical letter to anywhere in the world</value>
-  </data>
-  <data name="PaymentMethod" xml:space="preserve">
-    <value>Payment method</value>
-  </data>
-  <data name="Price" xml:space="preserve">
-    <value>Price</value>
-  </data>
   <data name="Pricing" xml:space="preserve">
     <value>Pricing</value>
   </data>
@@ -312,35 +260,11 @@
     <value>&lt;p&gt;We have providers in all regions of the world, which means we get the cheapest prices.&lt;/p&gt;
             &lt;p&gt;We constantly try to push the prices down, so we have the most competitive prices on the market.&lt;/p&gt;</value>
   </data>
-  <data name="Proceed" xml:space="preserve">
-    <value>Proceed</value>
-  </data>
-  <data name="RecipientName" xml:space="preserve">
-    <value>Recipient name</value>
-  </data>
-  <data name="Remember" xml:space="preserve">
-    <value>REMEMBER</value>
-  </data>
-  <data name="RemoveFile" xml:space="preserve">
-    <value>Remove file</value>
-  </data>
-  <data name="SeePreviewHowLetterLook" xml:space="preserve">
-    <value>See preview of how the letter will look</value>
-  </data>
-  <data name="SelectPDF" xml:space="preserve">
-    <value>Select PDF</value>
-  </data>
-  <data name="SendALetter" xml:space="preserve">
-    <value>Send a letter</value>
-  </data>
   <data name="SendLetterNow" xml:space="preserve">
     <value>Send a letter now</value>
   </data>
   <data name="SendLettersWorldWideAutomatically" xml:space="preserve">
     <value>Send letters world-wide, automatically</value>
-  </data>
-  <data name="SendMultipleLettersHint" xml:space="preserve">
-    <value>Are you a company? Soon we're adding wonderful stuff so sending multiple letters will become extremely easy.</value>
   </data>
   <data name="SendSingleALetter" xml:space="preserve">
     <value>Send a single letter</value>
@@ -349,60 +273,10 @@
     <value>&lt;p&gt;Want to send a letter to someone? It is very easy, and your letter should be on its way within 5 minutes.&lt;/p&gt;
             &lt;p&gt;You can either use our online text-formatter, or simply upload a PDF file. Then we will take care of your letter, and make sure it arrives as soon as possible.&lt;/p&gt;</value>
   </data>
-  <data name="ShippingTime" xml:space="preserve">
-    <value>Shipping time</value>
-  </data>
-  <data name="SignUpNewsletterHint" xml:space="preserve">
-    <value>Sign up &amp;amp; get a surprise gift when we're up and running (it is NOT an e-book) ;-)</value>
-  </data>
-  <data name="StampAndSendLetter" xml:space="preserve">
-    <value>Stamp and send letter</value>
-  </data>
-  <data name="StepOne" xml:space="preserve">
-    <value>1. Tell us where we should send your letter</value>
-  </data>
-  <data name="StepThree" xml:space="preserve">
-    <value>3. Get the letter stamped!</value>
-  </data>
-  <data name="StepTwo" xml:space="preserve">
-    <value>2. Tell us what your letter should contain</value>
-  </data>
   <data name="Subscribe" xml:space="preserve">
     <value>Subscribe</value>
   </data>
-  <data name="To" xml:space="preserve">
-    <value>To</value>
-  </data>
-  <data name="UploadHint" xml:space="preserve">
-    <value>&lt;strong&gt;Drop files&lt;/strong&gt; here to upload
-                                            &lt;br /&gt;
-                                            &lt;em&gt;(or click)&lt;/em&gt;</value>
-  </data>
-  <data name="UploadPDFFile" xml:space="preserve">
-    <value>Upload PDF file</value>
-  </data>
-  <data name="UploadYourPDFFile" xml:space="preserve">
-    <value>Upload your PDF file</value>
-  </data>
   <data name="ViewDetails" xml:space="preserve">
     <value>View details</value>
-  </data>
-  <data name="Voucher" xml:space="preserve">
-    <value>Voucher</value>
-  </data>
-  <data name="WePromiseWeDontLook" xml:space="preserve">
-    <value>We promise we don't look</value>
-  </data>
-  <data name="WriteLetterHere" xml:space="preserve">
-    <value>Write letter here</value>
-  </data>
-  <data name="WriteYourLetter" xml:space="preserve">
-    <value>Write your letter</value>
-  </data>
-  <data name="WriteYourLetterHere" xml:space="preserve">
-    <value>Write your letter here...</value>
-  </data>
-  <data name="YourEmail" xml:space="preserve">
-    <value>Your e-mail</value>
   </data>
 </root>

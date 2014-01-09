@@ -19,18 +19,25 @@ namespace LetterAmazer.Business.Services.Services.Fulfillment
     public class JupiterService : IFulfillmentService
     {
         private string zipStoragePath;
+        private string pdfStoragePath;
         private string username;
         private string password;
         private string serviceUrl;
-        public JupiterService(string username, string password, string serviceUrl, string zipStoragePath)
+        public JupiterService(string username, string password, string serviceUrl, string zipStoragePath, string pdfStoragePath)
         {
             this.serviceUrl = serviceUrl;
             this.username = username;
             this.password = password;
             this.zipStoragePath = zipStoragePath;
+            this.pdfStoragePath = pdfStoragePath;
+
             if (this.zipStoragePath.StartsWith("~")) // relative path
             {
                 this.zipStoragePath = HttpContext.Current.Server.MapPath(this.zipStoragePath);
+            }
+            if (this.pdfStoragePath.StartsWith("~")) // relative path
+            {
+                this.pdfStoragePath = HttpContext.Current.Server.MapPath(this.pdfStoragePath);
             }
         }
 
@@ -114,7 +121,8 @@ namespace LetterAmazer.Business.Services.Services.Fulfillment
                 {
                     foreach (var item in order.OrderItems)
                     {
-                        zip.AddFile(item.Letter.LetterContent.Path);
+                        zip.AddFile(Path.Combine(this.pdfStoragePath, item.Letter.LetterContent.Path));
+
                         wr.WriteLine(string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12}",
                             item.Letter.LetterContent.Path,
                             item.Letter.ToAddress.CountryCode,

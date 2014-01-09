@@ -1,4 +1,4 @@
-﻿using LetterAmazer.Business.Services.Resources;
+﻿using LetterAmazer.Websites.Client.Resources.Views.SingleLetter;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,8 +10,9 @@ namespace LetterAmazer.Websites.Client.ViewModels
     {
         public CreateSingleLetterModel()
         {
-            this.WriteContent = Strings.WriteYourLetterHere;
+            this.WriteContent = ViewRes.WriteYourLetterHere;
         }
+
         public string Email { get; set; }
         public string Phone { get; set; }
         public string RecipientName { get; set; }
