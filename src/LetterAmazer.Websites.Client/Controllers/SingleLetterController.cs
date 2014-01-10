@@ -96,7 +96,10 @@ namespace LetterAmazer.Websites.Client.Controllers
                     letter.LetterContent.Path = tempKeyName;
                     letter.LetterContent.WrittenContent = model.WriteContent;
                 }
-                letter.LetterContent.Content = System.IO.File.ReadAllBytes(letter.LetterContent.Path);
+                if (System.IO.File.Exists(GetAbsoluteFile(letter.LetterContent.Path)))
+                {
+                    letter.LetterContent.Content = System.IO.File.ReadAllBytes(GetAbsoluteFile(letter.LetterContent.Path));
+                }
 
                 orderItem.Letter = letter;
                 orderItem.Order = order;
@@ -107,7 +110,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                 orderContext.SignUpNewsletter = model.SignUpNewsletter;
                 orderContext.CurrentCulture = RouteData.Values["culture"].ToString();
                 string redirectUrl = orderService.CreateOrder(orderContext);
-
+                logger.Debug("redirectUrl: " + redirectUrl);
                 return Redirect(redirectUrl);
             }
             catch (Exception ex)
@@ -164,15 +167,16 @@ namespace LetterAmazer.Websites.Client.Controllers
                 letter.LetterContent = new LetterContent();
                 if (usePdf)
                 {
-                    letter.LetterContent.Path = GetAbsoluteFile(uploadFileKey);
+                    letter.LetterContent.Path = uploadFileKey;
                 }
                 else
                 {
-                    letter.LetterContent.Path = GetAbsoluteFile(string.Format("{0}/{1}/{2}.pdf", DateTime.Now.Year, DateTime.Now.Month, Guid.NewGuid().ToString()));
+                    letter.LetterContent.Path = string.Format("{0}/{1}/{2}.pdf", DateTime.Now.Year, DateTime.Now.Month, Guid.NewGuid().ToString());
+                    string filepath = GetAbsoluteFile(letter.LetterContent.Path);
                     content = HttpUtility.HtmlDecode(content);
                     content = HttpUtility.UrlDecode(content);
                     var convertedText = HelperMethods.Utf8FixString(content);
-                    pdfManager.ConvertToPdf(letter.LetterContent.Path, convertedText);
+                    pdfManager.ConvertToPdf(filepath, convertedText);
                 }
                 var pages = pdfManager.GetPagesCount(letter.LetterContent.Path);
                 var price = letterService.GetCost(letter);

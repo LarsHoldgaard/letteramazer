@@ -6,20 +6,28 @@ using System.Threading.Tasks;
 using LetterAmazer.Business.Services.Data;
 using LetterAmazer.Business.Services.Interfaces;
 using LetterAmazer.Business.Services.Services.LetterContent;
+using System.IO;
+using System.Web;
 
 namespace LetterAmazer.Business.Services.Services
 {
     public class LetterService : ILetterService
     {
         private PdfManager pdfManager;
-        public LetterService()
+        private string pdfStoragePath;
+        public LetterService(string pdfStoragePath)
         {
             this.pdfManager = new PdfManager();
+            this.pdfStoragePath = pdfStoragePath;
+            if (this.pdfStoragePath.StartsWith("~")) // relative path
+            {
+                this.pdfStoragePath = HttpContext.Current.Server.MapPath(this.pdfStoragePath);
+            }
         }
 
         public decimal GetCost(Letter letter)
         {
-            int pagesCount = this.pdfManager.GetPagesCount(letter.LetterContent.Path);
+            int pagesCount = this.pdfManager.GetPagesCount(Path.Combine(this.pdfStoragePath, letter.LetterContent.Path));
             return GetCost(pagesCount, letter.ToAddress);
         }
 

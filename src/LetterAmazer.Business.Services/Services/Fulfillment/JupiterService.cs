@@ -66,7 +66,7 @@ namespace LetterAmazer.Business.Services.Services.Fulfillment
                 new XElement("DELIVERY",
                 new XElement("VERSION", 16),
                 new XElement("DESCRIPTION", description),
-                new XElement("ROUTINGMETRIC", "50046, 0, 0"),
+                new XElement("ROUTINGMETRIC", "50052, 0, 0"),
                 new XElement("JOBCODE", "RECONSPLITPDF"),
                 new XElement("ZIPFILEPARTS", new XAttribute("MD5", md5), new XAttribute("bucket", bucket),
                 new XElement("ZIPPART", zipFileName))));
