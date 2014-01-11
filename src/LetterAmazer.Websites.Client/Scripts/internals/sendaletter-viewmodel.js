@@ -58,6 +58,9 @@
         }
     });
 
+    self.showMissingUpload = ko.observable(false);
+    self.showMissingWriteContent = ko.observable(false);
+
     self.goToStepOne = function () {
         self.currentStep(1);
     };
@@ -65,6 +68,14 @@
         if ($(self.formSelector).valid()) self.currentStep(2);
     };
     self.goToStepThree = function () {
+        if (self.uploadPdf() == 1 && self.uploadFileKey() == '') {
+            self.showMissingUpload(true);
+            return false;
+        } else if (self.writeContentEditor.getData() == '') {
+            self.showMissingWriteContent(true);
+            return false;
+        }
+
         var thiz = self;
         var writtenContent = encodeURIComponent(self.htmlEncode(self.writeContentEditor.getData()));
         $.ajax({

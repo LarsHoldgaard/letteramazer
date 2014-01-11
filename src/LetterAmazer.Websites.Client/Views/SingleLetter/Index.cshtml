@@ -97,6 +97,7 @@
                                         </span>
                                     </div>
                                 </div>
+                                <label data-bind="visible: showMissingUpload" class="error">Please upload your letter!</label>
                                 <div id="uploadFallbackPanel" style="display: none;">
                                     <input id="fileUpload" name="fileUpload" type="file" />
                                 </div>
@@ -107,6 +108,7 @@
                             <div id="step2-write" class="promotionMargin" style="margin-top: 25px;" data-bind="visible: isWriteContent()">
                                 <p class="frontpageLeadExplanation">@ViewRes.WriteYourLetter:</p>
                                 @Html.TextAreaFor(m => m.WriteContent)
+                                <label data-bind="visible: showMissingWriteContent" class="error">Please write your letter!</label>
                                 <label id="currentChars"></label>
                                 <a class="pdfPreviewLnk" href="#" data-bind="click: previewWrittenContent">@ViewRes.SeePreviewHowLetterLook</a>
                                 <br />
@@ -260,11 +262,13 @@
                 $(template).find('.dz-error-mark').on('click', function () {
                     $(template).remove();
                 });
+                viewModel.uploadFileKey('');
             }
         },
         error: function (file, responseText) {
             var template = file.previewTemplate;
             $(template).remove();
+            viewModel.uploadFileKey('');
         },
         removedfile: function (file) {
             var template = file.previewTemplate;
