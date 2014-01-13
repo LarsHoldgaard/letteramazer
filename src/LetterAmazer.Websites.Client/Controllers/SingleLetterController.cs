@@ -178,7 +178,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                     var convertedText = HelperMethods.Utf8FixString(content);
                     pdfManager.ConvertToPdf(filepath, convertedText);
                 }
-                var pages = pdfManager.GetPagesCount(letter.LetterContent.Path);
+                var pages = pdfManager.GetPagesCount(GetAbsoluteFile(letter.LetterContent.Path));
                 var price = letterService.GetCost(letter);
                 return Json(new { 
                     price = price ,

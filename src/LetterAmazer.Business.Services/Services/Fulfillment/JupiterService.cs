@@ -109,6 +109,10 @@ namespace LetterAmazer.Business.Services.Services.Fulfillment
         {
             var zipName = this.username + "-" + DateTime.Now.ToString("yyMMdd-HHmmss") + ".zip";
             var zipPath = Path.Combine(this.zipStoragePath, DateTime.Now.ToString("yyyyMMdd"));
+            if (!Directory.Exists(zipPath))
+            {
+                Directory.CreateDirectory(zipPath);
+            }
             var zipFilePath = Path.Combine(zipPath, zipName);
 
             var reconPath = Path.Combine(zipPath, "dtp-rec.csv");
