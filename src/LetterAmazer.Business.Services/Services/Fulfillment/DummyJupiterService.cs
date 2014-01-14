@@ -1,6 +1,7 @@
 ﻿using Ionic.Zip;
 using LetterAmazer.Business.Services.Data;
 using LetterAmazer.Business.Services.Interfaces;
+using log4net;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -13,6 +14,7 @@ namespace LetterAmazer.Business.Services.Services.Fulfillment
 {
     public class DummyJupiterService : IFulfillmentService
     {
+        private static readonly ILog logger = LogManager.GetLogger(typeof(DummyJupiterService));
         private string zipStoragePath;
         private string pdfStoragePath;
 
@@ -56,10 +58,10 @@ namespace LetterAmazer.Business.Services.Services.Fulfillment
                 {
                     foreach (var item in order.OrderItems)
                     {
-                        zip.AddFile(Path.Combine(this.pdfStoragePath, item.Letter.LetterContent.Path));
+                        zip.AddFile(Path.Combine(this.pdfStoragePath, item.Letter.LetterContent.Path), "/");
 
                         wr.WriteLine(string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12}",
-                            item.Letter.LetterContent.Path,
+                            Path.GetFileName(item.Letter.LetterContent.Path),
                             item.Letter.ToAddress.CountryCode,
                             item.Letter.ToAddress.Postal,
                             1,

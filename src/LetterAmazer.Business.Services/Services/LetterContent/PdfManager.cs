@@ -18,6 +18,7 @@ namespace LetterAmazer.Business.Services.Services.LetterContent
         {
             PdfReader pdfReader = new PdfReader(path);
             int numberOfPages = pdfReader.NumberOfPages;
+            pdfReader.Close();
             return numberOfPages;
         }
 
@@ -38,10 +39,8 @@ namespace LetterAmazer.Business.Services.Services.LetterContent
             pdfDoc.Open();
             worker.StartDocument();
             worker.Parse(reader);
-
             
             worker.EndDocument();
-
          
             worker.Close();
             pdfDoc.Close();

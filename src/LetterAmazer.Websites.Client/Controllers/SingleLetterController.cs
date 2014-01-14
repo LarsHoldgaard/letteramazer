@@ -242,7 +242,23 @@ namespace LetterAmazer.Websites.Client.Controllers
             try 
 	        {
                 logger.Info("IPN called");
-		        byte[] param = Request.BinaryRead(Request.ContentLength);
+                byte[] param = null; // try three time
+                bool readSuccess = false;
+                for (int i = 0; i < 3; i++)
+                {
+                    if (readSuccess == true) break;
+                    try
+                    {
+                        param = Request.BinaryRead(Request.ContentLength);
+                        readSuccess = true;
+                    }
+                    catch (Exception)
+                    {
+                    }
+                }
+                if (readSuccess == false) return Json(new { status = "error", message = "Can not read data from paypal" }, JsonRequestBehavior.AllowGet);
+                
+                //TODO We should mark the order should call to paypal again!
                 string strRequest = Encoding.ASCII.GetString(param);
                 VerifyPaymentResult result = paymentService.Get(PaypalMethod.NAME).Verify(new VerifyPaymentContext() { Parameters = strRequest });
 
