@@ -31,6 +31,7 @@ namespace LetterAmazer.BackgroundService.Jobs
                 criteria.PageIndex = 0;
                 criteria.PageSize = int.MaxValue;
                 PaginatedResult<Order> orders = orderService.GetOrdersShouldBeDelivered(criteria);
+                if (orders.Results.Count == 0) return;
 
                 try
                 {
