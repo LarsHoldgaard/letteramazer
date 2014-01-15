@@ -252,11 +252,17 @@ namespace LetterAmazer.Websites.Client.Controllers
                         param = Request.BinaryRead(Request.ContentLength);
                         readSuccess = true;
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
+                        logger.Error(ex);
+                        logger.DebugFormat("try {0}", i);
                     }
                 }
-                if (readSuccess == false) return Json(new { status = "error", message = "Can not read data from paypal" }, JsonRequestBehavior.AllowGet);
+                if (readSuccess == false)
+                {
+                    logger.Debug("Can not read data from paypal");
+                    return Json(new { status = "error", message = "Can not read data from paypal" }, JsonRequestBehavior.AllowGet);
+                }
                 
                 //TODO We should mark the order should call to paypal again!
                 string strRequest = Encoding.ASCII.GetString(param);

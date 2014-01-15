@@ -3,6 +3,7 @@ using LetterAmazer.Business.Services.Data;
 using LetterAmazer.Business.Services.Interfaces;
 using LetterAmazer.Business.Services.Model;
 using LetterAmazer.Business.Utils.Helpers;
+using log4net;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -18,11 +19,13 @@ namespace LetterAmazer.Business.Services.Services.Fulfillment
 {
     public class JupiterService : IFulfillmentService
     {
+        private static readonly ILog logger = LogManager.GetLogger(typeof(JupiterService));
         private string zipStoragePath;
         private string pdfStoragePath;
         private string username;
         private string password;
         private string serviceUrl;
+
         public JupiterService(string username, string password, string serviceUrl, string zipStoragePath, string pdfStoragePath)
         {
             this.serviceUrl = serviceUrl;
@@ -44,6 +47,7 @@ namespace LetterAmazer.Business.Services.Services.Fulfillment
         public void Process(IList<Order> orders)
         {
             string zipPath = CreateZip(orders);
+            logger.Debug("zip path should be sent to amazone: " + zipPath);
             string zipName = Path.GetFileName(zipPath);
             var s3 = GetS3Access();
 

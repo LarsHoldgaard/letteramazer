@@ -56,7 +56,7 @@ namespace LetterAmazer.Business.Services.Services.PaymentMethod
 
         public VerifyPaymentResult Verify(VerifyPaymentContext context)
         {
-            HttpWebRequest req = (HttpWebRequest)WebRequest.Create(this.paypalIPN);
+            HttpWebRequest req = (HttpWebRequest)WebRequest.Create(this.serviceUrl);
 
             //Set values for the request back
             req.Method = "POST";

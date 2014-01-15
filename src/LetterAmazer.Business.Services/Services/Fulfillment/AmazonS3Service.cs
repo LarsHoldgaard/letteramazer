@@ -8,11 +8,13 @@ using Amazon.SQS.Model;
 using LetterAmazer.Business.Utils.Helpers;
 using LetterAmazer.Business.Services.Interfaces;
 using LetterAmazer.Business.Services.Data;
+using log4net;
 
 namespace LetterAmazer.Business.Services.Services.Fulfillment
 {
     public class AmazonS3Service
     {
+        private static readonly ILog logger = LogManager.GetLogger(typeof(AmazonS3Service));
         private AmazonS3 client;
         private string accessKeyID;
         private string secretAccessKeyID;
@@ -46,9 +48,11 @@ namespace LetterAmazer.Business.Services.Services.Fulfillment
 
                     var own = HelperMethods.HashFile(new MemoryStream(HelperMethods.GetBytes(msg)));
                     var amazonResp = resp.SendMessageResult.MD5OfMessageBody;
+                    logger.Debug("SendSQSMessage response: " + amazonResp);
                 }
                 catch (AmazonS3Exception amazonS3Exception)
                 {
+                    logger.Error(amazonS3Exception);
                     if (amazonS3Exception.ErrorCode != null && (amazonS3Exception.ErrorCode.Equals("InvalidAccessKeyId") || amazonS3Exception.ErrorCode.Equals("InvalidSecurity")))
                     {
                         //log exception - ("Please check the provided AWS Credentials.");
@@ -74,6 +78,7 @@ namespace LetterAmazer.Business.Services.Services.Fulfillment
                 }
                 catch (AmazonS3Exception amazonS3Exception)
                 {
+                    logger.Error(amazonS3Exception);
                     if (amazonS3Exception.ErrorCode != null && (amazonS3Exception.ErrorCode.Equals("InvalidAccessKeyId") || amazonS3Exception.ErrorCode.Equals("InvalidSecurity")))
                     {
                         //log exception - ("Please check the provided AWS Credentials.");
@@ -107,12 +112,14 @@ namespace LetterAmazer.Business.Services.Services.Fulfillment
                         foreach (string key in headers.Keys)
                         {
                             stringResp.AppendLine(string.Format("Key: {0}, value: {1}", key,headers.Get(key).ToString()));
-                            //log headers ("Response Header: {0}, Value: {1}", key, headers.Get(key));
                         }
                     }
+
+                    logger.Debug("amazon upload file response: " + stringResp.ToString());
                 }
                 catch (AmazonS3Exception amazonS3Exception)
                 {
+                    logger.Error(amazonS3Exception);
                     if (amazonS3Exception.ErrorCode != null && (amazonS3Exception.ErrorCode.Equals("InvalidAccessKeyId") || amazonS3Exception.ErrorCode.Equals("InvalidSecurity")))
                     {
                         //log exception - ("Please check the provided AWS Credentials.");
