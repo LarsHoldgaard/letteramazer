@@ -111,7 +111,7 @@ namespace LetterAmazer.Business.Services.Services.Fulfillment
 
         private string CreateZip(IList<Order> orders)
         {
-            var zipName = "DUMMY-" + DateTime.Now.ToString("yyMMdd-HHmmss") + ".zip";
+            var zipName = this.username + "-" + DateTime.Now.ToString("yyMMdd-HHmmss") + ".zip";
             var zipPath = Path.Combine(this.zipStoragePath, DateTime.Now.ToString("yyyyMMdd"));
             if (!Directory.Exists(zipPath))
             {
