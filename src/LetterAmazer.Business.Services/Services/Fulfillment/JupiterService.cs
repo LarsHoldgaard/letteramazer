@@ -52,16 +52,18 @@ namespace LetterAmazer.Business.Services.Services.Fulfillment
             var s3 = GetS3Access();
 
             var amazonService = new AmazonS3Service(s3.keyid, s3.secretkey, "s3.amazonaws.com");
-            var fileStream = new FileStream(zipPath, FileMode.Open); //new MemoryStream(HelperMethods.GetBytes(zipPath));
+            using(FileStream fileStream = new FileStream(zipPath, FileMode.Open))
+            {
+                var md5valBase64 = HelperMethods.GetMD5HashFromStream(fileStream);
+                fileStream.Position = 0;
+                var md5val = HelperMethods.HashFile(fileStream);
+                fileStream.Position = 0;
+                amazonService.UploadFile(s3.bucket, fileStream, zipName, md5valBase64);
 
-            var md5valBase64 = HelperMethods.GetMD5HashFromStream(fileStream);
-            var md5val = HelperMethods.HashFile(fileStream);
-            fileStream.Position = 0;
-            amazonService.UploadFile(s3.bucket, fileStream, zipName, md5valBase64);
+                var sqsDoc = DeliveryXml(md5val, s3.bucket, "Job run at " + DateTime.Now.ToString("yyMMdd-HHmmss"), zipName);
 
-            var sqsDoc = DeliveryXml(md5val, s3.bucket, "Job run at " + DateTime.Now.ToString("yyMMdd-HHmmss"), zipName);
-
-            amazonService.SendSQSMessage(sqsDoc.ToString(), s3.postqueue);
+                amazonService.SendSQSMessage(sqsDoc.ToString(), s3.postqueue);
+            }
         }
 
         private XDocument DeliveryXml(string md5, string bucket, string description, string zipFileName)
@@ -131,8 +133,11 @@ namespace LetterAmazer.Business.Services.Services.Fulfillment
                     {
                         zip.AddFile(Path.Combine(this.pdfStoragePath, item.Letter.LetterContent.Path), "/");
 
+                        var fileName = Path.GetFileName(item.Letter.LetterContent.Path);
+                        fileName = fileName.Trim('-');
+                        logger.Debug("added file: " + fileName);
                         wr.WriteLine(string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12}",
-                            Path.GetFileName(item.Letter.LetterContent.Path),
+                            fileName,
                             item.Letter.ToAddress.CountryCode,
                             item.Letter.ToAddress.Postal,
                             1,
