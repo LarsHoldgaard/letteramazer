@@ -138,18 +138,18 @@ namespace LetterAmazer.Business.Services.Services.Fulfillment
                         logger.Debug("added file: " + fileName);
                         wr.WriteLine(string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12}",
                             fileName,
-                            item.Letter.ToAddress.CountryCode,
-                            item.Letter.ToAddress.Postal,
+                            "\"" + item.Letter.ToAddress.CountryCode + "\"",
+                            "\"" + item.Letter.ToAddress.Postal + "\"",
                             1,
                             string.Empty,
-                            item.Letter.ToAddress.Address,
+                            "\"" + item.Letter.ToAddress.Address + "\"",
                             string.Empty,
                             string.Empty,
-                            item.Letter.ToAddress.City,
+                            "\"" + item.Letter.ToAddress.City + "\"",
                             string.Empty,
                             string.Empty,
-                            item.Letter.ToAddress.Country,
-                            item.Letter.ToAddress.FirstName));
+                            "\"" + item.Letter.ToAddress.Country + "\"",
+                            "\"" + item.Letter.ToAddress.FirstName + "\""));
                     }
                 }
                 wr.Close();

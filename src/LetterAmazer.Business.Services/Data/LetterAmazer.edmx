@@ -65,6 +65,7 @@
           <Property Name="DateCreated" Type="datetime" Nullable="false" />
           <Property Name="DateUpdated" Type="datetime" Nullable="false" />
           <Property Name="Credits" Type="decimal" Scale="5" />
+          <Property Name="ResetPasswordKey" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Letters">
           <Key>
@@ -222,6 +223,7 @@
           <Property Type="Decimal" Name="Credits" Precision="18" Scale="5" />
           <NavigationProperty Name="Letters" Relationship="LetterAmazer.FK_Letter_Customer" FromRole="Customer" ToRole="Letter" />
           <NavigationProperty Name="Orders" Relationship="LetterAmazer.FK_Order_Customer" FromRole="Customer" ToRole="Order" />
+          <Property Type="String" Name="ResetPasswordKey" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <ComplexType Name="AddressInfo" >
           <Property Type="String" Name="Address" Nullable="true" FixedLength="true" MaxLength="150" />
@@ -406,7 +408,8 @@
     <EntitySetMapping Name="Customers">
       <EntityTypeMapping TypeName="IsTypeOf(LetterAmazer.Customer)">
         <MappingFragment StoreEntitySet="Customers">
-          <ScalarProperty Name="Credits" ColumnName="Credits" />
+                <ScalarProperty Name="ResetPasswordKey" ColumnName="ResetPasswordKey" />
+                <ScalarProperty Name="Credits" ColumnName="Credits" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
           <ComplexProperty Name="CustomerInfo" TypeName="LetterAmazer.AddressInfo">
             <ScalarProperty Name="Address" ColumnName="CustomerInfo_Address" />

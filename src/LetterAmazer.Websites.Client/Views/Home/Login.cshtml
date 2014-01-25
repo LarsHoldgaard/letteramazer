@@ -1,0 +1,65 @@
+﻿@using LetterAmazer.Websites.Client.Resources.Views.Home
+@using LetterAmazer.Websites.Client.Extensions
+
+@model LetterAmazer.Websites.Client.ViewModels.LoginViewModel
+
+@section header {
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.validate.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")"></script>
+}
+
+<div class="jumbotron-white">
+    <div class="container">
+        <div class="text-center promotionMargin">
+            <img src="/Content/images/letteramazer.png" />
+            <div>
+                <p class="frontpageLead">
+                    @Html.Raw(ViewRes.SendLettersWorldWideAutomatically)
+                </p>
+                <p>
+                    <a class="btn btn-primary btn-lg" href="@Url.Action("Index", "SingleLetter")" style="font-size: 25px; padding: 0 30px; line-height: 2.33;">@ViewRes.SendLetterNow &raquo;</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="jumbotron-lightblue">
+    <div class="container">
+        <div class="row loginSection">
+            <div class="col-lg-6">
+                @using (Html.BeginForm())
+                {
+                    @Html.BusinessErrorMessageBox()
+                    <div class="row login">
+                        <div class="col-lg-6">
+                            <label class="sr-only" for="Email">@ViewRes.Email</label>
+                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = ViewRes.Email })
+                            @Html.ValidationMessageFor(m => m.Email)
+                        </div>
+                    </div>
+                    <div class="row login">
+                        <div class="col-lg-6">
+                            <label class="sr-only" for="Password">@ViewRes.Password</label>
+                            @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = ViewRes.Password })
+                            @Html.ValidationMessageFor(m => m.Email)
+                        </div>
+                    </div>
+                    <div class="row login">
+                        <div class="col-lg-12">
+                            <input type="submit" class="btn btn-primary btn-lg" value="Login" />
+                        </div>
+                    </div>
+                    <div class="row login">
+                        <div class="col-lg-12">
+                            <a href="@Url.Action("ForgotPassword")">@ViewRes.ForgotPassword</a>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="col-lg-6" style="text-align: right">
+                <img src="@Url.Content("~/Content/images/printer_cartoon.gif")" alt="" width="300" />
+            </div>
+        </div>
+    </div>
+</div>

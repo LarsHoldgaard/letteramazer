@@ -10,3 +10,5 @@ src/LetterAmazer.Business.Services/bin/Debug/log4net.xml
 /src/LetterAmazer.Websites.Client/logs/debug.txt
 /src/LetterAmazer.BackgroundService/obj
 /src/LetterAmazer.BackgroundService/bin
+/src/LetterAmazer.Websites.Client/UserData/Zip
+/src/LetterAmazer.Websites.Client/UserData/PdfLetters

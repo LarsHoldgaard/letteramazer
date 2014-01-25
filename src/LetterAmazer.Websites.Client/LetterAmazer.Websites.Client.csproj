@@ -45,6 +45,12 @@
     <Reference Include="Castle.Windsor">
       <HintPath>..\packages\Castle.Windsor.3.2.1\lib\net45\Castle.Windsor.dll</HintPath>
     </Reference>
+    <Reference Include="DataAnnotationsExtensions">
+      <HintPath>..\packages\DataAnnotationsExtensions.1.1.0.0\lib\NETFramework40\DataAnnotationsExtensions.dll</HintPath>
+    </Reference>
+    <Reference Include="DataAnnotationsExtensions.ClientValidation">
+      <HintPath>..\packages\DataAnnotationsExtensions.MVC3.1.1.0.0\lib\NETFramework40\DataAnnotationsExtensions.ClientValidation.dll</HintPath>
+    </Reference>
     <Reference Include="itextsharp">
       <HintPath>..\packages\iTextSharp.5.4.5\lib\itextsharp.dll</HintPath>
     </Reference>
@@ -129,6 +135,9 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
+    <Reference Include="WebActivator">
+      <HintPath>..\packages\WebActivator.1.2.0.0\lib\NETFramework40\WebActivator.dll</HintPath>
+    </Reference>
     <Reference Include="WebGrease">
       <Private>True</Private>
       <HintPath>..\packages\WebGrease.1.3.0\lib\WebGrease.dll</HintPath>
@@ -143,12 +152,16 @@
     <Compile Include="App_Start\CultureConstraint.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\MultiCultureMvcRouteHandler.cs" />
+    <Compile Include="App_Start\RegisterClientValidationExtensions.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\SingleCultureMvcRouteHandler.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Attributes\AutoErrorRecoveryAttribute.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\SingleLetterController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Extensions\HtmlHelperExtensions.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -181,6 +194,8 @@
       <DependentUpon>ViewRes.resx</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\CreateSingleLetterModel.cs" />
+    <Compile Include="ViewModels\LoginViewModel.cs" />
+    <Compile Include="ViewModels\RegisterViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\css\General\Sidewide.css" />
@@ -199,6 +214,7 @@
     <Content Include="Content\images\letteramazer_small.png" />
     <Content Include="Content\images\letteramazer_small_white.png" />
     <Content Include="Content\images\pdf-icon.png" />
+    <Content Include="Content\images\printer_cartoon.gif" />
     <Content Include="Content\images\stamp.png" />
     <Content Include="Content\images\uploadpdf.png" />
     <Content Include="Content\images\writetext.png" />
@@ -265,6 +281,8 @@
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.tooltip.min.css" />
     <Content Include="Global.asax" />
+    <Content Include="Resources\EmailTemplates\MembershipInformation.xml" />
+    <Content Include="Resources\EmailTemplates\ResetPasswordUrl.xml" />
     <Content Include="Scripts\ckeditor\CHANGES.md" />
     <Content Include="Scripts\ckeditor\LICENSE.md" />
     <Content Include="Scripts\ckeditor\plugins\scayt\LICENSE.md" />
@@ -589,6 +607,13 @@
     <Content Include="Views\Shared\CountryList.cshtml" />
     <Content Include="Views\SingleLetter\DropZone.cshtml" />
     <Content Include="Views\SingleLetter\Confirmation.cshtml" />
+    <Content Include="Views\Home\Register.cshtml" />
+    <Content Include="Views\Home\RegisterSuccess.cshtml" />
+    <Content Include="Views\Home\Login.cshtml" />
+    <Content Include="Views\Shared\Authentication.cshtml" />
+    <Content Include="Views\Home\ForgotPassword.cshtml" />
+    <Content Include="Views\Home\ForgotPasswordSuccess.cshtml" />
+    <Content Include="Views\Home\RecoverPassword.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

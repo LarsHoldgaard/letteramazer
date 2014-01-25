@@ -106,6 +106,24 @@ namespace LetterAmazer.Websites.Client.Resources.Views.Shared {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Email format is invalid.
+        /// </summary>
+        public static string EmailInvalid {
+            get {
+                return ResourceManager.GetString("EmailInvalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Email or password is invalid.
+        /// </summary>
+        public static string EmailOrPasswordInvalid {
+            get {
+                return ResourceManager.GetString("EmailOrPasswordInvalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Error.
         /// </summary>
         public static string Error {
@@ -133,6 +151,24 @@ namespace LetterAmazer.Websites.Client.Resources.Views.Shared {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Login.
+        /// </summary>
+        public static string Login {
+            get {
+                return ResourceManager.GetString("Login", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Logout.
+        /// </summary>
+        public static string Logout {
+            get {
+                return ResourceManager.GetString("Logout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to LetterAmazer - Send a physical letter to anywhere in the world.
         /// </summary>
         public static string PageTitle {
@@ -142,11 +178,29 @@ namespace LetterAmazer.Websites.Client.Resources.Views.Shared {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Confirm password don&apos;t match password.
+        /// </summary>
+        public static string PasswordNotMatch {
+            get {
+                return ResourceManager.GetString("PasswordNotMatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Pricing.
         /// </summary>
         public static string Pricing {
             get {
                 return ResourceManager.GetString("Pricing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Register.
+        /// </summary>
+        public static string Register {
+            get {
+                return ResourceManager.GetString("Register", resourceCulture);
             }
         }
         
@@ -174,6 +228,24 @@ namespace LetterAmazer.Websites.Client.Resources.Views.Shared {
         public static string Subscribe {
             get {
                 return ResourceManager.GetString("Subscribe", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This field is required.
+        /// </summary>
+        public static string ThisFieldIsRequired {
+            get {
+                return ResourceManager.GetString("ThisFieldIsRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Welcome.
+        /// </summary>
+        public static string Welcome {
+            get {
+                return ResourceManager.GetString("Welcome", resourceCulture);
             }
         }
     }

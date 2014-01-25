@@ -38,6 +38,7 @@
                     <li class="@(action == "api" && controller == "home" ? "active" : "")"><a href="@Url.Action("Api", "Home")">@ViewRes.Api</a></li>
                     <li class="@(action == "pricing" && controller == "home" ? "active" : "")"><a href="@Url.Action("Pricing", "Home")">@ViewRes.Pricing</a></li>
                 </ul>
+                @Html.Partial("Authentication")
             </div>
         </div>
     </div>

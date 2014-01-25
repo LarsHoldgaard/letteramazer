@@ -181,11 +181,20 @@
   <data name="BusinessHint" xml:space="preserve">
     <value>Send physical letters online for businesses</value>
   </data>
+  <data name="ConfirmPassword" xml:space="preserve">
+    <value>ConfirmPassword</value>
+  </data>
   <data name="ContactUs" xml:space="preserve">
     <value>Contact us</value>
   </data>
+  <data name="Email" xml:space="preserve">
+    <value>Email</value>
+  </data>
   <data name="Faq" xml:space="preserve">
     <value>FAQ</value>
+  </data>
+  <data name="FirstName" xml:space="preserve">
+    <value>First name</value>
   </data>
   <data name="ForBusiness" xml:space="preserve">
     <value>For business</value>
@@ -193,6 +202,9 @@
   <data name="ForBusinessContent" xml:space="preserve">
     <value>&lt;p&gt;Need to send a lot of letters? Need to integrate letters into an application? You've arrived at the right place.&lt;/p&gt;
             &lt;p&gt;We provide a backend to companies who need to send multiple letters, which you with ease can use in your business. And yes, we send world-wide.&lt;/p&gt;</value>
+  </data>
+  <data name="ForgotPassword" xml:space="preserve">
+    <value>Forgot your password?</value>
   </data>
   <data name="GetUpdates" xml:space="preserve">
     <value>Get updates</value>
@@ -225,6 +237,24 @@
                     &lt;p class="frontpageSmallLeadExplanation"&gt;
                         Today LetterAmazer are very good for consumers and soon we will treat businesses like angels. We will add amazing features like an API, mail merging, sending multiple letters plus many many more – it will be like letter heaven. &lt;a href="#newsletterStuff"&gt;Sign up for our exiting newsletter, to get all the inside scoops&lt;/a&gt;.
                     &lt;/p&gt;</value>
+  </data>
+  <data name="LastName" xml:space="preserve">
+    <value>Last name</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="LoginHint" xml:space="preserve">
+    <value>Super fast, and absolutely free to get going</value>
+  </data>
+  <data name="Organization" xml:space="preserve">
+    <value>Organization</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="PleaseCheckEmailAndStartToRecoverPassword" xml:space="preserve">
+    <value>&lt;p class="frontpageLead"&gt;Fantastic!&lt;br/&gt;Please click on url in your email and start to recover password.&lt;/p&gt;</value>
   </data>
   <data name="Pricing" xml:space="preserve">
     <value>Pricing</value>
@@ -259,6 +289,9 @@
   <data name="PricingHomepageContent" xml:space="preserve">
     <value>&lt;p&gt;We have providers in all regions of the world, which means we get the cheapest prices.&lt;/p&gt;
             &lt;p&gt;We constantly try to push the prices down, so we have the most competitive prices on the market.&lt;/p&gt;</value>
+  </data>
+  <data name="RegisterSuccessContent" xml:space="preserve">
+    <value>&lt;p class="frontpageLead"&gt;Fantastic!&lt;br/&gt;Your account is registered.&lt;/p&gt;           </value>
   </data>
   <data name="SendLetterNow" xml:space="preserve">
     <value>Send a letter now</value>

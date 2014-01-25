@@ -28,6 +28,7 @@ namespace LetterAmazer.Business.Services.Data
         public System.DateTime DateCreated { get; set; }
         public System.DateTime DateUpdated { get; set; }
         public Nullable<decimal> Credits { get; set; }
+        public string ResetPasswordKey { get; set; }
     
         public AddressInfo CustomerInfo { get; set; }
     

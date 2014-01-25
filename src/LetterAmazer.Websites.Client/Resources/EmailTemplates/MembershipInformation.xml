@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<email-template>
+    <subject>Membership Information</subject>
+    <addresses>
+        <entry name="From" value="$FromMail$"></entry>
+        <entry name="To" value="$ToMail$"></entry>
+    </addresses>
+    <body format="text/html" encoding="utf-8">
+        <![CDATA[
+<html>
+  <body style="font-family: Arial, Helvertica, sans-serif;">
+Dear $Email$,<br/>
+
+<p>Your account information:</p>
+<p>
+Email: $Email$
+</p>
+<p>
+Password: $Password$
+</p>
+<p>
+Best regards,<br />
+Administrator<br />
+</p>
+
+</body>
+</html>
+    ]]>
+    </body>
+</email-template>

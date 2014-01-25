@@ -114,3 +114,18 @@ dl {
     -moz-border-radius: 4px !important;
     font-weight: normal !important;
 }
+
+.loginSection {
+    padding: 25px 0px;
+}
+.loginSection form .login {
+    margin-bottom: 20px;
+}
+.field-validation-error {
+    color: red;
+}
+.alert-error {
+    background-color: #F2DEDE;
+    border-color: #EBCCD1;
+    color: #A94442;
+}

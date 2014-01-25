@@ -1,0 +1,18 @@
+﻿@using LetterAmazer.Websites.Client.Resources.Views.Shared
+@using LetterAmazer.Business.Services.Utilities
+@if (!SecurityUtility.IsAuthenticated)
+{
+    <ul class="nav navbar-nav navbar-right">
+        <li><a href="@Url.Action("Login", "Home")">@ViewRes.Login</a></li>
+        <li><a href="#" style="padding-left:0px;padding-right:0px;">|</a></li>
+        <li><a href="@Url.Action("Register", "Home")">@ViewRes.Register</a></li>
+    </ul>
+}
+else
+{
+    <ul class="nav navbar-nav navbar-right">
+        <li><a href="@Url.Action("Index", "User")">@ViewRes.Welcome, @(string.IsNullOrEmpty(SecurityUtility.CurrentUser.CustomerInfo.FirstName) ? SecurityUtility.CurrentUser.Email : SecurityUtility.CurrentUser.CustomerInfo.FirstName)</a></li>
+        <li><a href="#" style="padding-left:0px;padding-right:0px;">|</a></li>
+        <li><a href="@Url.Action("Logout", "Home")">@ViewRes.Logout</a></li>
+    </ul>
+}

@@ -152,6 +152,15 @@ namespace LetterAmazer.Websites.Client.Resources.Views.Home {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ConfirmPassword.
+        /// </summary>
+        public static string ConfirmPassword {
+            get {
+                return ResourceManager.GetString("ConfirmPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Contact us.
         /// </summary>
         public static string ContactUs {
@@ -161,11 +170,29 @@ namespace LetterAmazer.Websites.Client.Resources.Views.Home {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Email.
+        /// </summary>
+        public static string Email {
+            get {
+                return ResourceManager.GetString("Email", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to FAQ.
         /// </summary>
         public static string Faq {
             get {
                 return ResourceManager.GetString("Faq", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to First name.
+        /// </summary>
+        public static string FirstName {
+            get {
+                return ResourceManager.GetString("FirstName", resourceCulture);
             }
         }
         
@@ -185,6 +212,15 @@ namespace LetterAmazer.Websites.Client.Resources.Views.Home {
         public static string ForBusinessContent {
             get {
                 return ResourceManager.GetString("ForBusinessContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Forgot your password?.
+        /// </summary>
+        public static string ForgotPassword {
+            get {
+                return ResourceManager.GetString("ForgotPassword", resourceCulture);
             }
         }
         
@@ -226,6 +262,60 @@ namespace LetterAmazer.Websites.Client.Resources.Views.Home {
         public static string HomepageHint {
             get {
                 return ResourceManager.GetString("HomepageHint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Last name.
+        /// </summary>
+        public static string LastName {
+            get {
+                return ResourceManager.GetString("LastName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Login.
+        /// </summary>
+        public static string Login {
+            get {
+                return ResourceManager.GetString("Login", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Super fast, and absolutely free to get going.
+        /// </summary>
+        public static string LoginHint {
+            get {
+                return ResourceManager.GetString("LoginHint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Organization.
+        /// </summary>
+        public static string Organization {
+            get {
+                return ResourceManager.GetString("Organization", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Password.
+        /// </summary>
+        public static string Password {
+            get {
+                return ResourceManager.GetString("Password", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;p class=&quot;frontpageLead&quot;&gt;Fantastic!&lt;br/&gt;Please click on url in your email and start to recover password.&lt;/p&gt;.
+        /// </summary>
+        public static string PleaseCheckEmailAndStartToRecoverPassword {
+            get {
+                return ResourceManager.GetString("PleaseCheckEmailAndStartToRecoverPassword", resourceCulture);
             }
         }
         
@@ -274,6 +364,15 @@ namespace LetterAmazer.Websites.Client.Resources.Views.Home {
         public static string PricingHomepageContent {
             get {
                 return ResourceManager.GetString("PricingHomepageContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;p class=&quot;frontpageLead&quot;&gt;Fantastic!&lt;br/&gt;Your account is registered.&lt;/p&gt;           .
+        /// </summary>
+        public static string RegisterSuccessContent {
+            get {
+                return ResourceManager.GetString("RegisterSuccessContent", resourceCulture);
             }
         }
         

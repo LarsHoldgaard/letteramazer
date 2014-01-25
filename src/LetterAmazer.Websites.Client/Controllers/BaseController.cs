@@ -97,5 +97,9 @@ namespace LetterAmazer.Websites.Client.Controllers
             }
         }
 
+        public object InitializeViewModel(object model)
+        {
+            return model;
+        }
     }
 }

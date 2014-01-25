@@ -132,6 +132,12 @@
   <data name="EmailAddress" xml:space="preserve">
     <value>Email address</value>
   </data>
+  <data name="EmailInvalid" xml:space="preserve">
+    <value>Email format is invalid</value>
+  </data>
+  <data name="EmailOrPasswordInvalid" xml:space="preserve">
+    <value>Email or password is invalid</value>
+  </data>
   <data name="Error" xml:space="preserve">
     <value>Error</value>
   </data>
@@ -141,11 +147,23 @@
   <data name="Home" xml:space="preserve">
     <value>Home</value>
   </data>
+  <data name="Login" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Logout</value>
+  </data>
   <data name="PageTitle" xml:space="preserve">
     <value>LetterAmazer - Send a physical letter to anywhere in the world</value>
   </data>
+  <data name="PasswordNotMatch" xml:space="preserve">
+    <value>Confirm password don't match password</value>
+  </data>
   <data name="Pricing" xml:space="preserve">
     <value>Pricing</value>
+  </data>
+  <data name="Register" xml:space="preserve">
+    <value>Register</value>
   </data>
   <data name="SendALetter" xml:space="preserve">
     <value>Send a letter</value>
@@ -155,5 +173,11 @@
   </data>
   <data name="Subscribe" xml:space="preserve">
     <value>Subscribe</value>
+  </data>
+  <data name="ThisFieldIsRequired" xml:space="preserve">
+    <value>This field is required</value>
+  </data>
+  <data name="Welcome" xml:space="preserve">
+    <value>Welcome</value>
   </data>
 </root>
