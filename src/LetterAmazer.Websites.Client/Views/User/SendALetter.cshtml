@@ -1,4 +1,4 @@
-﻿@using LetterAmazer.Websites.Client.Resources.Views.SingleLetter
+﻿@using LetterAmazer.Websites.Client.Resources.Views.User
 @model LetterAmazer.Websites.Client.ViewModels.CreateSingleLetterModel
 
 @section header {
@@ -43,8 +43,7 @@
                                 <div class="col-lg-11 col-lg-offset-1">
                                     <p class="frontpageLeadExplanation">@ViewRes.StepOne</p>
                                     <p>
-                                        @ViewRes.YourEmail:<br />
-                                        @Html.TextBoxFor(m => m.Email, new { @class = "input-lg", placeholder = "Enter your e-mail" })
+                                        @Html.HiddenFor(m => m.Email)
                                     </p>
                                     <p>
                                         @ViewRes.RecipientName:<br />
@@ -122,21 +121,22 @@
                         
                         <div id="sendaletter-step3" data-bind="visible: showStepThree()">
                             <p class="frontpageLeadExplanation">@ViewRes.StepThree</p>
-                            <p class="frontpageSmallLeadExplanation">Sending letters are not free, and when we send letters without stamps, the postal offices get really angry at us. <b>So we better get the letter stamped</b>.</p>
+                            <p class="frontpageSmallLeadExplanation">@Html.Raw(ViewRes.StepThreeExplanation)</p>
                             <hr />
-
                             <p data-bind="visible: uploadPdf() == 1">
                                 <b>@ViewRes.Remember:</b> <a class="pdfPreviewLnk" href="#" data-bind="click: previewPDF">@ViewRes.SeePreviewHowLetterLook</a>
                             </p>
                             <p data-bind="visible: uploadPdf() == 2">
                                 <b>@ViewRes.Remember:</b> <a class="pdfPreviewLnk" href="#" data-bind="click: previewWrittenContent">@ViewRes.SeePreviewHowLetterLook</a>
                             </p>
-
+                            <div class="alert alert-info" data-bind="visible: showEnoughCredits() == false">
+                                @Html.Raw(ViewRes.NotEnoughCreditsHint)
+                            </div>
                             <div class="row letterDestination">
                                 <div class="col-lg-6">
                                     <dl>
                                         <dt>@ViewRes.PaymentMethod</dt>
-                                        <dd>PayPal</dd>
+                                        <dd data-bind="text: paymentMethod">PayPal</dd>
 
                                         <dt>@ViewRes.ShippingTime</dt>
                                         <dd>3-6 work days</dd>
@@ -169,7 +169,8 @@
                             <br />
                             <br />
                             <input id="btn-back-32" type="button" class="btn btn-default" value="@ViewRes.Back" data-bind="click: goToStepTwo"/>
-                            <input id="btnsubmit" type="submit" class="btn btn-primary btn-lg submitAbe" value="@ViewRes.StampAndSendLetter &raquo;" data-bind="click: save" />
+                            <input id="btnsubmit" type="submit" class="btn btn-primary btn-lg submitAbe" value="@ViewRes.StampAndSendLetter &raquo;" data-bind="click: save, visible: showEnoughCredits() == true" />
+                            <a href="@Url.Action("Credits")" class="btn btn-lg btn-info" data-bind="visible: showEnoughCredits() == false">@ViewRes.AddCreditsToYourAccount</a>
                             @Html.HiddenFor(m => m.UseUploadFile, new Dictionary<string, object>{{"data-bind", "value:useUploadFile"}})
                             @Html.HiddenFor(m => m.UploadFile, new Dictionary<string, object>{{"data-bind", "value:uploadFileKey"}})
                             <br />
@@ -221,12 +222,12 @@
     var createLetterData = {
         countryList: countryList,
         currentFile: null,
-        generatePDFUrl: '@Url.Action("GeneratePDF")',
-        getPriceUrl: '@Url.Action("GetPrice")',
-        applyVoucherUrl: '@Url.Action("ApplyVoucher")',
-        previewPDFUrl: '@Url.Action("PreviewPDF")',
+        generatePDFUrl: '@Url.Action("GeneratePDF", "SingleLetter")',
+        getPriceUrl: '@Url.Action("GetPrice", "SingleLetter")',
+        applyVoucherUrl: '@Url.Action("ApplyVoucher", "SingleLetter")',
+        previewPDFUrl: '@Url.Action("PreviewPDF", "SingleLetter")',
         geocoder: new google.maps.Geocoder(),
-        isAutheticated: false
+        isAutheticated: true
     };
 
     CKEDITOR.replace('WriteContent');
@@ -236,7 +237,7 @@
     ko.applyBindings(viewModel, document.getElementById('sendALetterForm'));
 
     $('div#myDropzone').dropzone({
-        url: '@Url.Action("Upload")',
+        url: '@Url.Action("Upload", "SingleLetter")',
         acceptedFiles: 'application/pdf',
         maxFilesize: 10,
         addRemoveLinks: true,
@@ -286,7 +287,7 @@
         'removeCompleted': false,
         'multi': false,
         'swf': '@Url.Content("~/Scripts/uploadify/uploadify.swf")',
-        'uploader': '@Url.Action("Upload")',
+        'uploader': '@Url.Action("Upload", "SingleLetter")',
         'onUploadSuccess': function (file, data, response) {
             console.info("data: ", data);
             var result = $.parseJSON(data);

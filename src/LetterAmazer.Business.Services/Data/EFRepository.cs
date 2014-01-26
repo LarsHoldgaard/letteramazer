@@ -7,6 +7,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using LinqKit;
 
 namespace LetterAmazer.Business.Services.Data
 {
@@ -85,10 +86,10 @@ namespace LetterAmazer.Business.Services.Data
         {
             IDbSet<T> dbset = DataContext.Set<T>();
             PaginatedResult<T> results = new PaginatedResult<T>();
-            var query = dbset.Where(whereExpression);
+            var query = dbset.AsExpandable().Where(whereExpression);
             query = ApplyOrders<T>(query, orders);
             results.Results = query.Skip<T>(pageIndex * pageSize).Take<T>(pageSize).ToList<T>();
-            results.TotalItems = dbset.LongCount(whereExpression);
+            results.TotalItems = dbset.AsExpandable().LongCount(whereExpression);
             return results;
         }
 

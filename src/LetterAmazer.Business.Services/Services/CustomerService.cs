@@ -135,5 +135,14 @@ namespace LetterAmazer.Business.Services.Services
             customer.ResetPasswordKey = string.Empty;
             unitOfWork.Commit();
         }
+
+        public bool IsValidCredits(int userId, decimal price)
+        {
+            Customer customer = repository.GetById<Customer>(userId);
+            if (customer == null) return false;
+
+            decimal creditsLeft = customer.Credits.Value + Math.Abs(customer.CreditLimit);
+            return creditsLeft >= price;
+        }
     }
 }

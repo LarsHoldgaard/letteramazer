@@ -34,6 +34,7 @@ namespace LetterAmazer.Business.Services.Data
         public string PaymentMethod { get; set; }
         public string Email { get; set; }
         public string Phone { get; set; }
+        public OrderType OrderType { get; set; }
     
         public virtual Customer Customer { get; set; }
         public virtual ICollection<OrderItem> OrderItems { get; set; }

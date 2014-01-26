@@ -142,11 +142,29 @@ namespace LetterAmazer.Websites.Client.Resources.Views.Shared {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to First.
+        /// </summary>
+        public static string First {
+            get {
+                return ResourceManager.GetString("First", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Home.
         /// </summary>
         public static string Home {
             get {
                 return ResourceManager.GetString("Home", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Last.
+        /// </summary>
+        public static string Last {
+            get {
+                return ResourceManager.GetString("Last", resourceCulture);
             }
         }
         
@@ -169,6 +187,15 @@ namespace LetterAmazer.Websites.Client.Resources.Views.Shared {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Next.
+        /// </summary>
+        public static string Next {
+            get {
+                return ResourceManager.GetString("Next", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to LetterAmazer - Send a physical letter to anywhere in the world.
         /// </summary>
         public static string PageTitle {
@@ -183,6 +210,15 @@ namespace LetterAmazer.Websites.Client.Resources.Views.Shared {
         public static string PasswordNotMatch {
             get {
                 return ResourceManager.GetString("PasswordNotMatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Prev.
+        /// </summary>
+        public static string Prev {
+            get {
+                return ResourceManager.GetString("Prev", resourceCulture);
             }
         }
         

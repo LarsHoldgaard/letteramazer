@@ -161,14 +161,16 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\SingleLetterController.cs" />
     <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Extensions\CustomerExtensions.cs" />
+    <Compile Include="Extensions\FormatExtensions.cs" />
     <Compile Include="Extensions\HtmlHelperExtensions.cs" />
+    <Compile Include="Extensions\PaginatedExtensions.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\Culture.cs" />
     <Compile Include="Helpers\Currency.cs" />
     <Compile Include="Helpers\Helper.cs" />
-    <Compile Include="Helpers\SecurityHelper.cs" />
     <Compile Include="IoC\Bootstrap.cs" />
     <Compile Include="IoC\BootstrapInstaller.cs" />
     <Compile Include="IoC\WebWindsorInstaller.cs" />
@@ -193,8 +195,15 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ViewRes.resx</DependentUpon>
     </Compile>
+    <Compile Include="Resources\Views\User\ViewRes.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ViewRes.resx</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels\CreateSingleLetterModel.cs" />
+    <Compile Include="ViewModels\CreditsViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
+    <Compile Include="ViewModels\ProfileViewModel.cs" />
     <Compile Include="ViewModels\RegisterViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -614,6 +623,10 @@
     <Content Include="Views\Home\ForgotPassword.cshtml" />
     <Content Include="Views\Home\ForgotPasswordSuccess.cshtml" />
     <Content Include="Views\Home\RecoverPassword.cshtml" />
+    <Content Include="Views\User\Index.cshtml" />
+    <Content Include="Views\User\Delete.cshtml" />
+    <Content Include="Views\User\SendALetter.cshtml" />
+    <Content Include="Views\User\Credits.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -644,6 +657,10 @@
       <LastGenOutput>ViewRes.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\Views\SingleLetter\ViewRes.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>ViewRes.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Views\User\ViewRes.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>ViewRes.Designer.cs</LastGenOutput>
     </EmbeddedResource>

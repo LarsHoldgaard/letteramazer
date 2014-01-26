@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using LetterAmazer.Websites.Client.ViewModels;
+using LetterAmazer.Websites.Client.Extensions;
 using LetterAmazer.Websites.Client.Helpers;
 using LetterAmazer.Business.Services.Data;
 using LetterAmazer.Business.Services.Services.LetterContent;
@@ -14,6 +15,7 @@ using LetterAmazer.Business.Services.Model;
 using LetterAmazer.Business.Services.Interfaces;
 using LetterAmazer.Business.Services.Services.PaymentMethod;
 using System.Text;
+using LetterAmazer.Business.Services.Utilities;
 
 namespace LetterAmazer.Websites.Client.Controllers
 {
@@ -25,13 +27,15 @@ namespace LetterAmazer.Websites.Client.Controllers
         private IPaymentService paymentService;
         private ILetterService letterService;
         private ICouponService couponService;
-        public SingleLetterController(IOrderService orderService, IPaymentService paymentService, 
-            ILetterService letterService, ICouponService couponService)
+        private ICustomerService customerService;
+        public SingleLetterController(IOrderService orderService, IPaymentService paymentService,
+            ILetterService letterService, ICouponService couponService, ICustomerService customerService)
         {
             this.orderService = orderService;
             this.paymentService = paymentService;
             this.letterService = letterService;
             this.couponService = couponService;
+            this.customerService = customerService;
         }
 
         [HttpGet]
@@ -74,11 +78,6 @@ namespace LetterAmazer.Websites.Client.Controllers
                 Letter letter = new Letter();
                 letter.LetterStatus = LetterStatus.Created;
                 letter.LetterDetail = letterDetail;
-                if (SecurityHelper.CurrentUser != null)
-                {
-                    letter.CustomerId = SecurityHelper.CurrentUser.Id;
-                    letter.Customer = SecurityHelper.CurrentUser;
-                }
                 letter.ToAddress = addressInfo;
 
                 if (model.UseUploadFile)
@@ -180,9 +179,22 @@ namespace LetterAmazer.Websites.Client.Controllers
                 }
                 var pages = pdfManager.GetPagesCount(GetAbsoluteFile(letter.LetterContent.Path));
                 var price = letterService.GetCost(letter);
-                return Json(new { 
-                    price = price ,
-                    numberOfPages = pages 
+
+                bool isValidCredits = false;
+                decimal credits = 0;
+                if (SecurityUtility.IsAuthenticated)
+                {
+                    isValidCredits = customerService.IsValidCredits(SecurityUtility.CurrentUser.Id, price);
+                    credits = SecurityUtility.CurrentUser.GetAvailableCredits();
+                }
+
+                return Json(new {
+                    status = "success",
+                    price = price,
+                    numberOfPages = pages,
+                    credits = credits,
+                    isAuthenticated = SecurityUtility.IsAuthenticated,
+                    isValidCredits = isValidCredits
                 });
             }
             catch (Exception ex)
@@ -192,8 +204,12 @@ namespace LetterAmazer.Websites.Client.Controllers
 
             return Json(new
             {
+                status = "error",
                 price = 0,
-                numberOfPages = 0
+                numberOfPages = 0,
+                credits = 0,
+                isAuthenticated = SecurityUtility.IsAuthenticated,
+                isOverCredits = false
             });
         }
 
@@ -235,48 +251,6 @@ namespace LetterAmazer.Websites.Client.Controllers
             logger.DebugFormat("pdf key file: {0}", key);
             string filename = GetAbsoluteFile(key);
             return File(filename, "application/pdf", Path.GetFileName(filename));
-        }
-
-        public JsonResult PaypalIpn()
-        {
-            try 
-	        {
-                logger.Info("IPN called");
-                byte[] param = null; // try three time
-                bool readSuccess = false;
-                for (int i = 0; i < 3; i++)
-                {
-                    if (readSuccess == true) break;
-                    try
-                    {
-                        param = Request.BinaryRead(Request.ContentLength);
-                        readSuccess = true;
-                    }
-                    catch (Exception ex)
-                    {
-                        logger.Error(ex);
-                        logger.DebugFormat("try {0}", i);
-                    }
-                }
-                if (readSuccess == false)
-                {
-                    logger.Debug("Can not read data from paypal");
-                    return Json(new { status = "error", message = "Can not read data from paypal" }, JsonRequestBehavior.AllowGet);
-                }
-                
-                //TODO We should mark the order should call to paypal again!
-                string strRequest = Encoding.ASCII.GetString(param);
-                VerifyPaymentResult result = paymentService.Get(PaypalMethod.NAME).Verify(new VerifyPaymentContext() { Parameters = strRequest });
-
-                orderService.MarkOrderIsPaid(result.OrderId);
-
-                return Json(new { status = "success" }, JsonRequestBehavior.AllowGet);
-	        }
-	        catch (Exception ex)
-	        {
-		        logger.Error(ex);
-		        return Json(new { status = "error" }, JsonRequestBehavior.AllowGet);
-	        }
         }
 
         public ActionResult Confirmation()

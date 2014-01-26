@@ -1,0 +1,20 @@
+﻿@using LetterAmazer.Business.Services.Utilities
+@using LetterAmazer.Websites.Client.Extensions
+@using LetterAmazer.Websites.Client.Resources.Views.User
+
+@model LetterAmazer.Websites.Client.ViewModels.OrderDetailViewModel
+
+@section header {
+}
+
+<div class="jumbotron-white">
+    <div class="container">
+        <h2>Delete </h2>
+        @Html.MessageBox(HtmlHelperExtensions.MessageBoxType.Warning, ViewRes.DeleteOrderConfirmation)
+        @using (Html.BeginForm())
+        {
+            <input type="submit" class="btn btn-primary" value="ViewRes.YesIDelete" />
+        }
+    </div>
+</div>
+

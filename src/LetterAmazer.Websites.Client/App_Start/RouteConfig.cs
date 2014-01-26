@@ -22,6 +22,12 @@ namespace LetterAmazer.Websites.Client
             );
 
             routes.MapRoute(
+                name: "User",
+                url: "User/{action}/{id}",
+                defaults: new { controller = "User", action = "Index", id = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
                 name: "Default",
                 url: "{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }

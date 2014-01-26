@@ -117,6 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AddCreditsToYourAccount" xml:space="preserve">
+    <value>Add credits to your account</value>
+  </data>
+  <data name="AddFunds" xml:space="preserve">
+    <value>Add funds</value>
+  </data>
   <data name="AddVoucher" xml:space="preserve">
     <value>Add voucher</value>
   </data>
@@ -126,6 +132,9 @@
   <data name="ConfirmationContent" xml:space="preserve">
     <value>&lt;p class="frontpageLead"&gt;Fantastic!&lt;br/&gt;Your letter is now on its way.&lt;/p&gt;
                 &lt;p style="font-size: 24px; font-family: 'Kite One',sans-serif;"&gt;&amp;#9839; ... and is leaving on an jet plane &amp;#9839;&lt;/p&gt;</value>
+  </data>
+  <data name="DeleteOrderConfirmation" xml:space="preserve">
+    <value>This action can not undo. Are you sure you want to delete the order? </value>
   </data>
   <data name="DestinationAddress" xml:space="preserve">
     <value>Destination address</value>
@@ -154,8 +163,20 @@
   <data name="GetUpdates" xml:space="preserve">
     <value>Get updates</value>
   </data>
+  <data name="GoToPayment" xml:space="preserve">
+    <value>Go to payment</value>
+  </data>
+  <data name="InsufficientFunds" xml:space="preserve">
+    <value>Insufficient funds</value>
+  </data>
+  <data name="InsufficientFundsHint" xml:space="preserve">
+    <value>You don't have sufficient funds credits to send a letter. You currently have {0} credits, and you have a limit of {1}.</value>
+  </data>
   <data name="LetterDestination" xml:space="preserve">
     <value>Letter destination</value>
+  </data>
+  <data name="NotEnoughCreditsHint" xml:space="preserve">
+    <value>Note: account dose not enough credits &lt;br /&gt; Top your account with more credits by clicking "Add credits to your account"</value>
   </data>
   <data name="OiMate" xml:space="preserve">
     <value>Oi mate</value>
@@ -186,6 +207,9 @@
   </data>
   <data name="SendALetter" xml:space="preserve">
     <value>Send a letter</value>
+  </data>
+  <data name="SendALetterNow" xml:space="preserve">
+    <value>Send a letter now</value>
   </data>
   <data name="SendMultipleLettersHint" xml:space="preserve">
     <value>Are you a company? Soon we're adding wonderful stuff so sending multiple letters will become extremely easy.</value>
@@ -225,6 +249,9 @@
   <data name="Voucher" xml:space="preserve">
     <value>Voucher</value>
   </data>
+  <data name="Welcome" xml:space="preserve">
+    <value>Welcome</value>
+  </data>
   <data name="WePromiseWeDontLook" xml:space="preserve">
     <value>We promise we don't look</value>
   </data>
@@ -236,6 +263,9 @@
   </data>
   <data name="WriteYourLetterHere" xml:space="preserve">
     <value>Write your letter here...</value>
+  </data>
+  <data name="YesIDelete" xml:space="preserve">
+    <value>Yes! I delete</value>
   </data>
   <data name="YourEmail" xml:space="preserve">
     <value>Your e-mail</value>

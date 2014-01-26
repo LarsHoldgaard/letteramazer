@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace LetterAmazer.Websites.Client.Resources.Views.SingleLetter {
+namespace LetterAmazer.Websites.Client.Resources.Views.User {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace LetterAmazer.Websites.Client.Resources.Views.SingleLetter {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("LetterAmazer.Websites.Client.Resources.Views.SingleLetter.ViewRes", typeof(ViewRes).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("LetterAmazer.Websites.Client.Resources.Views.User.ViewRes", typeof(ViewRes).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -57,6 +57,24 @@ namespace LetterAmazer.Websites.Client.Resources.Views.SingleLetter {
             }
             set {
                 resourceCulture = value;
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add credits to your account.
+        /// </summary>
+        public static string AddCreditsToYourAccount {
+            get {
+                return ResourceManager.GetString("AddCreditsToYourAccount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add funds.
+        /// </summary>
+        public static string AddFunds {
+            get {
+                return ResourceManager.GetString("AddFunds", resourceCulture);
             }
         }
         
@@ -85,6 +103,15 @@ namespace LetterAmazer.Websites.Client.Resources.Views.SingleLetter {
         public static string ConfirmationContent {
             get {
                 return ResourceManager.GetString("ConfirmationContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This action can not undo. Are you sure you want to delete the order? .
+        /// </summary>
+        public static string DeleteOrderConfirmation {
+            get {
+                return ResourceManager.GetString("DeleteOrderConfirmation", resourceCulture);
             }
         }
         
@@ -170,11 +197,47 @@ namespace LetterAmazer.Websites.Client.Resources.Views.SingleLetter {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Go to payment.
+        /// </summary>
+        public static string GoToPayment {
+            get {
+                return ResourceManager.GetString("GoToPayment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Insufficient funds.
+        /// </summary>
+        public static string InsufficientFunds {
+            get {
+                return ResourceManager.GetString("InsufficientFunds", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You don&apos;t have sufficient funds credits to send a letter. You currently have {0} credits, and you have a limit of {1}..
+        /// </summary>
+        public static string InsufficientFundsHint {
+            get {
+                return ResourceManager.GetString("InsufficientFundsHint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Letter destination.
         /// </summary>
         public static string LetterDestination {
             get {
                 return ResourceManager.GetString("LetterDestination", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Note: account dose not enough credits &lt;br /&gt; Top your account with more credits by clicking &quot;Add credits to your account&quot;.
+        /// </summary>
+        public static string NotEnoughCreditsHint {
+            get {
+                return ResourceManager.GetString("NotEnoughCreditsHint", resourceCulture);
             }
         }
         
@@ -265,6 +328,15 @@ namespace LetterAmazer.Websites.Client.Resources.Views.SingleLetter {
         public static string SendALetter {
             get {
                 return ResourceManager.GetString("SendALetter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Send a letter now.
+        /// </summary>
+        public static string SendALetterNow {
+            get {
+                return ResourceManager.GetString("SendALetterNow", resourceCulture);
             }
         }
         
@@ -379,6 +451,15 @@ namespace LetterAmazer.Websites.Client.Resources.Views.SingleLetter {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Welcome.
+        /// </summary>
+        public static string Welcome {
+            get {
+                return ResourceManager.GetString("Welcome", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to We promise we don&apos;t look.
         /// </summary>
         public static string WePromiseWeDontLook {
@@ -411,6 +492,15 @@ namespace LetterAmazer.Websites.Client.Resources.Views.SingleLetter {
         public static string WriteYourLetterHere {
             get {
                 return ResourceManager.GetString("WriteYourLetterHere", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Yes! I delete.
+        /// </summary>
+        public static string YesIDelete {
+            get {
+                return ResourceManager.GetString("YesIDelete", resourceCulture);
             }
         }
         

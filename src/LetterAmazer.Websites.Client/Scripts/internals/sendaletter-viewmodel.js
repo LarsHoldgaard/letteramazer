@@ -13,6 +13,10 @@
 
     self.initMap = ko.observable(false);
 
+    self.isAuthenticated = ko.observable(data.isAuthenticated);
+    self.isValidCredits = ko.observable(false);
+    self.paymentMethod = ko.observable("Paypal");
+
     self.currentStep = ko.observable(1);
     self.uploadPdf = ko.observable(0);
     self.useVoucher = ko.observable(0);
@@ -94,6 +98,11 @@
             success: function (data) {
                 thiz.cost(data.price);
                 thiz.numberOfPages(data.numberOfPages);
+                if (data.isAuthenticated) {
+                    self.isAuthenticated(true);
+                    self.isValidCredits(data.isValidCredits);
+                    self.paymentMethod('Credits (' + data.credits + '$ left)');
+                }
                 thiz.currentStep(3);
             }
         });
@@ -111,6 +120,10 @@
     });
     self.showStepThree = ko.computed(function () {
         return self.currentStep() == 3;
+    });
+
+    self.showEnoughCredits = ko.computed(function () {
+        return self.isAuthenticated() == true && self.isValidCredits() == true;
     });
 
     self.useUploadPdfMode = function () {

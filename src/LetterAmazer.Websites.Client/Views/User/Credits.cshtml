@@ -1,0 +1,62 @@
+﻿@using LetterAmazer.Business.Services.Utilities
+@using LetterAmazer.Websites.Client.Extensions
+@using LetterAmazer.Websites.Client.Resources.Views.User
+
+@model LetterAmazer.Websites.Client.ViewModels.CreditsViewModel
+
+@section header {
+}
+
+<div class="jumbotron-white">
+    <div class="container">
+        <h2>@ViewRes.InsufficientFunds</h2>
+        <p>@string.Format(ViewRes.InsufficientFundsHint, Model.Credits.ToFriendlyMoney(), Model.CreditLimit.ToFriendlyMoney())</p>
+        <h3>@ViewRes.AddFunds</h3>
+        <form class="" role="form" method="get" action="@Url.Action("Credits")">
+            <div class="row">
+                <div class="col-lg-6">
+                    <label for="paypal">
+                        <input type="radio" name="paymentMethod" id="paypal" value="Paypal" checked="checked" />
+                        Paypal
+                    </label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="row">
+                        <div class="col-lg-2">
+                            <label for="money50">
+                                <input type="radio" name="funds" id="money50" value="50" checked="checked" />
+                                50$
+                            </label>
+                        </div>
+                        <div class="col-lg-2">
+                            <label for="money100">
+                                <input type="radio" name="funds" id="money100" value="100" />
+                                100$
+                            </label>
+                        </div>
+                        <div class="col-lg-2">
+                            <label for="money150">
+                                <input type="radio" name="funds" id="money150" value="150" />
+                                150$
+                            </label>
+                        </div>
+                        <div class="col-lg-2">
+                            <label for="money200">
+                                <input type="radio" name="funds" id="money200" value="200" />
+                                200$
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <button type="submit" class="btn btn-success">@ViewRes.GoToPayment</button>
+            </div>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+</script>

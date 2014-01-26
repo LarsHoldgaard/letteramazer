@@ -65,6 +65,7 @@
           <Property Name="DateCreated" Type="datetime" Nullable="false" />
           <Property Name="DateUpdated" Type="datetime" Nullable="false" />
           <Property Name="Credits" Type="decimal" Scale="5" />
+          <Property Name="CreditLimit" Type="decimal" Nullable="false" />
           <Property Name="ResetPasswordKey" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Letters">
@@ -133,6 +134,7 @@
           <Property Name="PaymentMethod" Type="nvarchar" Nullable="false" MaxLength="20" />
           <Property Name="Email" Type="nvarchar" Nullable="false" MaxLength="100" />
           <Property Name="Phone" Type="nvarchar" MaxLength="50" />
+          <Property Name="OrderType" Type="int" Nullable="false" />
         </EntityType>
         <Association Name="FK_Letter_Customer">
           <End Role="Customers" Type="LetterAmazer.Store.Customers" Multiplicity="0..1" />
@@ -224,6 +226,7 @@
           <NavigationProperty Name="Letters" Relationship="LetterAmazer.FK_Letter_Customer" FromRole="Customer" ToRole="Letter" />
           <NavigationProperty Name="Orders" Relationship="LetterAmazer.FK_Order_Customer" FromRole="Customer" ToRole="Order" />
           <Property Type="String" Name="ResetPasswordKey" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="Decimal" Name="CreditLimit" Nullable="false" Precision="18" Scale="0" />
         </EntityType>
         <ComplexType Name="AddressInfo" >
           <Property Type="String" Name="Address" Nullable="true" FixedLength="true" MaxLength="150" />
@@ -312,6 +315,7 @@
           <Property Type="String" Name="Phone" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Customer" Relationship="LetterAmazer.FK_Order_Customer" FromRole="Order" ToRole="Customer" />
           <NavigationProperty Name="OrderItems" Relationship="LetterAmazer.FK_OrderItem_Order" FromRole="Order" ToRole="OrderItem" />
+          <Property Type="LetterAmazer.OrderType" Name="OrderType" Nullable="false" />
         </EntityType>
         <EntityType Name="Coupon">
           <Key>
@@ -399,6 +403,10 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EnumType Name="OrderType">
+          <Member Name="SendLetters" Value="0" />
+          <Member Name="AddFunds" Value="1" />
+        </EnumType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -408,6 +416,7 @@
     <EntitySetMapping Name="Customers">
       <EntityTypeMapping TypeName="IsTypeOf(LetterAmazer.Customer)">
         <MappingFragment StoreEntitySet="Customers">
+                <ScalarProperty Name="CreditLimit" ColumnName="CreditLimit" />
                 <ScalarProperty Name="ResetPasswordKey" ColumnName="ResetPasswordKey" />
                 <ScalarProperty Name="Credits" ColumnName="Credits" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
@@ -482,7 +491,8 @@
     <EntitySetMapping Name="Orders">
       <EntityTypeMapping TypeName="IsTypeOf(LetterAmazer.Order)">
         <MappingFragment StoreEntitySet="Orders">
-          <ScalarProperty Name="Phone" ColumnName="Phone" />
+          <ScalarProperty Name="OrderType" ColumnName="OrderType" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="PaymentMethod" ColumnName="PaymentMethod" />
                 <ScalarProperty Name="Price" ColumnName="Price" />

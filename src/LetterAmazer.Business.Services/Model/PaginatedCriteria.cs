@@ -29,4 +29,12 @@ namespace LetterAmazer.Business.Services.Model
             this.OrderBy = new List<OrderBy>();
         }
     }
+
+    public class OrderCriteria : OrderedPaginatedCriteria
+    {
+        public DateTime? From { get; set; }
+        public DateTime? To { get; set; }
+
+        public int CustomerId { get; set; }
+    }
 }

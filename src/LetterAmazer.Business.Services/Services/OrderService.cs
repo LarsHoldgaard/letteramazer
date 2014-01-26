@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LinqKit;
 
 namespace LetterAmazer.Business.Services.Services
 {
@@ -131,6 +132,30 @@ namespace LetterAmazer.Business.Services.Services
                 order.OrderStatus = OrderStatus.Done;
             }
             unitOfWork.Commit();
+        }
+
+        public PaginatedResult<Order> GetOrders(OrderCriteria criteria)
+        {
+            System.Linq.Expressions.Expression<Func<Order, bool>> query = PredicateBuilder.True<Order>();
+            if (criteria.CustomerId > 0)
+            {
+                query = query.And(o => o.CustomerId == criteria.CustomerId);
+            }
+            if (criteria.From.HasValue)
+            {
+                query = query.And(o => o.DateCreated >= criteria.From);
+            }
+            if (criteria.To.HasValue)
+            {
+                query = query.And(o => o.DateCreated <= criteria.To);
+            }
+            return repository.Find<Order>(query, criteria.PageIndex, criteria.PageIndex, criteria.OrderBy.ToArray());
+        }
+
+
+        public string AddFunds(int customerId, decimal price)
+        {
+            throw new NotImplementedException();
         }
     }
 }

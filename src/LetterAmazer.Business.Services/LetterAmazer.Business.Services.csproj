@@ -54,6 +54,9 @@
     <Reference Include="itextsharp">
       <HintPath>..\packages\iTextSharp.5.4.5\lib\itextsharp.dll</HintPath>
     </Reference>
+    <Reference Include="LinqKit">
+      <HintPath>..\packages\LinqKit.1.0\lib\35\LinqKit.dll</HintPath>
+    </Reference>
     <Reference Include="log4net, Version=1.2.13.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
@@ -150,6 +153,9 @@
     <Compile Include="Data\OrderStatus.cs">
       <DependentUpon>LetterAmazer.tt</DependentUpon>
     </Compile>
+    <Compile Include="Data\OrderType.cs">
+      <DependentUpon>LetterAmazer.tt</DependentUpon>
+    </Compile>
     <Compile Include="Data\PaperQuality.cs">
       <DependentUpon>LetterAmazer.tt</DependentUpon>
     </Compile>
@@ -191,6 +197,7 @@
     <Compile Include="Services\LetterService.cs" />
     <Compile Include="Services\NotificationService.cs" />
     <Compile Include="Services\OrderService.cs" />
+    <Compile Include="Services\PaymentMethod\CreditsMethod.cs" />
     <Compile Include="Services\PaymentMethod\PaypalMethod.cs" />
     <Compile Include="Services\PaymentService.cs" />
     <Compile Include="Services\Payment\PayPalManager.cs" />

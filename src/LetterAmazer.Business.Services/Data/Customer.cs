@@ -29,6 +29,7 @@ namespace LetterAmazer.Business.Services.Data
         public System.DateTime DateUpdated { get; set; }
         public Nullable<decimal> Credits { get; set; }
         public string ResetPasswordKey { get; set; }
+        public decimal CreditLimit { get; set; }
     
         public AddressInfo CustomerInfo { get; set; }
     

@@ -16,5 +16,9 @@ namespace LetterAmazer.Business.Services.Interfaces
         void MarkLetterIsSent(int letterId);
         void MarkOrderIsDone(int orderId);
         void MarkOrdersIsDone(IList<Order> orders);
+
+        PaginatedResult<Order> GetOrders(OrderCriteria criteria);
+
+        string AddFunds(int customerId, decimal price);
     }
 }

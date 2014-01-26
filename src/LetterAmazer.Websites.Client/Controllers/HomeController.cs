@@ -80,7 +80,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                     return Redirect(model.ReturnUrl);
                 }
                 
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "User");
             }
             catch (Exception ex)
             {
