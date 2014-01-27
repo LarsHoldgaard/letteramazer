@@ -11,5 +11,6 @@ namespace LetterAmazer.Business.Services.Interfaces
     {
         decimal GetCost(Letter letter);
         string GetRelativeLetterStoragePath();
+        Letter GetLetterById(int letterId);
     }
 }

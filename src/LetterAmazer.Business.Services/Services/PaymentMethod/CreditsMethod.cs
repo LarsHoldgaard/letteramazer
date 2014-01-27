@@ -1,4 +1,5 @@
 ﻿using LetterAmazer.Business.Services.Data;
+using LetterAmazer.Business.Services.Exceptions;
 using LetterAmazer.Business.Services.Interfaces;
 using LetterAmazer.Business.Services.Model;
 using System;
@@ -27,7 +28,16 @@ namespace LetterAmazer.Business.Services.Services.PaymentMethod
 
         public string Process(OrderContext orderContext)
         {
-            return "";
+            Order order = orderContext.Order;
+            if (order == null || order.OrderItems == null || order.OrderItems.Count == 0) throw new BusinessException("Order can not be null!");
+
+            orderContext.Customer.Credits -= orderContext.Order.Price;
+            order.OrderStatus = OrderStatus.Paid;
+            repository.Update(order);
+            orderContext.Customer.DateUpdated = DateTime.Now;
+            repository.Update(orderContext.Customer);
+            unitOfWork.Commit();
+            return string.Format("/{0}/singleletter/confirmation", orderContext.CurrentCulture);
         }
 
         public VerifyPaymentResult Verify(Model.VerifyPaymentContext context)

@@ -20,5 +20,6 @@ namespace LetterAmazer.Business.Services.Interfaces
         Customer GetUserByResetPasswordKey(string resetPasswordKey);
         void ResetPassword(string resetPasswordKey, string newPassword);
         bool IsValidCredits(int userId, decimal price);
+        decimal GetAvailableCredits(int userId);
     }
 }

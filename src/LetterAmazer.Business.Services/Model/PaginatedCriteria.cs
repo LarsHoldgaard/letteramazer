@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LetterAmazer.Business.Services.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -34,7 +35,7 @@ namespace LetterAmazer.Business.Services.Model
     {
         public DateTime? From { get; set; }
         public DateTime? To { get; set; }
-
         public int CustomerId { get; set; }
+        public OrderType? OrderType { get; set; }
     }
 }

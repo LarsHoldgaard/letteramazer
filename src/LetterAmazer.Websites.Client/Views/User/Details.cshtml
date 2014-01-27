@@ -1,0 +1,75 @@
+﻿@using LetterAmazer.Business.Services.Utilities
+@using LetterAmazer.Websites.Client.Extensions
+@using LetterAmazer.Websites.Client.Resources.Views.User
+
+@model LetterAmazer.Websites.Client.ViewModels.OrderDetailViewModel
+
+@section header {
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/themes/base/jquery-ui.css")" />
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery-ui-1.10.3.min.js")"></script>
+}
+
+<div class="jumbotron-white">
+    <div class="container">
+        <h2>@ViewRes.DetailsForOrder @Model.Order.Id</h2>
+        <p><a href="@Url.Action("Index")">@ViewRes.GoBackToOrderOverview</a></p>
+        <h3>@ViewRes.OrderDetails</h3>
+        <dl>
+            <dt>@ViewRes.Status:</dt>
+            <dd>@ViewRes.ResourceManager.GetString(Model.Order.OrderStatus.ToString())</dd>
+            <dt>@ViewRes.Created:</dt>
+            <dd>@Model.Order.DateCreated.ToFriendlyDateTime()</dd>
+            <dt>@ViewRes.LastUpdated</dt>
+            <dd>@Model.Order.DateUpdated.ToFriendlyDateTime()</dd>
+            <dt>@ViewRes.LettersInOrder</dt>
+            <dd>@Model.Order.OrderItems.Count</dd>
+        </dl>
+
+        <h3>@ViewRes.DetailsOfLetters</h3>
+        @foreach (var item in Model.Order.OrderItems)
+        {
+            <h4>@ViewRes.Letter</h4>
+            <p><a href="@Url.Action("Download", new { id = item.Letter.Id })">@ViewRes.DownloadLetterContent</a></p>
+            <div class="row">
+                <div class="col-lg-6">
+                    <h4>@ViewRes.ReceipientDetails</h4>
+                    <p>
+                        Att. @item.Letter.ToAddress.AttPerson <br />
+                        @item.Letter.ToAddress.Address <br />
+                        @item.Letter.ToAddress.Postal @item.Letter.ToAddress.City <br />
+                        @item.Letter.ToAddress.Country
+                    </p>
+                    <h4>@ViewRes.PrintingDetails</h4>
+                    <dl>
+                        <dt>@ViewRes.Color:</dt>
+                        <dd>@item.Letter.LetterDetail.Color.ToString()</dd>
+                        <dt>@ViewRes.PaperType:</dt>
+                        <dd>@item.Letter.LetterDetail.PaperQuality.ToString()</dd>
+                        <dt>@ViewRes.PrintingQuality:</dt>
+                        <dd>@item.Letter.LetterDetail.PrintQuality.ToString()</dd>
+                    </dl>
+                </div>
+                <div class="col-lg-6">
+                    <h4>@ViewRes.LetterStatus</h4>
+                    <dl>
+                        <dt>@Model.Order.DateCreated.ToFriendlyDateTime():</dt>
+                        <dd>@ViewRes.OrderWasCreated</dd>
+                        @if (Model.Order.DatePaid.HasValue)
+                        {
+                        <dt>@Model.Order.DatePaid.Value.ToFriendlyDateTime():</dt>
+                        <dd>@ViewRes.OrderWasPaid</dd>
+                        }
+                        @if (Model.Order.DateSent.HasValue)
+                        {
+                        <dt>@Model.Order.DateSent.Value.ToFriendlyDateTime():</dt>
+                        <dd>@ViewRes.OrderWasSent</dd>
+                        }
+                    </dl>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+<script type="text/javascript">
+    
+</script>

@@ -41,6 +41,7 @@ namespace LetterAmazer.Websites.Client.Controllers
         [HttpGet]
         public ActionResult Index()
         {
+            if (SecurityUtility.IsAuthenticated) return RedirectToAction("SendALetter", "User");
             CreateSingleLetterModel model = new CreateSingleLetterModel();
             return View(model);
         }
@@ -185,7 +186,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                 if (SecurityUtility.IsAuthenticated)
                 {
                     isValidCredits = customerService.IsValidCredits(SecurityUtility.CurrentUser.Id, price);
-                    credits = SecurityUtility.CurrentUser.GetAvailableCredits();
+                    credits = customerService.GetAvailableCredits(SecurityUtility.CurrentUser.Id);
                 }
 
                 return Json(new {
@@ -251,6 +252,52 @@ namespace LetterAmazer.Websites.Client.Controllers
             logger.DebugFormat("pdf key file: {0}", key);
             string filename = GetAbsoluteFile(key);
             return File(filename, "application/pdf", Path.GetFileName(filename));
+        }
+
+        public JsonResult PaypalIpn(string id)
+        {
+            try
+            {
+                logger.Info("IPN called");
+                byte[] param = null; // try three time
+                bool readSuccess = false;
+                for (int i = 0; i < 3; i++)
+                {
+                    if (readSuccess == true) break;
+                    try
+                    {
+                        param = Request.BinaryRead(Request.ContentLength);
+                        readSuccess = true;
+                    }
+                    catch (Exception ex)
+                    {
+                        logger.Error(ex);
+                        logger.DebugFormat("try {0}", i);
+                    }
+                }
+                if (readSuccess == false)
+                {
+                    logger.Debug("Can not read data from paypal");
+                    return Json(new { status = "error", message = "Can not read data from paypal" }, JsonRequestBehavior.AllowGet);
+                }
+
+                //TODO We should mark the order should call to paypal again!
+                string strRequest = Encoding.ASCII.GetString(param);
+                VerifyPaymentResult result = paymentService.Get(PaypalMethod.NAME).Verify(new VerifyPaymentContext() { Parameters = strRequest });
+
+                orderService.MarkOrderIsPaid(result.OrderId);
+                if (id.ToLower() == OrderType.AddFunds.ToString().ToLower())
+                {
+                    orderService.AddFundsForAccount(result.OrderId);
+                }
+
+                return Json(new { status = "success" }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex);
+                return Json(new { status = "error" }, JsonRequestBehavior.AllowGet);
+            }
         }
 
         public ActionResult Confirmation()

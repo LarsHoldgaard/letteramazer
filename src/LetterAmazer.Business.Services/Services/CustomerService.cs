@@ -144,5 +144,11 @@ namespace LetterAmazer.Business.Services.Services
             decimal creditsLeft = customer.Credits.Value + Math.Abs(customer.CreditLimit);
             return creditsLeft >= price;
         }
+
+        public decimal GetAvailableCredits(int userId)
+        {
+            Customer customer = repository.GetById<Customer>(userId);
+            return customer.Credits.Value + Math.Abs(customer.CreditLimit);
+        }
     }
 }

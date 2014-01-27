@@ -16,5 +16,15 @@ namespace LetterAmazer.Business.Services.Exceptions
           System.Runtime.Serialization.SerializationInfo info,
           System.Runtime.Serialization.StreamingContext context)
             : base(info, context) { }
+
+        public ItemNotFoundException(string type, string key) 
+            : base(string.Format("{0} '{1}' not found.", type, key)) 
+        { 
+        }
+
+        public ItemNotFoundException(string type, int objId)
+            : base(string.Format("{0} #{1} not found.", type, objId))
+        {
+        }
     }
 }

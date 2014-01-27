@@ -16,6 +16,12 @@ namespace LetterAmazer.Websites.Client
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
+                name: "SingleLetterPaypalIPN",
+                url: "SingleLetter/PaypalIpn/{id}",
+                defaults: new { controller = "SingleLetter", action = "PaypalIpn", id = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
                 name: "SingleLetter",
                 url: "SingleLetter/{action}/{id}",
                 defaults: new { controller = "SingleLetter", action = "Index", id = UrlParameter.Optional }

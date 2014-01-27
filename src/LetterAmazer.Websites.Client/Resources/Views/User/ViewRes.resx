@@ -270,4 +270,103 @@
   <data name="YourEmail" xml:space="preserve">
     <value>Your e-mail</value>
   </data>
+  <data name="Cancelled" xml:space="preserve">
+    <value>Cancelled</value>
+  </data>
+  <data name="Created" xml:space="preserve">
+    <value>Created</value>
+  </data>
+  <data name="Done" xml:space="preserve">
+    <value>Done</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="InProgress" xml:space="preserve">
+    <value>In progress</value>
+  </data>
+  <data name="Paid" xml:space="preserve">
+    <value>Paid</value>
+  </data>
+  <data name="Color" xml:space="preserve">
+    <value>Color</value>
+  </data>
+  <data name="Credits" xml:space="preserve">
+    <value>Credits</value>
+  </data>
+  <data name="Date" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="DeleteOrder" xml:space="preserve">
+    <value>Delete order</value>
+  </data>
+  <data name="Details" xml:space="preserve">
+    <value>Details</value>
+  </data>
+  <data name="DetailsForOrder" xml:space="preserve">
+    <value>Details for order</value>
+  </data>
+  <data name="DetailsOfLetters" xml:space="preserve">
+    <value>Details of letters</value>
+  </data>
+  <data name="DownloadLetterContent" xml:space="preserve">
+    <value>Download letter content</value>
+  </data>
+  <data name="GoBackToOrderOverview" xml:space="preserve">
+    <value>Go back to order overview</value>
+  </data>
+  <data name="LastUpdated" xml:space="preserve">
+    <value>Last updated</value>
+  </data>
+  <data name="Letter" xml:space="preserve">
+    <value>Letter</value>
+  </data>
+  <data name="LetterCount" xml:space="preserve">
+    <value>Letter count</value>
+  </data>
+  <data name="LettersInOrder" xml:space="preserve">
+    <value>Letters in order</value>
+  </data>
+  <data name="LetterStatus" xml:space="preserve">
+    <value>Letter status</value>
+  </data>
+  <data name="Order" xml:space="preserve">
+    <value>Order</value>
+  </data>
+  <data name="OrderDetails" xml:space="preserve">
+    <value>Order details</value>
+  </data>
+  <data name="OrderOverview" xml:space="preserve">
+    <value>Order overview</value>
+  </data>
+  <data name="OrderState" xml:space="preserve">
+    <value>Order state</value>
+  </data>
+  <data name="OrderWasCreated" xml:space="preserve">
+    <value>Order was created</value>
+  </data>
+  <data name="OrderWasPaid" xml:space="preserve">
+    <value>Order was paid</value>
+  </data>
+  <data name="OrderWasSent" xml:space="preserve">
+    <value>Order was sent</value>
+  </data>
+  <data name="PaperType" xml:space="preserve">
+    <value>Paper type</value>
+  </data>
+  <data name="PrintingDetails" xml:space="preserve">
+    <value>Printing details</value>
+  </data>
+  <data name="PrintingQuality" xml:space="preserve">
+    <value>Printing quality</value>
+  </data>
+  <data name="ReceipientDetails" xml:space="preserve">
+    <value>Receipient details</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="Status" xml:space="preserve">
+    <value>Status</value>
+  </data>
 </root>

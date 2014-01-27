@@ -8,6 +8,7 @@ using LetterAmazer.Business.Services.Interfaces;
 using LetterAmazer.Business.Services.Services.LetterContent;
 using System.IO;
 using System.Web;
+using LetterAmazer.Business.Services.Exceptions;
 
 namespace LetterAmazer.Business.Services.Services
 {
@@ -15,8 +16,10 @@ namespace LetterAmazer.Business.Services.Services
     {
         private PdfManager pdfManager;
         private string pdfStoragePath;
-        public LetterService(string pdfStoragePath)
+        private IRepository repository;
+        public LetterService(string pdfStoragePath, IRepository repository)
         {
+            this.repository = repository;
             this.pdfManager = new PdfManager();
             this.pdfStoragePath = pdfStoragePath;
             if (this.pdfStoragePath.StartsWith("~")) // relative path
@@ -69,6 +72,16 @@ namespace LetterAmazer.Business.Services.Services
         public string GetRelativeLetterStoragePath()
         {
             return "~/UserData/PdfLetters";
+        }
+
+        public Letter GetLetterById(int letterId)
+        {
+            Letter letter = repository.GetById<Letter>(letterId);
+            if (letter == null)
+            {
+                throw new ItemNotFoundException("Letter");
+            }
+            return letter;
         }
     }
 }

@@ -20,5 +20,9 @@ namespace LetterAmazer.Business.Services.Interfaces
         PaginatedResult<Order> GetOrders(OrderCriteria criteria);
 
         string AddFunds(int customerId, decimal price);
+        void AddFundsForAccount(int orderId);
+
+        Order GetOrderById(int orderId);
+        void DeleteOrder(int orderId);
     }
 }

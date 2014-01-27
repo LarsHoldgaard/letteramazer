@@ -135,6 +135,8 @@
           <Property Name="Email" Type="nvarchar" Nullable="false" MaxLength="100" />
           <Property Name="Phone" Type="nvarchar" MaxLength="50" />
           <Property Name="OrderType" Type="int" Nullable="false" />
+          <Property Name="DatePaid" Type="datetime" />
+          <Property Name="DateSent" Type="datetime" />
         </EntityType>
         <Association Name="FK_Letter_Customer">
           <End Role="Customers" Type="LetterAmazer.Store.Customers" Multiplicity="0..1" />
@@ -316,6 +318,8 @@
           <NavigationProperty Name="Customer" Relationship="LetterAmazer.FK_Order_Customer" FromRole="Order" ToRole="Customer" />
           <NavigationProperty Name="OrderItems" Relationship="LetterAmazer.FK_OrderItem_Order" FromRole="Order" ToRole="OrderItem" />
           <Property Type="LetterAmazer.OrderType" Name="OrderType" Nullable="false" />
+          <Property Type="DateTime" Name="DatePaid" Precision="3" />
+          <Property Type="DateTime" Name="DateSent" Precision="3" />
         </EntityType>
         <EntityType Name="Coupon">
           <Key>
@@ -491,7 +495,9 @@
     <EntitySetMapping Name="Orders">
       <EntityTypeMapping TypeName="IsTypeOf(LetterAmazer.Order)">
         <MappingFragment StoreEntitySet="Orders">
-          <ScalarProperty Name="OrderType" ColumnName="OrderType" />
+          <ScalarProperty Name="DateSent" ColumnName="DateSent" />
+                <ScalarProperty Name="DatePaid" ColumnName="DatePaid" />
+                <ScalarProperty Name="OrderType" ColumnName="OrderType" />
                 <ScalarProperty Name="Phone" ColumnName="Phone" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="PaymentMethod" ColumnName="PaymentMethod" />

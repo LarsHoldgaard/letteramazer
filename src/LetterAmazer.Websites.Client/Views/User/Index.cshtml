@@ -12,10 +12,10 @@
 <div class="jumbotron-white">
     <div class="container">
         <h2>@ViewRes.SendALetter, @Model.Customer.CustomerInfo.CompanyName</h2>
-        <h3>Credits: <strong class="credit">@Model.Customer.Credits.Value.ToFriendlyMoney()</strong></h3>
-        <h4>Send a letter</h4>
-        <p><a class="btn btn-success" href="@Url.Action("SendALetter")">Send a letter now</a></p>
-        <h4>Order overview</h4>
+        <h3>@ViewRes.Credits: <strong class="credit">@Model.Customer.Credits.Value.ToFriendlyMoney()</strong></h3>
+        <h4>@ViewRes.SendALetter</h4>
+        <p><a class="btn btn-success" href="@Url.Action("SendALetter")">@ViewRes.SendALetterNow</a></p>
+        <h4>@ViewRes.OrderOverview</h4>
         <form class="form-inline" role="form" method="get" action="@Url.Action("Index")">
             <div class="form-group">
                 <label class="sr-only" for="fromDate">From</label>
@@ -25,18 +25,18 @@
                 <label class="sr-only" for="toDate">To</label>
                 <input type="text" class="form-control" id="toDate" placeholder="To" name="toDate" value="@(Model.ToDate.HasValue ? Model.ToDate.Value.ToString("yyyy-MM-dd") : "")"/>
             </div>
-            <button type="submit" class="btn btn-success">Search</button>
+            <button type="submit" class="btn btn-success">@ViewRes.Search</button>
         </form>
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <td>Order#</td>
-                    <td>Date</td>
-                    <td>Order state</td>
-                    <td>Letter count</td>
-                    <td>Price</td>
-                    <td>Details</td>
-                    <td>Delete order</td>
+                    <td>@ViewRes.Order#</td>
+                    <td>@ViewRes.Date</td>
+                    <td>@ViewRes.OrderState</td>
+                    <td>@ViewRes.LetterCount</td>
+                    <td>@ViewRes.Price</td>
+                    <td>@ViewRes.Details</td>
+                    <td>@ViewRes.DeleteOrder</td>
                 </tr>
             </thead>
             <tbody>

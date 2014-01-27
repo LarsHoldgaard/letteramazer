@@ -12,7 +12,7 @@
         <h2>@ViewRes.InsufficientFunds</h2>
         <p>@string.Format(ViewRes.InsufficientFundsHint, Model.Credits.ToFriendlyMoney(), Model.CreditLimit.ToFriendlyMoney())</p>
         <h3>@ViewRes.AddFunds</h3>
-        <form class="" role="form" method="get" action="@Url.Action("Credits")">
+        <form class="" role="form" method="post" action="@Url.Action("Credits")">
             <div class="row">
                 <div class="col-lg-6">
                     <label for="paypal">

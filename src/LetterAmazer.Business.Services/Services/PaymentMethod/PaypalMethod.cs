@@ -22,12 +22,14 @@ namespace LetterAmazer.Business.Services.Services.PaymentMethod
         private string serviceUrl;
         private string paypalIPN;
         private string returnUrl;
+
         public PaypalMethod(string serviceUrl, string paypalIPN, string returnUrl)
         {
             this.serviceUrl = serviceUrl;
             this.paypalIPN = paypalIPN;
             this.returnUrl = returnUrl;
         }
+
         public string Name
         {
             get { return PaypalMethod.NAME; }
@@ -38,7 +40,7 @@ namespace LetterAmazer.Business.Services.Services.PaymentMethod
             Order order = orderContext.Order;
             if (order == null || order.OrderItems == null || order.OrderItems.Count == 0) throw new BusinessException("Order can not be null!");
 
-            AddressInfo addressInfo = order.OrderItems.ElementAt(0).Letter.ToAddress;
+            AddressInfo addressInfo = order.OrderItems.ElementAt(0).Letter == null ? orderContext.Order.Customer.CustomerInfo : order.OrderItems.ElementAt(0).Letter.ToAddress;
             decimal volume = order.Price;
             string firstName = addressInfo.FirstName;
             string lastName = addressInfo.LastName;
@@ -48,9 +50,12 @@ namespace LetterAmazer.Business.Services.Services.PaymentMethod
             string address = addressInfo.Address;
             var id = order.Id;
 
+            string paypalIPNUrl = string.Format(this.paypalIPN, orderContext.Order.OrderType.ToString());
             var volumeForUsd = Math.Round(volume, 2).ToString().Replace(",", ".");
             var url = string.Format("{0}first_name={1}&last_name={2}&item_name={3}&currency_code=USD&amount={4}&notify_url={5}&cmd=_xclick&country={6}&zip={7}&address1={8}&business={9}&city={10}&custom={11}&return={12}",
-                    serviceUrl, firstName, lastName, "Send a single letter", volumeForUsd, paypalIPN, country, postal, address, "mcoroklo@gmail.com", city, id, string.Format(returnUrl, orderContext.CurrentCulture));
+                this.serviceUrl, firstName, lastName, order.OrderType == OrderType.SendLetters ? "Send a single letter" : "Add Funds", 
+                volumeForUsd, paypalIPNUrl, country, postal, address, "mcoroklo@gmail.com", city, 
+                id, string.Format(this.returnUrl, orderContext.CurrentCulture));
             return url;
         }
 

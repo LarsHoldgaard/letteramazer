@@ -2,9 +2,12 @@
 using LetterAmazer.Business.Services.Interfaces;
 using LetterAmazer.Business.Services.Model;
 using LetterAmazer.Business.Services.Services.LetterContent;
+using LetterAmazer.Business.Services.Services.PaymentMethod;
 using LetterAmazer.Business.Services.Utilities;
 using LetterAmazer.Business.Utils.Helpers;
+using LetterAmazer.Websites.Client.Attributes;
 using LetterAmazer.Websites.Client.ViewModels;
+using LetterAmazer.Websites.Client.Extensions;
 using log4net;
 using System;
 using System.Collections.Generic;
@@ -41,11 +44,13 @@ namespace LetterAmazer.Websites.Client.Controllers
             criteria.CustomerId = SecurityUtility.CurrentUser.Id;
             criteria.From = model.FromDate;
             criteria.To = model.ToDate;
+            criteria.OrderType = OrderType.SendLetters;
 
             PaginatedResult<Order> orders = orderService.GetOrders(criteria);
 
             model.Orders = new PaginatedInfo<Order>(criteria.PageIndex, criteria.PageSize, orders);
             model.Customer = SecurityUtility.CurrentUser;
+
             return View(model);
         }
 
@@ -67,7 +72,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                 Order order = new Order();
                 order.Email = model.Email;
                 order.Phone = model.Phone;
-                order.PaymentMethod = "Credits";
+                order.PaymentMethod = CreditsMethod.NAME;
                 order.CouponCode = model.VoucherCode;
                 order.Customer = SecurityUtility.CurrentUser;
                 order.CustomerId = SecurityUtility.CurrentUser.Id;
@@ -138,14 +143,47 @@ namespace LetterAmazer.Websites.Client.Controllers
             return RedirectToActionWithError("Index", model);
         }
 
+        [HttpGet, AutoErrorRecovery]
         public ActionResult Delete(int id)
         {
-            return View();
+            Order order = orderService.GetOrderById(id);
+            OrderDetailViewModel model = new OrderDetailViewModel();
+            model.Order = order;
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult Delete(int id, string submitAction)
+        {
+            try
+            {
+                orderService.DeleteOrder(id);
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex);
+                ModelState.AddBusinessError(ex.Message);
+            }
+
+            Order order = orderService.GetOrderById(id);
+            OrderDetailViewModel model = new OrderDetailViewModel();
+            model.Order = order;
+            return RedirectToActionWithError("Delete", model, new { id = id });
         }
 
         public ActionResult Details(int id)
         {
-            return View();
+            Order order = orderService.GetOrderById(id);
+            OrderDetailViewModel model = new OrderDetailViewModel();
+            model.Order = order;
+            return View(model);
+        }
+
+        public FileResult Download(int id)
+        {
+            Letter letter = letterService.GetLetterById(id);
+            return File(letter.LetterContent.Content, "application/pdf", id + ".pdf");
         }
 
         [HttpGet]
