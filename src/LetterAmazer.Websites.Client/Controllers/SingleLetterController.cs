@@ -186,7 +186,9 @@ namespace LetterAmazer.Websites.Client.Controllers
                 if (SecurityUtility.IsAuthenticated)
                 {
                     isValidCredits = customerService.IsValidCredits(SecurityUtility.CurrentUser.Id, price);
+                    logger.DebugFormat("user id: {0}", SecurityUtility.CurrentUser.Id);
                     credits = customerService.GetAvailableCredits(SecurityUtility.CurrentUser.Id);
+                    logger.DebugFormat("credits: {0}", credits);
                 }
 
                 return Json(new {

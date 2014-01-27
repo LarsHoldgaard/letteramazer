@@ -140,7 +140,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                 ModelState.AddModelError("Business", ex.Message);
             }
 
-            return RedirectToActionWithError("Index", model);
+            return RedirectToActionWithError("SendALetter", model);
         }
 
         [HttpGet, AutoErrorRecovery]

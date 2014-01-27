@@ -124,6 +124,7 @@ namespace LetterAmazer.Websites.Client.Controllers
             }
             catch (Exception ex)
             {
+                logger.Error(ex);
                 ModelState.AddBusinessError(ex.Message);
             }
 

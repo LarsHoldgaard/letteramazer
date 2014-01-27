@@ -12,7 +12,7 @@
 <div class="jumbotron-white">
     <div class="container">
         <h2>@ViewRes.SendALetter, @Model.Customer.CustomerInfo.CompanyName</h2>
-        <h3>@ViewRes.Credits: <strong class="credit">@Model.Customer.Credits.Value.ToFriendlyMoney()</strong></h3>
+        <h3>@ViewRes.Credits: <strong class="credit">@Model.Customer.Credits.Value.ToFriendlyMoney()$</strong></h3>
         <h4>@ViewRes.SendALetter</h4>
         <p><a class="btn btn-success" href="@Url.Action("SendALetter")">@ViewRes.SendALetterNow</a></p>
         <h4>@ViewRes.OrderOverview</h4>

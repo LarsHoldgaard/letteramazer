@@ -30,12 +30,13 @@ namespace LetterAmazer.Business.Services.Services.PaymentMethod
         {
             Order order = orderContext.Order;
             if (order == null || order.OrderItems == null || order.OrderItems.Count == 0) throw new BusinessException("Order can not be null!");
+            if (order.Customer == null || order.Customer.Id == 0) throw new BusinessException("Customer can not be null!");
 
-            orderContext.Customer.Credits -= orderContext.Order.Price;
+            order.Customer.Credits -= orderContext.Order.Price;
             order.OrderStatus = OrderStatus.Paid;
             repository.Update(order);
-            orderContext.Customer.DateUpdated = DateTime.Now;
-            repository.Update(orderContext.Customer);
+            order.Customer.DateUpdated = DateTime.Now;
+            repository.Update(order.Customer);
             unitOfWork.Commit();
             return string.Format("/{0}/singleletter/confirmation", orderContext.CurrentCulture);
         }
