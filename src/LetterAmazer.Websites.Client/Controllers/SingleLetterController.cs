@@ -330,7 +330,13 @@ namespace LetterAmazer.Websites.Client.Controllers
 
         private string GetAbsoluteFile(string filename)
         {
-            return Server.MapPath(letterService.GetRelativeLetterStoragePath().TrimEnd('/') + "/" + filename);
+            string filepath = Server.MapPath(letterService.GetRelativeLetterStoragePath().TrimEnd('/') + "/" + filename);
+            FileInfo file = new FileInfo(filepath);
+            if (!Directory.Exists(file.DirectoryName))
+            {
+                Directory.CreateDirectory(file.DirectoryName);
+            }
+            return filepath;
         }
     }
 }

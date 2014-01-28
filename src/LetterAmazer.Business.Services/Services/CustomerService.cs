@@ -11,15 +11,18 @@ namespace LetterAmazer.Business.Services.Services
 {
     public class CustomerService : ICustomerService
     {
+        private IPasswordEncryptor passwordEncryptor;
         private IRepository repository;
         private IUnitOfWork unitOfWork;
         private string resetPasswordUrl;
         private INotificationService notificationService;
-        public CustomerService(string resetPasswordUrl, IRepository repository, IUnitOfWork unitOfWork, INotificationService notificationService)
+        public CustomerService(string resetPasswordUrl, IRepository repository, IUnitOfWork unitOfWork, 
+            IPasswordEncryptor passwordEncryptor, INotificationService notificationService)
         {
             this.resetPasswordUrl = resetPasswordUrl;
             this.repository = repository;
             this.unitOfWork = unitOfWork;
+            this.passwordEncryptor = passwordEncryptor;
             this.notificationService = notificationService;
         }
 
@@ -44,9 +47,12 @@ namespace LetterAmazer.Business.Services.Services
             customer.DateCreated = DateTime.Now;
             customer.DateUpdated = DateTime.Now;
             customer.Credits = 0;
+            string password = customer.Password;
+            customer.Password = passwordEncryptor.Encrypt(customer.Password);
             repository.Create(customer);
             unitOfWork.Commit();
 
+            customer.Password = password;
             notificationService.SendMembershipInformation(customer);
         }
 
@@ -101,7 +107,7 @@ namespace LetterAmazer.Business.Services.Services
                     throw new BusinessException("Email or password is not valid.");
                 }
 
-                if (password != user.Password)
+                if (!passwordEncryptor.Equal(password, user.Password))
                 {
                     throw new BusinessException("Email or password is not valid.");
                 }
@@ -131,7 +137,7 @@ namespace LetterAmazer.Business.Services.Services
             {
                 throw new ItemNotFoundException("Customer");
             }
-            customer.Password = newPassword;
+            customer.Password = passwordEncryptor.Encrypt(newPassword);
             customer.ResetPasswordKey = string.Empty;
             unitOfWork.Commit();
         }

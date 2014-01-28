@@ -179,6 +179,7 @@
     <Compile Include="Interfaces\ILetterService.cs" />
     <Compile Include="Interfaces\INotificationService.cs" />
     <Compile Include="Interfaces\IOrderService.cs" />
+    <Compile Include="Interfaces\IPasswordEncryptor.cs" />
     <Compile Include="Interfaces\IPaymentMethod.cs" />
     <Compile Include="Interfaces\IPaymentService.cs" />
     <Compile Include="Model\JupisterS3.cs" />
@@ -204,6 +205,7 @@
     <Compile Include="Services\PaymentService.cs" />
     <Compile Include="Services\Payment\PayPalManager.cs" />
     <Compile Include="Services\LetterContent\PdfManager.cs" />
+    <Compile Include="Services\SHA1PasswordEncryptor.cs" />
     <Compile Include="Utilities\SecurityUtility.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -120,7 +120,9 @@ namespace LetterAmazer.Websites.Client.Controllers
                 customer.CustomerInfo.CompanyName = model.Organization;
                 customerService.CreateCustomer(customer);
 
-                return RedirectToAction("RegisterSuccess");
+                FormsAuthentication.SetAuthCookie(customer.Id.ToString(), false);
+
+                return RedirectToAction("Index", "User");
             }
             catch (Exception ex)
             {
