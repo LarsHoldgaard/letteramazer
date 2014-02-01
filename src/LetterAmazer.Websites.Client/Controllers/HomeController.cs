@@ -1,4 +1,5 @@
-﻿using LetterAmazer.Websites.Client.Attributes;
+﻿using LetterAmazer.Business.Services.Domain.Customers;
+using LetterAmazer.Websites.Client.Attributes;
 using LetterAmazer.Websites.Client.ViewModels;
 using System;
 using System.Collections.Generic;

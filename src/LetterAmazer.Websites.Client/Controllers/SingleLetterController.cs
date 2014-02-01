@@ -1,4 +1,11 @@
-﻿using log4net;
+﻿using LetterAmazer.Business.Services.Domain.Countries;
+using LetterAmazer.Business.Services.Domain.Coupons;
+using LetterAmazer.Business.Services.Domain.Customers;
+using LetterAmazer.Business.Services.Domain.Orders;
+using LetterAmazer.Business.Services.Domain.Payments;
+using LetterAmazer.Business.Services.Model.External_data;
+using LetterAmazer.Business.Services.Services;
+using log4net;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -16,6 +23,7 @@ using LetterAmazer.Business.Services.Interfaces;
 using LetterAmazer.Business.Services.Services.PaymentMethod;
 using System.Text;
 using LetterAmazer.Business.Services.Utilities;
+using Newtonsoft.Json;
 
 namespace LetterAmazer.Websites.Client.Controllers
 {
@@ -28,19 +36,24 @@ namespace LetterAmazer.Websites.Client.Controllers
         private ILetterService letterService;
         private ICouponService couponService;
         private ICustomerService customerService;
+        private ICountryService countryService;
+        
+
         public SingleLetterController(IOrderService orderService, IPaymentService paymentService,
-            ILetterService letterService, ICouponService couponService, ICustomerService customerService)
+            ILetterService letterService, ICouponService couponService, ICustomerService customerService,ICountryService countryService)
         {
             this.orderService = orderService;
             this.paymentService = paymentService;
             this.letterService = letterService;
             this.couponService = couponService;
             this.customerService = customerService;
+            this.countryService = countryService;
         }
 
         [HttpGet]
         public ActionResult Index()
         {
+
             if (SecurityUtility.IsAuthenticated) return RedirectToAction("SendALetter", "User");
             CreateSingleLetterModel model = new CreateSingleLetterModel();
             return View(model);

@@ -100,6 +100,9 @@
     <Compile Include="Data\Color.cs">
       <DependentUpon>LetterAmazer.tt</DependentUpon>
     </Compile>
+    <Compile Include="Data\Country.cs">
+      <DependentUpon>LetterAmazer.tt</DependentUpon>
+    </Compile>
     <Compile Include="Data\Coupon.cs">
       <DependentUpon>LetterAmazer.tt</DependentUpon>
     </Compile>
@@ -168,20 +171,25 @@
       <DependentUpon>LetterAmazer.tt</DependentUpon>
     </Compile>
     <Compile Include="Data\UnitOfWork.cs" />
+    <Compile Include="Domain\Common\Specifications.cs" />
+    <Compile Include="Domain\Shipping\IShippingService.cs" />
+    <Compile Include="Domain\Shipping\ShippingMethod.cs" />
+    <Compile Include="Domain\Shipping\ShippingMethodSpecification.cs" />
     <Compile Include="Exceptions\BusinessException.cs" />
     <Compile Include="Exceptions\ItemNotFoundException.cs" />
     <Compile Include="Exceptions\PaymentMethodDuplicatedException.cs" />
     <Compile Include="Exceptions\PaymentMethodNotFoundException.cs" />
-    <Compile Include="Interfaces\ICouponService.cs" />
-    <Compile Include="Interfaces\ICustomerService.cs" />
+    <Compile Include="Domain\Countries\ICountryService.cs" />
+    <Compile Include="Domain\Coupons\ICouponService.cs" />
+    <Compile Include="Domain\Customers\ICustomerService.cs" />
     <Compile Include="Interfaces\IFulfillmentService.cs" />
     <Compile Include="Interfaces\ILetterJob.cs" />
     <Compile Include="Interfaces\ILetterService.cs" />
     <Compile Include="Interfaces\INotificationService.cs" />
-    <Compile Include="Interfaces\IOrderService.cs" />
+    <Compile Include="Domain\Orders\IOrderService.cs" />
     <Compile Include="Interfaces\IPasswordEncryptor.cs" />
-    <Compile Include="Interfaces\IPaymentMethod.cs" />
-    <Compile Include="Interfaces\IPaymentService.cs" />
+    <Compile Include="Domain\Payments\IPaymentMethod.cs" />
+    <Compile Include="Domain\Payments\IPaymentService.cs" />
     <Compile Include="Model\External_data\CountryJson.cs" />
     <Compile Include="Model\JupisterS3.cs" />
     <Compile Include="Model\OrderBy.cs" />
@@ -191,6 +199,7 @@
     <Compile Include="Model\VerifyPaymentContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceFactory.cs" />
+    <Compile Include="Services\CountryService.cs" />
     <Compile Include="Services\CouponService.cs" />
     <Compile Include="Services\CustomerService.cs" />
     <Compile Include="Services\Fulfillment\AmazonS3Service.cs" />
@@ -207,10 +216,11 @@
     <Compile Include="Services\Payment\PayPalManager.cs" />
     <Compile Include="Services\LetterContent\PdfManager.cs" />
     <Compile Include="Services\SHA1PasswordEncryptor.cs" />
+    <Compile Include="Services\ShippingService.cs" />
     <Compile Include="Utilities\SecurityUtility.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Factory\" />
+    <Folder Include="Domain\Users\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LetterAmazer.Business.Utils\LetterAmazer.Business.Utils.csproj">

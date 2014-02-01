@@ -1,4 +1,5 @@
-﻿using LetterAmazer.Business.Services.Exceptions;
+﻿using LetterAmazer.Business.Services.Domain.Payments;
+using LetterAmazer.Business.Services.Exceptions;
 using LetterAmazer.Business.Services.Interfaces;
 using System;
 using System.Collections.Generic;

@@ -1,4 +1,7 @@
 ﻿using LetterAmazer.Business.Services.Data;
+using LetterAmazer.Business.Services.Domain.Coupons;
+using LetterAmazer.Business.Services.Domain.Orders;
+using LetterAmazer.Business.Services.Domain.Payments;
 using LetterAmazer.Business.Services.Interfaces;
 using LetterAmazer.Business.Services.Model;
 using System;

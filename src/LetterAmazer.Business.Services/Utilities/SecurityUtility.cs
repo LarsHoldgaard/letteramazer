@@ -1,4 +1,5 @@
 ﻿using LetterAmazer.Business.Services.Data;
+using LetterAmazer.Business.Services.Domain.Customers;
 using LetterAmazer.Business.Services.Interfaces;
 using System;
 using System.Collections.Generic;

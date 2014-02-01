@@ -14,6 +14,7 @@
         <AssociationConnector Association="LetterAmazer.FK_Order_Customer" />
         <AssociationConnector Association="LetterAmazer.FK_OrderItem_Letter" />
         <AssociationConnector Association="LetterAmazer.FK_OrderItem_Order" />
+        <EntityTypeShape EntityType="LetterAmazer.Country" Width="1.5" PointX="4.355042977423893" PointY="7.3003860597034853" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

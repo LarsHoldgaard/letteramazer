@@ -6,6 +6,7 @@
     <edmx:StorageModels>
     <Schema Namespace="LetterAmazer.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityContainer Name="LetterAmazerStoreContainer">
+          <EntitySet Name="Countries" EntityType="LetterAmazer.Store.Countries" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Coupons" EntityType="LetterAmazer.Store.Coupons" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Customers" EntityType="LetterAmazer.Store.Customers" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Letters" EntityType="LetterAmazer.Store.Letters" store:Type="Tables" Schema="dbo" />
@@ -28,6 +29,29 @@
             <End Role="OrderItems" EntitySet="OrderItems" />
           </AssociationSet>
         </EntityContainer>
+        <EntityType Name="Countries">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="CountryName" Type="varchar" MaxLength="250" />
+          <Property Name="CurrencyCode" Type="varchar" MaxLength="50" />
+          <Property Name="FipsCode" Type="varchar" MaxLength="50" />
+          <Property Name="CountryCode" Type="varchar" MaxLength="50" />
+          <Property Name="IsoNumeric" Type="varchar" MaxLength="50" />
+          <Property Name="North" Type="float" />
+          <Property Name="Capital" Type="varchar" MaxLength="250" />
+          <Property Name="ContinentName" Type="varchar" MaxLength="250" />
+          <Property Name="AreaInSqKm" Type="varchar" MaxLength="50" />
+          <Property Name="Languages" Type="varchar" MaxLength="250" />
+          <Property Name="IsoAlpha3" Type="varchar" MaxLength="50" />
+          <Property Name="Continent" Type="varchar" MaxLength="250" />
+          <Property Name="South" Type="float" />
+          <Property Name="East" Type="float" />
+          <Property Name="GeonameId" Type="int" />
+          <Property Name="West" Type="float" />
+          <Property Name="Population" Type="varchar" MaxLength="250" />
+        </EntityType>
         <EntityType Name="Coupons">
           <Key>
             <PropertyRef Name="Id" />
@@ -212,6 +236,7 @@
             <End Role="Order" EntitySet="Orders" />
             <End Role="OrderItem" EntitySet="OrderItems" />
           </AssociationSet>
+          <EntitySet Name="Countries" EntityType="LetterAmazer.Country" />
         </EntityContainer>
         <EntityType Name="Customer">
           <Key>
@@ -411,6 +436,29 @@
           <Member Name="SendLetters" Value="0" />
           <Member Name="AddFunds" Value="1" />
         </EnumType>
+        <EntityType Name="Country">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="CountryName" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="CurrencyCode" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="FipsCode" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="CountryCode" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="IsoNumeric" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="Double" Name="North" />
+          <Property Type="String" Name="Capital" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="ContinentName" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="AreaInSqKm" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Languages" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="IsoAlpha3" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Continent" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Type="Double" Name="South" />
+          <Property Type="Double" Name="East" />
+          <Property Type="Int32" Name="GeonameId" />
+          <Property Type="Double" Name="West" />
+          <Property Type="String" Name="Population" MaxLength="250" FixedLength="false" Unicode="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -538,6 +586,30 @@
                 <ScalarProperty Name="LetterId" ColumnName="LetterId" />
                 <ScalarProperty Name="OrderId" ColumnName="OrderId" />
                 <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Countries">
+            <EntityTypeMapping TypeName="LetterAmazer.Country">
+              <MappingFragment StoreEntitySet="Countries">
+                <ScalarProperty Name="Population" ColumnName="Population" />
+                <ScalarProperty Name="West" ColumnName="West" />
+                <ScalarProperty Name="GeonameId" ColumnName="GeonameId" />
+                <ScalarProperty Name="East" ColumnName="East" />
+                <ScalarProperty Name="South" ColumnName="South" />
+                <ScalarProperty Name="Continent" ColumnName="Continent" />
+                <ScalarProperty Name="IsoAlpha3" ColumnName="IsoAlpha3" />
+                <ScalarProperty Name="Languages" ColumnName="Languages" />
+                <ScalarProperty Name="AreaInSqKm" ColumnName="AreaInSqKm" />
+                <ScalarProperty Name="ContinentName" ColumnName="ContinentName" />
+                <ScalarProperty Name="Capital" ColumnName="Capital" />
+                <ScalarProperty Name="North" ColumnName="North" />
+                <ScalarProperty Name="IsoNumeric" ColumnName="IsoNumeric" />
+                <ScalarProperty Name="CountryCode" ColumnName="CountryCode" />
+                <ScalarProperty Name="FipsCode" ColumnName="FipsCode" />
+                <ScalarProperty Name="CurrencyCode" ColumnName="CurrencyCode" />
+                <ScalarProperty Name="CountryName" ColumnName="CountryName" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

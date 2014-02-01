@@ -1,4 +1,5 @@
 ﻿using LetterAmazer.Business.Services.Data;
+using LetterAmazer.Business.Services.Domain.Coupons;
 using LetterAmazer.Business.Services.Exceptions;
 using LetterAmazer.Business.Services.Interfaces;
 using LetterAmazer.Business.Services.Model;
