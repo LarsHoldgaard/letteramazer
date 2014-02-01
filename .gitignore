@@ -36,7 +36,6 @@ x64/
 *.vspscc
 *.vssscc
 .builds
-*.css
 
 # Visual C++ cache files
 ipch/
@@ -93,9 +92,6 @@ AppPackages/
 [Bb]in
 [Oo]bj
 UserData
-packages
-src\packages
-src/packages
 
 sql
 TestResults

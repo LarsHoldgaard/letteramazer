@@ -182,6 +182,7 @@
     <Compile Include="Interfaces\IPasswordEncryptor.cs" />
     <Compile Include="Interfaces\IPaymentMethod.cs" />
     <Compile Include="Interfaces\IPaymentService.cs" />
+    <Compile Include="Model\External_data\CountryJson.cs" />
     <Compile Include="Model\JupisterS3.cs" />
     <Compile Include="Model\OrderBy.cs" />
     <Compile Include="Model\OrderContext.cs" />
