@@ -6,18 +6,20 @@ using System.Threading.Tasks;
 using LetterAmazer.Business.Services.Data;
 using LetterAmazer.Business.Services.Domain.Countries;
 using LetterAmazer.Business.Services.Exceptions;
+using LetterAmazer.Business.Services.Factory;
 using LetterAmazer.Business.Services.Interfaces;
+using LetterAmazer.Data.Repository.Data;
 
 namespace LetterAmazer.Business.Services.Services
 {
     public class CountryService : ICountryService
     {
-        private IRepository repository;
-        private IUnitOfWork unitOfWork;
-        public CountryService(IRepository repository, IUnitOfWork unitOfWork)
+        private LetterAmazerEntities repository;
+        private CountryFactory countryFactory;
+
+        public CountryService(LetterAmazerEntities repository)
         {
             this.repository = repository;
-            this.unitOfWork = unitOfWork;
         }
 
         public void AddCountry(Country country)
@@ -27,8 +29,13 @@ namespace LetterAmazer.Business.Services.Services
                 throw new ArgumentException("Country cannot be null");
             }
 
-            repository.Create<Country>(country);
-            unitOfWork.Commit();
+            repository.DbCountries.Add(new DbCountries()
+            {
+                Capital = country.Capital,
+                CountryName = country.Name,
+                Continent = country.Capital
+            });
+            repository.SaveChanges();
 
             // Old import code
             //var jsonData = new StreamReader(Server.MapPath("~/Resources/countryInfoJSON.json")).ReadToEnd();
@@ -66,13 +73,13 @@ namespace LetterAmazer.Business.Services.Services
                 throw new ArgumentException("Id has to be above 0");
             }
 
-            Country country = repository.GetById<Country>(id);
+            var country = repository.DbCountries.FirstOrDefault(c => c.Id == id);
             if (country == null)
             {
                 throw new ItemNotFoundException("Country");
             }
 
-            return country;
+            return countryFactory.Create(country);
         }
 
     }

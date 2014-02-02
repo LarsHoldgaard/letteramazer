@@ -13,10 +13,10 @@ namespace LetterAmazer.Business.Services.Services.Offices
 {
     public class OfficeService:IOfficeService
     {
-        private LetterAmazerContext repository;
+        private IRepository repository;
         private IUnitOfWork unitOfWork;
 
-        public OfficeService(LetterAmazerContext repository, IUnitOfWork unitOfWork)
+        public OfficeService(IRepository repository, IUnitOfWork unitOfWork)
         {
             this.repository = repository;
             this.unitOfWork = unitOfWork;
@@ -29,7 +29,7 @@ namespace LetterAmazer.Business.Services.Services.Offices
                 throw new ArgumentException("Id has to be above 0");
             }
 
-            var office = repository.Offices.FirstOrDefault(c => c.Id == id);
+            var office = repository.GetById<Office>(id);
 
             if (office == null)
             {
@@ -41,20 +41,22 @@ namespace LetterAmazer.Business.Services.Services.Offices
 
         public List<Office> GetOfficeBySpecification(OfficeSpecification specification)
         {
-            IQueryable<Office> officeList = repository.Offices;
-            
-            if (specification.CountryId > 0)
-            {
-                officeList = repository.Offices.Where(c => c.CountryId == specification.CountryId);
-            }
-            if (specification.LetterSize != null)
-            {
-                officeList =
-                    officeList.Where(
-                        c => c.OfficeProducts.Any(d => d.OfficeProductDetail.Size == (int)specification.LetterSize));
-            }
+            //var data = repository.Where<IQueryable<Office>>(c=>c.FirstOrDefault().);
+            return new List<Office>();
+            //IQueryable<Office> officeList = repository.Offices;
 
-            return officeList.ToList();
+            //if (specification.CountryId > 0)
+            //{
+            //    officeList = repository.Offices.Where(c => c.CountryId == specification.CountryId);
+            //}
+            //if (specification.LetterSize != null)
+            //{
+            //    officeList =
+            //        officeList.Where(
+            //            c => c.OfficeProducts.Any(d => d.OfficeProductDetail.Size == (int)specification.LetterSize));
+            //}
+
+            //return officeList.ToList();
         }
     }
 }

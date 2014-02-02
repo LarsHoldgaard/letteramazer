@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="9f259b83c26240979a3082c143edeff5" Name="Diagram1">
+        <EntityTypeShape EntityType="LetterAmazerModel.DbCountries" Width="1.5" PointX="0.75" PointY="10.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="LetterAmazerModel.DbCoupons" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="LetterAmazerModel.DbCustomers" Width="1.5" PointX="3" PointY="9.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="LetterAmazerModel.DbFulfillmentPartners" Width="1.5" PointX="5.25" PointY="23.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="LetterAmazerModel.DbLetters" Width="1.5" PointX="5.25" PointY="9.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="LetterAmazerModel.DbOfficeProductDetails" Width="1.5" PointX="0.75" PointY="17" IsExpanded="true" />
+        <EntityTypeShape EntityType="LetterAmazerModel.DbOfficeProducts" Width="1.5" PointX="3" PointY="15.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="LetterAmazerModel.DbOffices" Width="1.5" PointX="12.5" PointY="16.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="LetterAmazerModel.DbOrderItems" Width="1.5" PointX="7.5" PointY="13.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="LetterAmazerModel.DbOrders" Width="1.5" PointX="5.25" PointY="17.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="LetterAmazerModel.DbProductMatrix" Width="1.5" PointX="3" PointY="26" IsExpanded="true" />
+        <EntityTypeShape EntityType="LetterAmazerModel.DbProductMatrixLines" Width="1.5" PointX="5.25" PointY="26.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="LetterAmazerModel.DbShops" Width="1.5" PointX="3" PointY="23.25" IsExpanded="true" />
+        <AssociationConnector Association="LetterAmazerModel.FK_Customers_Countries" ManuallyRouted="false" />
+        <AssociationConnector Association="LetterAmazerModel.FK_Letters_Countries" ManuallyRouted="false" />
+        <AssociationConnector Association="LetterAmazerModel.FK_Letters_Countries1" ManuallyRouted="false" />
+        <AssociationConnector Association="LetterAmazerModel.FK_OfficeProducts_Countries" ManuallyRouted="false" />
+        <AssociationConnector Association="LetterAmazerModel.FK_Offices_Countries" ManuallyRouted="false" />
+        <AssociationConnector Association="LetterAmazerModel.FK_Shops_Countries" ManuallyRouted="false" />
+        <AssociationConnector Association="LetterAmazerModel.FK_Letter_Customer" ManuallyRouted="false" />
+        <AssociationConnector Association="LetterAmazerModel.FK_Order_Customer" ManuallyRouted="false" />
+        <AssociationConnector Association="LetterAmazerModel.FK_FulfillmentPartners_Shops" ManuallyRouted="false" />
+        <AssociationConnector Association="LetterAmazerModel.FK_Offices_FulfillmentPartners" ManuallyRouted="false" />
+        <AssociationConnector Association="LetterAmazerModel.FK_Letters_OfficeProducts" ManuallyRouted="false" />
+        <AssociationConnector Association="LetterAmazerModel.FK_OrderItem_Letter" ManuallyRouted="false" />
+        <AssociationConnector Association="LetterAmazerModel.FK_OfficeProducts_OfficeProductDetails" ManuallyRouted="false" />
+        <AssociationConnector Association="LetterAmazerModel.FK_ProductMatrix_OfficeProductDetails" ManuallyRouted="false" />
+        <AssociationConnector Association="LetterAmazerModel.FK_OfficeProducts_Offices" ManuallyRouted="false" />
+        <AssociationConnector Association="LetterAmazerModel.FK_OrderItem_Order" ManuallyRouted="false" />
+        <AssociationConnector Association="LetterAmazerModel.FK_ProductMatrixLines_ProductMatrix" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

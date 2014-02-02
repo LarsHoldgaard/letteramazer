@@ -3,6 +3,7 @@ using LetterAmazer.Business.Services.Domain.Coupons;
 using LetterAmazer.Business.Services.Domain.Letters;
 using LetterAmazer.Business.Services.Domain.Orders;
 using LetterAmazer.Business.Services.Domain.Payments;
+using LetterAmazer.Business.Services.Domain.Products.ProductDetails;
 using LetterAmazer.Business.Services.Interfaces;
 using LetterAmazer.Business.Services.Model;
 using LetterAmazer.Business.Services.Services.LetterContent;
@@ -89,11 +90,10 @@ namespace LetterAmazer.Websites.Client.Controllers
                 addressInfo.Postal = model.ZipCode;
 
                 LetterDetail letterDetail = new LetterDetail();
-                letterDetail.Color = Color.Color;
-                letterDetail.LetterQuality = LetterQuatity.Normal;
-                letterDetail.PaperQuality = PaperQuality.Normal;
-                letterDetail.PrintQuality = PrintQuality.Normal;
-                letterDetail.Size = PrintSize.A4;
+                letterDetail.Color = (int)LetterColor.Color;
+                letterDetail.LetterTreatment = (int)LetterProcessing.Dull;
+                letterDetail.LetterWeight = (int) LetterPaperWeight.Eight;
+                letterDetail.Size = (int) LetterSize.A4;
 
                 OrderItem orderItem = new OrderItem();
 

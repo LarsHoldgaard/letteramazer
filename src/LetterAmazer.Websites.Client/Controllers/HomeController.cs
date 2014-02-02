@@ -1,4 +1,6 @@
 ﻿using LetterAmazer.Business.Services.Domain.Customers;
+using LetterAmazer.Business.Services.Domain.Offices;
+using LetterAmazer.Business.Services.Domain.Products.ProductDetails;
 using LetterAmazer.Websites.Client.Attributes;
 using LetterAmazer.Websites.Client.ViewModels;
 using System;
@@ -20,13 +22,21 @@ namespace LetterAmazer.Websites.Client.Controllers
     {
         private static readonly ILog logger = LogManager.GetLogger(typeof(HomeController));
         private ICustomerService customerService;
-        public HomeController(ICustomerService customerService)
+        private IOfficeService officeService;
+
+        public HomeController(ICustomerService customerService,IOfficeService officeService)
         {
             this.customerService = customerService;
+            this.officeService = officeService;
         }
 
         public ActionResult Index()
         {
+            var offices = officeService.GetOfficeBySpecification(new OfficeSpecification()
+            {
+                LetterSize = LetterSize.A4
+            });
+
             return View();
         }
 

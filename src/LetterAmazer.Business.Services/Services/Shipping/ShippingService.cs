@@ -5,6 +5,7 @@ using LetterAmazer.Business.Services.Data;
 using LetterAmazer.Business.Services.Domain.FulfillmentPartners;
 using LetterAmazer.Business.Services.Domain.Fulfillments;
 using LetterAmazer.Business.Services.Domain.Pricing;
+using LetterAmazer.Business.Services.Domain.Products.ProductDetails;
 using LetterAmazer.Business.Services.Domain.Shipping;
 using LetterAmazer.Business.Services.Services.FulfillmentPartners;
 
@@ -45,7 +46,7 @@ namespace LetterAmazer.Business.Services.Services.Shipping
                 {
                     LetterQuatity = LetterQuatity.Normal,
                     PrintQuality = PrintQuality.Normal,
-                    PrintSize = PrintSize.A4
+                    PrintSize = LetterSize.A4
                 },
                 ShippingPrice = new Price()
             };

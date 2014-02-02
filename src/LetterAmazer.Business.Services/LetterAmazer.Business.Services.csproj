@@ -94,105 +94,8 @@
     <Compile Include="Components\Mail\SystemNetMailSender.cs" />
     <Compile Include="Components\Mail\XmlEmailTemplate.cs" />
     <Compile Include="Components\Mail\XmlTemplateEmailFormatter.cs" />
-    <Compile Include="Data\AddressInfo.cs">
-      <DependentUpon>LetterAmazer.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Data\Color.cs">
-      <DependentUpon>LetterAmazer.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Data\Country.cs">
-      <DependentUpon>LetterAmazer.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Data\Coupon.cs">
-      <DependentUpon>LetterAmazer.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Data\CouponStatus.cs">
-      <DependentUpon>LetterAmazer.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Data\Customer.cs">
-      <DependentUpon>LetterAmazer.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Data\DBFactory.cs" />
-    <Compile Include="Data\Disposable.cs" />
-    <Compile Include="Data\EFRepository.cs" />
-    <Compile Include="Data\FulfillmentPartner.cs">
-      <DependentUpon>LetterAmazer.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Data\IDBFactory.cs" />
-    <Compile Include="Data\IRepository.cs" />
-    <Compile Include="Data\IUnitOfWork.cs" />
-    <Compile Include="Data\Letter.cs">
-      <DependentUpon>LetterAmazer.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Data\LetterAmazer.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>LetterAmazer.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Data\LetterAmazer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>LetterAmazer.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Data\LetterAmazer.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>LetterAmazer.edmx</DependentUpon>
-    </Compile>
-    <Compile Include="Data\LetterContent.cs">
-      <DependentUpon>LetterAmazer.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Data\LetterDetail.cs">
-      <DependentUpon>LetterAmazer.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Data\LetterQuatity.cs">
-      <DependentUpon>LetterAmazer.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Data\LetterStatus.cs">
-      <DependentUpon>LetterAmazer.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Data\Office.cs">
-      <DependentUpon>LetterAmazer.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Data\OfficeProduct.cs">
-      <DependentUpon>LetterAmazer.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Data\OfficeProductDetail.cs">
-      <DependentUpon>LetterAmazer.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Data\Order.cs">
-      <DependentUpon>LetterAmazer.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Data\OrderByHelper.cs" />
-    <Compile Include="Data\OrderItem.cs">
-      <DependentUpon>LetterAmazer.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Data\OrderStatus.cs">
-      <DependentUpon>LetterAmazer.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Data\OrderType.cs">
-      <DependentUpon>LetterAmazer.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Data\PaperQuality.cs">
-      <DependentUpon>LetterAmazer.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Data\PrintQuality.cs">
-      <DependentUpon>LetterAmazer.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Data\PrintSize.cs">
-      <DependentUpon>LetterAmazer.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Data\ProductMatrix.cs">
-      <DependentUpon>LetterAmazer.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Data\ProductMatrixLine.cs">
-      <DependentUpon>LetterAmazer.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Data\Shop.cs">
-      <DependentUpon>LetterAmazer.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Data\UnitOfWork.cs" />
     <Compile Include="Domain\Common\Specifications.cs" />
+    <Compile Include="Domain\Countries\Country.cs" />
     <Compile Include="Domain\FulfillmentPartners\FulfillmentPartnerSpecification.cs" />
     <Compile Include="Domain\FulfillmentPartners\FulfilmentPartner.cs" />
     <Compile Include="Domain\FulfillmentPartners\IFulfillmentPartnerService.cs" />
@@ -200,6 +103,9 @@
     <Compile Include="Domain\Offices\OfficeSpecification.cs" />
     <Compile Include="Domain\Offices\ProductScope.cs" />
     <Compile Include="Domain\Pricing\Price.cs" />
+    <Compile Include="Domain\Products\ProductDetails\LetterColor.cs" />
+    <Compile Include="Domain\Products\ProductDetails\LetterPaperWeight.cs" />
+    <Compile Include="Domain\Products\ProductDetails\LetterProcessing.cs" />
     <Compile Include="Domain\Products\ProductDetails\LetterSize.cs" />
     <Compile Include="Domain\Products\ProductDetails\LetterType.cs" />
     <Compile Include="Domain\Products\ProductDetails\ProductType.cs" />
@@ -217,6 +123,8 @@
     <Compile Include="Domain\Fulfillments\IFulfillmentService.cs" />
     <Compile Include="Domain\Fulfillments\ILetterJob.cs" />
     <Compile Include="Domain\Letters\ILetterService.cs" />
+    <Compile Include="Factory\CountryFactory.cs" />
+    <Compile Include="Factory\IFactory.cs" />
     <Compile Include="Interfaces\INotificationService.cs" />
     <Compile Include="Domain\Orders\IOrderService.cs" />
     <Compile Include="Interfaces\IPasswordEncryptor.cs" />
@@ -261,26 +169,13 @@
       <Project>{2a90535c-c0f2-4cbe-b0bf-8b70f5c4f635}</Project>
       <Name>LetterAmazer.Business.Utils</Name>
     </ProjectReference>
+    <ProjectReference Include="..\LetterAmazer.Data.Repository\LetterAmazer.Data.Repository.csproj">
+      <Project>{ab56ed86-acc9-4106-9441-4d8fed532118}</Project>
+      <Name>LetterAmazer.Data.Repository</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EntityDeploy Include="Data\LetterAmazer.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>LetterAmazer.Designer.cs</LastGenOutput>
-    </EntityDeploy>
     <None Include="App.config" />
-    <None Include="Data\LetterAmazer.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>LetterAmazer.edmx</DependentUpon>
-      <LastGenOutput>LetterAmazer.Context.cs</LastGenOutput>
-    </None>
-    <None Include="Data\LetterAmazer.edmx.diagram">
-      <DependentUpon>LetterAmazer.edmx</DependentUpon>
-    </None>
-    <None Include="Data\LetterAmazer.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>LetterAmazer.edmx</DependentUpon>
-      <LastGenOutput>LetterAmazer.cs</LastGenOutput>
-    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

@@ -4,6 +4,7 @@ using LetterAmazer.Business.Services.Domain.Customers;
 using LetterAmazer.Business.Services.Domain.Letters;
 using LetterAmazer.Business.Services.Domain.Orders;
 using LetterAmazer.Business.Services.Domain.Payments;
+using LetterAmazer.Business.Services.Domain.Products.ProductDetails;
 using LetterAmazer.Business.Services.Model.External_data;
 using LetterAmazer.Business.Services.Services;
 using log4net;
@@ -81,12 +82,13 @@ namespace LetterAmazer.Websites.Client.Controllers
                 // TODO: Fix country
                 addressInfo.Postal = model.ZipCode;
 
-                LetterDetail letterDetail = new LetterDetail();
-                letterDetail.Color = Color.Color;
-                letterDetail.LetterQuality = LetterQuatity.Normal;
-                letterDetail.PaperQuality = PaperQuality.Normal;
-                letterDetail.PrintQuality = PrintQuality.Normal;
-                letterDetail.Size = PrintSize.A4;
+                LetterDetail letterDetail = new LetterDetail
+                {
+                    Color = (int) LetterColor.Color,
+                    LetterTreatment = (int) LetterProcessing.Dull,
+                    LetterWeight = (int) LetterPaperWeight.Eight,
+                    Size = (int) LetterSize.A4
+                };
 
                 OrderItem orderItem = new OrderItem();
 
