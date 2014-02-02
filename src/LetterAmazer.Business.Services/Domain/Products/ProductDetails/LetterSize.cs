@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LetterAmazer.Business.Services.Interfaces
+namespace LetterAmazer.Business.Services.Domain.Products.ProductDetails
 {
-    public interface ILetterJob
+    public enum LetterSize
     {
-        void Execute();
+        A4=0,
+        Letter=1
     }
 }

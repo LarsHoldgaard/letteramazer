@@ -9,12 +9,43 @@
           <EntitySet Name="Countries" EntityType="LetterAmazer.Store.Countries" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Coupons" EntityType="LetterAmazer.Store.Coupons" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Customers" EntityType="LetterAmazer.Store.Customers" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="FulfillmentPartners" EntityType="LetterAmazer.Store.FulfillmentPartners" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Letters" EntityType="LetterAmazer.Store.Letters" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="OfficeProductDetails" EntityType="LetterAmazer.Store.OfficeProductDetails" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="OfficeProducts" EntityType="LetterAmazer.Store.OfficeProducts" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Offices" EntityType="LetterAmazer.Store.Offices" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="OrderItems" EntityType="LetterAmazer.Store.OrderItems" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Orders" EntityType="LetterAmazer.Store.Orders" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="ProductMatrix" EntityType="LetterAmazer.Store.ProductMatrix" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="ProductMatrixLines" EntityType="LetterAmazer.Store.ProductMatrixLines" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Shops" EntityType="LetterAmazer.Store.Shops" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_FulfillmentPartners_Shops" Association="LetterAmazer.Store.FK_FulfillmentPartners_Shops">
+            <End Role="Shops" EntitySet="Shops" />
+            <End Role="FulfillmentPartners" EntitySet="FulfillmentPartners" />
+          </AssociationSet>
           <AssociationSet Name="FK_Letter_Customer" Association="LetterAmazer.Store.FK_Letter_Customer">
             <End Role="Customers" EntitySet="Customers" />
             <End Role="Letters" EntitySet="Letters" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OfficeProducts_Countries" Association="LetterAmazer.Store.FK_OfficeProducts_Countries">
+            <End Role="Countries" EntitySet="Countries" />
+            <End Role="OfficeProducts" EntitySet="OfficeProducts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OfficeProducts_OfficeProductDetails" Association="LetterAmazer.Store.FK_OfficeProducts_OfficeProductDetails">
+            <End Role="OfficeProductDetails" EntitySet="OfficeProductDetails" />
+            <End Role="OfficeProducts" EntitySet="OfficeProducts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OfficeProducts_Offices" Association="LetterAmazer.Store.FK_OfficeProducts_Offices">
+            <End Role="Offices" EntitySet="Offices" />
+            <End Role="OfficeProducts" EntitySet="OfficeProducts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Offices_Countries" Association="LetterAmazer.Store.FK_Offices_Countries">
+            <End Role="Countries" EntitySet="Countries" />
+            <End Role="Offices" EntitySet="Offices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Offices_FulfillmentPartners" Association="LetterAmazer.Store.FK_Offices_FulfillmentPartners">
+            <End Role="FulfillmentPartners" EntitySet="FulfillmentPartners" />
+            <End Role="Offices" EntitySet="Offices" />
           </AssociationSet>
           <AssociationSet Name="FK_Order_Customer" Association="LetterAmazer.Store.FK_Order_Customer">
             <End Role="Customers" EntitySet="Customers" />
@@ -27,6 +58,18 @@
           <AssociationSet Name="FK_OrderItem_Order" Association="LetterAmazer.Store.FK_OrderItem_Order">
             <End Role="Orders" EntitySet="Orders" />
             <End Role="OrderItems" EntitySet="OrderItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductMatrix_OfficeProductDetails" Association="LetterAmazer.Store.FK_ProductMatrix_OfficeProductDetails">
+            <End Role="OfficeProductDetails" EntitySet="OfficeProductDetails" />
+            <End Role="ProductMatrix" EntitySet="ProductMatrix" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductMatrixLines_ProductMatrix" Association="LetterAmazer.Store.FK_ProductMatrixLines_ProductMatrix">
+            <End Role="ProductMatrix" EntitySet="ProductMatrix" />
+            <End Role="ProductMatrixLines" EntitySet="ProductMatrixLines" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Shops_Countries" Association="LetterAmazer.Store.FK_Shops_Countries">
+            <End Role="Countries" EntitySet="Countries" />
+            <End Role="Shops" EntitySet="Shops" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Countries">
@@ -51,6 +94,7 @@
           <Property Name="GeonameId" Type="int" />
           <Property Name="West" Type="float" />
           <Property Name="Population" Type="varchar" MaxLength="250" />
+          <Property Name="InsideEu" Type="bit" />
         </EntityType>
         <EntityType Name="Coupons">
           <Key>
@@ -77,8 +121,7 @@
           <Property Name="CustomerInfo_AttPerson" Type="nvarchar" MaxLength="150" />
           <Property Name="CustomerInfo_City" Type="nvarchar" MaxLength="150" />
           <Property Name="CustomerInfo_CompanyName" Type="nvarchar" MaxLength="150" />
-          <Property Name="CustomerInfo_Country" Type="nvarchar" MaxLength="150" />
-          <Property Name="CustomerInfo_CountryCode" Type="nvarchar" MaxLength="10" />
+          <Property Name="CustomerInfo_Country" Type="int" />
           <Property Name="CustomerInfo_FirstName" Type="nvarchar" MaxLength="150" />
           <Property Name="CustomerInfo_LastName" Type="nvarchar" MaxLength="150" />
           <Property Name="CustomerInfo_Postal" Type="nvarchar" MaxLength="150" />
@@ -92,6 +135,14 @@
           <Property Name="CreditLimit" Type="decimal" Nullable="false" />
           <Property Name="ResetPasswordKey" Type="nvarchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="FulfillmentPartners">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="varchar" Nullable="false" MaxLength="250" />
+          <Property Name="ShopId" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="Letters">
           <Key>
             <PropertyRef Name="Id" />
@@ -103,8 +154,7 @@
           <Property Name="FromAddress_AttPerson" Type="nvarchar" MaxLength="150" />
           <Property Name="FromAddress_City" Type="nvarchar" MaxLength="150" />
           <Property Name="FromAddress_CompanyName" Type="nvarchar" MaxLength="150" />
-          <Property Name="FromAddress_Country" Type="nvarchar" MaxLength="150" />
-          <Property Name="FromAddress_CountryCode" Type="nvarchar" MaxLength="10" />
+          <Property Name="FromAddress_Country" Type="int" />
           <Property Name="FromAddress_FirstName" Type="nvarchar" MaxLength="150" />
           <Property Name="FromAddress_LastName" Type="nvarchar" MaxLength="150" />
           <Property Name="FromAddress_Postal" Type="nvarchar" MaxLength="150" />
@@ -114,8 +164,7 @@
           <Property Name="ToAddress_AttPerson" Type="nvarchar" MaxLength="150" />
           <Property Name="ToAddress_City" Type="nvarchar" MaxLength="150" />
           <Property Name="ToAddress_CompanyName" Type="nvarchar" MaxLength="150" />
-          <Property Name="ToAddress_Country" Type="nvarchar" MaxLength="150" />
-          <Property Name="ToAddress_CountryCode" Type="nvarchar" MaxLength="10" />
+          <Property Name="ToAddress_Country" Type="int" />
           <Property Name="ToAddress_FirstName" Type="nvarchar" MaxLength="150" />
           <Property Name="ToAddress_LastName" Type="nvarchar" MaxLength="150" />
           <Property Name="ToAddress_Postal" Type="nvarchar" MaxLength="150" />
@@ -129,6 +178,37 @@
           <Property Name="LetterDetail_PaperQuality" Type="int" Nullable="false" />
           <Property Name="LetterDetail_LetterQuality" Type="int" Nullable="false" />
           <Property Name="LetterDetail_Size" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="OfficeProductDetails">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="DocumentType" Type="int" Nullable="false" />
+          <Property Name="Size" Type="int" />
+          <Property Name="Quality" Type="int" />
+          <Property Name="LetterType" Type="int" />
+        </EntityType>
+        <EntityType Name="OfficeProducts">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="OfficeId" Type="int" Nullable="false" />
+          <Property Name="ScopeType" Type="int" Nullable="false" />
+          <Property Name="CountryId" Type="int" />
+          <Property Name="ContinentId" Type="int" />
+          <Property Name="ZipId" Type="int" />
+          <Property Name="ProductDetailsId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Offices">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="varchar" Nullable="false" MaxLength="250" />
+          <Property Name="CountryId" Type="int" Nullable="false" />
+          <Property Name="PartnerId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="OrderItems">
           <Key>
@@ -162,6 +242,46 @@
           <Property Name="DatePaid" Type="datetime" />
           <Property Name="DateSent" Type="datetime" />
         </EntityType>
+        <EntityType Name="ProductMatrix">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="PriceType" Type="int" Nullable="false" />
+          <Property Name="Span_lower" Type="int" Nullable="false" />
+          <Property Name="Span_upper" Type="int" Nullable="false" />
+          <Property Name="ProductDetailId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ProductMatrixLines">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="varchar" Nullable="false" MaxLength="250" />
+          <Property Name="LineType" Type="int" Nullable="false" />
+          <Property Name="BaseCost" Type="decimal" Nullable="false" Scale="2" />
+          <Property Name="ProductMatrixId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Shops">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="varchar" Nullable="false" MaxLength="250" />
+          <Property Name="CountryId" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_FulfillmentPartners_Shops">
+          <End Role="Shops" Type="LetterAmazer.Store.Shops" Multiplicity="1" />
+          <End Role="FulfillmentPartners" Type="LetterAmazer.Store.FulfillmentPartners" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Shops">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FulfillmentPartners">
+              <PropertyRef Name="ShopId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Letter_Customer">
           <End Role="Customers" Type="LetterAmazer.Store.Customers" Multiplicity="0..1" />
           <End Role="Letters" Type="LetterAmazer.Store.Letters" Multiplicity="*" />
@@ -171,6 +291,66 @@
             </Principal>
             <Dependent Role="Letters">
               <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OfficeProducts_Countries">
+          <End Role="Countries" Type="LetterAmazer.Store.Countries" Multiplicity="0..1" />
+          <End Role="OfficeProducts" Type="LetterAmazer.Store.OfficeProducts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Countries">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OfficeProducts">
+              <PropertyRef Name="CountryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OfficeProducts_OfficeProductDetails">
+          <End Role="OfficeProductDetails" Type="LetterAmazer.Store.OfficeProductDetails" Multiplicity="1" />
+          <End Role="OfficeProducts" Type="LetterAmazer.Store.OfficeProducts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OfficeProductDetails">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OfficeProducts">
+              <PropertyRef Name="ProductDetailsId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OfficeProducts_Offices">
+          <End Role="Offices" Type="LetterAmazer.Store.Offices" Multiplicity="1" />
+          <End Role="OfficeProducts" Type="LetterAmazer.Store.OfficeProducts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Offices">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OfficeProducts">
+              <PropertyRef Name="OfficeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Offices_Countries">
+          <End Role="Countries" Type="LetterAmazer.Store.Countries" Multiplicity="1" />
+          <End Role="Offices" Type="LetterAmazer.Store.Offices" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Countries">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Offices">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Offices_FulfillmentPartners">
+          <End Role="FulfillmentPartners" Type="LetterAmazer.Store.FulfillmentPartners" Multiplicity="1" />
+          <End Role="Offices" Type="LetterAmazer.Store.Offices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FulfillmentPartners">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Offices">
+              <PropertyRef Name="PartnerId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -210,6 +390,42 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_ProductMatrix_OfficeProductDetails">
+          <End Role="OfficeProductDetails" Type="LetterAmazer.Store.OfficeProductDetails" Multiplicity="1" />
+          <End Role="ProductMatrix" Type="LetterAmazer.Store.ProductMatrix" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OfficeProductDetails">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProductMatrix">
+              <PropertyRef Name="ProductDetailId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductMatrixLines_ProductMatrix">
+          <End Role="ProductMatrix" Type="LetterAmazer.Store.ProductMatrix" Multiplicity="1" />
+          <End Role="ProductMatrixLines" Type="LetterAmazer.Store.ProductMatrixLines" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProductMatrix">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProductMatrixLines">
+              <PropertyRef Name="ProductMatrixId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Shops_Countries">
+          <End Role="Countries" Type="LetterAmazer.Store.Countries" Multiplicity="1" />
+          <End Role="Shops" Type="LetterAmazer.Store.Shops" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Countries">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Shops">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -237,6 +453,53 @@
             <End Role="OrderItem" EntitySet="OrderItems" />
           </AssociationSet>
           <EntitySet Name="Countries" EntityType="LetterAmazer.Country" />
+          <EntitySet Name="FulfillmentPartners" EntityType="LetterAmazer.FulfillmentPartner" />
+          <EntitySet Name="OfficeProductDetails" EntityType="LetterAmazer.OfficeProductDetail" />
+          <EntitySet Name="OfficeProducts" EntityType="LetterAmazer.OfficeProduct" />
+          <EntitySet Name="Offices" EntityType="LetterAmazer.Office" />
+          <EntitySet Name="ProductMatrices" EntityType="LetterAmazer.ProductMatrix" />
+          <EntitySet Name="ProductMatrixLines" EntityType="LetterAmazer.ProductMatrixLine" />
+          <EntitySet Name="Shops" EntityType="LetterAmazer.Shop" />
+          <AssociationSet Name="FK_OfficeProducts_Countries" Association="LetterAmazer.FK_OfficeProducts_Countries">
+            <End Role="Country" EntitySet="Countries" />
+            <End Role="OfficeProduct" EntitySet="OfficeProducts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Offices_Countries" Association="LetterAmazer.FK_Offices_Countries">
+            <End Role="Country" EntitySet="Countries" />
+            <End Role="Office" EntitySet="Offices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Shops_Countries" Association="LetterAmazer.FK_Shops_Countries">
+            <End Role="Country" EntitySet="Countries" />
+            <End Role="Shop" EntitySet="Shops" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FulfillmentPartners_Shops" Association="LetterAmazer.FK_FulfillmentPartners_Shops">
+            <End Role="Shop" EntitySet="Shops" />
+            <End Role="FulfillmentPartner" EntitySet="FulfillmentPartners" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Offices_FulfillmentPartners" Association="LetterAmazer.FK_Offices_FulfillmentPartners">
+            <End Role="FulfillmentPartner" EntitySet="FulfillmentPartners" />
+            <End Role="Office" EntitySet="Offices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OfficeProducts_OfficeProductDetails" Association="LetterAmazer.FK_OfficeProducts_OfficeProductDetails">
+            <End Role="OfficeProductDetail" EntitySet="OfficeProductDetails" />
+            <End Role="OfficeProduct" EntitySet="OfficeProducts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductMatrix_OfficeProductDetails" Association="LetterAmazer.FK_ProductMatrix_OfficeProductDetails">
+            <End Role="OfficeProductDetail" EntitySet="OfficeProductDetails" />
+            <End Role="ProductMatrix" EntitySet="ProductMatrices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OfficeProducts_Offices" Association="LetterAmazer.FK_OfficeProducts_Offices">
+            <End Role="Office" EntitySet="Offices" />
+            <End Role="OfficeProduct" EntitySet="OfficeProducts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductMatrixLines_ProductMatrix" Association="LetterAmazer.FK_ProductMatrixLines_ProductMatrix">
+            <End Role="ProductMatrix" EntitySet="ProductMatrices" />
+            <End Role="ProductMatrixLine" EntitySet="ProductMatrixLines" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Letters_Letters" Association="LetterAmazer.FK_Letters_Letters">
+            <End Role="Letter" EntitySet="Letters" />
+            <End Role="Letter1" EntitySet="Letters" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Customer">
           <Key>
@@ -261,8 +524,7 @@
           <Property Type="String" Name="AttPerson" Nullable="true" FixedLength="true" MaxLength="150" />
           <Property Type="String" Name="City" Nullable="true" FixedLength="true" MaxLength="150" />
           <Property Type="String" Name="CompanyName" Nullable="true" FixedLength="true" MaxLength="150" />
-          <Property Type="String" Name="Country" Nullable="true" FixedLength="true" MaxLength="150" />
-          <Property Type="String" Name="CountryCode" Nullable="true" FixedLength="true" MaxLength="10" />
+          <Property Type="Int32" Name="Country" Nullable="true" />
           <Property Type="String" Name="FirstName" Nullable="true" FixedLength="true" MaxLength="150" />
           <Property Type="String" Name="LastName" Nullable="true" FixedLength="true" MaxLength="150" />
           <Property Type="String" Name="Postal" Nullable="true" FixedLength="true" MaxLength="150" />
@@ -281,6 +543,8 @@
           <Property Name="LetterDetail" Type="LetterAmazer.LetterDetail" Nullable="false" />
           <NavigationProperty Name="Customer" Relationship="LetterAmazer.FK_Letter_Customer" FromRole="Letter" ToRole="Customer" />
           <NavigationProperty Name="OrderItems" Relationship="LetterAmazer.FK_OrderItem_Letter" FromRole="Letter" ToRole="OrderItem" />
+          <NavigationProperty Name="Letters1" Relationship="LetterAmazer.FK_Letters_Letters" FromRole="Letter" ToRole="Letter1" />
+          <NavigationProperty Name="Letter1" Relationship="LetterAmazer.FK_Letters_Letters" FromRole="Letter1" ToRole="Letter" />
           </EntityType>
         <ComplexType Name="LetterContent" >
           <Property Type="String" Name="Path" Nullable="true" FixedLength="true" MaxLength="250" />
@@ -458,7 +722,213 @@
           <Property Type="Int32" Name="GeonameId" />
           <Property Type="Double" Name="West" />
           <Property Type="String" Name="Population" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Type="Boolean" Name="InsideEu" />
+          <NavigationProperty Name="OfficeProducts" Relationship="LetterAmazer.FK_OfficeProducts_Countries" FromRole="Country" ToRole="OfficeProduct" />
+          <NavigationProperty Name="Office" Relationship="LetterAmazer.FK_Offices_Countries" FromRole="Country" ToRole="Office" />
+          <NavigationProperty Name="Shop" Relationship="LetterAmazer.FK_Shops_Countries" FromRole="Country" ToRole="Shop" />
         </EntityType>
+        <EntityType Name="FulfillmentPartner">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Type="Int32" Name="ShopId" Nullable="false" />
+          <NavigationProperty Name="Shop" Relationship="LetterAmazer.FK_FulfillmentPartners_Shops" FromRole="FulfillmentPartner" ToRole="Shop" />
+          <NavigationProperty Name="Offices" Relationship="LetterAmazer.FK_Offices_FulfillmentPartners" FromRole="FulfillmentPartner" ToRole="Office" />
+        </EntityType>
+        <EntityType Name="OfficeProductDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="DocumentType" Nullable="false" />
+          <Property Type="Int32" Name="Size" />
+          <Property Type="Int32" Name="Quality" />
+          <Property Type="Int32" Name="LetterType" />
+          <NavigationProperty Name="OfficeProducts" Relationship="LetterAmazer.FK_OfficeProducts_OfficeProductDetails" FromRole="OfficeProductDetail" ToRole="OfficeProduct" />
+          <NavigationProperty Name="ProductMatrices" Relationship="LetterAmazer.FK_ProductMatrix_OfficeProductDetails" FromRole="OfficeProductDetail" ToRole="ProductMatrix" />
+        </EntityType>
+        <EntityType Name="OfficeProduct">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="OfficeId" Nullable="false" />
+          <Property Type="Int32" Name="ScopeType" Nullable="false" />
+          <Property Type="Int32" Name="CountryId" />
+          <Property Type="Int32" Name="ContinentId" />
+          <Property Type="Int32" Name="ZipId" />
+          <Property Type="Int32" Name="ProductDetailsId" Nullable="false" />
+          <NavigationProperty Name="Country" Relationship="LetterAmazer.FK_OfficeProducts_Countries" FromRole="OfficeProduct" ToRole="Country" />
+          <NavigationProperty Name="OfficeProductDetail" Relationship="LetterAmazer.FK_OfficeProducts_OfficeProductDetails" FromRole="OfficeProduct" ToRole="OfficeProductDetail" />
+          <NavigationProperty Name="Office" Relationship="LetterAmazer.FK_OfficeProducts_Offices" FromRole="OfficeProduct" ToRole="Office" />
+        </EntityType>
+        <EntityType Name="Office">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="CountryId" Nullable="false" />
+          <Property Type="Int32" Name="PartnerId" Nullable="false" />
+          <NavigationProperty Name="Country" Relationship="LetterAmazer.FK_Offices_Countries" FromRole="Office" ToRole="Country" />
+          <NavigationProperty Name="FulfillmentPartner" Relationship="LetterAmazer.FK_Offices_FulfillmentPartners" FromRole="Office" ToRole="FulfillmentPartner" />
+          <NavigationProperty Name="OfficeProducts" Relationship="LetterAmazer.FK_OfficeProducts_Offices" FromRole="Office" ToRole="OfficeProduct" />
+        </EntityType>
+        <EntityType Name="ProductMatrix">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="PriceType" Nullable="false" />
+          <Property Type="Int32" Name="Span_lower" Nullable="false" />
+          <Property Type="Int32" Name="Span_upper" Nullable="false" />
+          <Property Type="Int32" Name="ProductDetailId" Nullable="false" />
+          <NavigationProperty Name="OfficeProductDetail" Relationship="LetterAmazer.FK_ProductMatrix_OfficeProductDetails" FromRole="ProductMatrix" ToRole="OfficeProductDetail" />
+          <NavigationProperty Name="ProductMatrixLines" Relationship="LetterAmazer.FK_ProductMatrixLines_ProductMatrix" FromRole="ProductMatrix" ToRole="ProductMatrixLine" />
+        </EntityType>
+        <EntityType Name="ProductMatrixLine">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Title" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="LineType" Nullable="false" />
+          <Property Type="Decimal" Name="BaseCost" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Int32" Name="ProductMatrixId" Nullable="false" />
+          <NavigationProperty Name="ProductMatrix" Relationship="LetterAmazer.FK_ProductMatrixLines_ProductMatrix" FromRole="ProductMatrixLine" ToRole="ProductMatrix" />
+        </EntityType>
+        <EntityType Name="Shop">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="CountryId" Nullable="false" />
+          <NavigationProperty Name="Country" Relationship="LetterAmazer.FK_Shops_Countries" FromRole="Shop" ToRole="Country" />
+          <NavigationProperty Name="FulfillmentPartners" Relationship="LetterAmazer.FK_FulfillmentPartners_Shops" FromRole="Shop" ToRole="FulfillmentPartner" />
+        </EntityType>
+        <Association Name="FK_OfficeProducts_Countries">
+          <End Type="LetterAmazer.Country" Role="Country" Multiplicity="0..1" />
+          <End Type="LetterAmazer.OfficeProduct" Role="OfficeProduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Country">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OfficeProduct">
+              <PropertyRef Name="CountryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Offices_Countries">
+          <End Type="LetterAmazer.Country" Role="Country" Multiplicity="1" />
+          <End Type="LetterAmazer.Office" Role="Office" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Country">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Office">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Shops_Countries">
+          <End Type="LetterAmazer.Country" Role="Country" Multiplicity="1" />
+          <End Type="LetterAmazer.Shop" Role="Shop" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Country">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Shop">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FulfillmentPartners_Shops">
+          <End Type="LetterAmazer.Shop" Role="Shop" Multiplicity="1" />
+          <End Type="LetterAmazer.FulfillmentPartner" Role="FulfillmentPartner" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Shop">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FulfillmentPartner">
+              <PropertyRef Name="ShopId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Offices_FulfillmentPartners">
+          <End Type="LetterAmazer.FulfillmentPartner" Role="FulfillmentPartner" Multiplicity="1" />
+          <End Type="LetterAmazer.Office" Role="Office" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FulfillmentPartner">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Office">
+              <PropertyRef Name="PartnerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OfficeProducts_OfficeProductDetails">
+          <End Type="LetterAmazer.OfficeProductDetail" Role="OfficeProductDetail" Multiplicity="1" />
+          <End Type="LetterAmazer.OfficeProduct" Role="OfficeProduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OfficeProductDetail">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OfficeProduct">
+              <PropertyRef Name="ProductDetailsId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductMatrix_OfficeProductDetails">
+          <End Type="LetterAmazer.OfficeProductDetail" Role="OfficeProductDetail" Multiplicity="1" />
+          <End Type="LetterAmazer.ProductMatrix" Role="ProductMatrix" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OfficeProductDetail">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProductMatrix">
+              <PropertyRef Name="ProductDetailId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OfficeProducts_Offices">
+          <End Type="LetterAmazer.Office" Role="Office" Multiplicity="1" />
+          <End Type="LetterAmazer.OfficeProduct" Role="OfficeProduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Office">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OfficeProduct">
+              <PropertyRef Name="OfficeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductMatrixLines_ProductMatrix">
+          <End Type="LetterAmazer.ProductMatrix" Role="ProductMatrix" Multiplicity="1" />
+          <End Type="LetterAmazer.ProductMatrixLine" Role="ProductMatrixLine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProductMatrix">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProductMatrixLine">
+              <PropertyRef Name="ProductMatrixId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Letters_Letters">
+          <End Type="LetterAmazer.Letter" Role="Letter" Multiplicity="1" />
+          <End Type="LetterAmazer.Letter" Role="Letter1" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Letter">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Letter1">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -479,7 +949,6 @@
             <ScalarProperty Name="City" ColumnName="CustomerInfo_City" />
             <ScalarProperty Name="CompanyName" ColumnName="CustomerInfo_CompanyName" />
             <ScalarProperty Name="Country" ColumnName="CustomerInfo_Country" />
-            <ScalarProperty Name="CountryCode" ColumnName="CustomerInfo_CountryCode" />
             <ScalarProperty Name="FirstName" ColumnName="CustomerInfo_FirstName" />
             <ScalarProperty Name="LastName" ColumnName="CustomerInfo_LastName" />
             <ScalarProperty Name="Postal" ColumnName="CustomerInfo_Postal" />
@@ -505,7 +974,6 @@
             <ScalarProperty Name="City" ColumnName="FromAddress_City" />
             <ScalarProperty Name="CompanyName" ColumnName="FromAddress_CompanyName" />
             <ScalarProperty Name="Country" ColumnName="FromAddress_Country" />
-            <ScalarProperty Name="CountryCode" ColumnName="FromAddress_CountryCode" />
             <ScalarProperty Name="FirstName" ColumnName="FromAddress_FirstName" />
             <ScalarProperty Name="LastName" ColumnName="FromAddress_LastName" />
             <ScalarProperty Name="Postal" ColumnName="FromAddress_Postal" />
@@ -518,7 +986,6 @@
             <ScalarProperty Name="City" ColumnName="ToAddress_City" />
             <ScalarProperty Name="CompanyName" ColumnName="ToAddress_CompanyName" />
             <ScalarProperty Name="Country" ColumnName="ToAddress_Country" />
-            <ScalarProperty Name="CountryCode" ColumnName="ToAddress_CountryCode" />
             <ScalarProperty Name="FirstName" ColumnName="ToAddress_FirstName" />
             <ScalarProperty Name="LastName" ColumnName="ToAddress_LastName" />
             <ScalarProperty Name="Postal" ColumnName="ToAddress_Postal" />
@@ -593,6 +1060,7 @@
           <EntitySetMapping Name="Countries">
             <EntityTypeMapping TypeName="LetterAmazer.Country">
               <MappingFragment StoreEntitySet="Countries">
+                <ScalarProperty Name="InsideEu" ColumnName="InsideEu" />
                 <ScalarProperty Name="Population" ColumnName="Population" />
                 <ScalarProperty Name="West" ColumnName="West" />
                 <ScalarProperty Name="GeonameId" ColumnName="GeonameId" />
@@ -610,6 +1078,80 @@
                 <ScalarProperty Name="FipsCode" ColumnName="FipsCode" />
                 <ScalarProperty Name="CurrencyCode" ColumnName="CurrencyCode" />
                 <ScalarProperty Name="CountryName" ColumnName="CountryName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FulfillmentPartners">
+            <EntityTypeMapping TypeName="LetterAmazer.FulfillmentPartner">
+              <MappingFragment StoreEntitySet="FulfillmentPartners">
+                <ScalarProperty Name="ShopId" ColumnName="ShopId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OfficeProductDetails">
+            <EntityTypeMapping TypeName="LetterAmazer.OfficeProductDetail">
+              <MappingFragment StoreEntitySet="OfficeProductDetails">
+                <ScalarProperty Name="LetterType" ColumnName="LetterType" />
+                <ScalarProperty Name="Quality" ColumnName="Quality" />
+                <ScalarProperty Name="Size" ColumnName="Size" />
+                <ScalarProperty Name="DocumentType" ColumnName="DocumentType" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OfficeProducts">
+            <EntityTypeMapping TypeName="LetterAmazer.OfficeProduct">
+              <MappingFragment StoreEntitySet="OfficeProducts">
+                <ScalarProperty Name="ProductDetailsId" ColumnName="ProductDetailsId" />
+                <ScalarProperty Name="ZipId" ColumnName="ZipId" />
+                <ScalarProperty Name="ContinentId" ColumnName="ContinentId" />
+                <ScalarProperty Name="CountryId" ColumnName="CountryId" />
+                <ScalarProperty Name="ScopeType" ColumnName="ScopeType" />
+                <ScalarProperty Name="OfficeId" ColumnName="OfficeId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Offices">
+            <EntityTypeMapping TypeName="LetterAmazer.Office">
+              <MappingFragment StoreEntitySet="Offices">
+                <ScalarProperty Name="PartnerId" ColumnName="PartnerId" />
+                <ScalarProperty Name="CountryId" ColumnName="CountryId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProductMatrices">
+            <EntityTypeMapping TypeName="LetterAmazer.ProductMatrix">
+              <MappingFragment StoreEntitySet="ProductMatrix">
+                <ScalarProperty Name="ProductDetailId" ColumnName="ProductDetailId" />
+                <ScalarProperty Name="Span_upper" ColumnName="Span_upper" />
+                <ScalarProperty Name="Span_lower" ColumnName="Span_lower" />
+                <ScalarProperty Name="PriceType" ColumnName="PriceType" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProductMatrixLines">
+            <EntityTypeMapping TypeName="LetterAmazer.ProductMatrixLine">
+              <MappingFragment StoreEntitySet="ProductMatrixLines">
+                <ScalarProperty Name="ProductMatrixId" ColumnName="ProductMatrixId" />
+                <ScalarProperty Name="BaseCost" ColumnName="BaseCost" />
+                <ScalarProperty Name="LineType" ColumnName="LineType" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Shops">
+            <EntityTypeMapping TypeName="LetterAmazer.Shop">
+              <MappingFragment StoreEntitySet="Shops">
+                <ScalarProperty Name="CountryId" ColumnName="CountryId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

@@ -1,5 +1,6 @@
 ﻿using Ionic.Zip;
 using LetterAmazer.Business.Services.Data;
+using LetterAmazer.Business.Services.Domain.Fulfillments;
 using LetterAmazer.Business.Services.Interfaces;
 using log4net;
 using System;
@@ -62,7 +63,7 @@ namespace LetterAmazer.Business.Services.Services.Fulfillment
 
                         wr.WriteLine(string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12}",
                             Path.GetFileName(item.Letter.LetterContent.Path),
-                            item.Letter.ToAddress.CountryCode,
+                            item.Letter.ToAddress.Country.Value, // TODO: Fix country
                             item.Letter.ToAddress.Postal,
                             1,
                             string.Empty,

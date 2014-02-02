@@ -34,5 +34,7 @@ namespace LetterAmazer.Business.Services.Data
     
         public virtual Customer Customer { get; set; }
         public virtual ICollection<OrderItem> OrderItems { get; set; }
+        public virtual Letter Letters1 { get; set; }
+        public virtual Letter Letter1 { get; set; }
     }
 }

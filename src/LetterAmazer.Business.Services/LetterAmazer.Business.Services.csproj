@@ -115,6 +115,9 @@
     <Compile Include="Data\DBFactory.cs" />
     <Compile Include="Data\Disposable.cs" />
     <Compile Include="Data\EFRepository.cs" />
+    <Compile Include="Data\FulfillmentPartner.cs">
+      <DependentUpon>LetterAmazer.tt</DependentUpon>
+    </Compile>
     <Compile Include="Data\IDBFactory.cs" />
     <Compile Include="Data\IRepository.cs" />
     <Compile Include="Data\IUnitOfWork.cs" />
@@ -148,6 +151,15 @@
     <Compile Include="Data\LetterStatus.cs">
       <DependentUpon>LetterAmazer.tt</DependentUpon>
     </Compile>
+    <Compile Include="Data\Office.cs">
+      <DependentUpon>LetterAmazer.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\OfficeProduct.cs">
+      <DependentUpon>LetterAmazer.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\OfficeProductDetail.cs">
+      <DependentUpon>LetterAmazer.tt</DependentUpon>
+    </Compile>
     <Compile Include="Data\Order.cs">
       <DependentUpon>LetterAmazer.tt</DependentUpon>
     </Compile>
@@ -170,9 +182,29 @@
     <Compile Include="Data\PrintSize.cs">
       <DependentUpon>LetterAmazer.tt</DependentUpon>
     </Compile>
+    <Compile Include="Data\ProductMatrix.cs">
+      <DependentUpon>LetterAmazer.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\ProductMatrixLine.cs">
+      <DependentUpon>LetterAmazer.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\Shop.cs">
+      <DependentUpon>LetterAmazer.tt</DependentUpon>
+    </Compile>
     <Compile Include="Data\UnitOfWork.cs" />
     <Compile Include="Domain\Common\Specifications.cs" />
-    <Compile Include="Domain\Shipping\IShippingService.cs" />
+    <Compile Include="Domain\FulfillmentPartners\FulfillmentPartnerSpecification.cs" />
+    <Compile Include="Domain\FulfillmentPartners\FulfilmentPartner.cs" />
+    <Compile Include="Domain\FulfillmentPartners\IFulfillmentPartnerService.cs" />
+    <Compile Include="Domain\Offices\IOfficeService.cs" />
+    <Compile Include="Domain\Offices\OfficeSpecification.cs" />
+    <Compile Include="Domain\Offices\ProductScope.cs" />
+    <Compile Include="Domain\Pricing\Price.cs" />
+    <Compile Include="Domain\Products\ProductDetails\LetterSize.cs" />
+    <Compile Include="Domain\Products\ProductDetails\LetterType.cs" />
+    <Compile Include="Domain\Products\ProductDetails\ProductType.cs" />
+    <Compile Include="Domain\Shipping\DeliveryOption.cs" />
+    <Compile Include="Domain\Shipping\IShippingMethodService.cs" />
     <Compile Include="Domain\Shipping\ShippingMethod.cs" />
     <Compile Include="Domain\Shipping\ShippingMethodSpecification.cs" />
     <Compile Include="Exceptions\BusinessException.cs" />
@@ -182,9 +214,9 @@
     <Compile Include="Domain\Countries\ICountryService.cs" />
     <Compile Include="Domain\Coupons\ICouponService.cs" />
     <Compile Include="Domain\Customers\ICustomerService.cs" />
-    <Compile Include="Interfaces\IFulfillmentService.cs" />
-    <Compile Include="Interfaces\ILetterJob.cs" />
-    <Compile Include="Interfaces\ILetterService.cs" />
+    <Compile Include="Domain\Fulfillments\IFulfillmentService.cs" />
+    <Compile Include="Domain\Fulfillments\ILetterJob.cs" />
+    <Compile Include="Domain\Letters\ILetterService.cs" />
     <Compile Include="Interfaces\INotificationService.cs" />
     <Compile Include="Domain\Orders\IOrderService.cs" />
     <Compile Include="Interfaces\IPasswordEncryptor.cs" />
@@ -202,6 +234,7 @@
     <Compile Include="Services\CountryService.cs" />
     <Compile Include="Services\CouponService.cs" />
     <Compile Include="Services\CustomerService.cs" />
+    <Compile Include="Services\FulfillmentPartners\FulfillmentPartnerService.cs" />
     <Compile Include="Services\Fulfillment\AmazonS3Service.cs" />
     <Compile Include="Services\Fulfillment\DummyJupiterService.cs" />
     <Compile Include="Services\Fulfillment\JupiterService.cs" />
@@ -209,6 +242,7 @@
     <Compile Include="Services\Jobs\JupiterJob.cs" />
     <Compile Include="Services\LetterService.cs" />
     <Compile Include="Services\NotificationService.cs" />
+    <Compile Include="Services\Offices\OfficeService.cs" />
     <Compile Include="Services\OrderService.cs" />
     <Compile Include="Services\PaymentMethod\CreditsMethod.cs" />
     <Compile Include="Services\PaymentMethod\PaypalMethod.cs" />
@@ -216,7 +250,7 @@
     <Compile Include="Services\Payment\PayPalManager.cs" />
     <Compile Include="Services\LetterContent\PdfManager.cs" />
     <Compile Include="Services\SHA1PasswordEncryptor.cs" />
-    <Compile Include="Services\ShippingService.cs" />
+    <Compile Include="Services\Shipping\ShippingService.cs" />
     <Compile Include="Utilities\SecurityUtility.cs" />
   </ItemGroup>
   <ItemGroup>

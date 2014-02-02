@@ -14,6 +14,11 @@ namespace LetterAmazer.Business.Services.Data
     
     public partial class Country
     {
+        public Country()
+        {
+            this.OfficeProducts = new HashSet<OfficeProduct>();
+        }
+    
         public int Id { get; set; }
         public string CountryName { get; set; }
         public string CurrencyCode { get; set; }
@@ -32,5 +37,10 @@ namespace LetterAmazer.Business.Services.Data
         public Nullable<int> GeonameId { get; set; }
         public Nullable<double> West { get; set; }
         public string Population { get; set; }
+        public Nullable<bool> InsideEu { get; set; }
+    
+        public virtual ICollection<OfficeProduct> OfficeProducts { get; set; }
+        public virtual Office Office { get; set; }
+        public virtual Shop Shop { get; set; }
     }
 }

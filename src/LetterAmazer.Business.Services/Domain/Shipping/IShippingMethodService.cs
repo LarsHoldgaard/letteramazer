@@ -4,11 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LetterAmazer.Business.Services.Services;
+using LetterAmazer.Business.Services.Services.Shipping;
 
 namespace LetterAmazer.Business.Services.Domain.Shipping
 {
-    public interface IShippingService
+    public interface IShippingMethodService
     {
-        List<ShippingService> GetShippingMethods(ShippingMethodSpecification shippingMethodSpecification);
+        List<ShippingMethod> GetShippingMethodsBySpecification(ShippingMethodSpecification shippingMethodSpecification);
     }
 }

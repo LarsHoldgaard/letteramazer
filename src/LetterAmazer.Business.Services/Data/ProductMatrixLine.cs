@@ -10,18 +10,16 @@
 namespace LetterAmazer.Business.Services.Data
 {
     using System;
+    using System.Collections.Generic;
     
-    public partial class AddressInfo
+    public partial class ProductMatrixLine
     {
-        public string Address { get; set; }
-        public string Address2 { get; set; }
-        public string AttPerson { get; set; }
-        public string City { get; set; }
-        public string CompanyName { get; set; }
-        public Nullable<int> Country { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string Postal { get; set; }
-        public string VatNr { get; set; }
+        public int Id { get; set; }
+        public string Title { get; set; }
+        public int LineType { get; set; }
+        public decimal BaseCost { get; set; }
+        public int ProductMatrixId { get; set; }
+    
+        public virtual ProductMatrix ProductMatrix { get; set; }
     }
 }

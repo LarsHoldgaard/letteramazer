@@ -1,5 +1,6 @@
 ﻿using LetterAmazer.Business.Services.Data;
 using LetterAmazer.Business.Services.Domain.Coupons;
+using LetterAmazer.Business.Services.Domain.Letters;
 using LetterAmazer.Business.Services.Domain.Orders;
 using LetterAmazer.Business.Services.Domain.Payments;
 using LetterAmazer.Business.Services.Interfaces;
@@ -84,8 +85,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                 addressInfo.Address = model.DestinationAddress;
                 addressInfo.FirstName = model.RecipientName;
                 addressInfo.City = model.DestinationCity;
-                addressInfo.Country = model.DestinationCountry;
-                addressInfo.CountryCode = model.DestinationCountryCode;
+                //addressInfo.Country = model.DestinationCountry;// TODO: Fix country
                 addressInfo.Postal = model.ZipCode;
 
                 LetterDetail letterDetail = new LetterDetail();

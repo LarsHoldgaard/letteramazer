@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LetterAmazer.Business.Services.Data;
+using LetterAmazer.Business.Services.Domain.Letters;
 using LetterAmazer.Business.Services.Interfaces;
 using LetterAmazer.Business.Services.Services.LetterContent;
 using System.IO;
@@ -36,7 +37,7 @@ namespace LetterAmazer.Business.Services.Services
 
         private decimal GetCost(int numerOfPages, AddressInfo address)
         {
-            return CalculateLetterCost(numerOfPages, address.Address, address.Postal, address.City, address.Country);
+            return CalculateLetterCost(numerOfPages, address.Address, address.Postal, address.City, "0");// TODO: Fix country
         }
 
         private decimal CalculateLetterCost()

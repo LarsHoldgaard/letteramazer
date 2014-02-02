@@ -1,6 +1,7 @@
 ﻿using LetterAmazer.Business.Services.Domain.Countries;
 using LetterAmazer.Business.Services.Domain.Coupons;
 using LetterAmazer.Business.Services.Domain.Customers;
+using LetterAmazer.Business.Services.Domain.Letters;
 using LetterAmazer.Business.Services.Domain.Orders;
 using LetterAmazer.Business.Services.Domain.Payments;
 using LetterAmazer.Business.Services.Model.External_data;
@@ -76,8 +77,8 @@ namespace LetterAmazer.Websites.Client.Controllers
                 addressInfo.Address = model.DestinationAddress;
                 addressInfo.FirstName = model.RecipientName;
                 addressInfo.City = model.DestinationCity;
-                addressInfo.Country = model.DestinationCountry;
-                addressInfo.CountryCode = model.DestinationCountryCode;
+                // addressInfo.Country = model.DestinationCountry; // TODO: Fix country
+                // TODO: Fix country
                 addressInfo.Postal = model.ZipCode;
 
                 LetterDetail letterDetail = new LetterDetail();
@@ -176,7 +177,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                 PdfManager pdfManager = new PdfManager();
 
                 Letter letter = new Letter();
-                letter.ToAddress = new AddressInfo() { Address = address, Postal = postal, City = city, Country = country };
+                letter.ToAddress = new AddressInfo() { Address = address, Postal = postal, City = city, }; // TODO: Fix country
                 letter.LetterContent = new LetterContent();
                 if (usePdf)
                 {

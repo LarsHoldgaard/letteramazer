@@ -10,18 +10,20 @@
 namespace LetterAmazer.Business.Services.Data
 {
     using System;
+    using System.Collections.Generic;
     
-    public partial class AddressInfo
+    public partial class Shop
     {
-        public string Address { get; set; }
-        public string Address2 { get; set; }
-        public string AttPerson { get; set; }
-        public string City { get; set; }
-        public string CompanyName { get; set; }
-        public Nullable<int> Country { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string Postal { get; set; }
-        public string VatNr { get; set; }
+        public Shop()
+        {
+            this.FulfillmentPartners = new HashSet<FulfillmentPartner>();
+        }
+    
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public int CountryId { get; set; }
+    
+        public virtual Country Country { get; set; }
+        public virtual ICollection<FulfillmentPartner> FulfillmentPartners { get; set; }
     }
 }

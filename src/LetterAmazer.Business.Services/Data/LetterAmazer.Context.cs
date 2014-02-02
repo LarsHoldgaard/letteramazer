@@ -31,5 +31,12 @@ namespace LetterAmazer.Business.Services.Data
         public DbSet<Coupon> Coupons { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<Country> Countries { get; set; }
+        public DbSet<FulfillmentPartner> FulfillmentPartners { get; set; }
+        public DbSet<OfficeProductDetail> OfficeProductDetails { get; set; }
+        public DbSet<OfficeProduct> OfficeProducts { get; set; }
+        public DbSet<Office> Offices { get; set; }
+        public DbSet<ProductMatrix> ProductMatrices { get; set; }
+        public DbSet<ProductMatrixLine> ProductMatrixLines { get; set; }
+        public DbSet<Shop> Shops { get; set; }
     }
 }

@@ -45,7 +45,7 @@ namespace LetterAmazer.Business.Services.Services.PaymentMethod
             decimal volume = order.Price;
             string firstName = addressInfo.FirstName;
             string lastName = addressInfo.LastName;
-            string country = addressInfo.Country;
+            string country = addressInfo.Country.Value.ToString(); // TODO: Fix country
             string postal = addressInfo.Postal;
             string city = addressInfo.City;
             string address = addressInfo.Address;
