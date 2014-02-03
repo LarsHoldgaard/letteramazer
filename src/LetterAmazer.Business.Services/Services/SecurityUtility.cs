@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Text;
 using System.Web;
+using LetterAmazer.Business.Services.Domain.Customers;
 
-namespace LetterAmazer.Business.Services.Utilities
+namespace LetterAmazer.Business.Services.Services
 {
     public static class SecurityUtility
     {

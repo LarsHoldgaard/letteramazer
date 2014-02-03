@@ -106,6 +106,7 @@
     <Compile Include="Domain\FulfillmentPartners\IFulfillmentPartnerService.cs" />
     <Compile Include="Domain\Letters\Letter.cs" />
     <Compile Include="Domain\Letters\LetterContent.cs" />
+    <Compile Include="Domain\Letters\LetterSpecification.cs" />
     <Compile Include="Domain\Letters\LetterStatus.cs" />
     <Compile Include="Domain\Offices\IOfficeService.cs" />
     <Compile Include="Domain\Offices\Office.cs" />
@@ -115,7 +116,9 @@
     <Compile Include="Domain\Orders\OrderStatus.cs" />
     <Compile Include="Domain\Orders\OrderType.cs" />
     <Compile Include="Domain\Payments\PaymentMethods.cs" />
+    <Compile Include="Domain\Pricing\IPriceService.cs" />
     <Compile Include="Domain\Pricing\Price.cs" />
+    <Compile Include="Domain\Pricing\PriceSpecification.cs" />
     <Compile Include="Domain\Products\ProductDetails\LetterColor.cs" />
     <Compile Include="Domain\Products\ProductDetails\LetterPaperWeight.cs" />
     <Compile Include="Domain\Products\ProductDetails\LetterProcessing.cs" />
@@ -169,11 +172,13 @@
     <Compile Include="Services\NotificationService.cs" />
     <Compile Include="Services\Offices\OfficeService.cs" />
     <Compile Include="Services\OrderService.cs" />
-    <Compile Include="Services\PaymentMethod\CreditsMethod.cs" />
-    <Compile Include="Services\PaymentMethod\PaypalMethod.cs" />
+    <Compile Include="Services\PaymentMethods\CreditsMethod.cs" />
+    <Compile Include="Services\PaymentMethods\PaypalMethod.cs" />
     <Compile Include="Services\PaymentService.cs" />
     <Compile Include="Services\Payment\PayPalManager.cs" />
     <Compile Include="Services\LetterContent\PdfManager.cs" />
+    <Compile Include="Services\PriceService.cs" />
+    <Compile Include="Services\SecurityUtility.cs" />
     <Compile Include="Services\Shipping\ShippingService.cs" />
   </ItemGroup>
   <ItemGroup>

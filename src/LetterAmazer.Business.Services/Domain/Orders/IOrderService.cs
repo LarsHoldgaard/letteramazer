@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using LetterAmazer.Business.Services.Data;
 using LetterAmazer.Business.Services.Model;
 
 namespace LetterAmazer.Business.Services.Domain.Orders

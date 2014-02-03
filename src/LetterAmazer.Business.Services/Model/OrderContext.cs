@@ -1,9 +1,5 @@
-﻿using LetterAmazer.Business.Services.Data;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using LetterAmazer.Business.Services.Domain.Customers;
+using LetterAmazer.Business.Services.Domain.Orders;
 
 namespace LetterAmazer.Business.Services.Model
 {

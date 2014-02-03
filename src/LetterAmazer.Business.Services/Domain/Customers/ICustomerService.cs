@@ -1,6 +1,4 @@
-﻿using LetterAmazer.Business.Services.Data;
-
-namespace LetterAmazer.Business.Services.Domain.Customers
+﻿namespace LetterAmazer.Business.Services.Domain.Customers
 {
     public interface ICustomerService
     {

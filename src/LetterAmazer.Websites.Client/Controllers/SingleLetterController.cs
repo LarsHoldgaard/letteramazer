@@ -24,7 +24,6 @@ using LetterAmazer.Business.Services.Model;
 using LetterAmazer.Business.Services.Interfaces;
 using LetterAmazer.Business.Services.Services.PaymentMethod;
 using System.Text;
-using LetterAmazer.Business.Services.Utilities;
 using Newtonsoft.Json;
 
 namespace LetterAmazer.Websites.Client.Controllers

@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using LetterAmazer.Business.Services.Domain.Address;
-using LetterAmazer.Business.Services.Domain.AddressInfos;
+﻿using LetterAmazer.Business.Services.Domain.AddressInfos;
 using LetterAmazer.Business.Services.Domain.Countries;
-using LetterAmazer.Business.Services.Services;
 
 namespace LetterAmazer.Business.Services.Factory
 {
@@ -22,7 +15,7 @@ namespace LetterAmazer.Business.Services.Factory
         public AddressInfo Create(string address1, string address2, string postal, string city, int countryid,
             string attPerson, string firstName, string lastName, string vatNr)
         {
-            var country = CountryService.GetCountry(countryid);
+            var country = CountryService.GetCountryById(countryid);
 
             return new AddressInfo()
             {

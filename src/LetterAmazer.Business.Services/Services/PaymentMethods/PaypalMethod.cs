@@ -1,17 +1,12 @@
-﻿using LetterAmazer.Business.Services.Data;
+﻿using LetterAmazer.Business.Services.Domain.Orders;
 using LetterAmazer.Business.Services.Domain.Payments;
 using LetterAmazer.Business.Services.Exceptions;
-using LetterAmazer.Business.Services.Interfaces;
 using LetterAmazer.Business.Services.Model;
 using log4net;
 using System;
-using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web;
 
 namespace LetterAmazer.Business.Services.Services.PaymentMethod
@@ -39,7 +34,7 @@ namespace LetterAmazer.Business.Services.Services.PaymentMethod
         public string Process(OrderContext orderContext)
         {
             Order order = orderContext.Order;
-            if (order == null || order.OrderItems == null || order.OrderItems.Count == 0) throw new BusinessException("Order can not be null!");
+            if (order == null || order.Letters == null || order.Letters.Count == 0) throw new BusinessException("Order can not be null!");
 
             AddressInfo addressInfo = order.OrderItems.ElementAt(0).Letter == null ? orderContext.Order.Customer.CustomerInfo : order.OrderItems.ElementAt(0).Letter.ToAddress;
             decimal volume = order.Price;

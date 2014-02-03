@@ -1,4 +1,5 @@
 ﻿using LetterAmazer.Business.Services.Data;
+using LetterAmazer.Business.Services.Domain.Orders;
 using LetterAmazer.Business.Services.Domain.Payments;
 using LetterAmazer.Business.Services.Exceptions;
 using LetterAmazer.Business.Services.Interfaces;
@@ -8,18 +9,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LetterAmazer.Data.Repository.Data;
 
 namespace LetterAmazer.Business.Services.Services.PaymentMethod
 {
     public class CreditsMethod : IPaymentMethod
     {
         public const string NAME = "Credits";
-        private IRepository repository;
-        private IUnitOfWork unitOfWork;
-        public CreditsMethod(IRepository repository, IUnitOfWork unitOfWork)
+        private LetterAmazerEntities Repository;
+        public CreditsMethod(LetterAmazerEntities repository)
         {
-            this.repository = repository;
-            this.unitOfWork = unitOfWork;
+            this.Repository = repository;
         }
         
         public string Name
@@ -30,10 +30,10 @@ namespace LetterAmazer.Business.Services.Services.PaymentMethod
         public string Process(OrderContext orderContext)
         {
             Order order = orderContext.Order;
-            if (order == null || order.OrderItems == null || order.OrderItems.Count == 0) throw new BusinessException("Order can not be null!");
+            if (order == null || order.Letters == null || order.Letters.Count == 0) throw new BusinessException("Order can not be null!");
             if (order.Customer == null || order.Customer.Id == 0) throw new BusinessException("Customer can not be null!");
 
-            order.Customer.Credits -= orderContext.Order.Price;
+            order.Customer.Credit -= orderContext.Order.Price;
             order.OrderStatus = OrderStatus.Paid;
             repository.Update(order);
             order.Customer.DateUpdated = DateTime.Now;

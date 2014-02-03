@@ -8,6 +8,6 @@ namespace LetterAmazer.Business.Services.Domain.Orders
 {
     public enum OrderType
     {
-        Test=0
+        SendLetter=0
     }
 }

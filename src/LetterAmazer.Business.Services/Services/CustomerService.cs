@@ -1,39 +1,44 @@
 ﻿using LetterAmazer.Business.Services.Data;
 using LetterAmazer.Business.Services.Domain.Customers;
 using LetterAmazer.Business.Services.Exceptions;
+using LetterAmazer.Business.Services.Factory;
 using LetterAmazer.Business.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LetterAmazer.Data.Repository.Data;
 
 namespace LetterAmazer.Business.Services.Services
 {
     public class CustomerService : ICustomerService
     {
+        private CustomerFactory customerFactory;
+        private LetterAmazerEntities repository;
         private IPasswordEncryptor passwordEncryptor;
-        private IRepository repository;
-        private IUnitOfWork unitOfWork;
         private string resetPasswordUrl;
         private INotificationService notificationService;
-        public CustomerService(string resetPasswordUrl, IRepository repository, IUnitOfWork unitOfWork, 
+        public CustomerService(string resetPasswordUrl, LetterAmazerEntities repository, CustomerFactory customerFactory, 
             IPasswordEncryptor passwordEncryptor, INotificationService notificationService)
         {
             this.resetPasswordUrl = resetPasswordUrl;
             this.repository = repository;
-            this.unitOfWork = unitOfWork;
             this.passwordEncryptor = passwordEncryptor;
             this.notificationService = notificationService;
+            this.customerFactory = customerFactory;
         }
 
         public Customer GetCustomerById(int customerId)
         {
-            Customer customer = repository.GetById<Customer>(customerId);
-            if (customer == null)
+            DbCustomers dbcustomer = repository.DbCustomers.FirstOrDefault(c => c.Id == customerId);
+            if (dbcustomer == null)
             {
                 throw new ItemNotFoundException("Customer");
             }
+
+            var customer = customerFactory.Create(dbcustomer);
+
             return customer;
         }
 

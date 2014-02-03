@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.util;
 using LetterAmazer.Business.Services.Domain.Customers;
+using LetterAmazer.Business.Services.Domain.Letters;
 
 namespace LetterAmazer.Business.Services.Domain.Orders
 {
@@ -27,5 +28,7 @@ namespace LetterAmazer.Business.Services.Domain.Orders
         public decimal Discount { get; set; }
         public decimal Price { get; set; }
         public OrderType OrderType { get; set; }
+
+        public List<Letter> Letters { get; set; } 
     }
 }

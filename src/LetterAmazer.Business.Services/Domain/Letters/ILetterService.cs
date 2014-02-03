@@ -1,4 +1,4 @@
-﻿using LetterAmazer.Business.Services.Data;
+﻿using System.Collections.Generic;
 
 namespace LetterAmazer.Business.Services.Domain.Letters
 {
@@ -7,5 +7,7 @@ namespace LetterAmazer.Business.Services.Domain.Letters
         decimal GetCost(Letter letter);
         string GetRelativeLetterStoragePath();
         Letter GetLetterById(int letterId);
+        List<Letter> GetLetterBySpecification(LetterSpecification specification);
+
     }
 }

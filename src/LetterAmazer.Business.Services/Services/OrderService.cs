@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LetterAmazer.Data.Repository.Data;
 using LinqKit;
 using System.Threading;
 using LetterAmazer.Business.Services.Exceptions;
@@ -18,18 +19,16 @@ namespace LetterAmazer.Business.Services.Services
 {
     public class OrderService : IOrderService
     {
-        private IRepository repository;
-        private IUnitOfWork unitOfWork;
+        private LetterAmazerEntities Repository;
         private ILetterService letterService;
         private IPaymentService paymentService;
         private ICouponService couponService;
 
-        public OrderService(IRepository repository, IUnitOfWork unitOfWork, 
+        public OrderService(LetterAmazerEntities repository,
             ILetterService letterService, IPaymentService paymentService,
             ICouponService couponService)
         {
-            this.repository = repository;
-            this.unitOfWork = unitOfWork;
+            this.Repository = repository;
             this.letterService = letterService;
             this.paymentService = paymentService;
             this.couponService = couponService;
@@ -37,9 +36,9 @@ namespace LetterAmazer.Business.Services.Services
 
         public string CreateOrder(OrderContext orderContext)
         {
-            Order order = orderContext.Order;
-            order.OrderType = OrderType.SendLetters;
-            order.Guid = Guid.NewGuid().ToString();
+            DbOrder order = orderContext.Order;
+            order.OrderType = OrderType.SendLetter;
+            order.Guid = Guid.NewGuid();
             order.OrderCode = GenerateOrderCode();
             order.OrderStatus = OrderStatus.Created;
             order.DateCreated = DateTime.Now;
