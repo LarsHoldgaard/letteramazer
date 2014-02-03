@@ -24,5 +24,6 @@ namespace LetterAmazer.Data.Repository.Data
         public string Code { get; set; }
         public decimal CouponValueLeft { get; set; }
         public int CouponStatus { get; set; }
+        public Nullable<System.DateTime> DateModified { get; set; }
     }
 }

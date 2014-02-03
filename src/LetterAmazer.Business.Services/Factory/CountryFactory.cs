@@ -8,7 +8,7 @@ using LetterAmazer.Data.Repository.Data;
 
 namespace LetterAmazer.Business.Services.Factory
 {
-    public class CountryFactory:IFactory
+    public class CountryFactory
     {
         public Country Create(DbCountries country)
         {

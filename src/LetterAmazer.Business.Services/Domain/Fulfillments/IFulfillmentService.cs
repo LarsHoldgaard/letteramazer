@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using LetterAmazer.Business.Services.Data;
+using LetterAmazer.Business.Services.Domain.Orders;
 
 namespace LetterAmazer.Business.Services.Domain.Fulfillments
 {

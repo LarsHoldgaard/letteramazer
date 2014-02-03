@@ -36,37 +36,9 @@ namespace LetterAmazer.Business.Services.Services
                 Continent = country.Capital
             });
             repository.SaveChanges();
-
-            // Old import code
-            //var jsonData = new StreamReader(Server.MapPath("~/Resources/countryInfoJSON.json")).ReadToEnd();
-            //var ababa = JsonConvert.DeserializeObject<Countries>(jsonData);
-            //foreach (var countryJson in ababa.geonames)
-            //{
-            //    countryService.AddCountry(new Country()
-            //    {
-            //        AreaInSqKm = countryJson.areaInSqKm,
-            //        Capital = countryJson.capital,
-            //        Continent = countryJson.continent,
-            //        ContinentName = countryJson.continentName,
-            //        CountryCode = countryJson.countryCode,
-            //        CountryName = countryJson.countryName,
-            //        CurrencyCode = countryJson.currencyCode,
-            //        East = countryJson.east,
-            //        FipsCode = countryJson.fipsCode,
-            //        GeonameId = countryJson.geonameId,
-            //        IsoAlpha3 = countryJson.isoAlpha3,
-            //        IsoNumeric = countryJson.isoNumeric,
-            //        Languages = countryJson.languages,
-            //        North = countryJson.north,
-            //        Population = countryJson.population,
-            //        South = countryJson.south,
-            //        West = countryJson.west
-            //    });
-            //}
-
         }
 
-        public Country GetCountry(int id)
+        public Country GetCountryById(int id)
         {
             if (id <= 0)
             {

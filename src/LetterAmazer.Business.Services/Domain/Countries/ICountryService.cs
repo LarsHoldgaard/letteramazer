@@ -4,6 +4,6 @@
     {
 
         void AddCountry(Country country);
-        Country GetCountry(int id);
+        Country GetCountryById(int id);
     }
 }

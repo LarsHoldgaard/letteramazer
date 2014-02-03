@@ -94,14 +94,27 @@
     <Compile Include="Components\Mail\SystemNetMailSender.cs" />
     <Compile Include="Components\Mail\XmlEmailTemplate.cs" />
     <Compile Include="Components\Mail\XmlTemplateEmailFormatter.cs" />
+    <Compile Include="Domain\AddressInfos\AddressInfo.cs" />
+    <Compile Include="Domain\AddressInfos\IAddressService.cs" />
     <Compile Include="Domain\Common\Specifications.cs" />
     <Compile Include="Domain\Countries\Country.cs" />
+    <Compile Include="Domain\Coupons\Coupon.cs" />
+    <Compile Include="Domain\Coupons\CouponStatus.cs" />
+    <Compile Include="Domain\Customers\Customer.cs" />
     <Compile Include="Domain\FulfillmentPartners\FulfillmentPartnerSpecification.cs" />
     <Compile Include="Domain\FulfillmentPartners\FulfilmentPartner.cs" />
     <Compile Include="Domain\FulfillmentPartners\IFulfillmentPartnerService.cs" />
+    <Compile Include="Domain\Letters\Letter.cs" />
+    <Compile Include="Domain\Letters\LetterContent.cs" />
+    <Compile Include="Domain\Letters\LetterStatus.cs" />
     <Compile Include="Domain\Offices\IOfficeService.cs" />
+    <Compile Include="Domain\Offices\Office.cs" />
     <Compile Include="Domain\Offices\OfficeSpecification.cs" />
     <Compile Include="Domain\Offices\ProductScope.cs" />
+    <Compile Include="Domain\Orders\Order.cs" />
+    <Compile Include="Domain\Orders\OrderStatus.cs" />
+    <Compile Include="Domain\Orders\OrderType.cs" />
+    <Compile Include="Domain\Payments\PaymentMethods.cs" />
     <Compile Include="Domain\Pricing\Price.cs" />
     <Compile Include="Domain\Products\ProductDetails\LetterColor.cs" />
     <Compile Include="Domain\Products\ProductDetails\LetterPaperWeight.cs" />
@@ -123,8 +136,12 @@
     <Compile Include="Domain\Fulfillments\IFulfillmentService.cs" />
     <Compile Include="Domain\Fulfillments\ILetterJob.cs" />
     <Compile Include="Domain\Letters\ILetterService.cs" />
+    <Compile Include="Factory\AddressFactory.cs" />
     <Compile Include="Factory\CountryFactory.cs" />
-    <Compile Include="Factory\IFactory.cs" />
+    <Compile Include="Factory\CouponFactory.cs" />
+    <Compile Include="Factory\CustomerFactory.cs" />
+    <Compile Include="Factory\LetterFactory.cs" />
+    <Compile Include="Factory\OrderFactory.cs" />
     <Compile Include="Interfaces\INotificationService.cs" />
     <Compile Include="Domain\Orders\IOrderService.cs" />
     <Compile Include="Interfaces\IPasswordEncryptor.cs" />
@@ -157,9 +174,7 @@
     <Compile Include="Services\PaymentService.cs" />
     <Compile Include="Services\Payment\PayPalManager.cs" />
     <Compile Include="Services\LetterContent\PdfManager.cs" />
-    <Compile Include="Services\SHA1PasswordEncryptor.cs" />
     <Compile Include="Services\Shipping\ShippingService.cs" />
-    <Compile Include="Utilities\SecurityUtility.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Domain\Users\" />
