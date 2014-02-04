@@ -3,6 +3,7 @@ using LetterAmazer.Business.Services.Domain.Customers;
 using LetterAmazer.Business.Services.Domain.Letters;
 using LetterAmazer.Business.Services.Domain.Orders;
 using LetterAmazer.Business.Services.Domain.Payments;
+using LetterAmazer.Business.Services.Factory;
 using LetterAmazer.Business.Services.Model;
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,7 @@ namespace LetterAmazer.Business.Services.Services
 {
     public class OrderService : IOrderService
     {
+        private OrderFactory orderFactory;
         private LetterAmazerEntities Repository;
         private ILetterService letterService;
         private IPaymentService paymentService;
@@ -24,25 +26,26 @@ namespace LetterAmazer.Business.Services.Services
 
         public OrderService(LetterAmazerEntities repository,
             ILetterService letterService, IPaymentService paymentService,
-            ICouponService couponService)
+            ICouponService couponService,OrderFactory orderFactory)
         {
             this.Repository = repository;
             this.letterService = letterService;
             this.paymentService = paymentService;
             this.couponService = couponService;
+            this.orderFactory = orderFactory;
         }
 
         public string CreateOrder(OrderContext orderContext)
         {
-            DbOrder order = orderContext.Order;
-            order.OrderType = OrderType.SendLetter;
+            DbOrders order = new DbOrders();
+            order.OrderType = (int)OrderType.SendLetter;
             order.Guid = Guid.NewGuid();
             order.OrderCode = GenerateOrderCode();
-            order.OrderStatus = OrderStatus.Created;
+            order.OrderStatus = (int)OrderStatus.Created;
             order.DateCreated = DateTime.Now;
             order.DateUpdated = DateTime.Now;
             order.Cost = 0m;
-            foreach (var orderItem in order.OrderItems)
+            foreach (var orderItem in orderContext.Order.Letters)
             {
                 repository.Create(orderItem.Letter);
                 orderItem.Price = letterService.GetCost(orderItem.Letter);
@@ -71,8 +74,8 @@ namespace LetterAmazer.Business.Services.Services
                     }
                 }
             }
-            repository.Create(order);
-            unitOfWork.Commit();
+
+            Repository.SaveChanges();
             
             //Cusomer haven't to pay
             if (order.Price == 0) return string.Format("/{0}/singleletter/confirmation", orderContext.CurrentCulture);
@@ -92,23 +95,23 @@ namespace LetterAmazer.Business.Services.Services
 
         public void MarkOrderIsPaid(int orderId)
         {
-            Order order = repository.GetById<Order>(orderId);
-            if (order.OrderStatus == OrderStatus.Created)
+            DbOrders order = Repository.DbOrders.FirstOrDefault(c => c.Id == orderId);
+            if (order.OrderStatus == (int)OrderStatus.Created)
             {
-                order.OrderStatus = OrderStatus.Paid;
+                order.OrderStatus = (int)OrderStatus.Paid;
                 order.DatePaid = DateTime.Now;
-                unitOfWork.Commit();
+                Repository.SaveChanges();
             }
         }
 
         public void MarkOrderIsDone(int orderId)
         {
-            Order order = repository.GetById<Order>(orderId);
-            if (order.OrderStatus == OrderStatus.Paid)
+            DbOrders order = Repository.DbOrders.FirstOrDefault(c => c.Id == orderId);
+            if (order.OrderStatus == (int)OrderStatus.Paid)
             {
-                order.OrderStatus = OrderStatus.Done;
-                order.DateSent = DateTime.Now;
-                unitOfWork.Commit();
+                order.OrderStatus = (int)OrderStatus.Paid;
+                order.DatePaid = DateTime.Now;
+                Repository.SaveChanges();
             }
         }
 
@@ -195,8 +198,8 @@ namespace LetterAmazer.Business.Services.Services
 
         public void AddFundsForAccount(int orderId)
         {
-            Order order = repository.GetById<Order>(orderId);
-            if (order.OrderStatus != OrderStatus.Paid)
+            DbOrders dborder = Repository.DbOrders.FirstOrDefault(c => c.Id == orderId);
+            if (dborder.OrderStatus != (int)OrderStatus.Paid)
             {
                 throw new BusinessException("The order is not paid!");
             }
@@ -208,20 +211,22 @@ namespace LetterAmazer.Business.Services.Services
 
         public Order GetOrderById(int orderId)
         {
-            Order order = repository.GetById<Order>(orderId);
-            if (order == null)
+            DbOrders dborder = Repository.DbOrders.FirstOrDefault(c => c.Id == orderId);
+            if (dborder == null)
             {
                 throw new ItemNotFoundException("Order");
             }
+            var order = orderFactory.Create(dborder);
+
             return order;
         }
 
         public void DeleteOrder(int orderId)
         {
-            Order order = repository.GetById<Order>(orderId);
+            var order = Repository.DbOrders.FirstOrDefault(c => c.Id == orderId);
             if (order == null) return;
-            order.OrderStatus = OrderStatus.Cancelled;
-            repository.Update(order);
+            order.OrderStatus = (int)OrderStatus.Cancelled;
+            Repository.SaveChanges();
         }
     }
 }
