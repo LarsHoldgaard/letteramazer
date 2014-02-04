@@ -1,13 +1,9 @@
-﻿using LetterAmazer.Business.Services.Data;
-using LetterAmazer.Business.Services.Domain.Customers;
+﻿using LetterAmazer.Business.Services.Domain.Customers;
 using LetterAmazer.Business.Services.Exceptions;
 using LetterAmazer.Business.Services.Factory;
 using LetterAmazer.Business.Services.Interfaces;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using LetterAmazer.Data.Repository.Data;
 
 namespace LetterAmazer.Business.Services.Services
@@ -49,12 +45,14 @@ namespace LetterAmazer.Business.Services.Services
             {
                 throw new BusinessException("The '" + customer.Email + "' email is existing in the system");
             }
-            customer.Username = customer.Email;
+            
             customer.DateCreated = DateTime.Now;
-            customer.DateUpdated = DateTime.Now;
-            customer.Credits = 0;
+            customer.DateModified = DateTime.Now;
+            customer.Credit = 0;
+            
             string password = customer.Password;
             customer.Password = passwordEncryptor.Encrypt(customer.Password);
+            
             repository.Create(customer);
             unitOfWork.Commit();
 

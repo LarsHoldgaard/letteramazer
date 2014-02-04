@@ -1,25 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using LetterAmazer.Business.Services.Data;
 using LetterAmazer.Business.Services.Domain.FulfillmentPartners;
 using LetterAmazer.Business.Services.Exceptions;
+using LetterAmazer.Business.Services.Factory;
+using LetterAmazer.Data.Repository.Data;
 
 namespace LetterAmazer.Business.Services.Services.FulfillmentPartners
 {
     public class FulfillmentPartnerService : IFulfillmentPartnerService
     {
-        private IRepository repository;
-        private IUnitOfWork unitOfWork;
-        public FulfillmentPartnerService(IRepository repository, IUnitOfWork unitOfWork)
+        private FulfilmentPartnerFactory fulfilmentPartnerFactory;
+        private LetterAmazerEntities repository;
+        public FulfillmentPartnerService(LetterAmazerEntities repoEntities, FulfilmentPartnerFactory factory)
         {
-            this.repository = repository;
-            this.unitOfWork = unitOfWork;
+            this.repository = repoEntities;
+            this.fulfilmentPartnerFactory = factory;
         }
 
-        public List<FulfillmentPartner> GetFulfillmentPartnersBySpecifications(FulfillmentPartnerSpecification specification)
+        public List<FulfilmentPartner> GetFulfillmentPartnersBySpecifications(FulfillmentPartnerSpecification specification)
         {
             //if (specification.PrintSize != PrintSize.A4)
             //{
@@ -28,22 +27,24 @@ namespace LetterAmazer.Business.Services.Services.FulfillmentPartners
 
             var partner = GetFulfillmentPartnerById(1);
 
-            return new List<FulfillmentPartner>() { partner};
+            return new List<FulfilmentPartner>() { partner };
 
         }
 
-        public FulfillmentPartner GetFulfillmentPartnerById(int id)
+        public FulfilmentPartner GetFulfillmentPartnerById(int id)
         {
             if (id <= 0)
             {
                 throw new ArgumentException("Id has to be above 0");
             }
 
-            FulfillmentPartner partner = repository.GetById<FulfillmentPartner>(id);
-            if (partner == null)
+            var dbPartner = repository.DbFulfillmentPartners.FirstOrDefault(c=>c.Id ==id);
+            if (dbPartner == null)
             {
                 throw new ItemNotFoundException("partner");
             }
+
+            var partner = this.fulfilmentPartnerFactory.Create(dbPartner);
 
             return partner;
         }

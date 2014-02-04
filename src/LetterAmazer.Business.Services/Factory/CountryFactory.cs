@@ -17,7 +17,12 @@ namespace LetterAmazer.Business.Services.Factory
                 Capital = country.Capital,
                 Continent = country.Continent,
                 InsideEu = country.InsideEu.HasValue && country.InsideEu.Value,
-                Name = country.ContinentName
+                Name = country.ContinentName,
+                ArealInSqKm = country.AreaInSqKm,
+                CountryCode = country.CountryCode,
+                CurrencyCode = country.CurrencyCode,
+                Population = country.Population,
+                Fipscode = country.FipsCode
             };
         }
     }

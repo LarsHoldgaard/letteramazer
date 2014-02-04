@@ -8,6 +8,10 @@ namespace LetterAmazer.Business.Services.Domain.Orders
 {
     public enum OrderStatus
     {
-        Test=0
+        Created=0,
+        Paid=1,
+        InProgress=2,
+        Done=3,
+        Cancelled=4
     }
 }

@@ -1,15 +1,16 @@
-﻿using LetterAmazer.Business.Services.Domain.Orders;
+﻿using System;
+using System.Collections.Specialized;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Web;
+using LetterAmazer.Business.Services.Domain.Orders;
 using LetterAmazer.Business.Services.Domain.Payments;
 using LetterAmazer.Business.Services.Exceptions;
 using LetterAmazer.Business.Services.Model;
 using log4net;
-using System;
-using System.Collections.Specialized;
-using System.IO;
-using System.Net;
-using System.Web;
 
-namespace LetterAmazer.Business.Services.Services.PaymentMethod
+namespace LetterAmazer.Business.Services.Services.PaymentMethods
 {
     public class PaypalMethod : IPaymentMethod
     {
@@ -36,7 +37,7 @@ namespace LetterAmazer.Business.Services.Services.PaymentMethod
             Order order = orderContext.Order;
             if (order == null || order.Letters == null || order.Letters.Count == 0) throw new BusinessException("Order can not be null!");
 
-            AddressInfo addressInfo = order.OrderItems.ElementAt(0).Letter == null ? orderContext.Order.Customer.CustomerInfo : order.OrderItems.ElementAt(0).Letter.ToAddress;
+            var addressInfo = order.Letters.ElementAt(0) == null ? orderContext.Order.Customer.CustomerInfo : order.Letters.ElementAt(0).ToAddress;
             decimal volume = order.Price;
             string firstName = addressInfo.FirstName;
             string lastName = addressInfo.LastName;

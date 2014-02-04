@@ -9,6 +9,7 @@ using LetterAmazer.Business.Services.Model;
 using LetterAmazer.Business.Services.Services;
 using LetterAmazer.Business.Services.Services.LetterContent;
 using LetterAmazer.Business.Services.Services.PaymentMethod;
+using LetterAmazer.Business.Services.Services.PaymentMethods;
 using LetterAmazer.Business.Utils.Helpers;
 using LetterAmazer.Websites.Client.Attributes;
 using LetterAmazer.Websites.Client.ViewModels;

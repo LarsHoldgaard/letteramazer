@@ -1,15 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using LetterAmazer.Business.Services.Data;
-using LetterAmazer.Business.Services.Domain.AddressInfos;
 using LetterAmazer.Business.Services.Domain.Letters;
 using LetterAmazer.Business.Services.Factory;
-using LetterAmazer.Business.Services.Interfaces;
 using LetterAmazer.Business.Services.Services.LetterContent;
-using System.IO;
 using System.Web;
 using LetterAmazer.Business.Services.Exceptions;
 using LetterAmazer.Data.Repository.Data;

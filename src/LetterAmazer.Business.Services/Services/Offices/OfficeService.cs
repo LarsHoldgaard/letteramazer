@@ -1,25 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web.UI.WebControls;
-using LetterAmazer.Business.Services.Data;
 using LetterAmazer.Business.Services.Domain.Offices;
 using LetterAmazer.Business.Services.Exceptions;
+using LetterAmazer.Business.Services.Factory;
+using LetterAmazer.Data.Repository.Data;
 
 namespace LetterAmazer.Business.Services.Services.Offices
 {
     public class OfficeService:IOfficeService
     {
-        private IRepository repository;
-        private IUnitOfWork unitOfWork;
-
-        public OfficeService(IRepository repository, IUnitOfWork unitOfWork)
+        private OfficeFactory officeFactory;
+        private LetterAmazerEntities repository;
+        public OfficeService(LetterAmazerEntities repository,OfficeFactory officeFactory)
         {
             this.repository = repository;
-            this.unitOfWork = unitOfWork;
+            this.officeFactory = officeFactory;
         }
 
         public Office GetOfficeById(int id)
@@ -29,12 +25,14 @@ namespace LetterAmazer.Business.Services.Services.Offices
                 throw new ArgumentException("Id has to be above 0");
             }
 
-            var office = repository.GetById<Office>(id);
+            var dboffice = repository.DbOffices.FirstOrDefault(c => c.Id == id);
 
-            if (office == null)
+            if (dboffice == null)
             {
                 throw new ItemNotFoundException("office");
             }
+
+            var office = officeFactory.Create(dboffice);
 
             return office;
         }

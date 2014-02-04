@@ -34,7 +34,7 @@ namespace LetterAmazer.Data.Repository.Data
         public string PaymentMethod { get; set; }
         public string Email { get; set; }
         public string Phone { get; set; }
-        public int OrderType { get; set; }
+        public Nullable<int> OrderType { get; set; }
         public Nullable<System.DateTime> DatePaid { get; set; }
         public Nullable<System.DateTime> DateSent { get; set; }
     

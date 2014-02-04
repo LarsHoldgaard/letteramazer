@@ -151,6 +151,7 @@
           <Property Name="Credits" Type="decimal" Scale="5" />
           <Property Name="CreditLimit" Type="decimal" Nullable="false" />
           <Property Name="ResetPasswordKey" Type="nvarchar" MaxLength="50" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="DbFulfillmentPartners">
           <Key>
@@ -241,7 +242,7 @@
           <Property Name="CustomerId" Type="int" />
           <Property Name="DateCreated" Type="datetime" Nullable="false" />
           <Property Name="DateUpdated" Type="datetime" Nullable="false" />
-          <Property Name="Guid" Type="nvarchar" Nullable="false" MaxLength="100" />
+          <Property Name="Guid" Type="uniqueidentifier" Nullable="false" />
           <Property Name="OrderCode" Type="nvarchar" Nullable="false" MaxLength="20" />
           <Property Name="TransactionCode" Type="nvarchar" MaxLength="20" />
           <Property Name="Cost" Type="decimal" Nullable="false" Scale="5" />
@@ -251,7 +252,7 @@
           <Property Name="PaymentMethod" Type="nvarchar" Nullable="false" MaxLength="20" />
           <Property Name="Email" Type="nvarchar" Nullable="false" MaxLength="100" />
           <Property Name="Phone" Type="nvarchar" MaxLength="50" />
-          <Property Name="OrderType" Type="int" Nullable="false" />
+          <Property Name="OrderType" Type="int" />
           <Property Name="DatePaid" Type="datetime" />
           <Property Name="DateSent" Type="datetime" />
         </EntityType>
@@ -646,6 +647,7 @@
           <NavigationProperty Name="DbCountries" Relationship="LetterAmazerModel.FK_Customers_Countries" FromRole="DbCustomers" ToRole="DbCountries" />
           <NavigationProperty Name="DbLetters" Relationship="LetterAmazerModel.FK_Letter_Customer" FromRole="DbCustomers" ToRole="DbLetters" />
           <NavigationProperty Name="DbOrders" Relationship="LetterAmazerModel.FK_Order_Customer" FromRole="DbCustomers" ToRole="DbOrders" />
+          <Property Type="String" Name="Phone" MaxLength="100" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="DbFulfillmentPartners">
           <Key>
@@ -754,7 +756,7 @@
           <Property Name="CustomerId" Type="Int32" />
           <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="DateUpdated" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Guid" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="false" />
+          <Property Name="Guid" Type="String" Nullable="false" />
           <Property Name="OrderCode" Type="String" Nullable="false" MaxLength="20" Unicode="true" FixedLength="false" />
           <Property Name="TransactionCode" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
           <Property Name="Cost" Type="Decimal" Nullable="false" Precision="18" Scale="5" />
@@ -764,7 +766,7 @@
           <Property Name="PaymentMethod" Type="String" Nullable="false" MaxLength="20" Unicode="true" FixedLength="false" />
           <Property Name="Email" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="false" />
           <Property Name="Phone" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
-          <Property Name="OrderType" Type="Int32" Nullable="false" />
+          <Property Name="OrderType" Type="Int32" />
           <Property Name="DatePaid" Type="DateTime" Precision="3" />
           <Property Name="DateSent" Type="DateTime" Precision="3" />
           <NavigationProperty Name="DbCustomers" Relationship="LetterAmazerModel.FK_Order_Customer" FromRole="DbOrders" ToRole="DbCustomers" />
@@ -1058,6 +1060,7 @@
           <EntitySetMapping Name="DbCustomers">
             <EntityTypeMapping TypeName="LetterAmazerModel.DbCustomers">
               <MappingFragment StoreEntitySet="DbCustomers">
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="CustomerInfo_Address" ColumnName="CustomerInfo_Address" />
                 <ScalarProperty Name="CustomerInfo_Address2" ColumnName="CustomerInfo_Address2" />

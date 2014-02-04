@@ -1,17 +1,12 @@
-﻿using LetterAmazer.Business.Services.Data;
+﻿using System;
+using System.Linq;
 using LetterAmazer.Business.Services.Domain.Orders;
 using LetterAmazer.Business.Services.Domain.Payments;
 using LetterAmazer.Business.Services.Exceptions;
-using LetterAmazer.Business.Services.Interfaces;
 using LetterAmazer.Business.Services.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using LetterAmazer.Data.Repository.Data;
 
-namespace LetterAmazer.Business.Services.Services.PaymentMethod
+namespace LetterAmazer.Business.Services.Services.PaymentMethods
 {
     public class CreditsMethod : IPaymentMethod
     {
@@ -33,12 +28,23 @@ namespace LetterAmazer.Business.Services.Services.PaymentMethod
             if (order == null || order.Letters == null || order.Letters.Count == 0) throw new BusinessException("Order can not be null!");
             if (order.Customer == null || order.Customer.Id == 0) throw new BusinessException("Customer can not be null!");
 
-            order.Customer.Credit -= orderContext.Order.Price;
-            order.OrderStatus = OrderStatus.Paid;
-            repository.Update(order);
-            order.Customer.DateUpdated = DateTime.Now;
-            repository.Update(order.Customer);
-            unitOfWork.Commit();
+            var dbOrder = Repository.DbOrders.FirstOrDefault(c => c.Id == order.Id);
+            if (dbOrder == null)
+            {
+                throw new BusinessException("Order cannot be null");
+            }
+
+            dbOrder.OrderStatus = (int)OrderStatus.Paid;
+
+            var dbCustomer = Repository.DbCustomers.FirstOrDefault(c => c.Id == order.Customer.Id);
+
+            if (dbCustomer == null)
+            {
+                throw new Exception();
+            }
+            dbCustomer.Credits -= orderContext.Order.Price;
+
+            Repository.SaveChanges();
             return string.Format("/{0}/singleletter/confirmation", orderContext.CurrentCulture);
         }
 

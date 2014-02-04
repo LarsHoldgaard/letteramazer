@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using LetterAmazer.Business.Services.Data;
-using LetterAmazer.Business.Services.Domain.Fulfillments;
+﻿using System.Collections.Generic;
 
 namespace LetterAmazer.Business.Services.Domain.FulfillmentPartners
 {
     public interface IFulfillmentPartnerService
     {
-        List<FulfillmentPartner> GetFulfillmentPartnersBySpecifications(FulfillmentPartnerSpecification specification);
-        FulfillmentPartner GetFulfillmentPartnerById(int id);
+        List<FulfilmentPartner> GetFulfillmentPartnersBySpecifications(FulfillmentPartnerSpecification specification);
+        FulfilmentPartner GetFulfillmentPartnerById(int id);
     }
 }

@@ -101,6 +101,7 @@
     <Compile Include="Domain\Coupons\Coupon.cs" />
     <Compile Include="Domain\Coupons\CouponStatus.cs" />
     <Compile Include="Domain\Customers\Customer.cs" />
+    <Compile Include="Domain\Customers\CustomerSpecification.cs" />
     <Compile Include="Domain\FulfillmentPartners\FulfillmentPartnerSpecification.cs" />
     <Compile Include="Domain\FulfillmentPartners\FulfilmentPartner.cs" />
     <Compile Include="Domain\FulfillmentPartners\IFulfillmentPartnerService.cs" />
@@ -143,14 +144,15 @@
     <Compile Include="Factory\CountryFactory.cs" />
     <Compile Include="Factory\CouponFactory.cs" />
     <Compile Include="Factory\CustomerFactory.cs" />
+    <Compile Include="Factory\FulfilmentPartnerFactory.cs" />
     <Compile Include="Factory\LetterFactory.cs" />
+    <Compile Include="Factory\OfficeFactory.cs" />
     <Compile Include="Factory\OrderFactory.cs" />
     <Compile Include="Interfaces\INotificationService.cs" />
     <Compile Include="Domain\Orders\IOrderService.cs" />
     <Compile Include="Interfaces\IPasswordEncryptor.cs" />
     <Compile Include="Domain\Payments\IPaymentMethod.cs" />
     <Compile Include="Domain\Payments\IPaymentService.cs" />
-    <Compile Include="Model\External_data\CountryJson.cs" />
     <Compile Include="Model\JupisterS3.cs" />
     <Compile Include="Model\OrderBy.cs" />
     <Compile Include="Model\OrderContext.cs" />
@@ -175,15 +177,12 @@
     <Compile Include="Services\PaymentMethods\CreditsMethod.cs" />
     <Compile Include="Services\PaymentMethods\PaypalMethod.cs" />
     <Compile Include="Services\PaymentService.cs" />
-    <Compile Include="Services\Payment\PayPalManager.cs" />
     <Compile Include="Services\LetterContent\PdfManager.cs" />
     <Compile Include="Services\PriceService.cs" />
     <Compile Include="Services\SecurityUtility.cs" />
     <Compile Include="Services\Shipping\ShippingService.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Domain\Users\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\LetterAmazer.Business.Utils\LetterAmazer.Business.Utils.csproj">
       <Project>{2a90535c-c0f2-4cbe-b0bf-8b70f5c4f635}</Project>

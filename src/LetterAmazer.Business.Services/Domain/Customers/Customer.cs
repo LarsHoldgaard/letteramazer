@@ -9,6 +9,7 @@ namespace LetterAmazer.Business.Services.Domain.Customers
         public AddressInfo CustomerInfo { get; set; }
         public string Email { get; set; }
         public string Phone { get; set; }
+        public string Password { get; set; }
         public DateTime DateCreated { get; set; }
         public DateTime DateModified { get; set; }
         public decimal Credit { get; set; }

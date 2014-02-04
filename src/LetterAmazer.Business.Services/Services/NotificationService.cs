@@ -1,13 +1,7 @@
 ﻿using LetterAmazer.Business.Services.Components.Mail;
-using LetterAmazer.Business.Services.Data;
 using LetterAmazer.Business.Services.Domain.Customers;
 using LetterAmazer.Business.Services.Interfaces;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LetterAmazer.Business.Services.Services
 {

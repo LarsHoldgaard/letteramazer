@@ -6,8 +6,6 @@ using Amazon.S3.Model;
 using Amazon.SQS;
 using Amazon.SQS.Model;
 using LetterAmazer.Business.Utils.Helpers;
-using LetterAmazer.Business.Services.Interfaces;
-using LetterAmazer.Business.Services.Data;
 using log4net;
 
 namespace LetterAmazer.Business.Services.Services.Fulfillment

@@ -39,6 +39,7 @@ namespace LetterAmazer.Data.Repository.Data
         public Nullable<decimal> Credits { get; set; }
         public decimal CreditLimit { get; set; }
         public string ResetPasswordKey { get; set; }
+        public string Phone { get; set; }
     
         public virtual DbCountries DbCountries { get; set; }
         public virtual ICollection<DbLetters> DbLetters { get; set; }

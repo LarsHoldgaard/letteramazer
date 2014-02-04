@@ -1,15 +1,13 @@
-﻿using LetterAmazer.Business.Services.Data;
-using LetterAmazer.Business.Services.Domain.Coupons;
+﻿using LetterAmazer.Business.Services.Domain.Coupons;
+using LetterAmazer.Business.Services.Domain.Customers;
 using LetterAmazer.Business.Services.Domain.Letters;
 using LetterAmazer.Business.Services.Domain.Orders;
 using LetterAmazer.Business.Services.Domain.Payments;
-using LetterAmazer.Business.Services.Interfaces;
 using LetterAmazer.Business.Services.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using LetterAmazer.Business.Services.Services.PaymentMethods;
 using LetterAmazer.Data.Repository.Data;
 using LinqKit;
 using System.Threading;
@@ -178,7 +176,7 @@ namespace LetterAmazer.Business.Services.Services
             order.DateCreated = DateTime.Now;
             order.DateUpdated = DateTime.Now;
             order.Cost = price;
-            order.PaymentMethod = LetterAmazer.Business.Services.Services.PaymentMethod.PaypalMethod.NAME;
+            order.PaymentMethod = PaypalMethod.NAME;
             OrderItem orderItem = new OrderItem();
             orderItem.Price = price;
             orderItem.Order = order;

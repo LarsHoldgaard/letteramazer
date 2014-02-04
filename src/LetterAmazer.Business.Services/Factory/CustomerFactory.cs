@@ -24,8 +24,10 @@ namespace LetterAmazer.Business.Services.Factory
                 DateCreated = dbCustomer.DateCreated,
                 DateModified = dbCustomer.DateUpdated,
                 Credit = dbCustomer.Credits.HasValue ? dbCustomer.Credits.Value : 0.0m,
-                CreditLimit = dbCustomer.CreditLimit
-            };
+                CreditLimit = dbCustomer.CreditLimit,
+                Password = dbCustomer.Password,
+                Phone = dbCustomer.Phone
+            }; 
 
             return customer;
         }

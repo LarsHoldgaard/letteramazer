@@ -1,14 +1,10 @@
 ﻿using Ionic.Zip;
-using LetterAmazer.Business.Services.Data;
 using LetterAmazer.Business.Services.Domain.Fulfillments;
-using LetterAmazer.Business.Services.Interfaces;
+using LetterAmazer.Business.Services.Domain.Orders;
 using log4net;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web;
 
 namespace LetterAmazer.Business.Services.Services.Fulfillment
@@ -57,24 +53,24 @@ namespace LetterAmazer.Business.Services.Services.Fulfillment
                 wr.WriteLine("DocName,Country,Postcode,Copies,CompanyName,Document_Street1,Document_Street2,Document_Street3,City,State,Province,CountryName,AttPerson");
                 foreach (var order in orders)
                 {
-                    foreach (var item in order.OrderItems)
+                    foreach (var item in order.Letters)
                     {
-                        zip.AddFile(Path.Combine(this.pdfStoragePath, item.Letter.LetterContent.Path), "/");
+                        zip.AddFile(Path.Combine(this.pdfStoragePath, item.LetterContent.Path), "/");
 
                         wr.WriteLine(string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12}",
-                            Path.GetFileName(item.Letter.LetterContent.Path),
-                            item.Letter.ToAddress.Country.Value, // TODO: Fix country
-                            item.Letter.ToAddress.Postal,
+                            Path.GetFileName(item.LetterContent.Path),
+                            item.ToAddress.Country.Name, // TODO: Fix country
+                            item.ToAddress.PostalCode,
                             1,
                             string.Empty,
-                            item.Letter.ToAddress.Address,
+                            item.ToAddress.Address1,
                             string.Empty,
                             string.Empty,
-                            item.Letter.ToAddress.City,
+                            item.ToAddress.City,
                             string.Empty,
                             string.Empty,
-                            item.Letter.ToAddress.Country,
-                            item.Letter.ToAddress.FirstName));
+                            item.ToAddress.Country,
+                            item.ToAddress.FirstName));
                     }
                 }
                 wr.Close();
