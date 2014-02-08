@@ -4,17 +4,10 @@ using LetterAmazer.Business.Services.Domain.Products.ProductDetails;
 using LetterAmazer.Websites.Client.Attributes;
 using LetterAmazer.Websites.Client.ViewModels;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using System.Xml;
 using LetterAmazer.Websites.Client.Extensions;
 using log4net;
-using LetterAmazer.Business.Services.Data;
-using LetterAmazer.Business.Services.Interfaces;
 using System.Web.Security;
-using LetterAmazer.Websites.Client.Resources.Views.Home;
 
 namespace LetterAmazer.Websites.Client.Controllers
 {

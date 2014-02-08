@@ -23,23 +23,26 @@ namespace LetterAmazer.Business.Services.Services
         private ILetterService letterService;
         private IPaymentService paymentService;
         private ICouponService couponService;
+        private ICustomerService customerService;
 
         public OrderService(LetterAmazerEntities repository,
             ILetterService letterService, IPaymentService paymentService,
-            ICouponService couponService,OrderFactory orderFactory)
+            ICouponService couponService,OrderFactory orderFactory, ICustomerService customerService)
         {
             this.Repository = repository;
             this.letterService = letterService;
             this.paymentService = paymentService;
             this.couponService = couponService;
             this.orderFactory = orderFactory;
+            this.customerService = customerService;
+
         }
 
         public string CreateOrder(OrderContext orderContext)
         {
             DbOrders order = new DbOrders();
             order.OrderType = (int)OrderType.SendLetter;
-            order.Guid = Guid.NewGuid();
+            order.Guid = Guid.NewGuid().ToString();
             order.OrderCode = GenerateOrderCode();
             order.OrderStatus = (int)OrderStatus.Created;
             order.DateCreated = DateTime.Now;
@@ -47,9 +50,15 @@ namespace LetterAmazer.Business.Services.Services
             order.Cost = 0m;
             foreach (var orderItem in orderContext.Order.Letters)
             {
-                repository.Create(orderItem.Letter);
-                orderItem.Price = letterService.GetCost(orderItem.Letter);
-                order.Cost += orderItem.Price;
+                Repository.DbOrderItems.Add(new DbOrderItems()
+                {
+                    DbOrders = order,
+                    DbLetters = null,
+                    Price = 0.0m
+                });
+                //repository.Create(orderItem.Letter);
+                //orderItem.Price = letterService.GetCost(orderItem.Letter);
+                //order.Cost += orderItem.Price;
             }
             order.Discount = 0m;
             order.Price = order.Cost;
@@ -70,7 +79,7 @@ namespace LetterAmazer.Business.Services.Services
                     {
                         order.Price = 0.0m;
                         order.Discount = order.Cost;
-                        order.OrderStatus = OrderStatus.Paid;
+                        order.OrderStatus = (int)OrderStatus.Paid;
                     }
                 }
             }
@@ -86,10 +95,12 @@ namespace LetterAmazer.Business.Services.Services
         private string GenerateOrderCode()
         {
             string orderCode = "LA" + DateTime.Now.Ticks.GetHashCode();
-            while (repository.Exists<Order>(o => o.OrderCode == orderCode))
+
+            if (Repository.DbOrders.Any(c => c.OrderCode == orderCode))
             {
                 orderCode = "LA" + DateTime.Now.Ticks.GetHashCode();
             }
+
             return orderCode;
         }
 
@@ -117,16 +128,33 @@ namespace LetterAmazer.Business.Services.Services
 
         public PaginatedResult<Order> GetOrdersShouldBeDelivered(PaginatedCriteria criteria)
         {
-            return repository.Find<Order>(o => o.OrderStatus == OrderStatus.Paid && o.OrderType == OrderType.SendLetters, criteria.PageIndex, criteria.PageSize, OrderBy.Asc("DateCreated"));
+            var dbOrder = Repository.DbOrders.Where(c => c.OrderStatus == (int) OrderStatus.Paid &&
+                                                         c.OrderType == (int) OrderType.SendLetter).OrderBy(c=>c.DateCreated).Skip(criteria.PageIndex*criteria.PageSize).Take(criteria.PageSize);
+
+            var orders = orderFactory.Create(dbOrder.ToList());
+
+            PaginatedResult<Order> pagResult = new PaginatedResult<Order>();
+            foreach (var order in orders)
+            {
+                pagResult.Results.Add(order);
+            }
+            return pagResult;
         }
 
         public void MarkLetterIsSent(int letterId)
         {
-            Letter letter = repository.GetById<Letter>(letterId);
-            if (letter.LetterStatus == LetterStatus.Created)
+            var dbletter = Repository.DbLetters.FirstOrDefault(c => c.Id == letterId);
+
+            if (dbletter == null)
             {
-                letter.LetterStatus = LetterStatus.Sent;
-                unitOfWork.Commit();
+                throw new ArgumentException("Letter does not exist");
+            }
+
+
+            if (dbletter.LetterStatus == (int)LetterStatus.Created)
+            {
+                dbletter.LetterStatus = (int)LetterStatus.Sent;
+                Repository.SaveChanges();
             }
         }
 
@@ -134,66 +162,86 @@ namespace LetterAmazer.Business.Services.Services
         {
             foreach (var order in orders)
             {
-                foreach (var item in order.OrderItems)
+                var dbOrder = Repository.DbOrders.FirstOrDefault(c => c.Id == order.Id);
+
+                if (dbOrder == null)
                 {
-                    item.Letter.LetterStatus = LetterStatus.Sent;
+                    break;
+                }
+
+                foreach (var item in dbOrder.DbOrderItems)
+                {
+                    item.DbLetters.LetterStatus = (int) LetterStatus.Sent;
                 }
                 order.OrderStatus = OrderStatus.Done;
             }
-            unitOfWork.Commit();
+            Repository.SaveChanges();
         }
 
         public PaginatedResult<Order> GetOrders(OrderCriteria criteria)
         {
-            System.Linq.Expressions.Expression<Func<Order, bool>> query = PredicateBuilder.True<Order>();
-            if (criteria.CustomerId > 0)
-            {
-                query = query.And(o => o.CustomerId == criteria.CustomerId);
-            }
-            if (criteria.From.HasValue)
-            {
-                query = query.And(o => o.DateCreated >= criteria.From);
-            }
-            if (criteria.To.HasValue)
-            {
-                query = query.And(o => o.DateCreated <= criteria.To);
-            }
-            if (criteria.OrderType.HasValue)
-            {
-                query = query.And(o => o.OrderType == criteria.OrderType.Value);
-            }
-            return repository.Find<Order>(query, criteria.PageIndex, criteria.PageSize, criteria.OrderBy.ToArray());
+            return new PaginatedResult<Order>();
+            //System.Linq.Expressions.Expression<Func<Order, bool>> query = PredicateBuilder.True<Order>();
+            //if (criteria.CustomerId > 0)
+            //{
+            //    query = query.And(o => o.CustomerId == criteria.CustomerId);
+            //}
+            //if (criteria.From.HasValue)
+            //{
+            //    query = query.And(o => o.DateCreated >= criteria.From);
+            //}
+            //if (criteria.To.HasValue)
+            //{
+            //    query = query.And(o => o.DateCreated <= criteria.To);
+            //}
+            //if (criteria.OrderType.HasValue)
+            //{
+            //    query = query.And(o => o.OrderType == criteria.OrderType.Value);
+            //}
+            //return repository.Find<Order>(query, criteria.PageIndex, criteria.PageSize, criteria.OrderBy.ToArray());
         }
 
         public string AddFunds(int customerId, decimal price)
         {
-            Customer customer = repository.GetById<Customer>(customerId);
-            Order order = new Order();
-            order.CustomerId = customerId;
-            order.Customer = customer;
-            order.Email = customer.Email;
-            order.OrderType = OrderType.AddFunds;
+            var dbcustomer = Repository.DbCustomers.FirstOrDefault(c => c.Id == customerId);
+
+            if (dbcustomer == null)
+            {
+                throw new ArgumentException("Customer doesnt exist");
+            }
+
+            var order = new DbOrders();
+            order.CustomerId = dbcustomer.Id;
+            order.DbCustomers = dbcustomer;
+            order.Email = dbcustomer.Email;
+            order.OrderType = (int)OrderType.SendLetter;
             order.Guid = Guid.NewGuid().ToString();
             order.OrderCode = GenerateOrderCode();
-            order.OrderStatus = OrderStatus.Created;
+            order.OrderStatus =(int)OrderStatus.Created;
             order.DateCreated = DateTime.Now;
             order.DateUpdated = DateTime.Now;
             order.Cost = price;
             order.PaymentMethod = PaypalMethod.NAME;
-            OrderItem orderItem = new OrderItem();
-            orderItem.Price = price;
-            orderItem.Order = order;
 
-            order.OrderItems = new List<OrderItem>();
-            order.OrderItems.Add(orderItem);
+
+            DbOrderItems orderItem = new DbOrderItems();
+            orderItem.Price = price;
+            orderItem.DbOrders = order;
+            orderItem.OrderId = order.Id;
+
+            order.DbOrderItems = new List<DbOrderItems>();
+            order.DbOrderItems.Add(orderItem);
 
             order.Discount = 0m;
             order.Price = order.Cost;
-            
-            repository.Create(order);
-            unitOfWork.Commit();
 
-            return paymentService.Process(new OrderContext() { Order = order, Customer = customer, CurrentCulture = Thread.CurrentThread.CurrentCulture.TwoLetterISOLanguageName });
+            Repository.DbOrders.Add(order);
+            Repository.SaveChanges();
+
+            var realOrder = GetOrderById(order.Id);
+            var realCustomer = customerService.GetCustomerById(dbcustomer.Id);
+
+            return paymentService.Process(new OrderContext() { Order = realOrder, Customer = realCustomer, CurrentCulture = Thread.CurrentThread.CurrentCulture.TwoLetterISOLanguageName });
         }
 
         public void AddFundsForAccount(int orderId)
@@ -203,10 +251,10 @@ namespace LetterAmazer.Business.Services.Services
             {
                 throw new BusinessException("The order is not paid!");
             }
-            Customer customer = repository.GetById<Customer>(order.CustomerId.Value);
+            var customer = Repository.DbCustomers.FirstOrDefault(c => c.Id == dborder.CustomerId);
             customer.DateUpdated = DateTime.Now;
-            customer.Credits += order.Price;
-            repository.Update(customer);
+            customer.Credits += dborder.Price;
+            Repository.SaveChanges();
         }
 
         public Order GetOrderById(int orderId)

@@ -1,14 +1,12 @@
-﻿using LetterAmazer.Business.Services.Data;
+﻿using LetterAmazer.Business.Services.Domain.AddressInfos;
 using LetterAmazer.Business.Services.Domain.Coupons;
 using LetterAmazer.Business.Services.Domain.Letters;
 using LetterAmazer.Business.Services.Domain.Orders;
 using LetterAmazer.Business.Services.Domain.Payments;
 using LetterAmazer.Business.Services.Domain.Products.ProductDetails;
-using LetterAmazer.Business.Services.Interfaces;
 using LetterAmazer.Business.Services.Model;
 using LetterAmazer.Business.Services.Services;
 using LetterAmazer.Business.Services.Services.LetterContent;
-using LetterAmazer.Business.Services.Services.PaymentMethod;
 using LetterAmazer.Business.Services.Services.PaymentMethods;
 using LetterAmazer.Business.Utils.Helpers;
 using LetterAmazer.Websites.Client.Attributes;
@@ -16,10 +14,6 @@ using LetterAmazer.Websites.Client.ViewModels;
 using LetterAmazer.Websites.Client.Extensions;
 using log4net;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace LetterAmazer.Websites.Client.Controllers
@@ -84,7 +78,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                 order.CustomerId = SecurityUtility.CurrentUser.Id;
 
                 AddressInfo addressInfo = new AddressInfo();
-                addressInfo.Address = model.DestinationAddress;
+                addressInfo.Address1 = model.DestinationAddress;
                 addressInfo.FirstName = model.RecipientName;
                 addressInfo.City = model.DestinationCity;
                 //addressInfo.Country = model.DestinationCountry;// TODO: Fix country
@@ -194,7 +188,7 @@ namespace LetterAmazer.Websites.Client.Controllers
         public ActionResult Credits()
         {
             CreditsViewModel model = new CreditsViewModel();
-            model.Credits = SecurityUtility.CurrentUser.Credits.Value;
+            model.Credits = SecurityUtility.CurrentUser.Credit;
             model.CreditLimit = SecurityUtility.CurrentUser.CreditLimit;
             return View(model);
         }

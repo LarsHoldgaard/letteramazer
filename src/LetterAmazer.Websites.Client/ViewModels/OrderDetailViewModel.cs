@@ -1,8 +1,4 @@
-﻿using LetterAmazer.Business.Services.Data;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using LetterAmazer.Business.Services.Domain.Orders;
 
 namespace LetterAmazer.Websites.Client.ViewModels
 {

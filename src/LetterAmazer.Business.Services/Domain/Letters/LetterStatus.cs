@@ -8,6 +8,10 @@ namespace LetterAmazer.Business.Services.Domain.Letters
 {
     public enum LetterStatus
     {
-        Test=0
+        Created = 0,
+        Sending = 1,
+        Sent = 2,
+        Returned = 3,
+        Cancelled = 4
     }
 }

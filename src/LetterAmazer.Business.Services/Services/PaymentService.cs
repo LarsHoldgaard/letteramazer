@@ -30,7 +30,7 @@ namespace LetterAmazer.Business.Services.Services
 
         public string Process(Model.OrderContext orderContext)
         {
-            return this.methods[orderContext.Order.PaymentMethod].Process(orderContext);
+            return string.Empty; //this.methods[orderContext.Order.PaymentMethod].Process(orderContext);
         }
 
         public IPaymentMethod Get(string methodName)

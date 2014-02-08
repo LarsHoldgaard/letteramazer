@@ -5,27 +5,18 @@ using LetterAmazer.Business.Services.Domain.Letters;
 using LetterAmazer.Business.Services.Domain.Orders;
 using LetterAmazer.Business.Services.Domain.Payments;
 using LetterAmazer.Business.Services.Domain.Products.ProductDetails;
-using LetterAmazer.Business.Services.Model.External_data;
 using LetterAmazer.Business.Services.Services;
 using LetterAmazer.Business.Services.Services.PaymentMethods;
 using log4net;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using LetterAmazer.Websites.Client.ViewModels;
-using LetterAmazer.Websites.Client.Extensions;
-using LetterAmazer.Websites.Client.Helpers;
-using LetterAmazer.Business.Services.Data;
 using LetterAmazer.Business.Services.Services.LetterContent;
 using LetterAmazer.Business.Utils.Helpers;
 using LetterAmazer.Business.Services.Model;
-using LetterAmazer.Business.Services.Interfaces;
-using LetterAmazer.Business.Services.Services.PaymentMethod;
 using System.Text;
-using Newtonsoft.Json;
 
 namespace LetterAmazer.Websites.Client.Controllers
 {

@@ -33,7 +33,7 @@ namespace LetterAmazer.Business.Services.Factory
                 OrderStatus = (OrderStatus) (dborder.OrderStatus),
                 Letters = letterService.GetLetterBySpecification(new LetterSpecification() { OrderId = dborder.Id}),
                 Customer = dborder.CustomerId.HasValue ? customerService.GetCustomerById(dborder.CustomerId.Value) : null,
-                DatePaid = dborder.DatePaid.HasValue ? dborder.DatePaid.Value : null,
+                DatePaid = dborder.DatePaid.HasValue ? dborder.DatePaid.Value : DateTime.MinValue,
                 VatPercentage = 0.0m,
                 Price = dborder.Price,
                Cost = dborder.Cost,
@@ -41,11 +41,16 @@ namespace LetterAmazer.Business.Services.Factory
                OrderType = (OrderType)dborder.OrderType,
                OrderCode = dborder.OrderCode,
                TransactionCode = dborder.TransactionCode,
-               Guid = dborder.Guid
+                Guid = new Guid(dborder.Guid)
                 //Guid = dborder.Guid,
 
             };
             return order;
+        }
+
+        public List<Order> Create(List<DbOrders> orders)
+        {
+            return orders.Select(Create).ToList();
         }
     }
 }

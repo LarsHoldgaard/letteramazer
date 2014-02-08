@@ -126,27 +126,27 @@ namespace LetterAmazer.Business.Services.Services.Fulfillment
                 wr.WriteLine("DocName,Country,Postcode,Copies,CompanyName,Document_Street1,Document_Street2,Document_Street3,City,State,Province,CountryName,AttPerson");
                 foreach (var order in orders)
                 {
-                    foreach (var item in order.OrderItems)
+                    foreach (var item in order.Letters)
                     {
-                        zip.AddFile(Path.Combine(this.pdfStoragePath, item.Letter.LetterContent.Path), "/");
+                        zip.AddFile(Path.Combine(this.pdfStoragePath, item.LetterContent.Path), "/");
 
-                        var fileName = Path.GetFileName(item.Letter.LetterContent.Path);
+                        var fileName = Path.GetFileName(item.LetterContent.Path);
                         fileName = fileName.Trim('-');
                         logger.Debug("added file: " + fileName);
                         wr.WriteLine(string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12}",
                             fileName,
-                            "\"" + item.Letter.ToAddress.Country.Value + "\"", // TODO: Fix country
-                            "\"" + item.Letter.ToAddress.Postal + "\"",
+                            "\"" + item.ToAddress.Country.CountryCode + "\"", // TODO: Fix country
+                            "\"" + item.ToAddress.PostalCode + "\"",
                             1,
                             string.Empty,
-                            "\"" + item.Letter.ToAddress.Address + "\"",
+                            "\"" + item.ToAddress.Address1 + "\"",
                             string.Empty,
                             string.Empty,
-                            "\"" + item.Letter.ToAddress.City + "\"",
+                            "\"" + item.ToAddress.City + "\"",
                             string.Empty,
                             string.Empty,
-                            "\"" + item.Letter.ToAddress.Country + "\"",
-                            "\"" + item.Letter.ToAddress.FirstName + "\""));
+                            "\"" + item.ToAddress.Country + "\"",
+                            "\"" + item.ToAddress.FirstName + "\""));
                     }
                 }
                 wr.Close();

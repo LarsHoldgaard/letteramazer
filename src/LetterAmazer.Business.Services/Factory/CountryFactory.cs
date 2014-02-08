@@ -22,7 +22,8 @@ namespace LetterAmazer.Business.Services.Factory
                 CountryCode = country.CountryCode,
                 CurrencyCode = country.CurrencyCode,
                 Population = country.Population,
-                Fipscode = country.FipsCode
+                Fipscode = country.FipsCode,
+                Id = country.Id
             };
         }
     }

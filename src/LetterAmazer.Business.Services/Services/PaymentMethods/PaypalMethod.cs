@@ -41,16 +41,16 @@ namespace LetterAmazer.Business.Services.Services.PaymentMethods
             decimal volume = order.Price;
             string firstName = addressInfo.FirstName;
             string lastName = addressInfo.LastName;
-            string country = addressInfo.Country.Value.ToString(); // TODO: Fix country
-            string postal = addressInfo.Postal;
+            string country = addressInfo.Country.CountryCode.ToString(); // TODO: Fix country
+            string postal = addressInfo.PostalCode;
             string city = addressInfo.City;
-            string address = addressInfo.Address;
+            string address = addressInfo.Address1;
             var id = order.Id;
 
             string paypalIPNUrl = string.Format(this.paypalIPN, orderContext.Order.OrderType.ToString());
             var volumeForUsd = Math.Round(volume, 2).ToString().Replace(",", ".");
             var url = string.Format("{0}first_name={1}&last_name={2}&item_name={3}&currency_code=USD&amount={4}&notify_url={5}&cmd=_xclick&country={6}&zip={7}&address1={8}&business={9}&city={10}&custom={11}&return={12}",
-                this.serviceUrl, firstName, lastName, order.OrderType == OrderType.SendLetters ? "Send a single letter" : "Add Funds", 
+                this.serviceUrl, firstName, lastName, order.OrderType == (int)OrderType.SendLetter ? "Send a single letter" : "Add Funds", 
                 volumeForUsd, paypalIPNUrl, country, postal, address, "mcoroklo@gmail.com", city, 
                 id, string.Format(this.returnUrl, orderContext.CurrentCulture));
             return url;

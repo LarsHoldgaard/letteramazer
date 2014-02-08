@@ -1,16 +1,10 @@
 ﻿using LetterAmazer.Business.Services;
-using LetterAmazer.Business.Services.Data;
 using LetterAmazer.Business.Services.Domain.Fulfillments;
 using LetterAmazer.Business.Services.Domain.Orders;
-using LetterAmazer.Business.Services.Interfaces;
 using LetterAmazer.Business.Services.Model;
 using log4net;
 using Quartz;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LetterAmazer.BackgroundService.Jobs
 {
