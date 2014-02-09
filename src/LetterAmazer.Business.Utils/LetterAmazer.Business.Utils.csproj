@@ -49,9 +49,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helpers\Constants.cs" />
+    <Compile Include="Helpers\GeoLocationManager.cs" />
     <Compile Include="Helpers\HelperMethods.cs" />
     <Compile Include="Helpers\IPasswordEncryptor.cs" />
     <Compile Include="Helpers\PasswordGenerator.cs" />
+    <Compile Include="Helpers\PdfHelper.cs" />
+    <Compile Include="Helpers\SecurityUtility.cs" />
     <Compile Include="Helpers\SHA1PasswordEncryptor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

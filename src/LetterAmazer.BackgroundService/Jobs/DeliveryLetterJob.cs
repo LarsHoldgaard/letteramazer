@@ -1,6 +1,10 @@
-﻿using LetterAmazer.Business.Services;
+﻿using System.Collections.Generic;
+using System.Linq;
+using LetterAmazer.Business.Services;
 using LetterAmazer.Business.Services.Domain.Fulfillments;
+using LetterAmazer.Business.Services.Domain.Letters;
 using LetterAmazer.Business.Services.Domain.Orders;
+using LetterAmazer.Business.Services.Domain.Products;
 using LetterAmazer.Business.Services.Model;
 using log4net;
 using Quartz;
@@ -16,23 +20,46 @@ namespace LetterAmazer.BackgroundService.Jobs
         {
             logger.DebugFormat("start delivery letter job at: {0}", DateTime.Now);
 
+            ILetterService letterService;
             IOrderService orderService;
             IFulfillmentService fulfillmentService;
             try
             {
+                letterService = ServiceFactory.Get<ILetterService>();
                 orderService = ServiceFactory.Get<IOrderService>();
+                
                 fulfillmentService = ServiceFactory.Get<IFulfillmentService>();
 
-                PaginatedCriteria criteria = new PaginatedCriteria();
-                criteria.PageIndex = 0;
-                criteria.PageSize = int.MaxValue;
-                PaginatedResult<Order> orders = orderService.GetOrdersShouldBeDelivered(criteria);
-                if (orders.Results.Count == 0) return;
+                var relevantOrders = orderService.GetOrderBySpecification(new OrderSpecification()
+                {
+                    OrderStatus = new List<OrderStatus>()
+                    {
+                        OrderStatus.Paid,
+                        OrderStatus.InProgress
+                    }
+                });
+
+                var allLetters = relevantOrders.
+                    Select(c => c.OrderLines.Where(d => d.ProductType == ProductType.Order));
+                
+                allLetters =
+                    allLetters.Select(c => c.Where(d => ((Letter) d.BaseProduct).LetterStatus == LetterStatus.Created))
+                        .ToList();
+
+                if (!allLetters.Any())
+                {
+                    return;
+                }
+
+               var letters = new List<Letter>();
+                foreach (var item1 in allLetters)
+                {
+                    letters.AddRange(item1.Select(orderLine => (Letter) orderLine.BaseProduct));
+                }
 
                 try
                 {
-                    fulfillmentService.Process(orders.Results);
-                    orderService.MarkOrdersIsDone(orders.Results);
+                    fulfillmentService.Process(letters);
                 }
                 catch (Exception ex)
                 {

@@ -3,11 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LetterAmazer.Business.Services.Domain.AddressInfos;
+using LetterAmazer.Business.Services.Domain.Letters;
+using LetterAmazer.Business.Services.Domain.Orders;
 
 namespace LetterAmazer.Business.Services.Domain.Pricing
 {
     public interface IPriceService
     {
-        List<Price> GetPriceBySpecification(PriceSpecification specification);
+        Price GetPriceByOrder(Order order);
+        Price GetPriceByLetter(Letter letter);
+        Price GetPriceByAddress(AddressInfo addressInfo);
+
     }
 }

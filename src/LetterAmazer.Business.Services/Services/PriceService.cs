@@ -3,21 +3,48 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LetterAmazer.Business.Services.Domain.AddressInfos;
+using LetterAmazer.Business.Services.Domain.Countries;
+using LetterAmazer.Business.Services.Domain.Letters;
+using LetterAmazer.Business.Services.Domain.Orders;
 using LetterAmazer.Business.Services.Domain.Pricing;
 
 namespace LetterAmazer.Business.Services.Services
 {
     public class PriceService:IPriceService
     {
-        public List<Price> GetPriceBySpecification(PriceSpecification specification)
+        private ICountryService countryService;
+
+        public PriceService(ICountryService countryService)
         {
-            return new List<Price>()
+            this.countryService = countryService;
+        }
+
+        public Price GetPriceByOrder(Order order)
+        {
+            var price = new Price();
+            foreach (var letter in order.Letters)
             {
-                new Price()
-                {
-                    PriceExVat = 1.0m,
-                    VatPercentage = 0.25m
-                }
+                var letterPrice = GetPriceByLetter(letter);
+                price.PriceExVat += letterPrice.PriceExVat;
+                price.VatPercentage = letterPrice.PriceExVat;
+            }
+            return price;
+        }
+
+        public Price GetPriceByLetter(Letter letter)
+        {
+            return GetPriceByAddress(letter.ToAddress);
+        }
+
+        public Price GetPriceByAddress(AddressInfo addressInfo)
+        {
+            var country = countryService.GetCountryById(addressInfo.Country.Id);
+
+            return new Price()
+            {
+                PriceExVat = 1.0m,
+                VatPercentage = 0.25m
             };
         }
     }

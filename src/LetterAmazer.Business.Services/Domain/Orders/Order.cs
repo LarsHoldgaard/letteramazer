@@ -27,8 +27,7 @@ namespace LetterAmazer.Business.Services.Domain.Orders
 
         public decimal Discount { get; set; }
         public decimal Price { get; set; }
-        public OrderType OrderType { get; set; }
-
-        public List<Letter> Letters { get; set; } 
+        
+        public List<OrderLine> OrderLines { get; set; } 
     }
 }

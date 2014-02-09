@@ -9,5 +9,8 @@ namespace LetterAmazer.Business.Services.Domain.Customers
 {
     public class CustomerSpecification:Specifications
     {
+        public int  Id { get; set; }
+        public string Email { get; set; }
+        public string ResetPasswordKey { get; set; }
     }
 }

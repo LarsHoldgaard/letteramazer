@@ -1,4 +1,5 @@
-﻿using LetterAmazer.Business.Services.Domain.Customers;
+﻿using LetterAmazer.Business.Services.Domain.AddressInfos;
+using LetterAmazer.Business.Services.Domain.Customers;
 using LetterAmazer.Business.Services.Domain.Offices;
 using LetterAmazer.Business.Services.Domain.Products.ProductDetails;
 using LetterAmazer.Websites.Client.Attributes;
@@ -25,11 +26,6 @@ namespace LetterAmazer.Websites.Client.Controllers
 
         public ActionResult Index()
         {
-            var offices = officeService.GetOfficeBySpecification(new OfficeSpecification()
-            {
-                LetterSize = LetterSize.A4
-            });
-
             return View();
         }
 
@@ -75,7 +71,10 @@ namespace LetterAmazer.Websites.Client.Controllers
         {
             try
             {
-                Customer user = customerService.ValidateUser(model.Email, model.Password);
+                Customer user = customerService.GetCustomerBySpecification(new CustomerSpecification()
+                {
+                    
+                })
 
                 FormsAuthentication.SetAuthCookie(user.Id.ToString(), model.Remember ?? false);
 

@@ -1,14 +1,16 @@
-﻿namespace LetterAmazer.Business.Services.Domain.Coupons
+﻿using System.Collections.Generic;
+using iTextSharp.text;
+
+namespace LetterAmazer.Business.Services.Domain.Coupons
 {
     public interface ICouponService
     {
-        bool IsCouponActive(string code);
-        bool IsCouponActive(int id);
+        Coupon Update(Coupon coupon);
+        Coupon Create(Coupon coupon);
+        void Delete(Coupon coupon);
 
-        string GenerateCoupon(Coupon coupon);
-        Coupon GetCouponByCode(string code);
         Coupon GetCouponById(int id);
+        List<Coupon> GetCouponBySpecification(CouponSpecification specification);
 
-        decimal UseCoupon(string code, decimal price);
     }
 }

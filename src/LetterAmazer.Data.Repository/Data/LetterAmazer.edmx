@@ -152,6 +152,8 @@
           <Property Name="CreditLimit" Type="decimal" Nullable="false" />
           <Property Name="ResetPasswordKey" Type="nvarchar" MaxLength="50" />
           <Property Name="Phone" Type="nvarchar" MaxLength="100" />
+          <Property Name="CustomerInfo_State" Type="nvarchar" MaxLength="150" />
+          <Property Name="CustomerInfo_Co" Type="nvarchar" MaxLength="150" />
         </EntityType>
         <EntityType Name="DbFulfillmentPartners">
           <Key>
@@ -192,6 +194,11 @@
           <Property Name="LetterContent_Content" Type="varbinary(max)" />
           <Property Name="LetterStatus" Type="int" Nullable="false" />
           <Property Name="OfficeProductId" Type="int" Nullable="false" />
+          <Property Name="ToAddress_State" Type="nvarchar" MaxLength="150" />
+          <Property Name="ToAddress_Co" Type="nvarchar" MaxLength="150" />
+          <Property Name="FromAddress_State" Type="nvarchar" MaxLength="150" />
+          <Property Name="FromAddress_Co" Type="nvarchar" MaxLength="150" />
+          <Property Name="OrderId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="DbOfficeProductDetails">
           <Key>
@@ -229,9 +236,10 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="Price" Type="decimal" Nullable="false" Scale="5" />
           <Property Name="OrderId" Type="int" />
           <Property Name="LetterId" Type="int" />
+          <Property Name="ItemType" Type="int" Nullable="false" />
+          <Property Name="Quantity" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="DbOrders">
           <Key>
@@ -250,9 +258,6 @@
           <Property Name="Discount" Type="decimal" Nullable="false" Scale="5" />
           <Property Name="Price" Type="decimal" Nullable="false" Scale="5" />
           <Property Name="PaymentMethod" Type="nvarchar" Nullable="false" MaxLength="20" />
-          <Property Name="Email" Type="nvarchar" Nullable="false" MaxLength="100" />
-          <Property Name="Phone" Type="nvarchar" MaxLength="50" />
-          <Property Name="OrderType" Type="int" />
           <Property Name="DatePaid" Type="datetime" />
           <Property Name="DateSent" Type="datetime" />
         </EntityType>
@@ -648,6 +653,8 @@
           <NavigationProperty Name="DbLetters" Relationship="LetterAmazerModel.FK_Letter_Customer" FromRole="DbCustomers" ToRole="DbLetters" />
           <NavigationProperty Name="DbOrders" Relationship="LetterAmazerModel.FK_Order_Customer" FromRole="DbCustomers" ToRole="DbOrders" />
           <Property Type="String" Name="Phone" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="CustomerInfo_State" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="CustomerInfo_Co" MaxLength="150" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="DbFulfillmentPartners">
           <Key>
@@ -695,6 +702,11 @@
           <NavigationProperty Name="DbCustomers" Relationship="LetterAmazerModel.FK_Letter_Customer" FromRole="DbLetters" ToRole="DbCustomers" />
           <NavigationProperty Name="DbOfficeProducts" Relationship="LetterAmazerModel.FK_Letters_OfficeProducts" FromRole="DbLetters" ToRole="DbOfficeProducts" />
           <NavigationProperty Name="DbOrderItems" Relationship="LetterAmazerModel.FK_OrderItem_Letter" FromRole="DbLetters" ToRole="DbOrderItems" />
+          <Property Type="String" Name="ToAddress_State" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="ToAddress_Co" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="FromAddress_State" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="FromAddress_Co" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="OrderId" Nullable="false" />
         </EntityType>
         <EntityType Name="DbOfficeProductDetails">
           <Key>
@@ -746,6 +758,8 @@
           <Property Name="LetterId" Type="Int32" />
           <NavigationProperty Name="DbLetters" Relationship="LetterAmazerModel.FK_OrderItem_Letter" FromRole="DbOrderItems" ToRole="DbLetters" />
           <NavigationProperty Name="DbOrders" Relationship="LetterAmazerModel.FK_OrderItem_Order" FromRole="DbOrderItems" ToRole="DbOrders" />
+          <Property Type="Int32" Name="ItemType" Nullable="false" />
+          <Property Type="Int32" Name="Quantity" Nullable="false" />
         </EntityType>
         <EntityType Name="DbOrders">
           <Key>
@@ -1060,6 +1074,8 @@
           <EntitySetMapping Name="DbCustomers">
             <EntityTypeMapping TypeName="LetterAmazerModel.DbCustomers">
               <MappingFragment StoreEntitySet="DbCustomers">
+                <ScalarProperty Name="CustomerInfo_Co" ColumnName="CustomerInfo_Co" />
+                <ScalarProperty Name="CustomerInfo_State" ColumnName="CustomerInfo_State" />
                 <ScalarProperty Name="Phone" ColumnName="Phone" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="CustomerInfo_Address" ColumnName="CustomerInfo_Address" />
@@ -1095,6 +1111,11 @@
           <EntitySetMapping Name="DbLetters">
             <EntityTypeMapping TypeName="LetterAmazerModel.DbLetters">
               <MappingFragment StoreEntitySet="DbLetters">
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+                <ScalarProperty Name="FromAddress_Co" ColumnName="FromAddress_Co" />
+                <ScalarProperty Name="FromAddress_State" ColumnName="FromAddress_State" />
+                <ScalarProperty Name="ToAddress_Co" ColumnName="ToAddress_Co" />
+                <ScalarProperty Name="ToAddress_State" ColumnName="ToAddress_State" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
                 <ScalarProperty Name="FromAddress_Address" ColumnName="FromAddress_Address" />
@@ -1162,8 +1183,9 @@
           <EntitySetMapping Name="DbOrderItems">
             <EntityTypeMapping TypeName="LetterAmazerModel.DbOrderItems">
               <MappingFragment StoreEntitySet="DbOrderItems">
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="ItemType" ColumnName="ItemType" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Price" ColumnName="Price" />
                 <ScalarProperty Name="OrderId" ColumnName="OrderId" />
                 <ScalarProperty Name="LetterId" ColumnName="LetterId" />
               </MappingFragment>
@@ -1185,9 +1207,6 @@
                 <ScalarProperty Name="Discount" ColumnName="Discount" />
                 <ScalarProperty Name="Price" ColumnName="Price" />
                 <ScalarProperty Name="PaymentMethod" ColumnName="PaymentMethod" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="Phone" ColumnName="Phone" />
-                <ScalarProperty Name="OrderType" ColumnName="OrderType" />
                 <ScalarProperty Name="DatePaid" ColumnName="DatePaid" />
                 <ScalarProperty Name="DateSent" ColumnName="DateSent" />
               </MappingFragment>

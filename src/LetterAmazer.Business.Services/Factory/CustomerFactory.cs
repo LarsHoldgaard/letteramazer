@@ -7,11 +7,12 @@ using System.Threading.Tasks;
 using LetterAmazer.Business.Services.Domain.AddressInfos;
 using LetterAmazer.Business.Services.Domain.Countries;
 using LetterAmazer.Business.Services.Domain.Customers;
+using LetterAmazer.Business.Services.Factory.Interfaces;
 using LetterAmazer.Data.Repository.Data;
 
 namespace LetterAmazer.Business.Services.Factory
 {
-    public class CustomerFactory
+    public class CustomerFactory : ICustomerFactory
     {
          public ICountryService CountryService { get; set; }
 
@@ -48,6 +49,11 @@ namespace LetterAmazer.Business.Services.Factory
             }; 
 
             return customer;
+        }
+
+        public List<Customer> Create(List<DbCustomers> dbcustomers)
+        {
+            return dbcustomers.Select(Create).ToList();
         }
     }
 }

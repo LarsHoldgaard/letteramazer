@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using LetterAmazer.Business.Services.Domain.Countries;
 using LetterAmazer.Business.Services.Exceptions;
@@ -17,7 +18,7 @@ namespace LetterAmazer.Business.Services.Services
             this.repository = repository;
         }
 
-        public void AddCountry(Country country)
+        public Country Create(Country country)
         {
             if (country == null)
             {
@@ -49,5 +50,20 @@ namespace LetterAmazer.Business.Services.Services
             return countryFactory.Create(country);
         }
 
+        public List<Country> GetCountryBySpecificaiton(CountrySpecification specification)
+        {
+            IQueryable<DbCountries> dbcountries = repository.DbCountries;
+
+            if (specification.Id > 0)
+            {
+                dbcountries = repository.DbCountries.Where(c => c.Id == specification.Id);
+            }
+            if (specification.InsideEu != null)
+            {
+                dbcountries = repository.DbCountries.Where(c => c.InsideEu.Value);
+            }
+
+            return countryFactory.Create(dbcountries.ToList());
+        }
     }
 }

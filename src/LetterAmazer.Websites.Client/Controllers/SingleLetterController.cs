@@ -1,4 +1,5 @@
-﻿using LetterAmazer.Business.Services.Domain.Countries;
+﻿using LetterAmazer.Business.Services.Domain.AddressInfos;
+using LetterAmazer.Business.Services.Domain.Countries;
 using LetterAmazer.Business.Services.Domain.Coupons;
 using LetterAmazer.Business.Services.Domain.Customers;
 using LetterAmazer.Business.Services.Domain.Letters;
@@ -6,14 +7,14 @@ using LetterAmazer.Business.Services.Domain.Orders;
 using LetterAmazer.Business.Services.Domain.Payments;
 using LetterAmazer.Business.Services.Domain.Products.ProductDetails;
 using LetterAmazer.Business.Services.Services;
-using LetterAmazer.Business.Services.Services.PaymentMethods;
+using LetterAmazer.Business.Services.Services.Common;
+using LetterAmazer.Business.Services.Services.PaymentMethods.Implementations;
 using log4net;
 using System;
 using System.IO;
 using System.Web;
 using System.Web.Mvc;
 using LetterAmazer.Websites.Client.ViewModels;
-using LetterAmazer.Business.Services.Services.LetterContent;
 using LetterAmazer.Business.Utils.Helpers;
 using LetterAmazer.Business.Services.Model;
 using System.Text;
@@ -60,8 +61,10 @@ namespace LetterAmazer.Websites.Client.Controllers
                 ValidateInput();
 
                 Order order = new Order();
-                order.Email = model.Email;
-                order.Phone = model.Phone;
+
+                Customer customer = new Customer();
+                customer.Email = model.Email;
+                customer.Phone = model.Phone;
                 order.PaymentMethod = PaypalMethod.NAME;
                 order.CouponCode = model.VoucherCode;
 
@@ -97,7 +100,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                 {
                     string tempKeyName = string.Format("{0}/{1}/{2}.pdf", DateTime.Now.Year, DateTime.Now.Month, Guid.NewGuid().ToString());
                     string tempPath = GetAbsoluteFile(tempKeyName);
-                    PdfManager m = new PdfManager();
+                    PdfHelper m = new PdfHelper();
                     var convertedText = HelperMethods.Utf8FixString(model.WriteContent);
                     m.ConvertToPdf(tempPath, convertedText);
                     letter.LetterContent.Path = tempKeyName;
@@ -167,7 +170,7 @@ namespace LetterAmazer.Websites.Client.Controllers
         {
             try
             {
-                PdfManager pdfManager = new PdfManager();
+                PdfHelper pdfManager = new PdfHelper();
 
                 Letter letter = new Letter();
                 letter.ToAddress = new AddressInfo() { Address = address, Postal = postal, City = city, }; // TODO: Fix country
@@ -249,7 +252,7 @@ namespace LetterAmazer.Websites.Client.Controllers
 
             content = HttpUtility.HtmlDecode(content);
             content = HttpUtility.UrlDecode(content);
-            PdfManager m = new PdfManager();
+            PdfHelper m = new PdfHelper();
             var convertedText = HelperMethods.Utf8FixString(content);
             var ms = m.ConvertToPdf(convertedText);
 

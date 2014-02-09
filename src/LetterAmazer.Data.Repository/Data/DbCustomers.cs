@@ -40,6 +40,8 @@ namespace LetterAmazer.Data.Repository.Data
         public decimal CreditLimit { get; set; }
         public string ResetPasswordKey { get; set; }
         public string Phone { get; set; }
+        public string CustomerInfo_State { get; set; }
+        public string CustomerInfo_Co { get; set; }
     
         public virtual DbCountries DbCountries { get; set; }
         public virtual ICollection<DbLetters> DbLetters { get; set; }

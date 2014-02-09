@@ -10,11 +10,11 @@ namespace LetterAmazer.Business.Services.Domain.Common
     {
         protected Specifications()
         {
-            Page = 1;
-            Limit = 10;
+            Skip = 0;
+            Take = 10;
         }
 
-        public int Page { get; set; }
-        public int Limit { get; set; }
+        public int Skip { get; set; }
+        public int Take { get; set; }
     }
 }

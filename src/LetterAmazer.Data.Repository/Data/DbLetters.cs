@@ -46,6 +46,11 @@ namespace LetterAmazer.Data.Repository.Data
         public byte[] LetterContent_Content { get; set; }
         public int LetterStatus { get; set; }
         public int OfficeProductId { get; set; }
+        public string ToAddress_State { get; set; }
+        public string ToAddress_Co { get; set; }
+        public string FromAddress_State { get; set; }
+        public string FromAddress_Co { get; set; }
+        public int OrderId { get; set; }
     
         public virtual DbCountries DbCountries { get; set; }
         public virtual DbCountries DbCountries1 { get; set; }

@@ -9,7 +9,14 @@ namespace LetterAmazer.Business.Services.Domain.Letters
 {
     public class LetterSpecification:Specifications
     {
+        public LetterSpecification()
+        {
+            this.LetterStatus = new List<LetterStatus>();
+        }
+
+
+        public int Id { get; set; }
         public int OrderId { get; set; }
-        public LetterStatus LetterStatus { get; set; }
+        public List<LetterStatus> LetterStatus { get; set; }
     }
 }

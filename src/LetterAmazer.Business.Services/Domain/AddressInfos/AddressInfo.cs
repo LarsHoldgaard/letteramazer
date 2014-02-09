@@ -13,5 +13,8 @@ namespace LetterAmazer.Business.Services.Domain.AddressInfos
         public string LastName { get; set; }
         public string PostalCode { get; set; }
         public string VatNr { get; set; }
+        public string Co { get; set; }
+        public string State { get; set; }
+
     }
 }

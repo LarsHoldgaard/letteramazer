@@ -1,23 +1,16 @@
 ﻿using System.Collections.Generic;
-using LetterAmazer.Business.Services.Model;
 
 namespace LetterAmazer.Business.Services.Domain.Orders
 {
     public interface IOrderService
     {
-        string CreateOrder(OrderContext orderContext);
-        void MarkOrderIsPaid(int orderId);
-        PaginatedResult<Order> GetOrdersShouldBeDelivered(PaginatedCriteria criteria);
-        void MarkLetterIsSent(int letterId);
-        void MarkOrderIsDone(int orderId);
-        void MarkOrdersIsDone(IList<Order> orders);
+        Order Create(Order order);
+        Order Update(Order order);
 
-        PaginatedResult<Order> GetOrders(OrderCriteria criteria);
-
-        string AddFunds(int customerId, decimal price);
-        void AddFundsForAccount(int orderId);
-
+        List<Order> GetOrderBySpecification(OrderSpecification specification);
         Order GetOrderById(int orderId);
-        void DeleteOrder(int orderId);
+        void Delete(Order order);
+
+        List<OrderLine> GetOrderLinesBySpecification(OrderLineSpecification specification);
     }
 }

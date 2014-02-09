@@ -1,42 +1,67 @@
-﻿using LetterAmazer.Business.Services.Domain.Payments;
+﻿using LetterAmazer.Business.Services.Domain.Customers;
+using LetterAmazer.Business.Services.Domain.Orders;
+using LetterAmazer.Business.Services.Domain.Payments;
 using LetterAmazer.Business.Services.Exceptions;
-using LetterAmazer.Business.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LetterAmazer.Business.Services.Services.PaymentMethods.Implementations;
 
 namespace LetterAmazer.Business.Services.Services
 {
     public class PaymentService : IPaymentService
     {
-        private IDictionary<string, IPaymentMethod> methods;
-
-        public PaymentService(IPaymentMethod[] methods)
+        public void Process(Domain.Payments.PaymentMethods method, Order order)
         {
-            this.methods = new Dictionary<string, IPaymentMethod>();
-            foreach (var method in methods)
+            IPaymentMethod selectedPaymentMethod = null;
+            if (method == Domain.Payments.PaymentMethods.Credits)
             {
-                Register(method);
+                selectedPaymentMethod = new CreditsMethod();
             }
+            else if (method == Domain.Payments.PaymentMethods.Bitcoin)
+            {
+                selectedPaymentMethod = new BitcoinMethod();
+            }
+            else
+            {
+                selectedPaymentMethod = new PaypalMethod();
+            }
+
+            selectedPaymentMethod.Process(order);
+
         }
 
-        private void Register(IPaymentMethod method)
+        public void ProcessFunds(Domain.Payments.PaymentMethods method, Customer customer, decimal value)
         {
-            if (this.methods.ContainsKey(method.Name)) throw new PaymentMethodDuplicatedException();
-            this.methods[method.Name] = method;
+            IPaymentMethod selectedPaymentMethod = null;
+            if (method == Domain.Payments.PaymentMethods.Bitcoin)
+            {
+                selectedPaymentMethod = new CreditsMethod();
+            }
+            else if (method == Domain.Payments.PaymentMethods.Invoice)
+            {
+                selectedPaymentMethod = new BitcoinMethod();
+            }
+            else
+            {
+                selectedPaymentMethod = new PaypalMethod();
+            }
+
+            selectedPaymentMethod.ProcessFunds(customer,value);
         }
 
-        public string Process(Model.OrderContext orderContext)
+        public List<Domain.Payments.PaymentMethods> GetPaymentMethodsBySpecification(PaymentMethodSpecification specification)
         {
-            return string.Empty; //this.methods[orderContext.Order.PaymentMethod].Process(orderContext);
-        }
+            var methods = new List<Domain.Payments.PaymentMethods>
+            {
+                Domain.Payments.PaymentMethods.Bitcoin,
+                Domain.Payments.PaymentMethods.Invoice,
+                Domain.Payments.PaymentMethods.PayPal
+            };
 
-        public IPaymentMethod Get(string methodName)
-        {
-            if (!this.methods.ContainsKey(methodName)) throw new PaymentMethodNotFoundException();
-            return this.methods[methodName];
+            return methods;
         }
     }
 }

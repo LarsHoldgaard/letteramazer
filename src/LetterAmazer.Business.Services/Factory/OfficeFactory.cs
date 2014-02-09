@@ -5,11 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using LetterAmazer.Business.Services.Domain.Countries;
 using LetterAmazer.Business.Services.Domain.Offices;
+using LetterAmazer.Business.Services.Factory.Interfaces;
 using LetterAmazer.Data.Repository.Data;
 
 namespace LetterAmazer.Business.Services.Factory
 {
-    public class OfficeFactory
+    public class OfficeFactory : IOfficeFactory
     {
         private ICountryService countryService;
 
@@ -27,6 +28,11 @@ namespace LetterAmazer.Business.Services.Factory
             };
 
             return office;
+        }
+
+        public List<Office> Create(List<DbOffices> dbOfficeses)
+        {
+            return dbOfficeses.Select(Create).ToList();
         }
     }
 }

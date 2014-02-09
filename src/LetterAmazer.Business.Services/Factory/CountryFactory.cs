@@ -4,11 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LetterAmazer.Business.Services.Domain.Countries;
+using LetterAmazer.Business.Services.Factory.Interfaces;
 using LetterAmazer.Data.Repository.Data;
 
 namespace LetterAmazer.Business.Services.Factory
 {
-    public class CountryFactory
+    public class CountryFactory : ICountryFactory
     {
         public Country Create(DbCountries country)
         {
@@ -25,6 +26,11 @@ namespace LetterAmazer.Business.Services.Factory
                 Fipscode = country.FipsCode,
                 Id = country.Id
             };
+        }
+
+        public List<Country> Create(List<DbCountries> country)
+        {
+            return country.Select(Create).ToList();
         }
     }
 }

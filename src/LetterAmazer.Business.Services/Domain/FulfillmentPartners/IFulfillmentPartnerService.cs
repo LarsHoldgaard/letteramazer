@@ -6,5 +6,7 @@ namespace LetterAmazer.Business.Services.Domain.FulfillmentPartners
     {
         List<FulfilmentPartner> GetFulfillmentPartnersBySpecifications(FulfillmentPartnerSpecification specification);
         FulfilmentPartner GetFulfillmentPartnerById(int id);
+        FulfilmentPartner Create(FulfilmentPartner partner);
+
     }
 }

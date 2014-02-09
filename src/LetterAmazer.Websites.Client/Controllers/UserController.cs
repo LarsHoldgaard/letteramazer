@@ -4,10 +4,7 @@ using LetterAmazer.Business.Services.Domain.Letters;
 using LetterAmazer.Business.Services.Domain.Orders;
 using LetterAmazer.Business.Services.Domain.Payments;
 using LetterAmazer.Business.Services.Domain.Products.ProductDetails;
-using LetterAmazer.Business.Services.Model;
-using LetterAmazer.Business.Services.Services;
-using LetterAmazer.Business.Services.Services.LetterContent;
-using LetterAmazer.Business.Services.Services.PaymentMethods;
+using LetterAmazer.Business.Services.Services.PaymentMethods.Implementations;
 using LetterAmazer.Business.Utils.Helpers;
 using LetterAmazer.Websites.Client.Attributes;
 using LetterAmazer.Websites.Client.ViewModels;
@@ -108,7 +105,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                 {
                     string tempKeyName = string.Format("{0}/{1}/{2}.pdf", DateTime.Now.Year, DateTime.Now.Month, Guid.NewGuid().ToString());
                     string tempPath = GetAbsoluteFile(tempKeyName);
-                    PdfManager m = new PdfManager();
+                    PdfHelper m = new PdfHelper();
                     var convertedText = HelperMethods.Utf8FixString(model.WriteContent);
                     m.ConvertToPdf(tempPath, convertedText);
                     letter.LetterContent.Path = tempKeyName;

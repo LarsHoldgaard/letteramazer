@@ -1,21 +1,23 @@
-﻿using LetterAmazer.Business.Services.Domain.Customers;
+﻿using System.Collections.Generic;
+using LetterAmazer.Business.Services.Domain.Customers;
+using LetterAmazer.Business.Services.Domain.Notifications;
 using LetterAmazer.Business.Services.Exceptions;
 using LetterAmazer.Business.Services.Factory;
-using LetterAmazer.Business.Services.Interfaces;
+using LetterAmazer.Business.Services.Factory.Interfaces;
 using System;
 using System.Linq;
+using LetterAmazer.Business.Utils.Helpers;
 using LetterAmazer.Data.Repository.Data;
 
 namespace LetterAmazer.Business.Services.Services
 {
     public class CustomerService : ICustomerService
     {
-        private CustomerFactory customerFactory;
+        private ICustomerFactory customerFactory;
         private LetterAmazerEntities repository;
         private IPasswordEncryptor passwordEncryptor;
-        private string resetPasswordUrl;
         private INotificationService notificationService;
-        public CustomerService(string resetPasswordUrl, LetterAmazerEntities repository, CustomerFactory customerFactory, 
+        public CustomerService(LetterAmazerEntities repository, ICustomerFactory customerFactory, 
             IPasswordEncryptor passwordEncryptor, INotificationService notificationService)
         {
             this.resetPasswordUrl = resetPasswordUrl;
@@ -38,7 +40,27 @@ namespace LetterAmazer.Business.Services.Services
             return customer;
         }
 
-        public void CreateCustomer(Customer customer)
+        public List<Customer> GetCustomerBySpecification(CustomerSpecification specification)
+        {
+            IQueryable<DbCustomers> dbCustomers = repository.DbCustomers;
+
+            if (specification.Id > 0)
+            {
+                dbCustomers = dbCustomers.Where(c => c.Id == specification.Id);
+            }
+            if (!string.IsNullOrEmpty(specification.Email))
+            {
+                dbCustomers = dbCustomers.Where(c => c.Email == specification.Email);
+            }
+            if (!string.IsNullOrEmpty(specification.ResetPasswordKey))
+            {
+                dbCustomers = dbCustomers.Where(c => c.ResetPasswordKey == specification.ResetPasswordKey);
+            }
+
+            return customerFactory.Create(dbCustomers.ToList());
+        }
+
+        public void Create(Customer customer)
         {
             var dbCustomer = new DbCustomers();
             dbCustomer.Email = customer.Email.Trim().ToLower();
@@ -64,7 +86,7 @@ namespace LetterAmazer.Business.Services.Services
             notificationService.SendMembershipInformation(customer);
         }
 
-        public void UpdateCustomer(Customer customer)
+        public void Update(Customer customer)
         {
             var dbCustomer = repository.DbCustomers.FirstOrDefault(c => c.Id == customer.Id);
             dbCustomer.DateUpdated = DateTime.Now;
@@ -83,109 +105,15 @@ namespace LetterAmazer.Business.Services.Services
 
         }
 
-        public Customer GetUserByEmail(string email)
+      
+
+        public void Delete(Customer customer)
         {
-            var dbcustomer = repository.DbCustomers.FirstOrDefault(c => c.Email == email);
-            if (dbcustomer == null)
-            {
-                throw new ItemNotFoundException("Customer");
-            }
-
-            var customer = customerFactory.Create(dbcustomer);
-
-            return customer;
-        }
-
-        public void DeleteCustomer(int customerId)
-        {
-
-            var dbcust = repository.DbCustomers.FirstOrDefault(c => c.Id == customerId);
+            var dbcust = repository.DbCustomers.FirstOrDefault(c => c.Id == customer.Id);
             repository.DbCustomers.Remove(dbcust);
             repository.SaveChanges();
         }
 
-        public void RecoverPassword(string email)
-        {
-            Customer user = GetUserByEmail(email);
-            user.ResetPasswordKey = Guid.NewGuid().ToString();
-            string resetPasswordUrl = string.Format(this.resetPasswordUrl, System.Threading.Thread.CurrentThread.CurrentCulture.TwoLetterISOLanguageName, user.ResetPasswordKey);
-            notificationService.SendResetPasswordUrl(resetPasswordUrl, user);
-            repository.SaveChanges();
-        }
-
-        public void ChangePassword(string username, string oldPassword, string newPassword)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Customer ValidateUser(string email, string password)
-        {
-            try
-            {
-                Customer user = GetUserByEmail(email.ToLower());
-                if (user == null)
-                {
-                    throw new BusinessException("Email or password is not valid.");
-                }
-
-                if (!passwordEncryptor.Equal(password, user.Password))
-                {
-                    throw new BusinessException("Email or password is not valid.");
-                }
-
-                return user;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
-        public Customer GetUserByResetPasswordKey(string resetPasswordKey)
-        {
-            var dbcustomer = repository.DbCustomers.FirstOrDefault(c => c.ResetPasswordKey == resetPasswordKey);
-
-            if (dbcustomer == null)
-            {
-                throw new ItemNotFoundException("Customer");
-            }
-
-            var customer = customerFactory.Create(dbcustomer);
-
-            return customer;
-        }
-
-        public void ResetPassword(string resetPasswordKey, string newPassword)
-        {
-            var dbcustomer = repository.DbCustomers.FirstOrDefault(c => c.ResetPasswordKey == resetPasswordKey);
-
-            if (dbcustomer == null)
-            {
-                throw new ItemNotFoundException("Customer");
-            }
-
-            dbcustomer.ResetPasswordKey = resetPasswordKey;
-            dbcustomer.ResetPasswordKey = string.Empty;
-
-            repository.SaveChanges();
-
-        }
-
-        public bool IsValidCredits(int userId, decimal price)
-        {
-            var dbcustomer = repository.DbCustomers.FirstOrDefault(c => c.Id == userId);
-            if (dbcustomer == null) return false;
-
-            decimal creditsLeft = dbcustomer.Credits.Value + Math.Abs(dbcustomer.CreditLimit);
-            return creditsLeft >= price;
-        }
-
-        public decimal GetAvailableCredits(int userId)
-        {
-            var dbcustomer = repository.DbCustomers.FirstOrDefault(c => c.Id == userId);
-            if (dbcustomer == null) return 0.0m;
-
-            return dbcustomer.Credits.Value + Math.Abs(dbcustomer.CreditLimit);
-        }
+      
     }
 }

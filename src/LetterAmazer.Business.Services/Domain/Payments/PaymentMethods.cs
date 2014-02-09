@@ -10,6 +10,7 @@ namespace LetterAmazer.Business.Services.Domain.Payments
     {
         PayPal=0,
         Invoice=1,
-        Bitcoin=2
+        Bitcoin=2,
+        Credits=3
     }
 }

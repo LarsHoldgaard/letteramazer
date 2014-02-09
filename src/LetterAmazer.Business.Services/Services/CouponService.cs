@@ -1,6 +1,9 @@
-﻿using LetterAmazer.Business.Services.Domain.Coupons;
+﻿using System.Collections.Generic;
+using Amazon.DirectConnect.Model;
+using LetterAmazer.Business.Services.Domain.Coupons;
 using LetterAmazer.Business.Services.Exceptions;
 using LetterAmazer.Business.Services.Factory;
+using LetterAmazer.Business.Services.Factory.Interfaces;
 using LetterAmazer.Business.Utils.Helpers;
 using System;
 using System.Linq;
@@ -10,123 +13,91 @@ namespace LetterAmazer.Business.Services.Services
 {
     public class CouponService : ICouponService
     {
-        private const int CouponLength = 7;
         private LetterAmazerEntities Repository;
-        private CouponFactory CouponFactory;
+        private ICouponFactory CouponFactory;
 
-        public CouponService(LetterAmazerEntities repository, CouponFactory couponFactory)
+        public CouponService(LetterAmazerEntities repository, ICouponFactory couponFactory)
         {
             Repository = repository;
             CouponFactory = couponFactory;
         }
 
 
-        public string GenerateCoupon(Coupon coupon)
+        public Coupon Update(Coupon coupon)
         {
-            var code = PasswordGenerator.Generate(CouponLength);
+            var dbcoupon = Repository.DbCoupons.FirstOrDefault(c => c.Id == coupon.Id);
 
-            var dbcoupon = new DbCoupons(){
-                Code = code,
-                CouponExpire = DateTime.Now.AddDays(7), //TODO: Fix :D
-                RefSource = coupon.RefSource,
-                RefUserValue = coupon.RefUserValue,
-                CouponValue = coupon.CouponValue,
-                DateGiven = DateTime.Now,
-                EarlierCouponRef = coupon.EarlierCouponRef,
-                CouponValueLeft = coupon.CouponValueLeft,
-                CouponStatus = (int)coupon.CouponStatus
-            };
+            if (dbcoupon == null)
+            {
+                return null;
+            }
+
+            dbcoupon.DateGiven = coupon.DateCreated;
+            dbcoupon.DateModified = coupon.DateModified;
+            dbcoupon.Code = coupon.Code;
+            dbcoupon.CouponExpire = coupon.ExpireDate;
+            dbcoupon.CouponStatus = (int)coupon.CouponStatus;
+            dbcoupon.CouponValueLeft = coupon.CouponValueLeft;
+            dbcoupon.CouponValue = coupon.CouponValue;
+            dbcoupon.EarlierCouponRef = coupon.EarlierCouponRef;
+            dbcoupon.RefSource=coupon.RefSource;
+            dbcoupon.RefUserValue = coupon.RefUserValue;
+
+            Repository.SaveChanges();
+        }
+
+        public Coupon Create(Coupon coupon)
+        {
+            var dbcoupon = new DbCoupons();
+            dbcoupon.DateGiven = coupon.DateCreated;
+            dbcoupon.DateModified = coupon.DateModified;
+            dbcoupon.Code = coupon.Code;
+            dbcoupon.CouponExpire = coupon.ExpireDate;
+            dbcoupon.CouponStatus = (int)coupon.CouponStatus;
+            dbcoupon.CouponValueLeft = coupon.CouponValueLeft;
+            dbcoupon.CouponValue = coupon.CouponValue;
+            dbcoupon.EarlierCouponRef = coupon.EarlierCouponRef;
+            dbcoupon.RefSource = coupon.RefSource;
+            dbcoupon.RefUserValue = coupon.RefUserValue;
 
             Repository.DbCoupons.Add(dbcoupon);
             Repository.SaveChanges();
-
-            return code;
-
         }
 
-        public bool IsCouponActive(int id)
+        public void Delete(Coupon coupon)
         {
-            var anyCode = Repository.DbCoupons.Any(c => c.Id == id && c.CouponExpire > DateTime.Now && c.CouponStatus != (int)CouponStatus.Done && c.CouponValueLeft > 0.0m);
-            return anyCode;
-        }
+            var dbCoupon = Repository.DbCoupons.FirstOrDefault(c => c.Id == coupon.Id);
 
-
-        public bool IsCouponActive(string code)
-        {
-            var lowerCode = code.ToLower();
-            var anyCode = Repository.DbCoupons.Any(c => c.Code == lowerCode && c.CouponExpire > DateTime.Now && c.CouponStatus != (int)CouponStatus.Done && c.CouponValueLeft > 0.0m);
-            return anyCode;
-        }
-
-        public Coupon GetCouponByCode(string code)
-        {
-            code = code.ToLower();
-            if (!IsCouponActive(code))
-            {
-                throw new ArgumentException("Code has been used");
-            }
-
-            var currentCode = Repository.DbCoupons.FirstOrDefault(c => c.Code == code);
-            if (currentCode == null)
-            {
-                throw new ItemNotFoundException("Coupon");
-            }
-
-            var coupon = CouponFactory.Create(currentCode);
-
-            return coupon;
+            Repository.DbCoupons.Remove(dbCoupon);
+            Repository.SaveChanges();
         }
 
         public Coupon GetCouponById(int id)
         {
-            if (!IsCouponActive(id))
+            var dbCoupon = Repository.DbCoupons.FirstOrDefault(c => c.Id == id);
+
+            if (dbCoupon == null)
             {
-                throw new ArgumentException("Code has been used");
+                return null;
             }
 
-            var currentCode = Repository.DbCoupons.FirstOrDefault(c => c.Id == id);
-            if (currentCode == null)
-            {
-                throw new ItemNotFoundException("Coupon");
-            }
-
-            var coupon = CouponFactory.Create(currentCode);
-
-            return coupon;
+            return CouponFactory.Create(dbCoupon);
         }
 
-        public decimal UseCoupon(string code, decimal price)
+        public List<Coupon> GetCouponBySpecification(CouponSpecification specification)
         {
-            code = code.ToLower();
-            if (!IsCouponActive(code))
+            IQueryable<DbCoupons> dbCouponses = Repository.DbCoupons;
+           
+            if (specification.Id > 0)
             {
-                throw new BusinessException("Code has been used");
+                dbCouponses = Repository.DbCoupons.Where(c => c.Id == specification.Id);
+            }
+            if (string.IsNullOrEmpty(specification.Code))
+            {
+                dbCouponses = dbCouponses.Where(c => c.Code == specification.Code);
             }
 
-            var currentCode = Repository.DbCoupons.FirstOrDefault(c => c.Code == code);
-
-            if (currentCode == null)
-            {
-                throw new ItemNotFoundException("Coupon");
-            }
-
-            decimal differenceInValue = currentCode.CouponValueLeft- price;
-
-            // credits left
-            if (differenceInValue > 0)
-            {
-                currentCode.CouponValueLeft = differenceInValue;
-                currentCode.CouponStatus = (int)CouponStatus.Used;
-            }
-            else
-            {
-                currentCode.CouponStatus = (int)CouponStatus.Done;
-                currentCode.CouponValueLeft = 0;
-            }
-
-            Repository.SaveChanges();
-
-            return differenceInValue;
+            return CouponFactory.Create(dbCouponses.ToList());
         }
     }
 }

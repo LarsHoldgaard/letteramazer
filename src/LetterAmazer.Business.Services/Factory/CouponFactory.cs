@@ -5,11 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using Amazon.IdentityManagement.Model;
 using LetterAmazer.Business.Services.Domain.Coupons;
+using LetterAmazer.Business.Services.Factory.Interfaces;
 using LetterAmazer.Data.Repository.Data;
 
 namespace LetterAmazer.Business.Services.Factory
 {
-    public class CouponFactory
+    public class CouponFactory : ICouponFactory
     {
         public Coupon Create(DbCoupons dbCoupons)
         {
@@ -30,6 +31,11 @@ namespace LetterAmazer.Business.Services.Factory
             };
 
 
+        }
+
+        public List<Coupon> Create(List<DbCoupons> dbCouponses)
+        {
+            return dbCouponses.Select(Create).ToList();
         }
     }
 }

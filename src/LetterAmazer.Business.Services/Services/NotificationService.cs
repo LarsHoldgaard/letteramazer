@@ -1,7 +1,7 @@
-﻿using LetterAmazer.Business.Services.Components.Mail;
-using LetterAmazer.Business.Services.Domain.Customers;
-using LetterAmazer.Business.Services.Interfaces;
+﻿using LetterAmazer.Business.Services.Domain.Customers;
 using System.IO;
+using LetterAmazer.Business.Services.Domain.Notifications;
+using LetterAmazer.Business.Services.Domain.Notifications.Mail;
 
 namespace LetterAmazer.Business.Services.Services
 {

@@ -1,9 +1,10 @@
 ﻿using LetterAmazer.Business.Services.Domain.AddressInfos;
 using LetterAmazer.Business.Services.Domain.Countries;
+using LetterAmazer.Business.Services.Factory.Interfaces;
 
 namespace LetterAmazer.Business.Services.Factory
 {
-    public class AddressFactory
+    public class AddressFactory : IAddressFactory
     {
         public ICountryService CountryService { get; set; }
 
@@ -13,7 +14,7 @@ namespace LetterAmazer.Business.Services.Factory
         }
 
         public AddressInfo Create(string address1, string address2, string postal, string city, int countryid,
-            string attPerson, string firstName, string lastName, string vatNr)
+            string attPerson, string firstName, string lastName, string vatNr, string co, string state)
         {
             var country = CountryService.GetCountryById(countryid);
 
