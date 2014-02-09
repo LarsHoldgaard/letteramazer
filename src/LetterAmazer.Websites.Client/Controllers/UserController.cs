@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using LetterAmazer.Business.Services.Domain.AddressInfos;
 using LetterAmazer.Business.Services.Domain.Countries;
 using LetterAmazer.Business.Services.Domain.Coupons;
@@ -16,6 +17,7 @@ using LetterAmazer.Websites.Client.Extensions;
 using log4net;
 using System;
 using System.Web.Mvc;
+using ProductType = LetterAmazer.Business.Services.Domain.Products.ProductType;
 
 namespace LetterAmazer.Websites.Client.Controllers
 {
@@ -71,61 +73,69 @@ namespace LetterAmazer.Websites.Client.Controllers
             {
                 ValidateInput();
 
-                Order order = new Order();
-                order.Customer = sessionService.Customer;
-                
-                AddressInfo addressInfo = new AddressInfo();
-                addressInfo.Address1 = model.DestinationAddress;
-                addressInfo.FirstName = model.RecipientName;
-                addressInfo.City = model.DestinationCity;
-                addressInfo.Country = countryService.GetCountryBySpecificaiton(
-                    new CountrySpecification() 
-                        {CountryCode = model.DestinationCountryCode }).FirstOrDefault();// TODO: Fix country
-                addressInfo.PostalCode = model.ZipCode;
-
-                LetterDe letterDetail = new LetterDetail();
-                letterDetail.Color = (int)LetterColor.Color;
-                letterDetail.LetterTreatment = (int)LetterProcessing.Dull;
-                letterDetail.LetterWeight = (int) LetterPaperWeight.Eight;
-                letterDetail.Size = (int) LetterSize.A4;
-
-                OrderItem orderItem = new OrderItem();
-
-                Letter letter = new Letter();
-                letter.LetterStatus = LetterStatus.Created;
-                letter.LetterDetail = letterDetail;
-                letter.CustomerId = SecurityUtility.CurrentUser.Id;
-                letter.Customer = SecurityUtility.CurrentUser;
-                letter.ToAddress = addressInfo;
+                LetterContent letterContent = new LetterContent();
 
                 if (model.UseUploadFile)
                 {
                     logger.DebugFormat("upload file key: {0}", model.UploadFile);
-                    letter.LetterContent.Path = model.UploadFile;
+                    letterContent.Path = model.UploadFile;
                 }
                 else
                 {
                     string tempKeyName = string.Format("{0}/{1}/{2}.pdf", DateTime.Now.Year, DateTime.Now.Month, Guid.NewGuid().ToString());
                     string tempPath = GetAbsoluteFile(tempKeyName);
-                    PdfHelper m = new PdfHelper();
+
                     var convertedText = HelperMethods.Utf8FixString(model.WriteContent);
-                    m.ConvertToPdf(tempPath, convertedText);
-                    letter.LetterContent.Path = tempKeyName;
-                    letter.LetterContent.WrittenContent = model.WriteContent;
+                    PdfHelper.ConvertToPdf(tempPath, convertedText);
+                    letterContent.Path = tempKeyName;
+                    letterContent.WrittenContent = model.WriteContent;
                 }
-                if (System.IO.File.Exists(GetAbsoluteFile(letter.LetterContent.Path)))
+                if (System.IO.File.Exists(GetAbsoluteFile(letterContent.Path)))
                 {
-                    letter.LetterContent.Content = System.IO.File.ReadAllBytes(GetAbsoluteFile(letter.LetterContent.Path));
+                    letterContent.Content = System.IO.File.ReadAllBytes(GetAbsoluteFile(letterContent.Path));
                 }
 
-                orderItem.Letter = letter;
-                orderItem.Order = order;
-                order.OrderItems.Add(orderItem);
 
-                OrderContext orderContext = new OrderContext();
-                orderContext.Order = order;
-                orderContext.SignUpNewsletter = model.SignUpNewsletter;
-                orderContext.CurrentCulture = RouteData.Values["culture"].ToString();
+
+               AddressInfo addressInfo = new AddressInfo();
+                addressInfo.Address1 = model.DestinationAddress;
+                addressInfo.FirstName = model.RecipientName;
+                addressInfo.City = model.DestinationCity;
+                addressInfo.Country = countryService.GetCountryBySpecificaiton(
+                    new CountrySpecification() { CountryCode = model.DestinationCountryCode }).FirstOrDefault();
+                addressInfo.PostalCode = model.ZipCode;
+
+                LetterDetails letterDetail = new LetterDetails()
+                {
+                    LetterColor = LetterColor.Color,
+                    LetterPaperWeight = LetterPaperWeight.Eight,
+                    LetterProcessing = LetterProcessing.Dull,
+                    LetterSize = LetterSize.A4,
+                    LetterType = LetterType.Pres
+                };
+
+                Letter letter = new Letter()
+                {
+                    LetterDetails = letterDetail,
+                    ToAddress = addressInfo,
+                    LetterStatus = LetterStatus.Created,
+                };
+
+              
+                OrderLine orderItem = new OrderLine()
+                {
+                    BaseProduct = letter,
+                    ProductType = ProductType.Order,
+                    Quantity = 1
+                };
+
+                Order order = new Order()
+                {
+                    Customer = sessionService.Customer,
+                    OrderStatus = OrderStatus.Created,
+                    OrderLines = new List<OrderLine>() { orderItem}
+                };
+
                 string redirectUrl = orderService.CreateOrder(orderContext);
                 
                 return Redirect(redirectUrl);

@@ -6,6 +6,7 @@ using LetterAmazer.Business.Services.Domain.Letters;
 using LetterAmazer.Business.Services.Domain.Orders;
 using LetterAmazer.Business.Services.Domain.Payments;
 using LetterAmazer.Business.Services.Domain.Products.ProductDetails;
+using LetterAmazer.Business.Services.Domain.Session;
 using LetterAmazer.Business.Services.Services.PaymentMethods.Implementations;
 using log4net;
 using System;
@@ -22,6 +23,7 @@ namespace LetterAmazer.Websites.Client.Controllers
     {
         private static readonly ILog logger = LogManager.GetLogger(typeof(SingleLetterController));
 
+        private ISessionService sessionService;
         private IOrderService orderService;
         private IPaymentService paymentService;
         private ILetterService letterService;
@@ -31,7 +33,8 @@ namespace LetterAmazer.Websites.Client.Controllers
         
 
         public SingleLetterController(IOrderService orderService, IPaymentService paymentService,
-            ILetterService letterService, ICouponService couponService, ICustomerService customerService,ICountryService countryService)
+            ILetterService letterService, ICouponService couponService, ICustomerService customerService,
+            ICountryService countryService, ISessionService sessionService)
         {
             this.orderService = orderService;
             this.paymentService = paymentService;
@@ -39,13 +42,14 @@ namespace LetterAmazer.Websites.Client.Controllers
             this.couponService = couponService;
             this.customerService = customerService;
             this.countryService = countryService;
+            this.sessionService = sessionService;
         }
 
         [HttpGet]
         public ActionResult Index()
         {
-
-            if (SecurityUtility.IsAuthenticated) return RedirectToAction("SendALetter", "User");
+            if (sessionService.Customer != null) return RedirectToAction("SendALetter", "User");
+            
             CreateSingleLetterModel model = new CreateSingleLetterModel();
             return View(model);
         }
@@ -66,7 +70,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                 order.CouponCode = model.VoucherCode;
 
                 AddressInfo addressInfo = new AddressInfo();
-                addressInfo.Address = model.DestinationAddress;
+                addressInfo.Address1 = model.DestinationAddress;
                 addressInfo.FirstName = model.RecipientName;
                 addressInfo.City = model.DestinationCity;
                 // addressInfo.Country = model.DestinationCountry; // TODO: Fix country
