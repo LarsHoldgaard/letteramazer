@@ -8,6 +8,7 @@ using LetterAmazer.Business.Services.Domain.Countries;
 using LetterAmazer.Business.Services.Domain.Letters;
 using LetterAmazer.Business.Services.Domain.Orders;
 using LetterAmazer.Business.Services.Domain.Pricing;
+using LetterAmazer.Business.Services.Domain.Products;
 
 namespace LetterAmazer.Business.Services.Services
 {
@@ -23,11 +24,16 @@ namespace LetterAmazer.Business.Services.Services
         public Price GetPriceByOrder(Order order)
         {
             var price = new Price();
-            foreach (var letter in order.Letters)
+            foreach (var orderLine in order.OrderLines)
             {
-                var letterPrice = GetPriceByLetter(letter);
-                price.PriceExVat += letterPrice.PriceExVat;
-                price.VatPercentage = letterPrice.PriceExVat;
+                if (orderLine.ProductType == ProductType.Order)
+                {
+                    var letter = (Letter) orderLine.BaseProduct;
+                    var letterPrice = GetPriceByLetter(letter);
+                    price.PriceExVat += letterPrice.PriceExVat;
+                    price.VatPercentage = letterPrice.PriceExVat;    
+                }
+                
             }
             return price;
         }

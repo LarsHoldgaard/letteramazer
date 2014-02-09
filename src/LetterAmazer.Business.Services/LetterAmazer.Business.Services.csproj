@@ -83,6 +83,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Domain\Common\S3Access.cs" />
     <Compile Include="Domain\Notifications\Mail\DebugEmailSender.cs" />
     <Compile Include="Domain\Notifications\Mail\EmailSenderException.cs" />
     <Compile Include="Domain\Notifications\Mail\EmailTemplate.cs" />
@@ -121,13 +122,11 @@
     <Compile Include="Domain\Orders\OrderLine.cs" />
     <Compile Include="Domain\Orders\OrderSpecification.cs" />
     <Compile Include="Domain\Orders\OrderStatus.cs" />
-    <Compile Include="Domain\Orders\OrderType.cs" />
     <Compile Include="Domain\Payments\PaymentMethods.cs" />
     <Compile Include="Domain\Payments\PaymentMethodSpecification.cs" />
     <Compile Include="Domain\Products\ProductType.cs" />
     <Compile Include="Domain\Pricing\IPriceService.cs" />
     <Compile Include="Domain\Pricing\Price.cs" />
-    <Compile Include="Domain\Products\IPurchasable.cs" />
     <Compile Include="Domain\Products\ProductDetails\LetterColor.cs" />
     <Compile Include="Domain\Products\ProductDetails\LetterPaperWeight.cs" />
     <Compile Include="Domain\Products\ProductDetails\LetterProcessing.cs" />

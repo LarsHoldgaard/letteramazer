@@ -29,9 +29,14 @@ namespace LetterAmazer.Business.Services.Services
             {
                 Capital = country.Capital,
                 CountryName = country.Name,
-                Continent = country.Capital
+                Continent = country.Capital,
+                InsideEu = country.InsideEu,
+                AreaInSqKm = country.ArealInSqKm,
+                ContinentName = country.Continent
             });
             repository.SaveChanges();
+
+            return GetCountryById(country.Id);
         }
 
         public Country GetCountryById(int id)

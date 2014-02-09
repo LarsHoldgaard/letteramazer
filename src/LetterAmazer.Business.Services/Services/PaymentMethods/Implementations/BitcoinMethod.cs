@@ -11,12 +11,17 @@ namespace LetterAmazer.Business.Services.Services.PaymentMethods.Implementations
 {
     public class BitcoinMethod : IPaymentMethod
     {
-        public void Process(Order order)
+        public string Process(Order order)
         {
             throw new NotImplementedException();
         }
 
-        public void ProcessFunds(Customer customer, decimal value)
+        public void VerifyPayment(Order order)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ChargeBacks(Order order)
         {
             throw new NotImplementedException();
         }

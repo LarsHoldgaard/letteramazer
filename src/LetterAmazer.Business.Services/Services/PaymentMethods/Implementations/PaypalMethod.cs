@@ -7,6 +7,7 @@ using System.Web;
 using LetterAmazer.Business.Services.Domain.Customers;
 using LetterAmazer.Business.Services.Domain.Orders;
 using LetterAmazer.Business.Services.Domain.Payments;
+using LetterAmazer.Business.Services.Domain.Pricing;
 using LetterAmazer.Business.Services.Domain.Products;
 using LetterAmazer.Business.Services.Exceptions;
 using log4net;
@@ -15,6 +16,18 @@ namespace LetterAmazer.Business.Services.Services.PaymentMethods.Implementations
 {
     public class PaypalMethod : IPaymentMethod
     {
+        private string serviceUrl;
+        private string paypalIpn;
+
+        
+        private IPriceService priceService;
+        public PaypalMethod(IPriceService priceService)
+        {
+            this.priceService = priceService;
+            this.serviceUrl = "";
+            this.paypalIpn = "";
+        }
+
         //private static readonly ILog logger = LogManager.GetLogger(typeof(PaypalMethod));
         //public const string NAME = "Paypal";
         //private string serviceUrl;
@@ -105,14 +118,14 @@ namespace LetterAmazer.Business.Services.Services.PaymentMethods.Implementations
         //    throw new BusinessException(string.Format("Cannot verify payment, Parameters: {0}", context.Parameters));
         //}
 
-        public void Process(IPurchasable purchasable)
+        public string Process(Order order)
         {
-            var customer = purchasable.GetCustomerDetails();
+            var customer = order.Customer;
             var addressInfo = customer.CustomerInfo;
-            var totalPrice = purchasable.TotalPrice();
-            var productTitle = purchasable.PurchaseText();
+            var totalPrice = priceService.GetPriceByOrder(order);
+            var productTitle = order.ToString();
 
-            decimal volume = totalPrice;
+            decimal volume = totalPrice.PriceExVat;
             string firstName = addressInfo.FirstName;
             string lastName = addressInfo.LastName;
             string country = addressInfo.Country.CountryCode.ToString(); // TODO: Fix country
@@ -120,23 +133,66 @@ namespace LetterAmazer.Business.Services.Services.PaymentMethods.Implementations
             string city = addressInfo.City;
             string address = addressInfo.Address1;
             var id = order.Id;
-
-            string paypalIPNUrl = string.Format(this.paypalIPN, orderContext.Order.OrderType.ToString());
+            //string.Format(this.returnUrl, orderContext.CurrentCulture)
+            string paypalIPNUrl = string.Format(this.paypalIpn, order.ToString());
             var volumeForUsd = Math.Round(volume, 2).ToString().Replace(",", ".");
             var url = string.Format("{0}first_name={1}&last_name={2}&item_name={3}&currency_code=USD&amount={4}&notify_url={5}&cmd=_xclick&country={6}&zip={7}&address1={8}&business={9}&city={10}&custom={11}&return={12}",
                 this.serviceUrl, firstName, lastName, productTitle,
                 volumeForUsd, paypalIPNUrl, country, postal, address, "mcoroklo@gmail.com", city,
-                id, string.Format(this.returnUrl, orderContext.CurrentCulture));
+                id, "");
             
             return url;
         }
 
-        public void VerifyPayment(IPurchasable purchasable)
+        public void VerifyPayment(Order order)
         {
-            throw new NotImplementedException();
+            HttpWebRequest req = (HttpWebRequest)WebRequest.Create(this.serviceUrl);
+
+            //Set values for the request back
+            req.Method = "POST";
+            req.ContentType = "application/x-www-form-urlencoded";
+
+            string strRequest = String.Empty; //context.Parameters;
+            strRequest += "&cmd=_notify-validate";
+            string strResponseCopy = strRequest;
+            req.ContentLength = strRequest.Length;
+
+            //Send the request to PayPal and get the response
+            StreamWriter streamOut = new StreamWriter(req.GetRequestStream(), System.Text.Encoding.ASCII);
+            streamOut.Write(strRequest);
+            streamOut.Close();
+            StreamReader streamIn = new StreamReader(req.GetResponse().GetResponseStream());
+            string strResponse = streamIn.ReadToEnd();
+            streamIn.Close();
+
+            if (strResponse == "VERIFIED")
+            {
+                NameValueCollection theseArgies = HttpUtility.ParseQueryString(strResponseCopy);
+                var id = theseArgies["custom"].ToString();
+                
+                int orderId = 0;
+                int.TryParse(id, out orderId);
+
+                if (orderId == 0)
+                {
+                    throw new BusinessException(string.Format("Cannot verify payment, Invalid OrderId: {0}", id));
+                }
+
+                
+                //VerifyPaymentResult result = new VerifyPaymentResult();
+                //result.OrderId = orderId;
+                //result.Results = theseArgies;
+                //return result;
+            }
+            else if (strResponse == "INVALID")
+            {
+                //logger.InfoFormat("IPN Invlalid, Parameters: {0}", context.Parameters);
+            }
+
+            //throw new BusinessException(string.Format("Cannot verify payment, Parameters: {0}", context.Parameters));
         }
 
-        public void ChargeBacks(IPurchasable purchasable)
+        public void ChargeBacks(Order order)
         {
             throw new NotImplementedException();
         }

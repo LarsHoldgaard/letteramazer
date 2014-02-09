@@ -38,7 +38,6 @@ namespace LetterAmazer.Business.Services.Factory
                 Customer = dborder.CustomerId.HasValue ? customerService.GetCustomerById(dborder.CustomerId.Value) : null,
                 DatePaid = dborder.DatePaid.HasValue ? dborder.DatePaid.Value : DateTime.MinValue,
                 VatPercentage = 0.0m,
-                Price = dborder.Price,
                 Cost = dborder.Cost,
                 Discount = dborder.Discount,
                 OrderCode = dborder.OrderCode,

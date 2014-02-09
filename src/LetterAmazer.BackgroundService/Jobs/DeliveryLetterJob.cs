@@ -5,7 +5,6 @@ using LetterAmazer.Business.Services.Domain.Fulfillments;
 using LetterAmazer.Business.Services.Domain.Letters;
 using LetterAmazer.Business.Services.Domain.Orders;
 using LetterAmazer.Business.Services.Domain.Products;
-using LetterAmazer.Business.Services.Model;
 using log4net;
 using Quartz;
 using System;
@@ -20,12 +19,10 @@ namespace LetterAmazer.BackgroundService.Jobs
         {
             logger.DebugFormat("start delivery letter job at: {0}", DateTime.Now);
 
-            ILetterService letterService;
             IOrderService orderService;
             IFulfillmentService fulfillmentService;
             try
             {
-                letterService = ServiceFactory.Get<ILetterService>();
                 orderService = ServiceFactory.Get<IOrderService>();
                 
                 fulfillmentService = ServiceFactory.Get<IFulfillmentService>();

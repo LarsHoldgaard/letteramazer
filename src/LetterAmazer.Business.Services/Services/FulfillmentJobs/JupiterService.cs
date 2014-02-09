@@ -6,6 +6,7 @@ using System.Web;
 using System.Xml;
 using System.Xml.Linq;
 using Ionic.Zip;
+using LetterAmazer.Business.Services.Domain.Common;
 using LetterAmazer.Business.Services.Domain.Fulfillments;
 using LetterAmazer.Business.Services.Domain.Letters;
 using LetterAmazer.Business.Services.Services.Fulfillment;
@@ -48,18 +49,18 @@ namespace LetterAmazer.Business.Services.Services.FulfillmentJobs
             string zipName = Path.GetFileName(zipPath);
             var s3 = GetS3Access();
 
-            var amazonService = new AmazonS3Service(s3.keyid, s3.secretkey, "s3.amazonaws.com");
+            var amazonService = new AmazonS3Service(s3.KeyId, s3.SecretKey, "s3.amazonaws.com");
             using(FileStream fileStream = new FileStream(zipPath, FileMode.Open))
             {
                 var md5valBase64 = HelperMethods.GetMD5HashFromStream(fileStream);
                 fileStream.Position = 0;
                 var md5val = HelperMethods.HashFile(fileStream);
                 fileStream.Position = 0;
-                amazonService.UploadFile(s3.bucket, fileStream, zipName, md5valBase64);
+                amazonService.UploadFile(s3.Bucket, fileStream, zipName, md5valBase64);
 
-                var sqsDoc = DeliveryXml(md5val, s3.bucket, "Job run at " + DateTime.Now.ToString("yyMMdd-HHmmss"), zipName);
+                var sqsDoc = DeliveryXml(md5val, s3.Bucket, "Job run at " + DateTime.Now.ToString("yyMMdd-HHmmss"), zipName);
 
-                amazonService.SendSQSMessage(sqsDoc.ToString(), s3.postqueue);
+                amazonService.SendSQSMessage(sqsDoc.ToString(), s3.PostQueue);
             }
         }
 
@@ -76,7 +77,7 @@ namespace LetterAmazer.Business.Services.Services.FulfillmentJobs
             return doc;
         }
 
-        private s3access GetS3Access()
+        private S3Access GetS3Access()
         {
             string accessCode = string.Empty;
             using (var client = new WebClient())
@@ -91,18 +92,18 @@ namespace LetterAmazer.Business.Services.Services.FulfillmentJobs
             XmlDocument doc = new XmlDocument();
             doc.LoadXml(accessCode);
 
-            var s3 = new s3access()
+            var s3 = new S3Access()
             {
-                user = doc["s3access"]["user"].InnerText,
-                bucket = doc["s3access"]["bucket"].InnerText,
-                keyid = doc["s3access"]["keyid"].InnerText,
-                postqueue = doc["s3access"]["postqueue"].InnerText,
-                secretkey = doc["s3access"]["secretkey"].InnerText,
+                User = doc["s3access"]["user"].InnerText,
+                Bucket = doc["s3access"]["bucket"].InnerText,
+                KeyId = doc["s3access"]["keyid"].InnerText,
+                PostQueue = doc["s3access"]["postqueue"].InnerText,
+                SecretKey = doc["s3access"]["secretkey"].InnerText,
 
             };
-            if (string.IsNullOrEmpty(s3.postqueue))
+            if (string.IsNullOrEmpty(s3.PostQueue))
             {
-                s3.postqueue = "https://queue.amazonaws.com/375228553146/OrbitDelivery";
+                s3.PostQueue = "https://queue.amazonaws.com/375228553146/OrbitDelivery";
             }
 
             return s3;

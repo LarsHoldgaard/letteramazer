@@ -30,11 +30,7 @@ namespace LetterAmazer.Data.Repository.Data
         public decimal Cost { get; set; }
         public string CouponCode { get; set; }
         public decimal Discount { get; set; }
-        public decimal Price { get; set; }
         public string PaymentMethod { get; set; }
-        public string Email { get; set; }
-        public string Phone { get; set; }
-        public Nullable<int> OrderType { get; set; }
         public Nullable<System.DateTime> DatePaid { get; set; }
         public Nullable<System.DateTime> DateSent { get; set; }
     

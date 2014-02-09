@@ -44,6 +44,8 @@ namespace LetterAmazer.Business.Services.Services
             dbcoupon.RefUserValue = coupon.RefUserValue;
 
             Repository.SaveChanges();
+
+            return GetCouponById(dbcoupon.Id);
         }
 
         public Coupon Create(Coupon coupon)
@@ -62,6 +64,8 @@ namespace LetterAmazer.Business.Services.Services
 
             Repository.DbCoupons.Add(dbcoupon);
             Repository.SaveChanges();
+
+            return GetCouponById(dbcoupon.Id);
         }
 
         public void Delete(Coupon coupon)

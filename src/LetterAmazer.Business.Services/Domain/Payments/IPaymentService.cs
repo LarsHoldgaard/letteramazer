@@ -7,7 +7,6 @@ namespace LetterAmazer.Business.Services.Domain.Payments
     public interface IPaymentService
     {
         void Process(PaymentMethods method, Order order);
-        void ProcessFunds(PaymentMethods method, Customer customer, decimal value);
         List<PaymentMethods> GetPaymentMethodsBySpecification(PaymentMethodSpecification specification);
     }
 }

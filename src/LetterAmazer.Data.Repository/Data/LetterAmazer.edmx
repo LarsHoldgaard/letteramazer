@@ -776,11 +776,7 @@
           <Property Name="Cost" Type="Decimal" Nullable="false" Precision="18" Scale="5" />
           <Property Name="CouponCode" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
           <Property Name="Discount" Type="Decimal" Nullable="false" Precision="18" Scale="5" />
-          <Property Name="Price" Type="Decimal" Nullable="false" Precision="18" Scale="5" />
           <Property Name="PaymentMethod" Type="String" Nullable="false" MaxLength="20" Unicode="true" FixedLength="false" />
-          <Property Name="Email" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="false" />
-          <Property Name="Phone" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
-          <Property Name="OrderType" Type="Int32" />
           <Property Name="DatePaid" Type="DateTime" Precision="3" />
           <Property Name="DateSent" Type="DateTime" Precision="3" />
           <NavigationProperty Name="DbCustomers" Relationship="LetterAmazerModel.FK_Order_Customer" FromRole="DbOrders" ToRole="DbCustomers" />
@@ -1205,7 +1201,6 @@
                 <ScalarProperty Name="Cost" ColumnName="Cost" />
                 <ScalarProperty Name="CouponCode" ColumnName="CouponCode" />
                 <ScalarProperty Name="Discount" ColumnName="Discount" />
-                <ScalarProperty Name="Price" ColumnName="Price" />
                 <ScalarProperty Name="PaymentMethod" ColumnName="PaymentMethod" />
                 <ScalarProperty Name="DatePaid" ColumnName="DatePaid" />
                 <ScalarProperty Name="DateSent" ColumnName="DateSent" />

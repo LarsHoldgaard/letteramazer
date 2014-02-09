@@ -1,6 +1,7 @@
 ﻿using LetterAmazer.Business.Services.Domain.Customers;
 using LetterAmazer.Business.Services.Domain.Orders;
 using LetterAmazer.Business.Services.Domain.Payments;
+using LetterAmazer.Business.Services.Domain.Pricing;
 using LetterAmazer.Business.Services.Exceptions;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,13 @@ namespace LetterAmazer.Business.Services.Services
 {
     public class PaymentService : IPaymentService
     {
+        private IPriceService priceService;
+
+        public PaymentService(IPriceService priceService)
+        {
+            this.priceService = priceService;
+        }
+
         public void Process(Domain.Payments.PaymentMethods method, Order order)
         {
             IPaymentMethod selectedPaymentMethod = null;
@@ -26,32 +34,12 @@ namespace LetterAmazer.Business.Services.Services
             }
             else
             {
-                selectedPaymentMethod = new PaypalMethod();
+                selectedPaymentMethod = new PaypalMethod(priceService);
             }
 
             selectedPaymentMethod.Process(order);
 
         }
-
-        public void ProcessFunds(Domain.Payments.PaymentMethods method, Customer customer, decimal value)
-        {
-            IPaymentMethod selectedPaymentMethod = null;
-            if (method == Domain.Payments.PaymentMethods.Bitcoin)
-            {
-                selectedPaymentMethod = new CreditsMethod();
-            }
-            else if (method == Domain.Payments.PaymentMethods.Invoice)
-            {
-                selectedPaymentMethod = new BitcoinMethod();
-            }
-            else
-            {
-                selectedPaymentMethod = new PaypalMethod();
-            }
-
-            selectedPaymentMethod.ProcessFunds(customer,value);
-        }
-
         public List<Domain.Payments.PaymentMethods> GetPaymentMethodsBySpecification(PaymentMethodSpecification specification)
         {
             var methods = new List<Domain.Payments.PaymentMethods>

@@ -50,14 +50,20 @@ namespace LetterAmazer.Business.Services.Services.PaymentMethods.Implementations
         //{
         //    return new VerifyPaymentResult();
         //}
-        public void Process(Order order)
+
+        public string Process(Order order)
         {
             throw new NotImplementedException();
         }
 
-        public void ProcessFunds(Customer customer, decimal value)
+        public void VerifyPayment(Order order)
         {
-            throw new BusinessException("Cannot add funds with credits");
+            throw new NotImplementedException();
+        }
+
+        public void ChargeBacks(Order order)
+        {
+            throw new NotImplementedException();
         }
     }
 }

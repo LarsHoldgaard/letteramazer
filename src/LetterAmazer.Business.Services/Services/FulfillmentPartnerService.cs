@@ -53,6 +53,8 @@ namespace LetterAmazer.Business.Services.Services
 
             repository.DbFulfillmentPartners.Add(dbpartner);
             repository.SaveChanges();
+
+            return GetFulfillmentPartnerById(dbpartner.Id);
         }
     }
 }

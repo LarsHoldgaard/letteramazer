@@ -20,7 +20,6 @@ namespace LetterAmazer.Business.Services.Services
         public CustomerService(LetterAmazerEntities repository, ICustomerFactory customerFactory, 
             IPasswordEncryptor passwordEncryptor, INotificationService notificationService)
         {
-            this.resetPasswordUrl = resetPasswordUrl;
             this.repository = repository;
             this.passwordEncryptor = passwordEncryptor;
             this.notificationService = notificationService;

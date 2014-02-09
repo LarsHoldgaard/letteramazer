@@ -23,7 +23,7 @@ namespace LetterAmazer.Business.Services.Services
 
         public Letter GetLetterById(int letterId)
         {
-            DbLetters dbletter = Repository.DbLetters.FirstOrDefault(c => c.Id == letterId);
+            DbLetters dbletter = repository.DbLetters.FirstOrDefault(c => c.Id == letterId);
             if (dbletter == null)
             {
                 throw new ItemNotFoundException("Letter");
@@ -48,7 +48,7 @@ namespace LetterAmazer.Business.Services.Services
             }
             if (specification.LetterStatus != null)
             {
-                dbLetters = dbLetters.Where(c => c.LetterStatus == (int)specification.LetterStatus.Value);
+                dbLetters = dbLetters.Where(c => specification.LetterStatus.Contains((LetterStatus)c.LetterStatus));
             }
 
             return letterFactory.Create(dbLetters.Skip(specification.Skip).Take(specification.Take).ToList());
@@ -90,14 +90,14 @@ namespace LetterAmazer.Business.Services.Services
             dbletter.FromAddress_Postal = letter.FromAddress.PostalCode;
             dbletter.FromAddress_VatNr = letter.FromAddress.VatNr;
 
-            Repository.SaveChanges();
+            repository.SaveChanges();
 
             return GetLetterById(letter.Id);
         }
 
         public Letter Update(Letter letter)
         {
-            var dbletter = Repository.DbLetters.FirstOrDefault(c => c.Id == letter.Id);
+            var dbletter = repository.DbLetters.FirstOrDefault(c => c.Id == letter.Id);
 
             if (dbletter == null)
             {
@@ -131,22 +131,22 @@ namespace LetterAmazer.Business.Services.Services
             dbletter.FromAddress_Postal = letter.FromAddress.PostalCode;
             dbletter.FromAddress_VatNr = letter.FromAddress.VatNr;
 
-            Repository.SaveChanges();
+            repository.SaveChanges();
 
             return GetLetterById(letter.Id);
         }
 
         public void Delete(Letter letter)
         {
-            var dbletter = Repository.DbLetters.FirstOrDefault(c => c.Id == letter.Id);
+            var dbletter = repository.DbLetters.FirstOrDefault(c => c.Id == letter.Id);
 
             if (dbletter == null)
             {
                 throw new BusinessException();
             }
 
-            Repository.DbLetters.Remove(dbletter);
-            Repository.SaveChanges();
+            repository.DbLetters.Remove(dbletter);
+            repository.SaveChanges();
         }
     }
 }
