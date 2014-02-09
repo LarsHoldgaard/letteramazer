@@ -9,9 +9,8 @@ namespace LetterAmazer.Business.Services.Domain.Letters
     public enum LetterStatus
     {
         Created = 0,
-        Sending = 1,
-        Sent = 2,
-        Returned = 3,
-        Cancelled = 4
+        Sent = 1,
+        Returned = 2,
+        Cancelled = 3
     }
 }

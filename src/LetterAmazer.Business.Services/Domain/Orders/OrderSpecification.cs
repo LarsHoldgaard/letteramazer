@@ -10,6 +10,9 @@ namespace LetterAmazer.Business.Services.Domain.Orders
     public class OrderSpecification:Specifications
     {
         public List<OrderStatus> OrderStatus { get; set; }
+        public int UserId { get; set; }
+        public DateTime? FromDate { get; set; }
+        public DateTime? ToDate { get; set; }
 
         public OrderSpecification()
         {

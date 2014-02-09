@@ -15,7 +15,6 @@ namespace LetterAmazer.Data.Repository.Data
     public partial class DbOrderItems
     {
         public int Id { get; set; }
-        public decimal Price { get; set; }
         public Nullable<int> OrderId { get; set; }
         public Nullable<int> LetterId { get; set; }
         public int ItemType { get; set; }

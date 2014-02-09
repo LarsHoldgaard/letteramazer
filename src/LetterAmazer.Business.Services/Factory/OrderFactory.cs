@@ -42,7 +42,7 @@ namespace LetterAmazer.Business.Services.Factory
                 Discount = dborder.Discount,
                 OrderCode = dborder.OrderCode,
                 TransactionCode = dborder.TransactionCode,
-                Guid = new Guid(dborder.Guid)
+                Guid = dborder.Guid
             };
 
             var orderLines =

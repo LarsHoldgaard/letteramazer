@@ -4,6 +4,8 @@ using LetterAmazer.Business.Services.Domain.Letters;
 using LetterAmazer.Business.Services.Domain.Orders;
 using LetterAmazer.Business.Services.Domain.Payments;
 using LetterAmazer.Business.Services.Domain.Products.ProductDetails;
+using LetterAmazer.Business.Services.Domain.Session;
+using LetterAmazer.Business.Services.Services;
 using LetterAmazer.Business.Services.Services.PaymentMethods.Implementations;
 using LetterAmazer.Business.Utils.Helpers;
 using LetterAmazer.Websites.Client.Attributes;
@@ -20,33 +22,31 @@ namespace LetterAmazer.Websites.Client.Controllers
     {
         private static readonly ILog logger = LogManager.GetLogger(typeof(UserController));
         private IOrderService orderService;
+        private ISessionService sessionService;
         private IPaymentService paymentService;
         private ILetterService letterService;
         private ICouponService couponService;
         public UserController(IOrderService orderService, IPaymentService paymentService, 
-            ILetterService letterService, ICouponService couponService)
+            ILetterService letterService, ICouponService couponService, ISessionService sessionService)
         {
             this.orderService = orderService;
             this.paymentService = paymentService;
             this.letterService = letterService;
             this.couponService = couponService;
+            this.sessionService = sessionService;
         }
 
         public ActionResult Index(int? page, ProfileViewModel model)
         {
-            OrderCriteria criteria = new OrderCriteria();
-            criteria.PageIndex = page.HasValue ? page.Value - 1 : 0;
-            criteria.PageSize = 20;
-            criteria.OrderBy.Add(OrderBy.Desc("DateCreated"));
-            criteria.CustomerId = SecurityUtility.CurrentUser.Id;
-            criteria.From = model.FromDate;
-            criteria.To = model.ToDate;
-            criteria.OrderType = OrderType.SendLetters;
+            var orders = orderService.GetOrderBySpecification(new OrderSpecification()
+            {
+                UserId = sessionService.Customer.Id,
+                FromDate = model.FromDate,
+                ToDate = model.ToDate
+            });
 
-            PaginatedResult<Order> orders = orderService.GetOrders(criteria);
-
-            model.Orders = new PaginatedInfo<Order>(criteria.PageIndex, criteria.PageSize, orders);
-            model.Customer = SecurityUtility.CurrentUser;
+            model.Orders = orders;
+            model.Customer = sessionService.Customer;
 
             return View(model);
         }
@@ -55,7 +55,7 @@ namespace LetterAmazer.Websites.Client.Controllers
         public ActionResult SendALetter()
         {
             CreateSingleLetterModel model = new CreateSingleLetterModel();
-            model.Email = SecurityUtility.CurrentUser.Email;
+            model.Email = sessionService.Customer.Email;
             return View(model);
         }
 

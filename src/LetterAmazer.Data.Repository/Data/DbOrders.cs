@@ -24,12 +24,13 @@ namespace LetterAmazer.Data.Repository.Data
         public Nullable<int> CustomerId { get; set; }
         public System.DateTime DateCreated { get; set; }
         public System.DateTime DateUpdated { get; set; }
-        public string Guid { get; set; }
+        public System.Guid Guid { get; set; }
         public string OrderCode { get; set; }
         public string TransactionCode { get; set; }
         public decimal Cost { get; set; }
         public string CouponCode { get; set; }
         public decimal Discount { get; set; }
+        public decimal Price { get; set; }
         public string PaymentMethod { get; set; }
         public Nullable<System.DateTime> DatePaid { get; set; }
         public Nullable<System.DateTime> DateSent { get; set; }

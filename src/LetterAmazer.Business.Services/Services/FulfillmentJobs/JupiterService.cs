@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Web;
 using System.Xml;
@@ -9,6 +10,8 @@ using Ionic.Zip;
 using LetterAmazer.Business.Services.Domain.Common;
 using LetterAmazer.Business.Services.Domain.Fulfillments;
 using LetterAmazer.Business.Services.Domain.Letters;
+using LetterAmazer.Business.Services.Domain.Orders;
+using LetterAmazer.Business.Services.Domain.Products;
 using LetterAmazer.Business.Services.Services.Fulfillment;
 using LetterAmazer.Business.Utils.Helpers;
 using log4net;
@@ -23,14 +26,20 @@ namespace LetterAmazer.Business.Services.Services.FulfillmentJobs
         private string username;
         private string password;
         private string serviceUrl;
+        private ILetterService letterService;
+        private IOrderService orderService;
 
-        public JupiterService(string username, string password, string serviceUrl, string zipStoragePath, string pdfStoragePath)
+        public JupiterService(string username, string password, 
+            string serviceUrl, string zipStoragePath, string pdfStoragePath,
+            ILetterService letterService, IOrderService orderService)
         {
             this.serviceUrl = serviceUrl;
             this.username = username;
             this.password = password;
             this.zipStoragePath = zipStoragePath;
             this.pdfStoragePath = pdfStoragePath;
+            this.letterService = letterService;
+            this.orderService = orderService;
 
             if (this.zipStoragePath.StartsWith("~")) // relative path
             {
@@ -45,7 +54,7 @@ namespace LetterAmazer.Business.Services.Services.FulfillmentJobs
         public void Process(IEnumerable<Letter> letters)
         {
             string zipPath = CreateZip(letters);
-            logger.Debug("zip path should be sent to amazone: " + zipPath);
+            logger.Debug("Zip path should be sent to Amazon: " + zipPath);
             string zipName = Path.GetFileName(zipPath);
             var s3 = GetS3Access();
 
@@ -62,6 +71,9 @@ namespace LetterAmazer.Business.Services.Services.FulfillmentJobs
 
                 amazonService.SendSQSMessage(sqsDoc.ToString(), s3.PostQueue);
             }
+
+            orderService.UpdateByLetters(letters);
+
         }
 
         private XDocument DeliveryXml(string md5, string bucket, string description, string zipFileName)

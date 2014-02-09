@@ -133,6 +133,7 @@
     <Compile Include="Domain\Products\ProductDetails\LetterSize.cs" />
     <Compile Include="Domain\Products\ProductDetails\LetterType.cs" />
     <Compile Include="Domain\Products\ProductDetails\ProductType.cs" />
+    <Compile Include="Domain\Session\ISessionService.cs" />
     <Compile Include="Domain\Shipping\DeliveryOption.cs" />
     <Compile Include="Domain\Shipping\IShippingMethodService.cs" />
     <Compile Include="Domain\Shipping\ShippingMethod.cs" />
@@ -185,6 +186,7 @@
     <Compile Include="Services\PaymentMethods\Implementations\PaypalMethod.cs" />
     <Compile Include="Services\PaymentService.cs" />
     <Compile Include="Services\PriceService.cs" />
+    <Compile Include="Services\SessionService.cs" />
     <Compile Include="Services\ShippingService.cs" />
   </ItemGroup>
   <ItemGroup />

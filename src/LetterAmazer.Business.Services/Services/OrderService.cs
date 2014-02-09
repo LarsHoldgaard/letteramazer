@@ -38,7 +38,7 @@ namespace LetterAmazer.Business.Services.Services
         public Order Create(Order order)
         {
             DbOrders dborder = new DbOrders();
-            dborder.Guid = Guid.NewGuid().ToString();
+            dborder.Guid = Guid.NewGuid();
             dborder.OrderCode = GenerateOrderCode();
             dborder.OrderStatus = (int)OrderStatus.Created;
             dborder.DateCreated = DateTime.Now;
@@ -111,7 +111,7 @@ namespace LetterAmazer.Business.Services.Services
                 throw new BusinessException("Order is null");
             }
 
-            dborder.Guid = order.Guid.ToString();
+            dborder.Guid = order.Guid;
             dborder.OrderCode = order.OrderCode;
             dborder.OrderStatus = (int)order.OrderStatus;
             dborder.DateUpdated = DateTime.Now;
@@ -129,11 +129,22 @@ namespace LetterAmazer.Business.Services.Services
             {
                 dbOrders = dbOrders.Where(c => specification.OrderStatus.Contains((OrderStatus) c.OrderStatus));
             }
+            if (specification.FromDate != null)
+            {
+                dbOrders = dbOrders.Where(c => c.DateCreated >= specification.FromDate);
+            }
+            if (specification.ToDate != null)
+            {
+                dbOrders = dbOrders.Where(c => c.DateCreated <= specification.ToDate);
+            }
+            if (specification.UserId > 0)
+            {
+                dbOrders = dbOrders.Where(c => c.CustomerId == specification.UserId);
+            }
 
             var ord = dbOrders.Skip(specification.Skip).Take(specification.Take).ToList();
             return orderFactory.Create(ord);
         }
-
 
         public Order GetOrderById(int orderId)
         {
@@ -163,6 +174,7 @@ namespace LetterAmazer.Business.Services.Services
             {
                 dbOrderItems = dbOrderItems.Where(c => c.OrderId == specification.OrderId);
             }
+            
 
             return orderFactory.Create(
                 dbOrderItems.Skip(specification.Skip).Take(specification.Take).ToList());
@@ -176,6 +188,35 @@ namespace LetterAmazer.Business.Services.Services
             Repository.SaveChanges();
         }
 
+        public void UpdateByLetters(IEnumerable<Letter> letters)
+        {
+            foreach (var letter in letters)
+            {
+                letter.LetterStatus = LetterStatus.Sent;
+                letterService.Update(letter);
+
+                var order = GetOrderById(letter.OrderId);
+
+                bool isOrderDone = true;
+                foreach (var orderLine in order.OrderLines)
+                {
+                    // if this is the case, there are multiple lines and one of them is not sent yet, which means the order is in progress
+                    if (orderLine.ProductType == ProductType.Order && ((Letter)orderLine.BaseProduct).LetterStatus == LetterStatus.Created)
+                    {
+                        isOrderDone = false;
+                    }
+                }
+                if (isOrderDone)
+                {
+                    order.OrderStatus = OrderStatus.Done;
+                }
+                else
+                {
+                    order.OrderStatus = OrderStatus.InProgress;
+                }
+                Update(order);
+            }
+        }
 
         #region Private helper methods
         private string GenerateOrderCode()
