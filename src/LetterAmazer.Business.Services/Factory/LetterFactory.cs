@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LetterAmazer.Business.Services.Domain.Customers;
 using LetterAmazer.Business.Services.Domain.Letters;
+using LetterAmazer.Business.Services.Domain.Products.ProductDetails;
 using LetterAmazer.Business.Services.Factory.Interfaces;
 using LetterAmazer.Business.Services.Services;
 using LetterAmazer.Data.Repository.Data;
@@ -54,7 +55,7 @@ namespace LetterAmazer.Business.Services.Factory
                     dbLetter.ToAddress_Address2,
                     dbLetter.ToAddress_Postal,
                     dbLetter.ToAddress_City,
-                    dbLetter.ToAddress_Country.Value,
+                    dbLetter.ToAddress_Country,
                     dbLetter.ToAddress_AttPerson,
                     dbLetter.ToAddress_FirstName,
                     dbLetter.ToAddress_LastName,
@@ -64,7 +65,16 @@ namespace LetterAmazer.Business.Services.Factory
                     dbLetter.ToAddress_CompanyName
                 ),
                 OfficeProductId = dbLetter.OfficeProductId,
-                OrderId = dbLetter.OrderId
+                OrderId = dbLetter.OrderId,
+                LetterDetails = new LetterDetails()
+                {
+                    LetterColor = (LetterColor)dbLetter.LetterColor,
+                    LetterPaperWeight = (LetterPaperWeight)dbLetter.LetterPaperWeight,
+                    LetterSize = (LetterSize)dbLetter.LetterSize,
+                    LetterProcessing = (LetterProcessing)dbLetter.LetterProcessing,
+                    LetterType = (LetterType)dbLetter.LetterType,
+
+                }
             };
 
             return letter;

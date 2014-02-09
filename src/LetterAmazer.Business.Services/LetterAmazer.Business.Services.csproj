@@ -84,6 +84,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Domain\Common\S3Access.cs" />
+    <Compile Include="Domain\Letters\LetterDetails.cs" />
     <Compile Include="Domain\Notifications\Mail\DebugEmailSender.cs" />
     <Compile Include="Domain\Notifications\Mail\EmailSenderException.cs" />
     <Compile Include="Domain\Notifications\Mail\EmailTemplate.cs" />
@@ -117,6 +118,7 @@
     <Compile Include="Domain\Offices\OfficeSpecification.cs" />
     <Compile Include="Domain\Offices\ProductScope.cs" />
     <Compile Include="Domain\Orders\OrderLineSpecification.cs" />
+    <Compile Include="Domain\Orders\OrderType.cs" />
     <Compile Include="Domain\Products\BaseProduct.cs" />
     <Compile Include="Domain\Orders\Order.cs" />
     <Compile Include="Domain\Orders\OrderLine.cs" />
@@ -181,6 +183,7 @@
     <Compile Include="Services\OfficeService.cs" />
     <Compile Include="Services\OrderService.cs" />
     <Compile Include="Services\PaymentMethods\Implementations\BitcoinMethod.cs" />
+    <Compile Include="Services\PaymentMethods\Implementations\CouponMethod.cs" />
     <Compile Include="Services\PaymentMethods\Implementations\CreditsMethod.cs" />
     <Compile Include="Services\PaymentMethods\Implementations\InvoiceMethod.cs" />
     <Compile Include="Services\PaymentMethods\Implementations\PaypalMethod.cs" />

@@ -19,7 +19,7 @@ namespace LetterAmazer.Business.Services.Domain.Letters
         public Customer Customer { get; set; }
         public LetterStatus LetterStatus { get; set; }
         public int OfficeProductId { get; set; }
-        public LetterContent LetterContent { get; set; } 
-        
+        public LetterContent LetterContent { get; set; }
+        public LetterDetails LetterDetails { get; set; }
     }
 }

@@ -36,7 +36,7 @@ namespace LetterAmazer.Data.Repository.Data
         public string ToAddress_AttPerson { get; set; }
         public string ToAddress_City { get; set; }
         public string ToAddress_CompanyName { get; set; }
-        public Nullable<int> ToAddress_Country { get; set; }
+        public int ToAddress_Country { get; set; }
         public string ToAddress_FirstName { get; set; }
         public string ToAddress_LastName { get; set; }
         public string ToAddress_Postal { get; set; }
@@ -51,6 +51,11 @@ namespace LetterAmazer.Data.Repository.Data
         public string FromAddress_State { get; set; }
         public string FromAddress_Co { get; set; }
         public int OrderId { get; set; }
+        public int LetterColor { get; set; }
+        public int LetterPaperWeight { get; set; }
+        public int LetterProcessing { get; set; }
+        public int LetterSize { get; set; }
+        public int LetterType { get; set; }
     
         public virtual DbCountries DbCountries { get; set; }
         public virtual DbCountries DbCountries1 { get; set; }

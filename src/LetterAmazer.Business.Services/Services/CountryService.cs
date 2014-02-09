@@ -67,8 +67,16 @@ namespace LetterAmazer.Business.Services.Services
             {
                 dbcountries = repository.DbCountries.Where(c => c.InsideEu.Value);
             }
-
-            return countryFactory.Create(dbcountries.ToList());
+            if (!string.IsNullOrEmpty(specification.CountryCode))
+            {
+                dbcountries = repository.DbCountries.Where(c => c.CountryCode == specification.CountryCode);
+            }
+            if (!string.IsNullOrEmpty(specification.CountryName))
+            {
+                dbcountries = repository.DbCountries.Where(c => c.CountryName == specification.CountryName);
+            }
+            
+            return countryFactory.Create(dbcountries.Skip(specification.Skip).Take(specification.Take).ToList());
         }
     }
 }

@@ -68,6 +68,13 @@ namespace LetterAmazer.Business.Services.Services
             dbletter.LetterContent_WrittenContent = letter.LetterContent.WrittenContent;
             dbletter.LetterStatus = (int)letter.LetterStatus;
             dbletter.OfficeProductId = letter.OfficeProductId;
+
+            dbletter.LetterColor = (int)letter.LetterDetails.LetterColor;
+            dbletter.LetterPaperWeight = (int)letter.LetterDetails.LetterPaperWeight;
+            dbletter.LetterProcessing = (int)letter.LetterDetails.LetterProcessing;
+            dbletter.LetterType = (int)letter.LetterDetails.LetterType;
+            dbletter.LetterSize = (int)letter.LetterDetails.LetterSize;
+
             dbletter.ToAddress_Address = letter.ToAddress.Address1;
             dbletter.ToAddress_Address2 = letter.ToAddress.Address2;
             dbletter.ToAddress_AttPerson = letter.ToAddress.AttPerson;
@@ -109,6 +116,13 @@ namespace LetterAmazer.Business.Services.Services
             dbletter.LetterContent_WrittenContent = letter.LetterContent.WrittenContent;
             dbletter.LetterStatus = (int)letter.LetterStatus;
             dbletter.OfficeProductId = letter.OfficeProductId;
+
+            dbletter.LetterColor = (int)letter.LetterDetails.LetterColor;
+            dbletter.LetterPaperWeight = (int)letter.LetterDetails.LetterPaperWeight;
+            dbletter.LetterProcessing = (int)letter.LetterDetails.LetterProcessing;
+            dbletter.LetterType = (int)letter.LetterDetails.LetterType;
+            dbletter.LetterSize = (int)letter.LetterDetails.LetterSize;
+
             dbletter.ToAddress_Address = letter.ToAddress.Address1;
             dbletter.ToAddress_Address2 = letter.ToAddress.Address2;
             dbletter.ToAddress_AttPerson = letter.ToAddress.AttPerson;

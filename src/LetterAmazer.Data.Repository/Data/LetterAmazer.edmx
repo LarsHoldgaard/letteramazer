@@ -31,16 +31,16 @@
             <End Role="DbCustomers" EntitySet="DbCustomers" />
             <End Role="DbLetters" EntitySet="DbLetters" />
           </AssociationSet>
-          <AssociationSet Name="FK_Letters_Countries" Association="LetterAmazer.Store.FK_Letters_Countries">
-            <End Role="DbCountries" EntitySet="DbCountries" />
-            <End Role="DbLetters" EntitySet="DbLetters" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Letters_Countries1" Association="LetterAmazer.Store.FK_Letters_Countries1">
+          <AssociationSet Name="FK_Letters_FromCountry" Association="LetterAmazer.Store.FK_Letters_FromCountry">
             <End Role="DbCountries" EntitySet="DbCountries" />
             <End Role="DbLetters" EntitySet="DbLetters" />
           </AssociationSet>
           <AssociationSet Name="FK_Letters_OfficeProducts" Association="LetterAmazer.Store.FK_Letters_OfficeProducts">
             <End Role="DbOfficeProducts" EntitySet="DbOfficeProducts" />
+            <End Role="DbLetters" EntitySet="DbLetters" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Letters_ToCountry" Association="LetterAmazer.Store.FK_Letters_ToCountry">
+            <End Role="DbCountries" EntitySet="DbCountries" />
             <End Role="DbLetters" EntitySet="DbLetters" />
           </AssociationSet>
           <AssociationSet Name="FK_OfficeProducts_Countries" Association="LetterAmazer.Store.FK_OfficeProducts_Countries">
@@ -179,15 +179,15 @@
           <Property Name="FromAddress_LastName" Type="nvarchar" MaxLength="150" />
           <Property Name="FromAddress_Postal" Type="nvarchar" MaxLength="150" />
           <Property Name="FromAddress_VatNr" Type="nvarchar" MaxLength="159" />
-          <Property Name="ToAddress_Address" Type="nvarchar" MaxLength="150" />
+          <Property Name="ToAddress_Address" Type="nvarchar" Nullable="false" MaxLength="150" />
           <Property Name="ToAddress_Address2" Type="nvarchar" MaxLength="150" />
           <Property Name="ToAddress_AttPerson" Type="nvarchar" MaxLength="150" />
-          <Property Name="ToAddress_City" Type="nvarchar" MaxLength="150" />
+          <Property Name="ToAddress_City" Type="nvarchar" Nullable="false" MaxLength="150" />
           <Property Name="ToAddress_CompanyName" Type="nvarchar" MaxLength="150" />
-          <Property Name="ToAddress_Country" Type="int" />
+          <Property Name="ToAddress_Country" Type="int" Nullable="false" />
           <Property Name="ToAddress_FirstName" Type="nvarchar" MaxLength="150" />
           <Property Name="ToAddress_LastName" Type="nvarchar" MaxLength="150" />
-          <Property Name="ToAddress_Postal" Type="nvarchar" MaxLength="150" />
+          <Property Name="ToAddress_Postal" Type="nvarchar" Nullable="false" MaxLength="150" />
           <Property Name="ToAddress_VatNr" Type="nvarchar" MaxLength="159" />
           <Property Name="LetterContent_Path" Type="nvarchar" MaxLength="250" />
           <Property Name="LetterContent_WrittenContent" Type="nvarchar" />
@@ -199,6 +199,11 @@
           <Property Name="FromAddress_State" Type="nvarchar" MaxLength="150" />
           <Property Name="FromAddress_Co" Type="nvarchar" MaxLength="150" />
           <Property Name="OrderId" Type="int" Nullable="false" />
+          <Property Name="LetterColor" Type="int" Nullable="false" />
+          <Property Name="LetterPaperWeight" Type="int" Nullable="false" />
+          <Property Name="LetterProcessing" Type="int" Nullable="false" />
+          <Property Name="LetterSize" Type="int" Nullable="false" />
+          <Property Name="LetterType" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="DbOfficeProductDetails">
           <Key>
@@ -325,19 +330,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Letters_Countries">
-          <End Role="DbCountries" Type="LetterAmazer.Store.DbCountries" Multiplicity="0..1" />
-          <End Role="DbLetters" Type="LetterAmazer.Store.DbLetters" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="DbCountries">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="DbLetters">
-              <PropertyRef Name="ToAddress_Country" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Letters_Countries1">
+        <Association Name="FK_Letters_FromCountry">
           <End Role="DbCountries" Type="LetterAmazer.Store.DbCountries" Multiplicity="0..1" />
           <End Role="DbLetters" Type="LetterAmazer.Store.DbLetters" Multiplicity="*" />
           <ReferentialConstraint>
@@ -358,6 +351,18 @@
             </Principal>
             <Dependent Role="DbLetters">
               <PropertyRef Name="OfficeProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Letters_ToCountry">
+          <End Role="DbCountries" Type="LetterAmazer.Store.DbCountries" Multiplicity="1" />
+          <End Role="DbLetters" Type="LetterAmazer.Store.DbLetters" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DbCountries">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DbLetters">
+              <PropertyRef Name="ToAddress_Country" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -516,11 +521,11 @@
             <End Role="DbCountries" EntitySet="DbCountries" />
             <End Role="DbCustomers" EntitySet="DbCustomers" />
           </AssociationSet>
-          <AssociationSet Name="FK_Letters_Countries" Association="LetterAmazer.FK_Letters_Countries">
+          <AssociationSet Name="FK_Letters_FromCountry" Association="LetterAmazer.FK_Letters_FromCountry">
             <End Role="DbCountries" EntitySet="DbCountries" />
             <End Role="DbLetters" EntitySet="DbLetters" />
           </AssociationSet>
-          <AssociationSet Name="FK_Letters_Countries1" Association="LetterAmazer.FK_Letters_Countries1">
+          <AssociationSet Name="FK_Letters_ToCountry" Association="LetterAmazer.FK_Letters_ToCountry">
             <End Role="DbCountries" EntitySet="DbCountries" />
             <End Role="DbLetters" EntitySet="DbLetters" />
           </AssociationSet>
@@ -605,8 +610,8 @@
           <Property Name="Population" Type="String" MaxLength="250" Unicode="false" FixedLength="false" />
           <Property Name="InsideEu" Type="Boolean" />
           <NavigationProperty Name="DbCustomers" Relationship="LetterAmazer.FK_Customers_Countries" FromRole="DbCountries" ToRole="DbCustomers" />
-          <NavigationProperty Name="DbLetters" Relationship="LetterAmazer.FK_Letters_Countries" FromRole="DbCountries" ToRole="DbLetters" />
-          <NavigationProperty Name="DbLetters1" Relationship="LetterAmazer.FK_Letters_Countries1" FromRole="DbCountries" ToRole="DbLetters" />
+          <NavigationProperty Name="DbLetters" Relationship="LetterAmazer.FK_Letters_FromCountry" FromRole="DbCountries" ToRole="DbLetters" />
+          <NavigationProperty Name="DbLetters1" Relationship="LetterAmazer.FK_Letters_ToCountry" FromRole="DbCountries" ToRole="DbLetters" />
           <NavigationProperty Name="DbOfficeProducts" Relationship="LetterAmazer.FK_OfficeProducts_Countries" FromRole="DbCountries" ToRole="DbOfficeProducts" />
           <NavigationProperty Name="DbOffices" Relationship="LetterAmazer.FK_Offices_Countries" FromRole="DbCountries" ToRole="DbOffices" />
           <NavigationProperty Name="DbShops" Relationship="LetterAmazer.FK_Shops_Countries" FromRole="DbCountries" ToRole="DbShops" />
@@ -683,15 +688,15 @@
           <Property Name="FromAddress_LastName" Type="String" MaxLength="150" Unicode="true" FixedLength="false" />
           <Property Name="FromAddress_Postal" Type="String" MaxLength="150" Unicode="true" FixedLength="false" />
           <Property Name="FromAddress_VatNr" Type="String" MaxLength="159" Unicode="true" FixedLength="false" />
-          <Property Name="ToAddress_Address" Type="String" MaxLength="150" Unicode="true" FixedLength="false" />
+          <Property Name="ToAddress_Address" Type="String" Nullable="false" MaxLength="150" Unicode="true" FixedLength="false" />
           <Property Name="ToAddress_Address2" Type="String" MaxLength="150" Unicode="true" FixedLength="false" />
           <Property Name="ToAddress_AttPerson" Type="String" MaxLength="150" Unicode="true" FixedLength="false" />
-          <Property Name="ToAddress_City" Type="String" MaxLength="150" Unicode="true" FixedLength="false" />
+          <Property Name="ToAddress_City" Type="String" Nullable="false" MaxLength="150" Unicode="true" FixedLength="false" />
           <Property Name="ToAddress_CompanyName" Type="String" MaxLength="150" Unicode="true" FixedLength="false" />
-          <Property Name="ToAddress_Country" Type="Int32" />
+          <Property Name="ToAddress_Country" Type="Int32" Nullable="false" />
           <Property Name="ToAddress_FirstName" Type="String" MaxLength="150" Unicode="true" FixedLength="false" />
           <Property Name="ToAddress_LastName" Type="String" MaxLength="150" Unicode="true" FixedLength="false" />
-          <Property Name="ToAddress_Postal" Type="String" MaxLength="150" Unicode="true" FixedLength="false" />
+          <Property Name="ToAddress_Postal" Type="String" Nullable="false" MaxLength="150" Unicode="true" FixedLength="false" />
           <Property Name="ToAddress_VatNr" Type="String" MaxLength="159" Unicode="true" FixedLength="false" />
           <Property Name="LetterContent_Path" Type="String" MaxLength="250" Unicode="true" FixedLength="false" />
           <Property Name="LetterContent_WrittenContent" Type="String" MaxLength="4000" Unicode="true" FixedLength="false" />
@@ -703,8 +708,13 @@
           <Property Name="FromAddress_State" Type="String" MaxLength="150" Unicode="true" FixedLength="false" />
           <Property Name="FromAddress_Co" Type="String" MaxLength="150" Unicode="true" FixedLength="false" />
           <Property Name="OrderId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="DbCountries" Relationship="LetterAmazer.FK_Letters_Countries" FromRole="DbLetters" ToRole="DbCountries" />
-          <NavigationProperty Name="DbCountries1" Relationship="LetterAmazer.FK_Letters_Countries1" FromRole="DbLetters" ToRole="DbCountries" />
+          <Property Name="LetterColor" Type="Int32" Nullable="false" />
+          <Property Name="LetterPaperWeight" Type="Int32" Nullable="false" />
+          <Property Name="LetterProcessing" Type="Int32" Nullable="false" />
+          <Property Name="LetterSize" Type="Int32" Nullable="false" />
+          <Property Name="LetterType" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="DbCountries" Relationship="LetterAmazer.FK_Letters_FromCountry" FromRole="DbLetters" ToRole="DbCountries" />
+          <NavigationProperty Name="DbCountries1" Relationship="LetterAmazer.FK_Letters_ToCountry" FromRole="DbLetters" ToRole="DbCountries" />
           <NavigationProperty Name="DbCustomers" Relationship="LetterAmazer.FK_Letter_Customer" FromRole="DbLetters" ToRole="DbCustomers" />
           <NavigationProperty Name="DbOfficeProducts" Relationship="LetterAmazer.FK_Letters_OfficeProducts" FromRole="DbLetters" ToRole="DbOfficeProducts" />
           <NavigationProperty Name="DbOrderItems" Relationship="LetterAmazer.FK_OrderItem_Letter" FromRole="DbLetters" ToRole="DbOrderItems" />
@@ -828,19 +838,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Letters_Countries">
-          <End Role="DbCountries" Type="LetterAmazer.DbCountries" Multiplicity="0..1" />
-          <End Role="DbLetters" Type="LetterAmazer.DbLetters" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="DbCountries">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="DbLetters">
-              <PropertyRef Name="ToAddress_Country" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Letters_Countries1">
+        <Association Name="FK_Letters_FromCountry">
           <End Role="DbCountries" Type="LetterAmazer.DbCountries" Multiplicity="0..1" />
           <End Role="DbLetters" Type="LetterAmazer.DbLetters" Multiplicity="*" />
           <ReferentialConstraint>
@@ -849,6 +847,18 @@
             </Principal>
             <Dependent Role="DbLetters">
               <PropertyRef Name="FromAddress_Country" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Letters_ToCountry">
+          <End Role="DbCountries" Type="LetterAmazer.DbCountries" Multiplicity="1" />
+          <End Role="DbLetters" Type="LetterAmazer.DbLetters" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DbCountries">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DbLetters">
+              <PropertyRef Name="ToAddress_Country" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1140,6 +1150,11 @@
                 <ScalarProperty Name="FromAddress_State" ColumnName="FromAddress_State" />
                 <ScalarProperty Name="FromAddress_Co" ColumnName="FromAddress_Co" />
                 <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+                <ScalarProperty Name="LetterColor" ColumnName="LetterColor" />
+                <ScalarProperty Name="LetterPaperWeight" ColumnName="LetterPaperWeight" />
+                <ScalarProperty Name="LetterProcessing" ColumnName="LetterProcessing" />
+                <ScalarProperty Name="LetterSize" ColumnName="LetterSize" />
+                <ScalarProperty Name="LetterType" ColumnName="LetterType" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -1,4 +1,5 @@
-﻿using LetterAmazer.Business.Services.Domain.Customers;
+﻿using LetterAmazer.Business.Services.Domain.Coupons;
+using LetterAmazer.Business.Services.Domain.Customers;
 using LetterAmazer.Business.Services.Domain.Orders;
 using LetterAmazer.Business.Services.Domain.Payments;
 using LetterAmazer.Business.Services.Domain.Pricing;
@@ -14,42 +15,97 @@ namespace LetterAmazer.Business.Services.Services
 {
     public class PaymentService : IPaymentService
     {
+        private ICustomerService customerService;
         private IPriceService priceService;
+        private ICouponService couponService;
 
-        public PaymentService(IPriceService priceService)
+
+        public PaymentService(IPriceService priceService, ICustomerService customerService,ICouponService couponService)
         {
             this.priceService = priceService;
+            this.customerService = customerService;
+            this.couponService = couponService;
         }
 
-        public void Process(Domain.Payments.PaymentMethods method, Order order)
+        public void Process(List<Domain.Payments.PaymentMethods> methods, Order order)
         {
-            IPaymentMethod selectedPaymentMethod = null;
-            if (method == Domain.Payments.PaymentMethods.Credits)
-            {
-                selectedPaymentMethod = new CreditsMethod();
-            }
-            else if (method == Domain.Payments.PaymentMethods.Bitcoin)
-            {
-                selectedPaymentMethod = new BitcoinMethod();
-            }
-            else
-            {
-                selectedPaymentMethod = new PaypalMethod(priceService);
-            }
+            var usedMethods = getPaymentMethods(methods);
 
-            selectedPaymentMethod.Process(order);
-
+            foreach (var method in usedMethods)
+            {
+                method.Process(order);
+            }
         }
+
+       
+
         public List<Domain.Payments.PaymentMethods> GetPaymentMethodsBySpecification(PaymentMethodSpecification specification)
         {
-            var methods = new List<Domain.Payments.PaymentMethods>
-            {
-                Domain.Payments.PaymentMethods.Bitcoin,
-                Domain.Payments.PaymentMethods.Invoice,
-                Domain.Payments.PaymentMethods.PayPal
-            };
+            var paymentMethods = new List<Domain.Payments.PaymentMethods>();
 
-            return methods;
+            // Credits alway useable for customers with credits
+            if (specification.CustomerId > 0)
+            {
+                var customer = customerService.GetCustomerById(specification.CustomerId);
+                if (customer.Credit > customer.CreditLimit)
+                {
+                    paymentMethods.Add(Domain.Payments.PaymentMethods.Credits);
+                }
+            }
+
+            if (specification.OrderType != null)
+            {
+                if (specification.OrderType.Value == OrderType.Credits)
+                {
+                    paymentMethods.Add(Domain.Payments.PaymentMethods.Invoice);   
+                }
+            }
+
+            // These payment methods are always useable
+            paymentMethods.Add(Domain.Payments.PaymentMethods.Bitcoin);
+            paymentMethods.Add(Domain.Payments.PaymentMethods.PayPal);
+            paymentMethods.Add(Domain.Payments.PaymentMethods.Coupon);
+
+
+            return paymentMethods;
         }
+
+
+        #region Private helpers
+
+        /// <summary>
+        /// List of payment methods being added. SORTING IS IMPORTANT
+        /// </summary>
+        /// <param name="methods"></param>
+        /// <returns></returns>
+        private IEnumerable<IPaymentMethod> getPaymentMethods(List<Domain.Payments.PaymentMethods> methods)
+        {
+            List<IPaymentMethod> selectedPaymentMethods = new List<IPaymentMethod>();
+
+            if (methods.Contains(Domain.Payments.PaymentMethods.Credits))
+            {
+                selectedPaymentMethods.Add(new CreditsMethod());
+            }
+            if (methods.Contains(Domain.Payments.PaymentMethods.Coupon))
+            {
+                selectedPaymentMethods.Add(new CouponMethod());
+            }
+            if (methods.Contains(Domain.Payments.PaymentMethods.Bitcoin))
+            {
+                selectedPaymentMethods.Add(new BitcoinMethod());
+            }
+            if (methods.Contains(Domain.Payments.PaymentMethods.PayPal))
+            {
+                selectedPaymentMethods.Add(new PaypalMethod(priceService));
+            }
+            if (methods.Contains(Domain.Payments.PaymentMethods.Invoice))
+            {
+                selectedPaymentMethods.Add(new InvoiceMethod());
+            }
+
+            return selectedPaymentMethods;
+        }
+
+        #endregion
     }
 }

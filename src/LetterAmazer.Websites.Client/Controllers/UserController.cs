@@ -1,4 +1,6 @@
-﻿using LetterAmazer.Business.Services.Domain.AddressInfos;
+﻿using System.Linq;
+using LetterAmazer.Business.Services.Domain.AddressInfos;
+using LetterAmazer.Business.Services.Domain.Countries;
 using LetterAmazer.Business.Services.Domain.Coupons;
 using LetterAmazer.Business.Services.Domain.Letters;
 using LetterAmazer.Business.Services.Domain.Orders;
@@ -26,14 +28,17 @@ namespace LetterAmazer.Websites.Client.Controllers
         private IPaymentService paymentService;
         private ILetterService letterService;
         private ICouponService couponService;
+        private ICountryService countryService;
+
         public UserController(IOrderService orderService, IPaymentService paymentService, 
-            ILetterService letterService, ICouponService couponService, ISessionService sessionService)
+            ILetterService letterService, ICouponService couponService, ISessionService sessionService, ICountryService countryService)
         {
             this.orderService = orderService;
             this.paymentService = paymentService;
             this.letterService = letterService;
             this.couponService = couponService;
             this.sessionService = sessionService;
+            this.countryService = countryService;
         }
 
         public ActionResult Index(int? page, ProfileViewModel model)
@@ -67,24 +72,18 @@ namespace LetterAmazer.Websites.Client.Controllers
                 ValidateInput();
 
                 Order order = new Order();
-
+                order.Customer = sessionService.Customer;
                 
-
-                order.Email = model.Email;
-                order.Phone = model.Phone;
-                order.PaymentMethod = CreditsMethod.NAME;
-                order.CouponCode = model.VoucherCode;
-                order.Customer = SecurityUtility.CurrentUser;
-                order.CustomerId = SecurityUtility.CurrentUser.Id;
-
                 AddressInfo addressInfo = new AddressInfo();
                 addressInfo.Address1 = model.DestinationAddress;
                 addressInfo.FirstName = model.RecipientName;
                 addressInfo.City = model.DestinationCity;
-                //addressInfo.Country = model.DestinationCountry;// TODO: Fix country
-                addressInfo.Postal = model.ZipCode;
+                addressInfo.Country = countryService.GetCountryBySpecificaiton(
+                    new CountrySpecification() 
+                        {CountryCode = model.DestinationCountryCode }).FirstOrDefault();// TODO: Fix country
+                addressInfo.PostalCode = model.ZipCode;
 
-                LetterDetail letterDetail = new LetterDetail();
+                LetterDe letterDetail = new LetterDetail();
                 letterDetail.Color = (int)LetterColor.Color;
                 letterDetail.LetterTreatment = (int)LetterProcessing.Dull;
                 letterDetail.LetterWeight = (int) LetterPaperWeight.Eight;
