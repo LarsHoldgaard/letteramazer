@@ -46,7 +46,8 @@ namespace LetterAmazer.Business.Services.Factory
                     dbLetter.FromAddress_LastName,
                     dbLetter.FromAddress_VatNr,
                     dbLetter.FromAddress_Co,
-                    dbLetter.FromAddress_State
+                    dbLetter.FromAddress_State,
+                    dbLetter.FromAddress_CompanyName
                 ),
                 ToAddress =  AddressFactory.Create(
                     dbLetter.ToAddress_Address,
@@ -59,7 +60,8 @@ namespace LetterAmazer.Business.Services.Factory
                     dbLetter.ToAddress_LastName,
                     dbLetter.ToAddress_VatNr,
                     dbLetter.ToAddress_Co,
-                    dbLetter.ToAddress_State
+                    dbLetter.ToAddress_State,
+                    dbLetter.ToAddress_CompanyName
                 ),
                 OfficeProductId = dbLetter.OfficeProductId,
                 OrderId = dbLetter.OrderId

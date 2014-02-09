@@ -8,6 +8,6 @@ namespace LetterAmazer.Business.Services.Factory.Interfaces
         ICountryService CountryService { get; set; }
 
         AddressInfo Create(string address1, string address2, string postal, string city, int countryid,
-            string attPerson, string firstName, string lastName, string vatNr, string co, string state);
+            string attPerson, string firstName, string lastName, string vatNr, string co, string state, string organisation);
     }
 }

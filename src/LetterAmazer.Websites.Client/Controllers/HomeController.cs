@@ -120,7 +120,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                 customer.CustomerInfo = new AddressInfo();
                 customer.CustomerInfo.FirstName = model.FirstName;
                 customer.CustomerInfo.LastName = model.LastName;
-                customer.CustomerInfo.CompanyName = model.Organization;
+                customer.CustomerInfo. = model.Organization;
                 customerService.CreateCustomer(customer);
 
                 FormsAuthentication.SetAuthCookie(customer.Id.ToString(), false);

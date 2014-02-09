@@ -14,7 +14,7 @@ namespace LetterAmazer.Business.Services.Factory
         }
 
         public AddressInfo Create(string address1, string address2, string postal, string city, int countryid,
-            string attPerson, string firstName, string lastName, string vatNr, string co, string state)
+            string attPerson, string firstName, string lastName, string vatNr, string co, string state, string organisation)
         {
             var country = CountryService.GetCountryById(countryid);
 
@@ -28,7 +28,8 @@ namespace LetterAmazer.Business.Services.Factory
                 FirstName = firstName,
                 LastName = lastName,
                 PostalCode = postal,
-                VatNr = vatNr
+                VatNr = vatNr,
+                Organisation = organisation
             };
         }
     }

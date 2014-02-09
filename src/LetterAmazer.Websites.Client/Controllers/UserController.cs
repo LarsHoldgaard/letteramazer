@@ -67,6 +67,9 @@ namespace LetterAmazer.Websites.Client.Controllers
                 ValidateInput();
 
                 Order order = new Order();
+
+                
+
                 order.Email = model.Email;
                 order.Phone = model.Phone;
                 order.PaymentMethod = CreditsMethod.NAME;
