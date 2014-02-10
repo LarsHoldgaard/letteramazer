@@ -104,9 +104,9 @@ namespace LetterAmazer.Websites.Client.Controllers
                 {
                     string tempKeyName = string.Format("{0}/{1}/{2}.pdf", DateTime.Now.Year, DateTime.Now.Month, Guid.NewGuid().ToString());
                     string tempPath = GetAbsoluteFile(tempKeyName);
-                    PdfHelper m = new PdfHelper();
+                    
                     var convertedText = HelperMethods.Utf8FixString(model.WriteContent);
-                    m.ConvertToPdf(tempPath, convertedText);
+                    PdfHelper.ConvertToPdf(tempPath, convertedText);
                     letter.LetterContent.Path = tempKeyName;
                     letter.LetterContent.WrittenContent = model.WriteContent;
                 }
@@ -115,15 +115,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                     letter.LetterContent.Content = System.IO.File.ReadAllBytes(GetAbsoluteFile(letter.LetterContent.Path));
                 }
 
-                orderItem.Letter = letter;
-                orderItem.Order = order;
-                order.OrderItems.Add(orderItem);
-
-                OrderContext orderContext = new OrderContext();
-                orderContext.Order = order;
-                orderContext.SignUpNewsletter = model.SignUpNewsletter;
-                orderContext.CurrentCulture = RouteData.Values["culture"].ToString();
-                string redirectUrl = orderService.CreateOrder(orderContext);
+                string redirectUrl = paymentService.Process(null, order);
                 logger.Debug("redirectUrl: " + redirectUrl);
                 return Redirect(redirectUrl);
             }
@@ -197,10 +189,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                 decimal credits = 0;
                 if (sessionService.Customer != null)
                 {
-                    isValidCredits = customerService.IsValidCredits(SecurityUtility.CurrentUser.Id, price);
-                    logger.DebugFormat("user id: {0}", SecurityUtility.CurrentUser.Id);
-                    credits = customerService.GetAvailableCredits(SecurityUtility.CurrentUser.Id);
-                    logger.DebugFormat("credits: {0}", credits);
+                    credits = sessionService.Customer.CreditsLeft;
                 }
 
                 return Json(new {
@@ -234,7 +223,7 @@ namespace LetterAmazer.Websites.Client.Controllers
             try
             {
                 decimal couponValueLeft = 0.0m;
-                var coupon = couponService.GetCoupon(code);
+                var coupon = couponService.GetCouponBySpecification(new CouponSpecification() {Code = code}).FirstOrDefault();
                 if (coupon != null)
                 {
                     couponValueLeft = coupon.CouponValueLeft;
@@ -254,9 +243,9 @@ namespace LetterAmazer.Websites.Client.Controllers
 
             content = HttpUtility.HtmlDecode(content);
             content = HttpUtility.UrlDecode(content);
-            PdfHelper m = new PdfHelper();
+            
             var convertedText = HelperMethods.Utf8FixString(content);
-            var ms = m.ConvertToPdf(convertedText);
+            var ms = PdfHelper.ConvertToPdf(convertedText);
 
             return File(ms, "application/pdf", "LetterAmazer_com.pdf");
         }
@@ -295,15 +284,15 @@ namespace LetterAmazer.Websites.Client.Controllers
                     return Json(new { status = "error", message = "Can not read data from paypal" }, JsonRequestBehavior.AllowGet);
                 }
 
-                //TODO We should mark the order should call to paypal again!
-                string strRequest = Encoding.ASCII.GetString(param);
-                VerifyPaymentResult result = paymentService.Get(PaypalMethod.NAME).Verify(new VerifyPaymentContext() { Parameters = strRequest });
+                ////TODO We should mark the order should call to paypal again!
+                //string strRequest = Encoding.ASCII.GetString(param);
+                //VerifyPaymentResult result = paymentService.Get(PaypalMethod.NAME).Verify(new VerifyPaymentContext() { Parameters = strRequest });
 
-                orderService.MarkOrderIsPaid(result.OrderId);
-                if (id.ToLower() == OrderType.AddFunds.ToString().ToLower())
-                {
-                    orderService.AddFundsForAccount(result.OrderId);
-                }
+                //orderService.MarkOrderIsPaid(result.OrderId);
+                //if (id.ToLower() == OrderType.AddFunds.ToString().ToLower())
+                //{
+                //    orderService.AddFundsForAccount(result.OrderId);
+                //}
 
                 return Json(new { status = "success" }, JsonRequestBehavior.AllowGet);
             }
@@ -342,7 +331,8 @@ namespace LetterAmazer.Websites.Client.Controllers
 
         private string GetAbsoluteFile(string filename)
         {
-            string filepath = Server.MapPath(letterService.GetRelativeLetterStoragePath().TrimEnd('/') + "/" + filename);
+            var filepath = "";
+            //string filepath = Server.MapPath(letterService.GetRelativeLetterStoragePath().TrimEnd('/') + "/" + filename);
             FileInfo file = new FileInfo(filepath);
             if (!Directory.Exists(file.DirectoryName))
             {

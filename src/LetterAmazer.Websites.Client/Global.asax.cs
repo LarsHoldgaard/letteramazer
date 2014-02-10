@@ -37,7 +37,11 @@ namespace LetterAmazer.Websites.Client
 
             Container.Register(Component.For<IWindsorContainer>().Instance(this.Container));
             Container.Install(new BootstrapInstaller());
-            Container.Install(Configuration.FromXmlFile("components.config"));
+
+            Container.Register(
+                Classes.FromAssemblyInDirectory(new AssemblyFilter("LetterAmazer.Business.Services"))
+                    .InNamespace("LetterAmazer.Business.Services.Services"));
+            //Container.Install(Configuration.FromXmlFile("components.config"));
             Container.Install(new WebWindsorInstaller());
 
             var provider = new WindsorFilterAttributeFilterProvider(this.Container);

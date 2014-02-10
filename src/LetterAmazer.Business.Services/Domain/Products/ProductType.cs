@@ -2,7 +2,7 @@
 {
     public enum ProductType
     {
-        Order,
-        Credits
+        Order=0,
+        Credits=1
     }
 }

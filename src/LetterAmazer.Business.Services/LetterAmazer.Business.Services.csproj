@@ -115,8 +115,13 @@
     <Compile Include="Domain\Letters\LetterStatus.cs" />
     <Compile Include="Domain\Offices\IOfficeService.cs" />
     <Compile Include="Domain\Offices\Office.cs" />
+    <Compile Include="Domain\OfficeProducts\OfficeProduct.cs" />
     <Compile Include="Domain\Offices\OfficeSpecification.cs" />
-    <Compile Include="Domain\Offices\ProductScope.cs" />
+    <Compile Include="Domain\OfficeProducts\ProductMatrix.cs" />
+    <Compile Include="Domain\OfficeProducts\ProductMatrixLine.cs" />
+    <Compile Include="Domain\OfficeProducts\ProductMatrixLineType.cs" />
+    <Compile Include="Domain\OfficeProducts\ProductMatrixPriceType.cs" />
+    <Compile Include="Domain\OfficeProducts\ProductScope.cs" />
     <Compile Include="Domain\Orders\OrderLineSpecification.cs" />
     <Compile Include="Domain\Orders\OrderType.cs" />
     <Compile Include="Domain\Products\BaseProduct.cs" />
