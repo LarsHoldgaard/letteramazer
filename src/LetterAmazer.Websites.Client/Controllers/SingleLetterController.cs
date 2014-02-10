@@ -1,10 +1,12 @@
-﻿using LetterAmazer.Business.Services.Domain.AddressInfos;
+﻿using System.Linq;
+using LetterAmazer.Business.Services.Domain.AddressInfos;
 using LetterAmazer.Business.Services.Domain.Countries;
 using LetterAmazer.Business.Services.Domain.Coupons;
 using LetterAmazer.Business.Services.Domain.Customers;
 using LetterAmazer.Business.Services.Domain.Letters;
 using LetterAmazer.Business.Services.Domain.Orders;
 using LetterAmazer.Business.Services.Domain.Payments;
+using LetterAmazer.Business.Services.Domain.Pricing;
 using LetterAmazer.Business.Services.Domain.Products.ProductDetails;
 using LetterAmazer.Business.Services.Domain.Session;
 using LetterAmazer.Business.Services.Services.PaymentMethods.Implementations;
@@ -30,11 +32,12 @@ namespace LetterAmazer.Websites.Client.Controllers
         private ICouponService couponService;
         private ICustomerService customerService;
         private ICountryService countryService;
+        private IPriceService priceService;
         
 
         public SingleLetterController(IOrderService orderService, IPaymentService paymentService,
             ILetterService letterService, ICouponService couponService, ICustomerService customerService,
-            ICountryService countryService, ISessionService sessionService)
+            ICountryService countryService, ISessionService sessionService, IPriceService priceService)
         {
             this.orderService = orderService;
             this.paymentService = paymentService;
@@ -43,6 +46,7 @@ namespace LetterAmazer.Websites.Client.Controllers
             this.customerService = customerService;
             this.countryService = countryService;
             this.sessionService = sessionService;
+            this.priceService = priceService;
         }
 
         [HttpGet]
@@ -66,31 +70,30 @@ namespace LetterAmazer.Websites.Client.Controllers
                 Customer customer = new Customer();
                 customer.Email = model.Email;
                 customer.Phone = model.Phone;
-                order.PaymentMethod = PaypalMethod.NAME;
-                order.CouponCode = model.VoucherCode;
 
                 AddressInfo addressInfo = new AddressInfo();
                 addressInfo.Address1 = model.DestinationAddress;
                 addressInfo.FirstName = model.RecipientName;
                 addressInfo.City = model.DestinationCity;
-                // addressInfo.Country = model.DestinationCountry; // TODO: Fix country
-                // TODO: Fix country
-                addressInfo.Postal = model.ZipCode;
+                addressInfo.Country = countryService.GetCountryBySpecificaiton(
+                    new CountrySpecification() { CountryCode = model.DestinationCountryCode }).FirstOrDefault();
+                addressInfo.PostalCode = model.ZipCode;
 
-                LetterDetail letterDetail = new LetterDetail
+                LetterDetails letterDetail = new LetterDetails()
                 {
-                    Color = (int) LetterColor.Color,
-                    LetterTreatment = (int) LetterProcessing.Dull,
-                    LetterWeight = (int) LetterPaperWeight.Eight,
-                    Size = (int) LetterSize.A4
+                    LetterColor = LetterColor.Color,
+                    LetterPaperWeight = LetterPaperWeight.Eight,
+                    LetterProcessing = LetterProcessing.Dull,
+                    LetterSize = LetterSize.A4,
+                    LetterType = LetterType.Pres
                 };
 
-                OrderItem orderItem = new OrderItem();
-
-                Letter letter = new Letter();
-                letter.LetterStatus = LetterStatus.Created;
-                letter.LetterDetail = letterDetail;
-                letter.ToAddress = addressInfo;
+                Letter letter = new Letter()
+                {
+                    LetterDetails = letterDetail,
+                    ToAddress = addressInfo,
+                    LetterStatus = LetterStatus.Created,
+                };
 
                 if (model.UseUploadFile)
                 {
@@ -171,10 +174,8 @@ namespace LetterAmazer.Websites.Client.Controllers
         {
             try
             {
-                PdfHelper pdfManager = new PdfHelper();
-
                 Letter letter = new Letter();
-                letter.ToAddress = new AddressInfo() { Address = address, Postal = postal, City = city, }; // TODO: Fix country
+                letter.ToAddress = new AddressInfo() { Address1 = address, PostalCode = postal, City = city, }; // TODO: Fix country
                 letter.LetterContent = new LetterContent();
                 if (usePdf)
                 {
@@ -187,14 +188,14 @@ namespace LetterAmazer.Websites.Client.Controllers
                     content = HttpUtility.HtmlDecode(content);
                     content = HttpUtility.UrlDecode(content);
                     var convertedText = HelperMethods.Utf8FixString(content);
-                    pdfManager.ConvertToPdf(filepath, convertedText);
+                    PdfHelper.ConvertToPdf(filepath, convertedText);
                 }
-                var pages = pdfManager.GetPagesCount(GetAbsoluteFile(letter.LetterContent.Path));
-                var price = letterService.GetCost(letter);
+                var pages = PdfHelper.GetPagesCount(GetAbsoluteFile(letter.LetterContent.Path));
+                var price = priceService.GetPriceByLetter(letter);
 
                 bool isValidCredits = false;
                 decimal credits = 0;
-                if (SecurityUtility.IsAuthenticated)
+                if (sessionService.Customer != null)
                 {
                     isValidCredits = customerService.IsValidCredits(SecurityUtility.CurrentUser.Id, price);
                     logger.DebugFormat("user id: {0}", SecurityUtility.CurrentUser.Id);
@@ -207,7 +208,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                     price = price,
                     numberOfPages = pages,
                     credits = credits,
-                    isAuthenticated = SecurityUtility.IsAuthenticated,
+                    isAuthenticated = !(sessionService.Customer == null),
                     isValidCredits = isValidCredits
                 });
             }
@@ -222,7 +223,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                 price = 0,
                 numberOfPages = 0,
                 credits = 0,
-                isAuthenticated = SecurityUtility.IsAuthenticated,
+                isAuthenticated = !(sessionService.Customer == null),
                 isOverCredits = false
             });
         }

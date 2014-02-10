@@ -1,4 +1,5 @@
-﻿using LetterAmazer.Business.Services.Domain.AddressInfos;
+﻿using System.Linq;
+using LetterAmazer.Business.Services.Domain.AddressInfos;
 using LetterAmazer.Business.Services.Domain.Customers;
 using LetterAmazer.Business.Services.Domain.Offices;
 using LetterAmazer.Business.Services.Domain.Products.ProductDetails;
@@ -71,12 +72,9 @@ namespace LetterAmazer.Websites.Client.Controllers
         {
             try
             {
-                Customer user = customerService.GetCustomerBySpecification(new CustomerSpecification()
-                {
-                    
-                })
+                var customer = customerService.LoginUser(model.Email, model.Password);
 
-                FormsAuthentication.SetAuthCookie(user.Id.ToString(), model.Remember ?? false);
+                FormsAuthentication.SetAuthCookie(customer.Id.ToString(), model.Remember ?? false);
 
                 if (!string.IsNullOrEmpty(model.ReturnUrl))
                 {
@@ -120,8 +118,9 @@ namespace LetterAmazer.Websites.Client.Controllers
                 customer.CustomerInfo = new AddressInfo();
                 customer.CustomerInfo.FirstName = model.FirstName;
                 customer.CustomerInfo.LastName = model.LastName;
-                customer.CustomerInfo. = model.Organization;
-                customerService.CreateCustomer(customer);
+                customer.CustomerInfo.Organisation = model.Organization;
+                
+                var added_customer = customerService.Create(customer);
 
                 FormsAuthentication.SetAuthCookie(customer.Id.ToString(), false);
 
@@ -175,7 +174,10 @@ namespace LetterAmazer.Websites.Client.Controllers
         {
             try
             {
-                Customer customer = customerService.GetUserByResetPasswordKey(key);
+                Customer customer = customerService.GetCustomerBySpecification(new CustomerSpecification()
+                {
+                    ResetPasswordKey = key
+                }).FirstOrDefault();
 
                 return View(new RegisterViewModel() { ResetPasswordKey = key });
             }
@@ -192,7 +194,16 @@ namespace LetterAmazer.Websites.Client.Controllers
         {
             try
             {
-                customerService.ResetPassword(model.ResetPasswordKey, model.Password);
+
+                Customer customer = customerService.GetCustomerBySpecification(new CustomerSpecification()
+                {
+                    ResetPasswordKey = model.ResetPasswordKey
+                }).FirstOrDefault();
+
+                customer.Password = model.Password;
+
+
+                customerService.Update(customer);
 
                 return RedirectToAction("Login");
             }

@@ -27,7 +27,7 @@ namespace LetterAmazer.Business.Services.Services
             this.couponService = couponService;
         }
 
-        public void Process(List<Domain.Payments.PaymentMethods> methods, Order order)
+        public string Process(List<Domain.Payments.PaymentMethods> methods, Order order)
         {
             var usedMethods = getPaymentMethods(methods);
 
@@ -35,6 +35,8 @@ namespace LetterAmazer.Business.Services.Services
             {
                 method.Process(order);
             }
+
+            return string.Empty;
         }
 
        

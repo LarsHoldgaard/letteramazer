@@ -14,12 +14,12 @@ namespace LetterAmazer.Business.Services.Factory
 {
     public class LetterFactory : ILetterFactory
     {
-        private ICustomerService CustomerService;
+        private ICustomerService _customerService;
         private IAddressFactory AddressFactory;
 
         public LetterFactory(ICustomerService customerService, IAddressFactory addressFactory)
         {
-            this.CustomerService = customerService;
+            this._customerService = customerService;
             this.AddressFactory = addressFactory;
         }
 
@@ -27,7 +27,6 @@ namespace LetterAmazer.Business.Services.Factory
         {
             var letter = new Letter()
             {
-                Customer = CustomerService.GetCustomerById(dbLetter.Id),
                 LetterContent = new LetterContent()
                 {
                     Content = dbLetter.LetterContent_Content,

@@ -58,7 +58,6 @@ namespace LetterAmazer.Business.Services.Services
 
                     DbLetters dbLetter = new DbLetters()
                     {
-                        CustomerId = letter.Customer.Id,
                         FromAddress_Address = letter.FromAddress.Address1,
                         FromAddress_Address2 = letter.FromAddress.Address2,
                         FromAddress_AttPerson = letter.FromAddress.AttPerson,

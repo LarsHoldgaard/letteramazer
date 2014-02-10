@@ -39,6 +39,22 @@ namespace LetterAmazer.Business.Services.Services
             return customer;
         }
 
+        public Customer LoginUser(string email, string password)
+        {
+            var lower_email = email.ToLower();
+
+            var user = repository.DbCustomers.Where(c => c.Email == lower_email && c.Password == password);
+
+            if (!user.Any())
+            {
+                return null;
+            }
+
+            var first_user = user.FirstOrDefault();
+
+            return customerFactory.Create(first_user);
+        }
+
         public List<Customer> GetCustomerBySpecification(CustomerSpecification specification)
         {
             IQueryable<DbCustomers> dbCustomers = repository.DbCustomers;
@@ -59,7 +75,27 @@ namespace LetterAmazer.Business.Services.Services
             return customerFactory.Create(dbCustomers.ToList());
         }
 
-        public void Create(Customer customer)
+        public void RecoverPassword(string email)
+        {
+            var customer = GetCustomerBySpecification(new CustomerSpecification()
+            {
+                Email = email
+            }).FirstOrDefault();
+
+            if (customer == null)
+            {
+                throw new BusinessException("Customer doesn't exist");
+            }
+
+            customer.ResetPasswordKey = Guid.NewGuid().ToString();
+            //string resetPasswordUrl = string.Format(this.resetPasswordUrl, System.Threading.Thread.CurrentThread.CurrentCulture.TwoLetterISOLanguageName, user.ResetPasswordKey);
+            
+            notificationService.SendResetPasswordUrl(string.Empty, customer);
+
+            Update(customer);
+        }
+
+        public Customer Create(Customer customer)
         {
             var dbCustomer = new DbCustomers();
             dbCustomer.Email = customer.Email.Trim().ToLower();
@@ -69,7 +105,6 @@ namespace LetterAmazer.Business.Services.Services
                 throw new BusinessException("The '" + customer.Email + "' email is existing in the system");
             }
 
-            
             dbCustomer.DateCreated = DateTime.Now;
             dbCustomer.DateUpdated = DateTime.Now;
             dbCustomer.Credits = 0;
@@ -83,11 +118,19 @@ namespace LetterAmazer.Business.Services.Services
 
             customer.Password = password;
             notificationService.SendMembershipInformation(customer);
+
+            return GetCustomerById(customer.Id);
         }
 
-        public void Update(Customer customer)
+        public Customer Update(Customer customer)
         {
             var dbCustomer = repository.DbCustomers.FirstOrDefault(c => c.Id == customer.Id);
+
+            if (dbCustomer == null)
+            {
+                throw new BusinessException("The customer doesn't exist");
+            }
+
             dbCustomer.DateUpdated = DateTime.Now;
             dbCustomer.CustomerInfo_Address = customer.CustomerInfo.Address1;
             dbCustomer.CustomerInfo_Address2 = customer.CustomerInfo.Address1;
@@ -102,6 +145,7 @@ namespace LetterAmazer.Business.Services.Services
             
             repository.SaveChanges();
 
+            return GetCustomerById(customer.Id);
         }
 
       

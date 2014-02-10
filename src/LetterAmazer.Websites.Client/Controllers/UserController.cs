@@ -136,9 +136,9 @@ namespace LetterAmazer.Websites.Client.Controllers
                     OrderLines = new List<OrderLine>() { orderItem}
                 };
 
-                string redirectUrl = orderService.CreateOrder(orderContext);
-                
-                return Redirect(redirectUrl);
+                var url = paymentService.Process(order.PaymentMethods, order);
+
+                return Redirect(url);
             }
             catch (Exception ex)
             {
@@ -164,7 +164,8 @@ namespace LetterAmazer.Websites.Client.Controllers
         {
             try
             {
-                orderService.DeleteOrder(id);
+                var delete_order = orderService.GetOrderById(id);
+                orderService.Delete(delete_order);
                 return RedirectToAction("Index");
             }
             catch (Exception ex)
@@ -197,16 +198,17 @@ namespace LetterAmazer.Websites.Client.Controllers
         public ActionResult Credits()
         {
             CreditsViewModel model = new CreditsViewModel();
-            model.Credits = SecurityUtility.CurrentUser.Credit;
-            model.CreditLimit = SecurityUtility.CurrentUser.CreditLimit;
+            model.Credits = sessionService.Customer.Credit;
+            model.CreditLimit = sessionService.Customer.CreditLimit;
             return View(model);
         }
 
         [HttpPost]
         public ActionResult Credits(CreditsViewModel model)
         {
-            string returnUrl = orderService.AddFunds(SecurityUtility.CurrentUser.Id, model.Funds);
-            return Redirect(returnUrl);
+            string url = "";
+            //string returnUrl = orderService.AddFunds(SecurityUtility.CurrentUser.Id, model.Funds);
+            return Redirect(url);
         }
 
         private string GetUploadFileName(string uploadFilename)
@@ -216,7 +218,8 @@ namespace LetterAmazer.Websites.Client.Controllers
 
         private string GetAbsoluteFile(string filename)
         {
-            return Server.MapPath(letterService.GetRelativeLetterStoragePath().TrimEnd('/') + "/" + filename);
+            return string.Empty;
+            //return Server.MapPath(letterService.GetRelativeLetterStoragePath().TrimEnd('/') + "/" + filename);
         }
     }
 }
