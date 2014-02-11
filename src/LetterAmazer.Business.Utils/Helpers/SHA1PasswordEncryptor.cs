@@ -3,9 +3,9 @@ using System.Text;
 
 namespace LetterAmazer.Business.Utils.Helpers
 {
-    public class SHA1PasswordEncryptor : IPasswordEncryptor
+    public static class SHA1PasswordEncryptor
     {
-        public string Encrypt(string password)
+        public static string Encrypt(string password)
         {
             byte[] hash = SHA1.Create().ComputeHash(Encoding.UTF8.GetBytes(password));
             StringBuilder stringBuilder = new StringBuilder();
@@ -16,9 +16,9 @@ namespace LetterAmazer.Business.Utils.Helpers
             return ((object)stringBuilder).ToString().ToLower();
         }
 
-        public bool Equal(string plainPassword, string encryptedPassword)
+        public static bool Equal(string plainPassword, string encryptedPassword)
         {
-            return string.Compare(this.Encrypt(plainPassword), encryptedPassword, true) == 0;
+            return string.Compare(Encrypt(plainPassword), encryptedPassword, true) == 0;
         }
     }
 }

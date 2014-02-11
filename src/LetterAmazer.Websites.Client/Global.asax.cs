@@ -1,7 +1,9 @@
-﻿using Castle.MicroKernel.Registration;
+﻿using System.Reflection;
+using Castle.MicroKernel.Registration;
 using Castle.Windsor;
 using Castle.Windsor.Installer;
 using LetterAmazer.Business.Services;
+using LetterAmazer.Data.Repository.Data;
 using LetterAmazer.Websites.Client.IoC;
 using System;
 using System.Collections.Generic;
@@ -38,10 +40,22 @@ namespace LetterAmazer.Websites.Client
             Container.Register(Component.For<IWindsorContainer>().Instance(this.Container));
             Container.Install(new BootstrapInstaller());
 
+            // All services in service DLL
+            var assembly = Assembly.LoadFrom(Server.MapPath("~/bin/LetterAmazer.Business.Services.dll")); ;
             Container.Register(
-                Classes.FromAssemblyInDirectory(new AssemblyFilter("LetterAmazer.Business.Services"))
-                    .InNamespace("LetterAmazer.Business.Services.Services"));
-            //Container.Install(Configuration.FromXmlFile("components.config"));
+                Classes.FromAssembly(assembly)
+                .InNamespace("LetterAmazer.Business.Services.Services")
+                .WithServiceAllInterfaces());
+
+            // All factories in service DLL
+            Container.Register(
+                Classes.FromAssembly(assembly)
+                .InNamespace("LetterAmazer.Business.Services.Factory")
+                .WithServiceAllInterfaces());
+
+
+            Container.Register(Component.For<LetterAmazerEntities>());
+
             Container.Install(new WebWindsorInstaller());
 
             var provider = new WindsorFilterAttributeFilterProvider(this.Container);

@@ -651,6 +651,10 @@
       <Project>{2a90535c-c0f2-4cbe-b0bf-8b70f5c4f635}</Project>
       <Name>LetterAmazer.Business.Utils</Name>
     </ProjectReference>
+    <ProjectReference Include="..\LetterAmazer.Data.Repository\LetterAmazer.Data.Repository.csproj">
+      <Project>{ab56ed86-acc9-4106-9441-4d8fed532118}</Project>
+      <Name>LetterAmazer.Data.Repository</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\Views\Home\ViewRes.resx">

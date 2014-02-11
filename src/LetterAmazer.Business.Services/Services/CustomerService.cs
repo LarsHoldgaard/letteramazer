@@ -15,13 +15,11 @@ namespace LetterAmazer.Business.Services.Services
     {
         private ICustomerFactory customerFactory;
         private LetterAmazerEntities repository;
-        private IPasswordEncryptor passwordEncryptor;
         private INotificationService notificationService;
         public CustomerService(LetterAmazerEntities repository, ICustomerFactory customerFactory, 
-            IPasswordEncryptor passwordEncryptor, INotificationService notificationService)
+            INotificationService notificationService)
         {
             this.repository = repository;
-            this.passwordEncryptor = passwordEncryptor;
             this.notificationService = notificationService;
             this.customerFactory = customerFactory;
         }
@@ -110,7 +108,7 @@ namespace LetterAmazer.Business.Services.Services
             dbCustomer.Credits = 0;
             
             string password = dbCustomer.Password;
-            dbCustomer.Password = passwordEncryptor.Encrypt(dbCustomer.Password);
+            dbCustomer.Password = SHA1PasswordEncryptor.Encrypt(dbCustomer.Password);
 
             repository.DbCustomers.Add(dbCustomer);
 

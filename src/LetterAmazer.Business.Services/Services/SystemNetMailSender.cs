@@ -1,13 +1,19 @@
 using System;
 using System.Net.Mail;
+using LetterAmazer.Business.Services.Domain.Notifications.Mail;
 using log4net;
 
-namespace LetterAmazer.Business.Services.Domain.Notifications.Mail
+namespace LetterAmazer.Business.Services.Services
 {
     public class SystemNetMailSender : IEmailSender
     {
         private SmtpClient smtpClient;
         private static readonly ILog logger = LogManager.GetLogger(typeof(SystemNetMailSender));
+
+        public SystemNetMailSender()
+        {
+            
+        }
 
         public SystemNetMailSender(string host, int port)
         {

@@ -93,7 +93,7 @@
     <Compile Include="Domain\Notifications\Mail\IEmailSender.cs" />
     <Compile Include="Domain\Notifications\Mail\ParameterCollection.cs" />
     <Compile Include="Domain\Notifications\Mail\StringTemplateEmailFormatter.cs" />
-    <Compile Include="Domain\Notifications\Mail\SystemNetMailSender.cs" />
+    <Compile Include="Services\SystemNetMailSender.cs" />
     <Compile Include="Domain\Notifications\Mail\XmlEmailTemplate.cs" />
     <Compile Include="Domain\Notifications\Mail\XmlTemplateEmailFormatter.cs" />
     <Compile Include="Domain\AddressInfos\AddressInfo.cs" />

@@ -11,7 +11,7 @@ namespace LetterAmazer.Business.Services.Services
         private string fromMail;
         private string emailTemplatesFolder;
 
-        public NotificationService(string fromMail, string emailTemplatesFolder, IEmailSender emailSender)
+        public NotificationService(IEmailSender emailSender)
         {
             this.fromMail = fromMail;
             this.emailSender = emailSender;
