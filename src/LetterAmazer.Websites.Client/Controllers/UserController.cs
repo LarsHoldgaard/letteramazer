@@ -4,12 +4,10 @@ using LetterAmazer.Business.Services.Domain.AddressInfos;
 using LetterAmazer.Business.Services.Domain.Countries;
 using LetterAmazer.Business.Services.Domain.Coupons;
 using LetterAmazer.Business.Services.Domain.Letters;
+using LetterAmazer.Business.Services.Domain.OrderLines;
 using LetterAmazer.Business.Services.Domain.Orders;
 using LetterAmazer.Business.Services.Domain.Payments;
 using LetterAmazer.Business.Services.Domain.Products.ProductDetails;
-using LetterAmazer.Business.Services.Domain.Session;
-using LetterAmazer.Business.Services.Services;
-using LetterAmazer.Business.Services.Services.PaymentMethods.Implementations;
 using LetterAmazer.Business.Utils.Helpers;
 using LetterAmazer.Websites.Client.Attributes;
 using LetterAmazer.Websites.Client.ViewModels;
@@ -26,20 +24,18 @@ namespace LetterAmazer.Websites.Client.Controllers
     {
         private static readonly ILog logger = LogManager.GetLogger(typeof(UserController));
         private IOrderService orderService;
-        private ISessionService sessionService;
         private IPaymentService paymentService;
         private ILetterService letterService;
         private ICouponService couponService;
         private ICountryService countryService;
 
         public UserController(IOrderService orderService, IPaymentService paymentService, 
-            ILetterService letterService, ICouponService couponService, ISessionService sessionService, ICountryService countryService)
+            ILetterService letterService, ICouponService couponService, ICountryService countryService)
         {
             this.orderService = orderService;
             this.paymentService = paymentService;
             this.letterService = letterService;
             this.couponService = couponService;
-            this.sessionService = sessionService;
             this.countryService = countryService;
         }
 
@@ -47,13 +43,13 @@ namespace LetterAmazer.Websites.Client.Controllers
         {
             var orders = orderService.GetOrderBySpecification(new OrderSpecification()
             {
-                UserId = sessionService.Customer.Id,
+                UserId = SessionHelper.Customer.Id,
                 FromDate = model.FromDate,
                 ToDate = model.ToDate
             });
 
             model.Orders = orders;
-            model.Customer = sessionService.Customer;
+            model.Customer = SessionHelper.Customer;
 
             return View(model);
         }
@@ -62,7 +58,7 @@ namespace LetterAmazer.Websites.Client.Controllers
         public ActionResult SendALetter()
         {
             CreateSingleLetterModel model = new CreateSingleLetterModel();
-            model.Email = sessionService.Customer.Email;
+            model.Email = SessionHelper.Customer.Email;
             return View(model);
         }
 
@@ -131,7 +127,7 @@ namespace LetterAmazer.Websites.Client.Controllers
 
                 Order order = new Order()
                 {
-                    Customer = sessionService.Customer,
+                    Customer = SessionHelper.Customer,
                     OrderStatus = OrderStatus.Created,
                     OrderLines = new List<OrderLine>() { orderItem}
                 };
@@ -198,8 +194,8 @@ namespace LetterAmazer.Websites.Client.Controllers
         public ActionResult Credits()
         {
             CreditsViewModel model = new CreditsViewModel();
-            model.Credits = sessionService.Customer.Credit;
-            model.CreditLimit = sessionService.Customer.CreditLimit;
+            model.Credits = SessionHelper.Customer.Credit;
+            model.CreditLimit = SessionHelper.Customer.CreditLimit;
             return View(model);
         }
 

@@ -105,19 +105,42 @@ namespace LetterAmazer.Business.Services.Services
 
             dbCustomer.DateCreated = DateTime.Now;
             dbCustomer.DateUpdated = DateTime.Now;
-            dbCustomer.Credits = 0;
+            dbCustomer.Credits = customer.Credit;
+            dbCustomer.CreditLimit = customer.CreditLimit;
+
+            if (customer.CustomerInfo != null)
+            {
+                dbCustomer.CustomerInfo_Address = customer.CustomerInfo.Address1;
+                dbCustomer.CustomerInfo_Address2 = customer.CustomerInfo.Address2;
+                dbCustomer.CustomerInfo_AttPerson = customer.CustomerInfo.AttPerson;
+                dbCustomer.CustomerInfo_City = customer.CustomerInfo.City;
+                dbCustomer.CustomerInfo_CompanyName = customer.CustomerInfo.Organisation;
+                dbCustomer.CustomerInfo_FirstName = customer.CustomerInfo.FirstName;
+                dbCustomer.CustomerInfo_LastName = customer.CustomerInfo.LastName;
+                dbCustomer.CustomerInfo_Postal = customer.CustomerInfo.PostalCode;
+                dbCustomer.CustomerInfo_VatNr = customer.CustomerInfo.VatNr;
+
+
+                if (customer.CustomerInfo.Country != null)
+                {
+                    dbCustomer.DbCountries.Id = customer.CustomerInfo.Country.Id;
+                }
+            }
             
-            string password = dbCustomer.Password;
-            dbCustomer.Password = SHA1PasswordEncryptor.Encrypt(dbCustomer.Password);
+            
+
+
+            string password = customer.Password;
+            dbCustomer.Password = SHA1PasswordEncryptor.Encrypt(password);
 
             repository.DbCustomers.Add(dbCustomer);
 
             repository.SaveChanges();
 
             customer.Password = password;
-            notificationService.SendMembershipInformation(customer);
+            //notificationService.SendMembershipInformation(customer);
 
-            return GetCustomerById(customer.Id);
+            return GetCustomerById(dbCustomer.Id);
         }
 
         public Customer Update(Customer customer)
@@ -131,10 +154,10 @@ namespace LetterAmazer.Business.Services.Services
 
             dbCustomer.DateUpdated = DateTime.Now;
             dbCustomer.CustomerInfo_Address = customer.CustomerInfo.Address1;
-            dbCustomer.CustomerInfo_Address2 = customer.CustomerInfo.Address1;
-            dbCustomer.CustomerInfo_AttPerson = customer.CustomerInfo.Address1;
-            dbCustomer.CustomerInfo_City = customer.CustomerInfo.Address1;
-            dbCustomer.CustomerInfo_CompanyName = customer.CustomerInfo.Address1;
+            dbCustomer.CustomerInfo_Address2 = customer.CustomerInfo.Address2;
+            dbCustomer.CustomerInfo_AttPerson = customer.CustomerInfo.AttPerson;
+            dbCustomer.CustomerInfo_City = customer.CustomerInfo.City;
+            dbCustomer.CustomerInfo_CompanyName = customer.CustomerInfo.Organisation;
             dbCustomer.DbCountries.Id = customer.CustomerInfo.Country.Id;
             dbCustomer.CustomerInfo_FirstName = customer.CustomerInfo.FirstName;
             dbCustomer.CustomerInfo_LastName = customer.CustomerInfo.LastName;

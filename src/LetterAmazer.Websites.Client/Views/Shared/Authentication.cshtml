@@ -1,6 +1,7 @@
-﻿@using LetterAmazer.Websites.Client.Resources.Views.Shared
-@using LetterAmazer.Business.Services.Utilities
-@if (!SecurityUtility.IsAuthenticated)
+﻿@using LetterAmazer.Business.Utils.Helpers
+@using LetterAmazer.Websites.Client.Resources.Views.Shared
+
+@if (SessionHelper.Customer == null)
 {
     <ul class="nav navbar-nav navbar-right">
         <li><a href="@Url.Action("Login", "Home")">@ViewRes.Login</a></li>
@@ -11,7 +12,7 @@
 else
 {
     <ul class="nav navbar-nav navbar-right">
-        <li><a href="@Url.Action("Index", "User")">@ViewRes.Welcome, @(string.IsNullOrEmpty(SecurityUtility.CurrentUser.CustomerInfo.FirstName) ? SecurityUtility.CurrentUser.Email : SecurityUtility.CurrentUser.CustomerInfo.FirstName)</a></li>
+        <li><a href="@Url.Action("Index", "User")">@ViewRes.Welcome, @(string.IsNullOrEmpty(SessionHelper.Customer.CustomerInfo.FirstName) ? SessionHelper.Customer.Email : SessionHelper.Customer.CustomerInfo.FirstName)</a></li>
         <li><a href="#" style="padding-left:0px;padding-right:0px;">|</a></li>
         <li><a href="@Url.Action("Logout", "Home")">@ViewRes.Logout</a></li>
     </ul>

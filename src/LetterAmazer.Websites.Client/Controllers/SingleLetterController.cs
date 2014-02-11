@@ -8,8 +8,6 @@ using LetterAmazer.Business.Services.Domain.Orders;
 using LetterAmazer.Business.Services.Domain.Payments;
 using LetterAmazer.Business.Services.Domain.Pricing;
 using LetterAmazer.Business.Services.Domain.Products.ProductDetails;
-using LetterAmazer.Business.Services.Domain.Session;
-using LetterAmazer.Business.Services.Services.PaymentMethods.Implementations;
 using log4net;
 using System;
 using System.IO;
@@ -17,7 +15,6 @@ using System.Web;
 using System.Web.Mvc;
 using LetterAmazer.Websites.Client.ViewModels;
 using LetterAmazer.Business.Utils.Helpers;
-using System.Text;
 
 namespace LetterAmazer.Websites.Client.Controllers
 {
@@ -25,7 +22,6 @@ namespace LetterAmazer.Websites.Client.Controllers
     {
         private static readonly ILog logger = LogManager.GetLogger(typeof(SingleLetterController));
 
-        private ISessionService sessionService;
         private IOrderService orderService;
         private IPaymentService paymentService;
         private ILetterService letterService;
@@ -37,7 +33,7 @@ namespace LetterAmazer.Websites.Client.Controllers
 
         public SingleLetterController(IOrderService orderService, IPaymentService paymentService,
             ILetterService letterService, ICouponService couponService, ICustomerService customerService,
-            ICountryService countryService, ISessionService sessionService, IPriceService priceService)
+            ICountryService countryService, IPriceService priceService)
         {
             this.orderService = orderService;
             this.paymentService = paymentService;
@@ -45,14 +41,13 @@ namespace LetterAmazer.Websites.Client.Controllers
             this.couponService = couponService;
             this.customerService = customerService;
             this.countryService = countryService;
-            this.sessionService = sessionService;
             this.priceService = priceService;
         }
 
         [HttpGet]
         public ActionResult Index()
         {
-            if (sessionService.Customer != null) return RedirectToAction("SendALetter", "User");
+            if (SessionHelper.Customer != null) return RedirectToAction("SendALetter", "User");
             
             CreateSingleLetterModel model = new CreateSingleLetterModel();
             return View(model);
@@ -187,9 +182,9 @@ namespace LetterAmazer.Websites.Client.Controllers
 
                 bool isValidCredits = false;
                 decimal credits = 0;
-                if (sessionService.Customer != null)
+                if (SessionHelper.Customer != null)
                 {
-                    credits = sessionService.Customer.CreditsLeft;
+                    credits = SessionHelper.Customer.CreditsLeft;
                 }
 
                 return Json(new {
@@ -197,7 +192,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                     price = price,
                     numberOfPages = pages,
                     credits = credits,
-                    isAuthenticated = !(sessionService.Customer == null),
+                    isAuthenticated = !(SessionHelper.Customer == null),
                     isValidCredits = isValidCredits
                 });
             }
@@ -212,7 +207,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                 price = 0,
                 numberOfPages = 0,
                 credits = 0,
-                isAuthenticated = !(sessionService.Customer == null),
+                isAuthenticated = !(SessionHelper.Customer == null),
                 isOverCredits = false
             });
         }

@@ -1,6 +1,7 @@
 ﻿using LetterAmazer.Business.Services.Domain.Coupons;
 using LetterAmazer.Business.Services.Domain.Customers;
 using LetterAmazer.Business.Services.Domain.Letters;
+using LetterAmazer.Business.Services.Domain.OrderLines;
 using LetterAmazer.Business.Services.Domain.Orders;
 using LetterAmazer.Business.Services.Domain.Payments;
 using LetterAmazer.Business.Services.Domain.Products;
@@ -16,6 +17,8 @@ namespace LetterAmazer.Business.Services.Services
     public class OrderService : IOrderService
     {
         private IOrderFactory orderFactory;
+        private IOrderLineFactory orderLineFactory;
+
         private LetterAmazerEntities Repository;
         private ILetterService letterService;
         private IPaymentService paymentService;
@@ -24,7 +27,7 @@ namespace LetterAmazer.Business.Services.Services
 
         public OrderService(LetterAmazerEntities repository,
             ILetterService letterService, IPaymentService paymentService,
-            ICouponService couponService,IOrderFactory orderFactory, ICustomerService customerService)
+            ICouponService couponService,IOrderFactory orderFactory, ICustomerService customerService, IOrderLineFactory orderLineFactory)
         {
             this.Repository = repository;
             this.letterService = letterService;
@@ -32,7 +35,7 @@ namespace LetterAmazer.Business.Services.Services
             this.couponService = couponService;
             this.orderFactory = orderFactory;
             this.customerService = customerService;
-
+            this.orderLineFactory = orderLineFactory;
         }
 
         public Order Create(Order order)
@@ -175,7 +178,7 @@ namespace LetterAmazer.Business.Services.Services
             }
             
 
-            return orderFactory.Create(
+            return orderLineFactory.Create(
                 dbOrderItems.Skip(specification.Skip).Take(specification.Take).ToList());
         }
 

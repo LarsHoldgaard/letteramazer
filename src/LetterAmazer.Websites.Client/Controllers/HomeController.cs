@@ -3,6 +3,7 @@ using LetterAmazer.Business.Services.Domain.AddressInfos;
 using LetterAmazer.Business.Services.Domain.Customers;
 using LetterAmazer.Business.Services.Domain.Offices;
 using LetterAmazer.Business.Services.Domain.Products.ProductDetails;
+using LetterAmazer.Business.Utils.Helpers;
 using LetterAmazer.Websites.Client.Attributes;
 using LetterAmazer.Websites.Client.ViewModels;
 using System;
@@ -121,6 +122,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                 customer.CustomerInfo.Organisation = model.Organization;
                 
                 var added_customer = customerService.Create(customer);
+                SessionHelper.Customer = added_customer;
 
                 FormsAuthentication.SetAuthCookie(customer.Id.ToString(), false);
 

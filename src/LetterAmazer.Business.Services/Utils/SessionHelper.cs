@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web;
+﻿using System.Web;
 using LetterAmazer.Business.Services.Domain.Customers;
-using LetterAmazer.Business.Services.Domain.Session;
 
-namespace LetterAmazer.Business.Services.Services
+namespace LetterAmazer.Business.Utils.Helpers
 {
-    public class SessionService:ISessionService
+    public static class SessionHelper
     {
-        public Customer Customer
+        public static Customer Customer
         {
             get
             {

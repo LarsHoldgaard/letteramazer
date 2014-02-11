@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LetterAmazer.Business.Services.Domain.Customers;
 using LetterAmazer.Business.Services.Domain.Letters;
+using LetterAmazer.Business.Services.Domain.OrderLines;
 using LetterAmazer.Business.Services.Domain.Orders;
 using LetterAmazer.Business.Services.Domain.Products;
 using LetterAmazer.Business.Services.Factory.Interfaces;
@@ -15,16 +16,14 @@ namespace LetterAmazer.Business.Services.Factory
 {
     public class OrderFactory : IOrderFactory
     {
-        private ILetterService letterService;
+        
         private ICustomerService customerService;
         private IOrderService orderService;
 
 
-        public OrderFactory(ILetterService letterService, ICustomerService customerService, IOrderService orderService)
+        public OrderFactory(ICustomerService customerService, IOrderService orderService)
         {
-            this.letterService = letterService;
             this.customerService = customerService;
-            this.orderService = orderService;
         }
 
         public Order Create(DbOrders dborder)
@@ -45,10 +44,6 @@ namespace LetterAmazer.Business.Services.Factory
                 Guid = dborder.Guid
             };
 
-            var orderLines =
-                orderService.GetOrderLinesBySpecification(new OrderLineSpecification() {OrderId = dborder.Id});
-
-            order.OrderLines = orderLines;
             return order;
         }
 
@@ -58,29 +53,6 @@ namespace LetterAmazer.Business.Services.Factory
         }
 
 
-        public List<OrderLine> Create(List<DbOrderItems> orderItemses)
-        {
-            return orderItemses.Select(Create).ToList();
-        }
-        public OrderLine Create(DbOrderItems dborderlines)
-        {
-            var line = new OrderLine()
-            {
-                Quantity = dborderlines.Quantity,
-                ProductType = (ProductType)dborderlines.ItemType
-            };
-
-            if (line.ProductType == ProductType.Order && dborderlines.LetterId.HasValue)
-            {
-                line.BaseProduct = letterService.GetLetterById(dborderlines.LetterId.Value);
-            }
-            else if (line.ProductType == ProductType.Credits)
-            {
-
-            }
-
-            return line;
-        }
 
     }
 }

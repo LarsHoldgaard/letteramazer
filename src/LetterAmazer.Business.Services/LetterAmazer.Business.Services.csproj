@@ -93,6 +93,8 @@
     <Compile Include="Domain\Notifications\Mail\IEmailSender.cs" />
     <Compile Include="Domain\Notifications\Mail\ParameterCollection.cs" />
     <Compile Include="Domain\Notifications\Mail\StringTemplateEmailFormatter.cs" />
+    <Compile Include="Factory\Interfaces\IOrderLineFactory.cs" />
+    <Compile Include="Factory\OrderLineFactory.cs" />
     <Compile Include="Services\SystemNetMailSender.cs" />
     <Compile Include="Domain\Notifications\Mail\XmlEmailTemplate.cs" />
     <Compile Include="Domain\Notifications\Mail\XmlTemplateEmailFormatter.cs" />
@@ -122,11 +124,11 @@
     <Compile Include="Domain\OfficeProducts\ProductMatrixLineType.cs" />
     <Compile Include="Domain\OfficeProducts\ProductMatrixPriceType.cs" />
     <Compile Include="Domain\OfficeProducts\ProductScope.cs" />
-    <Compile Include="Domain\Orders\OrderLineSpecification.cs" />
+    <Compile Include="Domain\OrderLines\OrderLineSpecification.cs" />
     <Compile Include="Domain\Orders\OrderType.cs" />
     <Compile Include="Domain\Products\BaseProduct.cs" />
     <Compile Include="Domain\Orders\Order.cs" />
-    <Compile Include="Domain\Orders\OrderLine.cs" />
+    <Compile Include="Domain\OrderLines\OrderLine.cs" />
     <Compile Include="Domain\Orders\OrderSpecification.cs" />
     <Compile Include="Domain\Orders\OrderStatus.cs" />
     <Compile Include="Domain\Payments\PaymentMethods.cs" />
@@ -140,7 +142,6 @@
     <Compile Include="Domain\Products\ProductDetails\LetterSize.cs" />
     <Compile Include="Domain\Products\ProductDetails\LetterType.cs" />
     <Compile Include="Domain\Products\ProductDetails\ProductType.cs" />
-    <Compile Include="Domain\Session\ISessionService.cs" />
     <Compile Include="Domain\Shipping\DeliveryOption.cs" />
     <Compile Include="Domain\Shipping\IShippingMethodService.cs" />
     <Compile Include="Domain\Shipping\ShippingMethod.cs" />
@@ -194,8 +195,8 @@
     <Compile Include="Services\PaymentMethods\Implementations\PaypalMethod.cs" />
     <Compile Include="Services\PaymentService.cs" />
     <Compile Include="Services\PriceService.cs" />
-    <Compile Include="Services\SessionService.cs" />
     <Compile Include="Services\ShippingService.cs" />
+    <Compile Include="Utils\SessionHelper.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
