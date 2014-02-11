@@ -16,11 +16,8 @@ namespace LetterAmazer.Business.Services.Factory
 {
     public class OrderFactory : IOrderFactory
     {
-        
         private ICustomerService customerService;
-        private IOrderService orderService;
-
-
+        
         public OrderFactory(ICustomerService customerService, IOrderService orderService)
         {
             this.customerService = customerService;

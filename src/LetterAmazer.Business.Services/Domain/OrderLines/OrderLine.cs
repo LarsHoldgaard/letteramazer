@@ -7,5 +7,6 @@ namespace LetterAmazer.Business.Services.Domain.OrderLines
         public ProductType ProductType { get; set; }
         public BaseProduct BaseProduct { get; set; }
         public int Quantity { get; set; }
+        public int OrderId { get; set; }
     }
 }
