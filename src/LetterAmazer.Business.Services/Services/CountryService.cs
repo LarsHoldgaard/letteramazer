@@ -4,6 +4,7 @@ using System.Linq;
 using LetterAmazer.Business.Services.Domain.Countries;
 using LetterAmazer.Business.Services.Exceptions;
 using LetterAmazer.Business.Services.Factory;
+using LetterAmazer.Business.Services.Factory.Interfaces;
 using LetterAmazer.Data.Repository.Data;
 
 namespace LetterAmazer.Business.Services.Services
@@ -11,11 +12,12 @@ namespace LetterAmazer.Business.Services.Services
     public class CountryService : ICountryService
     {
         private LetterAmazerEntities repository;
-        private CountryFactory countryFactory;
+        private ICountryFactory countryFactory;
 
-        public CountryService(LetterAmazerEntities repository)
+        public CountryService(LetterAmazerEntities repository, ICountryFactory countryFactory)
         {
             this.repository = repository;
+            this.countryFactory = countryFactory;
         }
 
         public Country Create(Country country)

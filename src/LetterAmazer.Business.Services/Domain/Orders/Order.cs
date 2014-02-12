@@ -31,14 +31,11 @@ namespace LetterAmazer.Business.Services.Domain.Orders
         public decimal Discount { get; set; }
         public decimal Price { get; set; }
         
-        public List<OrderLine> OrderLines { get; set; } 
-
         public List<PaymentMethods> PaymentMethods { get; set; }
 
 
         public Order()
         {
-            this.OrderLines =new List<OrderLine>();
             this.PaymentMethods = new List<PaymentMethods>();
         }
     }

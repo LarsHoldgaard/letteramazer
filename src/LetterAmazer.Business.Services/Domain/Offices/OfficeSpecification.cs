@@ -7,6 +7,6 @@ namespace LetterAmazer.Business.Services.Domain.Offices
     {
         public int CountryId { get; set; }
         public LetterSize  LetterSize { get; set; }
-        
+        public int FulfilmentPartnerId { get; set; }   
     }
 }

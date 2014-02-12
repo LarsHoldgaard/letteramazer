@@ -207,7 +207,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                 price = 0,
                 numberOfPages = 0,
                 credits = 0,
-                isAuthenticated = !(SessionHelper.Customer == null),
+                isAuthenticated = SessionHelper.Customer != null,
                 isOverCredits = false
             });
         }

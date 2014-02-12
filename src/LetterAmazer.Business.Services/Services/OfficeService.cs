@@ -45,7 +45,10 @@ namespace LetterAmazer.Business.Services.Services
             {
                 dboffices = dboffices.Where(c => c.CountryId == specification.CountryId);
             }
-
+            if (specification.FulfilmentPartnerId > 0)
+            {
+                dboffices = dboffices.Where(c => c.PartnerId == specification.FulfilmentPartnerId);
+            }
             return officeFactory.Create(dboffices.ToList());
         }
     }

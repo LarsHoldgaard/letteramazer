@@ -3,6 +3,7 @@ using System.Linq;
 using LetterAmazer.Business.Services;
 using LetterAmazer.Business.Services.Domain.Fulfillments;
 using LetterAmazer.Business.Services.Domain.Letters;
+using LetterAmazer.Business.Services.Domain.OrderLines;
 using LetterAmazer.Business.Services.Domain.Orders;
 using LetterAmazer.Business.Services.Domain.Products;
 using log4net;
@@ -20,11 +21,14 @@ namespace LetterAmazer.BackgroundService.Jobs
             logger.DebugFormat("start delivery letter job at: {0}", DateTime.Now);
 
             IOrderService orderService;
+            IOrderLineService orderLineService;
+
             IFulfillmentService fulfillmentService;
             try
             {
                 orderService = ServiceFactory.Get<IOrderService>();
-                
+                orderLineService = ServiceFactory.Get<IOrderLineService>();
+
                 fulfillmentService = ServiceFactory.Get<IFulfillmentService>();
 
                 var relevantOrders = orderService.GetOrderBySpecification(new OrderSpecification()
@@ -36,22 +40,20 @@ namespace LetterAmazer.BackgroundService.Jobs
                     }
                 });
 
-                var allLetters = relevantOrders.
-                    Select(c => c.OrderLines.Where(d => d.ProductType == ProductType.Order));
-                
-                allLetters =
-                    allLetters.Select(c => c.Where(d => ((Letter) d.BaseProduct).LetterStatus == LetterStatus.Created))
-                        .ToList();
+                List<Letter> letters = (from relevantOrder in relevantOrders
+                                        from orderLine in orderLineService.GetOrderBySpecification(new OrderLineSpecification()
+                                        {
+                                            OrderId = relevantOrder.Id
+                                        })
+                                        where orderLine.ProductType == ProductType.Order
+                                        select (Letter)orderLine.BaseProduct
+                                            into letter
+                                            where letter.LetterStatus == LetterStatus.Created
+                                            select letter).ToList();
 
-                if (!allLetters.Any())
+                if (!letters.Any())
                 {
                     return;
-                }
-
-               var letters = new List<Letter>();
-                foreach (var item1 in allLetters)
-                {
-                    letters.AddRange(item1.Select(orderLine => (Letter) orderLine.BaseProduct));
                 }
 
                 try

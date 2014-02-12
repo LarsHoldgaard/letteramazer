@@ -50,11 +50,6 @@ namespace LetterAmazer.Business.Services.Services
             dborder.DateUpdated = DateTime.Now;
             dborder.Cost = 0m;
 
-            foreach (var orderLine in order.OrderLines)
-            {
-                orderLineService.Create(orderLine);
-            }
-
             Repository.SaveChanges();
 
             return GetOrderById(order.Id);
@@ -154,9 +149,11 @@ namespace LetterAmazer.Business.Services.Services
                 letterService.Update(letter);
 
                 var order = GetOrderById(letter.OrderId);
-
+                var orderLines = orderLineService.GetOrderBySpecification(new OrderLineSpecification() { OrderId = letter.OrderId });
+                
                 bool isOrderDone = true;
-                foreach (var orderLine in order.OrderLines)
+
+                foreach (var orderLine in orderLines)
                 {
                     // if this is the case, there are multiple lines and one of them is not sent yet, which means the order is in progress
                     if (orderLine.ProductType == ProductType.Order && ((Letter)orderLine.BaseProduct).LetterStatus == LetterStatus.Created)

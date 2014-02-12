@@ -28,15 +28,18 @@ namespace LetterAmazer.Websites.Client.Controllers
         private ILetterService letterService;
         private ICouponService couponService;
         private ICountryService countryService;
+        private IOrderLineService orderLineService;
 
-        public UserController(IOrderService orderService, IPaymentService paymentService, 
-            ILetterService letterService, ICouponService couponService, ICountryService countryService)
+
+        public UserController(IOrderService orderService, IPaymentService paymentService,
+            ILetterService letterService, ICouponService couponService, ICountryService countryService, IOrderLineService orderLineService)
         {
             this.orderService = orderService;
             this.paymentService = paymentService;
             this.letterService = letterService;
             this.couponService = couponService;
             this.countryService = countryService;
+            this.orderLineService = orderLineService;
         }
 
         public ActionResult Index(int? page, ProfileViewModel model)
@@ -128,9 +131,10 @@ namespace LetterAmazer.Websites.Client.Controllers
                 Order order = new Order()
                 {
                     Customer = SessionHelper.Customer,
-                    OrderStatus = OrderStatus.Created,
-                    OrderLines = new List<OrderLine>() { orderItem}
+                    OrderStatus = OrderStatus.Created
                 };
+
+                var orderLine = orderLineService.Create(orderItem);
 
                 var url = paymentService.Process(order.PaymentMethods, order);
 

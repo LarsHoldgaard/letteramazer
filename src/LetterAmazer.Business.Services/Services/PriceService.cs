@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using LetterAmazer.Business.Services.Domain.AddressInfos;
 using LetterAmazer.Business.Services.Domain.Countries;
 using LetterAmazer.Business.Services.Domain.Letters;
+using LetterAmazer.Business.Services.Domain.OrderLines;
 using LetterAmazer.Business.Services.Domain.Orders;
 using LetterAmazer.Business.Services.Domain.Pricing;
 using LetterAmazer.Business.Services.Domain.Products;
@@ -15,16 +16,19 @@ namespace LetterAmazer.Business.Services.Services
     public class PriceService:IPriceService
     {
         private ICountryService countryService;
+        private IOrderLineService orderLineService;
 
-        public PriceService(ICountryService countryService)
+        public PriceService(ICountryService countryService, IOrderLineService orderLineService)
         {
             this.countryService = countryService;
+            this.orderLineService = orderLineService;
         }
 
         public Price GetPriceByOrder(Order order)
         {
+            var lines = orderLineService.GetOrderBySpecification(new OrderLineSpecification() {OrderId = order.Id});
             var price = new Price();
-            foreach (var orderLine in order.OrderLines)
+            foreach (var orderLine in lines)
             {
                 if (orderLine.ProductType == ProductType.Order)
                 {
