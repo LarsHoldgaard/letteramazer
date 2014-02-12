@@ -78,7 +78,7 @@ namespace LetterAmazer.Business.Services.Services
                 dbcountries = repository.DbCountries.Where(c => c.CountryName == specification.CountryName);
             }
             
-            return countryFactory.Create(dbcountries.Skip(specification.Skip).Take(specification.Take).ToList());
+            return countryFactory.Create(dbcountries.OrderBy(c=>c.Id).Skip(specification.Skip).Take(specification.Take).ToList());
         }
     }
 }

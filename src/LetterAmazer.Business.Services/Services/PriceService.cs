@@ -10,6 +10,7 @@ using LetterAmazer.Business.Services.Domain.OrderLines;
 using LetterAmazer.Business.Services.Domain.Orders;
 using LetterAmazer.Business.Services.Domain.Pricing;
 using LetterAmazer.Business.Services.Domain.Products;
+using LetterAmazer.Business.Services.Exceptions;
 
 namespace LetterAmazer.Business.Services.Services
 {
@@ -49,6 +50,11 @@ namespace LetterAmazer.Business.Services.Services
 
         public Price GetPriceByAddress(AddressInfo addressInfo)
         {
+            if (addressInfo.Country == null || addressInfo.Country.Id > 0)
+            {
+                throw new BusinessException("Country cannot be null of an address");
+            }
+
             var country = countryService.GetCountryById(addressInfo.Country.Id);
 
             return new Price()

@@ -39,6 +39,7 @@
       <HintPath>..\packages\Newtonsoft.Json.5.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
@@ -52,6 +53,7 @@
     <Compile Include="Helpers\GeoLocationManager.cs" />
     <Compile Include="Helpers\HelperMethods.cs" />
     <Compile Include="Helpers\PasswordGenerator.cs" />
+    <Compile Include="Helpers\PathHelper.cs" />
     <Compile Include="Helpers\PdfHelper.cs" />
     <Compile Include="Helpers\SecurityUtility.cs" />
     <Compile Include="Helpers\SHA1PasswordEncryptor.cs" />

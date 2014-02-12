@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Configuration;
+using System.Linq;
 using LetterAmazer.Business.Services.Domain.AddressInfos;
 using LetterAmazer.Business.Services.Domain.Countries;
 using LetterAmazer.Business.Services.Domain.Coupons;
@@ -98,16 +99,16 @@ namespace LetterAmazer.Websites.Client.Controllers
                 else
                 {
                     string tempKeyName = string.Format("{0}/{1}/{2}.pdf", DateTime.Now.Year, DateTime.Now.Month, Guid.NewGuid().ToString());
-                    string tempPath = GetAbsoluteFile(tempKeyName);
+                    string tempPath = PathHelper.GetAbsoluteFile(tempKeyName);
                     
                     var convertedText = HelperMethods.Utf8FixString(model.WriteContent);
                     PdfHelper.ConvertToPdf(tempPath, convertedText);
                     letter.LetterContent.Path = tempKeyName;
                     letter.LetterContent.WrittenContent = model.WriteContent;
                 }
-                if (System.IO.File.Exists(GetAbsoluteFile(letter.LetterContent.Path)))
+                if (System.IO.File.Exists(PathHelper.GetAbsoluteFile(letter.LetterContent.Path)))
                 {
-                    letter.LetterContent.Content = System.IO.File.ReadAllBytes(GetAbsoluteFile(letter.LetterContent.Path));
+                    letter.LetterContent.Content = System.IO.File.ReadAllBytes(PathHelper.GetAbsoluteFile(letter.LetterContent.Path));
                 }
 
                 string redirectUrl = paymentService.Process(null, order);
@@ -136,7 +137,7 @@ namespace LetterAmazer.Websites.Client.Controllers
             {
                 HttpPostedFileBase uploadFile = Request.Files[0];
                 string keyName = GetUploadFileName(uploadFile.FileName);
-                string filename = GetAbsoluteFile(keyName);
+                string filename = PathHelper.GetAbsoluteFile(keyName);
                 string path = Path.GetDirectoryName(filename);
                 if (!Directory.Exists(path))
                 {
@@ -171,13 +172,13 @@ namespace LetterAmazer.Websites.Client.Controllers
                 else
                 {
                     letter.LetterContent.Path = string.Format("{0}/{1}/{2}.pdf", DateTime.Now.Year, DateTime.Now.Month, Guid.NewGuid().ToString());
-                    string filepath = GetAbsoluteFile(letter.LetterContent.Path);
+                    string filepath = PathHelper.GetAbsoluteFile(letter.LetterContent.Path);
                     content = HttpUtility.HtmlDecode(content);
                     content = HttpUtility.UrlDecode(content);
                     var convertedText = HelperMethods.Utf8FixString(content);
                     PdfHelper.ConvertToPdf(filepath, convertedText);
                 }
-                var pages = PdfHelper.GetPagesCount(GetAbsoluteFile(letter.LetterContent.Path));
+                
                 var price = priceService.GetPriceByLetter(letter);
 
                 bool isValidCredits = false;
@@ -190,7 +191,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                 return Json(new {
                     status = "success",
                     price = price,
-                    numberOfPages = pages,
+                    numberOfPages = letter.LetterContent.PageCount,
                     credits = credits,
                     isAuthenticated = !(SessionHelper.Customer == null),
                     isValidCredits = isValidCredits
@@ -248,7 +249,7 @@ namespace LetterAmazer.Websites.Client.Controllers
         public FileResult PreviewPDF(string key)
         {
             logger.DebugFormat("pdf key file: {0}", key);
-            string filename = GetAbsoluteFile(key);
+            string filename = PathHelper.GetAbsoluteFile(key);
             return File(filename, "application/pdf", Path.GetFileName(filename));
         }
 
@@ -324,16 +325,5 @@ namespace LetterAmazer.Websites.Client.Controllers
             //return keyName;
         }
 
-        private string GetAbsoluteFile(string filename)
-        {
-            var filepath = "";
-            //string filepath = Server.MapPath(letterService.GetRelativeLetterStoragePath().TrimEnd('/') + "/" + filename);
-            FileInfo file = new FileInfo(filepath);
-            if (!Directory.Exists(file.DirectoryName))
-            {
-                Directory.CreateDirectory(file.DirectoryName);
-            }
-            return filepath;
-        }
     }
 }

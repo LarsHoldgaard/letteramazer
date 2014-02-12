@@ -156,3 +156,91 @@ The statement has been terminated.
    at System.Data.Entity.DbContext.SaveChanges()
    at LetterAmazer.Business.Services.Services.CustomerService.Create(Customer customer) in c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Services\CustomerService.cs:line 138
    at LetterAmazer.Websites.Client.Controllers.HomeController.Register(RegisterViewModel model) in c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\Controllers\HomeController.cs:line 124
+2014-02-12 22:11:55,471 [9] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.ArgumentException: The path is not of a legal form.
+   at System.IO.Path.NormalizePath(String path, Boolean fullCheck, Int32 maxPathLength, Boolean expandShortPaths)
+   at System.IO.Path.GetFullPathInternal(String path)
+   at System.IO.FileInfo.Init(String fileName, Boolean checkHost)
+   at System.IO.FileInfo..ctor(String fileName)
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetAbsoluteFile(String filename) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 331
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.Upload() in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 139
+2014-02-12 22:17:35,879 [13] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.ArgumentException: The path is not of a legal form.
+   at System.IO.Path.NormalizePath(String path, Boolean fullCheck, Int32 maxPathLength, Boolean expandShortPaths)
+   at System.IO.Path.GetFullPathInternal(String path)
+   at System.IO.FileInfo.Init(String fileName, Boolean checkHost)
+   at System.IO.FileInfo..ctor(String fileName)
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetAbsoluteFile(String filename) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 331
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.Upload() in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 139
+2014-02-12 22:22:35,286 [5] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.NullReferenceException: Object reference not set to an instance of an object.
+   at LetterAmazer.Business.Services.Services.PriceService.GetPriceByAddress(AddressInfo addressInfo) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PriceService.cs:line 52
+   at LetterAmazer.Business.Services.Services.PriceService.GetPriceByLetter(Letter letter) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PriceService.cs:line 47
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetPrice(Boolean usePdf, String uploadFileKey, String content, String address, String postal, String city, String country) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 182
+2014-02-12 22:35:21,813 [16] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - LetterAmazer.Business.Services.Exceptions.BusinessException: Country cannot be null of an address
+   at LetterAmazer.Business.Services.Services.PriceService.GetPriceByAddress(AddressInfo addressInfo) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PriceService.cs:line 55
+   at LetterAmazer.Business.Services.Services.PriceService.GetPriceByLetter(Letter letter) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PriceService.cs:line 48
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetPrice(Boolean usePdf, String uploadFileKey, String content, String address, String postal, String city, String country) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 182
+2014-02-12 22:35:31,541 [16] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.NotSupportedException: The method 'Skip' is only supported for sorted input in LINQ to Entities. The method 'OrderBy' must be called before the method 'Skip'.
+   at System.Data.Objects.ELinq.ExpressionConverter.OrderByLifter.PassthroughOrderByLifter.Skip(DbExpression k)
+   at System.Data.Objects.ELinq.ExpressionConverter.OrderByLifter.Skip(DbExpressionBinding input, DbExpression skipCount)
+   at System.Data.Objects.ELinq.ExpressionConverter.Skip(DbExpressionBinding input, DbExpression skipCount)
+   at System.Data.Objects.ELinq.ExpressionConverter.MethodCallTranslator.SkipTranslator.TranslatePagingOperator(ExpressionConverter parent, DbExpression operand, DbExpression count)
+   at System.Data.Objects.ELinq.ExpressionConverter.MethodCallTranslator.PagingTranslator.TranslateUnary(ExpressionConverter parent, DbExpression operand, MethodCallExpression call)
+   at System.Data.Objects.ELinq.ExpressionConverter.MethodCallTranslator.UnarySequenceMethodTranslator.Translate(ExpressionConverter parent, MethodCallExpression call)
+   at System.Data.Objects.ELinq.ExpressionConverter.MethodCallTranslator.SequenceMethodTranslator.Translate(ExpressionConverter parent, MethodCallExpression call, SequenceMethod sequenceMethod)
+   at System.Data.Objects.ELinq.ExpressionConverter.MethodCallTranslator.TypedTranslate(ExpressionConverter parent, MethodCallExpression linq)
+   at System.Data.Objects.ELinq.ExpressionConverter.TypedTranslator`1.Translate(ExpressionConverter parent, Expression linq)
+   at System.Data.Objects.ELinq.ExpressionConverter.TranslateExpression(Expression linq)
+   at System.Data.Objects.ELinq.ExpressionConverter.MethodCallTranslator.UnarySequenceMethodTranslator.Translate(ExpressionConverter parent, MethodCallExpression call)
+   at System.Data.Objects.ELinq.ExpressionConverter.MethodCallTranslator.SequenceMethodTranslator.Translate(ExpressionConverter parent, MethodCallExpression call, SequenceMethod sequenceMethod)
+   at System.Data.Objects.ELinq.ExpressionConverter.MethodCallTranslator.TypedTranslate(ExpressionConverter parent, MethodCallExpression linq)
+   at System.Data.Objects.ELinq.ExpressionConverter.TypedTranslator`1.Translate(ExpressionConverter parent, Expression linq)
+   at System.Data.Objects.ELinq.ExpressionConverter.TranslateExpression(Expression linq)
+   at System.Data.Objects.ELinq.ExpressionConverter.Convert()
+   at System.Data.Objects.ELinq.ELinqQueryState.GetExecutionPlan(Nullable`1 forMergeOption)
+   at System.Data.Objects.ObjectQuery`1.GetResults(Nullable`1 forMergeOption)
+   at System.Data.Objects.ObjectQuery`1.System.Collections.Generic.IEnumerable<T>.GetEnumerator()
+   at System.Data.Entity.Internal.Linq.InternalQuery`1.GetEnumerator()
+   at System.Data.Entity.Infrastructure.DbQuery`1.System.Collections.Generic.IEnumerable<TResult>.GetEnumerator()
+   at System.Collections.Generic.List`1..ctor(IEnumerable`1 collection)
+   at System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   at LetterAmazer.Business.Services.Services.CountryService.GetCountryBySpecificaiton(CountrySpecification specification) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\CountryService.cs:line 81
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.Index(CreateSingleLetterModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 74
+2014-02-12 22:35:31,543 [16] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - 
+2014-02-12 22:36:09,760 [17] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - LetterAmazer.Business.Services.Exceptions.BusinessException: Country cannot be null of an address
+   at LetterAmazer.Business.Services.Services.PriceService.GetPriceByAddress(AddressInfo addressInfo) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PriceService.cs:line 55
+   at LetterAmazer.Business.Services.Services.PriceService.GetPriceByLetter(Letter letter) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PriceService.cs:line 48
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetPrice(Boolean usePdf, String uploadFileKey, String content, String address, String postal, String city, String country) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 182
+2014-02-12 22:36:45,850 [17] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.NotSupportedException: The method 'Skip' is only supported for sorted input in LINQ to Entities. The method 'OrderBy' must be called before the method 'Skip'.
+   at System.Data.Objects.ELinq.ExpressionConverter.OrderByLifter.PassthroughOrderByLifter.Skip(DbExpression k)
+   at System.Data.Objects.ELinq.ExpressionConverter.OrderByLifter.Skip(DbExpressionBinding input, DbExpression skipCount)
+   at System.Data.Objects.ELinq.ExpressionConverter.Skip(DbExpressionBinding input, DbExpression skipCount)
+   at System.Data.Objects.ELinq.ExpressionConverter.MethodCallTranslator.SkipTranslator.TranslatePagingOperator(ExpressionConverter parent, DbExpression operand, DbExpression count)
+   at System.Data.Objects.ELinq.ExpressionConverter.MethodCallTranslator.PagingTranslator.TranslateUnary(ExpressionConverter parent, DbExpression operand, MethodCallExpression call)
+   at System.Data.Objects.ELinq.ExpressionConverter.MethodCallTranslator.UnarySequenceMethodTranslator.Translate(ExpressionConverter parent, MethodCallExpression call)
+   at System.Data.Objects.ELinq.ExpressionConverter.MethodCallTranslator.SequenceMethodTranslator.Translate(ExpressionConverter parent, MethodCallExpression call, SequenceMethod sequenceMethod)
+   at System.Data.Objects.ELinq.ExpressionConverter.MethodCallTranslator.TypedTranslate(ExpressionConverter parent, MethodCallExpression linq)
+   at System.Data.Objects.ELinq.ExpressionConverter.TypedTranslator`1.Translate(ExpressionConverter parent, Expression linq)
+   at System.Data.Objects.ELinq.ExpressionConverter.TranslateExpression(Expression linq)
+   at System.Data.Objects.ELinq.ExpressionConverter.MethodCallTranslator.UnarySequenceMethodTranslator.Translate(ExpressionConverter parent, MethodCallExpression call)
+   at System.Data.Objects.ELinq.ExpressionConverter.MethodCallTranslator.SequenceMethodTranslator.Translate(ExpressionConverter parent, MethodCallExpression call, SequenceMethod sequenceMethod)
+   at System.Data.Objects.ELinq.ExpressionConverter.MethodCallTranslator.TypedTranslate(ExpressionConverter parent, MethodCallExpression linq)
+   at System.Data.Objects.ELinq.ExpressionConverter.TypedTranslator`1.Translate(ExpressionConverter parent, Expression linq)
+   at System.Data.Objects.ELinq.ExpressionConverter.TranslateExpression(Expression linq)
+   at System.Data.Objects.ELinq.ExpressionConverter.Convert()
+   at System.Data.Objects.ELinq.ELinqQueryState.GetExecutionPlan(Nullable`1 forMergeOption)
+   at System.Data.Objects.ObjectQuery`1.GetResults(Nullable`1 forMergeOption)
+   at System.Data.Objects.ObjectQuery`1.System.Collections.Generic.IEnumerable<T>.GetEnumerator()
+   at System.Data.Entity.Internal.Linq.InternalQuery`1.GetEnumerator()
+   at System.Data.Entity.Infrastructure.DbQuery`1.System.Collections.Generic.IEnumerable<TResult>.GetEnumerator()
+   at System.Collections.Generic.List`1..ctor(IEnumerable`1 collection)
+   at System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   at LetterAmazer.Business.Services.Services.CountryService.GetCountryBySpecificaiton(CountrySpecification specification) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\CountryService.cs:line 81
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.Index(CreateSingleLetterModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 74
+2014-02-12 22:36:45,850 [17] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - 
+2014-02-12 22:38:40,968 [9] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - LetterAmazer.Business.Services.Exceptions.BusinessException: Country cannot be null of an address
+   at LetterAmazer.Business.Services.Services.PriceService.GetPriceByAddress(AddressInfo addressInfo) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PriceService.cs:line 55
+   at LetterAmazer.Business.Services.Services.PriceService.GetPriceByLetter(Letter letter) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PriceService.cs:line 48
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetPrice(Boolean usePdf, String uploadFileKey, String content, String address, String postal, String city, String country) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 182
+2014-02-12 22:39:12,733 [5] DEBUG LetterAmazer.Websites.Client.Controllers.SingleLetterController - upload file key: 2014/2/6fbd5e72-0e53-4a54-8ab4-c38b2cf4db74.pdf
+2014-02-12 22:39:20,349 [5] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.NullReferenceException: Object reference not set to an instance of an object.
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.Index(CreateSingleLetterModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 97
+2014-02-12 22:39:20,350 [5] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - 

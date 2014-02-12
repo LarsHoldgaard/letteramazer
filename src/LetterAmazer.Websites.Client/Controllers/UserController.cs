@@ -51,7 +51,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                 ToDate = model.ToDate
             });
 
-            model.Orders = orders;
+            model.Orders = getOrderViewModel(orders);
             model.Customer = SessionHelper.Customer;
 
             return View(model);
@@ -211,6 +211,8 @@ namespace LetterAmazer.Websites.Client.Controllers
             return Redirect(url);
         }
 
+        #region Private helpers
+
         private string GetUploadFileName(string uploadFilename)
         {
             return string.Format("{0}/{1}/{2}.pdf", DateTime.Now.Year, DateTime.Now.Month, Guid.NewGuid().ToString());
@@ -221,5 +223,53 @@ namespace LetterAmazer.Websites.Client.Controllers
             return string.Empty;
             //return Server.MapPath(letterService.GetRelativeLetterStoragePath().TrimEnd('/') + "/" + filename);
         }
+
+        private List<OrderViewModel> getOrderViewModel(List<Order> orders)
+        {
+            List<OrderViewModel> ordersViewModels = new List<OrderViewModel>();
+            foreach (var order in orders)
+            {
+                var lines = orderLineService.GetOrderBySpecification(new OrderLineSpecification()
+                {
+                    OrderId = order.Id
+                });
+
+                OrderViewModel viewModel = new OrderViewModel()
+                {
+                    OrderLines = getOrderLineViewModel(lines),
+                    DateCreated = order.DateCreated,
+                    OrderStatus = order.OrderStatus,
+                    Id = order.Id,
+                    Price = order.Price
+                };
+
+                ordersViewModels.Add(viewModel);
+            }
+            return ordersViewModels;
+        }
+
+        private List<OrderLineViewModel> getOrderLineViewModel(List<OrderLine> orderLines)
+        {
+            List<OrderLineViewModel> lines =new List<OrderLineViewModel>();
+            foreach (var orderline in orderLines)
+            {
+                lines.Add(new OrderLineViewModel()
+                {
+                    Quantity = orderline.Quantity,
+                    OrderLineProductViewModel = getOrderLineProductViewModel((Letter)orderline.BaseProduct)
+                });
+            }
+            return lines;
+        }
+
+        private OrderLineProductViewModel getOrderLineProductViewModel(Letter letter)
+        {
+            return new OrderLineProductViewModel()
+            {
+                
+            };
+        }
+
+        #endregion
     }
 }

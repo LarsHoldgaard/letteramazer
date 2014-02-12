@@ -95,7 +95,7 @@ namespace LetterAmazer.Business.Services.Services
                 dbOrders = dbOrders.Where(c => c.CustomerId == specification.UserId);
             }
 
-            var ord = dbOrders.Skip(specification.Skip).Take(specification.Take).ToList();
+            var ord = dbOrders.OrderBy(c=>c.Id).Skip(specification.Skip).Take(specification.Take).ToList();
             return orderFactory.Create(ord);
         }
 

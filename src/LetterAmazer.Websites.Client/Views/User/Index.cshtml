@@ -1,5 +1,4 @@
-﻿@using LetterAmazer.Business.Services.Utilities
-@using LetterAmazer.Websites.Client.Extensions
+﻿@using LetterAmazer.Websites.Client.Extensions
 @using LetterAmazer.Websites.Client.Resources.Views.User
 
 @model LetterAmazer.Websites.Client.ViewModels.ProfileViewModel
@@ -11,8 +10,8 @@
 
 <div class="jumbotron-white">
     <div class="container">
-        <h2>@ViewRes.SendALetter, @Model.Customer.CustomerInfo.CompanyName</h2>
-        <h3>@ViewRes.Credits: <strong class="credit">@Model.Customer.Credits.Value.ToFriendlyMoney()$</strong></h3>
+        <h2>@ViewRes.SendALetter, @Model.Customer.CustomerInfo.Organisation</h2>
+        <h3>@ViewRes.Credits: <strong class="credit">@Model.Customer.Credit.ToFriendlyMoney()$</strong></h3>
         <h4>@ViewRes.SendALetter</h4>
         <p><a class="btn btn-success" href="@Url.Action("SendALetter")">@ViewRes.SendALetterNow</a></p>
         <h4>@ViewRes.OrderOverview</h4>
@@ -40,13 +39,13 @@
                 </tr>
             </thead>
             <tbody>
-            @foreach (var item in Model.Orders.Results)
+            @foreach (var item in Model.Orders)
             {
                 <tr>
                     <td>@item.Id</td>
                     <td>@item.DateCreated.ToFriendlyDateTime()</td>
                     <td>@ViewRes.ResourceManager.GetString(item.OrderStatus.ToString())</td>
-                    <td>@item.OrderItems.Count</td>
+                    <td>@item.OrderLines.Count</td>
                     <td>@item.Price.ToFriendlyMoney() USD</td>
                     <td><a href="@Url.Action("Details", new { id = item.Id })">See details</a></td>
                     <td><a href="@Url.Action("Delete", new { id = item.Id })">Delete order</a></td>
@@ -54,7 +53,7 @@
             }
             </tbody>
         </table>
-        @Html.Raw(Html.Paginator(Model.Orders.PageIndex, Model.Orders.PageSize, Model.Orders.TotalItems))
+        @*@Html.Raw(Html.Paginator(Model.Orders.PageIndex, Model.Orders.PageSize, Model.Orders.TotalItems))*@
     </div>
 </div>
 <script type="text/javascript">

@@ -8,8 +8,28 @@ namespace LetterAmazer.Websites.Client.ViewModels
     public class ProfileViewModel
     {
         public Customer Customer { get; set; }
-        public List<Order> Orders { get; set; }
+        public List<OrderViewModel> Orders { get; set; }
         public DateTime? FromDate { get; set; }
         public DateTime? ToDate { get; set; }
+    }
+
+    public class OrderViewModel
+    {
+        public int Id { get; set; }
+        public decimal Price { get; set; }
+        public OrderStatus OrderStatus { get; set; }
+        public DateTime DateCreated { get; set; }
+        public List<OrderLineViewModel> OrderLines { get; set; }
+    }
+
+    public class OrderLineViewModel
+    {
+        public int Quantity { get; set; }
+        public OrderLineProductViewModel OrderLineProductViewModel { get; set; }
+    }
+
+    public class OrderLineProductViewModel
+    {
+        
     }
 }
