@@ -29,14 +29,15 @@ namespace LetterAmazer.Business.Services.Services
 
         public string Process(List<Domain.Payments.PaymentMethods> methods, Order order)
         {
+            var url = string.Empty;
             var usedMethods = getPaymentMethods(methods);
 
             foreach (var method in usedMethods)
             {
-                method.Process(order);
+                url = method.Process(order);
             }
 
-            return string.Empty;
+            return url;
         }
 
        

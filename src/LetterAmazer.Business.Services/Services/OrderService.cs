@@ -49,10 +49,15 @@ namespace LetterAmazer.Business.Services.Services
             dborder.DateCreated = DateTime.Now;
             dborder.DateUpdated = DateTime.Now;
             dborder.Cost = 0m;
+            dborder.PaymentMethod = "";
+            dborder.Discount = 0.0m;
+            dborder.Price = 0.0m;
+
+            Repository.DbOrders.Add(dborder);
 
             Repository.SaveChanges();
 
-            return GetOrderById(order.Id);
+            return GetOrderById(dborder.Id);
         }
 
         public Order Update(Order order)

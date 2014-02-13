@@ -36,18 +36,6 @@ namespace LetterAmazer.Business.Services.Services
 
                 DbLetters dbLetter = new DbLetters()
                 {
-                    FromAddress_Address = letter.FromAddress.Address1,
-                    FromAddress_Address2 = letter.FromAddress.Address2,
-                    FromAddress_AttPerson = letter.FromAddress.AttPerson,
-                    FromAddress_City = letter.FromAddress.City,
-                    FromAddress_Co = letter.FromAddress.Co,
-                    FromAddress_CompanyName = string.Empty,
-                    FromAddress_Country = letter.FromAddress.Country.Id,
-                    FromAddress_FirstName = letter.FromAddress.FirstName,
-                    FromAddress_LastName = letter.FromAddress.LastName,
-                    FromAddress_Postal = letter.FromAddress.PostalCode,
-                    FromAddress_State = letter.FromAddress.State,
-                    FromAddress_VatNr = letter.FromAddress.VatNr,
                     ToAddress_Address = letter.ToAddress.Address1,
                     ToAddress_Address2 = letter.ToAddress.Address2,
                     ToAddress_AttPerson = letter.ToAddress.AttPerson,
@@ -67,8 +55,28 @@ namespace LetterAmazer.Business.Services.Services
                     LetterStatus = (int)letter.LetterStatus,
                     OfficeProductId = letter.OfficeProductId,
                 };
+
+                if (letter.FromAddress != null)
+                {
+                    dbLetter.FromAddress_Address = letter.FromAddress.Address1;
+                    dbLetter.FromAddress_Address2 = letter.FromAddress.Address2;
+                    dbLetter.FromAddress_AttPerson = letter.FromAddress.AttPerson;
+                    dbLetter.FromAddress_City = letter.FromAddress.City;
+                    dbLetter.FromAddress_Co = letter.FromAddress.Co;
+                    dbLetter.FromAddress_CompanyName = string.Empty;
+                    dbLetter.FromAddress_Country = letter.FromAddress.Country.Id;
+                    dbLetter.FromAddress_FirstName = letter.FromAddress.FirstName;
+                    dbLetter.FromAddress_LastName = letter.FromAddress.LastName;
+                    dbLetter.FromAddress_Postal = letter.FromAddress.PostalCode;
+                    dbLetter.FromAddress_State = letter.FromAddress.State;
+                    dbLetter.FromAddress_VatNr = letter.FromAddress.VatNr;
+                }
                 dbOrderLine.DbLetters = dbLetter;
+                letter.OfficeProductId = 1;
             }
+
+            repository.DbOrderItems.Add(dbOrderLine);
+            repository.SaveChanges();
 
             return GetOrderById(dbOrderLine.Id);
         }

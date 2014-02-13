@@ -244,3 +244,275 @@ The statement has been terminated.
 2014-02-12 22:39:20,349 [5] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.NullReferenceException: Object reference not set to an instance of an object.
    at LetterAmazer.Websites.Client.Controllers.SingleLetterController.Index(CreateSingleLetterModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 97
 2014-02-12 22:39:20,350 [5] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - 
+2014-02-12 22:42:11,083 [11] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - LetterAmazer.Business.Services.Exceptions.BusinessException: Country cannot be null of an address
+   at LetterAmazer.Business.Services.Services.PriceService.GetPriceByAddress(AddressInfo addressInfo) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PriceService.cs:line 55
+   at LetterAmazer.Business.Services.Services.PriceService.GetPriceByLetter(Letter letter) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PriceService.cs:line 48
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetPrice(Boolean usePdf, String uploadFileKey, String content, String address, String postal, String city, String country) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 182
+2014-02-12 22:42:45,683 [10] DEBUG LetterAmazer.Websites.Client.Controllers.SingleLetterController - upload file key: 2014/2/8a36c6a1-1ddd-4679-825b-ec07027b3e54.pdf
+2014-02-12 22:42:51,548 [10] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.NullReferenceException: Object reference not set to an instance of an object.
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.Index(CreateSingleLetterModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 97
+2014-02-12 22:42:51,548 [10] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - 
+2014-02-12 22:44:23,944 [11] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - LetterAmazer.Business.Services.Exceptions.BusinessException: Country cannot be null of an address
+   at LetterAmazer.Business.Services.Services.PriceService.GetPriceByAddress(AddressInfo addressInfo) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PriceService.cs:line 55
+   at LetterAmazer.Business.Services.Services.PriceService.GetPriceByLetter(Letter letter) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PriceService.cs:line 48
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetPrice(Boolean usePdf, String uploadFileKey, String content, String address, String postal, String city, String country) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 182
+2014-02-12 22:44:36,897 [11] DEBUG LetterAmazer.Websites.Client.Controllers.SingleLetterController - upload file key: 2014/2/2bbbe5e1-4c48-4611-91de-ff903b2d5dd6.pdf
+2014-02-12 22:47:00,814 [11] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.NullReferenceException: Object reference not set to an instance of an object.
+   at LetterAmazer.Business.Services.Services.PaymentService.getPaymentMethods(List`1 methods) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PaymentService.cs:line 87
+   at LetterAmazer.Business.Services.Services.PaymentService.Process(List`1 methods, Order order) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PaymentService.cs:line 32
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.Index(CreateSingleLetterModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 114
+2014-02-12 22:47:00,814 [11] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - 
+2014-02-12 22:48:44,619 [5] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - LetterAmazer.Business.Services.Exceptions.BusinessException: Country cannot be null of an address
+   at LetterAmazer.Business.Services.Services.PriceService.GetPriceByAddress(AddressInfo addressInfo) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PriceService.cs:line 55
+   at LetterAmazer.Business.Services.Services.PriceService.GetPriceByLetter(Letter letter) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PriceService.cs:line 48
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetPrice(Boolean usePdf, String uploadFileKey, String content, String address, String postal, String city, String country) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 183
+2014-02-12 22:49:27,273 [5] DEBUG LetterAmazer.Websites.Client.Controllers.SingleLetterController - upload file key: 2014/2/2b621445-7177-4691-9519-fb985cdcf10b.pdf
+2014-02-12 22:49:49,563 [5] DEBUG LetterAmazer.Websites.Client.Controllers.SingleLetterController - redirectUrl: 
+2014-02-12 22:49:50,620 [5] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.ArgumentException: Value cannot be null or empty.
+Parameter name: url
+   at System.Web.Mvc.Controller.Redirect(String url)
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.Index(CreateSingleLetterModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 117
+2014-02-12 22:49:50,621 [5] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - 
+2014-02-13 20:31:18,638 [9] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - LetterAmazer.Business.Services.Exceptions.BusinessException: Country cannot be null of an address
+   at LetterAmazer.Business.Services.Services.PriceService.GetPriceByAddress(AddressInfo addressInfo) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PriceService.cs:line 55
+   at LetterAmazer.Business.Services.Services.PriceService.GetPriceByLetter(Letter letter) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PriceService.cs:line 48
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetPrice(Boolean usePdf, String uploadFileKey, String content, String address, String postal, String city, String country) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 183
+2014-02-13 20:31:32,518 [11] DEBUG LetterAmazer.Websites.Client.Controllers.SingleLetterController - upload file key: 2014/2/550d1f39-3744-4ba2-874a-66595c3c21c2.pdf
+2014-02-13 20:31:38,985 [11] DEBUG LetterAmazer.Websites.Client.Controllers.SingleLetterController - redirectUrl: 
+2014-02-13 20:31:45,032 [11] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.ArgumentException: Value cannot be null or empty.
+Parameter name: url
+   at System.Web.Mvc.Controller.Redirect(String url)
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.Index(CreateSingleLetterModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 117
+2014-02-13 20:31:45,033 [11] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - 
+2014-02-13 20:41:45,940 [11] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - LetterAmazer.Business.Services.Exceptions.BusinessException: Country cannot be null of an address
+   at LetterAmazer.Business.Services.Services.PriceService.GetPriceByAddress(AddressInfo addressInfo) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PriceService.cs:line 55
+   at LetterAmazer.Business.Services.Services.PriceService.GetPriceByLetter(Letter letter) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PriceService.cs:line 48
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetPrice(Boolean usePdf, String uploadFileKey, String content, String address, String postal, String city, String country) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 186
+2014-02-13 22:06:24,724 [9] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - LetterAmazer.Business.Services.Exceptions.BusinessException: Country cannot be null of an address
+   at LetterAmazer.Business.Services.Services.PriceService.GetPriceByAddress(AddressInfo addressInfo) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PriceService.cs:line 55
+   at LetterAmazer.Business.Services.Services.PriceService.GetPriceByLetter(Letter letter) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PriceService.cs:line 48
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetPrice(Boolean usePdf, String uploadFileKey, String content, String address, String postal, String city, String country) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 186
+2014-02-13 22:06:59,918 [10] DEBUG LetterAmazer.Websites.Client.Controllers.SingleLetterController - upload file key: 2014/2/ef3f7b39-a829-434e-89ab-9b686e1ef72e.pdf
+2014-02-13 22:06:59,988 [10] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.NullReferenceException: Object reference not set to an instance of an object.
+   at LetterAmazer.Business.Services.Services.PaymentMethods.Implementations.PaypalMethod.Process(Order order) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PaymentMethods\Implementations\PaypalMethod.cs:line 124
+   at LetterAmazer.Business.Services.Services.PaymentService.Process(List`1 methods, Order order) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PaymentService.cs:line 37
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.Index(CreateSingleLetterModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 118
+2014-02-13 22:06:59,988 [10] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - 
+2014-02-13 22:07:14,632 [8] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - LetterAmazer.Business.Services.Exceptions.BusinessException: Country cannot be null of an address
+   at LetterAmazer.Business.Services.Services.PriceService.GetPriceByAddress(AddressInfo addressInfo) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PriceService.cs:line 55
+   at LetterAmazer.Business.Services.Services.PriceService.GetPriceByLetter(Letter letter) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PriceService.cs:line 48
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetPrice(Boolean usePdf, String uploadFileKey, String content, String address, String postal, String city, String country) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 186
+2014-02-13 22:07:23,830 [8] DEBUG LetterAmazer.Websites.Client.Controllers.SingleLetterController - upload file key: 2014/2/f4269f8e-4bd9-40e3-a009-1b6ddf69db06.pdf
+2014-02-13 22:07:51,856 [8] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.NullReferenceException: Object reference not set to an instance of an object.
+   at LetterAmazer.Business.Services.Services.PaymentMethods.Implementations.PaypalMethod.Process(Order order) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PaymentMethods\Implementations\PaypalMethod.cs:line 124
+   at LetterAmazer.Business.Services.Services.PaymentService.Process(List`1 methods, Order order) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PaymentService.cs:line 37
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.Index(CreateSingleLetterModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 118
+2014-02-13 22:07:51,856 [8] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - 
+2014-02-13 22:08:07,327 [10] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - LetterAmazer.Business.Services.Exceptions.BusinessException: Country cannot be null of an address
+   at LetterAmazer.Business.Services.Services.PriceService.GetPriceByAddress(AddressInfo addressInfo) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PriceService.cs:line 55
+   at LetterAmazer.Business.Services.Services.PriceService.GetPriceByLetter(Letter letter) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PriceService.cs:line 48
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetPrice(Boolean usePdf, String uploadFileKey, String content, String address, String postal, String city, String country) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 186
+2014-02-13 22:08:38,553 [11] DEBUG LetterAmazer.Websites.Client.Controllers.SingleLetterController - upload file key: 2014/2/c6e11a14-84d1-45a2-94bc-c3be75c1211a.pdf
+2014-02-13 22:09:33,644 [11] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.NullReferenceException: Object reference not set to an instance of an object.
+   at LetterAmazer.Business.Services.Services.PaymentMethods.Implementations.PaypalMethod.Process(Order order) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PaymentMethods\Implementations\PaypalMethod.cs:line 124
+   at LetterAmazer.Business.Services.Services.PaymentService.Process(List`1 methods, Order order) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PaymentService.cs:line 37
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.Index(CreateSingleLetterModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 118
+2014-02-13 22:09:33,644 [11] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - 
+2014-02-13 22:17:15,752 [8] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - LetterAmazer.Business.Services.Exceptions.BusinessException: Country cannot be null of an address
+   at LetterAmazer.Business.Services.Services.PriceService.GetPriceByAddress(AddressInfo addressInfo) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PriceService.cs:line 55
+   at LetterAmazer.Business.Services.Services.PriceService.GetPriceByLetter(Letter letter) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PriceService.cs:line 48
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetPrice(Boolean usePdf, String uploadFileKey, String content, String address, String postal, String city, String country) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 209
+2014-02-13 22:17:27,229 [11] DEBUG LetterAmazer.Websites.Client.Controllers.SingleLetterController - upload file key: 2014/2/b9f4b53e-be7d-4f38-9554-4bad0573f521.pdf
+2014-02-13 22:17:35,388 [11] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - LetterAmazer.Business.Services.Exceptions.ItemNotFoundException: Order
+   at LetterAmazer.Business.Services.Services.OrderService.GetOrderById(Int32 orderId) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\OrderService.cs:line 107
+   at LetterAmazer.Business.Services.Services.OrderService.Create(Order order) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\OrderService.cs:line 55
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.Index(CreateSingleLetterModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 126
+2014-02-13 22:17:35,389 [11] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - 
+2014-02-13 22:17:50,747 [12] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - LetterAmazer.Business.Services.Exceptions.BusinessException: Country cannot be null of an address
+   at LetterAmazer.Business.Services.Services.PriceService.GetPriceByAddress(AddressInfo addressInfo) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PriceService.cs:line 55
+   at LetterAmazer.Business.Services.Services.PriceService.GetPriceByLetter(Letter letter) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PriceService.cs:line 48
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetPrice(Boolean usePdf, String uploadFileKey, String content, String address, String postal, String city, String country) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 209
+2014-02-13 22:18:01,052 [12] DEBUG LetterAmazer.Websites.Client.Controllers.SingleLetterController - upload file key: 2014/2/963fb7ab-83e2-46c7-9464-646de06797ae.pdf
+2014-02-13 22:18:21,569 [12] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - LetterAmazer.Business.Services.Exceptions.ItemNotFoundException: Order
+   at LetterAmazer.Business.Services.Services.OrderService.GetOrderById(Int32 orderId) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\OrderService.cs:line 107
+   at LetterAmazer.Business.Services.Services.OrderService.Create(Order order) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\OrderService.cs:line 55
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.Index(CreateSingleLetterModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 126
+2014-02-13 22:18:21,570 [12] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - 
+2014-02-13 22:18:54,663 [9] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - LetterAmazer.Business.Services.Exceptions.BusinessException: Country cannot be null of an address
+   at LetterAmazer.Business.Services.Services.PriceService.GetPriceByAddress(AddressInfo addressInfo) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PriceService.cs:line 55
+   at LetterAmazer.Business.Services.Services.PriceService.GetPriceByLetter(Letter letter) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PriceService.cs:line 48
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetPrice(Boolean usePdf, String uploadFileKey, String content, String address, String postal, String city, String country) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 209
+2014-02-13 22:19:04,488 [8] DEBUG LetterAmazer.Websites.Client.Controllers.SingleLetterController - upload file key: 2014/2/4663046e-55b4-4bb1-a174-d9370a56b142.pdf
+2014-02-13 22:19:11,449 [8] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - LetterAmazer.Business.Services.Exceptions.ItemNotFoundException: Order
+   at LetterAmazer.Business.Services.Services.OrderService.GetOrderById(Int32 orderId) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\OrderService.cs:line 107
+   at LetterAmazer.Business.Services.Services.OrderService.Create(Order order) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\OrderService.cs:line 55
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.Index(CreateSingleLetterModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 126
+2014-02-13 22:19:11,451 [8] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - 
+2014-02-13 22:19:30,114 [8] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - LetterAmazer.Business.Services.Exceptions.BusinessException: Country cannot be null of an address
+   at LetterAmazer.Business.Services.Services.PriceService.GetPriceByAddress(AddressInfo addressInfo) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PriceService.cs:line 55
+   at LetterAmazer.Business.Services.Services.PriceService.GetPriceByLetter(Letter letter) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PriceService.cs:line 48
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetPrice(Boolean usePdf, String uploadFileKey, String content, String address, String postal, String city, String country) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 209
+2014-02-13 22:19:39,657 [12] DEBUG LetterAmazer.Websites.Client.Controllers.SingleLetterController - upload file key: 2014/2/c0749f7a-e7a8-4a6a-b72b-a22781b15bb6.pdf
+2014-02-13 22:19:56,951 [12] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - LetterAmazer.Business.Services.Exceptions.ItemNotFoundException: Order
+   at LetterAmazer.Business.Services.Services.OrderService.GetOrderById(Int32 orderId) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\OrderService.cs:line 107
+   at LetterAmazer.Business.Services.Services.OrderService.Create(Order order) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\OrderService.cs:line 55
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.Index(CreateSingleLetterModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 126
+2014-02-13 22:19:56,951 [12] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - 
+2014-02-13 22:20:46,956 [10] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - LetterAmazer.Business.Services.Exceptions.BusinessException: Country cannot be null of an address
+   at LetterAmazer.Business.Services.Services.PriceService.GetPriceByAddress(AddressInfo addressInfo) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PriceService.cs:line 55
+   at LetterAmazer.Business.Services.Services.PriceService.GetPriceByLetter(Letter letter) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PriceService.cs:line 48
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetPrice(Boolean usePdf, String uploadFileKey, String content, String address, String postal, String city, String country) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 209
+2014-02-13 22:21:01,218 [10] DEBUG LetterAmazer.Websites.Client.Controllers.SingleLetterController - upload file key: 2014/2/c449f2f3-5022-48fb-a2af-263141268a21.pdf
+2014-02-13 22:21:13,432 [10] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.Data.Entity.Validation.DbEntityValidationException: Validation failed for one or more entities. See 'EntityValidationErrors' property for more details.
+   at System.Data.Entity.Internal.InternalContext.SaveChanges()
+   at System.Data.Entity.Internal.LazyInternalContext.SaveChanges()
+   at System.Data.Entity.DbContext.SaveChanges()
+   at LetterAmazer.Business.Services.Services.OrderService.Create(Order order) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\OrderService.cs:line 55
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.Index(CreateSingleLetterModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 126
+2014-02-13 22:21:13,433 [10] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - 
+2014-02-13 22:22:50,083 [9] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - LetterAmazer.Business.Services.Exceptions.BusinessException: Country cannot be null of an address
+   at LetterAmazer.Business.Services.Services.PriceService.GetPriceByAddress(AddressInfo addressInfo) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PriceService.cs:line 55
+   at LetterAmazer.Business.Services.Services.PriceService.GetPriceByLetter(Letter letter) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PriceService.cs:line 48
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetPrice(Boolean usePdf, String uploadFileKey, String content, String address, String postal, String city, String country) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 209
+2014-02-13 22:23:09,266 [9] DEBUG LetterAmazer.Websites.Client.Controllers.SingleLetterController - upload file key: 2014/2/b0e45246-c04f-4ea4-8008-571dd53436d9.pdf
+2014-02-13 22:23:09,377 [9] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.Data.Entity.Validation.DbEntityValidationException: Validation failed for one or more entities. See 'EntityValidationErrors' property for more details.
+   at System.Data.Entity.Internal.InternalContext.SaveChanges()
+   at System.Data.Entity.Internal.LazyInternalContext.SaveChanges()
+   at System.Data.Entity.DbContext.SaveChanges()
+   at LetterAmazer.Business.Services.Services.OrderService.Create(Order order) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\OrderService.cs:line 55
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.Index(CreateSingleLetterModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 126
+2014-02-13 22:23:09,378 [9] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - 
+2014-02-13 22:24:55,763 [9] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - LetterAmazer.Business.Services.Exceptions.BusinessException: Country cannot be null of an address
+   at LetterAmazer.Business.Services.Services.PriceService.GetPriceByAddress(AddressInfo addressInfo) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PriceService.cs:line 55
+   at LetterAmazer.Business.Services.Services.PriceService.GetPriceByLetter(Letter letter) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PriceService.cs:line 48
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetPrice(Boolean usePdf, String uploadFileKey, String content, String address, String postal, String city, String country) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 209
+2014-02-13 22:25:04,552 [9] DEBUG LetterAmazer.Websites.Client.Controllers.SingleLetterController - upload file key: 2014/2/a1e563c4-3d42-4698-b3e5-e6017a3b7e5f.pdf
+2014-02-13 22:26:16,443 [9] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.NullReferenceException: Object reference not set to an instance of an object.
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.Index(CreateSingleLetterModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 136
+2014-02-13 22:26:16,443 [9] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - 
+2014-02-13 22:28:54,280 [9] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - LetterAmazer.Business.Services.Exceptions.BusinessException: Country cannot be null of an address
+   at LetterAmazer.Business.Services.Services.PriceService.GetPriceByAddress(AddressInfo addressInfo) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PriceService.cs:line 55
+   at LetterAmazer.Business.Services.Services.PriceService.GetPriceByLetter(Letter letter) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PriceService.cs:line 48
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetPrice(Boolean usePdf, String uploadFileKey, String content, String address, String postal, String city, String country) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 209
+2014-02-13 22:29:00,898 [10] DEBUG LetterAmazer.Websites.Client.Controllers.SingleLetterController - upload file key: 2014/2/e9d10333-d827-4eeb-9ba8-d5fd51fee28b.pdf
+2014-02-13 22:29:01,293 [10] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.NullReferenceException: Object reference not set to an instance of an object.
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.Index(CreateSingleLetterModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 136
+2014-02-13 22:29:01,293 [10] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - 
+2014-02-13 22:29:14,963 [11] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - LetterAmazer.Business.Services.Exceptions.BusinessException: Country cannot be null of an address
+   at LetterAmazer.Business.Services.Services.PriceService.GetPriceByAddress(AddressInfo addressInfo) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PriceService.cs:line 55
+   at LetterAmazer.Business.Services.Services.PriceService.GetPriceByLetter(Letter letter) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PriceService.cs:line 48
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetPrice(Boolean usePdf, String uploadFileKey, String content, String address, String postal, String city, String country) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 209
+2014-02-13 22:29:22,753 [11] DEBUG LetterAmazer.Websites.Client.Controllers.SingleLetterController - upload file key: 2014/2/48b92ff9-40c9-40eb-a8e2-ceaf4135b489.pdf
+2014-02-13 22:29:30,726 [11] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.NullReferenceException: Object reference not set to an instance of an object.
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.Index(CreateSingleLetterModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 136
+2014-02-13 22:29:30,726 [11] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - 
+2014-02-13 22:30:39,529 [8] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - LetterAmazer.Business.Services.Exceptions.BusinessException: Country cannot be null of an address
+   at LetterAmazer.Business.Services.Services.PriceService.GetPriceByAddress(AddressInfo addressInfo) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PriceService.cs:line 55
+   at LetterAmazer.Business.Services.Services.PriceService.GetPriceByLetter(Letter letter) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PriceService.cs:line 48
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetPrice(Boolean usePdf, String uploadFileKey, String content, String address, String postal, String city, String country) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 210
+2014-02-13 22:30:51,798 [12] DEBUG LetterAmazer.Websites.Client.Controllers.SingleLetterController - upload file key: 2014/2/6557bd37-1617-46f0-8c84-e739d5ea0394.pdf
+2014-02-13 22:31:41,357 [12] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.Data.Entity.Infrastructure.DbUpdateException: An error occurred while updating the entries. See the inner exception for details. ---> System.Data.UpdateException: An error occurred while updating the entries. See the inner exception for details. ---> System.Data.SqlClient.SqlException: The INSERT statement conflicted with the FOREIGN KEY constraint "FK_Letters_OfficeProducts". The conflict occurred in database "LetterAmazer", table "dbo.DbOfficeProducts", column 'Id'.
+The statement has been terminated.
+   at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at System.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   at System.Data.SqlClient.SqlDataReader.get_MetaData()
+   at System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   at System.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior, String method)
+   at System.Data.SqlClient.SqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   at System.Data.Common.DbCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.Mapping.Update.Internal.DynamicUpdateCommand.Execute(UpdateTranslator translator, EntityConnection connection, Dictionary`2 identifierValues, List`1 generatedValues)
+   at System.Data.Mapping.Update.Internal.UpdateTranslator.Update(IEntityStateManager stateManager, IEntityAdapter adapter)
+   --- End of inner exception stack trace ---
+   at System.Data.Mapping.Update.Internal.UpdateTranslator.Update(IEntityStateManager stateManager, IEntityAdapter adapter)
+   at System.Data.EntityClient.EntityAdapter.Update(IEntityStateManager entityCache)
+   at System.Data.Objects.ObjectContext.SaveChanges(SaveOptions options)
+   at System.Data.Entity.Internal.InternalContext.SaveChanges()
+   --- End of inner exception stack trace ---
+   at System.Data.Entity.Internal.InternalContext.SaveChanges()
+   at System.Data.Entity.Internal.LazyInternalContext.SaveChanges()
+   at System.Data.Entity.DbContext.SaveChanges()
+   at LetterAmazer.Business.Services.Services.OrderLineService.Create(OrderLine orderLine) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\OrderLineService.cs:line 78
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.Index(CreateSingleLetterModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 137
+2014-02-13 22:31:41,358 [12] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.Data.UpdateException: An error occurred while updating the entries. See the inner exception for details. ---> System.Data.SqlClient.SqlException: The INSERT statement conflicted with the FOREIGN KEY constraint "FK_Letters_OfficeProducts". The conflict occurred in database "LetterAmazer", table "dbo.DbOfficeProducts", column 'Id'.
+The statement has been terminated.
+   at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at System.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   at System.Data.SqlClient.SqlDataReader.get_MetaData()
+   at System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   at System.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior, String method)
+   at System.Data.SqlClient.SqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   at System.Data.Common.DbCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.Mapping.Update.Internal.DynamicUpdateCommand.Execute(UpdateTranslator translator, EntityConnection connection, Dictionary`2 identifierValues, List`1 generatedValues)
+   at System.Data.Mapping.Update.Internal.UpdateTranslator.Update(IEntityStateManager stateManager, IEntityAdapter adapter)
+   --- End of inner exception stack trace ---
+   at System.Data.Mapping.Update.Internal.UpdateTranslator.Update(IEntityStateManager stateManager, IEntityAdapter adapter)
+   at System.Data.EntityClient.EntityAdapter.Update(IEntityStateManager entityCache)
+   at System.Data.Objects.ObjectContext.SaveChanges(SaveOptions options)
+   at System.Data.Entity.Internal.InternalContext.SaveChanges()
+2014-02-13 22:33:03,675 [10] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - LetterAmazer.Business.Services.Exceptions.BusinessException: Country cannot be null of an address
+   at LetterAmazer.Business.Services.Services.PriceService.GetPriceByAddress(AddressInfo addressInfo) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PriceService.cs:line 55
+   at LetterAmazer.Business.Services.Services.PriceService.GetPriceByLetter(Letter letter) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PriceService.cs:line 48
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetPrice(Boolean usePdf, String uploadFileKey, String content, String address, String postal, String city, String country) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 210
+2014-02-13 22:33:08,567 [10] DEBUG LetterAmazer.Websites.Client.Controllers.SingleLetterController - upload file key: 2014/2/0d971189-4cd9-453c-ab89-f2f231ccb660.pdf
+2014-02-13 22:33:33,754 [10] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.Data.Entity.Infrastructure.DbUpdateException: An error occurred while updating the entries. See the inner exception for details. ---> System.Data.UpdateException: An error occurred while updating the entries. See the inner exception for details. ---> System.Data.SqlClient.SqlException: The INSERT statement conflicted with the FOREIGN KEY constraint "FK_Letters_OfficeProducts". The conflict occurred in database "LetterAmazer", table "dbo.DbOfficeProducts", column 'Id'.
+The statement has been terminated.
+   at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at System.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   at System.Data.SqlClient.SqlDataReader.get_MetaData()
+   at System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   at System.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior, String method)
+   at System.Data.SqlClient.SqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   at System.Data.Common.DbCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.Mapping.Update.Internal.DynamicUpdateCommand.Execute(UpdateTranslator translator, EntityConnection connection, Dictionary`2 identifierValues, List`1 generatedValues)
+   at System.Data.Mapping.Update.Internal.UpdateTranslator.Update(IEntityStateManager stateManager, IEntityAdapter adapter)
+   --- End of inner exception stack trace ---
+   at System.Data.Mapping.Update.Internal.UpdateTranslator.Update(IEntityStateManager stateManager, IEntityAdapter adapter)
+   at System.Data.EntityClient.EntityAdapter.Update(IEntityStateManager entityCache)
+   at System.Data.Objects.ObjectContext.SaveChanges(SaveOptions options)
+   at System.Data.Entity.Internal.InternalContext.SaveChanges()
+   --- End of inner exception stack trace ---
+   at System.Data.Entity.Internal.InternalContext.SaveChanges()
+   at System.Data.Entity.Internal.LazyInternalContext.SaveChanges()
+   at System.Data.Entity.DbContext.SaveChanges()
+   at LetterAmazer.Business.Services.Services.OrderLineService.Create(OrderLine orderLine) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\OrderLineService.cs:line 79
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.Index(CreateSingleLetterModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 137
+2014-02-13 22:33:33,755 [10] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.Data.UpdateException: An error occurred while updating the entries. See the inner exception for details. ---> System.Data.SqlClient.SqlException: The INSERT statement conflicted with the FOREIGN KEY constraint "FK_Letters_OfficeProducts". The conflict occurred in database "LetterAmazer", table "dbo.DbOfficeProducts", column 'Id'.
+The statement has been terminated.
+   at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at System.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   at System.Data.SqlClient.SqlDataReader.get_MetaData()
+   at System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   at System.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior, String method)
+   at System.Data.SqlClient.SqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   at System.Data.Common.DbCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.Mapping.Update.Internal.DynamicUpdateCommand.Execute(UpdateTranslator translator, EntityConnection connection, Dictionary`2 identifierValues, List`1 generatedValues)
+   at System.Data.Mapping.Update.Internal.UpdateTranslator.Update(IEntityStateManager stateManager, IEntityAdapter adapter)
+   --- End of inner exception stack trace ---
+   at System.Data.Mapping.Update.Internal.UpdateTranslator.Update(IEntityStateManager stateManager, IEntityAdapter adapter)
+   at System.Data.EntityClient.EntityAdapter.Update(IEntityStateManager entityCache)
+   at System.Data.Objects.ObjectContext.SaveChanges(SaveOptions options)
+   at System.Data.Entity.Internal.InternalContext.SaveChanges()
