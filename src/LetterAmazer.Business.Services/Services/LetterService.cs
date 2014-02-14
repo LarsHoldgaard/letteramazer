@@ -51,7 +51,7 @@ namespace LetterAmazer.Business.Services.Services
                 dbLetters = dbLetters.Where(c => specification.LetterStatus.Contains((LetterStatus)c.LetterStatus));
             }
 
-            return letterFactory.Create(dbLetters.Skip(specification.Skip).Take(specification.Take).ToList());
+            return letterFactory.Create(dbLetters.OrderBy(c=>c.Id).Skip(specification.Skip).Take(specification.Take).ToList());
         }
 
         public Letter Create(Letter letter)

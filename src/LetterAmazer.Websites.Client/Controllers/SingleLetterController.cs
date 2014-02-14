@@ -57,6 +57,17 @@ namespace LetterAmazer.Websites.Client.Controllers
             if (SessionHelper.Customer != null) return RedirectToAction("SendALetter", "User");
             
             CreateSingleLetterModel model = new CreateSingleLetterModel();
+
+            //couponService.Create(new Coupon()
+            //{
+            //    Code = "qwerttyu",
+            //    CouponStatus = CouponStatus.New,
+            //    CouponValue = 50.0m,
+            //    CouponValueLeft = 50.0m,
+            //    DateCreated = DateTime.Now,
+            //    ExpireDate = DateTime.Now.AddYears(2)
+            //});
+
             return View(model);
         }
 
@@ -69,20 +80,20 @@ namespace LetterAmazer.Websites.Client.Controllers
 
                 Order order = new Order();
 
-               
+
                 AddressInfo addressInfo = new AddressInfo();
                 addressInfo.Address1 = model.DestinationAddress;
                 addressInfo.FirstName = model.RecipientName;
                 addressInfo.City = model.DestinationCity;
                 addressInfo.Country = countryService.GetCountryBySpecificaiton(
-                    new CountrySpecification() { CountryCode = model.DestinationCountryCode }).FirstOrDefault();
+                    new CountrySpecification() {CountryCode = model.DestinationCountryCode}).FirstOrDefault();
                 addressInfo.PostalCode = model.ZipCode;
 
-                 Customer customer = new Customer();
+                Customer customer = new Customer();
                 customer.Email = model.Email;
                 customer.Phone = model.Phone;
                 customer.CustomerInfo = addressInfo;
-                
+
 
 
                 LetterDetails letterDetail = new LetterDetails()
@@ -102,7 +113,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                 };
 
                 order.Customer = customer;
-                
+
 
                 if (model.UseUploadFile)
                 {
@@ -111,9 +122,10 @@ namespace LetterAmazer.Websites.Client.Controllers
                 }
                 else
                 {
-                    string tempKeyName = string.Format("{0}/{1}/{2}.pdf", DateTime.Now.Year, DateTime.Now.Month, Guid.NewGuid().ToString());
+                    string tempKeyName = string.Format("{0}/{1}/{2}.pdf", DateTime.Now.Year, DateTime.Now.Month,
+                        Guid.NewGuid().ToString());
                     string tempPath = PathHelper.GetAbsoluteFile(tempKeyName);
-                    
+
                     var convertedText = HelperMethods.Utf8FixString(model.WriteContent);
                     PdfHelper.ConvertToPdf(tempPath, convertedText);
                     letter.LetterContent.Path = tempKeyName;
@@ -121,7 +133,8 @@ namespace LetterAmazer.Websites.Client.Controllers
                 }
                 if (System.IO.File.Exists(PathHelper.GetAbsoluteFile(letter.LetterContent.Path)))
                 {
-                    letter.LetterContent.Content = System.IO.File.ReadAllBytes(PathHelper.GetAbsoluteFile(letter.LetterContent.Path));
+                    letter.LetterContent.Content =
+                        System.IO.File.ReadAllBytes(PathHelper.GetAbsoluteFile(letter.LetterContent.Path));
                 }
 
                 var stored_order = orderService.Create(order);
@@ -134,9 +147,29 @@ namespace LetterAmazer.Websites.Client.Controllers
                     OrderId = stored_order.Id
                 };
 
+                Coupon coupon = null;
+                if (!string.IsNullOrEmpty(model.VoucherCode))
+                {
+                    var voucher = couponService.GetCouponBySpecification(new CouponSpecification()
+                    {
+                        Code = model.VoucherCode
+                    });
+                    if (voucher != null && voucher.Any())
+                    {
+                        coupon = (Coupon) voucher.FirstOrDefault();
+                    }
+                }
+
+
                 orderLineService.Create(orderLine);
 
                 var paymentMethods = new List<PaymentMethods>();
+
+                if (coupon != null)
+                {
+                    paymentMethods.Add(PaymentMethods.Coupon);
+                }
+
                 paymentMethods.Add(PaymentMethods.PayPal);
 
                 string redirectUrl = paymentService.Process(paymentMethods, order);

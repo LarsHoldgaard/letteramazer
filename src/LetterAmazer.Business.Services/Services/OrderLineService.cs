@@ -95,7 +95,7 @@ namespace LetterAmazer.Business.Services.Services
                 dbLines = repository.DbOrderItems.Where(c => c.OrderId == specification.OrderId);
             }
 
-            return orderLineFactory.Create(dbLines.Skip(specification.Skip).Take(specification.Take).ToList());
+            return orderLineFactory.Create(dbLines.OrderBy(c=>c.Id).Skip(specification.Skip).Take(specification.Take).ToList());
         }
 
         public OrderLine GetOrderById(int orderLineId)

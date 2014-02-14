@@ -70,7 +70,7 @@ namespace LetterAmazer.Business.Services.Services
                 dbCustomers = dbCustomers.Where(c => c.ResetPasswordKey == specification.ResetPasswordKey);
             }
 
-            return customerFactory.Create(dbCustomers.ToList());
+            return customerFactory.Create(dbCustomers.OrderBy(c=>c.Id).Skip(specification.Skip).Take(specification.Take).ToList());
         }
 
         public void RecoverPassword(string email)

@@ -101,7 +101,7 @@ namespace LetterAmazer.Business.Services.Services
                 dbCouponses = dbCouponses.Where(c => c.Code == specification.Code);
             }
 
-            return CouponFactory.Create(dbCouponses.ToList());
+            return CouponFactory.Create(dbCouponses.OrderBy(c=>c.Id).Skip(specification.Skip).Take(specification.Take).ToList());
         }
     }
 }

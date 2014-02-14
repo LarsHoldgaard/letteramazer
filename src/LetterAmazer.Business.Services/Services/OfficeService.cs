@@ -49,7 +49,7 @@ namespace LetterAmazer.Business.Services.Services
             {
                 dboffices = dboffices.Where(c => c.PartnerId == specification.FulfilmentPartnerId);
             }
-            return officeFactory.Create(dboffices.ToList());
+            return officeFactory.Create(dboffices.OrderBy(c=>c.Id).Skip(specification.Skip).Take(specification.Take).ToList());
         }
     }
 }

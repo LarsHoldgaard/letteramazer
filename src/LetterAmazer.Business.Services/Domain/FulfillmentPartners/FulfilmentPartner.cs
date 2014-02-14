@@ -4,6 +4,7 @@
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        
+        public int ShopId { get; set; }
+        public PartnerJob PartnerJob { get; set; }
     }
 }

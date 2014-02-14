@@ -21,10 +21,18 @@ namespace LetterAmazer.Business.Services.Services
 
         public List<FulfilmentPartner> GetFulfillmentPartnersBySpecifications(FulfillmentPartnerSpecification specification)
         {
-            var partner = GetFulfillmentPartnerById(1);
+            IQueryable<DbFulfillmentPartners> dbPartners = repository.DbFulfillmentPartners;
 
-            return new List<FulfilmentPartner>() { partner };
+            if (specification.ShopId > 0)
+            {
+                dbPartners = dbPartners.Where(c => c.ShopId == specification.ShopId);
+            }
 
+            var partners =
+                fulfilmentPartnerFactory.Create(
+                    dbPartners.OrderBy(c => c.Id).Skip(specification.Skip).Take(specification.Take).ToList());
+
+            return partners;
         }
 
         public FulfilmentPartner GetFulfillmentPartnerById(int id)
@@ -49,7 +57,7 @@ namespace LetterAmazer.Business.Services.Services
         {
             var dbpartner = new DbFulfillmentPartners();
             dbpartner.Name = partner.Name;
-            dbpartner.ShopId = 1;
+            dbpartner.ShopId = partner.ShopId;
 
             repository.DbFulfillmentPartners.Add(dbpartner);
             repository.SaveChanges();

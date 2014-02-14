@@ -16,7 +16,9 @@ namespace LetterAmazer.Business.Services.Factory
             return new FulfilmentPartner()
             {
                 Id = dbpFulfillmentPartners.Id,
-                Name = dbpFulfillmentPartners.Name
+                Name = dbpFulfillmentPartners.Name,
+                ShopId = dbpFulfillmentPartners.ShopId,
+                PartnerJob (int)dbpFulfillmentPartners.PartnerJob
             };
         }
 
