@@ -33,7 +33,6 @@ namespace LetterAmazer.Data.Repository.Data
         public string CustomerInfo_VatNr { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
-        public string Username { get; set; }
         public System.DateTime DateCreated { get; set; }
         public System.DateTime DateUpdated { get; set; }
         public Nullable<decimal> Credits { get; set; }

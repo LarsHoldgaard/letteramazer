@@ -142,7 +142,6 @@
           <Property Name="CustomerInfo_VatNr" Type="nvarchar" MaxLength="159" />
           <Property Name="Email" Type="nvarchar" Nullable="false" MaxLength="100" />
           <Property Name="Password" Type="nvarchar" Nullable="false" MaxLength="100" />
-          <Property Name="Username" Type="nvarchar" MaxLength="100" />
           <Property Name="DateCreated" Type="datetime" Nullable="false" />
           <Property Name="DateUpdated" Type="datetime" Nullable="false" />
           <Property Name="Credits" Type="decimal" Scale="5" />
@@ -642,7 +641,6 @@
           <Property Name="CustomerInfo_VatNr" Type="String" MaxLength="159" Unicode="true" FixedLength="false" />
           <Property Name="Email" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="false" />
           <Property Name="Password" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="false" />
-          <Property Name="Username" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
           <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="DateUpdated" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Credits" Type="Decimal" Precision="18" Scale="5" />
@@ -1085,7 +1083,6 @@
                 <ScalarProperty Name="CustomerInfo_VatNr" ColumnName="CustomerInfo_VatNr" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="Username" ColumnName="Username" />
                 <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
                 <ScalarProperty Name="DateUpdated" ColumnName="DateUpdated" />
                 <ScalarProperty Name="Credits" ColumnName="Credits" />
