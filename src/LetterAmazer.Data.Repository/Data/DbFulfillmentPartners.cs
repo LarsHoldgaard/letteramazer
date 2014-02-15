@@ -22,6 +22,7 @@ namespace LetterAmazer.Data.Repository.Data
         public int Id { get; set; }
         public string Name { get; set; }
         public int ShopId { get; set; }
+        public int PartnerJob { get; set; }
     
         public virtual DbShops DbShops { get; set; }
         public virtual ICollection<DbOffices> DbOffices { get; set; }

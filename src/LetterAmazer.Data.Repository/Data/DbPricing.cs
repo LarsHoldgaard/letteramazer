@@ -12,20 +12,11 @@ namespace LetterAmazer.Data.Repository.Data
     using System;
     using System.Collections.Generic;
     
-    public partial class DbProductMatrix
+    public partial class DbPricing
     {
-        public DbProductMatrix()
-        {
-            this.DbProductMatrixLines = new HashSet<DbProductMatrixLines>();
-        }
-    
         public int Id { get; set; }
-        public int PriceType { get; set; }
-        public int Span_lower { get; set; }
-        public int Span_upper { get; set; }
-        public int ValueId { get; set; }
-        public int ReferenceType { get; set; }
-    
-        public virtual ICollection<DbProductMatrixLines> DbProductMatrixLines { get; set; }
+        public int OfficeProductId { get; set; }
+        public System.DateTime DateCreated { get; set; }
+        public Nullable<System.DateTime> DateModified { get; set; }
     }
 }

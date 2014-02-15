@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="LetterAmazer.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="LetterAmazer.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityContainer Name="LetterAmazerStoreContainer">
           <EntitySet Name="DbCountries" EntityType="LetterAmazer.Store.DbCountries" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="DbCoupons" EntityType="LetterAmazer.Store.DbCoupons" store:Type="Tables" Schema="dbo" />
@@ -16,6 +16,7 @@
           <EntitySet Name="DbOffices" EntityType="LetterAmazer.Store.DbOffices" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="DbOrderItems" EntityType="LetterAmazer.Store.DbOrderItems" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="DbOrders" EntityType="LetterAmazer.Store.DbOrders" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="DbPricing" EntityType="LetterAmazer.Store.DbPricing" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="DbProductMatrix" EntityType="LetterAmazer.Store.DbProductMatrix" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="DbProductMatrixLines" EntityType="LetterAmazer.Store.DbProductMatrixLines" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="DbShops" EntityType="LetterAmazer.Store.DbShops" store:Type="Tables" Schema="dbo" />
@@ -74,10 +75,6 @@
           <AssociationSet Name="FK_OrderItem_Order" Association="LetterAmazer.Store.FK_OrderItem_Order">
             <End Role="DbOrders" EntitySet="DbOrders" />
             <End Role="DbOrderItems" EntitySet="DbOrderItems" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ProductMatrix_OfficeProductDetails" Association="LetterAmazer.Store.FK_ProductMatrix_OfficeProductDetails">
-            <End Role="DbOfficeProductDetails" EntitySet="DbOfficeProductDetails" />
-            <End Role="DbProductMatrix" EntitySet="DbProductMatrix" />
           </AssociationSet>
           <AssociationSet Name="FK_ProductMatrixLines_ProductMatrix" Association="LetterAmazer.Store.FK_ProductMatrixLines_ProductMatrix">
             <End Role="DbProductMatrix" EntitySet="DbProductMatrix" />
@@ -162,6 +159,7 @@
           <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="varchar" Nullable="false" MaxLength="250" />
           <Property Name="ShopId" Type="int" Nullable="false" />
+          <Property Name="PartnerJob" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="DbLetters">
           <Key>
@@ -266,6 +264,15 @@
           <Property Name="DatePaid" Type="datetime" />
           <Property Name="DateSent" Type="datetime" />
         </EntityType>
+        <EntityType Name="DbPricing">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="OfficeProductId" Type="int" Nullable="false" />
+          <Property Name="DateCreated" Type="datetime" Nullable="false" />
+          <Property Name="DateModified" Type="datetime" />
+        </EntityType>
         <EntityType Name="DbProductMatrix">
           <Key>
             <PropertyRef Name="Id" />
@@ -274,7 +281,8 @@
           <Property Name="PriceType" Type="int" Nullable="false" />
           <Property Name="Span_lower" Type="int" Nullable="false" />
           <Property Name="Span_upper" Type="int" Nullable="false" />
-          <Property Name="ProductDetailId" Type="int" Nullable="false" />
+          <Property Name="ValueId" Type="int" Nullable="false" />
+          <Property Name="ReferenceType" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="DbProductMatrixLines">
           <Key>
@@ -462,18 +470,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_ProductMatrix_OfficeProductDetails">
-          <End Role="DbOfficeProductDetails" Type="LetterAmazer.Store.DbOfficeProductDetails" Multiplicity="1" />
-          <End Role="DbProductMatrix" Type="LetterAmazer.Store.DbProductMatrix" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="DbOfficeProductDetails">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="DbProductMatrix">
-              <PropertyRef Name="ProductDetailId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_ProductMatrixLines_ProductMatrix">
           <End Role="DbProductMatrix" Type="LetterAmazer.Store.DbProductMatrix" Multiplicity="1" />
           <End Role="DbProductMatrixLines" Type="LetterAmazer.Store.DbProductMatrixLines" Multiplicity="*" />
@@ -498,7 +494,8 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="LetterAmazer" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -513,6 +510,7 @@
           <EntitySet Name="DbOffices" EntityType="LetterAmazer.DbOffices" />
           <EntitySet Name="DbOrderItems" EntityType="LetterAmazer.DbOrderItems" />
           <EntitySet Name="DbOrders" EntityType="LetterAmazer.DbOrders" />
+          <EntitySet Name="DbPricing" EntityType="LetterAmazer.DbPricing" />
           <EntitySet Name="DbProductMatrix" EntityType="LetterAmazer.DbProductMatrix" />
           <EntitySet Name="DbProductMatrixLines" EntityType="LetterAmazer.DbProductMatrixLines" />
           <EntitySet Name="DbShops" EntityType="LetterAmazer.DbShops" />
@@ -567,10 +565,6 @@
           <AssociationSet Name="FK_OfficeProducts_OfficeProductDetails" Association="LetterAmazer.FK_OfficeProducts_OfficeProductDetails">
             <End Role="DbOfficeProductDetails" EntitySet="DbOfficeProductDetails" />
             <End Role="DbOfficeProducts" EntitySet="DbOfficeProducts" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ProductMatrix_OfficeProductDetails" Association="LetterAmazer.FK_ProductMatrix_OfficeProductDetails">
-            <End Role="DbOfficeProductDetails" EntitySet="DbOfficeProductDetails" />
-            <End Role="DbProductMatrix" EntitySet="DbProductMatrix" />
           </AssociationSet>
           <AssociationSet Name="FK_OfficeProducts_Offices" Association="LetterAmazer.FK_OfficeProducts_Offices">
             <End Role="DbOffices" EntitySet="DbOffices" />
@@ -668,6 +662,7 @@
           <Property Name="Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="250" Unicode="false" FixedLength="false" />
           <Property Name="ShopId" Type="Int32" Nullable="false" />
+          <Property Name="PartnerJob" Type="Int32" Nullable="false" />
           <NavigationProperty Name="DbShops" Relationship="LetterAmazer.FK_FulfillmentPartners_Shops" FromRole="DbFulfillmentPartners" ToRole="DbShops" />
           <NavigationProperty Name="DbOffices" Relationship="LetterAmazer.FK_Offices_FulfillmentPartners" FromRole="DbFulfillmentPartners" ToRole="DbOffices" />
         </EntityType>
@@ -728,7 +723,6 @@
           <Property Name="Quality" Type="Int32" />
           <Property Name="LetterType" Type="Int32" />
           <NavigationProperty Name="DbOfficeProducts" Relationship="LetterAmazer.FK_OfficeProducts_OfficeProductDetails" FromRole="DbOfficeProductDetails" ToRole="DbOfficeProducts" />
-          <NavigationProperty Name="DbProductMatrix" Relationship="LetterAmazer.FK_ProductMatrix_OfficeProductDetails" FromRole="DbOfficeProductDetails" ToRole="DbProductMatrix" />
         </EntityType>
         <EntityType Name="DbOfficeProducts">
           <Key>
@@ -792,6 +786,15 @@
           <NavigationProperty Name="DbCustomers" Relationship="LetterAmazer.FK_Order_Customer" FromRole="DbOrders" ToRole="DbCustomers" />
           <NavigationProperty Name="DbOrderItems" Relationship="LetterAmazer.FK_OrderItem_Order" FromRole="DbOrders" ToRole="DbOrderItems" />
         </EntityType>
+        <EntityType Name="DbPricing">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="OfficeProductId" Type="Int32" Nullable="false" />
+          <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DateModified" Type="DateTime" Precision="3" />
+        </EntityType>
         <EntityType Name="DbProductMatrix">
           <Key>
             <PropertyRef Name="Id" />
@@ -800,8 +803,8 @@
           <Property Name="PriceType" Type="Int32" Nullable="false" />
           <Property Name="Span_lower" Type="Int32" Nullable="false" />
           <Property Name="Span_upper" Type="Int32" Nullable="false" />
-          <Property Name="ProductDetailId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="DbOfficeProductDetails" Relationship="LetterAmazer.FK_ProductMatrix_OfficeProductDetails" FromRole="DbProductMatrix" ToRole="DbOfficeProductDetails" />
+          <Property Name="ValueId" Type="Int32" Nullable="false" />
+          <Property Name="ReferenceType" Type="Int32" Nullable="false" />
           <NavigationProperty Name="DbProductMatrixLines" Relationship="LetterAmazer.FK_ProductMatrixLines_ProductMatrix" FromRole="DbProductMatrix" ToRole="DbProductMatrixLines" />
         </EntityType>
         <EntityType Name="DbProductMatrixLines">
@@ -981,18 +984,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_ProductMatrix_OfficeProductDetails">
-          <End Role="DbOfficeProductDetails" Type="LetterAmazer.DbOfficeProductDetails" Multiplicity="1" />
-          <End Role="DbProductMatrix" Type="LetterAmazer.DbProductMatrix" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="DbOfficeProductDetails">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="DbProductMatrix">
-              <PropertyRef Name="ProductDetailId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_OfficeProducts_Offices">
           <End Role="DbOffices" Type="LetterAmazer.DbOffices" Multiplicity="1" />
           <End Role="DbOfficeProducts" Type="LetterAmazer.DbOfficeProducts" Multiplicity="*" />
@@ -1111,6 +1102,7 @@
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="ShopId" ColumnName="ShopId" />
+                <ScalarProperty Name="PartnerJob" ColumnName="PartnerJob" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1223,6 +1215,16 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="DbPricing">
+            <EntityTypeMapping TypeName="LetterAmazer.DbPricing">
+              <MappingFragment StoreEntitySet="DbPricing">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="OfficeProductId" ColumnName="OfficeProductId" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="DateModified" ColumnName="DateModified" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="DbProductMatrix">
             <EntityTypeMapping TypeName="LetterAmazer.DbProductMatrix">
               <MappingFragment StoreEntitySet="DbProductMatrix">
@@ -1230,7 +1232,8 @@
                 <ScalarProperty Name="PriceType" ColumnName="PriceType" />
                 <ScalarProperty Name="Span_lower" ColumnName="Span_lower" />
                 <ScalarProperty Name="Span_upper" ColumnName="Span_upper" />
-                <ScalarProperty Name="ProductDetailId" ColumnName="ProductDetailId" />
+                <ScalarProperty Name="ValueId" ColumnName="ValueId" />
+                <ScalarProperty Name="ReferenceType" ColumnName="ReferenceType" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
