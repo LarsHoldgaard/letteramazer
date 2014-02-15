@@ -21,19 +21,57 @@ namespace LetterAmazer.Business.Services.Services
             this.officeProductFactory = officeProductFactory;
         }
 
-        public OfficeProduct GetOfficeProductById(int letterId)
+        public OfficeProduct GetOfficeProductById(int id)
         {
-            throw new NotImplementedException();
+            var dbOfficeProduct = repository.DbOfficeProducts.FirstOrDefault(c => c.Id == id);
+
+            if (dbOfficeProduct == null)
+            {
+                return null;
+            }
+
+            var officeProduct = officeProductFactory.Create(dbOfficeProduct);
+            return officeProduct;
         }
 
         public List<OfficeProduct> GetOfficeProductBySpecification(OfficeProductSpecification specification)
         {
-            throw new NotImplementedException();
+            IQueryable<DbOfficeProducts> dbProducts = repository.DbOfficeProducts;
+            
+            return
+                officeProductFactory.Create(
+                    dbProducts.OrderBy(c => c.Id).Skip(specification.Skip).Take(specification.Take).ToList());
         }
 
-        public OfficeProduct Create(OfficeProduct letter)
+        public OfficeProduct Create(OfficeProduct officeProduct)
         {
-            throw new NotImplementedException();
+            DbOfficeProducts dbOfficeProduct = new DbOfficeProducts()
+            {
+                OfficeId = officeProduct.OfficeId,
+                ContinentId = officeProduct.ContinentId,
+                ScopeType = (int)officeProduct.ProductScope,
+                CountryId = officeProduct.CountryId,
+                ZipId = officeProduct.ZipId
+            };
+
+            DbOfficeProductDetails dbDetails = new DbOfficeProductDetails()
+            {
+                LetterType = (int)officeProduct.LetterDetails.LetterType,
+                LetterColor = (int)officeProduct.LetterDetails.LetterColor,
+                LetterPaperWeight = (int)officeProduct.LetterDetails.LetterPaperWeight,
+                LetterSize = (int)officeProduct.LetterDetails.LetterSize,
+                LetterProcessing = (int)officeProduct.LetterDetails.LetterProcessing,
+
+            };
+
+            dbOfficeProduct.DbOfficeProductDetails = dbDetails;
+
+
+            repository.DbOfficeProducts.Add(dbOfficeProduct);
+            repository.SaveChanges();
+
+            return GetOfficeProductById(dbOfficeProduct.Id);
+
         }
 
         public OfficeProduct Update(OfficeProduct letter)

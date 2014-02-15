@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="LetterAmazer.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="LetterAmazer.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityContainer Name="LetterAmazerStoreContainer">
           <EntitySet Name="DbCountries" EntityType="LetterAmazer.Store.DbCountries" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="DbCoupons" EntityType="LetterAmazer.Store.DbCoupons" store:Type="Tables" Schema="dbo" />
@@ -208,10 +208,11 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="DocumentType" Type="int" Nullable="false" />
-          <Property Name="Size" Type="int" />
-          <Property Name="Quality" Type="int" />
-          <Property Name="LetterType" Type="int" />
+          <Property Name="LetterColor" Type="int" Nullable="false" />
+          <Property Name="LetterPaperWeight" Type="int" Nullable="false" />
+          <Property Name="LetterProcessing" Type="int" Nullable="false" />
+          <Property Name="LetterSize" Type="int" Nullable="false" />
+          <Property Name="LetterType" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="DbOfficeProducts">
           <Key>
@@ -494,8 +495,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="LetterAmazer" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -718,11 +718,12 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
-          <Property Name="DocumentType" Type="Int32" Nullable="false" />
-          <Property Name="Size" Type="Int32" />
-          <Property Name="Quality" Type="Int32" />
-          <Property Name="LetterType" Type="Int32" />
+          <Property Name="LetterType" Type="Int32" Nullable="false" />
           <NavigationProperty Name="DbOfficeProducts" Relationship="LetterAmazer.FK_OfficeProducts_OfficeProductDetails" FromRole="DbOfficeProductDetails" ToRole="DbOfficeProducts" />
+          <Property Type="Int32" Name="LetterColor" Nullable="false" />
+          <Property Type="Int32" Name="LetterPaperWeight" Nullable="false" />
+          <Property Type="Int32" Name="LetterProcessing" Nullable="false" />
+          <Property Type="Int32" Name="LetterSize" Nullable="false" />
         </EntityType>
         <EntityType Name="DbOfficeProducts">
           <Key>
@@ -1152,10 +1153,11 @@
           <EntitySetMapping Name="DbOfficeProductDetails">
             <EntityTypeMapping TypeName="LetterAmazer.DbOfficeProductDetails">
               <MappingFragment StoreEntitySet="DbOfficeProductDetails">
+                <ScalarProperty Name="LetterSize" ColumnName="LetterSize" />
+                <ScalarProperty Name="LetterProcessing" ColumnName="LetterProcessing" />
+                <ScalarProperty Name="LetterPaperWeight" ColumnName="LetterPaperWeight" />
+                <ScalarProperty Name="LetterColor" ColumnName="LetterColor" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="DocumentType" ColumnName="DocumentType" />
-                <ScalarProperty Name="Size" ColumnName="Size" />
-                <ScalarProperty Name="Quality" ColumnName="Quality" />
                 <ScalarProperty Name="LetterType" ColumnName="LetterType" />
               </MappingFragment>
             </EntityTypeMapping>
