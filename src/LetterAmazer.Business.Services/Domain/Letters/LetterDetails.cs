@@ -10,6 +10,7 @@ namespace LetterAmazer.Business.Services.Domain.Letters
 {
     public class LetterDetails
     {
+        public int Id { get; set; }
         public LetterColor LetterColor { get; set; }
         public LetterPaperWeight LetterPaperWeight { get; set; }
         public LetterProcessing LetterProcessing { get; set; }

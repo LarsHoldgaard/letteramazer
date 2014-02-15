@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LetterAmazer.Business.Services.Domain.Letters;
 using LetterAmazer.Business.Services.Domain.OfficeProducts;
+using LetterAmazer.Business.Services.Domain.ProductMatrix;
 using LetterAmazer.Business.Services.Domain.Products.ProductDetails;
 using LetterAmazer.Business.Services.Factory.Interfaces;
 using LetterAmazer.Data.Repository.Data;
@@ -13,15 +14,18 @@ namespace LetterAmazer.Business.Services.Factory
 {
     public class OfficeProductFactory : IOfficeProductFactory
     {
-        public OfficeProductFactory()
+        private IProductMatrixService productMatrixService;
+
+
+        public OfficeProductFactory(IProductMatrixService productMatrixService)
         {
-            
+            this.productMatrixService = productMatrixService;
         }
 
         public OfficeProduct Create(DbOfficeProducts dbproducts)
         {
             
-            return new OfficeProduct()
+            var officeProduct = new OfficeProduct()
             {
                 LetterDetails = new LetterDetails()
                 {
@@ -38,11 +42,19 @@ namespace LetterAmazer.Business.Services.Factory
                 ZipId = dbproducts.ZipId.HasValue ? dbproducts.ZipId.Value : 0,
                 OfficeId = dbproducts.OfficeId
             };
+            officeProduct.ProductMatrices = productMatrixService.GetProductMatrixBySpecification(
+                new ProductMatrixSpecification()
+                {
+                    OfficeProductId = dbproducts.Id
+                });
+
+            return officeProduct;
         }
 
-        public List<OfficeProduct> Create(List<DbOfficeProducts> products)
+        public List<OfficeProduct> Create(IEnumerable<DbOfficeProducts> products)
         {
             return products.Select(Create).ToList();
         }
+
     }
 }

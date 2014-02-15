@@ -2,6 +2,7 @@
 using iTextSharp.text;
 using LetterAmazer.Business.Services.Domain.Letters;
 using LetterAmazer.Business.Services.Domain.Offices;
+using LetterAmazer.Business.Services.Domain.ProductMatrix;
 
 namespace LetterAmazer.Business.Services.Domain.OfficeProducts
 {
@@ -19,11 +20,11 @@ namespace LetterAmazer.Business.Services.Domain.OfficeProducts
         public int ContinentId { get; set; }
         public int ZipId { get; set; }
         public LetterDetails LetterDetails { get; set; }
-        public List<ProductMatrix> ProductMatrices { get; set; }
+        public List<ProductMatrix.ProductMatrix> ProductMatrices { get; set; }
 
         public OfficeProduct()
         {
-            ProductMatrices = new List<ProductMatrix>();
+            ProductMatrices = new List<ProductMatrix.ProductMatrix>();
         }
     }
 }

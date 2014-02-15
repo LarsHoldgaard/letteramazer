@@ -1,4 +1,4 @@
-﻿namespace LetterAmazer.Business.Services.Domain.OfficeProducts
+﻿namespace LetterAmazer.Business.Services.Domain.ProductMatrix
 {
     public enum ProductMatrixLineType
     {

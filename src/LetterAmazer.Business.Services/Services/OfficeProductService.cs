@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LetterAmazer.Business.Services.Domain.OfficeProducts;
+using LetterAmazer.Business.Services.Domain.ProductMatrix;
+using LetterAmazer.Business.Services.Exceptions;
 using LetterAmazer.Business.Services.Factory.Interfaces;
 using LetterAmazer.Data.Repository.Data;
 
@@ -67,31 +69,7 @@ namespace LetterAmazer.Business.Services.Services
             repository.DbOfficeProducts.Add(dbOfficeProduct);
             repository.SaveChanges();
 
-            // Adding its product matrices required for the service
-            foreach (var productMatrix in officeProduct.ProductMatrices)
-            {
-                var dbMatrix = new DbProductMatrix()
-                {
-                    Span_lower = productMatrix.SpanLower,
-                    Span_upper = productMatrix.SpanUpper,
-                    PriceType = (int) productMatrix.PriceType,
-                    ReferenceType = (int) ProductMatrixReferenceType.Contractor,
-                    ValueId = dbOfficeProduct.Id
-                };
-                repository.SaveChanges();
-
-                foreach (var productMatrixLine in productMatrix.ProductLines)
-                {
-                    dbMatrix.DbProductMatrixLines.Add(new DbProductMatrixLines()
-                    {
-                        BaseCost = productMatrixLine.BaseCost,
-                        Title = productMatrixLine.Title,
-                        LineType = (int)productMatrixLine.LineType,
-                        ProductMatrixId = dbMatrix.Id
-                    });
-                    repository.SaveChanges();
-                } 
-            }
+     
 
             return GetOfficeProductById(dbOfficeProduct.Id);
 
@@ -122,9 +100,22 @@ namespace LetterAmazer.Business.Services.Services
             return GetOfficeProductById(officeProduct.Id);
         }
 
-        public void Delete(OfficeProduct letter)
+        public void Delete(OfficeProduct officeProduct)
         {
-            throw new NotImplementedException();
+            var dbProductDetails =
+                repository.DbOfficeProductDetails.FirstOrDefault(c => c.Id == officeProduct.LetterDetails.Id);
+            var dbProduct = repository.DbOfficeProducts.FirstOrDefault(c => c.Id == officeProduct.Id);
+
+            if (dbProduct == null || dbProductDetails == null)
+            {
+                throw new BusinessException("Product or product details is null");
+            }
+
+            repository.DbOfficeProducts.Remove(dbProduct);
+            repository.DbOfficeProductDetails.Remove(dbProductDetails);
+
+            repository.SaveChanges();
+
         }
     }
 }
