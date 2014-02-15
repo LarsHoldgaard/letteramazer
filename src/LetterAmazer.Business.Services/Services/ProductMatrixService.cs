@@ -37,7 +37,14 @@ namespace LetterAmazer.Business.Services.Services
 
         public List<ProductMatrix> GetProductMatrixBySpecification(ProductMatrixSpecification specification)
         {
-            throw new NotImplementedException();
+            IQueryable<DbProductMatrix> dbProductMatrices = repository.DbProductMatrix;
+
+            if (specification.OfficeProductId > 0)
+            {
+                dbProductMatrices = dbProductMatrices.Where(c => c.ValueId == specification.OfficeProductId && c.ReferenceType == (int)ProductMatrixReferenceType.Contractor);
+            }
+
+            return productMatrixFactory.Create(dbProductMatrices.OrderBy(c => c.Id).Skip(specification.Skip).Take(specification.Take).ToList());
         }
 
         public ProductMatrix Create(ProductMatrix productMatrix)
