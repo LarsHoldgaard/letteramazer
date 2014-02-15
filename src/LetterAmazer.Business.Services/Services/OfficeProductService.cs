@@ -61,22 +61,65 @@ namespace LetterAmazer.Business.Services.Services
                 LetterPaperWeight = (int)officeProduct.LetterDetails.LetterPaperWeight,
                 LetterSize = (int)officeProduct.LetterDetails.LetterSize,
                 LetterProcessing = (int)officeProduct.LetterDetails.LetterProcessing,
-
             };
-
             dbOfficeProduct.DbOfficeProductDetails = dbDetails;
-
 
             repository.DbOfficeProducts.Add(dbOfficeProduct);
             repository.SaveChanges();
+
+            // Adding its product matrices required for the service
+            foreach (var productMatrix in officeProduct.ProductMatrices)
+            {
+                var dbMatrix = new DbProductMatrix()
+                {
+                    Span_lower = productMatrix.SpanLower,
+                    Span_upper = productMatrix.SpanUpper,
+                    PriceType = (int) productMatrix.PriceType,
+                    ReferenceType = (int) ProductMatrixReferenceType.Contractor,
+                    ValueId = dbOfficeProduct.Id
+                };
+                repository.SaveChanges();
+
+                foreach (var productMatrixLine in productMatrix.ProductLines)
+                {
+                    dbMatrix.DbProductMatrixLines.Add(new DbProductMatrixLines()
+                    {
+                        BaseCost = productMatrixLine.BaseCost,
+                        Title = productMatrixLine.Title,
+                        LineType = (int)productMatrixLine.LineType,
+                        ProductMatrixId = dbMatrix.Id
+                    });
+                    repository.SaveChanges();
+                } 
+            }
 
             return GetOfficeProductById(dbOfficeProduct.Id);
 
         }
 
-        public OfficeProduct Update(OfficeProduct letter)
+        public OfficeProduct Update(OfficeProduct officeProduct)
         {
-            throw new NotImplementedException();
+            var dbOfficeProduct = repository.DbOfficeProducts.FirstOrDefault(c => c.Id == officeProduct.Id);
+
+            if (dbOfficeProduct == null)
+            {
+                return null;
+            }
+
+            dbOfficeProduct.OfficeId = officeProduct.OfficeId;
+            dbOfficeProduct.ZipId = officeProduct.ZipId;
+            dbOfficeProduct.CountryId = officeProduct.CountryId;
+            dbOfficeProduct.ContinentId = officeProduct.ContinentId;
+            dbOfficeProduct.ScopeType = (int)officeProduct.ProductScope;
+
+            dbOfficeProduct.DbOfficeProductDetails.LetterColor = (int)officeProduct.LetterDetails.LetterColor;
+            dbOfficeProduct.DbOfficeProductDetails.LetterPaperWeight = (int)officeProduct.LetterDetails.LetterPaperWeight;
+            dbOfficeProduct.DbOfficeProductDetails.LetterProcessing = (int)officeProduct.LetterDetails.LetterProcessing;
+            dbOfficeProduct.DbOfficeProductDetails.LetterSize = (int)officeProduct.LetterDetails.LetterSize;
+            dbOfficeProduct.DbOfficeProductDetails.LetterType = (int)officeProduct.LetterDetails.LetterType;
+
+
+            return GetOfficeProductById(officeProduct.Id);
         }
 
         public void Delete(OfficeProduct letter)

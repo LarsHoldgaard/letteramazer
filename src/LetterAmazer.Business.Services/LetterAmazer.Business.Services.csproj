@@ -96,6 +96,7 @@
     <Compile Include="Domain\Notifications\Mail\StringTemplateEmailFormatter.cs" />
     <Compile Include="Domain\OfficeProducts\IOfferProductService.cs" />
     <Compile Include="Domain\OfficeProducts\OfficeProductSpecification.cs" />
+    <Compile Include="Domain\OfficeProducts\ProductMatrixReferenceType.cs" />
     <Compile Include="Domain\OrderLines\IOrderLineService.cs" />
     <Compile Include="Factory\Interfaces\IOrderLineFactory.cs" />
     <Compile Include="Factory\Interfaces\IOfficeProductFactory.cs" />

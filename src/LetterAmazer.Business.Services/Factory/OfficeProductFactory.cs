@@ -44,8 +44,5 @@ namespace LetterAmazer.Business.Services.Factory
         {
             return products.Select(Create).ToList();
         }
-
-
-
     }
 }
