@@ -14,6 +14,7 @@ namespace LetterAmazer.Business.Services.Domain.Countries
         public bool? InsideEu { get; set; }
         public string CountryCode { get; set; }
         public string CountryName { get; set; }
+        public int ContinentId { get; set; }
 
     }
 }

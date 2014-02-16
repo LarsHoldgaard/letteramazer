@@ -24,7 +24,9 @@ namespace LetterAmazer.Business.Services.Factory
             var office = new Office()
             {
                 Title = dbOffices.Name,
-                Country = countryService.GetCountryById(dbOffices.CountryId)
+                Country = countryService.GetCountryById(dbOffices.CountryId),
+                Id = dbOffices.Id,
+                FulfillmentPartnerId = dbOffices.PartnerId
             };
 
             return office;

@@ -48,6 +48,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\DbContinents.cs">
+      <DependentUpon>LetterAmazer.tt</DependentUpon>
+    </Compile>
     <Compile Include="Data\DbCountries.cs">
       <DependentUpon>LetterAmazer.tt</DependentUpon>
     </Compile>

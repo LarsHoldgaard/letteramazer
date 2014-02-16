@@ -76,6 +76,33 @@ namespace LetterAmazer.Websites.OfficeTool {
         protected global::System.Web.UI.WebControls.DropDownList LetterWeightDdl;
         
         /// <summary>
+        /// TypeOfLocationRbl control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RadioButtonList TypeOfLocationRbl;
+        
+        /// <summary>
+        /// ContinentsDdl control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ContinentsDdl;
+        
+        /// <summary>
+        /// CountryDll control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList CountryDll;
+        
+        /// <summary>
         /// OrderLinesPnl control.
         /// </summary>
         /// <remarks>

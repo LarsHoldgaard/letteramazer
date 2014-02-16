@@ -9,5 +9,7 @@ namespace LetterAmazer.Business.Services.Domain.Countries
         Country Create(Country country);
         Country GetCountryById(int id);
         List<Country> GetCountryBySpecificaiton(CountrySpecification specification);
+
+        List<Continent> GetContinents();
     }
 }

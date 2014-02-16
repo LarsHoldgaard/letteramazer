@@ -34,7 +34,7 @@ namespace LetterAmazer.Business.Services.Services
                 Continent = country.Capital,
                 InsideEu = country.InsideEu,
                 AreaInSqKm = country.ArealInSqKm,
-                ContinentName = country.Continent
+                ContinentId = country.ContinentId,
             });
             repository.SaveChanges();
 
@@ -77,8 +77,20 @@ namespace LetterAmazer.Business.Services.Services
             {
                 dbcountries = repository.DbCountries.Where(c => c.CountryName == specification.CountryName);
             }
+            if (specification.ContinentId > 0)
+            {
+                dbcountries = repository.DbCountries.Where(c => c.ContinentId == specification.ContinentId);
             
-            return countryFactory.Create(dbcountries.OrderBy(c=>c.Id).Skip(specification.Skip).Take(specification.Take).ToList());
+            }
+
+            return countryFactory.Create(dbcountries.OrderBy(c=>c.CountryName).Skip(specification.Skip).Take(specification.Take).ToList());
+        }
+
+        public List<Continent> GetContinents()
+        {
+            var dbContinent = repository.DbContinents.ToList();
+
+            return countryFactory.CreateContinent(dbContinent);
         }
     }
 }

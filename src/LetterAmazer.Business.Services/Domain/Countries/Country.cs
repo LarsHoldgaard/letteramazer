@@ -10,7 +10,6 @@ namespace LetterAmazer.Business.Services.Domain.Countries
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public string Continent { get; set; }
         public string CurrencyCode { get; set; }
         public string CountryCode { get; set; }
         public string Capital { get; set; }
@@ -18,5 +17,6 @@ namespace LetterAmazer.Business.Services.Domain.Countries
         public string Population { get; set; }
         public string ArealInSqKm { get; set; }
         public string Fipscode { get; set; }
+        public int ContinentId { get; set; }
     }
 }

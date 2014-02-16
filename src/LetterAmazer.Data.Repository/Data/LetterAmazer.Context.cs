@@ -39,5 +39,6 @@ namespace LetterAmazer.Data.Repository.Data
         public DbSet<DbProductMatrix> DbProductMatrix { get; set; }
         public DbSet<DbProductMatrixLines> DbProductMatrixLines { get; set; }
         public DbSet<DbShops> DbShops { get; set; }
+        public DbSet<DbContinents> DbContinents { get; set; }
     }
 }

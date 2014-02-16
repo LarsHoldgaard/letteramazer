@@ -58,7 +58,8 @@ namespace LetterAmazer.Business.Services.Services
                 ContinentId = officeProduct.ContinentId,
                 ScopeType = (int)officeProduct.ProductScope,
                 CountryId = officeProduct.CountryId,
-                ZipId = officeProduct.ZipId
+                ZipId = officeProduct.ZipId,
+                
             };
 
             DbOfficeProductDetails dbDetails = new DbOfficeProductDetails()

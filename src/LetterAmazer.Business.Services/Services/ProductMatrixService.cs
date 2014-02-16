@@ -55,12 +55,23 @@ namespace LetterAmazer.Business.Services.Services
         {
             var dbMatrix = new DbProductMatrix()
             {
-                Span_lower = productMatrix.SpanLower,
-                Span_upper = productMatrix.SpanUpper,
                 PriceType = (int)productMatrix.PriceType,
                 ReferenceType = (int)ProductMatrixReferenceType.Contractor,
                 ValueId = productMatrix.ValueId,
             };
+
+            if (productMatrix.PriceType == ProductMatrixPriceType.FirstPage)
+            {
+                if (dbMatrix.Span_lower == 0)
+                {
+                    dbMatrix.Span_lower = 1;
+                }
+                if (dbMatrix.Span_upper == 0)
+                {
+                    dbMatrix.Span_upper = 1;
+                }
+            }
+
             repository.DbProductMatrix.Add(dbMatrix);
             repository.SaveChanges();
 

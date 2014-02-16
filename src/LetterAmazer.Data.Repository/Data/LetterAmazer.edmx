@@ -6,6 +6,7 @@
     <edmx:StorageModels>
     <Schema Namespace="LetterAmazer.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityContainer Name="LetterAmazerStoreContainer">
+          <EntitySet Name="DbContinents" EntityType="LetterAmazer.Store.DbContinents" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="DbCountries" EntityType="LetterAmazer.Store.DbCountries" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="DbCoupons" EntityType="LetterAmazer.Store.DbCoupons" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="DbCustomers" EntityType="LetterAmazer.Store.DbCustomers" store:Type="Tables" Schema="dbo" />
@@ -44,10 +45,6 @@
             <End Role="DbCountries" EntitySet="DbCountries" />
             <End Role="DbLetters" EntitySet="DbLetters" />
           </AssociationSet>
-          <AssociationSet Name="FK_OfficeProducts_Countries" Association="LetterAmazer.Store.FK_OfficeProducts_Countries">
-            <End Role="DbCountries" EntitySet="DbCountries" />
-            <End Role="DbOfficeProducts" EntitySet="DbOfficeProducts" />
-          </AssociationSet>
           <AssociationSet Name="FK_OfficeProducts_OfficeProductDetails" Association="LetterAmazer.Store.FK_OfficeProducts_OfficeProductDetails">
             <End Role="DbOfficeProductDetails" EntitySet="DbOfficeProductDetails" />
             <End Role="DbOfficeProducts" EntitySet="DbOfficeProducts" />
@@ -85,6 +82,13 @@
             <End Role="DbShops" EntitySet="DbShops" />
           </AssociationSet>
         </EntityContainer>
+        <EntityType Name="DbContinents">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="varchar" Nullable="false" MaxLength="50" />
+        </EntityType>
         <EntityType Name="DbCountries">
           <Key>
             <PropertyRef Name="Id" />
@@ -108,6 +112,7 @@
           <Property Name="West" Type="float" />
           <Property Name="Population" Type="varchar" MaxLength="250" />
           <Property Name="InsideEu" Type="bit" />
+          <Property Name="ContinentId" Type="int" />
         </EntityType>
         <EntityType Name="DbCoupons">
           <Key>
@@ -374,18 +379,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_OfficeProducts_Countries">
-          <End Role="DbCountries" Type="LetterAmazer.Store.DbCountries" Multiplicity="0..1" />
-          <End Role="DbOfficeProducts" Type="LetterAmazer.Store.DbOfficeProducts" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="DbCountries">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="DbOfficeProducts">
-              <PropertyRef Name="CountryId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_OfficeProducts_OfficeProductDetails">
           <End Role="DbOfficeProductDetails" Type="LetterAmazer.Store.DbOfficeProductDetails" Multiplicity="1" />
           <End Role="DbOfficeProducts" Type="LetterAmazer.Store.DbOfficeProducts" Multiplicity="*" />
@@ -577,6 +570,7 @@
             <End Role="DbProductMatrix" EntitySet="DbProductMatrix" />
             <End Role="DbProductMatrixLines" EntitySet="DbProductMatrixLines" />
           </AssociationSet>
+          <EntitySet Name="DbContinents" EntityType="LetterAmazer.DbContinents" />
         </EntityContainer>
         <EntityType Name="DbCountries">
           <Key>
@@ -607,6 +601,7 @@
           <NavigationProperty Name="DbOfficeProducts" Relationship="LetterAmazer.FK_OfficeProducts_Countries" FromRole="DbCountries" ToRole="DbOfficeProducts" />
           <NavigationProperty Name="DbOffices" Relationship="LetterAmazer.FK_Offices_Countries" FromRole="DbCountries" ToRole="DbOffices" />
           <NavigationProperty Name="DbShops" Relationship="LetterAmazer.FK_Shops_Countries" FromRole="DbCountries" ToRole="DbShops" />
+          <Property Type="Int32" Name="ContinentId" />
         </EntityType>
         <EntityType Name="DbCoupons">
           <Key>
@@ -1019,6 +1014,13 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="DbContinents">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1028,6 +1030,7 @@
           <EntitySetMapping Name="DbCountries">
             <EntityTypeMapping TypeName="LetterAmazer.DbCountries">
               <MappingFragment StoreEntitySet="DbCountries">
+                <ScalarProperty Name="ContinentId" ColumnName="ContinentId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="CountryName" ColumnName="CountryName" />
                 <ScalarProperty Name="CurrencyCode" ColumnName="CurrencyCode" />
@@ -1253,6 +1256,14 @@
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="CountryId" ColumnName="CountryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DbContinents">
+            <EntityTypeMapping TypeName="LetterAmazer.DbContinents">
+              <MappingFragment StoreEntitySet="DbContinents">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

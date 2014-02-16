@@ -84,6 +84,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Domain\Common\S3Access.cs" />
+    <Compile Include="Domain\Countries\Continent.cs" />
     <Compile Include="Domain\FulfillmentPartners\PartnerJob.cs" />
     <Compile Include="Domain\Letters\LetterDetails.cs" />
     <Compile Include="Domain\Notifications\Mail\DebugEmailSender.cs" />

@@ -16,21 +16,36 @@ namespace LetterAmazer.Business.Services.Factory
             return new Country()
             {
                 Capital = country.Capital,
-                Continent = country.Continent,
+                ContinentId = country.ContinentId.HasValue ? country.ContinentId.Value : 0,
                 InsideEu = country.InsideEu.HasValue && country.InsideEu.Value,
-                Name = country.ContinentName,
+                Name = country.CountryName,
                 ArealInSqKm = country.AreaInSqKm,
                 CountryCode = country.CountryCode,
                 CurrencyCode = country.CurrencyCode,
                 Population = country.Population,
                 Fipscode = country.FipsCode,
-                Id = country.Id
+                Id = country.Id,
+                
             };
         }
 
         public List<Country> Create(List<DbCountries> country)
         {
             return country.Select(Create).ToList();
+        }
+
+        public Continent CreateContinent(DbContinents dbContinents)
+        {
+            return new Continent()
+            {
+                Id = dbContinents.Id,
+                Name = dbContinents.Name
+            };
+        }
+
+        public List<Continent> CreateContinent(List<DbContinents> dbContinents)
+        {
+            return dbContinents.Select(CreateContinent).ToList();
         }
     }
 }

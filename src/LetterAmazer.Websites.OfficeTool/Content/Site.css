@@ -732,3 +732,13 @@ tr.pager td {
         }
 }
 /* END: Mobile Styles */
+
+.officeTool label {
+    display: inline;
+}
+
+.locationType input {
+    padding-left: 10px;
+    width: 20px;
+}
+

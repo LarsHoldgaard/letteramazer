@@ -35,6 +35,7 @@
         <AssociationConnector Association="LetterAmazer.FK_OfficeProducts_Offices" ManuallyRouted="false" />
         <AssociationConnector Association="LetterAmazer.FK_OrderItem_Order" ManuallyRouted="false" />
         <AssociationConnector Association="LetterAmazer.FK_ProductMatrixLines_ProductMatrix" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="LetterAmazer.DbContinents" Width="1.5" PointX="3.0034908964314919" PointY="0.63367666333619355" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
