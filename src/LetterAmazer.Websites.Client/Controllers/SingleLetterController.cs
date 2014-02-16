@@ -54,6 +54,11 @@ namespace LetterAmazer.Websites.Client.Controllers
         [HttpGet]
         public ActionResult Index()
         {
+            var price = priceService.GetPriceBySpecification(new PriceSpecification()
+            {
+                LetterColor = LetterColor.Color
+            });
+
             if (SessionHelper.Customer != null) return RedirectToAction("SendALetter", "User");
             
             CreateSingleLetterModel model = new CreateSingleLetterModel();

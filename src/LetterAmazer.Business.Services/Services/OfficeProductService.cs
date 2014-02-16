@@ -39,7 +39,12 @@ namespace LetterAmazer.Business.Services.Services
         public List<OfficeProduct> GetOfficeProductBySpecification(OfficeProductSpecification specification)
         {
             IQueryable<DbOfficeProducts> dbProducts = repository.DbOfficeProducts;
-            
+
+            if (specification.Id > 0)
+            {
+                dbProducts = dbProducts.Where(c => c.Id == specification.Id);
+            }
+
             return
                 officeProductFactory.Create(
                     dbProducts.OrderBy(c => c.Id).Skip(specification.Skip).Take(specification.Take).ToList());

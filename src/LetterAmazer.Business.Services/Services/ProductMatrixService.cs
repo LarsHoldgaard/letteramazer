@@ -43,6 +43,10 @@ namespace LetterAmazer.Business.Services.Services
             {
                 dbProductMatrices = dbProductMatrices.Where(c => c.ValueId == specification.OfficeProductId && c.ReferenceType == (int)ProductMatrixReferenceType.Contractor);
             }
+            if (specification.PriceId > 0)
+            {
+                dbProductMatrices = dbProductMatrices.Where(c => c.ValueId == specification.PriceId && c.ReferenceType == (int)ProductMatrixReferenceType.Sales);
+            }
 
             return productMatrixFactory.Create(dbProductMatrices.OrderBy(c => c.Id).Skip(specification.Skip).Take(specification.Take).ToList());
         }

@@ -9,5 +9,6 @@ namespace LetterAmazer.Business.Services.Domain.OfficeProducts
 {
     public class OfficeProductSpecification:Specifications
     {
+        public int Id { get; set; }
     }
 }

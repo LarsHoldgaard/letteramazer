@@ -4,6 +4,6 @@
     {
         Order=0,
         Credits=1,
-        PaymentMethod=2
+        Payment=2
     }
 }

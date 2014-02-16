@@ -14,6 +14,7 @@ namespace LetterAmazer.Business.Services.Domain.Pricing
         Price GetPriceByOrder(Order order);
         Price GetPriceByLetter(Letter letter);
         Price GetPriceByAddress(AddressInfo addressInfo);
+        Price GetPriceBySpecification(PriceSpecification specification);
 
     }
 }
