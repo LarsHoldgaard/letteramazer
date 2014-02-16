@@ -19,7 +19,10 @@ namespace LetterAmazer.Business.Services.Factory
                 ProductLines = createProductMatrixLine(productMatrix.DbProductMatrixLines),
                 PriceType = (ProductMatrixPriceType)productMatrix.PriceType,
                 SpanLower = productMatrix.Span_lower,
-                SpanUpper = productMatrix.Span_upper
+                SpanUpper = productMatrix.Span_upper,
+                ReferenceType = (ProductMatrixReferenceType)productMatrix.ReferenceType,
+                ValueId = productMatrix.ValueId,
+                Id = productMatrix.Id
             };
         }
 

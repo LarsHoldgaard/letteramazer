@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,10 +25,10 @@ namespace LetterAmazer.Business.Services.Services
         private IOrderLineService orderLineService;
         private LetterAmazerEntities repository;
         private IProductMatrixService productMatrixService;
-        private IOfferProductService offerProductService;
+        private IOfficeProductService offerProductService;
 
         public PriceService(ICountryService countryService, IOrderLineService orderLineService,
-            LetterAmazerEntities repository, IProductMatrixService productMatrixService, IOfferProductService offerProductService)
+            LetterAmazerEntities repository, IProductMatrixService productMatrixService, IOfficeProductService offerProductService)
         {
             this.countryService = countryService;
             this.orderLineService = orderLineService;
@@ -164,8 +165,26 @@ namespace LetterAmazer.Business.Services.Services
             }; 
         }
 
+        public Pricing Create(Pricing pricing)
+        {
+            DbPricing dbPricing = new DbPricing()
+            {
+                DateCreated= pricing.DateCreated,
+                DateModified = pricing.DateModified,
+                Id = pricing.Id,
+                OfficeProductId = pricing.OfficeProductId
+            };
+
+            repository.DbPricing.Add(dbPricing);
+            repository.SaveChanges();
+
+            return null;
+        }
     }
 
+    /// <summary>
+    /// Class used for merging price tabels
+    /// </summary>
     public class PriceRetrival
     {
         public int PricingId { get; set; }

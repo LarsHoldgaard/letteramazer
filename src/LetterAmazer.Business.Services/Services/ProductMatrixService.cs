@@ -56,7 +56,7 @@ namespace LetterAmazer.Business.Services.Services
             var dbMatrix = new DbProductMatrix()
             {
                 PriceType = (int)productMatrix.PriceType,
-                ReferenceType = (int)ProductMatrixReferenceType.Contractor,
+                ReferenceType = (int)productMatrix.ReferenceType,
                 ValueId = productMatrix.ValueId,
             };
 
@@ -82,7 +82,7 @@ namespace LetterAmazer.Business.Services.Services
                     BaseCost = productMatrixLine.BaseCost,
                     Title = productMatrixLine.Title,
                     LineType = (int)productMatrixLine.LineType,
-                    ProductMatrixId = dbMatrix.Id
+                    ProductMatrixId = dbMatrix.Id,
                 });
                 repository.SaveChanges();
             }

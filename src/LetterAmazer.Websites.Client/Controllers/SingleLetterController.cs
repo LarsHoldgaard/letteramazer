@@ -9,8 +9,10 @@ using LetterAmazer.Business.Services.Domain.Letters;
 using LetterAmazer.Business.Services.Domain.OrderLines;
 using LetterAmazer.Business.Services.Domain.Orders;
 using LetterAmazer.Business.Services.Domain.Payments;
+using LetterAmazer.Business.Services.Domain.PriceUpdater;
 using LetterAmazer.Business.Services.Domain.Pricing;
 using LetterAmazer.Business.Services.Domain.Products.ProductDetails;
+using LetterAmazer.Business.Services.Services;
 using log4net;
 using System;
 using System.IO;
@@ -35,11 +37,11 @@ namespace LetterAmazer.Websites.Client.Controllers
         private ICustomerService customerService;
         private ICountryService countryService;
         private IPriceService priceService;
-        
+        private IPriceUpdater priceUpdater;
 
         public SingleLetterController(IOrderService orderService, IPaymentService paymentService,
             ILetterService letterService, ICouponService couponService, ICustomerService customerService,
-            ICountryService countryService, IPriceService priceService, IOrderLineService orderLineService)
+            ICountryService countryService, IPriceService priceService, IOrderLineService orderLineService, IPriceUpdater priceUpdater)
         {
             this.orderService = orderService;
             this.paymentService = paymentService;
@@ -49,11 +51,13 @@ namespace LetterAmazer.Websites.Client.Controllers
             this.countryService = countryService;
             this.priceService = priceService;
             this.orderLineService = orderLineService;
+            this.priceUpdater = priceUpdater;
         }
 
         [HttpGet]
         public ActionResult Index()
         {
+            priceUpdater.Execute();
 
             if (SessionHelper.Customer != null) return RedirectToAction("SendALetter", "User");
             

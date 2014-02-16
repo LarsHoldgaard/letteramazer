@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LetterAmazer.Business.Services.Domain.OfficeProducts
 {
-    public interface IOfferProductService
+    public interface IOfficeProductService
     {
         OfficeProduct GetOfficeProductById(int letterId);
         List<OfficeProduct> GetOfficeProductBySpecification(OfficeProductSpecification specification);

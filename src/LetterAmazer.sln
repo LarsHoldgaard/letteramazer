@@ -22,6 +22,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LetterAmazer.Test.Business.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LetterAmazer.Websites.OfficeTool", "LetterAmazer.Websites.OfficeTool\LetterAmazer.Websites.OfficeTool.csproj", "{8EF3FAB8-3219-43BF-9279-4F7E279E9045}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LetterAmazer.Applications.PriceUpdater", "LetterAmazer.Applications.PriceUpdater\LetterAmazer.Applications.PriceUpdater.csproj", "{60E335F1-F923-4C05-87C1-68CADAF43FE6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -56,6 +58,10 @@ Global
 		{8EF3FAB8-3219-43BF-9279-4F7E279E9045}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8EF3FAB8-3219-43BF-9279-4F7E279E9045}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8EF3FAB8-3219-43BF-9279-4F7E279E9045}.Release|Any CPU.Build.0 = Release|Any CPU
+		{60E335F1-F923-4C05-87C1-68CADAF43FE6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{60E335F1-F923-4C05-87C1-68CADAF43FE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{60E335F1-F923-4C05-87C1-68CADAF43FE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{60E335F1-F923-4C05-87C1-68CADAF43FE6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

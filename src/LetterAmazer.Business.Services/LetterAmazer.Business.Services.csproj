@@ -95,9 +95,11 @@
     <Compile Include="Domain\Notifications\Mail\IEmailSender.cs" />
     <Compile Include="Domain\Notifications\Mail\ParameterCollection.cs" />
     <Compile Include="Domain\Notifications\Mail\StringTemplateEmailFormatter.cs" />
-    <Compile Include="Domain\OfficeProducts\IOfferProductService.cs" />
+    <Compile Include="Domain\OfficeProducts\IOfficeProductService.cs" />
     <Compile Include="Domain\OfficeProducts\OfficeProductSpecification.cs" />
+    <Compile Include="Domain\PriceUpdater\IPriceUpdater.cs" />
     <Compile Include="Domain\Pricing\PriceSpecification.cs" />
+    <Compile Include="Domain\Pricing\Pricing.cs" />
     <Compile Include="Domain\ProductMatrix\IProductMatrixService.cs" />
     <Compile Include="Domain\ProductMatrix\ProductMatrixReferenceType.cs" />
     <Compile Include="Domain\OrderLines\IOrderLineService.cs" />
@@ -105,11 +107,14 @@
     <Compile Include="Factory\Interfaces\IOrderLineFactory.cs" />
     <Compile Include="Factory\Interfaces\IOfficeProductFactory.cs" />
     <Compile Include="Factory\Interfaces\IProductMatrixFactory.cs" />
+    <Compile Include="Factory\Interfaces\IPricingFactory.cs" />
     <Compile Include="Factory\OfficeProductFactory.cs" />
     <Compile Include="Factory\OrderLineFactory.cs" />
+    <Compile Include="Factory\PricingFactory.cs" />
     <Compile Include="Factory\ProductMatrixFactory.cs" />
     <Compile Include="Services\OfficeProductService.cs" />
     <Compile Include="Services\OrderLineService.cs" />
+    <Compile Include="Services\PriceUpdater.cs" />
     <Compile Include="Services\ProductMatrixService.cs" />
     <Compile Include="Services\SystemNetMailSender.cs" />
     <Compile Include="Domain\Notifications\Mail\XmlEmailTemplate.cs" />

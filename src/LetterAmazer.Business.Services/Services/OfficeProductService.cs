@@ -11,7 +11,7 @@ using LetterAmazer.Data.Repository.Data;
 
 namespace LetterAmazer.Business.Services.Services
 {
-    public class OfficeProductService : IOfferProductService
+    public class OfficeProductService : IOfficeProductService
     {
         private LetterAmazerEntities repository;
         

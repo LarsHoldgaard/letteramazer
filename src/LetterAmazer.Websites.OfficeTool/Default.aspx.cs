@@ -25,7 +25,7 @@ namespace LetterAmazer.Websites.OfficeTool
         private IFulfillmentPartnerService fulfillmentPartnerService;
         private IOfficeService officeService;
         private IProductMatrixService productMatrixService;
-        private IOfferProductService offerProductService;
+        private IOfficeProductService offerProductService;
         private ICountryService countryService;
 
         public _Default()
