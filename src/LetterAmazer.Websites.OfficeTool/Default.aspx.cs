@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
+using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
+using HtmlAgilityPack;
 using LetterAmazer.Business.Services.Domain.FulfillmentPartners;
 using LetterAmazer.Business.Services.Domain.Offices;
 using LetterAmazer.Business.Services.Domain.Products.ProductDetails;
@@ -85,5 +87,10 @@ namespace LetterAmazer.Websites.OfficeTool
 
         }
 
+        protected void SubmitBtn_Click(object sender, EventArgs e)
+        {
+            OrderLinesPnl.FindControl("orderlinesDiv1");
+            int i = 0;
+        }
     }
 }

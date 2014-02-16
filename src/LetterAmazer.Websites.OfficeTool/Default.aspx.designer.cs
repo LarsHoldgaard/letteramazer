@@ -76,22 +76,13 @@ namespace LetterAmazer.Websites.OfficeTool {
         protected global::System.Web.UI.WebControls.DropDownList LetterWeightDdl;
         
         /// <summary>
-        /// LineItemBox control.
+        /// OrderLinesPnl control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox LineItemBox;
-        
-        /// <summary>
-        /// LineItemPriceBox control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox LineItemPriceBox;
+        protected global::System.Web.UI.WebControls.Panel OrderLinesPnl;
         
         /// <summary>
         /// SubmitBtn control.

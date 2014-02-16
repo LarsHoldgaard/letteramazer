@@ -54,24 +54,10 @@ namespace LetterAmazer.Websites.Client.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            var price = priceService.GetPriceBySpecification(new PriceSpecification()
-            {
-                LetterColor = LetterColor.Color
-            });
 
             if (SessionHelper.Customer != null) return RedirectToAction("SendALetter", "User");
             
             CreateSingleLetterModel model = new CreateSingleLetterModel();
-
-            //couponService.Create(new Coupon()
-            //{
-            //    Code = "qwerttyu",
-            //    CouponStatus = CouponStatus.New,
-            //    CouponValue = 50.0m,
-            //    CouponValueLeft = 50.0m,
-            //    DateCreated = DateTime.Now,
-            //    ExpireDate = DateTime.Now.AddYears(2)
-            //});
 
             return View(model);
         }

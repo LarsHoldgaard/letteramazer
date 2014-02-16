@@ -59,14 +59,41 @@
 
     <h3>Orderlines</h3>
     
-    <asp:TextBox runat="server" id="LineItemBox"></asp:TextBox> <asp:TextBox runat="server" id="LineItemPriceBox"></asp:TextBox>
+    <a id="moreBtn" href="#">(+)</a>
 
+    <asp:Panel runat="server" ID="OrderLinesPnl">
+ 
+    </asp:Panel>
     
-    <asp:Button runat="server" ID="SubmitBtn" Text="Create product"/>
+    <asp:Button runat="server" ID="SubmitBtn" Text="Create product" OnClick="SubmitBtn_Click"/>
 
 
 
+    <script>
+        var count = 0;
+        $(document).ready(function() {
+            $('#moreBtn').click(function() {
+                addNewControl();
+            });
+        });
+        
+        function addNewControl() {
 
+            var orderLineDivId = "orderlinesDiv" + count;
+            var orderLineTitleId = "orderlines_title" + count;
+            var orderLineValueId = "orderlines_value" + count;
+            
+            var parent = $('#<%=OrderLinesPnl.ClientID %>');
+
+            var newCtl = '<div id="'+orderLineDivId+'">' +
+                '<div id="' + orderLineTitleId + '"><input type="text" /></div>' +
+                '<div id="' + orderLineValueId + '"><input type="text" /></div>' +
+                '</div>';
+
+            parent.append(newCtl);
+        }
+
+    </script>
 
 
 
