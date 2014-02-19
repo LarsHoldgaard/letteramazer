@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Specialized;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
 using LetterAmazer.Business.Services.Domain.Customers;
+using LetterAmazer.Business.Services.Domain.Letters;
+using LetterAmazer.Business.Services.Domain.OrderLines;
 using LetterAmazer.Business.Services.Domain.Orders;
 using LetterAmazer.Business.Services.Domain.Payments;
 using LetterAmazer.Business.Services.Domain.Pricing;
@@ -19,13 +22,14 @@ namespace LetterAmazer.Business.Services.Services.PaymentMethods.Implementations
         private string serviceUrl;
         private string paypalIpn;
 
-        
+        private IOrderLineService orderLineService;
         private IPriceService priceService;
-        public PaypalMethod(IPriceService priceService)
+        public PaypalMethod(IPriceService priceService, IOrderLineService orderLineService)
         {
             this.priceService = priceService;
-            this.serviceUrl = "";
-            this.paypalIpn = "";
+            this.serviceUrl = ConfigurationManager.AppSettings.Get("LetterAmazer.Payment.PayPal.ServiceUrl");
+            this.paypalIpn = ConfigurationManager.AppSettings.Get("LetterAmazer.Payment.PayPal.IpnHandler");
+            this.orderLineService = orderLineService;
         }
 
         //private static readonly ILog logger = LogManager.GetLogger(typeof(PaypalMethod));
@@ -120,11 +124,15 @@ namespace LetterAmazer.Business.Services.Services.PaymentMethods.Implementations
 
         public string Process(Order order)
         {
-            var customer = order.Customer;
-            var addressInfo = customer.CustomerInfo;
-            var totalPrice = priceService.GetPriceByOrder(order);
-            var productTitle = order.ToString();
+            var orderlines = orderLineService.GetOrderlineBySpecification(new OrderLineSpecification() { OrderId = order.Id });
+            var orderlineLetters = orderlines.Where(c => c.ProductType == ProductType.Order);
+            var orderline = orderlineLetters.FirstOrDefault();
 
+
+            var addressInfo = ((Letter) orderline.BaseProduct).ToAddress;
+
+            var totalPrice = priceService.GetPriceByOrder(order);
+            
             decimal volume = totalPrice.PriceExVat;
             string firstName = addressInfo.FirstName;
             string lastName = addressInfo.LastName;
@@ -136,8 +144,11 @@ namespace LetterAmazer.Business.Services.Services.PaymentMethods.Implementations
             //string.Format(this.returnUrl, orderContext.CurrentCulture)
             string paypalIPNUrl = string.Format(this.paypalIpn, order.ToString());
             var volumeForUsd = Math.Round(volume, 2).ToString().Replace(",", ".");
-            var url = string.Format("{0}first_name={1}&last_name={2}&item_name={3}&currency_code=USD&amount={4}&notify_url={5}&cmd=_xclick&country={6}&zip={7}&address1={8}&business={9}&city={10}&custom={11}&return={12}",
-                this.serviceUrl, firstName, lastName, productTitle,
+            var url = string.Format("{0}first_name={1}&item_name={3}&currency_code=USD&amount={4}&notify_url={5}&cmd=_xclick&country={6}&zip={7}&address1={8}&business={9}&city={10}&custom={11}&return={12}",
+                this.serviceUrl, 
+                firstName, 
+                lastName, 
+                "Send a letter",
                 volumeForUsd, paypalIPNUrl, country, postal, address, "mcoroklo@gmail.com", city,
                 id, "");
             

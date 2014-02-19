@@ -171,7 +171,7 @@ namespace LetterAmazer.Websites.Client.Controllers
 
                 paymentMethods.Add(PaymentMethods.PayPal);
 
-                string redirectUrl = paymentService.Process(paymentMethods, order);
+                string redirectUrl = paymentService.Process(paymentMethods, stored_order);
                 logger.Debug("redirectUrl: " + redirectUrl);
                 return Redirect(redirectUrl);
             }

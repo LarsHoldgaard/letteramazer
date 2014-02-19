@@ -38,5 +38,13 @@ namespace LetterAmazer.Business.Services.Domain.Orders
         {
             this.PaymentMethods = new List<PaymentMethods>();
         }
+
+        public override string ToString()
+        {
+            
+            
+
+            return base.ToString();
+        }
     }
 }
