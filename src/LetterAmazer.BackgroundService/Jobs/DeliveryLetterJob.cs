@@ -1,5 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
+using System.Reflection;
+using Castle.MicroKernel.Registration;
+using Castle.Windsor;
 using LetterAmazer.Business.Services;
 using LetterAmazer.Business.Services.Domain.Fulfillments;
 using LetterAmazer.Business.Services.Domain.Letters;
@@ -26,7 +30,8 @@ namespace LetterAmazer.BackgroundService.Jobs
             IFulfillmentService fulfillmentService;
             try
             {
-                orderService = ServiceFactory.Get<IOrderService>();
+
+                orderService = Container.Resolve<IOrderService>();
                 orderLineService = ServiceFactory.Get<IOrderLineService>();
 
                 fulfillmentService = ServiceFactory.Get<IFulfillmentService>();
@@ -73,6 +78,12 @@ namespace LetterAmazer.BackgroundService.Jobs
             {
                 logger.DebugFormat("end delivery letter job at: {0}", DateTime.Now);
             }
+        }
+
+
+        public new IWindsorContainer Container
+        {
+            get { return ServiceFactory.Container; }
         }
     }
 }

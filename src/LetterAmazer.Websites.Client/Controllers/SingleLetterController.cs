@@ -5,6 +5,7 @@ using LetterAmazer.Business.Services.Domain.AddressInfos;
 using LetterAmazer.Business.Services.Domain.Countries;
 using LetterAmazer.Business.Services.Domain.Coupons;
 using LetterAmazer.Business.Services.Domain.Customers;
+using LetterAmazer.Business.Services.Domain.DeliveryJobs;
 using LetterAmazer.Business.Services.Domain.Letters;
 using LetterAmazer.Business.Services.Domain.OrderLines;
 using LetterAmazer.Business.Services.Domain.Orders;
@@ -38,10 +39,12 @@ namespace LetterAmazer.Websites.Client.Controllers
         private ICountryService countryService;
         private IPriceService priceService;
         private IPriceUpdater priceUpdater;
+        private IDeliveryJobService deliveryJobService;
 
         public SingleLetterController(IOrderService orderService, IPaymentService paymentService,
             ILetterService letterService, ICouponService couponService, ICustomerService customerService,
-            ICountryService countryService, IPriceService priceService, IOrderLineService orderLineService, IPriceUpdater priceUpdater)
+            ICountryService countryService, IPriceService priceService, IOrderLineService orderLineService, IPriceUpdater priceUpdater,
+            IDeliveryJobService deliveryJobService)
         {
             this.orderService = orderService;
             this.paymentService = paymentService;
@@ -52,14 +55,13 @@ namespace LetterAmazer.Websites.Client.Controllers
             this.priceService = priceService;
             this.orderLineService = orderLineService;
             this.priceUpdater = priceUpdater;
+            this.deliveryJobService = deliveryJobService;
         }
 
         [HttpGet]
         public ActionResult Index()
         {
-          
             if (SessionHelper.Customer != null) return RedirectToAction("SendALetter", "User");
-            //priceUpdater.Execute();
             CreateSingleLetterModel model = new CreateSingleLetterModel();
 
             return View(model);
@@ -71,8 +73,6 @@ namespace LetterAmazer.Websites.Client.Controllers
             try
             {
                 ValidateInput();
-
-                
 
                 Order order = new Order();
 
@@ -136,14 +136,14 @@ namespace LetterAmazer.Websites.Client.Controllers
                         System.IO.File.ReadAllBytes(PathHelper.GetAbsoluteFile(letter.LetterContent.Path));
                 }
 
-                var stored_order = orderService.Create(order);
+                var storedOrder = orderService.Create(order);
 
                 var orderLine = new OrderLine()
                 {
                     Quantity = 1,
                     ProductType = ProductType.Order,
                     BaseProduct = letter,
-                    OrderId = stored_order.Id,
+                    OrderId = storedOrder.Id,
                 };
 
                 Coupon coupon = null;
@@ -171,7 +171,7 @@ namespace LetterAmazer.Websites.Client.Controllers
 
                 paymentMethods.Add(PaymentMethods.PayPal);
 
-                string redirectUrl = paymentService.Process(paymentMethods, stored_order);
+                string redirectUrl = paymentService.Process(paymentMethods, storedOrder);
                 logger.Debug("redirectUrl: " + redirectUrl);
                 return Redirect(redirectUrl);
             }

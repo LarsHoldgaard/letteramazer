@@ -40,21 +40,7 @@ namespace LetterAmazer.Websites.Client
             Container.Register(Component.For<IWindsorContainer>().Instance(this.Container));
             Container.Install(new BootstrapInstaller());
 
-            // All services in service DLL
-            var assembly = Assembly.LoadFrom(Server.MapPath("~/bin/LetterAmazer.Business.Services.dll")); ;
-            Container.Register(
-                Classes.FromAssembly(assembly)
-                .InNamespace("LetterAmazer.Business.Services.Services")
-                .WithServiceAllInterfaces());
-
-            // All factories in service DLL
-            Container.Register(
-                Classes.FromAssembly(assembly)
-                .InNamespace("LetterAmazer.Business.Services.Factory")
-                .WithServiceAllInterfaces());
-
-
-            Container.Register(Component.For<LetterAmazerEntities>());
+            registerCustom();
 
             Container.Install(new WebWindsorInstaller());
 
@@ -62,6 +48,38 @@ namespace LetterAmazer.Websites.Client
             FilterProviders.Providers.Add(provider);
 
             DependencyResolver.SetResolver(new WindsorDependencyResolver(ServiceFactory.Container));
+        }
+
+        private void registerCustom()
+        {
+            // All services in service DLL
+            var assembly = Assembly.LoadFrom(Server.MapPath("~/bin/LetterAmazer.Business.Services.dll"));
+            ;
+            Container.Register(
+                Classes.FromAssembly(assembly)
+                    .InNamespace("LetterAmazer.Business.Services.Services")
+                    .WithServiceAllInterfaces());
+
+            Container.Register(
+                Classes.FromAssembly(assembly)
+                    .InNamespace("LetterAmazer.Business.Services.Services.FulfillmentJobs")
+                    .WithServiceAllInterfaces());
+
+            Container.Register(
+                Classes.FromAssembly(assembly)
+                    .InNamespace("LetterAmazer.Business.Services.Services.PaymentMethods.Implementations")
+                    .WithServiceAllInterfaces());
+
+
+
+            // All factories in service DLL
+            Container.Register(
+                Classes.FromAssembly(assembly)
+                    .InNamespace("LetterAmazer.Business.Services.Factory")
+                    .WithServiceAllInterfaces());
+
+
+            Container.Register(Component.For<LetterAmazerEntities>());
         }
 
         public IWindsorContainer Container

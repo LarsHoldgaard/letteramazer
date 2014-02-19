@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -29,15 +30,13 @@ namespace LetterAmazer.Business.Services.Services.FulfillmentJobs
         private ILetterService letterService;
         private IOrderService orderService;
 
-        public JupiterService(string username, string password, 
-            string serviceUrl, string zipStoragePath, string pdfStoragePath,
-            ILetterService letterService, IOrderService orderService)
+        public JupiterService(ILetterService letterService, IOrderService orderService)
         {
-            this.serviceUrl = serviceUrl;
-            this.username = username;
-            this.password = password;
-            this.zipStoragePath = zipStoragePath;
-            this.pdfStoragePath = pdfStoragePath;
+            this.serviceUrl = ConfigurationManager.AppSettings["LetterAmazer.Fulfilment.Jupiter.ServiceUrl"]; ;
+            this.username = ConfigurationManager.AppSettings["LetterAmazer.Fulfilment.Jupiter.Username"]; ;
+            this.password = ConfigurationManager.AppSettings["LetterAmazer.Fulfilment.Jupiter.Password"]; ;
+            this.zipStoragePath = ConfigurationManager.AppSettings["LetterAmazer.Settings.StoreZipPath"];
+            this.pdfStoragePath = ConfigurationManager.AppSettings["LetterAmazer.Settings.StorePdfPath"];
             this.letterService = letterService;
             this.orderService = orderService;
 

@@ -12,16 +12,16 @@ namespace LetterAmazer.BackgroundService
         static void Main(string[] args)
         {
             log4net.Config.XmlConfigurator.Configure();
+            new BackgroundService().Start();
+            //if (args.Length == 1 && String.Compare("DEBUG", args[0], true) == 0)
+            //{
+            //    Console.WriteLine("Starting Background Service in DEBUG mode...");
+            //    new BackgroundService().Start();
+            //    return;
+            //}
 
-            if (args.Length == 1 && String.Compare("DEBUG", args[0], true) == 0)
-            {
-                Console.WriteLine("Starting Background Service in DEBUG mode...");
-                new BackgroundService().Start();
-                return;
-            }
-
-            // To run more than one service you have to add them here
-            ServiceBase.Run(new ServiceBase[] { new BackgroundService() });
+            //// To run more than one service you have to add them here
+            //ServiceBase.Run(new ServiceBase[] { new BackgroundService() });
         }
     }
 }

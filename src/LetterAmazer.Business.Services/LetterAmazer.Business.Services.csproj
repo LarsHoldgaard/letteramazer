@@ -86,6 +86,7 @@
   <ItemGroup>
     <Compile Include="Domain\Common\S3Access.cs" />
     <Compile Include="Domain\Countries\Continent.cs" />
+    <Compile Include="Domain\DeliveryJobs\IDeliveryJobService.cs" />
     <Compile Include="Domain\FulfillmentPartners\PartnerJob.cs" />
     <Compile Include="Domain\Letters\LetterDetails.cs" />
     <Compile Include="Domain\Notifications\Mail\DebugEmailSender.cs" />
@@ -113,6 +114,7 @@
     <Compile Include="Factory\OrderLineFactory.cs" />
     <Compile Include="Factory\PricingFactory.cs" />
     <Compile Include="Factory\ProductMatrixFactory.cs" />
+    <Compile Include="Services\DeliveryJobService.cs" />
     <Compile Include="Services\OfficeProductService.cs" />
     <Compile Include="Services\OrderLineService.cs" />
     <Compile Include="Services\PriceUpdater.cs" />

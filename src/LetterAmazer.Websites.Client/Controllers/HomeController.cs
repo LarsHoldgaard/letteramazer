@@ -73,8 +73,10 @@ namespace LetterAmazer.Websites.Client.Controllers
         {
             try
             {
+                model.Password = SHA1PasswordEncryptor.Encrypt(model.Password);
                 var customer = customerService.LoginUser(model.Email, model.Password);
 
+                SessionHelper.Customer = customer;
                 FormsAuthentication.SetAuthCookie(customer.Id.ToString(), model.Remember ?? false);
 
                 if (!string.IsNullOrEmpty(model.ReturnUrl))

@@ -1007,3 +1007,21 @@ The statement has been terminated.
 2014-02-19 20:15:15,674 [11] DEBUG LetterAmazer.Websites.Client.Controllers.SingleLetterController - redirectUrl: https://www.sandbox.paypal.com/cgi-bin/webscr?first_name=lars&item_name=Send a letter&currency_code=USD&amount=4.50&notify_url=http://www.letteramazer.com/en/singleletter/paypalipn/LetterAmazer.Business.Services.Domain.Orders.Order&cmd=_xclick&country=US&zip=2760&address1=måløv hovedgade 58c. st. th.&business=mcoroklo@gmail.com&city=måløv&custom=21&return=
 2014-02-19 20:17:49,518 [12] DEBUG LetterAmazer.Websites.Client.Controllers.SingleLetterController - upload file key: 2014/2/0e1301f2-a778-499d-b549-fa44baddb8b4.pdf
 2014-02-19 20:17:51,879 [12] DEBUG LetterAmazer.Websites.Client.Controllers.SingleLetterController - redirectUrl: https://www.sandbox.paypal.com/cgi-bin/webscr?first_name=Lars Holdgaard&item_name=Send a letter&currency_code=USD&amount=4.00&notify_url=http://www.letteramazer.com/en/singleletter/paypalipn/LetterAmazer.Business.Services.Domain.Orders.Order&cmd=_xclick&country=DK&zip=2760&address1=måløv hovedgade 58c. st. th.&business=mcoroklo@gmail.com&city=måløv&custom=22&return=
+2014-02-19 22:02:29,580 [7] DEBUG LetterAmazer.Business.Services.Services.FulfillmentJobs.JupiterService - added file: 0e1301f2-a778-499d-b549-fa44baddb8b4.pdf
+2014-02-19 22:02:30,375 [7] DEBUG LetterAmazer.Business.Services.Services.FulfillmentJobs.JupiterService - Zip path should be sent to Amazon: D:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\UserData\Zip\20140219\0429924b-6815-31bb-b4a6-f3e370a0f357-140219-220229.zip
+2014-02-19 22:02:53,986 [7] DEBUG LetterAmazer.Business.Services.Services.Fulfillment.AmazonS3Service - amazon upload file response: Key: x-amz-id-2, value: AjfF7Jp+nPdddmSkRtyz9DWPHqb4d/ZJ29GxW57GxGkOlrlayV8dWn1HwTQiM74w
+Key: x-amz-request-id, value: D55BFAEC531527C5
+Key: Content-Length, value: 0
+Key: Date, value: Wed, 19 Feb 2014 21:02:49 GMT
+Key: ETag, value: "e444cf3a830b664026ea0ac2dd7e900a"
+Key: Server, value: AmazonS3
+
+2014-02-19 22:02:54,801 [7] DEBUG LetterAmazer.Business.Services.Services.Fulfillment.AmazonS3Service - SendSQSMessage response: 85e845ad70a139bf89bdeb52230b1795
+2014-02-19 22:12:16,283 [11] ERROR LetterAmazer.Websites.Client.Controllers.HomeController - System.NullReferenceException: Object reference not set to an instance of an object.
+   at LetterAmazer.Websites.Client.Controllers.HomeController.Login(LoginViewModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\HomeController.cs:line 78
+2014-02-19 22:14:25,780 [9] ERROR LetterAmazer.Websites.Client.Controllers.HomeController - System.NullReferenceException: Object reference not set to an instance of an object.
+   at LetterAmazer.Websites.Client.Controllers.HomeController.Login(LoginViewModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\HomeController.cs:line 78
+2014-02-19 22:14:50,002 [11] ERROR LetterAmazer.Websites.Client.Controllers.HomeController - System.NullReferenceException: Object reference not set to an instance of an object.
+   at LetterAmazer.Websites.Client.Controllers.HomeController.Login(LoginViewModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\HomeController.cs:line 78
+2014-02-19 22:16:09,142 [10] ERROR LetterAmazer.Websites.Client.Controllers.HomeController - System.NullReferenceException: Object reference not set to an instance of an object.
+   at LetterAmazer.Websites.Client.Controllers.HomeController.Login(LoginViewModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\HomeController.cs:line 78

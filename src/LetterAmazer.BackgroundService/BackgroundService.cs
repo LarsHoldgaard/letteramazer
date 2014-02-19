@@ -1,14 +1,17 @@
-﻿using Castle.Windsor;
+﻿using System.Reflection;
+using System.Web;
+using Castle.MicroKernel.Registration;
+using Castle.Windsor;
 using Common.Logging;
 using LetterAmazer.BackgroundService.Jobs;
 using LetterAmazer.Business.Services;
+using LetterAmazer.Data.Repository.Data;
 using Quartz;
 using Quartz.Impl;
 using Quartz.Impl.Triggers;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Configuration;
 using System.Data;
 using System.Diagnostics;
@@ -17,6 +20,7 @@ using System.ServiceProcess;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Component = System.ComponentModel.Component;
 
 namespace LetterAmazer.BackgroundService
 {
@@ -84,7 +88,25 @@ namespace LetterAmazer.BackgroundService
         public void Start()
         {
             logger.Info("Starting Background Service...");
-            Container.Install(Castle.Windsor.Installer.Configuration.FromXmlFile("components.config"));
+
+            // All services in service DLL
+            var path = ConfigurationManager.AppSettings["LetterAmazer.Assembly.Services"];
+            
+            var assembly = Assembly.LoadFrom(path);
+            Container.Register(
+                Classes.FromAssembly(assembly)
+                .InNamespace("LetterAmazer.Business.Services.Services")
+                .WithServiceAllInterfaces());
+
+            // All factories in service DLL
+            Container.Register(
+                Classes.FromAssembly(assembly)
+                .InNamespace("LetterAmazer.Business.Services.Factory")
+                .WithServiceAllInterfaces());
+
+
+            Container.Register(Castle.MicroKernel.Registration.Component.For<LetterAmazerEntities>());
+
 
             ISchedulerFactory scheduleFactory = new StdSchedulerFactory();
             scheduler = scheduleFactory.GetScheduler();
@@ -151,6 +173,7 @@ namespace LetterAmazer.BackgroundService
         public new IWindsorContainer Container
         {
             get { return ServiceFactory.Container; }
+
         }
     }
 }
