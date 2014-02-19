@@ -41,7 +41,7 @@ namespace LetterAmazer.BackgroundService.Jobs
                 });
 
                 List<Letter> letters = (from relevantOrder in relevantOrders
-                                        from orderLine in orderLineService.GetOrderBySpecification(new OrderLineSpecification()
+                                        from orderLine in orderLineService.GetOrderlineBySpecification(new OrderLineSpecification()
                                         {
                                             OrderId = relevantOrder.Id
                                         })

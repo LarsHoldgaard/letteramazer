@@ -11,6 +11,6 @@ namespace LetterAmazer.Business.Services.Domain.Pricing
     {
         public decimal PriceExVat { get; set; }
         public decimal VatPercentage { get; set; }
-
+        public int OfficeProductId { get; set; }
     }
 }

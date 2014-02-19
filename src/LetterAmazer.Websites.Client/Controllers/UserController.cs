@@ -229,7 +229,7 @@ namespace LetterAmazer.Websites.Client.Controllers
             List<OrderViewModel> ordersViewModels = new List<OrderViewModel>();
             foreach (var order in orders)
             {
-                var lines = orderLineService.GetOrderBySpecification(new OrderLineSpecification()
+                var lines = orderLineService.GetOrderlineBySpecification(new OrderLineSpecification()
                 {
                     OrderId = order.Id
                 });

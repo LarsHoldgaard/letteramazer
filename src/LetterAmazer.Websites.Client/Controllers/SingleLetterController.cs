@@ -57,10 +57,9 @@ namespace LetterAmazer.Websites.Client.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            priceUpdater.Execute();
-
+          
             if (SessionHelper.Customer != null) return RedirectToAction("SendALetter", "User");
-            
+            //priceUpdater.Execute();
             CreateSingleLetterModel model = new CreateSingleLetterModel();
 
             return View(model);
@@ -73,6 +72,8 @@ namespace LetterAmazer.Websites.Client.Controllers
             {
                 ValidateInput();
 
+                
+
                 Order order = new Order();
 
 
@@ -83,6 +84,8 @@ namespace LetterAmazer.Websites.Client.Controllers
                 addressInfo.Country = countryService.GetCountryBySpecificaiton(
                     new CountrySpecification() {CountryCode = model.DestinationCountryCode}).FirstOrDefault();
                 addressInfo.PostalCode = model.ZipCode;
+
+                var price = priceService.GetPriceByAddress(addressInfo);
 
                 Customer customer = new Customer();
                 customer.Email = model.Email;
@@ -105,6 +108,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                     LetterDetails = letterDetail,
                     ToAddress = addressInfo,
                     LetterStatus = LetterStatus.Created,
+                    OfficeProductId = price.OfficeProductId
                 };
 
                 order.Customer = customer;
@@ -139,7 +143,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                     Quantity = 1,
                     ProductType = ProductType.Order,
                     BaseProduct = letter,
-                    OrderId = stored_order.Id
+                    OrderId = stored_order.Id,
                 };
 
                 Coupon coupon = null;
@@ -219,7 +223,12 @@ namespace LetterAmazer.Websites.Client.Controllers
             try
             {
                 Letter letter = new Letter();
-                letter.ToAddress = new AddressInfo() { Address1 = address, PostalCode = postal, City = city, }; // TODO: Fix country
+                var dl_country = countryService.GetCountryBySpecificaiton(new CountrySpecification()
+                {
+                    CountryName = country
+                }).FirstOrDefault();
+
+                letter.ToAddress = new AddressInfo() { Address1 = address, PostalCode = postal, City = city, Country = dl_country }; // TODO: Fix country
                 letter.LetterContent = new LetterContent();
                 if (usePdf)
                 {

@@ -65,7 +65,12 @@ namespace LetterAmazer.Business.Services.Services
                     dbLetter.FromAddress_City = letter.FromAddress.City;
                     dbLetter.FromAddress_Co = letter.FromAddress.Co;
                     dbLetter.FromAddress_CompanyName = string.Empty;
-                    dbLetter.FromAddress_Country = letter.FromAddress.Country.Id;
+
+                    if (letter.FromAddress.Country != null && letter.FromAddress.Country.Id > 0)
+                    {
+                        dbLetter.FromAddress_Country = letter.FromAddress.Country.Id;
+                    }
+                    
                     dbLetter.FromAddress_FirstName = letter.FromAddress.FirstName;
                     dbLetter.FromAddress_LastName = letter.FromAddress.LastName;
                     dbLetter.FromAddress_Postal = letter.FromAddress.PostalCode;
@@ -73,13 +78,12 @@ namespace LetterAmazer.Business.Services.Services
                     dbLetter.FromAddress_VatNr = letter.FromAddress.VatNr;
                 }
                 dbOrderLine.DbLetters = dbLetter;
-                letter.OfficeProductId = 1;
             }
 
             repository.DbOrderItems.Add(dbOrderLine);
             repository.SaveChanges();
 
-            return GetOrderById(dbOrderLine.Id);
+            return GetOrderlineById(dbOrderLine.Id);
         }
 
         public OrderLine Update(OrderLine order)
@@ -87,7 +91,7 @@ namespace LetterAmazer.Business.Services.Services
             throw new NotImplementedException();
         }
 
-        public List<OrderLine> GetOrderBySpecification(OrderLineSpecification specification)
+        public List<OrderLine> GetOrderlineBySpecification(OrderLineSpecification specification)
         {
             IQueryable<DbOrderItems> dbLines = repository.DbOrderItems;
 
@@ -99,7 +103,7 @@ namespace LetterAmazer.Business.Services.Services
             return orderLineFactory.Create(dbLines.OrderBy(c=>c.Id).Skip(specification.Skip).Take(specification.Take).ToList());
         }
 
-        public OrderLine GetOrderById(int orderLineId)
+        public OrderLine GetOrderlineById(int orderLineId)
         {
             var orderLineDb = repository.DbOrderItems.FirstOrDefault(c => c.Id == orderLineId);
 

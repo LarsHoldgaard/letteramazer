@@ -39,7 +39,7 @@ namespace LetterAmazer.Business.Services.Services
 
         public Price GetPriceByOrder(Order order)
         {
-            var lines = orderLineService.GetOrderBySpecification(new OrderLineSpecification() { OrderId = order.Id });
+            var lines = orderLineService.GetOrderlineBySpecification(new OrderLineSpecification() { OrderId = order.Id });
             var price = new Price();
             foreach (var orderLine in lines)
             {
@@ -62,45 +62,54 @@ namespace LetterAmazer.Business.Services.Services
 
         public Price GetPriceByAddress(AddressInfo addressInfo)
         {
-            if (addressInfo.Country == null || addressInfo.Country.Id > 0)
+            if (addressInfo.Country == null || addressInfo.Country.Id ==0)
             {
                 throw new BusinessException("Country cannot be null of an address");
             }
 
-            var country = countryService.GetCountryById(addressInfo.Country.Id);
-
-            return new Price()
+            var price = GetPriceBySpecification(new PriceSpecification()
             {
-                PriceExVat = 1.0m,
-                VatPercentage = 0.25m
-            };
+                CountryId = addressInfo.Country.Id,
+                LetterColor = LetterColor.Color,
+                LetterProcessing = LetterProcessing.Dull,
+                LetterSize = LetterSize.A4,
+                LetterType = LetterType.Pres,
+                LetterPaperWeight = LetterPaperWeight.Eight
+            });
+
+            return price;
         }
 
         public Price GetPriceBySpecification(PriceSpecification specification)
         {
+            
             var pricing = from d in repository.DbPricing
                            join d1 in repository.DbOfficeProducts on d.OfficeProductId equals d1.Id
                            join d2 in repository.DbOfficeProductDetails on d1.ProductDetailsId equals d2.Id
                            select new PriceRetrival()
                            {
-                               PricingId = d.Id,
-                               LetterColor = (LetterColor)d2.LetterColor,
-                               LetterPaperWeight = (LetterPaperWeight)d2.LetterPaperWeight,
-                               LetterProcessing = (LetterProcessing)d2.LetterProcessing,
-                               LetterType = (LetterType)d2.LetterType,
-                               LetterSize = (LetterSize)d2.LetterSize,
-                               OfficeProductId = d1.Id,
-                               OfficeDetailId = d2.Id,
-                               CountryId = d1.CountryId.HasValue ? d1.CountryId.Value : 0,
+                                PricingId = d.Id,
+                                LetterColor = (LetterColor)d2.LetterColor,
+                                LetterPaperWeight = (LetterPaperWeight)d2.LetterPaperWeight,
+                                LetterProcessing = (LetterProcessing)d2.LetterProcessing,
+                                LetterType = (LetterType)d2.LetterType,
+                                LetterSize = (LetterSize)d2.LetterSize,
+                                OfficeProductId = d1.Id,
+                                OfficeDetailId = d2.Id,
+                                CountryId = d1.CountryId.HasValue ? d1.CountryId.Value : 0,
                                 ZipId = d1.ZipId.HasValue ? d1.ZipId.Value : 0,
                                 ContinentId = d1.ContinentId.HasValue ? d1.ContinentId.Value : 0,
                                 OfficeId = d1.OfficeId,
-
+                                ProductScope = (ProductScope)d1.ScopeType
                            };
 
             if (specification.CountryId > 0)
             {
-                pricing = pricing.Where(c => c.CountryId == specification.CountryId);
+                var country = countryService.GetCountryById(specification.CountryId);
+
+                pricing = pricing.Where(c => c.CountryId == specification.CountryId || 
+                    (c.ProductScope == ProductScope.RestOfWorld) ||
+                    (c.ProductScope == ProductScope.Continent && country.ContinentId == c.ContinentId));
             }
             if (specification.ContinentId > 0)
             {
@@ -137,6 +146,7 @@ namespace LetterAmazer.Business.Services.Services
 
             var allPrices = pricing.ToList();
 
+            int officeProductId = 0;
             decimal minSum = decimal.MaxValue;
             foreach (var priceRetrival in allPrices)
             {
@@ -154,6 +164,7 @@ namespace LetterAmazer.Business.Services.Services
 
                 if (thisSum < minSum)
                 {
+                    officeProductId = priceRetrival.OfficeProductId;
                     minSum = thisSum;
                 }
             }
@@ -161,7 +172,8 @@ namespace LetterAmazer.Business.Services.Services
             return new Price()
             {
                 PriceExVat = minSum,
-                VatPercentage =0.0m
+                VatPercentage =0.0m,
+                OfficeProductId = officeProductId
             }; 
         }
 
@@ -195,6 +207,7 @@ namespace LetterAmazer.Business.Services.Services
         public LetterProcessing LetterProcessing { get; set; }
         public LetterSize LetterSize { get; set; }
         public LetterType LetterType { get; set; }
+        public ProductScope ProductScope { get; set; }
         public int CountryId { get; set; }
         public int ZipId { get; set; }
         public int ContinentId { get; set; }

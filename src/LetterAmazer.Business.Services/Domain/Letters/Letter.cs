@@ -20,5 +20,13 @@ namespace LetterAmazer.Business.Services.Domain.Letters
         public int OfficeProductId { get; set; }
         public LetterContent LetterContent { get; set; }
         public LetterDetails LetterDetails { get; set; }
+
+        public Letter()
+        {
+            this.LetterDetails = new LetterDetails();
+            this.LetterContent = new LetterContent();
+            this.FromAddress = new AddressInfo();
+            this.ToAddress = new AddressInfo();
+        }
     }
 }

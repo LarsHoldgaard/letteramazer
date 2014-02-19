@@ -10,8 +10,8 @@ namespace LetterAmazer.Business.Services.Domain.OrderLines
     {
         OrderLine Create(OrderLine order);
         OrderLine Update(OrderLine order);
-        List<OrderLine> GetOrderBySpecification(OrderLineSpecification specification);
-        OrderLine GetOrderById(int orderLineId);
+        List<OrderLine> GetOrderlineBySpecification(OrderLineSpecification specification);
+        OrderLine GetOrderlineById(int orderLineId);
         void Delete(OrderLine orderline);
     }
 }

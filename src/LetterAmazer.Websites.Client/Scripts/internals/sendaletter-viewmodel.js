@@ -109,7 +109,12 @@
     };
     
     self.getPrice = ko.computed(function () {
-        return self.cost().toFixed(2) + ' $ (' + self.numberOfPages() + ' pages)';
+         try {
+             return self.cost().PriceExVat.toFixed(2) + ' $ (' + self.numberOfPages() + ' pages)';
+         } catch(ex) {
+             return 0;
+         }
+        
     });
 
     self.showStepOne = ko.computed(function () {

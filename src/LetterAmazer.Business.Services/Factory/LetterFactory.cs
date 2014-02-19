@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LetterAmazer.Business.Services.Domain.AddressInfos;
 using LetterAmazer.Business.Services.Domain.Customers;
 using LetterAmazer.Business.Services.Domain.Letters;
 using LetterAmazer.Business.Services.Domain.Products.ProductDetails;
@@ -25,6 +26,8 @@ namespace LetterAmazer.Business.Services.Factory
 
         public Letter Create(DbLetters dbLetter)
         {
+            AddressInfo fromAddress = new AddressInfo();
+
             var letter = new Letter()
             {
                 LetterContent = new LetterContent()
@@ -35,20 +38,6 @@ namespace LetterAmazer.Business.Services.Factory
                 },
                 LetterStatus = (LetterStatus)(dbLetter.LetterStatus),
                 Id = dbLetter.Id,
-                FromAddress = AddressFactory.Create(
-                    dbLetter.FromAddress_Address,
-                    dbLetter.FromAddress_Address2,
-                    dbLetter.FromAddress_Postal,
-                    dbLetter.FromAddress_City,
-                    dbLetter.FromAddress_Country.Value,
-                    dbLetter.FromAddress_AttPerson,
-                    dbLetter.FromAddress_FirstName,
-                    dbLetter.FromAddress_LastName,
-                    dbLetter.FromAddress_VatNr,
-                    dbLetter.FromAddress_Co,
-                    dbLetter.FromAddress_State,
-                    dbLetter.FromAddress_CompanyName
-                ),
                 ToAddress =  AddressFactory.Create(
                     dbLetter.ToAddress_Address,
                     dbLetter.ToAddress_Address2,

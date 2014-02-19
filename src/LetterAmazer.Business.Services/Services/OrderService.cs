@@ -154,7 +154,7 @@ namespace LetterAmazer.Business.Services.Services
                 letterService.Update(letter);
 
                 var order = GetOrderById(letter.OrderId);
-                var orderLines = orderLineService.GetOrderBySpecification(new OrderLineSpecification() { OrderId = letter.OrderId });
+                var orderLines = orderLineService.GetOrderlineBySpecification(new OrderLineSpecification() { OrderId = letter.OrderId });
                 
                 bool isOrderDone = true;
 
