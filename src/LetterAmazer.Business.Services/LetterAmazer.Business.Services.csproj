@@ -220,6 +220,7 @@
     <Compile Include="Services\PaymentService.cs" />
     <Compile Include="Services\PriceService.cs" />
     <Compile Include="Services\ShippingService.cs" />
+    <Compile Include="Utils\Helpers.cs" />
     <Compile Include="Utils\SessionHelper.cs" />
   </ItemGroup>
   <ItemGroup />

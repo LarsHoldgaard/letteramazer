@@ -35,17 +35,26 @@ namespace LetterAmazer.Business.Services.Services
             return productMatrix;
         }
 
-        public List<ProductMatrix> GetProductMatrixBySpecification(ProductMatrixSpecification specification)
+        public IEnumerable<ProductMatrix> GetProductMatrixBySpecification(ProductMatrixSpecification specification)
         {
             IQueryable<DbProductMatrix> dbProductMatrices = repository.DbProductMatrix;
 
             if (specification.OfficeProductId > 0)
             {
-                dbProductMatrices = dbProductMatrices.Where(c => c.ValueId == specification.OfficeProductId && c.ReferenceType == (int)ProductMatrixReferenceType.Contractor);
+                dbProductMatrices = dbProductMatrices.Where(c => c.ValueId == specification.OfficeProductId);
             }
             if (specification.PriceId > 0)
             {
-                dbProductMatrices = dbProductMatrices.Where(c => c.ValueId == specification.PriceId && c.ReferenceType == (int)ProductMatrixReferenceType.Sales);
+                dbProductMatrices = dbProductMatrices.Where(c => c.ValueId == specification.PriceId);
+            }
+            if (specification.ProductMatrixPriceType != null)
+            {
+                dbProductMatrices = dbProductMatrices.Where(c => c.PriceType == (int)specification.ProductMatrixPriceType.Value);
+            }
+            if (specification.ProductMatrixReferenceType != null)
+            {
+                dbProductMatrices =
+                    dbProductMatrices.Where(c => c.ReferenceType == (int) specification.ProductMatrixReferenceType);
             }
 
             return productMatrixFactory.Create(dbProductMatrices.OrderBy(c => c.Id).Skip(specification.Skip).Take(specification.Take).ToList());

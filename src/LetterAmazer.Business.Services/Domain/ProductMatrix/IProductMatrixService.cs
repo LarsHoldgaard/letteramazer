@@ -9,7 +9,7 @@ namespace LetterAmazer.Business.Services.Domain.ProductMatrix
     public interface IProductMatrixService
     {
         ProductMatrix GetProductMatrixById(int id);
-        List<ProductMatrix> GetProductMatrixBySpecification(ProductMatrixSpecification specification);
+        IEnumerable<ProductMatrix> GetProductMatrixBySpecification(ProductMatrixSpecification specification);
         ProductMatrix Create(ProductMatrix productMatrix);
         ProductMatrix Update(ProductMatrix productMatrix);
         void Delete(ProductMatrix productMatrix);

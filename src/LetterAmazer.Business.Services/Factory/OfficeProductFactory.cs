@@ -45,7 +45,8 @@ namespace LetterAmazer.Business.Services.Factory
             officeProduct.ProductMatrices = productMatrixService.GetProductMatrixBySpecification(
                 new ProductMatrixSpecification()
                 {
-                    OfficeProductId = dbproducts.Id
+                    OfficeProductId = dbproducts.Id,
+                    ProductMatrixReferenceType = ProductMatrixReferenceType.Contractor
                 });
 
             return officeProduct;

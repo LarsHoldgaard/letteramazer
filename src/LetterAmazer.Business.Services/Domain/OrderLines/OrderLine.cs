@@ -8,5 +8,7 @@ namespace LetterAmazer.Business.Services.Domain.OrderLines
         public BaseProduct BaseProduct { get; set; }
         public int Quantity { get; set; }
         public int OrderId { get; set; }
+
+        public decimal Cost { get; set; }
     }
 }

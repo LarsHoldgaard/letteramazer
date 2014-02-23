@@ -13,7 +13,10 @@ using LetterAmazer.Business.Services.Domain.Payments;
 using LetterAmazer.Business.Services.Domain.PriceUpdater;
 using LetterAmazer.Business.Services.Domain.Pricing;
 using LetterAmazer.Business.Services.Domain.Products.ProductDetails;
+using LetterAmazer.Business.Services.Exceptions;
+using LetterAmazer.Business.Services.Factory;
 using LetterAmazer.Business.Services.Services;
+using LetterAmazer.Data.Repository.Data;
 using log4net;
 using System;
 using System.IO;
@@ -61,6 +64,8 @@ namespace LetterAmazer.Websites.Client.Controllers
         [HttpGet]
         public ActionResult Index()
         {
+           // priceUpdater.Execute();
+
             if (SessionHelper.Customer != null) return RedirectToAction("SendALetter", "User");
             CreateSingleLetterModel model = new CreateSingleLetterModel();
 
@@ -85,7 +90,8 @@ namespace LetterAmazer.Websites.Client.Controllers
                     new CountrySpecification() {CountryCode = model.DestinationCountryCode}).FirstOrDefault();
                 addressInfo.PostalCode = model.ZipCode;
 
-                var price = priceService.GetPriceByAddress(addressInfo);
+                // TODO: This is a bug
+                var price = priceService.GetPriceByAddress(addressInfo,1);
 
                 Customer customer = new Customer();
                 customer.Email = model.Email;
@@ -146,6 +152,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                     OrderId = storedOrder.Id,
                 };
 
+
                 Coupon coupon = null;
                 if (!string.IsNullOrEmpty(model.VoucherCode))
                 {
@@ -157,6 +164,11 @@ namespace LetterAmazer.Websites.Client.Controllers
                     {
                         coupon = (Coupon) voucher.FirstOrDefault();
                     }
+                }
+
+                if (coupon != null)
+                {
+                    
                 }
 
 
@@ -228,7 +240,13 @@ namespace LetterAmazer.Websites.Client.Controllers
                     CountryName = country
                 }).FirstOrDefault();
 
-                letter.ToAddress = new AddressInfo() { Address1 = address, PostalCode = postal, City = city, Country = dl_country }; // TODO: Fix country
+                letter.ToAddress = new AddressInfo()
+                {
+                    Address1 = address,
+                    PostalCode = postal,
+                    City = city,
+                    Country = dl_country
+                }; // TODO: Fix country
                 letter.LetterContent = new LetterContent();
                 if (usePdf)
                 {
@@ -236,14 +254,15 @@ namespace LetterAmazer.Websites.Client.Controllers
                 }
                 else
                 {
-                    letter.LetterContent.Path = string.Format("{0}/{1}/{2}.pdf", DateTime.Now.Year, DateTime.Now.Month, Guid.NewGuid().ToString());
+                    letter.LetterContent.Path = string.Format("{0}/{1}/{2}.pdf", DateTime.Now.Year, DateTime.Now.Month,
+                        Guid.NewGuid().ToString());
                     string filepath = PathHelper.GetAbsoluteFile(letter.LetterContent.Path);
                     content = HttpUtility.HtmlDecode(content);
                     content = HttpUtility.UrlDecode(content);
                     var convertedText = HelperMethods.Utf8FixString(content);
                     PdfHelper.ConvertToPdf(filepath, convertedText);
                 }
-                
+
                 var price = priceService.GetPriceByLetter(letter);
 
                 bool isValidCredits = false;
@@ -253,13 +272,27 @@ namespace LetterAmazer.Websites.Client.Controllers
                     credits = SessionHelper.Customer.CreditsLeft;
                 }
 
-                return Json(new {
+                return Json(new
+                {
                     status = "success",
                     price = price,
                     numberOfPages = letter.LetterContent.PageCount,
                     credits = credits,
                     isAuthenticated = !(SessionHelper.Customer == null),
                     isValidCredits = isValidCredits
+                });
+            }
+            catch (BusinessException businessException)
+            {
+                return Json(new
+                {
+                    status ="error",
+                    message = "We cannot send this letter. Try a shorter letter.",
+                    price = 0,
+                    numberOfPages = 0,
+                    credits = 0,
+                    isAuthenticated = SessionHelper.Customer != null,
+                    isOverCredits = false
                 });
             }
             catch (Exception ex)

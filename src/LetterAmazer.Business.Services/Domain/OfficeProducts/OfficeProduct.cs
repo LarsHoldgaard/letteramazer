@@ -20,7 +20,7 @@ namespace LetterAmazer.Business.Services.Domain.OfficeProducts
         public int ContinentId { get; set; }
         public int ZipId { get; set; }
         public LetterDetails LetterDetails { get; set; }
-        public List<ProductMatrix.ProductMatrix> ProductMatrices { get; set; }
+        public IEnumerable<ProductMatrix.ProductMatrix> ProductMatrices { get; set; }
 
         public OfficeProduct()
         {

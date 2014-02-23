@@ -33,7 +33,7 @@ namespace LetterAmazer.Business.Services.Domain.Orders
         
         public List<PaymentMethods> PaymentMethods { get; set; }
 
-
+        public List<OrderLine> OrderLines { get; set; }
         public Order()
         {
             this.PaymentMethods = new List<PaymentMethods>();
@@ -41,9 +41,6 @@ namespace LetterAmazer.Business.Services.Domain.Orders
 
         public override string ToString()
         {
-            
-            
-
             return base.ToString();
         }
     }

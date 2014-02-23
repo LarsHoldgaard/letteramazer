@@ -7,6 +7,7 @@ using LetterAmazer.Business.Services.Domain.OfficeProducts;
 using LetterAmazer.Business.Services.Domain.PriceUpdater;
 using LetterAmazer.Business.Services.Domain.Pricing;
 using LetterAmazer.Business.Services.Domain.ProductMatrix;
+using LetterAmazer.Business.Services.Utils;
 
 namespace LetterAmazer.Business.Services.Services
 {
@@ -34,7 +35,8 @@ namespace LetterAmazer.Business.Services.Services
 
             var matrices = productMatrixService.GetProductMatrixBySpecification(new ProductMatrixSpecification()
             {
-                Take = int.MaxValue
+                Take = int.MaxValue,
+                ProductMatrixReferenceType = ProductMatrixReferenceType.Contractor
             });
 
             foreach (var officeProduct in products)
@@ -43,9 +45,13 @@ namespace LetterAmazer.Business.Services.Services
                     matrices.Where(
                         c => c.ValueId == officeProduct.Id && c.ReferenceType == ProductMatrixReferenceType.Contractor);
 
+                
+                matrix = Helpers.RemoveDuplicatePriceTypesFromMatrix(matrix);
                 UpdateFromProduct(officeProduct, matrix);
             }
         }
+
+
 
         private void UpdateFromProduct(OfficeProduct officeProduct, IEnumerable<ProductMatrix> productMatrix)
         {

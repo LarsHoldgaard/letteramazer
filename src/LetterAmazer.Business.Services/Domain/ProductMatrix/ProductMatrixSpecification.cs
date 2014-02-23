@@ -11,6 +11,8 @@ namespace LetterAmazer.Business.Services.Domain.ProductMatrix
     public class ProductMatrixSpecification:Specifications
     {
         public int OfficeProductId { get; set; }
+        public ProductMatrixPriceType? ProductMatrixPriceType { get; set; }
+        public ProductMatrixReferenceType? ProductMatrixReferenceType { get; set; }
         public int PriceId { get; set; }
     }
 }

@@ -13,7 +13,7 @@ namespace LetterAmazer.Business.Services.Domain.Pricing
     {
         Price GetPriceByOrder(Order order);
         Price GetPriceByLetter(Letter letter);
-        Price GetPriceByAddress(AddressInfo addressInfo);
+        Price GetPriceByAddress(AddressInfo addressInfo, int pageCount);
         Price GetPriceBySpecification(PriceSpecification specification);
         Pricing Create(Pricing pricing);
     }

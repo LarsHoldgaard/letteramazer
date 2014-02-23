@@ -14,6 +14,7 @@ using LetterAmazer.Business.Services.Domain.Pricing;
 using LetterAmazer.Business.Services.Domain.ProductMatrix;
 using LetterAmazer.Business.Services.Domain.Products.ProductDetails;
 using LetterAmazer.Business.Services.Exceptions;
+using LetterAmazer.Business.Services.Utils;
 using LetterAmazer.Data.Repository.Data;
 using ProductType = LetterAmazer.Business.Services.Domain.Products.ProductType;
 
@@ -57,10 +58,10 @@ namespace LetterAmazer.Business.Services.Services
 
         public Price GetPriceByLetter(Letter letter)
         {
-            return GetPriceByAddress(letter.ToAddress);
+            return GetPriceByAddress(letter.ToAddress,letter.LetterContent.PageCount);
         }
 
-        public Price GetPriceByAddress(AddressInfo addressInfo)
+        public Price GetPriceByAddress(AddressInfo addressInfo, int pageCount)
         {
             if (addressInfo.Country == null || addressInfo.Country.Id ==0)
             {
@@ -74,7 +75,8 @@ namespace LetterAmazer.Business.Services.Services
                 LetterProcessing = LetterProcessing.Dull,
                 LetterSize = LetterSize.A4,
                 LetterType = LetterType.Pres,
-                LetterPaperWeight = LetterPaperWeight.Eight
+                LetterPaperWeight = LetterPaperWeight.Eight,
+                PageCount = pageCount
             });
 
             return price;
@@ -82,7 +84,6 @@ namespace LetterAmazer.Business.Services.Services
 
         public Price GetPriceBySpecification(PriceSpecification specification)
         {
-            
             var pricing = from d in repository.DbPricing
                            join d1 in repository.DbOfficeProducts on d.OfficeProductId equals d1.Id
                            join d2 in repository.DbOfficeProductDetails on d1.ProductDetailsId equals d2.Id
@@ -103,13 +104,111 @@ namespace LetterAmazer.Business.Services.Services
                                 ProductScope = (ProductScope)d1.ScopeType
                            };
 
+            pricing = AddSpecificationSearchLogic(specification, pricing);
+
+            var allPrices = pricing.ToList();
+
+            int officeProductId = 0;
+            decimal minSum = decimal.MaxValue;
+            foreach (var priceRetrival in allPrices)
+            {
+                var lines = productMatrixService.GetProductMatrixBySpecification(new ProductMatrixSpecification()
+                {
+                    OfficeProductId = priceRetrival.OfficeProductId,
+                    ProductMatrixReferenceType = ProductMatrixReferenceType.Sales
+                });
+                 
+                lines = Helpers.RemoveDuplicatePriceTypesFromMatrix(lines);
+
+
+                if (!IsLinesValid(specification, lines))
+                {
+                    throw new BusinessException("No price for this specification");
+                }
+
+                var thisSum = CalculateSumFromLines(specification, lines);
+
+                // if this selected price is cheaper than previous option
+                if (thisSum < minSum)
+                {
+                    officeProductId = priceRetrival.OfficeProductId;
+                    minSum = thisSum;
+                }
+            }
+
+            return new Price()
+            {
+                PriceExVat = minSum,
+                VatPercentage =0.0m,
+                OfficeProductId = officeProductId
+            }; 
+        }
+
+        /// <summary>
+        /// Checks if the provides matrix lines will solve the specification
+        /// </summary>
+        /// <param name="specification"></param>
+        /// <param name="lines"></param>
+        /// <returns></returns>
+        private bool IsLinesValid(PriceSpecification specification, IEnumerable<ProductMatrix> lines)
+        {
+            if (!lines.Any(c => c.PriceType == ProductMatrixPriceType.FirstPage))
+            {
+                return false;
+            }
+            if (specification.PageCount > 1)
+            {
+                var prPage = lines.FirstOrDefault(c => c.PriceType == ProductMatrixPriceType.PrPage);
+                var spanPage = lines.FirstOrDefault(c => c.PriceType == ProductMatrixPriceType.Span);
+
+                if (prPage == null || (spanPage != null && (spanPage.SpanLower < specification.PageCount || spanPage.SpanUpper < specification.PageCount)))
+                {
+                    return false;    
+                }
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// Calculates how much the lines cost, to find the cheapest solution
+        /// </summary>
+        /// <param name="specification"></param>
+        /// <param name="lines"></param>
+        /// <returns></returns>
+        private decimal CalculateSumFromLines(PriceSpecification specification, IEnumerable<ProductMatrix> lines)
+        {
+            decimal thisSum = 0.0m;
+            foreach (var productMatrix in lines)
+            {
+                if (productMatrix.PriceType == ProductMatrixPriceType.FirstPage)
+                {
+                    thisSum += productMatrix.ProductLines.Sum(line => line.BaseCost);
+                }
+                else if (productMatrix.PriceType == ProductMatrixPriceType.PrPage && specification.PageCount > 1)
+                {
+                    thisSum += productMatrix.ProductLines.Sum(line => line.BaseCost)*(specification.PageCount - 1);
+                }
+                else if (productMatrix.PriceType == ProductMatrixPriceType.Span && specification.PageCount > 1 &&
+                         (productMatrix.SpanLower <= specification.PageCount &&
+                          productMatrix.SpanUpper >= specification.PageCount))
+                {
+                    thisSum += productMatrix.ProductLines.Sum(line => line.BaseCost);
+                }
+            }
+            return thisSum;
+        }
+
+        
+
+        private IQueryable<PriceRetrival> AddSpecificationSearchLogic(PriceSpecification specification, IQueryable<PriceRetrival> pricing)
+        {
             if (specification.CountryId > 0)
             {
                 var country = countryService.GetCountryById(specification.CountryId);
 
-                pricing = pricing.Where(c => c.CountryId == specification.CountryId || 
-                    (c.ProductScope == ProductScope.RestOfWorld) ||
-                    (c.ProductScope == ProductScope.Continent && country.ContinentId == c.ContinentId));
+                pricing = pricing.Where(c => c.CountryId == specification.CountryId ||
+                                             (c.ProductScope == ProductScope.RestOfWorld) ||
+                                             (c.ProductScope == ProductScope.Continent && country.ContinentId == c.ContinentId));
             }
             if (specification.ContinentId > 0)
             {
@@ -143,38 +242,12 @@ namespace LetterAmazer.Business.Services.Services
             {
                 pricing = pricing.Where(c => c.LetterProcessing == specification.LetterProcessing.Value);
             }
-
-            var allPrices = pricing.ToList();
-
-            int officeProductId = 0;
-            decimal minSum = decimal.MaxValue;
-            foreach (var priceRetrival in allPrices)
+            // Todo: add some delivery logic
+            if (specification.DeliveryDays > 0)
             {
-                var lines = productMatrixService.GetProductMatrixBySpecification(new ProductMatrixSpecification()
-                {
-                    OfficeProductId = priceRetrival.OfficeProductId
-                }).FirstOrDefault();
-
-                if (lines == null)
-                {
-                    break;
-                }
-
-                decimal thisSum = lines.ProductLines.Sum(line => line.BaseCost);
-
-                if (thisSum < minSum)
-                {
-                    officeProductId = priceRetrival.OfficeProductId;
-                    minSum = thisSum;
-                }
+                pricing = pricing;
             }
-
-            return new Price()
-            {
-                PriceExVat = minSum,
-                VatPercentage =0.0m,
-                OfficeProductId = officeProductId
-            }; 
+            return pricing;
         }
 
         public Pricing Create(Pricing pricing)
@@ -208,6 +281,7 @@ namespace LetterAmazer.Business.Services.Services
         public LetterSize LetterSize { get; set; }
         public LetterType LetterType { get; set; }
         public ProductScope ProductScope { get; set; }
+        
         public int CountryId { get; set; }
         public int ZipId { get; set; }
         public int ContinentId { get; set; }

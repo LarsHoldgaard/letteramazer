@@ -36,6 +36,8 @@
     self.selectedCountry = ko.observable('');
     self.useUploadFile = ko.observable('');
     self.uploadFileKey = ko.observable('');
+    self.priceStatus = ko.observable('');
+    self.priceStatusMessage = ko.observable('');
 
     self.formSelector = formSelector;
     $(self.formSelector).validate({
@@ -96,6 +98,8 @@
             },
             dataType: 'json',
             success: function (data) {
+                thiz.priceStatus(data.status);
+                thiz.priceStatusMessage(data.message);
                 thiz.cost(data.price);
                 thiz.numberOfPages(data.numberOfPages);
                 if (data.isAuthenticated) {
@@ -103,10 +107,19 @@
                     self.isValidCredits(data.isValidCredits);
                     self.paymentMethod('Credits (' + data.credits + '$ left)');
                 }
+
                 thiz.currentStep(3);
+
             }
         });
     };
+
+    self.canSendLetter = ko.computed(function () {
+        if (self.priceStatus() == "success") {
+            return true;
+        }
+        return false;
+    });
     
     self.getPrice = ko.computed(function () {
          try {
