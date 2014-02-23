@@ -13,6 +13,5 @@ namespace LetterAmazer.Business.Services.Domain.Payments
     {
         public int CustomerId { get; set; }
         public decimal TotalPrice { get; set; }
-        public OrderType? OrderType { get; set; }
     }
 }

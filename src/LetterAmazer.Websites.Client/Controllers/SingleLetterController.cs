@@ -90,7 +90,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                 customer.Email = model.Email;
                 customer.Phone = model.Phone;
                 customer.CustomerInfo = addressInfo;
-
+                order.Customer = customer;
 
 
                 LetterDetails letterDetail = new LetterDetails()
@@ -110,7 +110,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                     OfficeProductId = price.OfficeProductId
                 };
 
-                order.Customer = customer;
+
 
 
                 if (model.UseUploadFile)
@@ -157,6 +157,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                     Cost = priceService.GetPriceByLetter(letter).PriceExVat
                 });
 
+                decimal rest = price.PriceExVat;
                 if (coupon != null)
                 {
                     order.OrderLines.Add(new OrderLine()
@@ -165,20 +166,21 @@ namespace LetterAmazer.Websites.Client.Controllers
                         Cost = coupon.CouponValueLeft
 
                     });
+                    rest -= coupon.CouponValueLeft;
+                }
+
+                if (rest > 0)
+                {
+                    order.OrderLines.Add(new OrderLine()
+                    {
+                        ProductType = ProductType.Payment,
+                        Cost = rest
+                    });
                 }
 
                 var storedOrder = orderService.Create(order);
 
-                var paymentMethods = new List<PaymentMethods>();
-
-                if (coupon != null)
-                {
-                    paymentMethods.Add(PaymentMethods.Coupon);
-                }
-
-                paymentMethods.Add(PaymentMethods.PayPal);
-
-                string redirectUrl = paymentService.Process(paymentMethods, storedOrder);
+                string redirectUrl = paymentService.Process(storedOrder);
                 logger.Debug("redirectUrl: " + redirectUrl);
                 return Redirect(redirectUrl);
             }

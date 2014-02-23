@@ -1035,3 +1035,13 @@ Key: Server, value: AmazonS3
    at LetterAmazer.Business.Services.Services.PriceService.GetPriceByAddress(AddressInfo addressInfo, Int32 pageCount) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PriceService.cs:line 71
    at LetterAmazer.Business.Services.Services.PriceService.GetPriceByLetter(Letter letter) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PriceService.cs:line 61
    at LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetPrice(Boolean usePdf, String uploadFileKey, String content, String address, String postal, String city, String country) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 252
+2014-02-23 15:09:29,455 [8] DEBUG LetterAmazer.Websites.Client.Controllers.SingleLetterController - upload file key: 2014/2/24b76beb-4e40-4d10-ac4f-5bff7a76c3f9.pdf
+2014-02-23 15:09:29,582 [8] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.NullReferenceException: Object reference not set to an instance of an object.
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.Index(CreateSingleLetterModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 153
+2014-02-23 15:09:29,585 [8] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - 
+2014-02-23 15:10:23,231 [6] DEBUG LetterAmazer.Websites.Client.Controllers.SingleLetterController - upload file key: 2014/2/743415cf-0476-4812-a6ed-e2100a10a71a.pdf
+2014-02-23 15:10:47,709 [6] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.NullReferenceException: Object reference not set to an instance of an object.
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.Index(CreateSingleLetterModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 153
+2014-02-23 15:10:47,710 [6] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - 
+2014-02-23 15:11:46,552 [9] DEBUG LetterAmazer.Websites.Client.Controllers.SingleLetterController - upload file key: 2014/2/3869e8b2-3c1b-4bb7-8114-07babe2549a2.pdf
+2014-02-23 15:12:15,252 [9] DEBUG LetterAmazer.Websites.Client.Controllers.SingleLetterController - redirectUrl: https://www.sandbox.paypal.com/cgi-bin/webscr?first_name=Martin Carlsson&item_name=Send a letter&currency_code=USD&amount=4.80&notify_url=http://www.letteramazer.com/en/singleletter/paypalipn/LetterAmazer.Business.Services.Domain.Orders.Order&cmd=_xclick&country=AL&zip=2760&address1=Måløv Hovedgade 58c. st. th.&business=mcoroklo@gmail.com&city=Måløv&custom=23&return=

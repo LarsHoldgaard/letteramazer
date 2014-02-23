@@ -6,12 +6,20 @@ using System.Threading.Tasks;
 
 namespace LetterAmazer.Business.Services.Domain.Payments
 {
-    public enum PaymentMethods
+    public class PaymentMethods
     {
-        PayPal=0,
-        Invoice=1,
-        Bitcoin=2,
-        Credits=3,
-        Coupon=4
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public DateTime DateCreated { get; set; }
+        public DateTime? DateDeleted { get; set; }
+
+        public int MinimumAmount { get; set; }
+        public int MaximumAmount { get; set; }
+        public decimal Price { get; set; }
+
+        public int SortOrder { get; set; }
+        public bool IsVisible { get; set; }
+
+        public bool RequiresLogin { get; set; }
     }
 }

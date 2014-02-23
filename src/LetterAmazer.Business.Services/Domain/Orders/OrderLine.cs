@@ -1,13 +1,15 @@
-﻿using LetterAmazer.Business.Services.Domain.Products;
+﻿using LetterAmazer.Business.Services.Domain.Payments;
+using LetterAmazer.Business.Services.Domain.Products;
 
 namespace LetterAmazer.Business.Services.Domain.Orders
 {
     public class OrderLine
     {
         public ProductType ProductType { get; set; }
-        public BaseProduct BaseProduct { get; set; }
+        public BaseItem BaseProduct { get; set; }
+
+        public PaymentMethods PaymentMethod { get; set; }
         public int Quantity { get; set; }
-        public int OrderId { get; set; }
 
         public decimal Cost { get; set; }
 

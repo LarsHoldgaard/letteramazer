@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="LetterAmazer.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="LetterAmazer.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="DbContinents">
           <Key>
             <PropertyRef Name="Id" />
@@ -172,6 +172,7 @@
           <Property Name="ItemType" Type="int" Nullable="false" />
           <Property Name="Quantity" Type="int" Nullable="false" />
           <Property Name="Cost" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="PaymentMethodId" Type="int" />
         </EntityType>
         <EntityType Name="DbOrders">
           <Key>
@@ -192,6 +193,21 @@
           <Property Name="PaymentMethod" Type="nvarchar" MaxLength="20" Nullable="false" />
           <Property Name="DatePaid" Type="datetime" />
           <Property Name="DateSent" Type="datetime" />
+        </EntityType>
+        <EntityType Name="DbPaymentMethods">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="DateCreated" Type="datetime" Nullable="false" />
+          <Property Name="DateDeleted" Type="datetime" />
+          <Property Name="MinimumAmount" Type="int" Nullable="false" />
+          <Property Name="MaximumAmount" Type="int" Nullable="false" />
+          <Property Name="Price" Type="decimal" Precision="18" Scale="5" Nullable="false" />
+          <Property Name="SortOrder" Type="int" Nullable="false" />
+          <Property Name="IsVisible" Type="bit" Nullable="false" />
+          <Property Name="RequiresLogin" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="DbPricing">
           <Key>
@@ -423,6 +439,7 @@
           <EntitySet Name="DbOffices" EntityType="Self.DbOffices" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DbOrderlines" EntityType="Self.DbOrderlines" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DbOrders" EntityType="Self.DbOrders" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DbPaymentMethods" EntityType="Self.DbPaymentMethods" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DbPricing" EntityType="Self.DbPricing" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DbProductMatrix" EntityType="Self.DbProductMatrix" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DbProductMatrixLines" EntityType="Self.DbProductMatrixLines" Schema="dbo" store:Type="Tables" />
@@ -488,8 +505,7 @@
             <End Role="DbShops" EntitySet="DbShops" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="LetterAmazer" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -684,6 +700,7 @@
           <Property Name="Cost" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
           <NavigationProperty Name="DbLetters" Relationship="Self.FK_OrderItem_Letter" FromRole="DbOrderlines" ToRole="DbLetters" />
           <NavigationProperty Name="DbOrders" Relationship="Self.FK_OrderItem_Order" FromRole="DbOrderlines" ToRole="DbOrders" />
+          <Property Name="PaymentMethodId" Type="Int32" />
         </EntityType>
         <EntityType Name="DbOrders">
           <Key>
@@ -1005,7 +1022,23 @@
             <End Role="DbProductMatrix" EntitySet="DbProductMatrix" />
             <End Role="DbProductMatrixLines" EntitySet="DbProductMatrixLines" />
           </AssociationSet>
+          <EntitySet Name="DbPaymentMethods" EntityType="LetterAmazer.DbPaymentMethods" />
         </EntityContainer>
+        <EntityType Name="DbPaymentMethods">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DateCreated" Type="DateTime" Precision="3" Nullable="false" />
+          <Property Name="DateDeleted" Type="DateTime" Precision="3" />
+          <Property Name="MinimumAmount" Type="Int32" Nullable="false" />
+          <Property Name="MaximumAmount" Type="Int32" Nullable="false" />
+          <Property Name="Price" Type="Decimal" Precision="18" Scale="5" Nullable="false" />
+          <Property Name="SortOrder" Type="Int32" Nullable="false" />
+          <Property Name="IsVisible" Type="Boolean" Nullable="false" />
+          <Property Name="RequiresLogin" Type="Boolean" Nullable="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1181,6 +1214,7 @@
           <EntitySetMapping Name="DbOrderlines">
             <EntityTypeMapping TypeName="LetterAmazer.DbOrderlines">
               <MappingFragment StoreEntitySet="DbOrderlines">
+                <ScalarProperty Name="PaymentMethodId" ColumnName="PaymentMethodId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="OrderId" ColumnName="OrderId" />
                 <ScalarProperty Name="LetterId" ColumnName="LetterId" />
@@ -1250,6 +1284,22 @@
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="CountryId" ColumnName="CountryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DbPaymentMethods">
+            <EntityTypeMapping TypeName="LetterAmazer.DbPaymentMethods">
+              <MappingFragment StoreEntitySet="DbPaymentMethods">
+                <ScalarProperty Name="RequiresLogin" ColumnName="RequiresLogin" />
+                <ScalarProperty Name="IsVisible" ColumnName="IsVisible" />
+                <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="MaximumAmount" ColumnName="MaximumAmount" />
+                <ScalarProperty Name="MinimumAmount" ColumnName="MinimumAmount" />
+                <ScalarProperty Name="DateDeleted" ColumnName="DateDeleted" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

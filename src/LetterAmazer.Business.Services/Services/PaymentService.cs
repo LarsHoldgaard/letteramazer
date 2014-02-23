@@ -1,39 +1,47 @@
-﻿using LetterAmazer.Business.Services.Domain.Coupons;
+﻿using Amazon.EC2.Model;
+using LetterAmazer.Business.Services.Domain.Coupons;
 using LetterAmazer.Business.Services.Domain.Customers;
 using LetterAmazer.Business.Services.Domain.Orders;
 using LetterAmazer.Business.Services.Domain.Payments;
 using LetterAmazer.Business.Services.Domain.Pricing;
+using LetterAmazer.Business.Services.Domain.Products;
 using LetterAmazer.Business.Services.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LetterAmazer.Business.Services.Factory;
 using LetterAmazer.Business.Services.Services.PaymentMethods.Implementations;
+using LetterAmazer.Data.Repository.Data;
 
 namespace LetterAmazer.Business.Services.Services
 {
     public class PaymentService : IPaymentService
     {
-        private ICustomerService customerService;
+        private IPaymentFactory paymentFactory;
+        private LetterAmazerEntities repository;
         private IPriceService priceService;
-        private ICouponService couponService;
 
-        public PaymentService(IPriceService priceService, ICustomerService customerService, ICouponService couponService)
+        public PaymentService(LetterAmazerEntities repository,IPriceService priceService,IPaymentFactory paymentFactory)
         {
             this.priceService = priceService;
-            this.customerService = customerService;
-            this.couponService = couponService;
+            this.repository = repository;
+            this.paymentFactory = paymentFactory;
         }
 
-        public string Process(List<Domain.Payments.PaymentMethods> methods, Order order)
+        public string Process(Order order)
         {
+            var paymentMethods = order.OrderLines.Where(c => c.ProductType == ProductType.Payment);
             var url = string.Empty;
-            var usedMethods = getPaymentMethods(methods);
 
-            foreach (var method in usedMethods)
+            foreach (var paymentMethod in paymentMethods)
             {
-                url = method.Process(order);
+                if (paymentMethod.PaymentMethod != null && !string.IsNullOrEmpty(paymentMethod.PaymentMethod.Name))
+                {
+                    var pm = getPaymentMethod(paymentMethod.PaymentMethod.Name);
+                    url = pm.Process(order);
+                }    
             }
 
             return url;
@@ -43,69 +51,61 @@ namespace LetterAmazer.Business.Services.Services
 
         public List<Domain.Payments.PaymentMethods> GetPaymentMethodsBySpecification(PaymentMethodSpecification specification)
         {
-            var paymentMethods = new List<Domain.Payments.PaymentMethods>();
+            IQueryable<DbPaymentMethods> dbPaymentMethods = repository.DbPaymentMethods;
+            dbPaymentMethods = dbPaymentMethods.Where(c => c.IsVisible && (c.DateDeleted == null||c.DateDeleted > DateTime.Now));
 
-            // Credits alway useable for customers with credits
+            // Credits always useable for customers with credits
             if (specification.CustomerId > 0)
-            {
-                var customer = customerService.GetCustomerById(specification.CustomerId);
-                if (customer.Credit > customer.CreditLimit)
-                {
-                    paymentMethods.Add(Domain.Payments.PaymentMethods.Credits);
-                }
+            {   
+                dbPaymentMethods = dbPaymentMethods.Where(c => c.RequiresLogin);
             }
 
-            if (specification.OrderType != null)
+            if (specification.TotalPrice > 0) 
             {
-                if (specification.OrderType.Value == OrderType.Credits)
-                {
-                    paymentMethods.Add(Domain.Payments.PaymentMethods.Invoice);   
-                }
+                dbPaymentMethods =
+                    dbPaymentMethods.Where(
+                        c => c.MinimumAmount <= specification.TotalPrice && c.MaximumAmount >= specification.TotalPrice);
             }
 
-            // These payment methods are always useable
-            paymentMethods.Add(Domain.Payments.PaymentMethods.Bitcoin);
-            paymentMethods.Add(Domain.Payments.PaymentMethods.PayPal);
-            paymentMethods.Add(Domain.Payments.PaymentMethods.Coupon);
-
-
-            return paymentMethods;
+            return paymentFactory.Create(dbPaymentMethods.OrderBy(c=>c.SortOrder).Skip(specification.Skip).Take(specification.Take).ToList());
         }
 
-
-        #region Private helpers
-
-        /// <summary>
-        /// List of payment methods being added. SORTING IS IMPORTANT
-        /// </summary>
-        /// <param name="methods"></param>
-        /// <returns></returns>
-        private IEnumerable<IPaymentMethod> getPaymentMethods(List<Domain.Payments.PaymentMethods> methods)
+        public Domain.Payments.PaymentMethods GetPaymentMethodById(int id)
         {
-            List<IPaymentMethod> selectedPaymentMethods = new List<IPaymentMethod>();
-
-            if (methods.Contains(Domain.Payments.PaymentMethods.Credits))
+            DbPaymentMethods dbPayment = repository.DbPaymentMethods.FirstOrDefault(c => c.Id == id);
+            if (dbPayment == null)
             {
-                selectedPaymentMethods.Add(new CreditsMethod());
-            }
-            if (methods.Contains(Domain.Payments.PaymentMethods.Coupon))
-            {
-                selectedPaymentMethods.Add(new CouponMethod());
-            }
-            if (methods.Contains(Domain.Payments.PaymentMethods.Bitcoin))
-            {
-                selectedPaymentMethods.Add(new BitcoinMethod());
-            }
-            if (methods.Contains(Domain.Payments.PaymentMethods.PayPal))
-            {
-                selectedPaymentMethods.Add(new PaypalMethod(priceService));
-            }
-            if (methods.Contains(Domain.Payments.PaymentMethods.Invoice))
-            {
-                selectedPaymentMethods.Add(new InvoiceMethod());
+                throw new ItemNotFoundException("Payment method doesn't exist");
             }
 
-            return selectedPaymentMethods;
+            var paymentMethod = paymentFactory.Create(dbPayment);
+            return paymentMethod;
+        }
+
+        #region Private methods
+
+        private IPaymentMethod getPaymentMethod(string name)
+        {
+            if (name == "Credit")
+            {
+                return new CreditsMethod();
+            }
+            else if (name == "Coupon")
+            {
+                return new CouponMethod();
+            }
+            else if (name == "Invoice")
+            {
+                return new InvoiceMethod();
+            }
+            else if (name == "Bitcoin")
+            {
+                return new BitcoinMethod();
+            }
+            else
+            {
+                return new PaypalMethod(priceService);
+            }
         }
 
         #endregion

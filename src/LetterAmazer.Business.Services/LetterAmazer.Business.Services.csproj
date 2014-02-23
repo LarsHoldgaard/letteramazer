@@ -108,7 +108,9 @@
     <Compile Include="Factory\Interfaces\IOfficeProductFactory.cs" />
     <Compile Include="Factory\Interfaces\IProductMatrixFactory.cs" />
     <Compile Include="Factory\Interfaces\IPricingFactory.cs" />
+    <Compile Include="Factory\IPaymentFactory.cs" />
     <Compile Include="Factory\OfficeProductFactory.cs" />
+    <Compile Include="Factory\PaymentFactory.cs" />
     <Compile Include="Factory\PricingFactory.cs" />
     <Compile Include="Factory\ProductMatrixFactory.cs" />
     <Compile Include="Services\DeliveryJobService.cs" />
@@ -146,7 +148,7 @@
     <Compile Include="Domain\ProductMatrix\ProductScope.cs" />
     <Compile Include="Domain\Orders\OrderLineSpecification.cs" />
     <Compile Include="Domain\Orders\OrderType.cs" />
-    <Compile Include="Domain\Products\BaseProduct.cs" />
+    <Compile Include="Domain\Orders\BaseItem.cs" />
     <Compile Include="Domain\Orders\Order.cs" />
     <Compile Include="Domain\Orders\OrderLine.cs" />
     <Compile Include="Domain\Orders\OrderSpecification.cs" />

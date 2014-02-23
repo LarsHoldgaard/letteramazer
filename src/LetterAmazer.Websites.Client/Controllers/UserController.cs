@@ -132,7 +132,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                 };
                 order.OrderLines.Add(orderItem);
 
-                var url = paymentService.Process(order.PaymentMethods, order);
+                var url = paymentService.Process(order);
 
                 return Redirect(url);
             }

@@ -12,17 +12,17 @@ namespace LetterAmazer.Data.Repository.Data
     using System;
     using System.Collections.Generic;
     
-    public partial class DbOrderlines
+    public partial class DbPaymentMethods
     {
         public int Id { get; set; }
-        public Nullable<int> OrderId { get; set; }
-        public Nullable<int> LetterId { get; set; }
-        public int ItemType { get; set; }
-        public int Quantity { get; set; }
-        public decimal Cost { get; set; }
-        public Nullable<int> PaymentMethodId { get; set; }
-    
-        public virtual DbLetters DbLetters { get; set; }
-        public virtual DbOrders DbOrders { get; set; }
+        public string Name { get; set; }
+        public System.DateTime DateCreated { get; set; }
+        public Nullable<System.DateTime> DateDeleted { get; set; }
+        public int MinimumAmount { get; set; }
+        public int MaximumAmount { get; set; }
+        public decimal Price { get; set; }
+        public int SortOrder { get; set; }
+        public bool IsVisible { get; set; }
+        public bool RequiresLogin { get; set; }
     }
 }

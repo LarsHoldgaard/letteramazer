@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using LetterAmazer.Business.Services.Domain.Customers;
 using LetterAmazer.Business.Services.Domain.Letters;
 using LetterAmazer.Business.Services.Domain.Orders;
+using LetterAmazer.Business.Services.Domain.Payments;
 using LetterAmazer.Business.Services.Domain.Products;
 using LetterAmazer.Business.Services.Factory.Interfaces;
 using LetterAmazer.Business.Services.Services;
@@ -17,11 +18,13 @@ namespace LetterAmazer.Business.Services.Factory
     {
         private ICustomerService customerService;
         private ILetterService letterService;
+        private IPaymentService paymentService;
 
-        public OrderFactory(ICustomerService customerService, ILetterService letterService)
+        public OrderFactory(ICustomerService customerService, ILetterService letterService, IPaymentService paymentService)
         {
             this.customerService = customerService;
             this.letterService = letterService;
+            this.paymentService = paymentService;
         }
 
         public Order Create(DbOrders dborder, List<DbOrderlines> dborderLines)
@@ -66,18 +69,19 @@ namespace LetterAmazer.Business.Services.Factory
             var line = new OrderLine()
             {
                 Quantity = dborderlines.Quantity,
-                ProductType = (ProductType)dborderlines.ItemType
+                ProductType = (ProductType)dborderlines.ItemType,
+                Cost = dborderlines.Cost
             };
 
             if (line.ProductType == ProductType.Order && dborderlines.LetterId.HasValue)
             {
                 line.BaseProduct = letterService.GetLetterById(dborderlines.LetterId.Value);
             }
-            else if (line.ProductType == ProductType.Credits)
+            if (line.ProductType == ProductType.Payment && dborderlines.PaymentMethodId.HasValue &&
+                dborderlines.PaymentMethodId.Value > 0)
             {
-
+                line.PaymentMethod = paymentService.GetPaymentMethodById(dborderlines.PaymentMethodId.Value);
             }
-
             return line;
         }
 

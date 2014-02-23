@@ -207,9 +207,7 @@ namespace LetterAmazer.Business.Services.Services
             var dbOrderLine = new DbOrderlines();
             dbOrderLine.Quantity = orderLine.Quantity;
             dbOrderLine.ItemType = (int)orderLine.ProductType;
-            dbOrderLine.OrderId = orderLine.OrderId;
-
-
+            
             if (orderLine.ProductType == ProductType.Order)
             {
                 var letter = ((Letter)orderLine.BaseProduct);

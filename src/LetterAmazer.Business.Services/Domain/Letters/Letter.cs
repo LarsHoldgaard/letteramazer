@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 using Amazon.EC2.Model;
 using LetterAmazer.Business.Services.Domain.AddressInfos;
 using LetterAmazer.Business.Services.Domain.Customers;
+using LetterAmazer.Business.Services.Domain.Orders;
 using LetterAmazer.Business.Services.Domain.Products;
 
 namespace LetterAmazer.Business.Services.Domain.Letters
 {
-    public class Letter:BaseProduct
+    public class Letter:BaseItem
     {
         public int Id { get; set; }
         public int OrderId { get; set; }

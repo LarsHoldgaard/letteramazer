@@ -24,12 +24,10 @@ namespace LetterAmazer.Business.Services.Domain.Orders
         public decimal Discount { get; set; }
         public decimal Price { get; set; }
         
-        public List<PaymentMethods> PaymentMethods { get; set; }
-
         public List<OrderLine> OrderLines { get; set; }
         public Order()
         {
-            this.PaymentMethods = new List<PaymentMethods>();
+            this.OrderLines = new List<OrderLine>();
         }
 
         public override string ToString()
