@@ -20,11 +20,11 @@ namespace LetterAmazer.Data.Repository.Data
         }
     
         public int Id { get; set; }
-        public int LetterType { get; set; }
         public int LetterColor { get; set; }
         public int LetterPaperWeight { get; set; }
         public int LetterProcessing { get; set; }
         public int LetterSize { get; set; }
+        public int LetterType { get; set; }
     
         public virtual ICollection<DbOfficeProducts> DbOfficeProducts { get; set; }
     }

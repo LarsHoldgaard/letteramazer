@@ -12,13 +12,14 @@ namespace LetterAmazer.Data.Repository.Data
     using System;
     using System.Collections.Generic;
     
-    public partial class DbOrderItems
+    public partial class DbOrderlines
     {
         public int Id { get; set; }
         public Nullable<int> OrderId { get; set; }
         public Nullable<int> LetterId { get; set; }
         public int ItemType { get; set; }
         public int Quantity { get; set; }
+        public decimal Cost { get; set; }
     
         public virtual DbLetters DbLetters { get; set; }
         public virtual DbOrders DbOrders { get; set; }

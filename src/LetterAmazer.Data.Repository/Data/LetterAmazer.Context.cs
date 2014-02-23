@@ -25,6 +25,7 @@ namespace LetterAmazer.Data.Repository.Data
             throw new UnintentionalCodeFirstException();
         }
     
+        public DbSet<DbContinents> DbContinents { get; set; }
         public DbSet<DbCountries> DbCountries { get; set; }
         public DbSet<DbCoupons> DbCoupons { get; set; }
         public DbSet<DbCustomers> DbCustomers { get; set; }
@@ -33,12 +34,11 @@ namespace LetterAmazer.Data.Repository.Data
         public DbSet<DbOfficeProductDetails> DbOfficeProductDetails { get; set; }
         public DbSet<DbOfficeProducts> DbOfficeProducts { get; set; }
         public DbSet<DbOffices> DbOffices { get; set; }
-        public DbSet<DbOrderItems> DbOrderItems { get; set; }
+        public DbSet<DbOrderlines> DbOrderlines { get; set; }
         public DbSet<DbOrders> DbOrders { get; set; }
         public DbSet<DbPricing> DbPricing { get; set; }
         public DbSet<DbProductMatrix> DbProductMatrix { get; set; }
         public DbSet<DbProductMatrixLines> DbProductMatrixLines { get; set; }
         public DbSet<DbShops> DbShops { get; set; }
-        public DbSet<DbContinents> DbContinents { get; set; }
     }
 }

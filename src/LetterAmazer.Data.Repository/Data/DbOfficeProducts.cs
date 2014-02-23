@@ -27,7 +27,6 @@ namespace LetterAmazer.Data.Repository.Data
         public Nullable<int> ZipId { get; set; }
         public int ProductDetailsId { get; set; }
     
-        public virtual DbCountries DbCountries { get; set; }
         public virtual ICollection<DbLetters> DbLetters { get; set; }
         public virtual DbOfficeProductDetails DbOfficeProductDetails { get; set; }
         public virtual DbOffices DbOffices { get; set; }

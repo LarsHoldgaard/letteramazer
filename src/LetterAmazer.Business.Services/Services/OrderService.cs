@@ -45,7 +45,7 @@ namespace LetterAmazer.Business.Services.Services
             foreach (var orderLine in order.OrderLines)
             {
                 var dbOrderLine = setOrderline(orderLine);
-                dborder.DbOrderItems.Add(dbOrderLine);
+                dborder.DbOrderlines.Add(dbOrderLine);
             }
 
             repository.DbOrders.Add(dborder);
@@ -98,7 +98,7 @@ namespace LetterAmazer.Business.Services.Services
 
             var ord = dbOrders.OrderBy(c=>c.Id).Skip(specification.Skip).Take(specification.Take).ToList();
 
-            List<List<DbOrderItems>> dbOrderItems = ord.Select(dbOrderse => repository.DbOrderItems.Where(c => c.OrderId == dbOrderse.Id).ToList()).ToList();
+            List<List<DbOrderlines>> dbOrderItems = ord.Select(dbOrderse => repository.DbOrderlines.Where(c => c.OrderId == dbOrderse.Id).ToList()).ToList();
             return orderFactory.Create(ord, dbOrderItems);
         }
 
@@ -110,7 +110,7 @@ namespace LetterAmazer.Business.Services.Services
                 throw new ItemNotFoundException("Order");
             }
 
-            var lines = repository.DbOrderItems.Where(c => c.OrderId == orderId).ToList();
+            var lines = repository.DbOrderlines.Where(c => c.OrderId == orderId).ToList();
             var order = orderFactory.Create(dborder, lines);
 
             return order;
@@ -126,7 +126,7 @@ namespace LetterAmazer.Business.Services.Services
 
         public List<OrderLine> GetOrderLinesBySpecification(OrderLineSpecification specification)
         {
-            IQueryable<DbOrderItems> dbOrderItems = repository.DbOrderItems;
+            IQueryable<DbOrderlines> dbOrderItems = repository.DbOrderlines;
 
             if (specification.OrderId > 0)
             {
@@ -179,7 +179,7 @@ namespace LetterAmazer.Business.Services.Services
 
         public OrderLine GetOrderlineById(int orderLineId)
         {
-            var orderLineDb = repository.DbOrderItems.FirstOrDefault(c => c.Id == orderLineId);
+            var orderLineDb = repository.DbOrderlines.FirstOrDefault(c => c.Id == orderLineId);
 
             if (orderLineDb == null)
             {
@@ -202,9 +202,9 @@ namespace LetterAmazer.Business.Services.Services
             return orderCode;
         }
 
-        private DbOrderItems setOrderline(OrderLine orderLine)
+        private DbOrderlines setOrderline(OrderLine orderLine)
         {
-            var dbOrderLine = new DbOrderItems();
+            var dbOrderLine = new DbOrderlines();
             dbOrderLine.Quantity = orderLine.Quantity;
             dbOrderLine.ItemType = (int)orderLine.ProductType;
             dbOrderLine.OrderId = orderLine.OrderId;

@@ -24,7 +24,7 @@ namespace LetterAmazer.Business.Services.Factory
             this.letterService = letterService;
         }
 
-        public Order Create(DbOrders dborder, List<DbOrderItems> dborderLines)
+        public Order Create(DbOrders dborder, List<DbOrderlines> dborderLines)
         {
             var order = new Order()
             {
@@ -46,7 +46,7 @@ namespace LetterAmazer.Business.Services.Factory
             return order;
         }
 
-        public List<Order> Create(List<DbOrders> orders, List<List<DbOrderItems>> dborderLines)
+        public List<Order> Create(List<DbOrders> orders, List<List<DbOrderlines>> dborderLines)
         {
             if (orders.Count != dborderLines.Count)
             {
@@ -56,12 +56,12 @@ namespace LetterAmazer.Business.Services.Factory
             return orders.Select((t, i) => Create(t, dborderLines[i])).ToList();
         }
 
-        
-        public List<OrderLine> Create(List<DbOrderItems> orderItemses)
+
+        public List<OrderLine> Create(List<DbOrderlines> orderItemses)
         {
             return orderItemses.Select(Create).ToList();
         }
-        public OrderLine Create(DbOrderItems dborderlines)
+        public OrderLine Create(DbOrderlines dborderlines)
         {
             var line = new OrderLine()
             {

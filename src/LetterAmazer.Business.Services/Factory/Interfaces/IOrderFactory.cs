@@ -6,10 +6,10 @@ namespace LetterAmazer.Business.Services.Factory.Interfaces
 {
     public interface IOrderFactory
     {
-        Order Create(DbOrders dborder, List<DbOrderItems> dborderLines);
-        List<Order> Create(List<DbOrders> orders, List<List<DbOrderItems>> dborderLines);
-        List<OrderLine> Create(List<DbOrderItems> orderItemses);
-        OrderLine Create(DbOrderItems dborderlines);
+        Order Create(DbOrders dborder, List<DbOrderlines> dborderLines);
+        List<Order> Create(List<DbOrders> orders, List<List<DbOrderlines>> dborderLines);
+        List<OrderLine> Create(List<DbOrderlines> orderItemses);
+        OrderLine Create(DbOrderlines dborderlines);
 
     }
 }
