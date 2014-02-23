@@ -1,6 +1,5 @@
 ﻿using LetterAmazer.Business.Services.Domain.Coupons;
 using LetterAmazer.Business.Services.Domain.Customers;
-using LetterAmazer.Business.Services.Domain.OrderLines;
 using LetterAmazer.Business.Services.Domain.Orders;
 using LetterAmazer.Business.Services.Domain.Payments;
 using LetterAmazer.Business.Services.Domain.Pricing;
@@ -19,14 +18,12 @@ namespace LetterAmazer.Business.Services.Services
         private ICustomerService customerService;
         private IPriceService priceService;
         private ICouponService couponService;
-        private IOrderLineService orderLineService;
 
-        public PaymentService(IPriceService priceService, ICustomerService customerService, ICouponService couponService, IOrderLineService orderLineService)
+        public PaymentService(IPriceService priceService, ICustomerService customerService, ICouponService couponService)
         {
             this.priceService = priceService;
             this.customerService = customerService;
             this.couponService = couponService;
-            this.orderLineService = orderLineService;
         }
 
         public string Process(List<Domain.Payments.PaymentMethods> methods, Order order)
@@ -101,7 +98,7 @@ namespace LetterAmazer.Business.Services.Services
             }
             if (methods.Contains(Domain.Payments.PaymentMethods.PayPal))
             {
-                selectedPaymentMethods.Add(new PaypalMethod(priceService,orderLineService));
+                selectedPaymentMethods.Add(new PaypalMethod(priceService));
             }
             if (methods.Contains(Domain.Payments.PaymentMethods.Invoice))
             {

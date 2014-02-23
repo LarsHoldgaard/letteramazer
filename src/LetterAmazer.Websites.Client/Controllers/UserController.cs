@@ -4,7 +4,6 @@ using LetterAmazer.Business.Services.Domain.AddressInfos;
 using LetterAmazer.Business.Services.Domain.Countries;
 using LetterAmazer.Business.Services.Domain.Coupons;
 using LetterAmazer.Business.Services.Domain.Letters;
-using LetterAmazer.Business.Services.Domain.OrderLines;
 using LetterAmazer.Business.Services.Domain.Orders;
 using LetterAmazer.Business.Services.Domain.Payments;
 using LetterAmazer.Business.Services.Domain.Products.ProductDetails;
@@ -28,18 +27,16 @@ namespace LetterAmazer.Websites.Client.Controllers
         private ILetterService letterService;
         private ICouponService couponService;
         private ICountryService countryService;
-        private IOrderLineService orderLineService;
 
 
         public UserController(IOrderService orderService, IPaymentService paymentService,
-            ILetterService letterService, ICouponService couponService, ICountryService countryService, IOrderLineService orderLineService)
+            ILetterService letterService, ICouponService couponService, ICountryService countryService)
         {
             this.orderService = orderService;
             this.paymentService = paymentService;
             this.letterService = letterService;
             this.couponService = couponService;
             this.countryService = countryService;
-            this.orderLineService = orderLineService;
         }
 
         public ActionResult Index(int? page, ProfileViewModel model)
@@ -133,8 +130,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                     Customer = SessionHelper.Customer,
                     OrderStatus = OrderStatus.Created
                 };
-
-                var orderLine = orderLineService.Create(orderItem);
+                order.OrderLines.Add(orderItem);
 
                 var url = paymentService.Process(order.PaymentMethods, order);
 
@@ -229,14 +225,9 @@ namespace LetterAmazer.Websites.Client.Controllers
             List<OrderViewModel> ordersViewModels = new List<OrderViewModel>();
             foreach (var order in orders)
             {
-                var lines = orderLineService.GetOrderlineBySpecification(new OrderLineSpecification()
-                {
-                    OrderId = order.Id
-                });
-
                 OrderViewModel viewModel = new OrderViewModel()
                 {
-                    OrderLines = getOrderLineViewModel(lines),
+                    OrderLines = getOrderLineViewModel(order.OrderLines),
                     DateCreated = order.DateCreated,
                     OrderStatus = order.OrderStatus,
                     Id = order.Id,

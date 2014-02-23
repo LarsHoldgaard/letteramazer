@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using LetterAmazer.Business.Services.Domain.DeliveryJobs;
 using LetterAmazer.Business.Services.Domain.Fulfillments;
 using LetterAmazer.Business.Services.Domain.Letters;
-using LetterAmazer.Business.Services.Domain.OrderLines;
 using LetterAmazer.Business.Services.Domain.Orders;
 using LetterAmazer.Business.Services.Domain.Products;
 
@@ -16,15 +15,12 @@ namespace LetterAmazer.Business.Services.Services
     public class DeliveryJobService : IDeliveryJobService
     {
         private IOrderService orderService;
-        private IOrderLineService orderLineService;
         private IFulfillmentService fulfillmentService;
 
         public DeliveryJobService(IOrderService orderService, 
-            IOrderLineService orderLineService,
             IFulfillmentService fulfillmentService)
         {
             this.orderService = orderService;
-            this.orderLineService = orderLineService;
             this.fulfillmentService = fulfillmentService;
         }
 
@@ -39,16 +35,23 @@ namespace LetterAmazer.Business.Services.Services
                     }
             });
 
-            List<Letter> letters = (from relevantOrder in relevantOrders
-                                    from orderLine in orderLineService.GetOrderlineBySpecification(new OrderLineSpecification()
-                                    {
-                                        OrderId = relevantOrder.Id
-                                    })
-                                    where orderLine.ProductType == ProductType.Order
-                                    select (Letter)orderLine.BaseProduct
-                                        into letter
-                                        where letter.LetterStatus == LetterStatus.Created
-                                        select letter).ToList();
+
+            List<Letter> letters = new List<Letter>();
+            foreach (var relevantOrder in relevantOrders)
+            {
+                foreach (var letter in relevantOrder.OrderLines)
+                {
+                    if (letter.ProductType == ProductType.Order)
+                    {
+                        var baseProduct = (Letter)letter.BaseProduct;
+                        if (baseProduct.LetterStatus == LetterStatus.Created)
+                        {
+                            letters.Add(baseProduct);
+                        }
+
+                    }
+                }
+            }
 
             if (!letters.Any())
             {

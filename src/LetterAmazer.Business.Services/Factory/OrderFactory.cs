@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using LetterAmazer.Business.Services.Domain.Customers;
 using LetterAmazer.Business.Services.Domain.Letters;
-using LetterAmazer.Business.Services.Domain.OrderLines;
 using LetterAmazer.Business.Services.Domain.Orders;
 using LetterAmazer.Business.Services.Domain.Products;
 using LetterAmazer.Business.Services.Factory.Interfaces;
@@ -17,13 +16,15 @@ namespace LetterAmazer.Business.Services.Factory
     public class OrderFactory : IOrderFactory
     {
         private ICustomerService customerService;
-        
-        public OrderFactory(ICustomerService customerService)
+        private ILetterService letterService;
+
+        public OrderFactory(ICustomerService customerService, ILetterService letterService)
         {
             this.customerService = customerService;
+            this.letterService = letterService;
         }
 
-        public Order Create(DbOrders dborder)
+        public Order Create(DbOrders dborder, List<DbOrderItems> dborderLines)
         {
             var order = new Order()
             {
@@ -38,18 +39,47 @@ namespace LetterAmazer.Business.Services.Factory
                 Discount = dborder.Discount,
                 OrderCode = dborder.OrderCode,
                 TransactionCode = dborder.TransactionCode,
-                Guid = dborder.Guid
+                Guid = dborder.Guid,
+                OrderLines = Create(dborderLines)
             };
 
             return order;
         }
 
-        public List<Order> Create(List<DbOrders> orders)
+        public List<Order> Create(List<DbOrders> orders, List<List<DbOrderItems>> dborderLines)
         {
-            return orders.Select(Create).ToList();
+            if (orders.Count != dborderLines.Count)
+            {
+                throw new ArgumentException("Every order needs a list of orderlines");
+            }
+
+            return orders.Select((t, i) => Create(t, dborderLines[i])).ToList();
         }
 
+        
+        public List<OrderLine> Create(List<DbOrderItems> orderItemses)
+        {
+            return orderItemses.Select(Create).ToList();
+        }
+        public OrderLine Create(DbOrderItems dborderlines)
+        {
+            var line = new OrderLine()
+            {
+                Quantity = dborderlines.Quantity,
+                ProductType = (ProductType)dborderlines.ItemType
+            };
 
+            if (line.ProductType == ProductType.Order && dborderlines.LetterId.HasValue)
+            {
+                line.BaseProduct = letterService.GetLetterById(dborderlines.LetterId.Value);
+            }
+            else if (line.ProductType == ProductType.Credits)
+            {
+
+            }
+
+            return line;
+        }
 
     }
 }

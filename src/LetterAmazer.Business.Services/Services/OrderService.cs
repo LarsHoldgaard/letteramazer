@@ -1,7 +1,6 @@
 ﻿using LetterAmazer.Business.Services.Domain.Coupons;
 using LetterAmazer.Business.Services.Domain.Customers;
 using LetterAmazer.Business.Services.Domain.Letters;
-using LetterAmazer.Business.Services.Domain.OrderLines;
 using LetterAmazer.Business.Services.Domain.Orders;
 using LetterAmazer.Business.Services.Domain.Payments;
 using LetterAmazer.Business.Services.Domain.Products;
@@ -17,27 +16,17 @@ namespace LetterAmazer.Business.Services.Services
     public class OrderService : IOrderService
     {
         private IOrderFactory orderFactory;
-        private IOrderLineFactory orderLineFactory;
-
-        private IOrderLineService orderLineService;
-        private LetterAmazerEntities Repository;
+        
+        private LetterAmazerEntities repository;
         private ILetterService letterService;
-        private IPaymentService paymentService;
-        private ICouponService couponService;
-        private ICustomerService customerService;
 
         public OrderService(LetterAmazerEntities repository,
-            ILetterService letterService, IPaymentService paymentService, IOrderLineService orderLineService,
-            ICouponService couponService,IOrderFactory orderFactory, ICustomerService customerService, IOrderLineFactory orderLineFactory)
+            ILetterService letterService,
+            IOrderFactory orderFactory)
         {
-            this.Repository = repository;
+            this.repository = repository;
             this.letterService = letterService;
-            this.paymentService = paymentService;
-            this.couponService = couponService;
             this.orderFactory = orderFactory;
-            this.customerService = customerService;
-            this.orderLineFactory = orderLineFactory;
-            this.orderLineService = orderLineService;
         }
 
         public Order Create(Order order)
@@ -53,16 +42,23 @@ namespace LetterAmazer.Business.Services.Services
             dborder.Discount = 0.0m;
             dborder.Price = 0.0m;
 
-            Repository.DbOrders.Add(dborder);
+            foreach (var orderLine in order.OrderLines)
+            {
+                var dbOrderLine = setOrderline(orderLine);
+                dborder.DbOrderItems.Add(dbOrderLine);
+            }
 
-            Repository.SaveChanges();
+            repository.DbOrders.Add(dborder);
+
+            repository.SaveChanges();
 
             return GetOrderById(dborder.Id);
         }
 
+        
         public Order Update(Order order)
         {
-            var dborder = Repository.DbOrders.FirstOrDefault(c => c.Id == order.Id);
+            var dborder = repository.DbOrders.FirstOrDefault(c => c.Id == order.Id);
 
             if (dborder == null)
             {
@@ -74,14 +70,14 @@ namespace LetterAmazer.Business.Services.Services
             dborder.OrderStatus = (int)order.OrderStatus;
             dborder.DateUpdated = DateTime.Now;
             
-            Repository.SaveChanges();
+            repository.SaveChanges();
 
             return GetOrderById(order.Id);
         }
 
         public List<Order> GetOrderBySpecification(OrderSpecification specification)
         {
-            IQueryable<DbOrders> dbOrders = Repository.DbOrders;
+            IQueryable<DbOrders> dbOrders = repository.DbOrders;
 
             if (specification.OrderStatus.Any())
             {
@@ -101,32 +97,36 @@ namespace LetterAmazer.Business.Services.Services
             }
 
             var ord = dbOrders.OrderBy(c=>c.Id).Skip(specification.Skip).Take(specification.Take).ToList();
-            return orderFactory.Create(ord);
+
+            List<List<DbOrderItems>> dbOrderItems = ord.Select(dbOrderse => repository.DbOrderItems.Where(c => c.OrderId == dbOrderse.Id).ToList()).ToList();
+            return orderFactory.Create(ord, dbOrderItems);
         }
 
         public Order GetOrderById(int orderId)
         {
-            DbOrders dborder = Repository.DbOrders.FirstOrDefault(c => c.Id == orderId);
+            DbOrders dborder = repository.DbOrders.FirstOrDefault(c => c.Id == orderId);
             if (dborder == null)
             {
                 throw new ItemNotFoundException("Order");
             }
-            var order = orderFactory.Create(dborder);
+
+            var lines = repository.DbOrderItems.Where(c => c.OrderId == orderId).ToList();
+            var order = orderFactory.Create(dborder, lines);
 
             return order;
         }
 
         public void Delete(Order order)
         {
-            var dborder = Repository.DbOrders.FirstOrDefault(c => c.Id == order.Id);
-            Repository.DbOrders.Remove(dborder);
-            Repository.SaveChanges();
+            var dborder = repository.DbOrders.FirstOrDefault(c => c.Id == order.Id);
+            repository.DbOrders.Remove(dborder);
+            repository.SaveChanges();
 
         }
 
         public List<OrderLine> GetOrderLinesBySpecification(OrderLineSpecification specification)
         {
-            IQueryable<DbOrderItems> dbOrderItems = Repository.DbOrderItems;
+            IQueryable<DbOrderItems> dbOrderItems = repository.DbOrderItems;
 
             if (specification.OrderId > 0)
             {
@@ -134,16 +134,16 @@ namespace LetterAmazer.Business.Services.Services
             }
             
 
-            return orderLineFactory.Create(
+            return orderFactory.Create(
                 dbOrderItems.Skip(specification.Skip).Take(specification.Take).ToList());
         }
 
         public void DeleteOrder(Order order)
         {
-            var dborder = Repository.DbOrders.FirstOrDefault(c => c.Id == order.Id);
+            var dborder = repository.DbOrders.FirstOrDefault(c => c.Id == order.Id);
 
-            Repository.DbOrders.Remove(dborder);
-            Repository.SaveChanges();
+            repository.DbOrders.Remove(dborder);
+            repository.SaveChanges();
         }
 
         public void UpdateByLetters(IEnumerable<Letter> letters)
@@ -154,11 +154,10 @@ namespace LetterAmazer.Business.Services.Services
                 letterService.Update(letter);
 
                 var order = GetOrderById(letter.OrderId);
-                var orderLines = orderLineService.GetOrderlineBySpecification(new OrderLineSpecification() { OrderId = letter.OrderId });
                 
                 bool isOrderDone = true;
 
-                foreach (var orderLine in orderLines)
+                foreach (var orderLine in order.OrderLines)
                 {
                     // if this is the case, there are multiple lines and one of them is not sent yet, which means the order is in progress
                     if (orderLine.ProductType == ProductType.Order && ((Letter)orderLine.BaseProduct).LetterStatus == LetterStatus.Created)
@@ -178,18 +177,90 @@ namespace LetterAmazer.Business.Services.Services
             }
         }
 
+        public OrderLine GetOrderlineById(int orderLineId)
+        {
+            var orderLineDb = repository.DbOrderItems.FirstOrDefault(c => c.Id == orderLineId);
+
+            if (orderLineDb == null)
+            {
+                throw new BusinessException("Orderline doesn't exist");
+            }
+
+            return orderFactory.Create(orderLineDb);
+        }
+
         #region Private helper methods
         private string GenerateOrderCode()
         {
             string orderCode = "LA" + DateTime.Now.Ticks.GetHashCode();
 
-            if (Repository.DbOrders.Any(c => c.OrderCode == orderCode))
+            if (repository.DbOrders.Any(c => c.OrderCode == orderCode))
             {
                 orderCode = "LA" + DateTime.Now.Ticks.GetHashCode();
             }
 
             return orderCode;
         }
+
+        private DbOrderItems setOrderline(OrderLine orderLine)
+        {
+            var dbOrderLine = new DbOrderItems();
+            dbOrderLine.Quantity = orderLine.Quantity;
+            dbOrderLine.ItemType = (int)orderLine.ProductType;
+            dbOrderLine.OrderId = orderLine.OrderId;
+
+
+            if (orderLine.ProductType == ProductType.Order)
+            {
+                var letter = ((Letter)orderLine.BaseProduct);
+
+                DbLetters dbLetter = new DbLetters()
+                {
+                    ToAddress_Address = letter.ToAddress.Address1,
+                    ToAddress_Address2 = letter.ToAddress.Address2,
+                    ToAddress_AttPerson = letter.ToAddress.AttPerson,
+                    ToAddress_City = letter.ToAddress.City,
+                    ToAddress_Co = letter.ToAddress.Co,
+                    ToAddress_CompanyName = string.Empty,
+                    ToAddress_Country = letter.ToAddress.Country.Id,
+                    ToAddress_FirstName = letter.ToAddress.FirstName,
+                    ToAddress_LastName = letter.ToAddress.LastName,
+                    ToAddress_Postal = letter.ToAddress.PostalCode,
+                    ToAddress_State = letter.ToAddress.State,
+                    ToAddress_VatNr = letter.ToAddress.VatNr,
+                    OrderId = letter.OrderId,
+                    LetterContent_WrittenContent = letter.LetterContent.WrittenContent,
+                    LetterContent_Content = letter.LetterContent.Content,
+                    LetterContent_Path = letter.LetterContent.Path,
+                    LetterStatus = (int)letter.LetterStatus,
+                    OfficeProductId = letter.OfficeProductId,
+                };
+
+                if (letter.FromAddress != null)
+                {
+                    dbLetter.FromAddress_Address = letter.FromAddress.Address1;
+                    dbLetter.FromAddress_Address2 = letter.FromAddress.Address2;
+                    dbLetter.FromAddress_AttPerson = letter.FromAddress.AttPerson;
+                    dbLetter.FromAddress_City = letter.FromAddress.City;
+                    dbLetter.FromAddress_Co = letter.FromAddress.Co;
+                    dbLetter.FromAddress_CompanyName = string.Empty;
+
+                    if (letter.FromAddress.Country != null && letter.FromAddress.Country.Id > 0)
+                    {
+                        dbLetter.FromAddress_Country = letter.FromAddress.Country.Id;
+                    }
+
+                    dbLetter.FromAddress_FirstName = letter.FromAddress.FirstName;
+                    dbLetter.FromAddress_LastName = letter.FromAddress.LastName;
+                    dbLetter.FromAddress_Postal = letter.FromAddress.PostalCode;
+                    dbLetter.FromAddress_State = letter.FromAddress.State;
+                    dbLetter.FromAddress_VatNr = letter.FromAddress.VatNr;
+                }
+                dbOrderLine.DbLetters = dbLetter;
+            }
+            return dbOrderLine;
+        }
+
 
         #endregion
 

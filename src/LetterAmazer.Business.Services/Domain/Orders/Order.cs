@@ -1,14 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.util;
 using LetterAmazer.Business.Services.Domain.Customers;
-using LetterAmazer.Business.Services.Domain.Letters;
-using LetterAmazer.Business.Services.Domain.OrderLines;
 using LetterAmazer.Business.Services.Domain.Payments;
-using Org.BouncyCastle.Asn1.X509.Qualified;
 
 namespace LetterAmazer.Business.Services.Domain.Orders
 {

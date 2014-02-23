@@ -8,7 +8,6 @@ using LetterAmazer.Business.Services.Domain.AddressInfos;
 using LetterAmazer.Business.Services.Domain.Countries;
 using LetterAmazer.Business.Services.Domain.Letters;
 using LetterAmazer.Business.Services.Domain.OfficeProducts;
-using LetterAmazer.Business.Services.Domain.OrderLines;
 using LetterAmazer.Business.Services.Domain.Orders;
 using LetterAmazer.Business.Services.Domain.Pricing;
 using LetterAmazer.Business.Services.Domain.ProductMatrix;
@@ -23,16 +22,14 @@ namespace LetterAmazer.Business.Services.Services
     public class PriceService : IPriceService
     {
         private ICountryService countryService;
-        private IOrderLineService orderLineService;
         private LetterAmazerEntities repository;
         private IProductMatrixService productMatrixService;
         private IOfficeProductService offerProductService;
 
-        public PriceService(ICountryService countryService, IOrderLineService orderLineService,
+        public PriceService(ICountryService countryService,
             LetterAmazerEntities repository, IProductMatrixService productMatrixService, IOfficeProductService offerProductService)
         {
             this.countryService = countryService;
-            this.orderLineService = orderLineService;
             this.repository = repository;
             this.productMatrixService = productMatrixService;
             this.offerProductService = offerProductService;
@@ -40,9 +37,9 @@ namespace LetterAmazer.Business.Services.Services
 
         public Price GetPriceByOrder(Order order)
         {
-            var lines = orderLineService.GetOrderlineBySpecification(new OrderLineSpecification() { OrderId = order.Id });
+            
             var price = new Price();
-            foreach (var orderLine in lines)
+            foreach (var orderLine in order.OrderLines)
             {
                 if (orderLine.ProductType == ProductType.Order)
                 {

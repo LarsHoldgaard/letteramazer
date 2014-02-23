@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using LetterAmazer.Business.Services.Domain.Letters;
-using LetterAmazer.Business.Services.Domain.OrderLines;
 
 namespace LetterAmazer.Business.Services.Domain.Orders
 {

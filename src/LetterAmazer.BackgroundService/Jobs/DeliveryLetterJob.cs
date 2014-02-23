@@ -7,7 +7,6 @@ using Castle.Windsor;
 using LetterAmazer.Business.Services;
 using LetterAmazer.Business.Services.Domain.Fulfillments;
 using LetterAmazer.Business.Services.Domain.Letters;
-using LetterAmazer.Business.Services.Domain.OrderLines;
 using LetterAmazer.Business.Services.Domain.Orders;
 using LetterAmazer.Business.Services.Domain.Products;
 using log4net;
@@ -25,15 +24,13 @@ namespace LetterAmazer.BackgroundService.Jobs
             logger.DebugFormat("start delivery letter job at: {0}", DateTime.Now);
 
             IOrderService orderService;
-            IOrderLineService orderLineService;
 
             IFulfillmentService fulfillmentService;
             try
             {
 
                 orderService = Container.Resolve<IOrderService>();
-                orderLineService = ServiceFactory.Get<IOrderLineService>();
-
+                
                 fulfillmentService = ServiceFactory.Get<IFulfillmentService>();
 
                 var relevantOrders = orderService.GetOrderBySpecification(new OrderSpecification()
@@ -45,16 +42,22 @@ namespace LetterAmazer.BackgroundService.Jobs
                     }
                 });
 
-                List<Letter> letters = (from relevantOrder in relevantOrders
-                                        from orderLine in orderLineService.GetOrderlineBySpecification(new OrderLineSpecification()
-                                        {
-                                            OrderId = relevantOrder.Id
-                                        })
-                                        where orderLine.ProductType == ProductType.Order
-                                        select (Letter)orderLine.BaseProduct
-                                            into letter
-                                            where letter.LetterStatus == LetterStatus.Created
-                                            select letter).ToList();
+                List<Letter> letters = new List<Letter>();
+                foreach (var relevantOrder in relevantOrders)
+                {
+                    foreach (var letter in relevantOrder.OrderLines)
+                    {
+                        if (letter.ProductType == ProductType.Order)
+                        {
+                            var baseProduct = (Letter) letter.BaseProduct;
+                            if (baseProduct.LetterStatus == LetterStatus.Created)
+                            {
+                                letters.Add(baseProduct);    
+                            }
+                            
+                        }
+                    }
+                }
 
                 if (!letters.Any())
                 {

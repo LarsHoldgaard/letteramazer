@@ -1,6 +1,6 @@
 ﻿using LetterAmazer.Business.Services.Domain.Products;
 
-namespace LetterAmazer.Business.Services.Domain.OrderLines
+namespace LetterAmazer.Business.Services.Domain.Orders
 {
     public class OrderLine
     {
@@ -10,5 +10,10 @@ namespace LetterAmazer.Business.Services.Domain.OrderLines
         public int OrderId { get; set; }
 
         public decimal Cost { get; set; }
+
+        public OrderLine()
+        {
+            this.Quantity = 1;
+        }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Configuration;
 using System.Linq;
 using LetterAmazer.Business.Services.Domain.AddressInfos;
 using LetterAmazer.Business.Services.Domain.Countries;
@@ -7,16 +6,12 @@ using LetterAmazer.Business.Services.Domain.Coupons;
 using LetterAmazer.Business.Services.Domain.Customers;
 using LetterAmazer.Business.Services.Domain.DeliveryJobs;
 using LetterAmazer.Business.Services.Domain.Letters;
-using LetterAmazer.Business.Services.Domain.OrderLines;
 using LetterAmazer.Business.Services.Domain.Orders;
 using LetterAmazer.Business.Services.Domain.Payments;
 using LetterAmazer.Business.Services.Domain.PriceUpdater;
 using LetterAmazer.Business.Services.Domain.Pricing;
 using LetterAmazer.Business.Services.Domain.Products.ProductDetails;
 using LetterAmazer.Business.Services.Exceptions;
-using LetterAmazer.Business.Services.Factory;
-using LetterAmazer.Business.Services.Services;
-using LetterAmazer.Data.Repository.Data;
 using log4net;
 using System;
 using System.IO;
@@ -33,7 +28,6 @@ namespace LetterAmazer.Websites.Client.Controllers
         private static readonly ILog logger = LogManager.GetLogger(typeof(SingleLetterController));
 
         private IOrderService orderService;
-        private IOrderLineService orderLineService;
 
         private IPaymentService paymentService;
         private ILetterService letterService;
@@ -46,7 +40,7 @@ namespace LetterAmazer.Websites.Client.Controllers
 
         public SingleLetterController(IOrderService orderService, IPaymentService paymentService,
             ILetterService letterService, ICouponService couponService, ICustomerService customerService,
-            ICountryService countryService, IPriceService priceService, IOrderLineService orderLineService, IPriceUpdater priceUpdater,
+            ICountryService countryService, IPriceService priceService,IPriceUpdater priceUpdater,
             IDeliveryJobService deliveryJobService)
         {
             this.orderService = orderService;
@@ -56,7 +50,6 @@ namespace LetterAmazer.Websites.Client.Controllers
             this.customerService = customerService;
             this.countryService = countryService;
             this.priceService = priceService;
-            this.orderLineService = orderLineService;
             this.priceUpdater = priceUpdater;
             this.deliveryJobService = deliveryJobService;
         }
@@ -142,17 +135,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                         System.IO.File.ReadAllBytes(PathHelper.GetAbsoluteFile(letter.LetterContent.Path));
                 }
 
-                var storedOrder = orderService.Create(order);
-
-                var orderLine = new OrderLine()
-                {
-                    Quantity = 1,
-                    ProductType = ProductType.Order,
-                    BaseProduct = letter,
-                    OrderId = storedOrder.Id,
-                };
-
-
+             
                 Coupon coupon = null;
                 if (!string.IsNullOrEmpty(model.VoucherCode))
                 {
@@ -166,13 +149,25 @@ namespace LetterAmazer.Websites.Client.Controllers
                     }
                 }
 
+
+                order.OrderLines.Add(new OrderLine()
+                {
+                    ProductType = ProductType.Order,
+                    BaseProduct = letter,
+                    Cost = priceService.GetPriceByLetter(letter).PriceExVat
+                });
+
                 if (coupon != null)
                 {
-                    
+                    order.OrderLines.Add(new OrderLine()
+                    {
+                        ProductType = ProductType.Payment,
+                        Cost = coupon.CouponValueLeft
+
+                    });
                 }
 
-
-                orderLineService.Create(orderLine);
+                var storedOrder = orderService.Create(order);
 
                 var paymentMethods = new List<PaymentMethods>();
 

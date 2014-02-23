@@ -7,7 +7,6 @@ using System.Net;
 using System.Web;
 using LetterAmazer.Business.Services.Domain.Customers;
 using LetterAmazer.Business.Services.Domain.Letters;
-using LetterAmazer.Business.Services.Domain.OrderLines;
 using LetterAmazer.Business.Services.Domain.Orders;
 using LetterAmazer.Business.Services.Domain.Payments;
 using LetterAmazer.Business.Services.Domain.Pricing;
@@ -22,14 +21,13 @@ namespace LetterAmazer.Business.Services.Services.PaymentMethods.Implementations
         private string serviceUrl;
         private string paypalIpn;
 
-        private IOrderLineService orderLineService;
         private IPriceService priceService;
-        public PaypalMethod(IPriceService priceService, IOrderLineService orderLineService)
+        public PaypalMethod(IPriceService priceService)
         {
             this.priceService = priceService;
             this.serviceUrl = ConfigurationManager.AppSettings.Get("LetterAmazer.Payment.PayPal.ServiceUrl");
             this.paypalIpn = ConfigurationManager.AppSettings.Get("LetterAmazer.Payment.PayPal.IpnHandler");
-            this.orderLineService = orderLineService;
+            
         }
 
         //private static readonly ILog logger = LogManager.GetLogger(typeof(PaypalMethod));
@@ -124,8 +122,7 @@ namespace LetterAmazer.Business.Services.Services.PaymentMethods.Implementations
 
         public string Process(Order order)
         {
-            var orderlines = orderLineService.GetOrderlineBySpecification(new OrderLineSpecification() { OrderId = order.Id });
-            var orderlineLetters = orderlines.Where(c => c.ProductType == ProductType.Order);
+            var orderlineLetters = order.OrderLines.Where(c => c.ProductType == ProductType.Order);
             var orderline = orderlineLetters.FirstOrDefault();
 
 
