@@ -21,6 +21,7 @@ namespace LetterAmazer.Data.Repository.Data
         public int Quantity { get; set; }
         public decimal Cost { get; set; }
         public Nullable<int> PaymentMethodId { get; set; }
+        public Nullable<int> CouponId { get; set; }
     
         public virtual DbLetters DbLetters { get; set; }
         public virtual DbOrders DbOrders { get; set; }

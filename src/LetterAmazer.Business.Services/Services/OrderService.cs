@@ -98,7 +98,9 @@ namespace LetterAmazer.Business.Services.Services
 
             var ord = dbOrders.OrderBy(c=>c.Id).Skip(specification.Skip).Take(specification.Take).ToList();
 
-            List<List<DbOrderlines>> dbOrderItems = ord.Select(dbOrderse => repository.DbOrderlines.Where(c => c.OrderId == dbOrderse.Id).ToList()).ToList();
+            List<List<DbOrderlines>> dbOrderItems = ord.
+                Select(dbOrderse => repository.DbOrderlines.Where(c => c.OrderId == dbOrderse.Id).
+                    ToList()).ToList();
             return orderFactory.Create(ord, dbOrderItems);
         }
 
@@ -207,7 +209,13 @@ namespace LetterAmazer.Business.Services.Services
             var dbOrderLine = new DbOrderlines();
             dbOrderLine.Quantity = orderLine.Quantity;
             dbOrderLine.ItemType = (int)orderLine.ProductType;
-            
+            dbOrderLine.Cost = orderLine.Cost; 
+
+            if (orderLine.ProductType == ProductType.Payment && orderLine.PaymentMethod != null)
+            {
+                dbOrderLine.PaymentMethodId = orderLine.PaymentMethod.Id;
+                dbOrderLine.CouponId = orderLine.CouponId;
+            }
             if (orderLine.ProductType == ProductType.Order)
             {
                 var letter = ((Letter)orderLine.BaseProduct);

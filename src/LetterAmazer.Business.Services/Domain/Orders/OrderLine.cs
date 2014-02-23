@@ -13,6 +13,8 @@ namespace LetterAmazer.Business.Services.Domain.Orders
 
         public decimal Cost { get; set; }
 
+        public int CouponId { get; set; }
+
         public OrderLine()
         {
             this.Quantity = 1;

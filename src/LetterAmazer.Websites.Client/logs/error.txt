@@ -1045,3 +1045,110 @@ Key: Server, value: AmazonS3
 2014-02-23 15:10:47,710 [6] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - 
 2014-02-23 15:11:46,552 [9] DEBUG LetterAmazer.Websites.Client.Controllers.SingleLetterController - upload file key: 2014/2/3869e8b2-3c1b-4bb7-8114-07babe2549a2.pdf
 2014-02-23 15:12:15,252 [9] DEBUG LetterAmazer.Websites.Client.Controllers.SingleLetterController - redirectUrl: https://www.sandbox.paypal.com/cgi-bin/webscr?first_name=Martin Carlsson&item_name=Send a letter&currency_code=USD&amount=4.80&notify_url=http://www.letteramazer.com/en/singleletter/paypalipn/LetterAmazer.Business.Services.Domain.Orders.Order&cmd=_xclick&country=AL&zip=2760&address1=Måløv Hovedgade 58c. st. th.&business=mcoroklo@gmail.com&city=Måløv&custom=23&return=
+2014-02-23 18:34:16,499 [10] DEBUG LetterAmazer.Websites.Client.Controllers.SingleLetterController - upload file key: 2014/2/cdfc4b53-7af6-4080-a58f-433e2346be04.pdf
+2014-02-23 18:34:34,588 [10] DEBUG LetterAmazer.Websites.Client.Controllers.SingleLetterController - redirectUrl: 
+2014-02-23 18:34:34,588 [10] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.ArgumentException: Value cannot be null or empty.
+Parameter name: url
+   at System.Web.Mvc.Controller.Redirect(String url)
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.Index(CreateSingleLetterModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 185
+2014-02-23 18:34:34,589 [10] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - 
+2014-02-23 18:40:53,834 [9] DEBUG LetterAmazer.Websites.Client.Controllers.SingleLetterController - upload file key: 2014/2/20d41708-07e7-447c-9c4e-41df1250d8f4.pdf
+2014-02-23 18:42:02,197 [9] DEBUG LetterAmazer.Websites.Client.Controllers.SingleLetterController - redirectUrl: 
+2014-02-23 18:42:02,230 [9] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.ArgumentException: Value cannot be null or empty.
+Parameter name: url
+   at System.Web.Mvc.Controller.Redirect(String url)
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.Index(CreateSingleLetterModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 173
+2014-02-23 18:42:02,231 [9] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - 
+2014-02-23 19:01:20,132 [14] DEBUG LetterAmazer.Websites.Client.Controllers.SingleLetterController - upload file key: 2014/2/3c4d7042-e8e8-4c75-8a00-e6b3fd8af82c.pdf
+2014-02-23 19:01:52,980 [14] DEBUG LetterAmazer.Websites.Client.Controllers.SingleLetterController - redirectUrl: 
+2014-02-23 19:01:52,981 [14] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.ArgumentException: Value cannot be null or empty.
+Parameter name: url
+   at System.Web.Mvc.Controller.Redirect(String url)
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.Index(CreateSingleLetterModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 173
+2014-02-23 19:01:52,982 [14] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - 
+2014-02-23 19:03:34,766 [9] DEBUG LetterAmazer.Websites.Client.Controllers.SingleLetterController - upload file key: 2014/2/9cb3b9b6-bcf0-471b-887d-81ff5abee5c4.pdf
+2014-02-23 19:04:14,553 [9] DEBUG LetterAmazer.Websites.Client.Controllers.SingleLetterController - redirectUrl: https://www.sandbox.paypal.com/cgi-bin/webscr?first_name=Anne Pedersen og Bjarne Carlsson&item_name=Send a letter&currency_code=USD&amount=4.80&notify_url=http://www.letteramazer.com/en/singleletter/paypalipn/LetterAmazer.Business.Services.Domain.Orders.Order&cmd=_xclick&country=AL&zip=2760&address1=Måløv Hovedgade 58c. st. th.&business=mcoroklo@gmail.com&city=Måløv&custom=27&return=
+2014-02-23 19:14:04,723 [10] DEBUG LetterAmazer.Websites.Client.Controllers.SingleLetterController - upload file key: 2014/2/955d4f1d-c1b5-4e4c-9cb5-1108c337046c.pdf
+2014-02-23 19:14:38,671 [10] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.NotImplementedException: The method or operation is not implemented.
+   at LetterAmazer.Business.Services.Services.PaymentMethods.Implementations.CouponMethod.Process(Order order) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PaymentMethods\Implementations\CouponMethod.cs:line 15
+   at LetterAmazer.Business.Services.Services.PaymentService.Process(Order order) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PaymentService.cs:line 43
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.Index(CreateSingleLetterModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 181
+2014-02-23 19:14:38,673 [10] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - 
+2014-02-23 19:37:44,523 [9] DEBUG LetterAmazer.Websites.Client.Controllers.SingleLetterController - upload file key: 2014/2/b72ce3f7-09d1-4bda-bda9-28bdcca716d4.pdf
+2014-02-23 19:37:45,159 [9] DEBUG LetterAmazer.Websites.Client.Controllers.SingleLetterController - redirectUrl: https://www.sandbox.paypal.com/cgi-bin/webscr?first_name=Martin Carlsson&item_name=Send a letter&currency_code=USD&amount=4.80&notify_url=http://www.letteramazer.com/en/singleletter/paypalipn/LetterAmazer.Business.Services.Domain.Orders.Order&cmd=_xclick&country=AL&zip=2760&address1=Måløv Hovedgade 58c. st. th.&business=mcoroklo@gmail.com&city=Måløv&custom=29&return=
+2014-02-23 19:39:22,633 [10] DEBUG LetterAmazer.Websites.Client.Controllers.SingleLetterController - upload file key: 2014/2/591d2499-4960-429a-ba2c-7ae0b3bdfaad.pdf
+2014-02-23 19:39:23,192 [10] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.NullReferenceException: Object reference not set to an instance of an object.
+   at LetterAmazer.Business.Services.Services.PaymentMethods.Implementations.CouponMethod.Process(Order order) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PaymentMethods\Implementations\CouponMethod.cs:line 34
+   at LetterAmazer.Business.Services.Services.PaymentService.Process(Order order) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PaymentService.cs:line 44
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.Index(CreateSingleLetterModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 181
+2014-02-23 19:39:23,194 [10] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - 
+2014-02-23 19:40:10,354 [9] DEBUG LetterAmazer.Websites.Client.Controllers.SingleLetterController - upload file key: 2014/2/5871c51e-a3db-4d70-b19e-384b67a4eda4.pdf
+2014-02-23 19:41:15,465 [9] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.NullReferenceException: Object reference not set to an instance of an object.
+   at LetterAmazer.Business.Services.Services.PaymentMethods.Implementations.CouponMethod.Process(Order order) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PaymentMethods\Implementations\CouponMethod.cs:line 34
+   at LetterAmazer.Business.Services.Services.PaymentService.Process(Order order) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PaymentService.cs:line 44
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.Index(CreateSingleLetterModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 181
+2014-02-23 19:41:15,467 [9] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - 
+2014-02-23 22:01:17,221 [10] DEBUG LetterAmazer.Websites.Client.Controllers.SingleLetterController - upload file key: 2014/2/5f446c22-7676-473a-ad23-5069fe339c8a.pdf
+2014-02-23 22:02:07,775 [10] DEBUG LetterAmazer.Websites.Client.Controllers.SingleLetterController - upload file key: 2014/2/3e5a82fb-e9c9-4099-affc-e12f0755f51b.pdf
+2014-02-23 22:03:24,968 [7] DEBUG LetterAmazer.Websites.Client.Controllers.SingleLetterController - upload file key: 2014/2/707cff1a-d6ca-462b-8259-1f85e97029f9.pdf
+2014-02-23 22:03:45,887 [7] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.NullReferenceException: Object reference not set to an instance of an object.
+   at LetterAmazer.Business.Services.Services.PaymentMethods.Implementations.CouponMethod.Process(Order order) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PaymentMethods\Implementations\CouponMethod.cs:line 34
+   at LetterAmazer.Business.Services.Services.PaymentService.Process(Order order) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PaymentService.cs:line 44
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.Index(CreateSingleLetterModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 171
+2014-02-23 22:03:45,889 [7] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - 
+2014-02-23 22:05:18,888 [9] DEBUG LetterAmazer.Websites.Client.Controllers.SingleLetterController - upload file key: 2014/2/61ca92ab-0d8c-44bf-b4df-82d7b376b91a.pdf
+2014-02-23 22:05:40,856 [9] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.NullReferenceException: Object reference not set to an instance of an object.
+   at LetterAmazer.Business.Services.Services.PaymentMethods.Implementations.CouponMethod.Process(Order order) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PaymentMethods\Implementations\CouponMethod.cs:line 34
+   at LetterAmazer.Business.Services.Services.PaymentService.Process(Order order) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PaymentService.cs:line 44
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.Index(CreateSingleLetterModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 171
+2014-02-23 22:05:40,858 [9] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - 
+2014-02-23 22:06:59,544 [8] DEBUG LetterAmazer.Websites.Client.Controllers.SingleLetterController - upload file key: 2014/2/b15a7a37-5862-4394-9439-d9216788e1f2.pdf
+2014-02-23 22:07:00,178 [8] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.NullReferenceException: Object reference not set to an instance of an object.
+   at System.Web.Http.WebHost.Routing.HttpWebRoute.GetVirtualPath(RequestContext requestContext, RouteValueDictionary values)
+   at System.Web.Routing.RouteCollection.GetVirtualPath(RequestContext requestContext, RouteValueDictionary values)
+   at System.Web.Routing.RouteCollection.GetVirtualPath(RequestContext requestContext, String name, RouteValueDictionary values)
+   at System.Web.HttpResponse.RedirectToRoute(String routeName, RouteValueDictionary routeValues, Boolean permanent)
+   at System.Web.HttpResponseWrapper.RedirectToRoute(String routeName)
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.Index(CreateSingleLetterModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 175
+2014-02-23 22:07:00,180 [8] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - 
+2014-02-23 22:07:35,712 [9] DEBUG LetterAmazer.Websites.Client.Controllers.SingleLetterController - upload file key: 2014/2/db505b3c-f241-4e9d-bfe6-6a98f1f4d6d0.pdf
+2014-02-23 22:08:18,739 [9] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.NullReferenceException: Object reference not set to an instance of an object.
+   at System.Web.Http.WebHost.Routing.HttpWebRoute.GetVirtualPath(RequestContext requestContext, RouteValueDictionary values)
+   at System.Web.Routing.RouteCollection.GetVirtualPath(RequestContext requestContext, RouteValueDictionary values)
+   at System.Web.Routing.RouteCollection.GetVirtualPath(RequestContext requestContext, String name, RouteValueDictionary values)
+   at System.Web.HttpResponse.RedirectToRoute(String routeName, RouteValueDictionary routeValues, Boolean permanent)
+   at System.Web.HttpResponseWrapper.RedirectToRoute(String routeName)
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.Index(CreateSingleLetterModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 175
+2014-02-23 22:08:18,740 [9] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - 
+2014-02-23 22:41:09,041 [8] DEBUG LetterAmazer.Websites.Client.Controllers.SingleLetterController - upload file key: 2014/2/b7c7f004-59bb-435c-8c96-2a5144858e80.pdf
+2014-02-23 22:41:09,293 [8] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.ArgumentException: Value cannot be null or empty.
+Parameter name: url
+   at System.Web.Mvc.Controller.Redirect(String url)
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.Index(CreateSingleLetterModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 177
+2014-02-23 22:41:09,294 [8] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - 
+2014-02-23 22:42:05,691 [9] DEBUG LetterAmazer.Websites.Client.Controllers.SingleLetterController - upload file key: 2014/2/482db685-4bb3-44ef-b1bd-1f827eac7288.pdf
+2014-02-23 22:42:06,322 [9] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.ArgumentException: A route named 'Confirmation' could not be found in the route collection.
+Parameter name: name
+   at System.Web.Routing.RouteCollection.GetVirtualPath(RequestContext requestContext, String name, RouteValueDictionary values)
+   at System.Web.HttpResponse.RedirectToRoute(String routeName, RouteValueDictionary routeValues, Boolean permanent)
+   at System.Web.HttpResponseWrapper.RedirectToRoute(String routeName)
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.Index(CreateSingleLetterModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 175
+2014-02-23 22:42:06,323 [9] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - 
+2014-02-23 22:45:38,516 [8] DEBUG LetterAmazer.Websites.Client.Controllers.SingleLetterController - upload file key: 2014/2/3c7c33eb-93ae-425d-a40c-f302fca5c0b9.pdf
+2014-02-23 22:45:41,333 [8] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.ArgumentException: Value cannot be null or empty.
+Parameter name: url
+   at System.Web.Mvc.Controller.Redirect(String url)
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.Index(CreateSingleLetterModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 178
+2014-02-23 22:45:41,334 [8] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - 
+2014-02-23 22:47:48,266 [10] DEBUG LetterAmazer.Websites.Client.Controllers.SingleLetterController - upload file key: 2014/2/9e636ad1-8dd9-4990-80d1-80a3bbff95e8.pdf
+2014-02-23 22:48:15,302 [10] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.ArgumentException: Value cannot be null or empty.
+Parameter name: url
+   at System.Web.Mvc.Controller.Redirect(String url)
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.Index(CreateSingleLetterModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 178
+2014-02-23 22:48:15,304 [10] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - 
+2014-02-23 22:49:29,604 [7] DEBUG LetterAmazer.Websites.Client.Controllers.SingleLetterController - upload file key: 2014/2/02feab98-6f63-4265-8704-1a1d27b68767.pdf
+2014-02-23 22:50:42,854 [10] DEBUG LetterAmazer.Websites.Client.Controllers.SingleLetterController - upload file key: 2014/2/b3c300dd-9568-4b2e-89d4-1020e2116604.pdf
+2014-02-23 22:52:39,334 [9] DEBUG LetterAmazer.Websites.Client.Controllers.SingleLetterController - upload file key: 2014/2/26a1f7fe-a6d9-4a7d-b4bf-7c46bea70cfd.pdf
+2014-02-23 22:54:55,272 [8] DEBUG LetterAmazer.Websites.Client.Controllers.SingleLetterController - upload file key: 2014/2/6d9dca3f-4889-4795-b60b-e8b979ae397b.pdf
+2014-02-23 22:55:53,834 [9] DEBUG LetterAmazer.Websites.Client.Controllers.SingleLetterController - upload file key: 2014/2/ab93cf61-8ea4-40dc-9490-8a1de2a03c43.pdf
+2014-02-23 22:58:23,792 [10] DEBUG LetterAmazer.Websites.Client.Controllers.SingleLetterController - upload file key: 2014/2/d9d11fbe-4d9f-4bd0-83e7-a0c5840c5891.pdf

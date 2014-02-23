@@ -30,28 +30,28 @@ namespace LetterAmazer.Websites.Client.Controllers
         private IOrderService orderService;
 
         private IPaymentService paymentService;
-        private ILetterService letterService;
         private ICouponService couponService;
-        private ICustomerService customerService;
         private ICountryService countryService;
         private IPriceService priceService;
-        private IPriceUpdater priceUpdater;
-        private IDeliveryJobService deliveryJobService;
-
+        
         public SingleLetterController(IOrderService orderService, IPaymentService paymentService,
-            ILetterService letterService, ICouponService couponService, ICustomerService customerService,
-            ICountryService countryService, IPriceService priceService,IPriceUpdater priceUpdater,
-            IDeliveryJobService deliveryJobService)
+            ICouponService couponService, ICountryService countryService, IPriceService priceService)
         {
+            //couponService.Create(new Coupon()
+            //{
+            //    CouponStatus = CouponStatus.New,
+            //    DateCreated = DateTime.Now,
+            //    ExpireDate = DateTime.Now.AddYears(2),
+            //    CouponValue = 3.0m,
+            //    CouponValueLeft = 3.0m,
+            //    Code = "ABCDEF"
+            //});
+
             this.orderService = orderService;
             this.paymentService = paymentService;
-            this.letterService = letterService;
             this.couponService = couponService;
-            this.customerService = customerService;
             this.countryService = countryService;
             this.priceService = priceService;
-            this.priceUpdater = priceUpdater;
-            this.deliveryJobService = deliveryJobService;
         }
 
         [HttpGet]
@@ -83,9 +83,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                     new CountrySpecification() {CountryCode = model.DestinationCountryCode}).FirstOrDefault();
                 addressInfo.PostalCode = model.ZipCode;
 
-                // TODO: This is a bug
-                var price = priceService.GetPriceByAddress(addressInfo,1);
-
+                
                 Customer customer = new Customer();
                 customer.Email = model.Email;
                 customer.Phone = model.Phone;
@@ -107,12 +105,9 @@ namespace LetterAmazer.Websites.Client.Controllers
                     LetterDetails = letterDetail,
                     ToAddress = addressInfo,
                     LetterStatus = LetterStatus.Created,
-                    OfficeProductId = price.OfficeProductId
+                  
                 };
-
-
-
-
+                
                 if (model.UseUploadFile)
                 {
                     logger.DebugFormat("upload file key: {0}", model.UploadFile);
@@ -135,7 +130,9 @@ namespace LetterAmazer.Websites.Client.Controllers
                         System.IO.File.ReadAllBytes(PathHelper.GetAbsoluteFile(letter.LetterContent.Path));
                 }
 
-             
+                var price = priceService.GetPriceByAddress(addressInfo,letter.LetterContent.PageCount);
+                letter.OfficeProductId = price.OfficeProductId;
+                
                 Coupon coupon = null;
                 if (!string.IsNullOrEmpty(model.VoucherCode))
                 {
@@ -157,31 +154,27 @@ namespace LetterAmazer.Websites.Client.Controllers
                     Cost = priceService.GetPriceByLetter(letter).PriceExVat
                 });
 
-                decimal rest = price.PriceExVat;
-                if (coupon != null)
-                {
-                    order.OrderLines.Add(new OrderLine()
-                    {
-                        ProductType = ProductType.Payment,
-                        Cost = coupon.CouponValueLeft
-
-                    });
-                    rest -= coupon.CouponValueLeft;
-                }
+                var rest = addCouponlines(price, coupon, order);
 
                 if (rest > 0)
                 {
                     order.OrderLines.Add(new OrderLine()
                     {
                         ProductType = ProductType.Payment,
-                        Cost = rest
+                        Cost = rest,
+                        PaymentMethod = paymentService.GetPaymentMethodById(1) // Paypal
                     });
                 }
 
                 var storedOrder = orderService.Create(order);
 
                 string redirectUrl = paymentService.Process(storedOrder);
-                logger.Debug("redirectUrl: " + redirectUrl);
+
+                if (string.IsNullOrEmpty(redirectUrl))
+                {
+                    return RedirectToAction("Confirmation", "SingleLetter");
+                }
+
                 return Redirect(redirectUrl);
             }
             catch (Exception ex)
@@ -192,6 +185,34 @@ namespace LetterAmazer.Websites.Client.Controllers
             }
 
             return RedirectToActionWithError("Index", model);
+        }
+
+        private decimal addCouponlines(Price price, Coupon coupon, Order order)
+        {
+            decimal rest = price.PriceExVat;
+            if (coupon != null)
+            {
+                decimal chargeCoupon = 0.0m;
+                if (rest > coupon.CouponValueLeft)
+                {
+                    chargeCoupon = coupon.CouponValueLeft;
+                }
+                else
+                {
+                    chargeCoupon = rest;
+                }
+
+                order.OrderLines.Add(new OrderLine()
+                {
+                    ProductType = ProductType.Payment,
+                    Cost = chargeCoupon,
+                    PaymentMethod = paymentService.GetPaymentMethodById(3), // coupon                        
+                    CouponId = coupon.Id
+                });
+
+                rest -= coupon.CouponValueLeft;
+            }
+            return rest;
         }
 
         public ActionResult DropZone()

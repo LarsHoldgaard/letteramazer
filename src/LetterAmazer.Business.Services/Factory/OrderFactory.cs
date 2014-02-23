@@ -81,6 +81,7 @@ namespace LetterAmazer.Business.Services.Factory
                 dborderlines.PaymentMethodId.Value > 0)
             {
                 line.PaymentMethod = paymentService.GetPaymentMethodById(dborderlines.PaymentMethodId.Value);
+                line.CouponId = dborderlines.CouponId.HasValue ? dborderlines.CouponId.Value : 0;
             }
             return line;
         }

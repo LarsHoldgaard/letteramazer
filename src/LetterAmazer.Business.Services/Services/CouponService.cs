@@ -76,6 +76,7 @@ namespace LetterAmazer.Business.Services.Services
             Repository.SaveChanges();
         }
 
+
         public Coupon GetCouponById(int id)
         {
             var dbCoupon = Repository.DbCoupons.FirstOrDefault(c => c.Id == id);
@@ -96,7 +97,7 @@ namespace LetterAmazer.Business.Services.Services
             {
                 dbCouponses = Repository.DbCoupons.Where(c => c.Id == specification.Id);
             }
-            if (string.IsNullOrEmpty(specification.Code))
+            if (!string.IsNullOrEmpty(specification.Code))
             {
                 dbCouponses = dbCouponses.Where(c => c.Code == specification.Code);
             }

@@ -22,12 +22,13 @@ namespace LetterAmazer.Business.Services.Services
         private IPaymentFactory paymentFactory;
         private LetterAmazerEntities repository;
         private IPriceService priceService;
-
-        public PaymentService(LetterAmazerEntities repository,IPriceService priceService,IPaymentFactory paymentFactory)
+        private ICouponService couponService;
+        public PaymentService(LetterAmazerEntities repository,IPriceService priceService,IPaymentFactory paymentFactory, ICouponService couponService)
         {
             this.priceService = priceService;
             this.repository = repository;
             this.paymentFactory = paymentFactory;
+            this.couponService = couponService;
         }
 
         public string Process(Order order)
@@ -46,8 +47,6 @@ namespace LetterAmazer.Business.Services.Services
 
             return url;
         }
-
-       
 
         public List<Domain.Payments.PaymentMethods> GetPaymentMethodsBySpecification(PaymentMethodSpecification specification)
         {
@@ -92,7 +91,7 @@ namespace LetterAmazer.Business.Services.Services
             }
             else if (name == "Coupon")
             {
-                return new CouponMethod();
+                return new CouponMethod(couponService);
             }
             else if (name == "Invoice")
             {
