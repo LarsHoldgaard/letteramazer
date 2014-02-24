@@ -3,6 +3,7 @@
     public enum ProductType
     {
         Order=0,
-        Payment=1
+        Payment=1,
+        Credit=2
     }
 }

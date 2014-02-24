@@ -1,14 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using LetterAmazer.Business.Services.Domain.AddressInfos;
 using LetterAmazer.Business.Services.Domain.Countries;
 using LetterAmazer.Business.Services.Domain.Coupons;
 using LetterAmazer.Business.Services.Domain.Customers;
-using LetterAmazer.Business.Services.Domain.DeliveryJobs;
 using LetterAmazer.Business.Services.Domain.Letters;
 using LetterAmazer.Business.Services.Domain.Orders;
 using LetterAmazer.Business.Services.Domain.Payments;
-using LetterAmazer.Business.Services.Domain.PriceUpdater;
 using LetterAmazer.Business.Services.Domain.Pricing;
 using LetterAmazer.Business.Services.Domain.Products.ProductDetails;
 using LetterAmazer.Business.Services.Exceptions;
@@ -103,8 +100,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                 Letter letter = new Letter()
                 {
                     LetterDetails = letterDetail,
-                    ToAddress = addressInfo,
-                    LetterStatus = LetterStatus.Created,
+                    ToAddress = addressInfo
                   
                 };
                 

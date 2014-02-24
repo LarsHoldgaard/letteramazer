@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
+using LetterAmazer.Business.Services.Domain.AddressInfos;
 using LetterAmazer.Business.Services.Domain.Customers;
 using LetterAmazer.Business.Services.Domain.Letters;
 using LetterAmazer.Business.Services.Domain.Orders;
@@ -122,32 +123,48 @@ namespace LetterAmazer.Business.Services.Services.PaymentMethods.Implementations
 
         public string Process(Order order)
         {
-            var orderlineLetters = order.OrderLines.Where(c => c.ProductType == ProductType.Order);
-            var orderline = orderlineLetters.FirstOrDefault();
-
-
-            var addressInfo = ((Letter) orderline.BaseProduct).ToAddress;
-
-            var totalPrice = priceService.GetPriceByOrder(order);
+            var orderlinePayment = order.OrderLines.FirstOrDefault(c => c.ProductType == ProductType.Payment && c.PaymentMethod.Id == 1);
+            var orderlineProduct = order.OrderLines.FirstOrDefault(c => c.ProductType != ProductType.Payment);
             
-            decimal volume = totalPrice.PriceExVat;
+            AddressInfo addressInfo = new AddressInfo();
+            if (order.Customer != null && order.Customer.CustomerInfo != null)
+            {
+                addressInfo = order.Customer.CustomerInfo;
+            }
+            
+            var totalPrice = orderlinePayment.Cost;
+
+            decimal volume = totalPrice;
             string firstName = addressInfo.FirstName;
             string lastName = addressInfo.LastName;
-            string country = addressInfo.Country.CountryCode.ToString(); // TODO: Fix country
+            string country = string.Empty;
+
+            if (addressInfo.Country != null)
+            {
+                addressInfo.Country.CountryCode.ToString(); // TODO: Fix country    
+            }
+            
             string postal = addressInfo.PostalCode;
             string city = addressInfo.City;
             string address = addressInfo.Address1;
             var id = order.Id;
-            //string.Format(this.returnUrl, orderContext.CurrentCulture)
+            string itemName = orderlineProduct.ProductType == ProductType.Order ? "Send a letter" : "Letteramazer credits";
             string paypalIPNUrl = string.Format(this.paypalIpn, order.ToString());
             var volumeForUsd = Math.Round(volume, 2).ToString().Replace(",", ".");
-            var url = string.Format("{0}first_name={1}&item_name={3}&currency_code=USD&amount={4}&notify_url={5}&cmd=_xclick&country={6}&zip={7}&address1={8}&business={9}&city={10}&custom={11}&return={12}",
+            var url = string.Format("{0}first_name={1}&item_name={2}&currency_code={3}&amount={4}&notify_url={5}&cmd=_xclick&country={6}&zip={7}&address1={8}&business={9}&city={10}&custom={11}&return={12}",
                 this.serviceUrl, 
-                firstName, 
-                lastName, 
-                "Send a letter",
-                volumeForUsd, paypalIPNUrl, country, postal, address, "mcoroklo@gmail.com", city,
-                id, "");
+                firstName,
+                itemName,
+                "USD",
+                volumeForUsd, 
+                paypalIPNUrl, 
+                country, 
+                postal, 
+                address, 
+                "mcoroklo@gmail.com", 
+                city,
+                id,
+                "");
             
             return url;
         }

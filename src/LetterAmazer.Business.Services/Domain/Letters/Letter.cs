@@ -24,6 +24,7 @@ namespace LetterAmazer.Business.Services.Domain.Letters
 
         public Letter()
         {
+            this.LetterStatus =LetterStatus.Created;
             this.LetterDetails = new LetterDetails();
             this.LetterContent = new LetterContent();
             this.FromAddress = new AddressInfo();

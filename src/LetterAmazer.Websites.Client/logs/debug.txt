@@ -1152,3 +1152,25 @@ Parameter name: url
 2014-02-23 22:54:55,272 [8] DEBUG LetterAmazer.Websites.Client.Controllers.SingleLetterController - upload file key: 2014/2/6d9dca3f-4889-4795-b60b-e8b979ae397b.pdf
 2014-02-23 22:55:53,834 [9] DEBUG LetterAmazer.Websites.Client.Controllers.SingleLetterController - upload file key: 2014/2/ab93cf61-8ea4-40dc-9490-8a1de2a03c43.pdf
 2014-02-23 22:58:23,792 [10] DEBUG LetterAmazer.Websites.Client.Controllers.SingleLetterController - upload file key: 2014/2/d9d11fbe-4d9f-4bd0-83e7-a0c5840c5891.pdf
+2014-02-24 19:02:50,176 [9] DEBUG LetterAmazer.Websites.Client.Controllers.SingleLetterController - upload file key: 2014/2/250a3d6f-83e7-4a8d-a7fd-5413fc52cc0f.pdf
+2014-02-24 19:06:05,850 [5] DEBUG LetterAmazer.Websites.Client.Controllers.SingleLetterController - upload file key: 2014/2/78f5216e-c50c-4d37-9635-b0349f6afac2.pdf
+2014-02-24 19:06:08,140 [5] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.NullReferenceException: Object reference not set to an instance of an object.
+   at LetterAmazer.Business.Services.Services.PaymentMethods.Implementations.PaypalMethod.<Process>b__1(OrderLine c) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PaymentMethods\Implementations\PaypalMethod.cs:line 126
+   at System.Linq.Enumerable.<>c__DisplayClassf`1.<CombinePredicates>b__e(TSource x)
+   at System.Linq.Enumerable.WhereListIterator`1.MoveNext()
+   at System.Linq.Enumerable.FirstOrDefault[TSource](IEnumerable`1 source)
+   at LetterAmazer.Business.Services.Services.PaymentMethods.Implementations.PaypalMethod.Process(Order order) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PaymentMethods\Implementations\PaypalMethod.cs:line 126
+   at LetterAmazer.Business.Services.Services.PaymentService.Process(Order order) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PaymentService.cs:line 44
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.Index(CreateSingleLetterModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 171
+2014-02-24 19:06:08,144 [5] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - 
+2014-02-24 19:07:07,876 [11] DEBUG LetterAmazer.Websites.Client.Controllers.SingleLetterController - upload file key: 2014/2/6ea62193-3cc0-4e32-ac26-04de6fc64e10.pdf
+2014-02-24 19:07:17,715 [11] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.NullReferenceException: Object reference not set to an instance of an object.
+   at LetterAmazer.Business.Services.Services.PaymentMethods.Implementations.PaypalMethod.<Process>b__1(OrderLine c) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PaymentMethods\Implementations\PaypalMethod.cs:line 126
+   at System.Linq.Enumerable.<>c__DisplayClassf`1.<CombinePredicates>b__e(TSource x)
+   at System.Linq.Enumerable.WhereListIterator`1.MoveNext()
+   at System.Linq.Enumerable.FirstOrDefault[TSource](IEnumerable`1 source)
+   at LetterAmazer.Business.Services.Services.PaymentMethods.Implementations.PaypalMethod.Process(Order order) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PaymentMethods\Implementations\PaypalMethod.cs:line 126
+   at LetterAmazer.Business.Services.Services.PaymentService.Process(Order order) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PaymentService.cs:line 44
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.Index(CreateSingleLetterModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 171
+2014-02-24 19:07:17,717 [11] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - 
+2014-02-24 19:09:08,096 [10] DEBUG LetterAmazer.Websites.Client.Controllers.SingleLetterController - upload file key: 2014/2/41c76c56-e4bd-431f-9f01-bd6b151d210a.pdf

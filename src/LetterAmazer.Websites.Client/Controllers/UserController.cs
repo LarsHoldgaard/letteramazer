@@ -3,9 +3,12 @@ using System.Linq;
 using LetterAmazer.Business.Services.Domain.AddressInfos;
 using LetterAmazer.Business.Services.Domain.Countries;
 using LetterAmazer.Business.Services.Domain.Coupons;
+using LetterAmazer.Business.Services.Domain.Customers;
 using LetterAmazer.Business.Services.Domain.Letters;
 using LetterAmazer.Business.Services.Domain.Orders;
 using LetterAmazer.Business.Services.Domain.Payments;
+using LetterAmazer.Business.Services.Domain.Pricing;
+using LetterAmazer.Business.Services.Domain.Products;
 using LetterAmazer.Business.Services.Domain.Products.ProductDetails;
 using LetterAmazer.Business.Utils.Helpers;
 using LetterAmazer.Websites.Client.Attributes;
@@ -27,16 +30,18 @@ namespace LetterAmazer.Websites.Client.Controllers
         private ILetterService letterService;
         private ICouponService couponService;
         private ICountryService countryService;
-
+        private IPriceService priceService;
+        
 
         public UserController(IOrderService orderService, IPaymentService paymentService,
-            ILetterService letterService, ICouponService couponService, ICountryService countryService)
+            ILetterService letterService, ICouponService couponService, ICountryService countryService, IPriceService priceService)
         {
             this.orderService = orderService;
             this.paymentService = paymentService;
             this.letterService = letterService;
             this.couponService = couponService;
             this.countryService = countryService;
+            this.priceService = priceService;
         }
 
         public ActionResult Index(int? page, ProfileViewModel model)
@@ -69,37 +74,24 @@ namespace LetterAmazer.Websites.Client.Controllers
             {
                 ValidateInput();
 
-                LetterContent letterContent = new LetterContent();
-
-                if (model.UseUploadFile)
-                {
-                    logger.DebugFormat("upload file key: {0}", model.UploadFile);
-                    letterContent.Path = model.UploadFile;
-                }
-                else
-                {
-                    string tempKeyName = string.Format("{0}/{1}/{2}.pdf", DateTime.Now.Year, DateTime.Now.Month, Guid.NewGuid().ToString());
-                    string tempPath = GetAbsoluteFile(tempKeyName);
-
-                    var convertedText = HelperMethods.Utf8FixString(model.WriteContent);
-                    PdfHelper.ConvertToPdf(tempPath, convertedText);
-                    letterContent.Path = tempKeyName;
-                    letterContent.WrittenContent = model.WriteContent;
-                }
-                if (System.IO.File.Exists(GetAbsoluteFile(letterContent.Path)))
-                {
-                    letterContent.Content = System.IO.File.ReadAllBytes(GetAbsoluteFile(letterContent.Path));
-                }
+                Order order = new Order();
 
 
-
-               AddressInfo addressInfo = new AddressInfo();
+                AddressInfo addressInfo = new AddressInfo();
                 addressInfo.Address1 = model.DestinationAddress;
                 addressInfo.FirstName = model.RecipientName;
                 addressInfo.City = model.DestinationCity;
                 addressInfo.Country = countryService.GetCountryBySpecificaiton(
                     new CountrySpecification() { CountryCode = model.DestinationCountryCode }).FirstOrDefault();
                 addressInfo.PostalCode = model.ZipCode;
+
+
+                Customer customer = new Customer();
+                customer.Email = model.Email;
+                customer.Phone = model.Phone;
+                customer.CustomerInfo = addressInfo;
+                order.Customer = customer;
+
 
                 LetterDetails letterDetail = new LetterDetails()
                 {
@@ -115,26 +107,77 @@ namespace LetterAmazer.Websites.Client.Controllers
                     LetterDetails = letterDetail,
                     ToAddress = addressInfo,
                     LetterStatus = LetterStatus.Created,
+
                 };
 
-              
-                OrderLine orderItem = new OrderLine()
+                if (model.UseUploadFile)
                 {
-                    BaseProduct = letter,
+                    logger.DebugFormat("upload file key: {0}", model.UploadFile);
+                    letter.LetterContent.Path = model.UploadFile;
+                }
+                else
+                {
+                    string tempKeyName = string.Format("{0}/{1}/{2}.pdf", DateTime.Now.Year, DateTime.Now.Month,
+                        Guid.NewGuid().ToString());
+                    string tempPath = PathHelper.GetAbsoluteFile(tempKeyName);
+
+                    var convertedText = HelperMethods.Utf8FixString(model.WriteContent);
+                    PdfHelper.ConvertToPdf(tempPath, convertedText);
+                    letter.LetterContent.Path = tempKeyName;
+                    letter.LetterContent.WrittenContent = model.WriteContent;
+                }
+                if (System.IO.File.Exists(PathHelper.GetAbsoluteFile(letter.LetterContent.Path)))
+                {
+                    letter.LetterContent.Content =
+                        System.IO.File.ReadAllBytes(PathHelper.GetAbsoluteFile(letter.LetterContent.Path));
+                }
+
+                var price = priceService.GetPriceByAddress(addressInfo, letter.LetterContent.PageCount);
+                letter.OfficeProductId = price.OfficeProductId;
+
+                Coupon coupon = null;
+                if (!string.IsNullOrEmpty(model.VoucherCode))
+                {
+                    var voucher = couponService.GetCouponBySpecification(new CouponSpecification()
+                    {
+                        Code = model.VoucherCode
+                    });
+                    if (voucher != null && voucher.Any())
+                    {
+                        coupon = (Coupon)voucher.FirstOrDefault();
+                    }
+                }
+
+
+                order.OrderLines.Add(new OrderLine()
+                {
                     ProductType = ProductType.Order,
-                    Quantity = 1
-                };
+                    BaseProduct = letter,
+                    Cost = priceService.GetPriceByLetter(letter).PriceExVat
+                });
 
-                Order order = new Order()
+                var rest = addCouponlines(price, coupon, order);
+
+                if (rest > 0)
                 {
-                    Customer = SessionHelper.Customer,
-                    OrderStatus = OrderStatus.Created
-                };
-                order.OrderLines.Add(orderItem);
+                    order.OrderLines.Add(new OrderLine()
+                    {
+                        ProductType = ProductType.Payment,
+                        Cost = rest,
+                        PaymentMethod = paymentService.GetPaymentMethodById(1) // Paypal
+                    });
+                }
 
-                var url = paymentService.Process(order);
+                var storedOrder = orderService.Create(order);
 
-                return Redirect(url);
+                string redirectUrl = paymentService.Process(storedOrder);
+
+                if (string.IsNullOrEmpty(redirectUrl))
+                {
+                    return RedirectToAction("Confirmation", "SingleLetter");
+                }
+
+                return Redirect(redirectUrl);
             }
             catch (Exception ex)
             {
@@ -143,7 +186,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                 ModelState.AddModelError("Business", ex.Message);
             }
 
-            return RedirectToActionWithError("SendALetter", model);
+            return RedirectToActionWithError("Index", model);
         }
 
         [HttpGet, AutoErrorRecovery]
@@ -194,17 +237,58 @@ namespace LetterAmazer.Websites.Client.Controllers
         public ActionResult Credits()
         {
             CreditsViewModel model = new CreditsViewModel();
-            model.Credits = SessionHelper.Customer.Credit;
+            model.Credit = SessionHelper.Customer.Credit;
             model.CreditLimit = SessionHelper.Customer.CreditLimit;
+
+            var possiblePaymentMethods = paymentService.GetPaymentMethodsBySpecification(new PaymentMethodSpecification()
+            {
+                CustomerId = SessionHelper.Customer.Id
+            });
+
+            model.PaymentMethods = getPaymentmethodViewModels(possiblePaymentMethods);
+
             return View(model);
         }
+
+
+
 
         [HttpPost]
         public ActionResult Credits(CreditsViewModel model)
         {
-            string url = "";
-            //string returnUrl = orderService.AddFunds(SecurityUtility.CurrentUser.Id, model.Funds);
-            return Redirect(url);
+            var selectedPaymentMethod = paymentService.GetPaymentMethodById(model.SelectedPaymentMethod);
+            var credit = new Credit();
+
+            var creditLine = new OrderLine()
+            {
+                Quantity = model.PurchaseAmount,
+                Cost = model.PurchaseAmount,
+                ProductType = ProductType.Credit,
+                BaseProduct = credit,
+                
+            };
+
+            var paymentLine = new OrderLine()
+            {
+                PaymentMethod = selectedPaymentMethod,
+                ProductType = ProductType.Payment,
+                Cost = model.PurchaseAmount
+            };
+
+            Order order = new Order();
+            order.Price = model.PurchaseAmount;
+            order.Customer = SessionHelper.Customer;
+            order.OrderLines.Add(creditLine);
+            order.OrderLines.Add(paymentLine);
+
+            var placed_order = orderService.Create(order);
+            string redirectUrl = paymentService.Process(placed_order);
+
+            if (string.IsNullOrEmpty(redirectUrl))
+            {
+                return RedirectToAction("Confirmation","SingleLetter");
+            }
+            return Redirect(redirectUrl);
         }
 
         #region Private helpers
@@ -220,7 +304,7 @@ namespace LetterAmazer.Websites.Client.Controllers
             //return Server.MapPath(letterService.GetRelativeLetterStoragePath().TrimEnd('/') + "/" + filename);
         }
 
-        private List<OrderViewModel> getOrderViewModel(List<Order> orders)
+        private List<OrderViewModel> getOrderViewModel(IEnumerable<Order> orders)
         {
             List<OrderViewModel> ordersViewModels = new List<OrderViewModel>();
             foreach (var order in orders)
@@ -239,7 +323,7 @@ namespace LetterAmazer.Websites.Client.Controllers
             return ordersViewModels;
         }
 
-        private List<OrderLineViewModel> getOrderLineViewModel(List<OrderLine> orderLines)
+        private List<OrderLineViewModel> getOrderLineViewModel(IEnumerable<OrderLine> orderLines)
         {
             List<OrderLineViewModel> lines =new List<OrderLineViewModel>();
             foreach (var orderline in orderLines)
@@ -260,6 +344,44 @@ namespace LetterAmazer.Websites.Client.Controllers
                 
             };
         }
+
+        private IEnumerable<PaymentMethodViewModel> getPaymentmethodViewModels(IEnumerable<PaymentMethods> paymentMethods)
+        {
+            return paymentMethods.Select(paymentMethodse => new PaymentMethodViewModel()
+            {
+                Id = paymentMethodse.Id,
+                Name = paymentMethodse.Name
+            }).ToList();
+        }
+
+        private decimal addCouponlines(Price price, Coupon coupon, Order order)
+        {
+            decimal rest = price.PriceExVat;
+            if (coupon != null)
+            {
+                decimal chargeCoupon = 0.0m;
+                if (rest > coupon.CouponValueLeft)
+                {
+                    chargeCoupon = coupon.CouponValueLeft;
+                }
+                else
+                {
+                    chargeCoupon = rest;
+                }
+
+                order.OrderLines.Add(new OrderLine()
+                {
+                    ProductType = ProductType.Payment,
+                    Cost = chargeCoupon,
+                    PaymentMethod = paymentService.GetPaymentMethodById(3), // coupon                        
+                    CouponId = coupon.Id
+                });
+
+                rest -= coupon.CouponValueLeft;
+            }
+            return rest;
+        }
+
 
         #endregion
     }

@@ -105,6 +105,7 @@
     <Compile Include="Domain\ProductMatrix\IProductMatrixService.cs" />
     <Compile Include="Domain\ProductMatrix\ProductMatrixReferenceType.cs" />
     <Compile Include="Domain\ProductMatrix\ProductMatrixSpecification.cs" />
+    <Compile Include="Domain\Products\Credit.cs" />
     <Compile Include="Factory\Interfaces\IOfficeProductFactory.cs" />
     <Compile Include="Factory\Interfaces\IProductMatrixFactory.cs" />
     <Compile Include="Factory\Interfaces\IPricingFactory.cs" />

@@ -54,11 +54,10 @@ namespace LetterAmazer.Business.Services.Services
             dbPaymentMethods = dbPaymentMethods.Where(c => c.IsVisible && (c.DateDeleted == null||c.DateDeleted > DateTime.Now));
 
             // Credits always useable for customers with credits
-            if (specification.CustomerId > 0)
+            if (specification.CustomerId == 0)
             {   
-                dbPaymentMethods = dbPaymentMethods.Where(c => c.RequiresLogin);
+                dbPaymentMethods = dbPaymentMethods.Where(c => !c.RequiresLogin);
             }
-
             if (specification.TotalPrice > 0) 
             {
                 dbPaymentMethods =

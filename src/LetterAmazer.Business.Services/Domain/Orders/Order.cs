@@ -28,6 +28,7 @@ namespace LetterAmazer.Business.Services.Domain.Orders
         public Order()
         {
             this.OrderLines = new List<OrderLine>();
+            this.OrderStatus =OrderStatus.Created;
         }
 
         public override string ToString()

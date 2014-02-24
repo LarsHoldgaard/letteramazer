@@ -369,4 +369,7 @@
   <data name="Status" xml:space="preserve">
     <value>Status</value>
   </data>
+  <data name="BuyCredits" xml:space="preserve">
+    <value>Buy credits</value>
+  </data>
 </root>
