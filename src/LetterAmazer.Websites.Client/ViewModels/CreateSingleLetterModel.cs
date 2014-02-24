@@ -28,5 +28,7 @@ namespace LetterAmazer.Websites.Client.ViewModels
         public bool UseUploadFile { get; set; }
         public string UploadFile { get; set; }
         public string WriteContent { get; set; }
+
+        public bool HasCredits { get; set; }
     }
 }

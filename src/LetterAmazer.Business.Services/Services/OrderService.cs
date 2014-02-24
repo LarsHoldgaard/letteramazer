@@ -41,6 +41,7 @@ namespace LetterAmazer.Business.Services.Services
             dborder.PaymentMethod = "";
             dborder.Discount = 0.0m;
             dborder.Price = 0.0m;
+            dborder.CustomerId = order.Customer != null ? order.Customer.Id : 0;
 
             foreach (var orderLine in order.OrderLines)
             {

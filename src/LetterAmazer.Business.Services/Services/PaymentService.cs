@@ -23,12 +23,15 @@ namespace LetterAmazer.Business.Services.Services
         private LetterAmazerEntities repository;
         private IPriceService priceService;
         private ICouponService couponService;
-        public PaymentService(LetterAmazerEntities repository,IPriceService priceService,IPaymentFactory paymentFactory, ICouponService couponService)
+        private ICustomerService customerService;
+        public PaymentService(LetterAmazerEntities repository,IPriceService priceService,IPaymentFactory paymentFactory, 
+            ICouponService couponService, ICustomerService customerService)
         {
             this.priceService = priceService;
             this.repository = repository;
             this.paymentFactory = paymentFactory;
             this.couponService = couponService;
+            this.customerService = customerService;
         }
 
         public string Process(Order order)
@@ -86,7 +89,7 @@ namespace LetterAmazer.Business.Services.Services
         {
             if (name == "Credit")
             {
-                return new CreditsMethod();
+                return new CreditsMethod(customerService);
             }
             else if (name == "Coupon")
             {

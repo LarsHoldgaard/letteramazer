@@ -1174,3 +1174,77 @@ Parameter name: url
    at LetterAmazer.Websites.Client.Controllers.SingleLetterController.Index(CreateSingleLetterModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 171
 2014-02-24 19:07:17,717 [11] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - 
 2014-02-24 19:09:08,096 [10] DEBUG LetterAmazer.Websites.Client.Controllers.SingleLetterController - upload file key: 2014/2/41c76c56-e4bd-431f-9f01-bd6b151d210a.pdf
+2014-02-24 22:55:06,462 [10] DEBUG LetterAmazer.Websites.Client.Controllers.UserController - upload file key: 2014/2/53247203-382a-4147-b94f-12790635a83e.pdf
+2014-02-24 22:56:52,806 [9] DEBUG LetterAmazer.Websites.Client.Controllers.UserController - upload file key: 2014/2/06f2792d-e985-490d-92fa-7a69ec594773.pdf
+2014-02-24 22:56:53,331 [9] ERROR LetterAmazer.Websites.Client.Controllers.UserController - System.NullReferenceException: Object reference not set to an instance of an object.
+   at LetterAmazer.Business.Services.Services.PaymentMethods.Implementations.CreditsMethod.Process(Order order) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PaymentMethods\Implementations\CreditsMethod.cs:line 74
+   at LetterAmazer.Business.Services.Services.PaymentService.Process(Order order) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PaymentService.cs:line 47
+   at LetterAmazer.Websites.Client.Controllers.UserController.SendALetter(CreateSingleLetterModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\UserController.cs:line 178
+2014-02-24 22:56:53,333 [9] ERROR LetterAmazer.Websites.Client.Controllers.UserController - 
+2014-02-24 22:58:58,976 [9] DEBUG LetterAmazer.Websites.Client.Controllers.UserController - upload file key: 2014/2/3a453540-6222-4a30-aa9c-b4336aaef64b.pdf
+2014-02-24 22:59:26,932 [9] ERROR LetterAmazer.Websites.Client.Controllers.UserController - System.NullReferenceException: Object reference not set to an instance of an object.
+   at LetterAmazer.Business.Services.Services.PaymentMethods.Implementations.CreditsMethod.Process(Order order) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PaymentMethods\Implementations\CreditsMethod.cs:line 74
+   at LetterAmazer.Business.Services.Services.PaymentService.Process(Order order) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PaymentService.cs:line 47
+   at LetterAmazer.Websites.Client.Controllers.UserController.SendALetter(CreateSingleLetterModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\UserController.cs:line 178
+2014-02-24 22:59:26,935 [9] ERROR LetterAmazer.Websites.Client.Controllers.UserController - 
+2014-02-24 22:59:50,600 [11] DEBUG LetterAmazer.Websites.Client.Controllers.UserController - upload file key: 2014/2/f920c952-a051-455c-af28-8f97c03cfd27.pdf
+2014-02-24 23:00:13,443 [11] ERROR LetterAmazer.Websites.Client.Controllers.UserController - System.NullReferenceException: Object reference not set to an instance of an object.
+   at LetterAmazer.Business.Services.Services.PaymentMethods.Implementations.CreditsMethod.Process(Order order) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PaymentMethods\Implementations\CreditsMethod.cs:line 74
+   at LetterAmazer.Business.Services.Services.PaymentService.Process(Order order) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PaymentService.cs:line 47
+   at LetterAmazer.Websites.Client.Controllers.UserController.SendALetter(CreateSingleLetterModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\UserController.cs:line 178
+2014-02-24 23:00:13,443 [11] ERROR LetterAmazer.Websites.Client.Controllers.UserController - 
+2014-02-24 23:01:22,645 [10] DEBUG LetterAmazer.Websites.Client.Controllers.UserController - upload file key: 2014/2/b2c1efdc-a6fa-420c-800e-3ef3ab187d58.pdf
+2014-02-24 23:01:35,583 [10] ERROR LetterAmazer.Websites.Client.Controllers.UserController - System.NullReferenceException: Object reference not set to an instance of an object.
+   at LetterAmazer.Business.Services.Services.PaymentMethods.Implementations.CreditsMethod.Process(Order order) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PaymentMethods\Implementations\CreditsMethod.cs:line 74
+   at LetterAmazer.Business.Services.Services.PaymentService.Process(Order order) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PaymentService.cs:line 47
+   at LetterAmazer.Websites.Client.Controllers.UserController.SendALetter(CreateSingleLetterModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\UserController.cs:line 171
+2014-02-24 23:01:35,584 [10] ERROR LetterAmazer.Websites.Client.Controllers.UserController - 
+2014-02-24 23:02:43,550 [10] DEBUG LetterAmazer.Websites.Client.Controllers.UserController - upload file key: 2014/2/ab3f6a52-2c63-4fda-aaf8-a32f4d576690.pdf
+2014-02-24 23:05:31,125 [10] ERROR LetterAmazer.Websites.Client.Controllers.UserController - System.NullReferenceException: Object reference not set to an instance of an object.
+   at LetterAmazer.Business.Services.Services.PaymentMethods.Implementations.CreditsMethod.Process(Order order) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PaymentMethods\Implementations\CreditsMethod.cs:line 74
+   at LetterAmazer.Business.Services.Services.PaymentService.Process(Order order) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PaymentService.cs:line 47
+   at LetterAmazer.Websites.Client.Controllers.UserController.SendALetter(CreateSingleLetterModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\UserController.cs:line 171
+2014-02-24 23:05:31,127 [10] ERROR LetterAmazer.Websites.Client.Controllers.UserController - 
+2014-02-24 23:07:19,719 [7] DEBUG LetterAmazer.Websites.Client.Controllers.UserController - upload file key: 2014/2/dbe8487a-0340-4c46-9e2c-36fbf6d2e914.pdf
+2014-02-24 23:07:33,874 [7] ERROR LetterAmazer.Websites.Client.Controllers.UserController - System.NullReferenceException: Object reference not set to an instance of an object.
+   at LetterAmazer.Business.Services.Services.CustomerService.Update(Customer customer) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\CustomerService.cs:line 161
+   at LetterAmazer.Business.Services.Services.PaymentMethods.Implementations.CreditsMethod.Process(Order order) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PaymentMethods\Implementations\CreditsMethod.cs:line 78
+   at LetterAmazer.Business.Services.Services.PaymentService.Process(Order order) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PaymentService.cs:line 47
+   at LetterAmazer.Websites.Client.Controllers.UserController.SendALetter(CreateSingleLetterModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\UserController.cs:line 171
+2014-02-24 23:07:33,876 [7] ERROR LetterAmazer.Websites.Client.Controllers.UserController - 
+2014-02-24 23:09:11,670 [8] DEBUG LetterAmazer.Websites.Client.Controllers.UserController - upload file key: 2014/2/e4ba4136-2631-4990-b518-190fdd0dbd7a.pdf
+2014-02-24 23:09:39,949 [8] ERROR LetterAmazer.Websites.Client.Controllers.UserController - System.NullReferenceException: Object reference not set to an instance of an object.
+   at LetterAmazer.Business.Services.Services.CustomerService.Update(Customer customer) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\CustomerService.cs:line 161
+   at LetterAmazer.Business.Services.Services.PaymentMethods.Implementations.CreditsMethod.Process(Order order) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PaymentMethods\Implementations\CreditsMethod.cs:line 78
+   at LetterAmazer.Business.Services.Services.PaymentService.Process(Order order) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PaymentService.cs:line 47
+   at LetterAmazer.Websites.Client.Controllers.UserController.SendALetter(CreateSingleLetterModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\UserController.cs:line 171
+2014-02-24 23:09:39,950 [8] ERROR LetterAmazer.Websites.Client.Controllers.UserController - 
+2014-02-24 23:13:11,971 [11] DEBUG LetterAmazer.Websites.Client.Controllers.UserController - upload file key: 2014/2/101239b9-0a22-4827-b01c-92e3169d00a5.pdf
+2014-02-24 23:13:17,370 [11] ERROR LetterAmazer.Websites.Client.Controllers.UserController - System.NullReferenceException: Object reference not set to an instance of an object.
+   at LetterAmazer.Business.Services.Services.CustomerService.Update(Customer customer) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\CustomerService.cs:line 161
+   at LetterAmazer.Business.Services.Services.PaymentMethods.Implementations.CreditsMethod.Process(Order order) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PaymentMethods\Implementations\CreditsMethod.cs:line 78
+   at LetterAmazer.Business.Services.Services.PaymentService.Process(Order order) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PaymentService.cs:line 47
+   at LetterAmazer.Websites.Client.Controllers.UserController.SendALetter(CreateSingleLetterModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\UserController.cs:line 171
+2014-02-24 23:13:17,372 [11] ERROR LetterAmazer.Websites.Client.Controllers.UserController - 
+2014-02-24 23:14:08,507 [12] DEBUG LetterAmazer.Websites.Client.Controllers.UserController - upload file key: 2014/2/b6451931-e79d-419a-8581-1c83416d3bca.pdf
+2014-02-24 23:14:28,295 [12] ERROR LetterAmazer.Websites.Client.Controllers.UserController - System.NullReferenceException: Object reference not set to an instance of an object.
+   at LetterAmazer.Business.Services.Services.CustomerService.Update(Customer customer) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\CustomerService.cs:line 161
+   at LetterAmazer.Business.Services.Services.PaymentMethods.Implementations.CreditsMethod.Process(Order order) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PaymentMethods\Implementations\CreditsMethod.cs:line 78
+   at LetterAmazer.Business.Services.Services.PaymentService.Process(Order order) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PaymentService.cs:line 47
+   at LetterAmazer.Websites.Client.Controllers.UserController.SendALetter(CreateSingleLetterModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\UserController.cs:line 171
+2014-02-24 23:14:28,296 [12] ERROR LetterAmazer.Websites.Client.Controllers.UserController - 
+2014-02-24 23:16:17,218 [10] DEBUG LetterAmazer.Websites.Client.Controllers.UserController - upload file key: 2014/2/d646af34-b65c-405e-aa34-8924fad9f2bd.pdf
+2014-02-24 23:17:10,285 [10] ERROR LetterAmazer.Websites.Client.Controllers.UserController - System.NullReferenceException: Object reference not set to an instance of an object.
+   at LetterAmazer.Business.Services.Services.CustomerService.Update(Customer customer) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\CustomerService.cs:line 161
+   at LetterAmazer.Business.Services.Services.PaymentMethods.Implementations.CreditsMethod.Process(Order order) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PaymentMethods\Implementations\CreditsMethod.cs:line 78
+   at LetterAmazer.Business.Services.Services.PaymentService.Process(Order order) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PaymentService.cs:line 47
+   at LetterAmazer.Websites.Client.Controllers.UserController.SendALetter(CreateSingleLetterModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\UserController.cs:line 171
+2014-02-24 23:17:10,289 [10] ERROR LetterAmazer.Websites.Client.Controllers.UserController - 
+2014-02-24 23:20:05,950 [9] DEBUG LetterAmazer.Websites.Client.Controllers.UserController - upload file key: 2014/2/b06acd4d-8cf6-4028-b55c-bcde7672d9aa.pdf
+2014-02-24 23:20:39,082 [9] ERROR LetterAmazer.Websites.Client.Controllers.UserController - System.NullReferenceException: Object reference not set to an instance of an object.
+   at LetterAmazer.Business.Services.Services.CustomerService.Update(Customer customer) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\CustomerService.cs:line 161
+   at LetterAmazer.Business.Services.Services.PaymentMethods.Implementations.CreditsMethod.Process(Order order) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PaymentMethods\Implementations\CreditsMethod.cs:line 78
+   at LetterAmazer.Business.Services.Services.PaymentService.Process(Order order) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PaymentService.cs:line 47
+   at LetterAmazer.Websites.Client.Controllers.UserController.SendALetter(CreateSingleLetterModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\UserController.cs:line 171
+2014-02-24 23:20:39,084 [9] ERROR LetterAmazer.Websites.Client.Controllers.UserController - 
+2014-02-24 23:22:54,630 [9] DEBUG LetterAmazer.Websites.Client.Controllers.UserController - upload file key: 2014/2/c7db2704-f658-486b-81bd-b145b423824e.pdf

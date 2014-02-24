@@ -64,6 +64,11 @@ namespace LetterAmazer.Websites.Client.Controllers
         {
             CreateSingleLetterModel model = new CreateSingleLetterModel();
             model.Email = SessionHelper.Customer.Email;
+
+            if (SessionHelper.Customer.CreditLimit < SessionHelper.Customer.Credit)
+            {
+                model.HasCredits = true;
+            }
             return View(model);
         }
 
@@ -76,7 +81,7 @@ namespace LetterAmazer.Websites.Client.Controllers
 
                 Order order = new Order();
 
-
+                order.Customer = SessionHelper.Customer;
                 AddressInfo addressInfo = new AddressInfo();
                 addressInfo.Address1 = model.DestinationAddress;
                 addressInfo.FirstName = model.RecipientName;
@@ -84,13 +89,6 @@ namespace LetterAmazer.Websites.Client.Controllers
                 addressInfo.Country = countryService.GetCountryBySpecificaiton(
                     new CountrySpecification() { CountryCode = model.DestinationCountryCode }).FirstOrDefault();
                 addressInfo.PostalCode = model.ZipCode;
-
-
-                Customer customer = new Customer();
-                customer.Email = model.Email;
-                customer.Phone = model.Phone;
-                customer.CustomerInfo = addressInfo;
-                order.Customer = customer;
 
 
                 LetterDetails letterDetail = new LetterDetails()
@@ -164,7 +162,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                     {
                         ProductType = ProductType.Payment,
                         Cost = rest,
-                        PaymentMethod = paymentService.GetPaymentMethodById(1) // Paypal
+                        PaymentMethod = paymentService.GetPaymentMethodById(2) // Paypal
                     });
                 }
 

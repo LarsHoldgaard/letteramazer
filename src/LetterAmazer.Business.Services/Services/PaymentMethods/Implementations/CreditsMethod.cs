@@ -1,8 +1,12 @@
 ﻿using System;
+using System.Linq;
+using LetterAmazer.Business.Services.Domain.Coupons;
 using LetterAmazer.Business.Services.Domain.Customers;
 using LetterAmazer.Business.Services.Domain.Orders;
 using LetterAmazer.Business.Services.Domain.Payments;
+using LetterAmazer.Business.Services.Domain.Products;
 using LetterAmazer.Business.Services.Exceptions;
+using LetterAmazer.Business.Services.Factory.Interfaces;
 
 namespace LetterAmazer.Business.Services.Services.PaymentMethods.Implementations
 {
@@ -51,9 +55,29 @@ namespace LetterAmazer.Business.Services.Services.PaymentMethods.Implementations
         //    return new VerifyPaymentResult();
         //}
 
+        private ICustomerService customerService;
+
+        public CreditsMethod(ICustomerService customerService)
+        {
+            this.customerService = customerService;
+        }
+
         public string Process(Order order)
         {
-            throw new NotImplementedException();
+            var orderLine = order.OrderLines.FirstOrDefault(c => c.ProductType == ProductType.Payment && c.PaymentMethod.Id == 2);
+
+            if (orderLine == null)
+            {
+                throw new BusinessException("Credits line wasn't found on order");
+            }
+
+            var customer = customerService.GetCustomerById(order.Customer.Id);
+
+            customer.Credit -= orderLine.Cost*orderLine.Quantity;
+
+            customerService.Update(customer);
+
+            return string.Empty;
         }
 
         public void VerifyPayment(Order order)

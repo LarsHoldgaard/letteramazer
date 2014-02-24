@@ -158,7 +158,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                     {
                         ProductType = ProductType.Payment,
                         Cost = rest,
-                        PaymentMethod = paymentService.GetPaymentMethodById(1) // Paypal
+                        PaymentMethod = paymentService.GetPaymentMethodById(2) // Credit
                     });
                 }
 
@@ -284,6 +284,10 @@ namespace LetterAmazer.Websites.Client.Controllers
                 if (SessionHelper.Customer != null)
                 {
                     credits = SessionHelper.Customer.CreditsLeft;
+                    if (credits > 0)
+                    {
+                        isValidCredits = true;
+                    }
                 }
 
                 return Json(new

@@ -158,12 +158,20 @@ namespace LetterAmazer.Business.Services.Services
             dbCustomer.CustomerInfo_AttPerson = customer.CustomerInfo.AttPerson;
             dbCustomer.CustomerInfo_City = customer.CustomerInfo.City;
             dbCustomer.CustomerInfo_CompanyName = customer.CustomerInfo.Organisation;
-            dbCustomer.DbCountries.Id = customer.CustomerInfo.Country.Id;
+            //dbCustomer.DbCountries.Id = customer.CustomerInfo.Country != null ? customer.CustomerInfo.Country.Id : 0;
             dbCustomer.CustomerInfo_FirstName = customer.CustomerInfo.FirstName;
             dbCustomer.CustomerInfo_LastName = customer.CustomerInfo.LastName;
             dbCustomer.CustomerInfo_Postal = customer.CustomerInfo.PostalCode;
             dbCustomer.CustomerInfo_VatNr = customer.CustomerInfo.VatNr;
+            dbCustomer.CreditLimit = customer.CreditLimit;
+            dbCustomer.Credits = customer.Credit;
+            dbCustomer.Email = customer.Email;
+            dbCustomer.ResetPasswordKey = customer.ResetPasswordKey;
+            dbCustomer.Password = customer.Password;
+            dbCustomer.Phone = customer.Phone;
             
+
+
             repository.SaveChanges();
 
             return GetCustomerById(customer.Id);
