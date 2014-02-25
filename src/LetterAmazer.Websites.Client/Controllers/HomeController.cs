@@ -115,17 +115,34 @@ namespace LetterAmazer.Websites.Client.Controllers
         {
             try
             {
-                Customer customer = new Customer();
-                customer.Email = model.Email;
-                customer.Password = model.Password;
-                customer.CustomerInfo = new AddressInfo();
-                customer.CustomerInfo.FirstName = model.FirstName;
-                customer.CustomerInfo.LastName = model.LastName;
-                customer.CustomerInfo.Organisation = model.Organization;
-                
-                var added_customer = customerService.Create(customer);
-                SessionHelper.Customer = added_customer;
 
+                Customer customer = new Customer();
+                var existingcustomer = customerService.GetCustomerBySpecification(new CustomerSpecification()
+                {
+                    Email = model.Email
+                }).FirstOrDefault();
+
+                if (existingcustomer == null)
+                {
+                    customer.Email = model.Email;
+                    customer.Password = model.Password;
+                    customer.CustomerInfo.FirstName = model.FirstName;
+                    customer.CustomerInfo.LastName = model.LastName;
+                    customer.CustomerInfo.Organisation = model.Organization;
+
+                    customer = customerService.Create(customer);
+                }
+                else
+                {
+                    existingcustomer.Password = model.Password;
+                    existingcustomer.CustomerInfo.FirstName = model.FirstName;
+                    existingcustomer.CustomerInfo.LastName = model.LastName;
+                    existingcustomer.CustomerInfo.Organisation = model.Organization;
+
+                    customer =customerService.Update(existingcustomer);
+                }
+
+                SessionHelper.Customer = customer;
                 FormsAuthentication.SetAuthCookie(customer.Id.ToString(), false);
 
                 return RedirectToAction("Index", "User");

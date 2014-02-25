@@ -51,7 +51,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                 UserId = SessionHelper.Customer.Id,
                 FromDate = model.FromDate,
                 ToDate = model.ToDate
-            });
+            }).OrderByDescending(c=>c.DateCreated);
 
             model.Orders = getOrderViewModel(orders);
             model.Customer = SessionHelper.Customer;
@@ -192,7 +192,7 @@ namespace LetterAmazer.Websites.Client.Controllers
         {
             Order order = orderService.GetOrderById(id);
             OrderDetailViewModel model = new OrderDetailViewModel();
-            model.Order = order;
+           // model.Order = order;
             return View(model);
         }
 
@@ -213,15 +213,14 @@ namespace LetterAmazer.Websites.Client.Controllers
 
             Order order = orderService.GetOrderById(id);
             OrderDetailViewModel model = new OrderDetailViewModel();
-            model.Order = order;
+           // model.Order = order;
             return RedirectToActionWithError("Delete", model, new { id = id });
         }
 
         public ActionResult Details(int id)
         {
             Order order = orderService.GetOrderById(id);
-            OrderDetailViewModel model = new OrderDetailViewModel();
-            model.Order = order;
+            var model = getOrderDetailViewModel(order);
             return View(model);
         }
 
@@ -302,18 +301,42 @@ namespace LetterAmazer.Websites.Client.Controllers
             //return Server.MapPath(letterService.GetRelativeLetterStoragePath().TrimEnd('/') + "/" + filename);
         }
 
+        private OrderDetailViewModel getOrderDetailViewModel(Order order)
+        {
+            var letter =(Letter)order.OrderLines.FirstOrDefault(c => c.ProductType == ProductType.Order).BaseProduct;
+
+
+            OrderDetailViewModel viewModel = new OrderDetailViewModel()
+            {
+                AddressInfo = letter.ToAddress,
+                DateCreated = order.DateCreated,
+                DateModified = order.DateModified.HasValue ? order.DateModified.Value : order.DateCreated,
+                DatePaid =DateTime.Now,// order.DatePaid.HasValue ? order.DatePaid.Value : null,
+                DateSent = DateTime.Now,//order.DateSent.HasValue ? order.DateSent.Value : null,
+                OrderStatus = order.OrderStatus,
+                LetterDetails = letter.LetterDetails,
+                Id = letter.Id
+
+            };
+
+            return viewModel;
+        }
+
         private List<OrderViewModel> getOrderViewModel(IEnumerable<Order> orders)
         {
             List<OrderViewModel> ordersViewModels = new List<OrderViewModel>();
             foreach (var order in orders)
             {
+                var letterLine = order.OrderLines.FirstOrDefault(c => c.ProductType == ProductType.Order);
+                var letter = (Letter)letterLine.BaseProduct;
                 OrderViewModel viewModel = new OrderViewModel()
                 {
                     OrderLines = getOrderLineViewModel(order.OrderLines),
                     DateCreated = order.DateCreated,
                     OrderStatus = order.OrderStatus,
                     Id = order.Id,
-                    Price = order.Price
+                    Price = order.Price,
+                    LetterStatus = letter.LetterStatus
                 };
 
                 ordersViewModels.Add(viewModel);
@@ -324,7 +347,7 @@ namespace LetterAmazer.Websites.Client.Controllers
         private List<OrderLineViewModel> getOrderLineViewModel(IEnumerable<OrderLine> orderLines)
         {
             List<OrderLineViewModel> lines =new List<OrderLineViewModel>();
-            foreach (var orderline in orderLines)
+            foreach (var orderline in orderLines.Where(c=>c.ProductType == ProductType.Order))
             {
                 lines.Add(new OrderLineViewModel()
                 {

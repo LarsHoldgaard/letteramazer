@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using LetterAmazer.Business.Services.Domain.Customers;
+using LetterAmazer.Business.Services.Domain.Letters;
 using LetterAmazer.Business.Services.Domain.Orders;
 using System;
 
@@ -20,6 +21,8 @@ namespace LetterAmazer.Websites.Client.ViewModels
         public OrderStatus OrderStatus { get; set; }
         public DateTime DateCreated { get; set; }
         public List<OrderLineViewModel> OrderLines { get; set; }
+
+        public LetterStatus LetterStatus { get; set; }
     }
 
     public class OrderLineViewModel

@@ -16,6 +16,8 @@ namespace LetterAmazer.Business.Services.Domain.Orders
         public DateTime? DateModified { get; set; }
         public DateTime? DatePaid { get; set; }
 
+        public DateTime? DateSent { get; set; }
+
         public string TransactionCode { get; set; }
         public decimal Cost { get; set; }
 

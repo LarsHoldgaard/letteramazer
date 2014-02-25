@@ -30,9 +30,11 @@ namespace LetterAmazer.Websites.Client.Controllers
         private ICouponService couponService;
         private ICountryService countryService;
         private IPriceService priceService;
+        private ICustomerService customerService;
         
         public SingleLetterController(IOrderService orderService, IPaymentService paymentService,
-            ICouponService couponService, ICountryService countryService, IPriceService priceService)
+            ICouponService couponService, ICountryService countryService, IPriceService priceService,
+            ICustomerService customerService)
         {
             //couponService.Create(new Coupon()
             //{
@@ -49,6 +51,7 @@ namespace LetterAmazer.Websites.Client.Controllers
             this.couponService = couponService;
             this.countryService = countryService;
             this.priceService = priceService;
+            this.customerService = customerService;
         }
 
         [HttpGet]
@@ -80,11 +83,28 @@ namespace LetterAmazer.Websites.Client.Controllers
                     new CountrySpecification() {CountryCode = model.DestinationCountryCode}).FirstOrDefault();
                 addressInfo.PostalCode = model.ZipCode;
 
-                
-                Customer customer = new Customer();
-                customer.Email = model.Email;
-                customer.Phone = model.Phone;
-                customer.CustomerInfo = addressInfo;
+
+                Customer customer = null;
+                var existingCustomer = customerService.GetCustomerBySpecification(new CustomerSpecification()
+                {
+                    Email = model.Email
+                }).FirstOrDefault();
+
+                if (existingCustomer == null)
+                {
+                    Customer newCustomer = new Customer();
+                    newCustomer.Email = model.Email;
+                    newCustomer.Phone = model.Phone;
+                    newCustomer.Password = "12345678";
+
+                    customer = customerService.Create(newCustomer);
+                }
+                else
+                {
+                    customer = existingCustomer;
+                }
+
+
                 order.Customer = customer;
 
 
@@ -158,7 +178,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                     {
                         ProductType = ProductType.Payment,
                         Cost = rest,
-                        PaymentMethod = paymentService.GetPaymentMethodById(2) // Credit
+                        PaymentMethod = paymentService.GetPaymentMethodById(1) // PayPal
                     });
                 }
 

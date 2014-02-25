@@ -1248,3 +1248,257 @@ Parameter name: url
    at LetterAmazer.Websites.Client.Controllers.UserController.SendALetter(CreateSingleLetterModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\UserController.cs:line 171
 2014-02-24 23:20:39,084 [9] ERROR LetterAmazer.Websites.Client.Controllers.UserController - 
 2014-02-24 23:22:54,630 [9] DEBUG LetterAmazer.Websites.Client.Controllers.UserController - upload file key: 2014/2/c7db2704-f658-486b-81bd-b145b423824e.pdf
+2014-02-25 19:58:57,248 [8] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.Data.Entity.Infrastructure.DbUpdateException: An error occurred while updating the entries. See the inner exception for details. ---> System.Data.UpdateException: An error occurred while updating the entries. See the inner exception for details. ---> System.Data.SqlClient.SqlException: The INSERT statement conflicted with the FOREIGN KEY constraint "FK_Order_Customer". The conflict occurred in database "LetterAmazer", table "dbo.DbCustomers", column 'Id'.
+The statement has been terminated.
+   at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at System.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   at System.Data.SqlClient.SqlDataReader.get_MetaData()
+   at System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   at System.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior, String method)
+   at System.Data.SqlClient.SqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   at System.Data.Common.DbCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.Mapping.Update.Internal.DynamicUpdateCommand.Execute(UpdateTranslator translator, EntityConnection connection, Dictionary`2 identifierValues, List`1 generatedValues)
+   at System.Data.Mapping.Update.Internal.UpdateTranslator.Update(IEntityStateManager stateManager, IEntityAdapter adapter)
+   --- End of inner exception stack trace ---
+   at System.Data.Mapping.Update.Internal.UpdateTranslator.Update(IEntityStateManager stateManager, IEntityAdapter adapter)
+   at System.Data.EntityClient.EntityAdapter.Update(IEntityStateManager entityCache)
+   at System.Data.Objects.ObjectContext.SaveChanges(SaveOptions options)
+   at System.Data.Entity.Internal.InternalContext.SaveChanges()
+   --- End of inner exception stack trace ---
+   at System.Data.Entity.Internal.InternalContext.SaveChanges()
+   at System.Data.Entity.Internal.LazyInternalContext.SaveChanges()
+   at System.Data.Entity.DbContext.SaveChanges()
+   at LetterAmazer.Business.Services.Services.OrderService.Create(Order order) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\OrderService.cs:line 54
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.Index(CreateSingleLetterModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 165
+2014-02-25 19:58:57,274 [8] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.Data.UpdateException: An error occurred while updating the entries. See the inner exception for details. ---> System.Data.SqlClient.SqlException: The INSERT statement conflicted with the FOREIGN KEY constraint "FK_Order_Customer". The conflict occurred in database "LetterAmazer", table "dbo.DbCustomers", column 'Id'.
+The statement has been terminated.
+   at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at System.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   at System.Data.SqlClient.SqlDataReader.get_MetaData()
+   at System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   at System.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior, String method)
+   at System.Data.SqlClient.SqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   at System.Data.Common.DbCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.Mapping.Update.Internal.DynamicUpdateCommand.Execute(UpdateTranslator translator, EntityConnection connection, Dictionary`2 identifierValues, List`1 generatedValues)
+   at System.Data.Mapping.Update.Internal.UpdateTranslator.Update(IEntityStateManager stateManager, IEntityAdapter adapter)
+   --- End of inner exception stack trace ---
+   at System.Data.Mapping.Update.Internal.UpdateTranslator.Update(IEntityStateManager stateManager, IEntityAdapter adapter)
+   at System.Data.EntityClient.EntityAdapter.Update(IEntityStateManager entityCache)
+   at System.Data.Objects.ObjectContext.SaveChanges(SaveOptions options)
+   at System.Data.Entity.Internal.InternalContext.SaveChanges()
+2014-02-25 20:00:49,885 [10] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.Data.Entity.Infrastructure.DbUpdateException: An error occurred while updating the entries. See the inner exception for details. ---> System.Data.UpdateException: An error occurred while updating the entries. See the inner exception for details. ---> System.Data.SqlClient.SqlException: The INSERT statement conflicted with the FOREIGN KEY constraint "FK_Order_Customer". The conflict occurred in database "LetterAmazer", table "dbo.DbCustomers", column 'Id'.
+The statement has been terminated.
+   at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at System.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   at System.Data.SqlClient.SqlDataReader.get_MetaData()
+   at System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   at System.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior, String method)
+   at System.Data.SqlClient.SqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   at System.Data.Common.DbCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.Mapping.Update.Internal.DynamicUpdateCommand.Execute(UpdateTranslator translator, EntityConnection connection, Dictionary`2 identifierValues, List`1 generatedValues)
+   at System.Data.Mapping.Update.Internal.UpdateTranslator.Update(IEntityStateManager stateManager, IEntityAdapter adapter)
+   --- End of inner exception stack trace ---
+   at System.Data.Mapping.Update.Internal.UpdateTranslator.Update(IEntityStateManager stateManager, IEntityAdapter adapter)
+   at System.Data.EntityClient.EntityAdapter.Update(IEntityStateManager entityCache)
+   at System.Data.Objects.ObjectContext.SaveChanges(SaveOptions options)
+   at System.Data.Entity.Internal.InternalContext.SaveChanges()
+   --- End of inner exception stack trace ---
+   at System.Data.Entity.Internal.InternalContext.SaveChanges()
+   at System.Data.Entity.Internal.LazyInternalContext.SaveChanges()
+   at System.Data.Entity.DbContext.SaveChanges()
+   at LetterAmazer.Business.Services.Services.OrderService.Create(Order order) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\OrderService.cs:line 54
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.Index(CreateSingleLetterModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 165
+2014-02-25 20:00:49,886 [10] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.Data.UpdateException: An error occurred while updating the entries. See the inner exception for details. ---> System.Data.SqlClient.SqlException: The INSERT statement conflicted with the FOREIGN KEY constraint "FK_Order_Customer". The conflict occurred in database "LetterAmazer", table "dbo.DbCustomers", column 'Id'.
+The statement has been terminated.
+   at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at System.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   at System.Data.SqlClient.SqlDataReader.get_MetaData()
+   at System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   at System.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior, String method)
+   at System.Data.SqlClient.SqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   at System.Data.Common.DbCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.Mapping.Update.Internal.DynamicUpdateCommand.Execute(UpdateTranslator translator, EntityConnection connection, Dictionary`2 identifierValues, List`1 generatedValues)
+   at System.Data.Mapping.Update.Internal.UpdateTranslator.Update(IEntityStateManager stateManager, IEntityAdapter adapter)
+   --- End of inner exception stack trace ---
+   at System.Data.Mapping.Update.Internal.UpdateTranslator.Update(IEntityStateManager stateManager, IEntityAdapter adapter)
+   at System.Data.EntityClient.EntityAdapter.Update(IEntityStateManager entityCache)
+   at System.Data.Objects.ObjectContext.SaveChanges(SaveOptions options)
+   at System.Data.Entity.Internal.InternalContext.SaveChanges()
+2014-02-25 20:03:13,209 [13] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.Data.Entity.Infrastructure.DbUpdateException: An error occurred while updating the entries. See the inner exception for details. ---> System.Data.UpdateException: An error occurred while updating the entries. See the inner exception for details. ---> System.Data.SqlClient.SqlException: The INSERT statement conflicted with the FOREIGN KEY constraint "FK_Order_Customer". The conflict occurred in database "LetterAmazer", table "dbo.DbCustomers", column 'Id'.
+The statement has been terminated.
+   at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at System.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   at System.Data.SqlClient.SqlDataReader.get_MetaData()
+   at System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   at System.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior, String method)
+   at System.Data.SqlClient.SqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   at System.Data.Common.DbCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.Mapping.Update.Internal.DynamicUpdateCommand.Execute(UpdateTranslator translator, EntityConnection connection, Dictionary`2 identifierValues, List`1 generatedValues)
+   at System.Data.Mapping.Update.Internal.UpdateTranslator.Update(IEntityStateManager stateManager, IEntityAdapter adapter)
+   --- End of inner exception stack trace ---
+   at System.Data.Mapping.Update.Internal.UpdateTranslator.Update(IEntityStateManager stateManager, IEntityAdapter adapter)
+   at System.Data.EntityClient.EntityAdapter.Update(IEntityStateManager entityCache)
+   at System.Data.Objects.ObjectContext.SaveChanges(SaveOptions options)
+   at System.Data.Entity.Internal.InternalContext.SaveChanges()
+   --- End of inner exception stack trace ---
+   at System.Data.Entity.Internal.InternalContext.SaveChanges()
+   at System.Data.Entity.Internal.LazyInternalContext.SaveChanges()
+   at System.Data.Entity.DbContext.SaveChanges()
+   at LetterAmazer.Business.Services.Services.OrderService.Create(Order order) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\OrderService.cs:line 54
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.Index(CreateSingleLetterModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 165
+2014-02-25 20:03:13,210 [13] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.Data.UpdateException: An error occurred while updating the entries. See the inner exception for details. ---> System.Data.SqlClient.SqlException: The INSERT statement conflicted with the FOREIGN KEY constraint "FK_Order_Customer". The conflict occurred in database "LetterAmazer", table "dbo.DbCustomers", column 'Id'.
+The statement has been terminated.
+   at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at System.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   at System.Data.SqlClient.SqlDataReader.get_MetaData()
+   at System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   at System.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior, String method)
+   at System.Data.SqlClient.SqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   at System.Data.Common.DbCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.Mapping.Update.Internal.DynamicUpdateCommand.Execute(UpdateTranslator translator, EntityConnection connection, Dictionary`2 identifierValues, List`1 generatedValues)
+   at System.Data.Mapping.Update.Internal.UpdateTranslator.Update(IEntityStateManager stateManager, IEntityAdapter adapter)
+   --- End of inner exception stack trace ---
+   at System.Data.Mapping.Update.Internal.UpdateTranslator.Update(IEntityStateManager stateManager, IEntityAdapter adapter)
+   at System.Data.EntityClient.EntityAdapter.Update(IEntityStateManager entityCache)
+   at System.Data.Objects.ObjectContext.SaveChanges(SaveOptions options)
+   at System.Data.Entity.Internal.InternalContext.SaveChanges()
+2014-02-25 20:17:34,298 [16] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.Data.Entity.Infrastructure.DbUpdateException: An error occurred while updating the entries. See the inner exception for details. ---> System.Data.UpdateException: An error occurred while updating the entries. See the inner exception for details. ---> System.Data.SqlClient.SqlException: The INSERT statement conflicted with the FOREIGN KEY constraint "FK_Order_Customer". The conflict occurred in database "LetterAmazer", table "dbo.DbCustomers", column 'Id'.
+The statement has been terminated.
+   at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at System.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   at System.Data.SqlClient.SqlDataReader.get_MetaData()
+   at System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   at System.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior, String method)
+   at System.Data.SqlClient.SqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   at System.Data.Common.DbCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.Mapping.Update.Internal.DynamicUpdateCommand.Execute(UpdateTranslator translator, EntityConnection connection, Dictionary`2 identifierValues, List`1 generatedValues)
+   at System.Data.Mapping.Update.Internal.UpdateTranslator.Update(IEntityStateManager stateManager, IEntityAdapter adapter)
+   --- End of inner exception stack trace ---
+   at System.Data.Mapping.Update.Internal.UpdateTranslator.Update(IEntityStateManager stateManager, IEntityAdapter adapter)
+   at System.Data.EntityClient.EntityAdapter.Update(IEntityStateManager entityCache)
+   at System.Data.Objects.ObjectContext.SaveChanges(SaveOptions options)
+   at System.Data.Entity.Internal.InternalContext.SaveChanges()
+   --- End of inner exception stack trace ---
+   at System.Data.Entity.Internal.InternalContext.SaveChanges()
+   at System.Data.Entity.Internal.LazyInternalContext.SaveChanges()
+   at System.Data.Entity.DbContext.SaveChanges()
+   at LetterAmazer.Business.Services.Services.OrderService.Create(Order order) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\OrderService.cs:line 54
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.Index(CreateSingleLetterModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 165
+2014-02-25 20:17:34,299 [16] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.Data.UpdateException: An error occurred while updating the entries. See the inner exception for details. ---> System.Data.SqlClient.SqlException: The INSERT statement conflicted with the FOREIGN KEY constraint "FK_Order_Customer". The conflict occurred in database "LetterAmazer", table "dbo.DbCustomers", column 'Id'.
+The statement has been terminated.
+   at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at System.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   at System.Data.SqlClient.SqlDataReader.get_MetaData()
+   at System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   at System.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior, String method)
+   at System.Data.SqlClient.SqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   at System.Data.Common.DbCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.Mapping.Update.Internal.DynamicUpdateCommand.Execute(UpdateTranslator translator, EntityConnection connection, Dictionary`2 identifierValues, List`1 generatedValues)
+   at System.Data.Mapping.Update.Internal.UpdateTranslator.Update(IEntityStateManager stateManager, IEntityAdapter adapter)
+   --- End of inner exception stack trace ---
+   at System.Data.Mapping.Update.Internal.UpdateTranslator.Update(IEntityStateManager stateManager, IEntityAdapter adapter)
+   at System.Data.EntityClient.EntityAdapter.Update(IEntityStateManager entityCache)
+   at System.Data.Objects.ObjectContext.SaveChanges(SaveOptions options)
+   at System.Data.Entity.Internal.InternalContext.SaveChanges()
+2014-02-25 20:20:09,019 [10] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.NullReferenceException: Object reference not set to an instance of an object.
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.Index(CreateSingleLetterModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 90
+2014-02-25 20:20:09,027 [10] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - 
+2014-02-25 20:21:19,320 [8] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.NullReferenceException: Object reference not set to an instance of an object.
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.Index(CreateSingleLetterModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 89
+2014-02-25 20:21:19,328 [8] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - 
+2014-02-25 20:22:33,603 [6] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - LetterAmazer.Business.Services.Exceptions.BusinessException: The 'mcoroklo@gmail.com' email is existing in the system
+   at LetterAmazer.Business.Services.Services.CustomerService.Create(Customer customer) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\CustomerService.cs:line 103
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.Index(CreateSingleLetterModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 91
+2014-02-25 20:22:33,612 [6] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - 
+2014-02-25 20:23:21,642 [9] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.ArgumentNullException: String reference not set to an instance of a String.
+Parameter name: s
+   at System.Text.Encoding.GetBytes(String s)
+   at LetterAmazer.Business.Utils.Helpers.SHA1PasswordEncryptor.Encrypt(String password) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Utils\Helpers\SHA1PasswordEncryptor.cs:line 10
+   at LetterAmazer.Business.Services.Services.CustomerService.Create(Customer customer) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\CustomerService.cs:line 134
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.Index(CreateSingleLetterModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 91
+2014-02-25 20:23:21,652 [9] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - 
+2014-02-25 20:26:15,702 [12] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - LetterAmazer.Business.Services.Exceptions.BusinessException: The 'mcoroklo@gmail.com' email is existing in the system
+   at LetterAmazer.Business.Services.Services.CustomerService.Create(Customer customer) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\CustomerService.cs:line 103
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.Index(CreateSingleLetterModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 92
+2014-02-25 20:26:15,711 [12] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - 
+2014-02-25 20:28:55,851 [9] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - LetterAmazer.Business.Services.Exceptions.BusinessException: The 'mcoroklo@gmail.com' email is existing in the system
+   at LetterAmazer.Business.Services.Services.CustomerService.Create(Customer customer) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\CustomerService.cs:line 103
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.Index(CreateSingleLetterModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 92
+2014-02-25 20:28:55,860 [9] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - 
+2014-02-25 20:29:36,014 [10] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - LetterAmazer.Business.Services.Exceptions.BusinessException: The 'mcoroklo@gmail.com' email is existing in the system
+   at LetterAmazer.Business.Services.Services.CustomerService.Create(Customer customer) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\CustomerService.cs:line 103
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.Index(CreateSingleLetterModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 92
+2014-02-25 20:29:36,014 [10] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - 
+2014-02-25 20:35:29,477 [9] DEBUG LetterAmazer.Websites.Client.Controllers.SingleLetterController - upload file key: 2014/2/a2aeed6a-83c4-4a51-934b-1bea6a3bba84.pdf
+2014-02-25 20:38:10,853 [9] DEBUG LetterAmazer.Websites.Client.Controllers.SingleLetterController - upload file key: 2014/2/b60fe6ae-a294-4dcb-9f6f-23bba69862b5.pdf
+2014-02-25 20:49:59,865 [6] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.NullReferenceException: Object reference not set to an instance of an object.
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.Index(CreateSingleLetterModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 95
+2014-02-25 20:49:59,873 [6] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - 
+2014-02-25 20:51:35,245 [11] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.NullReferenceException: Object reference not set to an instance of an object.
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.Index(CreateSingleLetterModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 95
+2014-02-25 20:51:35,246 [11] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - 
+2014-02-25 20:54:02,687 [6] DEBUG LetterAmazer.Websites.Client.Controllers.SingleLetterController - upload file key: 2014/2/45c6895e-d606-4df1-8794-19659c691bc3.pdf
+2014-02-25 20:57:09,466 [9] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.NullReferenceException: Object reference not set to an instance of an object.
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.Index(CreateSingleLetterModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 95
+2014-02-25 20:57:09,475 [9] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - 
+2014-02-25 20:57:39,927 [9] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.NullReferenceException: Object reference not set to an instance of an object.
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.Index(CreateSingleLetterModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 95
+2014-02-25 20:57:39,935 [9] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - 
+2014-02-25 21:13:29,536 [7] ERROR LetterAmazer.Websites.Client.Controllers.HomeController - System.NullReferenceException: Object reference not set to an instance of an object.
+   at LetterAmazer.Websites.Client.Controllers.HomeController.Login(LoginViewModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\HomeController.cs:line 80
+2014-02-25 21:13:33,178 [9] ERROR LetterAmazer.Websites.Client.Controllers.HomeController - System.NullReferenceException: Object reference not set to an instance of an object.
+   at LetterAmazer.Websites.Client.Controllers.HomeController.Login(LoginViewModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\HomeController.cs:line 80
+2014-02-25 21:13:35,835 [9] ERROR LetterAmazer.Websites.Client.Controllers.HomeController - System.NullReferenceException: Object reference not set to an instance of an object.
+   at LetterAmazer.Websites.Client.Controllers.HomeController.Login(LoginViewModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\HomeController.cs:line 80
+2014-02-25 21:16:24,530 [8] ERROR LetterAmazer.Websites.Client.Controllers.HomeController - System.NullReferenceException: Object reference not set to an instance of an object.
+   at LetterAmazer.Websites.Client.Controllers.HomeController.Login(LoginViewModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\HomeController.cs:line 80
+2014-02-25 22:25:40,191 [6] ERROR LetterAmazer.Websites.Client.Controllers.HomeController - System.NullReferenceException: Object reference not set to an instance of an object.
+   at LetterAmazer.Websites.Client.Controllers.HomeController.Login(LoginViewModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\HomeController.cs:line 80

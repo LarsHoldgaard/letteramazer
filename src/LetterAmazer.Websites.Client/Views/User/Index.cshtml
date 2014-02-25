@@ -1,4 +1,5 @@
-﻿@using LetterAmazer.Websites.Client.Extensions
+﻿@using LetterAmazer.Business.Services.Domain.Letters
+@using LetterAmazer.Websites.Client.Extensions
 @using LetterAmazer.Websites.Client.Resources.Views.User
 
 @model LetterAmazer.Websites.Client.ViewModels.ProfileViewModel
@@ -42,6 +43,7 @@
             <tbody>
             @foreach (var item in Model.Orders)
             {
+                
                 <tr>
                     <td>@item.Id</td>
                     <td>@item.DateCreated.ToFriendlyDateTime()</td>
@@ -49,7 +51,12 @@
                     <td>@item.OrderLines.Count</td>
                     <td>@item.Price.ToFriendlyMoney() USD</td>
                     <td><a href="@Url.Action("Details", new { id = item.Id })">See details</a></td>
-                    <td><a href="@Url.Action("Delete", new { id = item.Id })">Delete order</a></td>
+                    
+                    @if (item.LetterStatus == LetterStatus.InProgress)
+                    {
+                        <td><a href="@Url.Action("Delete", new { id = item.Id })">Delete order</a></td>    
+                    }
+                    
                 </tr>
             }
             </tbody>

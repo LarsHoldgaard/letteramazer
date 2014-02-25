@@ -63,7 +63,8 @@ namespace LetterAmazer.Business.Services.Services
             }
             if (!string.IsNullOrEmpty(specification.Email))
             {
-                dbCustomers = dbCustomers.Where(c => c.Email == specification.Email);
+                var selectedEmail = specification.Email.ToLower();
+                dbCustomers = dbCustomers.Where(c => c.Email == selectedEmail);
             }
             if (!string.IsNullOrEmpty(specification.ResetPasswordKey))
             {
