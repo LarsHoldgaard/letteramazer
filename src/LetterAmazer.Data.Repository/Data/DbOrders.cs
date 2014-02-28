@@ -29,8 +29,6 @@ namespace LetterAmazer.Data.Repository.Data
         public string TransactionCode { get; set; }
         public decimal Cost { get; set; }
         public string CouponCode { get; set; }
-        public decimal Discount { get; set; }
-        public decimal Price { get; set; }
         public string PaymentMethod { get; set; }
         public Nullable<System.DateTime> DatePaid { get; set; }
         public Nullable<System.DateTime> DateSent { get; set; }

@@ -95,8 +95,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                     Customer newCustomer = new Customer();
                     newCustomer.Email = model.Email;
                     newCustomer.Phone = model.Phone;
-                    newCustomer.Password = "12345678";
-
+                    
                     customer = customerService.Create(newCustomer);
                 }
                 else

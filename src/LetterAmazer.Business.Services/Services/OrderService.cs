@@ -32,16 +32,6 @@ namespace LetterAmazer.Business.Services.Services
         public Order Create(Order order)
         {
             DbOrders dborder = new DbOrders();
-            dborder.Guid = Guid.NewGuid();
-            dborder.OrderCode = GenerateOrderCode();
-            dborder.OrderStatus = (int)OrderStatus.Created;
-            dborder.DateCreated = DateTime.Now;
-            dborder.DateUpdated = DateTime.Now;
-            dborder.Cost = 0m;
-            dborder.PaymentMethod = "";
-            dborder.Discount = 0.0m;
-            dborder.Price = 0.0m;
-            dborder.CustomerId = order.Customer != null ? order.Customer.Id : 0;
 
             foreach (var orderLine in order.OrderLines)
             {
@@ -49,6 +39,17 @@ namespace LetterAmazer.Business.Services.Services
                 dborder.DbOrderlines.Add(dbOrderLine);
             }
 
+
+            dborder.Guid = Guid.NewGuid();
+            dborder.OrderCode = GenerateOrderCode();
+            dborder.OrderStatus = (int)OrderStatus.Created;
+            dborder.DateCreated = DateTime.Now;
+            dborder.DateUpdated = DateTime.Now;
+            dborder.Cost = order.CostFromLines();
+            dborder.PaymentMethod = "";
+            dborder.CustomerId = order.Customer != null ? order.Customer.Id : 0;
+
+   
             repository.DbOrders.Add(dborder);
 
             repository.SaveChanges();

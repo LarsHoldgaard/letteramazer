@@ -158,9 +158,12 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\SingleCultureMvcRouteHandler.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Areas\Api\Routing\ApiAreaRegistration.cs" />
     <Compile Include="Attributes\AutoErrorRecoveryAttribute.cs" />
+    <Compile Include="Areas\Api\OfficeProductController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\PaymentController.cs" />
     <Compile Include="Controllers\SingleLetterController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Extensions\CustomerExtensions.cs" />
@@ -202,10 +205,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ViewRes.resx</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\Api\OfficeProductViewModel.cs" />
     <Compile Include="ViewModels\CreateSingleLetterModel.cs" />
     <Compile Include="ViewModels\CreditsViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\OrderDetailViewModel.cs" />
+    <Compile Include="ViewModels\Payment\InvoiceViewModel.cs" />
     <Compile Include="ViewModels\ProfileViewModel.cs" />
     <Compile Include="ViewModels\RegisterViewModel.cs" />
   </ItemGroup>
@@ -632,6 +637,8 @@
     <Content Include="Views\User\SendALetter.cshtml" />
     <Content Include="Views\User\Credits.cshtml" />
     <Content Include="Views\User\Details.cshtml" />
+    <Content Include="Views\Payment\Index.cshtml" />
+    <Content Include="Views\Payment\Invoice.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

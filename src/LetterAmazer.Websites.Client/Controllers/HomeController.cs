@@ -73,7 +73,6 @@ namespace LetterAmazer.Websites.Client.Controllers
         {
             try
             {
-                model.Password = SHA1PasswordEncryptor.Encrypt(model.Password);
                 var customer = customerService.LoginUser(model.Email, model.Password);
 
                 SessionHelper.Customer = customer;
@@ -115,35 +114,18 @@ namespace LetterAmazer.Websites.Client.Controllers
         {
             try
             {
-
                 Customer customer = new Customer();
-                var existingcustomer = customerService.GetCustomerBySpecification(new CustomerSpecification()
-                {
-                    Email = model.Email
-                }).FirstOrDefault();
+                
+                customer.Email = model.Email;
+                customer.Password = model.Password;
+                customer.CustomerInfo.FirstName = model.FirstName;
+                customer.CustomerInfo.LastName = model.LastName;
+                customer.CustomerInfo.Organisation = model.Organization;
 
-                if (existingcustomer == null)
-                {
-                    customer.Email = model.Email;
-                    customer.Password = model.Password;
-                    customer.CustomerInfo.FirstName = model.FirstName;
-                    customer.CustomerInfo.LastName = model.LastName;
-                    customer.CustomerInfo.Organisation = model.Organization;
+                var cust = customerService.Create(customer);
 
-                    customer = customerService.Create(customer);
-                }
-                else
-                {
-                    existingcustomer.Password = model.Password;
-                    existingcustomer.CustomerInfo.FirstName = model.FirstName;
-                    existingcustomer.CustomerInfo.LastName = model.LastName;
-                    existingcustomer.CustomerInfo.Organisation = model.Organization;
-
-                    customer =customerService.Update(existingcustomer);
-                }
-
-                SessionHelper.Customer = customer;
-                FormsAuthentication.SetAuthCookie(customer.Id.ToString(), false);
+                SessionHelper.Customer = cust;
+                FormsAuthentication.SetAuthCookie(cust.Id.ToString(), false);
 
                 return RedirectToAction("Index", "User");
             }

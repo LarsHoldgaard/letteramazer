@@ -61,7 +61,9 @@ namespace LetterAmazer.Business.Utils.Helpers
                 public const string BankName = "Nordea";
                 public const string BankReg = "2279";
                 public const string BankAccount = "8971983559";
-                public const string CompanyName = "GodeKarakterer v. Lars Holdgaard";
+                public const string CompanyName = "LetterAmazer";
+                public const string Country = "Denmark";
+                public const string AttPerson = "Lars Holdgaard";
 
             }
 

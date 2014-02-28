@@ -12,6 +12,8 @@ namespace LetterAmazer.Websites.Client.ViewModels
         public List<OrderViewModel> Orders { get; set; }
         public DateTime? FromDate { get; set; }
         public DateTime? ToDate { get; set; }
+
+        public string SuccessMsg { get; set; }
     }
 
     public class OrderViewModel

@@ -1,0 +1,61 @@
+﻿@using LetterAmazer.Websites.Client.Extensions
+@using LetterAmazer.Websites.Client.Resources.Views.User
+
+@model LetterAmazer.Websites.Client.ViewModels.Payment.InvoiceViewModel
+
+
+@section header {
+}
+
+<h2>title</h2>
+
+<div>
+    <div>
+        @Model.CompanyInfo.Company
+        Att. @Model.CompanyInfo.Name
+        @Model.CompanyInfo.Address
+        @Model.CompanyInfo.ZipCode @Model.CompanyInfo.City
+        @Model.CompanyInfo.Country
+
+    </div>
+    <div>
+        @Model.ReceiverInfo.Company
+        Att. @Model.ReceiverInfo.Name
+        @Model.ReceiverInfo.Address
+        @Model.ReceiverInfo.ZipCode @Model.ReceiverInfo.City
+        @Model.ReceiverInfo.Country
+    </div>
+</div>
+
+
+<table>
+    <tr>
+        <th>
+            Line
+        </th>
+        <th>
+            Quantity
+        </th>
+        <th>
+            Total
+        </th>
+
+    </tr>
+
+    @foreach (var line in Model.Lines)
+    {
+        <tr>
+            <td>@line.Title</td>
+            <td>@line.Quantity</td>
+            <td>@line.Price</td>
+
+        </tr>
+    }
+</table>
+
+<div>
+    Total ex. VAT: @Model.TotalExVat
+    VAT: @Model.VatTotal (@Model.VatPercentage)
+    Total: @Model.Total
+
+</div>

@@ -20,7 +20,8 @@
     self.currentStep = ko.observable(1);
     self.uploadPdf = ko.observable(0);
     self.useVoucher = ko.observable(0);
-
+    
+    self.orderid = ko.observable('');
     self.receiver = ko.observable('');
     self.address = ko.observable('');
     self.postal = ko.observable('');

@@ -78,6 +78,7 @@
           <Property Name="Phone" Type="nvarchar" MaxLength="100" />
           <Property Name="CustomerInfo_State" Type="nvarchar" MaxLength="150" />
           <Property Name="CustomerInfo_Co" Type="nvarchar" MaxLength="150" />
+          <Property Name="DateActivated" Type="datetime" />
         </EntityType>
         <EntityType Name="DbFulfillmentPartners">
           <Key>
@@ -189,8 +190,6 @@
           <Property Name="TransactionCode" Type="nvarchar" MaxLength="20" />
           <Property Name="Cost" Type="decimal" Precision="18" Scale="5" Nullable="false" />
           <Property Name="CouponCode" Type="nvarchar" MaxLength="20" />
-          <Property Name="Discount" Type="decimal" Precision="18" Scale="5" Nullable="false" />
-          <Property Name="Price" Type="decimal" Precision="18" Scale="5" Nullable="false" />
           <Property Name="PaymentMethod" Type="nvarchar" MaxLength="20" Nullable="false" />
           <Property Name="DatePaid" Type="datetime" />
           <Property Name="DateSent" Type="datetime" />
@@ -591,6 +590,7 @@
           <NavigationProperty Name="DbCountries" Relationship="Self.FK_Customers_Countries" FromRole="DbCustomers" ToRole="DbCountries" />
           <NavigationProperty Name="DbLetters" Relationship="Self.FK_Letter_Customer" FromRole="DbCustomers" ToRole="DbLetters" />
           <NavigationProperty Name="DbOrders" Relationship="Self.FK_Order_Customer" FromRole="DbCustomers" ToRole="DbOrders" />
+          <Property Name="DateActivated" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="DbFulfillmentPartners">
           <Key>
@@ -718,8 +718,6 @@
           <Property Name="TransactionCode" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="Cost" Type="Decimal" Precision="18" Scale="5" Nullable="false" />
           <Property Name="CouponCode" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="Discount" Type="Decimal" Precision="18" Scale="5" Nullable="false" />
-          <Property Name="Price" Type="Decimal" Precision="18" Scale="5" Nullable="false" />
           <Property Name="PaymentMethod" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="DatePaid" Type="DateTime" Precision="3" />
           <Property Name="DateSent" Type="DateTime" Precision="3" />
@@ -1101,6 +1099,7 @@
           <EntitySetMapping Name="DbCustomers">
             <EntityTypeMapping TypeName="LetterAmazer.DbCustomers">
               <MappingFragment StoreEntitySet="DbCustomers">
+                <ScalarProperty Name="DateActivated" ColumnName="DateActivated" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="CustomerInfo_Address" ColumnName="CustomerInfo_Address" />
                 <ScalarProperty Name="CustomerInfo_Address2" ColumnName="CustomerInfo_Address2" />
@@ -1240,8 +1239,6 @@
                 <ScalarProperty Name="TransactionCode" ColumnName="TransactionCode" />
                 <ScalarProperty Name="Cost" ColumnName="Cost" />
                 <ScalarProperty Name="CouponCode" ColumnName="CouponCode" />
-                <ScalarProperty Name="Discount" ColumnName="Discount" />
-                <ScalarProperty Name="Price" ColumnName="Price" />
                 <ScalarProperty Name="PaymentMethod" ColumnName="PaymentMethod" />
                 <ScalarProperty Name="DatePaid" ColumnName="DatePaid" />
                 <ScalarProperty Name="DateSent" ColumnName="DateSent" />

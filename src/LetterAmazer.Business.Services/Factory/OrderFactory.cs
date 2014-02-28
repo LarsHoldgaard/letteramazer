@@ -39,11 +39,11 @@ namespace LetterAmazer.Business.Services.Factory
                 DatePaid = dborder.DatePaid.HasValue ? dborder.DatePaid.Value : DateTime.MinValue,
                 VatPercentage = 0.0m,
                 Cost = dborder.Cost,
-                Discount = dborder.Discount,
                 OrderCode = dborder.OrderCode,
                 TransactionCode = dborder.TransactionCode,
                 Guid = dborder.Guid,
-                OrderLines = Create(dborderLines)
+                OrderLines = Create(dborderLines),
+                DateSent = dborder.DateSent
             };
 
             return order;

@@ -15,7 +15,12 @@
         <h3>@ViewRes.Credits: <strong class="credit">@Model.Customer.Credit.ToFriendlyMoney()$</strong></h3>
         <h4>@ViewRes.SendALetter</h4>
         <p><a class="btn btn-primary" href="@Url.Action("Credits")">@ViewRes.BuyCredits</a></p>
-        <p><a class="btn btn-success" href="@Url.Action("SendALetter")">@ViewRes.SendALetterNow</a></p>
+        
+        @if (Model.Customer.CreditsLeft > 0)
+        {
+        <p><a class="btn btn-success" href="@Url.Action("SendALetter")">@ViewRes.SendALetterNow</a></p>    
+        }
+        
         <h4>@ViewRes.OrderOverview</h4>
         <form class="form-inline" role="form" method="get" action="@Url.Action("Index")">
             <div class="form-group">
@@ -37,7 +42,7 @@
                     <td>@ViewRes.LetterCount</td>
                     <td>@ViewRes.Price</td>
                     <td>@ViewRes.Details</td>
-                    <td>@ViewRes.DeleteOrder</td>
+                    @*<td>@ViewRes.DeleteOrder</td>*@
                 </tr>
             </thead>
             <tbody>
@@ -52,10 +57,10 @@
                     <td>@item.Price.ToFriendlyMoney() USD</td>
                     <td><a href="@Url.Action("Details", new { id = item.Id })">See details</a></td>
                     
-                    @if (item.LetterStatus == LetterStatus.InProgress)
+                    @*@if (item.LetterStatus == LetterStatus.InProgress)
                     {
                         <td><a href="@Url.Action("Delete", new { id = item.Id })">Delete order</a></td>    
-                    }
+                    }*@
                     
                 </tr>
             }

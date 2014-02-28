@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using LetterAmazer.Business.Services.Domain.Customers;
 using LetterAmazer.Business.Services.Domain.Payments;
+using LetterAmazer.Business.Services.Domain.Products;
 
 namespace LetterAmazer.Business.Services.Domain.Orders
 {
@@ -23,19 +25,24 @@ namespace LetterAmazer.Business.Services.Domain.Orders
 
         public decimal VatPercentage { get; set; }
 
-        public decimal Discount { get; set; }
-        public decimal Price { get; set; }
         
         public List<OrderLine> OrderLines { get; set; }
         public Order()
         {
             this.OrderLines = new List<OrderLine>();
             this.OrderStatus =OrderStatus.Created;
+
         }
 
         public override string ToString()
         {
             return base.ToString();
+        }
+
+        public decimal CostFromLines()
+        {
+            var lines = OrderLines.Where(c => c.ProductType == ProductType.Order);
+            return lines.Sum(c => c.Cost);
         }
     }
 }

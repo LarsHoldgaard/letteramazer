@@ -46,17 +46,22 @@ namespace LetterAmazer.Websites.Client.Controllers
 
         public ActionResult Index(int? page, ProfileViewModel model)
         {
+            buildOverviewModel(model);
+
+            return View(model);
+        }
+
+        private void buildOverviewModel(ProfileViewModel model)
+        {
             var orders = orderService.GetOrderBySpecification(new OrderSpecification()
             {
                 UserId = SessionHelper.Customer.Id,
                 FromDate = model.FromDate,
                 ToDate = model.ToDate
-            }).OrderByDescending(c=>c.DateCreated);
+            }).OrderByDescending(c => c.DateCreated);
 
             model.Orders = getOrderViewModel(orders);
             model.Customer = SessionHelper.Customer;
-
-            return View(model);
         }
 
         [HttpGet]
@@ -172,7 +177,8 @@ namespace LetterAmazer.Websites.Client.Controllers
 
                 if (string.IsNullOrEmpty(redirectUrl))
                 {
-                    return RedirectToAction("Confirmation", "SingleLetter");
+                     ProfileViewModel profileViewModel = new ProfileViewModel();
+                    return RedirectToAction("Index","User",profileViewModel);
                 }
 
                 return Redirect(redirectUrl);
@@ -272,9 +278,8 @@ namespace LetterAmazer.Websites.Client.Controllers
                 Cost = model.PurchaseAmount
             };
 
-            Order order = new Order();
-            order.Price = model.PurchaseAmount;
-            order.Customer = SessionHelper.Customer;
+            Order order = new Order 
+            {Cost = model.PurchaseAmount, Customer = SessionHelper.Customer};
             order.OrderLines.Add(creditLine);
             order.OrderLines.Add(paymentLine);
 
@@ -335,7 +340,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                     DateCreated = order.DateCreated,
                     OrderStatus = order.OrderStatus,
                     Id = order.Id,
-                    Price = order.Price,
+                    Price = order.Cost,
                     LetterStatus = letter.LetterStatus
                 };
 

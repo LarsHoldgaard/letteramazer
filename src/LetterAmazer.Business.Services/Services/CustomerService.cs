@@ -40,8 +40,9 @@ namespace LetterAmazer.Business.Services.Services
         public Customer LoginUser(string email, string password)
         {
             var lower_email = email.ToLower();
+            var givenPassword = SHA1PasswordEncryptor.Encrypt(password);
 
-            var user = repository.DbCustomers.Where(c => c.Email == lower_email && c.Password == password);
+            var user = repository.DbCustomers.Where(c => c.Email == lower_email && c.Password == givenPassword && c.DateActivated != null && c.DateActivated <= DateTime.Now);
 
             if (!user.Any())
             {
@@ -96,52 +97,56 @@ namespace LetterAmazer.Business.Services.Services
 
         public Customer Create(Customer customer)
         {
-            var dbCustomer = new DbCustomers();
-            dbCustomer.Email = customer.Email.Trim().ToLower();
+            var providedEmail = customer.Email.ToLower().Trim();
 
-            if (repository.DbCustomers.Any(c => c.Email == dbCustomer.Email))
+            if (repository.DbCustomers.Any(c => c.Email == providedEmail && c.DateActivated != null && c.DateActivated <= DateTime.Now))
             {
-                throw new BusinessException("The '" + customer.Email + "' email is existing in the system");
+                throw new BusinessException("The '" + providedEmail + "' email is existing in the system");
             }
 
-            dbCustomer.DateCreated = DateTime.Now;
-            dbCustomer.DateUpdated = DateTime.Now;
-            dbCustomer.Credits = customer.Credit;
-            dbCustomer.CreditLimit = customer.CreditLimit;
-
-            if (customer.CustomerInfo != null)
+            var existingcustomer = GetCustomerBySpecification(new CustomerSpecification()
             {
-                dbCustomer.CustomerInfo_Address = customer.CustomerInfo.Address1;
-                dbCustomer.CustomerInfo_Address2 = customer.CustomerInfo.Address2;
-                dbCustomer.CustomerInfo_AttPerson = customer.CustomerInfo.AttPerson;
-                dbCustomer.CustomerInfo_City = customer.CustomerInfo.City;
-                dbCustomer.CustomerInfo_CompanyName = customer.CustomerInfo.Organisation;
+                Email = providedEmail
+            }).FirstOrDefault();
+
+            var givenPassword = SHA1PasswordEncryptor.Encrypt(customer.Password);
+
+            int id = 0;
+            // new user
+            if (existingcustomer == null)
+            {
+                var dbCustomer = new DbCustomers();
+                dbCustomer.Email =providedEmail;
+                dbCustomer.Password = givenPassword;
                 dbCustomer.CustomerInfo_FirstName = customer.CustomerInfo.FirstName;
                 dbCustomer.CustomerInfo_LastName = customer.CustomerInfo.LastName;
-                dbCustomer.CustomerInfo_Postal = customer.CustomerInfo.PostalCode;
-                dbCustomer.CustomerInfo_VatNr = customer.CustomerInfo.VatNr;
+                dbCustomer.CustomerInfo_CompanyName = customer.CustomerInfo.Organisation;
+                dbCustomer.DateCreated = DateTime.Now;
+                dbCustomer.DateUpdated = DateTime.Now;
+                
+                repository.DbCustomers.Add(dbCustomer);
+                repository.SaveChanges();
 
-
-                if (customer.CustomerInfo.Country != null)
-                {
-                    dbCustomer.DbCountries.Id = customer.CustomerInfo.Country.Id;
-                }
+                id = dbCustomer.Id;
             }
-            
-            
+            // update old
+            else
+            {
+                var dbCustomer = repository.DbCustomers.FirstOrDefault(c => c.Email == providedEmail);
+                dbCustomer.Email = customer.Email;
+                dbCustomer.Password = givenPassword;
+                dbCustomer.CustomerInfo_FirstName = customer.CustomerInfo.FirstName;
+                dbCustomer.CustomerInfo_LastName = customer.CustomerInfo.LastName;
+                dbCustomer.CustomerInfo_CompanyName = customer.CustomerInfo.Organisation;
+
+                repository.SaveChanges();
+
+                id = dbCustomer.Id;
+            }
 
 
-            string password = customer.Password;
-            dbCustomer.Password = SHA1PasswordEncryptor.Encrypt(password);
 
-            repository.DbCustomers.Add(dbCustomer);
-
-            repository.SaveChanges();
-
-            customer.Password = password;
-            //notificationService.SendMembershipInformation(customer);
-
-            return GetCustomerById(dbCustomer.Id);
+            return GetCustomerById(id);
         }
 
         public Customer Update(Customer customer)
@@ -159,7 +164,7 @@ namespace LetterAmazer.Business.Services.Services
             dbCustomer.CustomerInfo_AttPerson = customer.CustomerInfo.AttPerson;
             dbCustomer.CustomerInfo_City = customer.CustomerInfo.City;
             dbCustomer.CustomerInfo_CompanyName = customer.CustomerInfo.Organisation;
-            //dbCustomer.DbCountries.Id = customer.CustomerInfo.Country != null ? customer.CustomerInfo.Country.Id : 0;
+            
             dbCustomer.CustomerInfo_FirstName = customer.CustomerInfo.FirstName;
             dbCustomer.CustomerInfo_LastName = customer.CustomerInfo.LastName;
             dbCustomer.CustomerInfo_Postal = customer.CustomerInfo.PostalCode;
@@ -170,9 +175,8 @@ namespace LetterAmazer.Business.Services.Services
             dbCustomer.ResetPasswordKey = customer.ResetPasswordKey;
             dbCustomer.Password = customer.Password;
             dbCustomer.Phone = customer.Phone;
+            dbCustomer.DateActivated = customer.DateActivated;
             
-
-
             repository.SaveChanges();
 
             return GetCustomerById(customer.Id);

@@ -31,7 +31,16 @@
                 <div class="col-lg-6">
                     <h4>@ViewRes.ReceipientDetails</h4>
                     <p>
-                        Att. @Model.AddressInfo.AttPerson <br />
+                        <b>Att</b>
+                        @if (!string.IsNullOrEmpty(Model.AddressInfo.AttPerson))
+                        {
+                         @Model.AddressInfo.AttPerson
+                        }
+                        else
+                        {
+                         @Model.AddressInfo.FirstName @Model.AddressInfo.LastName   
+                        }
+                        <br/>
                         @Model.AddressInfo.Address1 <br />
                         @Model.AddressInfo.PostalCode @Model.AddressInfo.City <br />
                         @Model.AddressInfo.Country.Name

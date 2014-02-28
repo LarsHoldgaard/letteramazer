@@ -41,6 +41,7 @@ namespace LetterAmazer.Data.Repository.Data
         public string Phone { get; set; }
         public string CustomerInfo_State { get; set; }
         public string CustomerInfo_Co { get; set; }
+        public Nullable<System.DateTime> DateActivated { get; set; }
     
         public virtual DbCountries DbCountries { get; set; }
         public virtual ICollection<DbLetters> DbLetters { get; set; }

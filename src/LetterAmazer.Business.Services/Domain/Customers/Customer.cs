@@ -12,6 +12,8 @@ namespace LetterAmazer.Business.Services.Domain.Customers
         public string Password { get; set; }
         public DateTime DateCreated { get; set; }
         public DateTime DateModified { get; set; }
+
+        public DateTime? DateActivated { get; set; }
         public decimal Credit { get; set; }
         public decimal CreditLimit { get; set; }
         public string ResetPasswordKey { get; set; }
@@ -19,6 +21,11 @@ namespace LetterAmazer.Business.Services.Domain.Customers
         public decimal CreditsLeft
         {
             get { return Credit - CreditLimit; }
+        }
+
+        public Customer()
+        {
+            this.CustomerInfo = new AddressInfo();
         }
     }
 }
