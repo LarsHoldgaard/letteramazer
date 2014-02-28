@@ -39,27 +39,27 @@ namespace LetterAmazer.Websites.Client
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
 
-            foreach (Route r in routes)
-            {
-                if (!(r.RouteHandler is SingleCultureMvcRouteHandler))
-                {
-                    r.RouteHandler = new MultiCultureMvcRouteHandler();
-                    r.Url = "{culture}/" + r.Url;
+            //foreach (Route r in routes)
+            //{
+            //    if (!(r.RouteHandler is SingleCultureMvcRouteHandler))
+            //    {
+            //        r.RouteHandler = new MultiCultureMvcRouteHandler();
+            //        r.Url = "{culture}/" + r.Url;
 
-                    if (r.Defaults == null)
-                    {
-                        r.Defaults = new RouteValueDictionary();
-                    }
-                    r.Defaults.Add("culture", Culture.en.ToString());
+            //        if (r.Defaults == null)
+            //        {
+            //            r.Defaults = new RouteValueDictionary();
+            //        }
+            //        r.Defaults.Add("culture", Culture.en.ToString());
 
-                    //Adding constraint for culture param
-                    if (r.Constraints == null)
-                    {
-                        r.Constraints = new RouteValueDictionary();
-                    }
-                    r.Constraints.Add("culture", new CultureConstraint(Culture.en.ToString(), Culture.da.ToString()));
-                }
-            }
+            //        //Adding constraint for culture param
+            //        if (r.Constraints == null)
+            //        {
+            //            r.Constraints = new RouteValueDictionary();
+            //        }
+            //        r.Constraints.Add("culture", new CultureConstraint(Culture.en.ToString(), Culture.da.ToString()));
+            //    }
+            //}
 
         }
     }

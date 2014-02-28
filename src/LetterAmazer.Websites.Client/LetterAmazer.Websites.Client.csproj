@@ -158,9 +158,9 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\SingleCultureMvcRouteHandler.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\Api\OfficeProductController.cs" />
     <Compile Include="Areas\Api\Routing\ApiAreaRegistration.cs" />
     <Compile Include="Attributes\AutoErrorRecoveryAttribute.cs" />
-    <Compile Include="Areas\Api\OfficeProductController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PaymentController.cs" />
@@ -616,7 +616,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\Faq.cshtml" />
     <Content Include="Views\Home\Business.cshtml" />
-    <Content Include="Views\Home\Api.cshtml" />
+    <Content Include="Views\Home\ApiInfo.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Pricing.cshtml" />

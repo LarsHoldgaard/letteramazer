@@ -41,7 +41,7 @@ namespace LetterAmazer.Websites.Client.Controllers
             return View();
         }
 
-        public ActionResult Api()
+        public ActionResult ApiInfo()
         {
             return View();
         }
