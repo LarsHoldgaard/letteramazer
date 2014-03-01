@@ -19,15 +19,22 @@ namespace LetterAmazer.Business.Services.Services
     public class MailService : IMailService
     {
         private static readonly ILog logger = LogManager.GetLogger(typeof(MailService));
-       
+
+        private string resetPasswordUrl;
+        private string baseUrl;
+        private string createUrl;
 
         private string mandrillApiUrl;
         private string mandrillApiKey;
 
         public MailService()
         {
+            this.baseUrl = ConfigurationManager.AppSettings.Get("LetterAmazer.BasePath");
+            this.createUrl = baseUrl + ConfigurationManager.AppSettings.Get("LetterAmazer.Customer.Confirm");
+            this.resetPasswordUrl = baseUrl + ConfigurationManager.AppSettings.Get("LetterAmazer.Customer.ResetPassword");
             this.mandrillApiUrl = ConfigurationManager.AppSettings.Get("LetterAmazer.Mail.Mandrill.ApiUrl");
             this.mandrillApiKey = ConfigurationManager.AppSettings.Get("LetterAmazer.Mail.Mandrill.ApiKey");
+
         }
 
         private void SendTemplate(MandrillTemplateSend obj)
@@ -61,13 +68,13 @@ namespace LetterAmazer.Business.Services.Services
             {
                 throw;
             }
-         
+
         }
 
         public void ResetPassword(Customer customer)
         {
             var template_name = "letteramazer-customer-forgotpassword";
-            
+
             var model = new MandrillTemplateSend();
             model.template_name = template_name;
             model.message.merge = true;
@@ -83,7 +90,7 @@ namespace LetterAmazer.Business.Services.Services
                     new Var()
                     {
                         name = "RESETPASSWORD",
-                        content ="http://www.letteramazer.com"
+                        content =string.Format(resetPasswordUrl,customer.ResetPasswordKey)
                     }
                 }
             });
@@ -110,7 +117,7 @@ namespace LetterAmazer.Business.Services.Services
                     new Var()
                     {
                         name = "REGISTERLINK",
-                        content ="http://www.letteramazer.com"
+                        content =string.Format(createUrl,customer.RegisterKey) 
                     }
                 }
             });

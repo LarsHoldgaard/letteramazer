@@ -639,8 +639,8 @@
     <Content Include="Views\User\SendALetter.cshtml" />
     <Content Include="Views\User\Credits.cshtml" />
     <Content Include="Views\User\Details.cshtml" />
-    <Content Include="Views\Payment\Index.cshtml" />
     <Content Include="Views\Payment\Invoice.cshtml" />
+    <Content Include="Views\Payment\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

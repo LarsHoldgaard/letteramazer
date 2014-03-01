@@ -41,7 +41,7 @@ namespace LetterAmazer.Business.Services.Services
             var price = new Price();
             foreach (var orderLine in order.OrderLines)
             {
-                if (orderLine.ProductType == ProductType.Order)
+                if (orderLine.ProductType == ProductType.Letter)
                 {
                     var letter = (Letter)orderLine.BaseProduct;
                     var letterPrice = GetPriceByLetter(letter);

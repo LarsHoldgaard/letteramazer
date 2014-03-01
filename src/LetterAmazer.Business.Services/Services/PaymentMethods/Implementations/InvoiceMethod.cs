@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using LetterAmazer.Business.Services.Domain.Customers;
 using LetterAmazer.Business.Services.Domain.Orders;
 using LetterAmazer.Business.Services.Domain.Payments;
@@ -8,14 +9,29 @@ namespace LetterAmazer.Business.Services.Services.PaymentMethods.Implementations
 {
     public class InvoiceMethod : IPaymentMethod
     {
+        private IOrderService orderService;
+        private string baseUrl;
+        private string serviceUrl;
+
+        public InvoiceMethod()
+        {
+            this.baseUrl = ConfigurationManager.AppSettings.Get("LetterAmazer.BasePath");
+            this.serviceUrl = ConfigurationManager.AppSettings.Get("LetterAmazer.Payment.Invoice.ServiceUrl");
+            this.orderService = orderService;
+        }
+
         public string Process(Order order)
         {
-            throw new NotImplementedException();
+            var url = baseUrl + serviceUrl;
+            var fullurl = string.Format(url, order.Guid);
+            return fullurl;
         }
 
         public void VerifyPayment(Order order)
         {
-            throw new NotImplementedException();
+            order.OrderStatus = OrderStatus.Paid;
+            orderService.ReplenishOrderLines(order);
+            orderService.Update(order);
         }
 
         public void ChargeBacks(Order order)

@@ -102,6 +102,14 @@ namespace LetterAmazer.Business.Services.Services
             Update(customer);
         }
 
+        public void ActivateUser(Customer customer)
+        {
+            customer.RegisterKey = string.Empty;
+            customer.DateModified = DateTime.Now;
+            customer.DateActivated = DateTime.Now;
+            Update(customer);
+        }
+
         public Customer Create(Customer customer)
         {
             var providedEmail = customer.Email.ToLower().Trim();
@@ -129,7 +137,7 @@ namespace LetterAmazer.Business.Services.Services
                 dbCustomer.CustomerInfo_LastName = customer.CustomerInfo.LastName;
                 dbCustomer.CustomerInfo_CompanyName = customer.CustomerInfo.Organisation;
                 dbCustomer.DateCreated = DateTime.Now;
-                dbCustomer.DateUpdated = DateTime.Now;
+                dbCustomer.RegistrationKey = Guid.NewGuid().ToString();
                 
                 repository.DbCustomers.Add(dbCustomer);
                 repository.SaveChanges();
@@ -145,15 +153,16 @@ namespace LetterAmazer.Business.Services.Services
                 dbCustomer.CustomerInfo_FirstName = customer.CustomerInfo.FirstName;
                 dbCustomer.CustomerInfo_LastName = customer.CustomerInfo.LastName;
                 dbCustomer.CustomerInfo_CompanyName = customer.CustomerInfo.Organisation;
+                dbCustomer.RegistrationKey = Guid.NewGuid().ToString();
 
                 repository.SaveChanges();
 
                 id = dbCustomer.Id;
             }
 
-            mailService.ConfirmUser(customer);
-
-            return GetCustomerById(id);
+            var storedCustomer= GetCustomerById(id);
+            mailService.ConfirmUser(storedCustomer);
+            return storedCustomer;
         }
 
         public Customer Update(Customer customer)
@@ -183,6 +192,9 @@ namespace LetterAmazer.Business.Services.Services
             dbCustomer.Password = customer.Password;
             dbCustomer.Phone = customer.Phone;
             dbCustomer.DateActivated = customer.DateActivated;
+            dbCustomer.RegistrationKey = customer.RegisterKey;
+            dbCustomer.OrganisationRole = customer.OrganisationId;
+            dbCustomer.OrganisationId = customer.OrganisationId;
             
             repository.SaveChanges();
 

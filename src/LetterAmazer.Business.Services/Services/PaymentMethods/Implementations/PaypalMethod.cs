@@ -25,26 +25,30 @@ namespace LetterAmazer.Business.Services.Services.PaymentMethods.Implementations
         private string serviceUrl;
         private string paypalIpn;
         private string successUrl;
+        private string baseUrl;
+
 
         public PaypalMethod(IOrderService orderService)
         {
+            this.baseUrl = ConfigurationManager.AppSettings.Get("LetterAmazer.BasePath");
             this.serviceUrl = ConfigurationManager.AppSettings.Get("LetterAmazer.Payment.PayPal.ServiceUrl");
-            this.paypalIpn = ConfigurationManager.AppSettings.Get("LetterAmazer.Payment.PayPal.IpnHandler");
-            this.successUrl = ConfigurationManager.AppSettings.Get("LetterAmazer.Payment.Successful");
-            
+            this.paypalIpn = baseUrl + ConfigurationManager.AppSettings.Get("LetterAmazer.Payment.PayPal.IpnHandler");
+            this.successUrl = baseUrl + ConfigurationManager.AppSettings.Get("LetterAmazer.Payment.Successful");
+
+
             this.orderService = orderService;
         }
         public string Process(Order order)
         {
-            var orderlinePayment = order.OrderLines.FirstOrDefault(c => c.ProductType == ProductType.Payment && c.PaymentMethodId== 1);
+            var orderlinePayment = order.OrderLines.FirstOrDefault(c => c.ProductType == ProductType.Payment && c.PaymentMethodId == 1);
             var orderlineProduct = order.OrderLines.FirstOrDefault(c => c.ProductType != ProductType.Payment);
-            
+
             AddressInfo addressInfo = new AddressInfo();
             if (order.Customer != null && order.Customer.CustomerInfo != null)
             {
                 addressInfo = order.Customer.CustomerInfo;
             }
-            
+
             var totalPrice = orderlinePayment.Cost;
 
             decimal volume = totalPrice;
@@ -56,44 +60,36 @@ namespace LetterAmazer.Business.Services.Services.PaymentMethods.Implementations
             {
                 addressInfo.Country.CountryCode.ToString(); // TODO: Fix country    
             }
-            
+
             string postal = addressInfo.PostalCode;
             string city = addressInfo.City;
             string address = addressInfo.Address1;
             var id = order.Id;
-            string itemName = orderlineProduct.ProductType == ProductType.Order ? "Send a letter" : "Letteramazer credits";
+            string itemName = orderlineProduct.ProductType == ProductType.Letter ? "Send a letter" : "Letteramazer credits";
             string paypalIPNUrl = string.Format(this.paypalIpn, order.Id.ToString());
             var volumeForUsd = Math.Round(volume, 2).ToString().Replace(",", ".");
             var url = string.Format("{0}first_name={1}&item_name={2}&currency_code={3}&amount={4}&notify_url={5}&cmd=_xclick&country={6}&zip={7}&address1={8}&business={9}&city={10}&custom={11}&return={12}",
-                this.serviceUrl, 
+                this.serviceUrl,
                 firstName,
                 itemName,
                 "USD",
-                volumeForUsd, 
-                paypalIPNUrl, 
-                country, 
-                postal, 
-                address, 
-                "mcoroklo@gmail.com", 
+                volumeForUsd,
+                paypalIPNUrl,
+                country,
+                postal,
+                address,
+                "mcoroklo@gmail.com",
                 city,
                 id,
                 successUrl);
-            
+
             return url;
         }
 
         public void VerifyPayment(Order order)
         {
-            order.OrderStatus =OrderStatus.Paid;
-
-            foreach (var orderLine in order.OrderLines)
-            {
-                if (orderLine.ProductType == ProductType.Credit)
-                {
-                    // add credits to user
-                }
-            }
-
+            order.OrderStatus = OrderStatus.Paid;
+            orderService.ReplenishOrderLines(order);
             orderService.Update(order);
         }
 

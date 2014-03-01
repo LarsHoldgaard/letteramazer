@@ -28,6 +28,13 @@ namespace LetterAmazer.Websites.Client
             );
 
             routes.MapRoute(
+            name: "Invoice",
+            url: "payment/{action}/{id}",
+            defaults: new { controller = "Payment", action = "Invoice", id = UrlParameter.Optional }
+        );
+
+        
+            routes.MapRoute(
                 name: "User",
                 url: "User/{action}/{id}",
                 defaults: new { controller = "User", action = "Index", id = UrlParameter.Optional }

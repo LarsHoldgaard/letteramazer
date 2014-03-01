@@ -35,7 +35,7 @@
                     <li class="@(action == "index" && controller == "home" ? "active" : "")"><a href="@Url.Action("Index", "Home")">@ViewRes.Home</a></li>
                     <li class="@(action == "index" && controller == "singleletter" ? "active" : "")"><a href="@Url.Action("Index", "SingleLetter")">@ViewRes.SendALetter</a></li>
                     <li class="@(action == "business" && controller == "home" ? "active" : "")"><a href="@Url.Action("Business", "Home")">@ViewRes.Business</a></li>
-                    <li class="@(action == "api" && controller == "home" ? "active" : "")"><a href="@Url.Action("Api", "Home")">@ViewRes.Api</a></li>
+                    <li class="@(action == "api" && controller == "home" ? "active" : "")"><a href="@Url.Action("ApiInfo", "Home")">@ViewRes.Api</a></li>
                     <li class="@(action == "pricing" && controller == "home" ? "active" : "")"><a href="@Url.Action("Pricing", "Home")">@ViewRes.Pricing</a></li>
                 </ul>
                 @Html.Partial("Authentication")

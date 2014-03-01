@@ -159,7 +159,7 @@
           <Property Name="Email" Type="nvarchar" Nullable="false" MaxLength="100" />
           <Property Name="Password" Type="nvarchar" Nullable="false" MaxLength="100" />
           <Property Name="DateCreated" Type="datetime" Nullable="false" />
-          <Property Name="DateUpdated" Type="datetime" Nullable="false" />
+          <Property Name="DateUpdated" Type="datetime" />
           <Property Name="Credits" Type="decimal" Scale="5" />
           <Property Name="CreditLimit" Type="decimal" Nullable="false" />
           <Property Name="ResetPasswordKey" Type="nvarchar" MaxLength="50" />
@@ -650,7 +650,7 @@
           <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Password" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="DateUpdated" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DateUpdated" Type="DateTime" Precision="3" />
           <Property Name="Credits" Type="Decimal" Precision="18" Scale="5" />
           <Property Name="CreditLimit" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
           <Property Name="ResetPasswordKey" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />

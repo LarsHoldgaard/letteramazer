@@ -14,5 +14,7 @@ namespace LetterAmazer.Business.Services.Domain.Customers
         List<Customer> GetCustomerBySpecification(CustomerSpecification specification);
 
         void RecoverPassword(string email);
+        void ActivateUser(Customer customer);
+        
     }
 }

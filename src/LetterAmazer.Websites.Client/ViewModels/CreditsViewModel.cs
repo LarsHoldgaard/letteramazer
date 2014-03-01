@@ -14,6 +14,11 @@ namespace LetterAmazer.Websites.Client.ViewModels
 
         public decimal Credit { get; set; }
         public decimal CreditLimit { get; set; }
+
+        public CreditsViewModel()
+        {
+            this.PurchaseAmount = 50;
+        }
     }
 
     public class PaymentMethodViewModel

@@ -15,7 +15,7 @@
         @using (Html.BeginForm("Credits","User",FormMethod.Post))
         {
             
-            @Html.EditorFor(model => model.PurchaseAmount)
+            @Html.EditorFor(model => model.PurchaseAmount) <text>($)</text>
 
             <div>
                 
@@ -37,4 +37,12 @@
     </div>
 </div>
 <script type="text/javascript">
+    $(document).ready(function() {
+        $('#@Html.IdFor(model=>model.PurchaseAmount)').change(function() {
+            var value = $('#@Html.IdFor(model => model.PurchaseAmount)').val();
+            if (value <= 1) {
+                $('#@Html.IdFor(model=>model.PurchaseAmount)').val('1');
+            }
+        });
+    });
 </script>

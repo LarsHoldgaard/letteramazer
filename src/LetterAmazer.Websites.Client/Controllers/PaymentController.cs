@@ -27,7 +27,7 @@ namespace LetterAmazer.Websites.Client.Controllers
             return View();
         }
 
-        public ActionResult Invoice(int id)
+        public ActionResult Invoice(Guid id)
         {
             var order = orderService.GetOrderById(id);
 
@@ -51,7 +51,6 @@ namespace LetterAmazer.Websites.Client.Controllers
                     City = order.Customer.CustomerInfo.City,
                     Company = order.Customer.CustomerInfo.Organisation,
                     Name = order.Customer.CustomerInfo.FirstName + " " + order.Customer.CustomerInfo.LastName,
-                    Country = order.Customer.CustomerInfo.Country.Name,
                     VatNumber = order.Customer.CustomerInfo.VatNr,
                     ZipCode  = order.Customer.CustomerInfo.PostalCode
                 }

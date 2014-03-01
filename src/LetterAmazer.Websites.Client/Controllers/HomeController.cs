@@ -109,6 +109,7 @@ namespace LetterAmazer.Websites.Client.Controllers
         [HttpGet, AutoErrorRecovery]
         public ActionResult Logout()
         {
+            SessionHelper.Customer = null;
             FormsAuthentication.SignOut();
             return RedirectToAction("Index");
         }
@@ -227,6 +228,28 @@ namespace LetterAmazer.Websites.Client.Controllers
             }
 
             return RedirectToActionWithError("RecoverPassword", model);
+        }
+
+        [HttpGet, AutoErrorRecovery]
+        public ActionResult Confirm(string key)
+        {
+            try
+            {
+                Customer customer = customerService.GetCustomerBySpecification(new CustomerSpecification()
+                {
+                    RegistrationKey = key
+                }).FirstOrDefault();
+
+                customerService.ActivateUser(customer);
+
+                return RedirectToAction("Index", "User");
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex);
+            }
+
+            return new HttpStatusCodeResult(404);
         }
     }
 }

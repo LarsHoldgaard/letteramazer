@@ -164,7 +164,7 @@ namespace LetterAmazer.Websites.Client.Controllers
 
                 order.OrderLines.Add(new OrderLine()
                 {
-                    ProductType = ProductType.Order,
+                    ProductType = ProductType.Letter,
                     BaseProduct = letter,
                     Cost = priceService.GetPriceByLetter(letter).PriceExVat
                 });

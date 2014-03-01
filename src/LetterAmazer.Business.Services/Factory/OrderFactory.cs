@@ -71,7 +71,7 @@ namespace LetterAmazer.Business.Services.Factory
                 Cost = dborderlines.Cost
             };
 
-            if (line.ProductType == ProductType.Order && dborderlines.LetterId.HasValue)
+            if (line.ProductType == ProductType.Letter && dborderlines.LetterId.HasValue)
             {
                 line.BaseProduct = letterService.GetLetterById(dborderlines.LetterId.Value);
             }

@@ -1667,3 +1667,63 @@ The statement has been terminated.
 2014-03-01 14:24:35,696 [5] DEBUG LetterAmazer.Websites.Client.Controllers.SingleLetterController - upload file key: 2014/3/e0fccca8-80b6-4bf6-8e53-f5e9956e22bf.pdf
 2014-03-01 14:26:01,951 [6] DEBUG LetterAmazer.Websites.Client.Controllers.SingleLetterController - upload file key: 2014/3/6dd69bef-d6fd-4a6b-946d-f1f73a6e223b.pdf
 2014-03-01 14:28:20,135 [12] DEBUG LetterAmazer.Websites.Client.Controllers.SingleLetterController - upload file key: 2014/3/221536ec-e44e-4166-9701-7e10485d8131.pdf
+2014-03-01 20:25:38,857 [8] ERROR LetterAmazer.Websites.Client.Controllers.HomeController - System.Data.Entity.Infrastructure.DbUpdateException: Der opstod en fejl under opdatering af indgangene. Der er flere oplysninger i den indvendige undtagelse. ---> System.Data.UpdateException: Der opstod en fejl under opdatering af indgangene. Der er flere oplysninger i den indvendige undtagelse. ---> System.Data.SqlClient.SqlException: The conversion of a datetime2 data type to a datetime data type resulted in an out-of-range value.
+The statement has been terminated.
+   ved System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   ved System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   ved System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   ved System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   ved System.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   ved System.Data.SqlClient.SqlDataReader.get_MetaData()
+   ved System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   ved System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds)
+   ved System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   ved System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   ved System.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior, String method)
+   ved System.Data.SqlClient.SqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   ved System.Data.Common.DbCommand.ExecuteReader(CommandBehavior behavior)
+   ved System.Data.Mapping.Update.Internal.DynamicUpdateCommand.Execute(UpdateTranslator translator, EntityConnection connection, Dictionary`2 identifierValues, List`1 generatedValues)
+   ved System.Data.Mapping.Update.Internal.UpdateTranslator.Update(IEntityStateManager stateManager, IEntityAdapter adapter)
+   --- Slut på staksporing af indre undtagelser ---
+   ved System.Data.Mapping.Update.Internal.UpdateTranslator.Update(IEntityStateManager stateManager, IEntityAdapter adapter)
+   ved System.Data.EntityClient.EntityAdapter.Update(IEntityStateManager entityCache)
+   ved System.Data.Objects.ObjectContext.SaveChanges(SaveOptions options)
+   ved System.Data.Entity.Internal.InternalContext.SaveChanges()
+   --- Slut på staksporing af indre undtagelser ---
+   ved System.Data.Entity.Internal.InternalContext.SaveChanges()
+   ved System.Data.Entity.Internal.LazyInternalContext.SaveChanges()
+   ved System.Data.Entity.DbContext.SaveChanges()
+   ved LetterAmazer.Business.Services.Services.CustomerService.Create(Customer customer) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Services\CustomerService.cs:linje 143
+   ved LetterAmazer.Websites.Client.Controllers.HomeController.Register(RegisterViewModel model) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\Controllers\HomeController.cs:linje 136
+2014-03-01 20:47:52,644 [20] ERROR LetterAmazer.Websites.Client.Controllers.HomeController - System.Data.Entity.Infrastructure.DbUpdateException: Der opstod en fejl under opdatering af indgangene. Der er flere oplysninger i den indvendige undtagelse. ---> System.Data.UpdateException: Der opstod en fejl under opdatering af indgangene. Der er flere oplysninger i den indvendige undtagelse. ---> System.Data.SqlClient.SqlException: The conversion of a datetime2 data type to a datetime data type resulted in an out-of-range value.
+The statement has been terminated.
+   ved System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   ved System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   ved System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   ved System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   ved System.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   ved System.Data.SqlClient.SqlDataReader.get_MetaData()
+   ved System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   ved System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds)
+   ved System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   ved System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   ved System.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior, String method)
+   ved System.Data.SqlClient.SqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   ved System.Data.Common.DbCommand.ExecuteReader(CommandBehavior behavior)
+   ved System.Data.Mapping.Update.Internal.DynamicUpdateCommand.Execute(UpdateTranslator translator, EntityConnection connection, Dictionary`2 identifierValues, List`1 generatedValues)
+   ved System.Data.Mapping.Update.Internal.UpdateTranslator.Update(IEntityStateManager stateManager, IEntityAdapter adapter)
+   --- Slut på staksporing af indre undtagelser ---
+   ved System.Data.Mapping.Update.Internal.UpdateTranslator.Update(IEntityStateManager stateManager, IEntityAdapter adapter)
+   ved System.Data.EntityClient.EntityAdapter.Update(IEntityStateManager entityCache)
+   ved System.Data.Objects.ObjectContext.SaveChanges(SaveOptions options)
+   ved System.Data.Entity.Internal.InternalContext.SaveChanges()
+   --- Slut på staksporing af indre undtagelser ---
+   ved System.Data.Entity.Internal.InternalContext.SaveChanges()
+   ved System.Data.Entity.Internal.LazyInternalContext.SaveChanges()
+   ved System.Data.Entity.DbContext.SaveChanges()
+   ved LetterAmazer.Business.Services.Services.CustomerService.Create(Customer customer) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Services\CustomerService.cs:linje 143
+   ved LetterAmazer.Websites.Client.Controllers.HomeController.Register(RegisterViewModel model) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\Controllers\HomeController.cs:linje 137
+2014-03-01 21:43:44,434 [8] ERROR LetterAmazer.Websites.Client.Controllers.HomeController - System.NullReferenceException: Objektreferencen er ikke indstillet til en forekomst af et objekt.
+   ved LetterAmazer.Websites.Client.Controllers.HomeController.Login(LoginViewModel model) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\Controllers\HomeController.cs:linje 90
+2014-03-01 21:43:47,645 [8] ERROR LetterAmazer.Websites.Client.Controllers.HomeController - System.NullReferenceException: Objektreferencen er ikke indstillet til en forekomst af et objekt.
+   ved LetterAmazer.Websites.Client.Controllers.HomeController.Login(LoginViewModel model) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\Controllers\HomeController.cs:linje 90

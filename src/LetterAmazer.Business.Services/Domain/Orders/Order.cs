@@ -41,7 +41,7 @@ namespace LetterAmazer.Business.Services.Domain.Orders
 
         public decimal CostFromLines()
         {
-            var lines = OrderLines.Where(c => c.ProductType == ProductType.Order);
+            var lines = OrderLines.Where(c => c.ProductType == ProductType.Letter);
             return lines.Sum(c => c.Cost);
         }
     }

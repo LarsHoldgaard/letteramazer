@@ -19,14 +19,16 @@ namespace LetterAmazer.Business.Services.Services
         
         private LetterAmazerEntities repository;
         private ILetterService letterService;
+        private ICustomerService customerService;
 
         public OrderService(LetterAmazerEntities repository,
             ILetterService letterService,
-            IOrderFactory orderFactory)
+            IOrderFactory orderFactory, ICustomerService customerService)
         {
             this.repository = repository;
             this.letterService = letterService;
             this.orderFactory = orderFactory;
+            this.customerService = customerService;
         }
 
         public Order Create(Order order)
@@ -106,6 +108,20 @@ namespace LetterAmazer.Business.Services.Services
             return orderFactory.Create(ord, dbOrderItems);
         }
 
+        public Order GetOrderById(Guid orderId)
+        {
+            DbOrders dborder = repository.DbOrders.FirstOrDefault(c => c.Guid == orderId);
+            if (dborder == null)
+            {
+                throw new ItemNotFoundException("Order");
+            }
+
+            var lines = repository.DbOrderlines.Where(c => c.OrderId == dborder.Id).ToList();
+            var order = orderFactory.Create(dborder, lines);
+
+            return order;
+        }
+
         public Order GetOrderById(int orderId)
         {
             DbOrders dborder = repository.DbOrders.FirstOrDefault(c => c.Id == orderId);
@@ -142,6 +158,23 @@ namespace LetterAmazer.Business.Services.Services
                 dbOrderItems.Skip(specification.Skip).Take(specification.Take).ToList());
         }
 
+        public void ReplenishOrderLines(Order order)
+        {
+            foreach (var orderLine in order.OrderLines)
+            {
+                if (orderLine.ProductType == ProductType.Credit)
+                {
+                    var credits = orderLine.Cost;
+                    order.Customer.Credit += credits;
+                    customerService.Update(order.Customer);
+                }
+                if (orderLine.ProductType == ProductType.Letter)
+                {
+                    // TODO: Some order logic maybe?
+                }
+            }
+        }
+
         public void DeleteOrder(Order order)
         {
             var dborder = repository.DbOrders.FirstOrDefault(c => c.Id == order.Id);
@@ -164,7 +197,7 @@ namespace LetterAmazer.Business.Services.Services
                 foreach (var orderLine in order.OrderLines)
                 {
                     // if this is the case, there are multiple lines and one of them is not sent yet, which means the order is in progress
-                    if (orderLine.ProductType == ProductType.Order && ((Letter)orderLine.BaseProduct).LetterStatus == LetterStatus.Created)
+                    if (orderLine.ProductType == ProductType.Letter && ((Letter)orderLine.BaseProduct).LetterStatus == LetterStatus.Created)
                     {
                         isOrderDone = false;
                     }
@@ -218,7 +251,7 @@ namespace LetterAmazer.Business.Services.Services
                 dbOrderLine.PaymentMethodId = orderLine.PaymentMethodId;
                 dbOrderLine.CouponId = orderLine.CouponId;
             }
-            if (orderLine.ProductType == ProductType.Order)
+            if (orderLine.ProductType == ProductType.Letter)
             {
                 var letter = ((Letter)orderLine.BaseProduct);
 

@@ -12,7 +12,7 @@ namespace LetterAmazer.Business.Services.Domain.Customers
         public string Phone { get; set; }
         public string Password { get; set; }
         public DateTime DateCreated { get; set; }
-        public DateTime DateModified { get; set; }
+        public DateTime? DateModified { get; set; }
 
         public DateTime? DateActivated { get; set; }
         public decimal Credit { get; set; }

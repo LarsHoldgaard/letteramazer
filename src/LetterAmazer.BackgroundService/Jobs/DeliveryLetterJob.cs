@@ -47,7 +47,7 @@ namespace LetterAmazer.BackgroundService.Jobs
                 {
                     foreach (var letter in relevantOrder.OrderLines)
                     {
-                        if (letter.ProductType == ProductType.Order)
+                        if (letter.ProductType == ProductType.Letter)
                         {
                             var baseProduct = (Letter) letter.BaseProduct;
                             if (baseProduct.LetterStatus == LetterStatus.Created)
