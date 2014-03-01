@@ -46,7 +46,8 @@ namespace LetterAmazer.Business.Services.Factory
                     Country = dbCustomer.CustomerInfo_Country.HasValue ? CountryService.GetCountryById(dbCustomer.CustomerInfo_Country.Value) : null,
                     AttPerson = dbCustomer.CustomerInfo_AttPerson
                 },
-                DateActivated = dbCustomer.DateActivated.HasValue ? dbCustomer.DateActivated.Value:(DateTime?)null
+                DateActivated = dbCustomer.DateActivated.HasValue ? dbCustomer.DateActivated.Value:(DateTime?)null,
+                RegisterKey = dbCustomer.RegistrationKey
             }; 
 
             return customer;

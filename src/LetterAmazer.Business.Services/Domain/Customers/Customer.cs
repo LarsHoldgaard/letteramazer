@@ -1,4 +1,5 @@
 ﻿using System;
+using Amazon.EC2.Model;
 using LetterAmazer.Business.Services.Domain.AddressInfos;
 
 namespace LetterAmazer.Business.Services.Domain.Customers
@@ -17,6 +18,8 @@ namespace LetterAmazer.Business.Services.Domain.Customers
         public decimal Credit { get; set; }
         public decimal CreditLimit { get; set; }
         public string ResetPasswordKey { get; set; }
+        public string RegisterKey { get; set; }
+
 
         public decimal CreditsLeft
         {

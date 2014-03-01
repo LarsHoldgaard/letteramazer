@@ -10,5 +10,7 @@ namespace LetterAmazer.Business.Services.Factory.Interfaces
         ICountryService CountryService { get; set; }
         Customer Create(DbCustomers dbCustomer);
         List<Customer> Create(List<DbCustomers> dbcustomers);
+
+
     }
 }

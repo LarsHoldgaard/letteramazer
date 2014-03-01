@@ -87,6 +87,7 @@
     <Compile Include="Domain\Common\S3Access.cs" />
     <Compile Include="Domain\Countries\Continent.cs" />
     <Compile Include="Domain\Customers\CustomerRole.cs" />
+    <Compile Include="Domain\Customers\Organisation.cs" />
     <Compile Include="Domain\DeliveryJobs\IDeliveryJobService.cs" />
     <Compile Include="Domain\FulfillmentPartners\PartnerJob.cs" />
     <Compile Include="Domain\Letters\LetterDetails.cs" />
@@ -100,6 +101,7 @@
     <Compile Include="Domain\Notifications\Mail\StringTemplateEmailFormatter.cs" />
     <Compile Include="Domain\OfficeProducts\IOfficeProductService.cs" />
     <Compile Include="Domain\OfficeProducts\OfficeProductSpecification.cs" />
+    <Compile Include="Domain\Customers\AddressList.cs" />
     <Compile Include="Domain\PriceUpdater\IPriceUpdater.cs" />
     <Compile Include="Domain\Pricing\PriceSpecification.cs" />
     <Compile Include="Domain\Pricing\Pricing.cs" />
@@ -108,15 +110,19 @@
     <Compile Include="Domain\ProductMatrix\ProductMatrixSpecification.cs" />
     <Compile Include="Domain\Products\Credit.cs" />
     <Compile Include="Factory\Interfaces\IOfficeProductFactory.cs" />
+    <Compile Include="Factory\Interfaces\IOrganisationFactory.cs" />
     <Compile Include="Factory\Interfaces\IProductMatrixFactory.cs" />
     <Compile Include="Factory\Interfaces\IPricingFactory.cs" />
     <Compile Include="Factory\IPaymentFactory.cs" />
     <Compile Include="Factory\OfficeProductFactory.cs" />
+    <Compile Include="Factory\OrganisationFactory.cs" />
     <Compile Include="Factory\PaymentFactory.cs" />
     <Compile Include="Factory\PricingFactory.cs" />
     <Compile Include="Factory\ProductMatrixFactory.cs" />
     <Compile Include="Services\DeliveryJobService.cs" />
+    <Compile Include="Domain\Customers\IOrganisationService.cs" />
     <Compile Include="Services\OfficeProductService.cs" />
+    <Compile Include="Services\OrganisationService.cs" />
     <Compile Include="Services\PriceUpdater.cs" />
     <Compile Include="Services\ProductMatrixService.cs" />
     <Compile Include="Services\SystemNetMailSender.cs" />

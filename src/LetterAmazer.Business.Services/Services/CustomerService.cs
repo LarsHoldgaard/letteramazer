@@ -71,6 +71,14 @@ namespace LetterAmazer.Business.Services.Services
             {
                 dbCustomers = dbCustomers.Where(c => c.ResetPasswordKey == specification.ResetPasswordKey);
             }
+            if (!string.IsNullOrEmpty(specification.RegistrationKey))
+            {
+                dbCustomers = dbCustomers.Where(c => c.RegistrationKey == specification.RegistrationKey);
+            }
+            if (specification.CustomerRole != null)
+            {
+                dbCustomers = dbCustomers.Where(c => c.OrganisationRole == (int)specification.CustomerRole);
+            }
 
             return customerFactory.Create(dbCustomers.OrderBy(c=>c.Id).Skip(specification.Skip).Take(specification.Take).ToList());
         }
@@ -182,8 +190,6 @@ namespace LetterAmazer.Business.Services.Services
             return GetCustomerById(customer.Id);
         }
 
-      
-
         public void Delete(Customer customer)
         {
             var dbcust = repository.DbCustomers.FirstOrDefault(c => c.Id == customer.Id);
@@ -191,6 +197,6 @@ namespace LetterAmazer.Business.Services.Services
             repository.SaveChanges();
         }
 
-      
+        
     }
 }

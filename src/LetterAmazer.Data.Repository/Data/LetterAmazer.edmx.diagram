@@ -36,6 +36,10 @@
         <AssociationConnector Association="LetterAmazer.FK_OrderItem_Order" ManuallyRouted="false" />
         <AssociationConnector Association="LetterAmazer.FK_ProductMatrixLines_ProductMatrix" ManuallyRouted="false" />
         <EntityTypeShape EntityType="LetterAmazer.DbPaymentMethods" Width="1.5" PointX="7.375" PointY="4.75" />
+        <EntityTypeShape EntityType="LetterAmazer.DbOrganisation" Width="2.25" PointX="7.5" PointY="21.625" />
+        <EntityTypeShape EntityType="LetterAmazer.DbOrganisationAddressList" Width="1.875" PointX="2.75" PointY="3.875" />
+        <AssociationConnector Association="LetterAmazer.FK_DbOrganisationAddressList_DbCountries" />
+        <AssociationConnector Association="LetterAmazer.FK_DbOrganisationAddressList_DbOrganisation" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -4,6 +4,7 @@ namespace LetterAmazer.Business.Services.Domain.Customers
 {
     public interface ICustomerService
     {
+        
         Customer Create(Customer customer);
         Customer Update(Customer customer);
         void Delete(Customer customer);
