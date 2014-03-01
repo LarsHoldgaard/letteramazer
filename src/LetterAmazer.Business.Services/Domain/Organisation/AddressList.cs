@@ -1,6 +1,6 @@
 ﻿using LetterAmazer.Business.Services.Domain.AddressInfos;
 
-namespace LetterAmazer.Business.Services.Domain.Customers
+namespace LetterAmazer.Business.Services.Domain.Organisation
 {
     public class AddressList
     {

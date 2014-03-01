@@ -47,7 +47,8 @@ namespace LetterAmazer.Business.Services.Factory
                     AttPerson = dbCustomer.CustomerInfo_AttPerson
                 },
                 DateActivated = dbCustomer.DateActivated.HasValue ? dbCustomer.DateActivated.Value:(DateTime?)null,
-                RegisterKey = dbCustomer.RegistrationKey
+                RegisterKey = dbCustomer.RegistrationKey,
+                OrganisationId = dbCustomer.OrganisationId.HasValue ? dbCustomer.OrganisationId.Value : 0
             }; 
 
             return customer;

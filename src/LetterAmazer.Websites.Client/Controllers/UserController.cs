@@ -295,17 +295,6 @@ namespace LetterAmazer.Websites.Client.Controllers
 
         #region Private helpers
 
-        private string GetUploadFileName(string uploadFilename)
-        {
-            return string.Format("{0}/{1}/{2}.pdf", DateTime.Now.Year, DateTime.Now.Month, Guid.NewGuid().ToString());
-        }
-
-        private string GetAbsoluteFile(string filename)
-        {
-            return string.Empty;
-            //return Server.MapPath(letterService.GetRelativeLetterStoragePath().TrimEnd('/') + "/" + filename);
-        }
-
         private OrderDetailViewModel getOrderDetailViewModel(Order order)
         {
             var letter =(Letter)order.OrderLines.FirstOrDefault(c => c.ProductType == ProductType.Order).BaseProduct;
@@ -316,8 +305,8 @@ namespace LetterAmazer.Websites.Client.Controllers
                 AddressInfo = letter.ToAddress,
                 DateCreated = order.DateCreated,
                 DateModified = order.DateModified.HasValue ? order.DateModified.Value : order.DateCreated,
-                DatePaid =DateTime.Now,// order.DatePaid.HasValue ? order.DatePaid.Value : null,
-                DateSent = DateTime.Now,//order.DateSent.HasValue ? order.DateSent.Value : null,
+                DatePaid =order.DatePaid.HasValue ? order.DatePaid.Value : (DateTime?)null,
+                DateSent = order.DateSent.HasValue ? order.DateSent.Value : (DateTime?)null,
                 OrderStatus = order.OrderStatus,
                 LetterDetails = letter.LetterDetails,
                 Id = letter.Id

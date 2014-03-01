@@ -19,6 +19,7 @@ namespace LetterAmazer.Business.Services.Domain.Customers
         public decimal CreditLimit { get; set; }
         public string ResetPasswordKey { get; set; }
         public string RegisterKey { get; set; }
+        public int OrganisationId { get; set; }
 
 
         public decimal CreditsLeft

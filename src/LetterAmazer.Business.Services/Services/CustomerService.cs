@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using LetterAmazer.Business.Services.Domain.Customers;
-using LetterAmazer.Business.Services.Domain.Notifications;
+using LetterAmazer.Business.Services.Domain.Mails;
 using LetterAmazer.Business.Services.Exceptions;
-using LetterAmazer.Business.Services.Factory;
 using LetterAmazer.Business.Services.Factory.Interfaces;
 using System;
 using System.Linq;
@@ -15,13 +14,14 @@ namespace LetterAmazer.Business.Services.Services
     {
         private ICustomerFactory customerFactory;
         private LetterAmazerEntities repository;
-        private INotificationService notificationService;
-        public CustomerService(LetterAmazerEntities repository, ICustomerFactory customerFactory, 
-            INotificationService notificationService)
+        private IMailService mailService;
+
+        public CustomerService(LetterAmazerEntities repository, ICustomerFactory customerFactory,
+            IMailService mailService)
         {
             this.repository = repository;
-            this.notificationService = notificationService;
             this.customerFactory = customerFactory;
+            this.mailService = mailService;
         }
 
         public Customer GetCustomerById(int customerId)
@@ -96,9 +96,8 @@ namespace LetterAmazer.Business.Services.Services
             }
 
             customer.ResetPasswordKey = Guid.NewGuid().ToString();
-            //string resetPasswordUrl = string.Format(this.resetPasswordUrl, System.Threading.Thread.CurrentThread.CurrentCulture.TwoLetterISOLanguageName, user.ResetPasswordKey);
             
-            notificationService.SendResetPasswordUrl(string.Empty, customer);
+            mailService.ResetPassword(customer);
 
             Update(customer);
         }
@@ -152,7 +151,7 @@ namespace LetterAmazer.Business.Services.Services
                 id = dbCustomer.Id;
             }
 
-
+            mailService.ConfirmUser(customer);
 
             return GetCustomerById(id);
         }

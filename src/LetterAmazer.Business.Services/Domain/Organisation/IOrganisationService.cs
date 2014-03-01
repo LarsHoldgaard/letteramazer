@@ -1,4 +1,4 @@
-﻿namespace LetterAmazer.Business.Services.Domain.Customers
+﻿namespace LetterAmazer.Business.Services.Domain.Organisation
 {
     public interface IOrganisationService
     {

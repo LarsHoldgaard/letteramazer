@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using LetterAmazer.Business.Services.Domain.AddressInfos;
 using LetterAmazer.Business.Services.Domain.Customers;
+using LetterAmazer.Business.Services.Domain.Mails;
 using LetterAmazer.Business.Services.Domain.Offices;
 using LetterAmazer.Business.Services.Domain.Products.ProductDetails;
 using LetterAmazer.Business.Utils.Helpers;
@@ -21,11 +22,14 @@ namespace LetterAmazer.Websites.Client.Controllers
        
         private ICustomerService customerService;
         private IOfficeService officeService;
+        private IMailService mailService;
 
-        public HomeController(ICustomerService customerService,IOfficeService officeService)
+        public HomeController(ICustomerService customerService,IOfficeService officeService,
+            IMailService mailService)
         {
             this.customerService = customerService;
             this.officeService = officeService;
+            this.mailService = mailService;
         }
 
         public ActionResult Index()
@@ -35,6 +39,11 @@ namespace LetterAmazer.Websites.Client.Controllers
 
         public ActionResult Faq()
         {
+            mailService.ConfirmUser(new Customer()
+            {
+                Email = "mcoroklo@gmail.com",
+                
+            });
             return View();
         }
 

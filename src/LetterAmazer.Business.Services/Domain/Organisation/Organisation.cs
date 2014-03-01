@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using LetterAmazer.Business.Services.Domain.AddressInfos;
 
-namespace LetterAmazer.Business.Services.Domain.Customers
+namespace LetterAmazer.Business.Services.Domain.Organisation
 {
     public class Organisation
     {
         public int Id { get; set; }
+        public string Name { get; set; }
         public AddressInfo Address { get; set; }
 
         public DateTime DateCreated { get; set; }

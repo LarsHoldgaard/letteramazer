@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LetterAmazer.Business.Services.Domain.Customers;
+using LetterAmazer.Business.Services.Domain.Organisation;
 using LetterAmazer.Data.Repository.Data;
 
 namespace LetterAmazer.Business.Services.Factory.Interfaces
@@ -11,7 +12,11 @@ namespace LetterAmazer.Business.Services.Factory.Interfaces
     public interface IOrganisationFactory
     {
 
-        Organisation CreateOrganisation(DbOrganisation organisation);
-        List<Organisation> CreateOrganisation(List<DbOrganisation> organisation);
+        Organisation Create(DbOrganisation organisation);
+        List<Organisation> Create(List<DbOrganisation> organisation);
+
+        AddressList CreateAddressList(DbOrganisationAddressList list);
+        List<AddressList> CreateAddressList(List<DbOrganisationAddressList> list);
+
     }
 }

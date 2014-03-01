@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LetterAmazer.Business.Services.Domain.AddressInfos;
 using LetterAmazer.Business.Services.Domain.Customers;
+using LetterAmazer.Business.Services.Domain.Organisation;
 using LetterAmazer.Business.Services.Factory.Interfaces;
 using LetterAmazer.Data.Repository.Data;
 
@@ -19,7 +20,7 @@ namespace LetterAmazer.Business.Services.Factory
             this.addressFactory = addressFactory;
         }
 
-        public Organisation CreateOrganisation(DbOrganisation organisation)
+        public Organisation Create(DbOrganisation organisation)
         {
             return new Organisation()
             {
@@ -35,9 +36,26 @@ namespace LetterAmazer.Business.Services.Factory
             };
         }
 
-        public List<Organisation> CreateOrganisation(List<DbOrganisation> organisation)
+        public List<Organisation> Create(List<DbOrganisation> organisation)
         {
-            return organisation.Select(CreateOrganisation).ToList();
+            return organisation.Select(Create).ToList();
+        }
+
+        public AddressList CreateAddressList(DbOrganisationAddressList list)
+        {
+            return new AddressList()
+            {
+                AddressInfo = addressFactory.Create(list.Address1, list.Address2, list.Zipcode,
+                    list.City, list.CountryId,string.Empty, string.Empty,
+                    string.Empty, string.Empty, string.Empty, list.State, string.Empty),
+                    Id = list.Id,
+                    SortIndex = list.OrderIndex
+            };
+        }
+
+        public List<AddressList> CreateAddressList(List<DbOrganisationAddressList> list)
+        {
+            return list.Select(CreateAddressList).ToList();
         }
     }
 }
