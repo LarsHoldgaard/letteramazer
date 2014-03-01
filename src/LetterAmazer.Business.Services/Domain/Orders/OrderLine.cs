@@ -8,12 +8,15 @@ namespace LetterAmazer.Business.Services.Domain.Orders
         public ProductType ProductType { get; set; }
         public BaseItem BaseProduct { get; set; }
 
-        public PaymentMethods PaymentMethod { get; set; }
+     
+        public int PaymentMethodId { get; set; }
+
         public int Quantity { get; set; }
 
         public decimal Cost { get; set; }
 
         public int CouponId { get; set; }
+
 
         public OrderLine()
         {

@@ -18,13 +18,11 @@ namespace LetterAmazer.Business.Services.Factory
     {
         private ICustomerService customerService;
         private ILetterService letterService;
-        private IPaymentService paymentService;
-
-        public OrderFactory(ICustomerService customerService, ILetterService letterService, IPaymentService paymentService)
+        
+        public OrderFactory(ICustomerService customerService, ILetterService letterService)
         {
             this.customerService = customerService;
             this.letterService = letterService;
-            this.paymentService = paymentService;
         }
 
         public Order Create(DbOrders dborder, List<DbOrderlines> dborderLines)
@@ -80,7 +78,7 @@ namespace LetterAmazer.Business.Services.Factory
             if (line.ProductType == ProductType.Payment && dborderlines.PaymentMethodId.HasValue &&
                 dborderlines.PaymentMethodId.Value > 0)
             {
-                line.PaymentMethod = paymentService.GetPaymentMethodById(dborderlines.PaymentMethodId.Value);
+                line.PaymentMethodId = dborderlines.PaymentMethodId.HasValue ? dborderlines.PaymentMethodId.Value : 0; //paymentService.GetPaymentMethodById(dborderlines.PaymentMethodId.Value);
                 line.CouponId = dborderlines.CouponId.HasValue ? dborderlines.CouponId.Value : 0;
             }
             return line;

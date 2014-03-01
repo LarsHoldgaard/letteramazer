@@ -19,111 +19,24 @@ namespace LetterAmazer.Business.Services.Services.PaymentMethods.Implementations
 {
     public class PaypalMethod : IPaymentMethod
     {
+        private IOrderService orderService;
+        private static readonly ILog logger = LogManager.GetLogger(typeof(PaypalMethod));
+
         private string serviceUrl;
         private string paypalIpn;
+        private string successUrl;
 
-        private IPriceService priceService;
-        public PaypalMethod(IPriceService priceService)
+        public PaypalMethod(IOrderService orderService)
         {
-            this.priceService = priceService;
             this.serviceUrl = ConfigurationManager.AppSettings.Get("LetterAmazer.Payment.PayPal.ServiceUrl");
             this.paypalIpn = ConfigurationManager.AppSettings.Get("LetterAmazer.Payment.PayPal.IpnHandler");
+            this.successUrl = ConfigurationManager.AppSettings.Get("LetterAmazer.Payment.Successful");
             
+            this.orderService = orderService;
         }
-
-        //private static readonly ILog logger = LogManager.GetLogger(typeof(PaypalMethod));
-        //public const string NAME = "Paypal";
-        //private string serviceUrl;
-        //private string paypalIPN;
-        //private string returnUrl;
-
-        //public PaypalMethod(string serviceUrl, string paypalIPN, string returnUrl)
-        //{
-        //    this.serviceUrl = serviceUrl;
-        //    this.paypalIPN = paypalIPN;
-        //    this.returnUrl = returnUrl;
-        //}
-
-        //public string Name
-        //{
-        //    get { return PaypalMethod.NAME; }
-        //}
-
-        //public string Process(OrderContext orderContext)
-        //{
-        //    Order order = orderContext.Order;
-        //    if (order == null || order.Letters == null || order.Letters.Count == 0) throw new BusinessException("Order can not be null!");
-
-        //    var addressInfo = order.Letters.ElementAt(0) == null ? orderContext.Order.Customer.CustomerInfo : order.Letters.ElementAt(0).ToAddress;
-        //    decimal volume = order.Price;
-        //    string firstName = addressInfo.FirstName;
-        //    string lastName = addressInfo.LastName;
-        //    string country = addressInfo.Country.CountryCode.ToString(); // TODO: Fix country
-        //    string postal = addressInfo.PostalCode;
-        //    string city = addressInfo.City;
-        //    string address = addressInfo.Address1;
-        //    var id = order.Id;
-
-        //    string paypalIPNUrl = string.Format(this.paypalIPN, orderContext.Order.OrderType.ToString());
-        //    var volumeForUsd = Math.Round(volume, 2).ToString().Replace(",", ".");
-        //    var url = string.Format("{0}first_name={1}&last_name={2}&item_name={3}&currency_code=USD&amount={4}&notify_url={5}&cmd=_xclick&country={6}&zip={7}&address1={8}&business={9}&city={10}&custom={11}&return={12}",
-        //        this.serviceUrl, firstName, lastName, order.OrderType == (int)OrderType.SendLetter ? "Send a single letter" : "Add Funds", 
-        //        volumeForUsd, paypalIPNUrl, country, postal, address, "mcoroklo@gmail.com", city, 
-        //        id, string.Format(this.returnUrl, orderContext.CurrentCulture));
-        //    return url;
-        //}
-
-        //public VerifyPaymentResult Verify(VerifyPaymentContext context)
-        //{
-        //    HttpWebRequest req = (HttpWebRequest)WebRequest.Create(this.serviceUrl);
-
-        //    //Set values for the request back
-        //    req.Method = "POST";
-        //    req.ContentType = "application/x-www-form-urlencoded";
-
-        //    string strRequest = context.Parameters;
-        //    strRequest += "&cmd=_notify-validate";
-        //    string strResponseCopy = strRequest;
-        //    req.ContentLength = strRequest.Length;
-
-        //    //Send the request to PayPal and get the response
-        //    StreamWriter streamOut = new StreamWriter(req.GetRequestStream(), System.Text.Encoding.ASCII);
-        //    streamOut.Write(strRequest);
-        //    streamOut.Close();
-        //    StreamReader streamIn = new StreamReader(req.GetResponse().GetResponseStream());
-        //    string strResponse = streamIn.ReadToEnd();
-        //    streamIn.Close();
-
-        //    if (strResponse == "VERIFIED")
-        //    {
-        //        NameValueCollection theseArgies = HttpUtility.ParseQueryString(strResponseCopy);
-        //        var id = theseArgies["custom"].ToString();
-        //        logger.InfoFormat("IPN Verified, ORDER ID: {0}", id);
-
-        //        int orderId = 0;
-        //        int.TryParse(id, out orderId);
-
-        //        if (orderId == 0)
-        //        {
-        //            throw new BusinessException(string.Format("Cannot verify payment, Invalid OrderId: {0}", id));
-        //        }
-
-        //        VerifyPaymentResult result = new VerifyPaymentResult();
-        //        result.OrderId = orderId;
-        //        result.Results = theseArgies;
-        //        return result;
-        //    }
-        //    else if (strResponse == "INVALID")
-        //    {
-        //        logger.InfoFormat("IPN Invlalid, Parameters: {0}", context.Parameters);
-        //    }
-
-        //    throw new BusinessException(string.Format("Cannot verify payment, Parameters: {0}", context.Parameters));
-        //}
-
         public string Process(Order order)
         {
-            var orderlinePayment = order.OrderLines.FirstOrDefault(c => c.ProductType == ProductType.Payment && c.PaymentMethod.Id == 1);
+            var orderlinePayment = order.OrderLines.FirstOrDefault(c => c.ProductType == ProductType.Payment && c.PaymentMethodId== 1);
             var orderlineProduct = order.OrderLines.FirstOrDefault(c => c.ProductType != ProductType.Payment);
             
             AddressInfo addressInfo = new AddressInfo();
@@ -149,7 +62,7 @@ namespace LetterAmazer.Business.Services.Services.PaymentMethods.Implementations
             string address = addressInfo.Address1;
             var id = order.Id;
             string itemName = orderlineProduct.ProductType == ProductType.Order ? "Send a letter" : "Letteramazer credits";
-            string paypalIPNUrl = string.Format(this.paypalIpn, order.ToString());
+            string paypalIPNUrl = string.Format(this.paypalIpn, order.Id.ToString());
             var volumeForUsd = Math.Round(volume, 2).ToString().Replace(",", ".");
             var url = string.Format("{0}first_name={1}&item_name={2}&currency_code={3}&amount={4}&notify_url={5}&cmd=_xclick&country={6}&zip={7}&address1={8}&business={9}&city={10}&custom={11}&return={12}",
                 this.serviceUrl, 
@@ -164,57 +77,24 @@ namespace LetterAmazer.Business.Services.Services.PaymentMethods.Implementations
                 "mcoroklo@gmail.com", 
                 city,
                 id,
-                "");
+                successUrl);
             
             return url;
         }
 
         public void VerifyPayment(Order order)
         {
-            HttpWebRequest req = (HttpWebRequest)WebRequest.Create(this.serviceUrl);
+            order.OrderStatus =OrderStatus.Paid;
 
-            //Set values for the request back
-            req.Method = "POST";
-            req.ContentType = "application/x-www-form-urlencoded";
-
-            string strRequest = String.Empty; //context.Parameters;
-            strRequest += "&cmd=_notify-validate";
-            string strResponseCopy = strRequest;
-            req.ContentLength = strRequest.Length;
-
-            //Send the request to PayPal and get the response
-            StreamWriter streamOut = new StreamWriter(req.GetRequestStream(), System.Text.Encoding.ASCII);
-            streamOut.Write(strRequest);
-            streamOut.Close();
-            StreamReader streamIn = new StreamReader(req.GetResponse().GetResponseStream());
-            string strResponse = streamIn.ReadToEnd();
-            streamIn.Close();
-
-            if (strResponse == "VERIFIED")
+            foreach (var orderLine in order.OrderLines)
             {
-                NameValueCollection theseArgies = HttpUtility.ParseQueryString(strResponseCopy);
-                var id = theseArgies["custom"].ToString();
-                
-                int orderId = 0;
-                int.TryParse(id, out orderId);
-
-                if (orderId == 0)
+                if (orderLine.ProductType == ProductType.Credit)
                 {
-                    throw new BusinessException(string.Format("Cannot verify payment, Invalid OrderId: {0}", id));
+                    // add credits to user
                 }
-
-                
-                //VerifyPaymentResult result = new VerifyPaymentResult();
-                //result.OrderId = orderId;
-                //result.Results = theseArgies;
-                //return result;
-            }
-            else if (strResponse == "INVALID")
-            {
-                //logger.InfoFormat("IPN Invlalid, Parameters: {0}", context.Parameters);
             }
 
-            //throw new BusinessException(string.Format("Cannot verify payment, Parameters: {0}", context.Parameters));
+            orderService.Update(order);
         }
 
         public void ChargeBacks(Order order)

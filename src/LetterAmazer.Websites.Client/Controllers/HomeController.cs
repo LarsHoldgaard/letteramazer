@@ -16,7 +16,9 @@ namespace LetterAmazer.Websites.Client.Controllers
 {
     public class HomeController : BaseController
     {
+
         private static readonly ILog logger = LogManager.GetLogger(typeof(HomeController));
+       
         private ICustomerService customerService;
         private IOfficeService officeService;
 

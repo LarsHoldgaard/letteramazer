@@ -1649,3 +1649,21 @@ The statement has been terminated.
    at LetterAmazer.Websites.Client.Controllers.HomeController.Login(LoginViewModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\HomeController.cs:line 79
 2014-02-26 22:15:45,425 [9] ERROR LetterAmazer.Websites.Client.Controllers.HomeController - System.NullReferenceException: Object reference not set to an instance of an object.
    at LetterAmazer.Websites.Client.Controllers.HomeController.Login(LoginViewModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\HomeController.cs:line 79
+2014-03-01 08:55:16,728 [6] INFO  LetterAmazer.Websites.Client.Controllers.HomeController - jeg har en flot penis
+2014-03-01 10:05:57,871 [8] INFO  LetterAmazer.Websites.Client.Controllers.CallbackController - IPN called
+2014-03-01 10:06:04,684 [8] INFO  LetterAmazer.Websites.Client.Controllers.CallbackController - IPN called
+2014-03-01 10:06:09,232 [8] INFO  LetterAmazer.Websites.Client.Controllers.CallbackController - Params length: 0
+2014-03-01 10:06:13,950 [8] INFO  LetterAmazer.Websites.Client.Controllers.CallbackController - Strrequest: &cmd=_notify-validate
+2014-03-01 10:06:18,238 [8] INFO  LetterAmazer.Websites.Client.Controllers.CallbackController - StrResponse: INVALID
+2014-03-01 10:06:18,238 [8] INFO  LetterAmazer.Websites.Client.Controllers.CallbackController - IPN Invlalid, Parameters: &cmd=_notify-validate
+2014-03-01 10:43:35,117 [9] DEBUG LetterAmazer.Websites.Client.Controllers.SingleLetterController - upload file key: 2014/3/85c73feb-5473-4e13-944e-26d4c5ce06c0.pdf
+2014-03-01 10:45:48,029 [7] INFO  LetterAmazer.Websites.Client.Controllers.CallbackController - IPN called
+2014-03-01 10:45:48,066 [7] INFO  LetterAmazer.Websites.Client.Controllers.CallbackController - IPN called
+2014-03-01 10:45:48,066 [7] INFO  LetterAmazer.Websites.Client.Controllers.CallbackController - Params length: 0
+2014-03-01 10:45:48,066 [7] INFO  LetterAmazer.Websites.Client.Controllers.CallbackController - Strrequest: &cmd=_notify-validate
+2014-03-01 10:45:49,618 [7] INFO  LetterAmazer.Websites.Client.Controllers.CallbackController - StrResponse: INVALID
+2014-03-01 10:45:49,619 [7] INFO  LetterAmazer.Websites.Client.Controllers.CallbackController - IPN Invlalid, Parameters: &cmd=_notify-validate
+2014-03-01 14:22:34,502 [10] DEBUG LetterAmazer.Websites.Client.Controllers.SingleLetterController - upload file key: 2014/3/8ab35fb9-a57c-4271-9c2c-263aea70de4e.pdf
+2014-03-01 14:24:35,696 [5] DEBUG LetterAmazer.Websites.Client.Controllers.SingleLetterController - upload file key: 2014/3/e0fccca8-80b6-4bf6-8e53-f5e9956e22bf.pdf
+2014-03-01 14:26:01,951 [6] DEBUG LetterAmazer.Websites.Client.Controllers.SingleLetterController - upload file key: 2014/3/6dd69bef-d6fd-4a6b-946d-f1f73a6e223b.pdf
+2014-03-01 14:28:20,135 [12] DEBUG LetterAmazer.Websites.Client.Controllers.SingleLetterController - upload file key: 2014/3/221536ec-e44e-4166-9701-7e10485d8131.pdf

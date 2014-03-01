@@ -13,6 +13,7 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using System.Web.Http.Dispatcher;
 
 namespace LetterAmazer.Websites.Client
 {
@@ -48,6 +49,10 @@ namespace LetterAmazer.Websites.Client
             FilterProviders.Providers.Add(provider);
 
             DependencyResolver.SetResolver(new WindsorDependencyResolver(ServiceFactory.Container));
+
+
+            // register WebApi controllers
+            GlobalConfiguration.Configuration.Services.Replace(typeof(IHttpControllerActivator), new WindsorHttpControllerActivator(ServiceFactory.Container));
         }
 
         private void registerCustom()

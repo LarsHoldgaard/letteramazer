@@ -2,6 +2,7 @@
 using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
+using System.Web.Http.Controllers;
 
 namespace LetterAmazer.Websites.Client.IoC
 {
@@ -26,6 +27,9 @@ namespace LetterAmazer.Websites.Client.IoC
 				Component.For<IControllerActivator>().ImplementedBy<WindsorControllerActivator>());
 
             container.Register(Classes.FromThisAssembly().BasedOn<IController>().Configure(c => c.LifestyleTransient()));
+            container.Register(Classes.FromThisAssembly().BasedOn<IHttpController>().Configure(c => c.LifestyleTransient()));
+
+
             //container.Register(AllTypes.FromAssemblyNamed("LevelFive.CleaningSystem.Modules.Contacts").BasedOn<IController>().Configure(c => c.LifeStyle.Transient));
             //container.Register(AllTypes.FromAssemblyNamed("LevelFive.CleaningSystem.Modules.Homepage").BasedOn<IController>().Configure(c => c.LifeStyle.Transient));
             //container.Register(AllTypes.FromAssemblyNamed("LevelFive.CleaningSystem.Modules.Newss").BasedOn<IController>().Configure(c => c.LifeStyle.Transient));

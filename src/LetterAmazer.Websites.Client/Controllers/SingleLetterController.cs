@@ -36,15 +36,15 @@ namespace LetterAmazer.Websites.Client.Controllers
             ICouponService couponService, ICountryService countryService, IPriceService priceService,
             ICustomerService customerService)
         {
-            //couponService.Create(new Coupon()
-            //{
-            //    CouponStatus = CouponStatus.New,
-            //    DateCreated = DateTime.Now,
-            //    ExpireDate = DateTime.Now.AddYears(2),
-            //    CouponValue = 3.0m,
-            //    CouponValueLeft = 3.0m,
-            //    Code = "ABCDEF"
-            //});
+            couponService.Create(new Coupon()
+            {
+                CouponStatus = CouponStatus.New,
+                DateCreated = DateTime.Now,
+                ExpireDate = DateTime.Now.AddYears(2),
+                CouponValue = 3.0m,
+                CouponValueLeft = 4.799m,
+                Code = "ABCEFGHH"
+            });
 
             this.orderService = orderService;
             this.paymentService = paymentService;
@@ -177,7 +177,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                     {
                         ProductType = ProductType.Payment,
                         Cost = rest,
-                        PaymentMethod = paymentService.GetPaymentMethodById(1) // PayPal
+                        PaymentMethodId = 1 // PayPal
                     });
                 }
 
@@ -221,7 +221,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                 {
                     ProductType = ProductType.Payment,
                     Cost = chargeCoupon,
-                    PaymentMethod = paymentService.GetPaymentMethodById(3), // coupon                        
+                    PaymentMethodId = 3, // coupon                        
                     CouponId = coupon.Id
                 });
 
@@ -388,52 +388,7 @@ namespace LetterAmazer.Websites.Client.Controllers
             return File(filename, "application/pdf", Path.GetFileName(filename));
         }
 
-        public JsonResult PaypalIpn(string id)
-        {
-            try
-            {
-                logger.Info("IPN called");
-                byte[] param = null; // try three time
-                bool readSuccess = false;
-                for (int i = 0; i < 3; i++)
-                {
-                    if (readSuccess == true) break;
-                    try
-                    {
-                        param = Request.BinaryRead(Request.ContentLength);
-                        readSuccess = true;
-                    }
-                    catch (Exception ex)
-                    {
-                        logger.Error(ex);
-                        logger.DebugFormat("try {0}", i);
-                    }
-                }
-                if (readSuccess == false)
-                {
-                    logger.Debug("Can not read data from paypal");
-                    return Json(new { status = "error", message = "Can not read data from paypal" }, JsonRequestBehavior.AllowGet);
-                }
-
-                ////TODO We should mark the order should call to paypal again!
-                //string strRequest = Encoding.ASCII.GetString(param);
-                //VerifyPaymentResult result = paymentService.Get(PaypalMethod.NAME).Verify(new VerifyPaymentContext() { Parameters = strRequest });
-
-                //orderService.MarkOrderIsPaid(result.OrderId);
-                //if (id.ToLower() == OrderType.AddFunds.ToString().ToLower())
-                //{
-                //    orderService.AddFundsForAccount(result.OrderId);
-                //}
-
-                return Json(new { status = "success" }, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
-            {
-                logger.Error(ex);
-                return Json(new { status = "error" }, JsonRequestBehavior.AllowGet);
-            }
-        }
-
+      
         public ActionResult Confirmation()
         {
             return View();

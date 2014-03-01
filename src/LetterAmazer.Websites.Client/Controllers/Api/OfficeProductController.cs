@@ -48,7 +48,10 @@ namespace LetterAmazer.Websites.Client.Controllers.Api
         [System.Web.Http.HttpGet]
         public ActionResult Gettest()
         {
-            return new ContentResult() {Content ="hej"};
+            return new ContentResult();
+           //return new XmlResult( new OfficeProductViewModel() {
+           // Status="ABEKAT"
+           //});
         }
     }
 }

@@ -22,7 +22,7 @@ namespace LetterAmazer.Business.Services.Services.PaymentMethods.Implementations
 
         public string Process(Order order)
         {
-            var orderLine = order.OrderLines.FirstOrDefault(c => c.ProductType == ProductType.Payment && c.PaymentMethod.Id == 3);
+            var orderLine = order.OrderLines.FirstOrDefault(c => c.ProductType == ProductType.Payment && c.PaymentMethodId == 3);
 
             if (orderLine == null)
             {

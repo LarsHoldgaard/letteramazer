@@ -167,7 +167,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                     {
                         ProductType = ProductType.Payment,
                         Cost = rest,
-                        PaymentMethod = paymentService.GetPaymentMethodById(2) // Paypal
+                        PaymentMethodId = 2 // Paypal
                     });
                 }
 
@@ -273,7 +273,7 @@ namespace LetterAmazer.Websites.Client.Controllers
 
             var paymentLine = new OrderLine()
             {
-                PaymentMethod = selectedPaymentMethod,
+                PaymentMethodId = selectedPaymentMethod.Id,
                 ProductType = ProductType.Payment,
                 Cost = model.PurchaseAmount
             };
@@ -399,7 +399,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                 {
                     ProductType = ProductType.Payment,
                     Cost = chargeCoupon,
-                    PaymentMethod = paymentService.GetPaymentMethodById(3), // coupon                        
+                    PaymentMethodId =3, // coupon                        
                     CouponId = coupon.Id
                 });
 

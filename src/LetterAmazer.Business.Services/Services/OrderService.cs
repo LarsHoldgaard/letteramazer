@@ -213,9 +213,9 @@ namespace LetterAmazer.Business.Services.Services
             dbOrderLine.ItemType = (int)orderLine.ProductType;
             dbOrderLine.Cost = orderLine.Cost; 
 
-            if (orderLine.ProductType == ProductType.Payment && orderLine.PaymentMethod != null)
+            if (orderLine.ProductType == ProductType.Payment && orderLine.PaymentMethodId >0)
             {
-                dbOrderLine.PaymentMethodId = orderLine.PaymentMethod.Id;
+                dbOrderLine.PaymentMethodId = orderLine.PaymentMethodId;
                 dbOrderLine.CouponId = orderLine.CouponId;
             }
             if (orderLine.ProductType == ProductType.Order)

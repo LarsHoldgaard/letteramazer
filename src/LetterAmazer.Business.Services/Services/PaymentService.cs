@@ -24,14 +24,16 @@ namespace LetterAmazer.Business.Services.Services
         private IPriceService priceService;
         private ICouponService couponService;
         private ICustomerService customerService;
+        private IOrderService orderService;
         public PaymentService(LetterAmazerEntities repository,IPriceService priceService,IPaymentFactory paymentFactory, 
-            ICouponService couponService, ICustomerService customerService)
+            ICouponService couponService, ICustomerService customerService, IOrderService orderService)
         {
             this.priceService = priceService;
             this.repository = repository;
             this.paymentFactory = paymentFactory;
             this.couponService = couponService;
             this.customerService = customerService;
+            this.orderService = orderService;
         }
 
         public string Process(Order order)
@@ -39,11 +41,12 @@ namespace LetterAmazer.Business.Services.Services
             var paymentMethods = order.OrderLines.Where(c => c.ProductType == ProductType.Payment);
             var url = string.Empty;
 
-            foreach (var paymentMethod in paymentMethods)
+            foreach (var orderLine in paymentMethods)
             {
-                if (paymentMethod.PaymentMethod != null && !string.IsNullOrEmpty(paymentMethod.PaymentMethod.Name))
+                var paymentMethod = GetPaymentMethodById(orderLine.PaymentMethodId);
+                if (paymentMethod != null && !string.IsNullOrEmpty(paymentMethod.Name))
                 {
-                    var pm = getPaymentMethod(paymentMethod.PaymentMethod.Name);
+                    var pm = getPaymentMethod(paymentMethod.Name);
                     url = pm.Process(order);
                 }    
             }
@@ -105,7 +108,7 @@ namespace LetterAmazer.Business.Services.Services
             }
             else
             {
-                return new PaypalMethod(priceService);
+                return new PaypalMethod(orderService);
             }
         }
 
