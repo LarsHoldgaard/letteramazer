@@ -2,8 +2,8 @@
 {
     public enum ProductMatrixPriceType
     {
-        FirstPage=0,
-        PrPage=1,
-        Span=2
+        PrPage=0,
+        Span=1
     }
 }
+ 

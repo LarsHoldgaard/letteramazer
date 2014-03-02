@@ -42,6 +42,7 @@ namespace LetterAmazer.Data.Repository.Data
         public string Population { get; set; }
         public Nullable<bool> InsideEu { get; set; }
         public Nullable<int> ContinentId { get; set; }
+        public Nullable<decimal> VatPercentage { get; set; }
     
         public virtual ICollection<DbCustomers> DbCustomers { get; set; }
         public virtual ICollection<DbOrganisationAddressList> DbOrganisationAddressList { get; set; }

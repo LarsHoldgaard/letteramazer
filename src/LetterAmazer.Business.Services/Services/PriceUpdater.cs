@@ -11,7 +11,7 @@ using LetterAmazer.Business.Services.Utils;
 
 namespace LetterAmazer.Business.Services.Services
 {
-    
+
     public class PriceUpdater : IPriceUpdater
     {
         private IPriceService priceService;
@@ -28,60 +28,65 @@ namespace LetterAmazer.Business.Services.Services
 
         public void Execute()
         {
-            var products = officeProductService.GetOfficeProductBySpecification(new OfficeProductSpecification()
-            {
-                Take = int.MaxValue
-            });
-
-            var matrices = productMatrixService.GetProductMatrixBySpecification(new ProductMatrixSpecification()
+            var total_products = officeProductService.GetOfficeProductBySpecification(new OfficeProductSpecification()
             {
                 Take = int.MaxValue,
                 ProductMatrixReferenceType = ProductMatrixReferenceType.Contractor
             });
+            var groupedProducts = officeProductService.GroupByUnique(total_products);
 
-            foreach (var officeProduct in products)
+            var total_matrices = productMatrixService.GetProductMatrixBySpecification(new ProductMatrixLineSpecification()
             {
-                var matrix =
-                    matrices.Where(
-                        c => c.ValueId == officeProduct.Id && c.ReferenceType == ProductMatrixReferenceType.Contractor);
+                Take = int.MaxValue,
+            });
 
-                
-                matrix = Helpers.RemoveDuplicatePriceTypesFromMatrix(matrix);
-                UpdateFromProduct(officeProduct, matrix);
+            foreach (var groupedProduct in groupedProducts)
+            {
+                StoreCheapestOfficeProductInGroup(groupedProduct, total_matrices);
             }
         }
 
+        #region Private helpers
 
-
-        private void UpdateFromProduct(OfficeProduct officeProduct, IEnumerable<ProductMatrix> productMatrix)
+        private void StoreCheapestOfficeProductInGroup(KeyValuePair<int, List<OfficeProduct>> groupedProduct, IEnumerable<ProductMatrixLine> total_matrices)
         {
-            foreach (var productMatrices in productMatrix)
-            {
-                var matrix = new ProductMatrix()
-                {
-                    PriceType = productMatrices.PriceType,
-                    ReferenceType = ProductMatrixReferenceType.Sales,
-                    ValueId = officeProduct.Id,
-                    ProductLines = new List<ProductMatrixLine>(),
-                    SpanLower = productMatrices.SpanLower,
-                    SpanUpper = productMatrices.SpanUpper
-                };
+            decimal cheapest = Decimal.MaxValue;
+            int lowestOfficeProductId = 0;
 
-                foreach (var orderLine in productMatrices.ProductLines)
+            foreach (var officeProduct in groupedProduct.Value)
+            {
+
+                var matrices = total_matrices.Where(c => c.OfficeProductId == officeProduct.Id);
+
+                // TODO: Must fix more than 1
+                var price = priceService.GetPriceByMatrixLines(matrices, 1);
+
+                if (cheapest > price.PriceExVat)
                 {
-                    matrix.ProductLines.Add(new ProductMatrixLine()
-                    {
-                        BaseCost = CalculateSalesPrice(orderLine.BaseCost, orderLine.LineType),
-                        LineType = orderLine.LineType,
-                        Title = orderLine.Title
-                    });
+                    lowestOfficeProductId = officeProduct.Id;
+                    cheapest = price.PriceExVat;
                 }
-                //productMatrixService.Create(matrix);
-                priceService.Create(new Pricing()
-                {
-                    DateCreated = DateTime.Now,
-                    OfficeProductId = officeProduct.Id
-                });
+
+            }
+
+            SaveOfficeProduct(lowestOfficeProductId);
+        }
+
+        private void SaveOfficeProduct(int lowestOfficeProductId)
+        {
+            var cheapest_officeProduct = officeProductService.GetOfficeProductById(lowestOfficeProductId);
+            cheapest_officeProduct.ReferenceType = ProductMatrixReferenceType.Sales;
+
+            foreach (var productMatrixLine in cheapest_officeProduct.ProductMatrixLines)
+            {
+                productMatrixLine.BaseCost = CalculateSalesPrice(productMatrixLine.BaseCost,
+                    productMatrixLine.LineType);
+            }
+            officeProductService.Create(cheapest_officeProduct);
+            foreach (var productMatrixLine in cheapest_officeProduct.ProductMatrixLines)
+            {
+                productMatrixLine.OfficeProductId = cheapest_officeProduct.Id;
+                productMatrixService.Create(productMatrixLine);
             }
         }
 
@@ -94,5 +99,7 @@ namespace LetterAmazer.Business.Services.Services
             decimal adderPercentage = 20.0m / 100.0m;
             return value * (1 + adderPercentage);
         }
+
+        #endregion
     }
 }

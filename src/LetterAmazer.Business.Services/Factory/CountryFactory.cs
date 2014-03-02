@@ -25,7 +25,7 @@ namespace LetterAmazer.Business.Services.Factory
                 Population = country.Population,
                 Fipscode = country.FipsCode,
                 Id = country.Id,
-                
+                VatPercentage = country.VatPercentage
             };
         }
 

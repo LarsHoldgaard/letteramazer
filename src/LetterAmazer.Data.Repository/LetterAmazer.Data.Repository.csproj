@@ -66,9 +66,6 @@
     <Compile Include="Data\DbLetters.cs">
       <DependentUpon>LetterAmazer.tt</DependentUpon>
     </Compile>
-    <Compile Include="Data\DbOfficeProductDetails.cs">
-      <DependentUpon>LetterAmazer.tt</DependentUpon>
-    </Compile>
     <Compile Include="Data\DbOfficeProducts.cs">
       <DependentUpon>LetterAmazer.tt</DependentUpon>
     </Compile>
@@ -88,9 +85,6 @@
       <DependentUpon>LetterAmazer.tt</DependentUpon>
     </Compile>
     <Compile Include="Data\DbPaymentMethods.cs">
-      <DependentUpon>LetterAmazer.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Data\DbProductMatrix.cs">
       <DependentUpon>LetterAmazer.tt</DependentUpon>
     </Compile>
     <Compile Include="Data\DbProductMatrixLines.cs">

@@ -17,7 +17,6 @@ namespace LetterAmazer.Data.Repository.Data
         public DbOfficeProducts()
         {
             this.DbLetters = new HashSet<DbLetters>();
-            this.DbProductMatrix = new HashSet<DbProductMatrix>();
         }
     
         public int Id { get; set; }
@@ -28,10 +27,13 @@ namespace LetterAmazer.Data.Repository.Data
         public Nullable<int> ZipId { get; set; }
         public int ProductDetailsId { get; set; }
         public int ReferenceType { get; set; }
+        public int LetterColor { get; set; }
+        public int LetterPaperWeight { get; set; }
+        public int LetterProcessing { get; set; }
+        public int LetterSize { get; set; }
+        public int LetterType { get; set; }
     
         public virtual ICollection<DbLetters> DbLetters { get; set; }
-        public virtual DbOfficeProductDetails DbOfficeProductDetails { get; set; }
         public virtual DbOffices DbOffices { get; set; }
-        public virtual ICollection<DbProductMatrix> DbProductMatrix { get; set; }
     }
 }

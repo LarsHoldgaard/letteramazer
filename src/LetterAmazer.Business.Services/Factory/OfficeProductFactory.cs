@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LetterAmazer.Business.Services.Domain.Letters;
 using LetterAmazer.Business.Services.Domain.OfficeProducts;
+using LetterAmazer.Business.Services.Domain.Pricing;
 using LetterAmazer.Business.Services.Domain.ProductMatrix;
 using LetterAmazer.Business.Services.Domain.Products.ProductDetails;
 using LetterAmazer.Business.Services.Factory.Interfaces;
@@ -29,24 +30,25 @@ namespace LetterAmazer.Business.Services.Factory
             {
                 LetterDetails = new LetterDetails()
                 {
-                    LetterColor = (LetterColor)dbproducts.DbOfficeProductDetails.LetterColor,
-                    LetterPaperWeight = (LetterPaperWeight)dbproducts.DbOfficeProductDetails.LetterPaperWeight,
-                    LetterProcessing = (LetterProcessing)dbproducts.DbOfficeProductDetails.LetterProcessing,
-                    LetterSize = (LetterSize)dbproducts.DbOfficeProductDetails.LetterSize,
-                    LetterType = (LetterType)dbproducts.DbOfficeProductDetails.LetterType,
+                    LetterColor = (LetterColor)dbproducts.LetterColor,
+                    LetterPaperWeight = (LetterPaperWeight)dbproducts.LetterPaperWeight,
+                    LetterProcessing = (LetterProcessing)dbproducts.LetterProcessing,
+                    LetterSize = (LetterSize)dbproducts.LetterSize,
+                    LetterType = (LetterType)dbproducts.LetterType,
                 },
                 Id = dbproducts.Id,
                 ContinentId = dbproducts.ContinentId.HasValue ? dbproducts.ContinentId.Value : 0,
                 CountryId = dbproducts.CountryId.HasValue ? dbproducts.CountryId.Value : 0,
                 ProductScope = (ProductScope)dbproducts.ScopeType,
                 ZipId = dbproducts.ZipId.HasValue ? dbproducts.ZipId.Value : 0,
-                OfficeId = dbproducts.OfficeId
+                OfficeId = dbproducts.OfficeId,
+                ReferenceType = (ProductMatrixReferenceType)dbproducts.ReferenceType
             };
-            officeProduct.ProductMatrices = productMatrixService.GetProductMatrixBySpecification(
-                new ProductMatrixSpecification()
+
+            officeProduct.ProductMatrixLines = productMatrixService.GetProductMatrixBySpecification(
+                new ProductMatrixLineSpecification()
                 {
-                    OfficeProductId = dbproducts.Id,
-                    ProductMatrixReferenceType = ProductMatrixReferenceType.Contractor
+                    OfficeProductId = dbproducts.Id
                 });
 
             return officeProduct;

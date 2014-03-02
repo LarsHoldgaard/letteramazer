@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="LetterAmazer.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="LetterAmazer.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="DbContinents">
           <Key>
             <PropertyRef Name="Id" />
@@ -36,6 +36,7 @@
           <Property Name="Population" Type="varchar" MaxLength="250" />
           <Property Name="InsideEu" Type="bit" />
           <Property Name="ContinentId" Type="int" />
+          <Property Name="VatPercentage" Type="decimal" Precision="18" Scale="2" />
         </EntityType>
         <EntityType Name="DbCoupons">
           <Key>
@@ -134,17 +135,6 @@
           <Property Name="LetterSize" Type="int" Nullable="false" />
           <Property Name="LetterType" Type="int" Nullable="false" />
         </EntityType>
-        <EntityType Name="DbOfficeProductDetails">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="LetterColor" Type="int" Nullable="false" />
-          <Property Name="LetterPaperWeight" Type="int" Nullable="false" />
-          <Property Name="LetterProcessing" Type="int" Nullable="false" />
-          <Property Name="LetterSize" Type="int" Nullable="false" />
-          <Property Name="LetterType" Type="int" Nullable="false" />
-        </EntityType>
         <EntityType Name="DbOfficeProducts">
           <Key>
             <PropertyRef Name="Id" />
@@ -157,6 +147,11 @@
           <Property Name="ZipId" Type="int" />
           <Property Name="ProductDetailsId" Type="int" Nullable="false" />
           <Property Name="ReferenceType" Type="int" Nullable="false" />
+          <Property Name="LetterColor" Type="int" Nullable="false" />
+          <Property Name="LetterPaperWeight" Type="int" Nullable="false" />
+          <Property Name="LetterProcessing" Type="int" Nullable="false" />
+          <Property Name="LetterSize" Type="int" Nullable="false" />
+          <Property Name="LetterType" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="DbOffices">
           <Key>
@@ -245,15 +240,6 @@
           <Property Name="IsVisible" Type="bit" Nullable="false" />
           <Property Name="RequiresLogin" Type="bit" Nullable="false" />
         </EntityType>
-        <EntityType Name="DbProductMatrix">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Span_lower" Type="int" Nullable="false" />
-          <Property Name="Span_upper" Type="int" Nullable="false" />
-          <Property Name="OfficeProductId" Type="int" Nullable="false" />
-        </EntityType>
         <EntityType Name="DbProductMatrixLines">
           <Key>
             <PropertyRef Name="Id" />
@@ -262,8 +248,10 @@
           <Property Name="Title" Type="varchar" MaxLength="250" Nullable="false" />
           <Property Name="LineType" Type="int" Nullable="false" />
           <Property Name="BaseCost" Type="decimal" Precision="18" Scale="5" Nullable="false" />
-          <Property Name="ProductMatrixId" Type="int" Nullable="false" />
-          <Property Name="PriceType" Type="int" />
+          <Property Name="PriceType" Type="int" Nullable="false" />
+          <Property Name="Span_lower" Type="int" Nullable="false" />
+          <Property Name="Span_upper" Type="int" Nullable="false" />
+          <Property Name="OfficeProductId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="DbShops">
           <Key>
@@ -306,18 +294,6 @@
             </Principal>
             <Dependent Role="DbOrganisationAddressList">
               <PropertyRef Name="OrganisationId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_DbProductMatrix_DbOfficeProducts">
-          <End Role="DbOfficeProducts" Type="Self.DbOfficeProducts" Multiplicity="1" />
-          <End Role="DbProductMatrix" Type="Self.DbProductMatrix" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="DbOfficeProducts">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="DbProductMatrix">
-              <PropertyRef Name="OfficeProductId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -378,18 +354,6 @@
             </Principal>
             <Dependent Role="DbLetters">
               <PropertyRef Name="ToAddress_Country" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_OfficeProducts_OfficeProductDetails">
-          <End Role="DbOfficeProductDetails" Type="Self.DbOfficeProductDetails" Multiplicity="1" />
-          <End Role="DbOfficeProducts" Type="Self.DbOfficeProducts" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="DbOfficeProductDetails">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="DbOfficeProducts">
-              <PropertyRef Name="ProductDetailsId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -465,18 +429,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_ProductMatrixLines_ProductMatrix">
-          <End Role="DbProductMatrix" Type="Self.DbProductMatrix" Multiplicity="1" />
-          <End Role="DbProductMatrixLines" Type="Self.DbProductMatrixLines" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="DbProductMatrix">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="DbProductMatrixLines">
-              <PropertyRef Name="ProductMatrixId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Shops_Countries">
           <End Role="DbCountries" Type="Self.DbCountries" Multiplicity="1" />
           <End Role="DbShops" Type="Self.DbShops" Multiplicity="0..1" />
@@ -496,7 +448,6 @@
           <EntitySet Name="DbCustomers" EntityType="Self.DbCustomers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DbFulfillmentPartners" EntityType="Self.DbFulfillmentPartners" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DbLetters" EntityType="Self.DbLetters" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="DbOfficeProductDetails" EntityType="Self.DbOfficeProductDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DbOfficeProducts" EntityType="Self.DbOfficeProducts" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DbOffices" EntityType="Self.DbOffices" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DbOrderlines" EntityType="Self.DbOrderlines" Schema="dbo" store:Type="Tables" />
@@ -504,7 +455,6 @@
           <EntitySet Name="DbOrganisation" EntityType="Self.DbOrganisation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DbOrganisationAddressList" EntityType="Self.DbOrganisationAddressList" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DbPaymentMethods" EntityType="Self.DbPaymentMethods" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="DbProductMatrix" EntityType="Self.DbProductMatrix" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DbProductMatrixLines" EntityType="Self.DbProductMatrixLines" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DbShops" EntityType="Self.DbShops" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Customers_Countries" Association="Self.FK_Customers_Countries">
@@ -518,10 +468,6 @@
           <AssociationSet Name="FK_DbOrganisationAddressList_DbOrganisation" Association="Self.FK_DbOrganisationAddressList_DbOrganisation">
             <End Role="DbOrganisation" EntitySet="DbOrganisation" />
             <End Role="DbOrganisationAddressList" EntitySet="DbOrganisationAddressList" />
-          </AssociationSet>
-          <AssociationSet Name="FK_DbProductMatrix_DbOfficeProducts" Association="Self.FK_DbProductMatrix_DbOfficeProducts">
-            <End Role="DbOfficeProducts" EntitySet="DbOfficeProducts" />
-            <End Role="DbProductMatrix" EntitySet="DbProductMatrix" />
           </AssociationSet>
           <AssociationSet Name="FK_FulfillmentPartners_Shops" Association="Self.FK_FulfillmentPartners_Shops">
             <End Role="DbShops" EntitySet="DbShops" />
@@ -542,10 +488,6 @@
           <AssociationSet Name="FK_Letters_ToCountry" Association="Self.FK_Letters_ToCountry">
             <End Role="DbCountries" EntitySet="DbCountries" />
             <End Role="DbLetters" EntitySet="DbLetters" />
-          </AssociationSet>
-          <AssociationSet Name="FK_OfficeProducts_OfficeProductDetails" Association="Self.FK_OfficeProducts_OfficeProductDetails">
-            <End Role="DbOfficeProductDetails" EntitySet="DbOfficeProductDetails" />
-            <End Role="DbOfficeProducts" EntitySet="DbOfficeProducts" />
           </AssociationSet>
           <AssociationSet Name="FK_OfficeProducts_Offices" Association="Self.FK_OfficeProducts_Offices">
             <End Role="DbOffices" EntitySet="DbOffices" />
@@ -571,16 +513,13 @@
             <End Role="DbOrders" EntitySet="DbOrders" />
             <End Role="DbOrderlines" EntitySet="DbOrderlines" />
           </AssociationSet>
-          <AssociationSet Name="FK_ProductMatrixLines_ProductMatrix" Association="Self.FK_ProductMatrixLines_ProductMatrix">
-            <End Role="DbProductMatrix" EntitySet="DbProductMatrix" />
-            <End Role="DbProductMatrixLines" EntitySet="DbProductMatrixLines" />
-          </AssociationSet>
           <AssociationSet Name="FK_Shops_Countries" Association="Self.FK_Shops_Countries">
             <End Role="DbCountries" EntitySet="DbCountries" />
             <End Role="DbShops" EntitySet="DbShops" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="LetterAmazer" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -615,6 +554,7 @@
           <Property Name="Population" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
           <Property Name="InsideEu" Type="Boolean" />
           <Property Name="ContinentId" Type="Int32" />
+          <Property Name="VatPercentage" Type="Decimal" Precision="18" Scale="2" />
           <NavigationProperty Name="DbCustomers" Relationship="Self.FK_Customers_Countries" FromRole="DbCountries" ToRole="DbCustomers" />
           <NavigationProperty Name="DbOrganisationAddressList" Relationship="Self.FK_DbOrganisationAddressList_DbCountries" FromRole="DbCountries" ToRole="DbOrganisationAddressList" />
           <NavigationProperty Name="DbLetters" Relationship="Self.FK_Letters_FromCountry" FromRole="DbCountries" ToRole="DbLetters" />
@@ -729,18 +669,6 @@
           <NavigationProperty Name="DbOfficeProducts" Relationship="Self.FK_Letters_OfficeProducts" FromRole="DbLetters" ToRole="DbOfficeProducts" />
           <NavigationProperty Name="DbOrderlines" Relationship="Self.FK_OrderItem_Letter" FromRole="DbLetters" ToRole="DbOrderlines" />
         </EntityType>
-        <EntityType Name="DbOfficeProductDetails">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="LetterColor" Type="Int32" Nullable="false" />
-          <Property Name="LetterPaperWeight" Type="Int32" Nullable="false" />
-          <Property Name="LetterProcessing" Type="Int32" Nullable="false" />
-          <Property Name="LetterSize" Type="Int32" Nullable="false" />
-          <Property Name="LetterType" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="DbOfficeProducts" Relationship="Self.FK_OfficeProducts_OfficeProductDetails" FromRole="DbOfficeProductDetails" ToRole="DbOfficeProducts" />
-        </EntityType>
         <EntityType Name="DbOfficeProducts">
           <Key>
             <PropertyRef Name="Id" />
@@ -753,10 +681,13 @@
           <Property Name="ZipId" Type="Int32" />
           <Property Name="ProductDetailsId" Type="Int32" Nullable="false" />
           <Property Name="ReferenceType" Type="Int32" Nullable="false" />
+          <Property Name="LetterColor" Type="Int32" Nullable="false" />
+          <Property Name="LetterPaperWeight" Type="Int32" Nullable="false" />
+          <Property Name="LetterProcessing" Type="Int32" Nullable="false" />
+          <Property Name="LetterSize" Type="Int32" Nullable="false" />
+          <Property Name="LetterType" Type="Int32" Nullable="false" />
           <NavigationProperty Name="DbLetters" Relationship="Self.FK_Letters_OfficeProducts" FromRole="DbOfficeProducts" ToRole="DbLetters" />
-          <NavigationProperty Name="DbOfficeProductDetails" Relationship="Self.FK_OfficeProducts_OfficeProductDetails" FromRole="DbOfficeProducts" ToRole="DbOfficeProductDetails" />
           <NavigationProperty Name="DbOffices" Relationship="Self.FK_OfficeProducts_Offices" FromRole="DbOfficeProducts" ToRole="DbOffices" />
-          <NavigationProperty Name="DbProductMatrix" Relationship="LetterAmazer.FK_DbProductMatrix_DbOfficeProducts" FromRole="DbOfficeProducts" ToRole="DbProductMatrix" />
         </EntityType>
         <EntityType Name="DbOffices">
           <Key>
@@ -855,17 +786,6 @@
           <Property Name="IsVisible" Type="Boolean" Nullable="false" />
           <Property Name="RequiresLogin" Type="Boolean" Nullable="false" />
         </EntityType>
-        <EntityType Name="DbProductMatrix">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Span_lower" Type="Int32" Nullable="false" />
-          <Property Name="Span_upper" Type="Int32" Nullable="false" />
-          <Property Name="OfficeProductId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="DbProductMatrixLines" Relationship="Self.FK_ProductMatrixLines_ProductMatrix" FromRole="DbProductMatrix" ToRole="DbProductMatrixLines" />
-          <NavigationProperty Name="DbOfficeProducts" Relationship="LetterAmazer.FK_DbProductMatrix_DbOfficeProducts" FromRole="DbProductMatrix" ToRole="DbOfficeProducts" />
-        </EntityType>
         <EntityType Name="DbProductMatrixLines">
           <Key>
             <PropertyRef Name="Id" />
@@ -874,9 +794,10 @@
           <Property Name="Title" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="LineType" Type="Int32" Nullable="false" />
           <Property Name="BaseCost" Type="Decimal" Precision="18" Scale="5" Nullable="false" />
-          <Property Name="ProductMatrixId" Type="Int32" Nullable="false" />
-          <Property Name="PriceType" Type="Int32" />
-          <NavigationProperty Name="DbProductMatrix" Relationship="Self.FK_ProductMatrixLines_ProductMatrix" FromRole="DbProductMatrixLines" ToRole="DbProductMatrix" />
+          <Property Name="PriceType" Type="Int32" Nullable="false" />
+          <Property Name="Span_lower" Type="Int32" Nullable="false" />
+          <Property Name="Span_upper" Type="Int32" Nullable="false" />
+          <Property Name="OfficeProductId" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="DbShops">
           <Key>
@@ -1032,18 +953,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_OfficeProducts_OfficeProductDetails">
-          <End Role="DbOfficeProductDetails" Type="Self.DbOfficeProductDetails" Multiplicity="1" />
-          <End Role="DbOfficeProducts" Type="Self.DbOfficeProducts" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="DbOfficeProductDetails">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="DbOfficeProducts">
-              <PropertyRef Name="ProductDetailsId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_OfficeProducts_Offices">
           <End Role="DbOffices" Type="Self.DbOffices" Multiplicity="1" />
           <End Role="DbOfficeProducts" Type="Self.DbOfficeProducts" Multiplicity="*" />
@@ -1080,18 +989,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_ProductMatrixLines_ProductMatrix">
-          <End Role="DbProductMatrix" Type="Self.DbProductMatrix" Multiplicity="1" />
-          <End Role="DbProductMatrixLines" Type="Self.DbProductMatrixLines" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="DbProductMatrix">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="DbProductMatrixLines">
-              <PropertyRef Name="ProductMatrixId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityContainer Name="LetterAmazerEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="DbContinents" EntityType="Self.DbContinents" />
           <EntitySet Name="DbCountries" EntityType="Self.DbCountries" />
@@ -1099,7 +996,6 @@
           <EntitySet Name="DbCustomers" EntityType="Self.DbCustomers" />
           <EntitySet Name="DbFulfillmentPartners" EntityType="Self.DbFulfillmentPartners" />
           <EntitySet Name="DbLetters" EntityType="Self.DbLetters" />
-          <EntitySet Name="DbOfficeProductDetails" EntityType="Self.DbOfficeProductDetails" />
           <EntitySet Name="DbOfficeProducts" EntityType="Self.DbOfficeProducts" />
           <EntitySet Name="DbOffices" EntityType="Self.DbOffices" />
           <EntitySet Name="DbOrderlines" EntityType="Self.DbOrderlines" />
@@ -1107,7 +1003,6 @@
           <EntitySet Name="DbOrganisation" EntityType="Self.DbOrganisation" />
           <EntitySet Name="DbOrganisationAddressList" EntityType="Self.DbOrganisationAddressList" />
           <EntitySet Name="DbPaymentMethods" EntityType="Self.DbPaymentMethods" />
-          <EntitySet Name="DbProductMatrix" EntityType="Self.DbProductMatrix" />
           <EntitySet Name="DbProductMatrixLines" EntityType="Self.DbProductMatrixLines" />
           <EntitySet Name="DbShops" EntityType="Self.DbShops" />
           <AssociationSet Name="FK_Customers_Countries" Association="Self.FK_Customers_Countries">
@@ -1158,10 +1053,6 @@
             <End Role="DbLetters" EntitySet="DbLetters" />
             <End Role="DbOrderlines" EntitySet="DbOrderlines" />
           </AssociationSet>
-          <AssociationSet Name="FK_OfficeProducts_OfficeProductDetails" Association="Self.FK_OfficeProducts_OfficeProductDetails">
-            <End Role="DbOfficeProductDetails" EntitySet="DbOfficeProductDetails" />
-            <End Role="DbOfficeProducts" EntitySet="DbOfficeProducts" />
-          </AssociationSet>
           <AssociationSet Name="FK_OfficeProducts_Offices" Association="Self.FK_OfficeProducts_Offices">
             <End Role="DbOffices" EntitySet="DbOffices" />
             <End Role="DbOfficeProducts" EntitySet="DbOfficeProducts" />
@@ -1174,27 +1065,7 @@
             <End Role="DbOrganisation" EntitySet="DbOrganisation" />
             <End Role="DbOrganisationAddressList" EntitySet="DbOrganisationAddressList" />
           </AssociationSet>
-          <AssociationSet Name="FK_ProductMatrixLines_ProductMatrix" Association="Self.FK_ProductMatrixLines_ProductMatrix">
-            <End Role="DbProductMatrix" EntitySet="DbProductMatrix" />
-            <End Role="DbProductMatrixLines" EntitySet="DbProductMatrixLines" />
-          </AssociationSet>
-          <AssociationSet Name="FK_DbProductMatrix_DbOfficeProducts" Association="LetterAmazer.FK_DbProductMatrix_DbOfficeProducts">
-            <End Role="DbOfficeProducts" EntitySet="DbOfficeProducts" />
-            <End Role="DbProductMatrix" EntitySet="DbProductMatrix" />
-          </AssociationSet>
         </EntityContainer>
-        <Association Name="FK_DbProductMatrix_DbOfficeProducts">
-          <End Type="LetterAmazer.DbOfficeProducts" Role="DbOfficeProducts" Multiplicity="1" />
-          <End Type="LetterAmazer.DbProductMatrix" Role="DbProductMatrix" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="DbOfficeProducts">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="DbProductMatrix">
-              <PropertyRef Name="OfficeProductId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1232,6 +1103,7 @@
                 <ScalarProperty Name="Population" ColumnName="Population" />
                 <ScalarProperty Name="InsideEu" ColumnName="InsideEu" />
                 <ScalarProperty Name="ContinentId" ColumnName="ContinentId" />
+                <ScalarProperty Name="VatPercentage" ColumnName="VatPercentage" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1336,18 +1208,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="DbOfficeProductDetails">
-            <EntityTypeMapping TypeName="LetterAmazer.DbOfficeProductDetails">
-              <MappingFragment StoreEntitySet="DbOfficeProductDetails">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="LetterColor" ColumnName="LetterColor" />
-                <ScalarProperty Name="LetterPaperWeight" ColumnName="LetterPaperWeight" />
-                <ScalarProperty Name="LetterProcessing" ColumnName="LetterProcessing" />
-                <ScalarProperty Name="LetterSize" ColumnName="LetterSize" />
-                <ScalarProperty Name="LetterType" ColumnName="LetterType" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="DbOfficeProducts">
             <EntityTypeMapping TypeName="LetterAmazer.DbOfficeProducts">
               <MappingFragment StoreEntitySet="DbOfficeProducts">
@@ -1359,6 +1219,11 @@
                 <ScalarProperty Name="ZipId" ColumnName="ZipId" />
                 <ScalarProperty Name="ProductDetailsId" ColumnName="ProductDetailsId" />
                 <ScalarProperty Name="ReferenceType" ColumnName="ReferenceType" />
+                <ScalarProperty Name="LetterColor" ColumnName="LetterColor" />
+                <ScalarProperty Name="LetterPaperWeight" ColumnName="LetterPaperWeight" />
+                <ScalarProperty Name="LetterProcessing" ColumnName="LetterProcessing" />
+                <ScalarProperty Name="LetterSize" ColumnName="LetterSize" />
+                <ScalarProperty Name="LetterType" ColumnName="LetterType" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1455,16 +1320,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="DbProductMatrix">
-            <EntityTypeMapping TypeName="LetterAmazer.DbProductMatrix">
-              <MappingFragment StoreEntitySet="DbProductMatrix">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Span_lower" ColumnName="Span_lower" />
-                <ScalarProperty Name="Span_upper" ColumnName="Span_upper" />
-                <ScalarProperty Name="OfficeProductId" ColumnName="OfficeProductId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="DbProductMatrixLines">
             <EntityTypeMapping TypeName="LetterAmazer.DbProductMatrixLines">
               <MappingFragment StoreEntitySet="DbProductMatrixLines">
@@ -1472,8 +1327,10 @@
                 <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="LineType" ColumnName="LineType" />
                 <ScalarProperty Name="BaseCost" ColumnName="BaseCost" />
-                <ScalarProperty Name="ProductMatrixId" ColumnName="ProductMatrixId" />
                 <ScalarProperty Name="PriceType" ColumnName="PriceType" />
+                <ScalarProperty Name="Span_lower" ColumnName="Span_lower" />
+                <ScalarProperty Name="Span_upper" ColumnName="Span_upper" />
+                <ScalarProperty Name="OfficeProductId" ColumnName="OfficeProductId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

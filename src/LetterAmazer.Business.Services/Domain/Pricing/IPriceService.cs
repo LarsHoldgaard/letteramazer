@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using LetterAmazer.Business.Services.Domain.AddressInfos;
 using LetterAmazer.Business.Services.Domain.Letters;
 using LetterAmazer.Business.Services.Domain.Orders;
+using LetterAmazer.Business.Services.Domain.ProductMatrix;
 
 namespace LetterAmazer.Business.Services.Domain.Pricing
 {
@@ -15,6 +16,7 @@ namespace LetterAmazer.Business.Services.Domain.Pricing
         Price GetPriceByLetter(Letter letter);
         Price GetPriceByAddress(AddressInfo addressInfo, int pageCount);
         Price GetPriceBySpecification(PriceSpecification specification);
-        Pricing Create(Pricing pricing);
+
+        Price GetPriceByMatrixLines(IEnumerable<ProductMatrixLine> matrix, int pageCount);
     }
 }

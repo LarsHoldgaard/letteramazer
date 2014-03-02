@@ -12,39 +12,25 @@ namespace LetterAmazer.Business.Services.Factory
     public class ProductMatrixFactory : IProductMatrixFactory
     {
 
-        public ProductMatrix Create(DbProductMatrix productMatrix)
-        {
-            return new ProductMatrix()
-            {
-                ProductLines = createProductMatrixLine(productMatrix.DbProductMatrixLines),
-                PriceType = (ProductMatrixPriceType)productMatrix.PriceType,
-                SpanLower = productMatrix.Span_lower,
-                SpanUpper = productMatrix.Span_upper,
-                ReferenceType = (ProductMatrixReferenceType)productMatrix.ReferenceType,
-                ValueId = productMatrix.ValueId,
-                Id = productMatrix.Id
-            };
-        }
 
-        public List<ProductMatrix> Create(IEnumerable<DbProductMatrix> productMatrix)
-        {
-            return productMatrix.Select(Create).ToList();
-        }
-
-        private ProductMatrixLine createProductMatrixLine(DbProductMatrixLines productMatrixLine)
+        public ProductMatrixLine Create(DbProductMatrixLines productMatrixLine)
         {
             return new ProductMatrixLine()
             {
                 BaseCost = productMatrixLine.BaseCost,
                 Id = productMatrixLine.Id,
                 LineType = (ProductMatrixLineType)productMatrixLine.LineType,
-                Title = productMatrixLine.Title
+                Title = productMatrixLine.Title,
+                OfficeProductId = productMatrixLine.OfficeProductId,
+                PriceType = (ProductMatrixPriceType)productMatrixLine.PriceType,
+                SpanLower = productMatrixLine.Span_lower,
+                SpanUpper = productMatrixLine.Span_upper
             };
         }
 
-        private List<ProductMatrixLine> createProductMatrixLine(IEnumerable<DbProductMatrixLines> productMatrixLine)
+        public List<ProductMatrixLine> Create(IEnumerable<DbProductMatrixLines> productMatrixLine)
         {
-            return productMatrixLine.Select(createProductMatrixLine).ToList();
+            return productMatrixLine.Select(Create).ToList();
         }
     }
 }

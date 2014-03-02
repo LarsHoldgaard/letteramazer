@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using iTextSharp.text;
 using LetterAmazer.Business.Services.Domain.OfficeProducts;
 using LetterAmazer.Business.Services.Domain.ProductMatrix;
 using LetterAmazer.Business.Services.Exceptions;
@@ -44,6 +45,10 @@ namespace LetterAmazer.Business.Services.Services
             {
                 dbProducts = dbProducts.Where(c => c.Id == specification.Id);
             }
+            if (specification.ProductMatrixReferenceType != null)
+            {
+                dbProducts = dbProducts.Where(c => c.ReferenceType == (int)specification.ProductMatrixReferenceType.Value);
+            }
 
             return
                 officeProductFactory.Create(
@@ -59,23 +64,16 @@ namespace LetterAmazer.Business.Services.Services
                 ScopeType = (int)officeProduct.ProductScope,
                 CountryId = officeProduct.CountryId,
                 ZipId = officeProduct.ZipId,
-                
-            };
-
-            DbOfficeProductDetails dbDetails = new DbOfficeProductDetails()
-            {
                 LetterType = (int)officeProduct.LetterDetails.LetterType,
                 LetterColor = (int)officeProduct.LetterDetails.LetterColor,
                 LetterPaperWeight = (int)officeProduct.LetterDetails.LetterPaperWeight,
                 LetterSize = (int)officeProduct.LetterDetails.LetterSize,
                 LetterProcessing = (int)officeProduct.LetterDetails.LetterProcessing,
+                ReferenceType = (int)officeProduct.ReferenceType,
             };
-            dbOfficeProduct.DbOfficeProductDetails = dbDetails;
 
             repository.DbOfficeProducts.Add(dbOfficeProduct);
             repository.SaveChanges();
-
-     
 
             return GetOfficeProductById(dbOfficeProduct.Id);
 
@@ -96,32 +94,77 @@ namespace LetterAmazer.Business.Services.Services
             dbOfficeProduct.ContinentId = officeProduct.ContinentId;
             dbOfficeProduct.ScopeType = (int)officeProduct.ProductScope;
 
-            dbOfficeProduct.DbOfficeProductDetails.LetterColor = (int)officeProduct.LetterDetails.LetterColor;
-            dbOfficeProduct.DbOfficeProductDetails.LetterPaperWeight = (int)officeProduct.LetterDetails.LetterPaperWeight;
-            dbOfficeProduct.DbOfficeProductDetails.LetterProcessing = (int)officeProduct.LetterDetails.LetterProcessing;
-            dbOfficeProduct.DbOfficeProductDetails.LetterSize = (int)officeProduct.LetterDetails.LetterSize;
-            dbOfficeProduct.DbOfficeProductDetails.LetterType = (int)officeProduct.LetterDetails.LetterType;
-
+            dbOfficeProduct.LetterColor = (int)officeProduct.LetterDetails.LetterColor;
+            dbOfficeProduct.LetterPaperWeight = (int)officeProduct.LetterDetails.LetterPaperWeight;
+            dbOfficeProduct.LetterProcessing = (int)officeProduct.LetterDetails.LetterProcessing;
+            dbOfficeProduct.LetterSize = (int)officeProduct.LetterDetails.LetterSize;
+            dbOfficeProduct.LetterType = (int)officeProduct.LetterDetails.LetterType;
+            dbOfficeProduct.ReferenceType = (int) officeProduct.ReferenceType;
 
             return GetOfficeProductById(officeProduct.Id);
         }
 
         public void Delete(OfficeProduct officeProduct)
         {
-            var dbProductDetails =
-                repository.DbOfficeProductDetails.FirstOrDefault(c => c.Id == officeProduct.LetterDetails.Id);
             var dbProduct = repository.DbOfficeProducts.FirstOrDefault(c => c.Id == officeProduct.Id);
 
-            if (dbProduct == null || dbProductDetails == null)
+            if (dbProduct == null)
             {
                 throw new BusinessException("Product or product details is null");
             }
 
             repository.DbOfficeProducts.Remove(dbProduct);
-            repository.DbOfficeProductDetails.Remove(dbProductDetails);
 
             repository.SaveChanges();
 
+        }
+
+        /// <summary>
+        /// Takes a list of office products, and group them into unique product groups from different providers
+        /// </summary>
+        /// <param name="officeProduct"></param>
+        /// <returns></returns>
+        public Dictionary<int, List<OfficeProduct>> GroupByUnique(List<OfficeProduct> officeProduct)
+        {
+            var list = new Dictionary<int, List<OfficeProduct>>();
+
+            foreach (var product in officeProduct)
+            {
+                var listId = DoesListContainOfficeProduct(list, product);
+
+                if (listId > 0)
+                {
+                    list[listId].Add(product);
+                }
+                else
+                {
+                    list.Add(list.Count + 1, new List<OfficeProduct>() { product});
+                }
+            }
+            return list;
+        }
+
+        private int DoesListContainOfficeProduct(Dictionary<int, List<OfficeProduct>> dic, OfficeProduct officeProduct)
+        {
+            foreach (KeyValuePair<int, List<OfficeProduct>> keyValuePair in dic)
+            {
+                foreach (var product in keyValuePair.Value)
+                {
+                    if (product.ContinentId == officeProduct.ContinentId &&
+                        product.CountryId == officeProduct.CountryId &&
+                        product.ZipId == officeProduct.ZipId &&
+                        product.ProductScope == officeProduct.ProductScope &&
+                        product.LetterDetails.LetterColor == officeProduct.LetterDetails.LetterColor &&
+                        product.LetterDetails.LetterProcessing == officeProduct.LetterDetails.LetterProcessing &&
+                        product.LetterDetails.LetterPaperWeight == officeProduct.LetterDetails.LetterPaperWeight &&
+                        product.LetterDetails.LetterSize == officeProduct.LetterDetails.LetterSize &&
+                        product.LetterDetails.LetterType == officeProduct.LetterDetails.LetterType)
+                    {
+                        return keyValuePair.Key;
+                    }
+                }
+            }
+            return 0;
         }
     }
 }

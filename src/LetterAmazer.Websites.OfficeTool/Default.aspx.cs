@@ -180,28 +180,25 @@ namespace LetterAmazer.Websites.OfficeTool
                 officeProd.ProductScope = ProductScope.RestOfWorld;
             }
 
-            var prod = offerProductService.Create(officeProd);
-
-            var matrix = new ProductMatrix()
-            {
-                PriceType = ProductMatrixPriceType.FirstPage,
-                ReferenceType = ProductMatrixReferenceType.Contractor,
-                ValueId = prod.Id,
-                ProductLines = new List<ProductMatrixLine>()
-            };
+            var officeProduct = offerProductService.Create(officeProd);
 
             var orderLines = GetEnteredOrderlines();
             foreach (var orderLine in orderLines)
             {
-                matrix.ProductLines.Add(new ProductMatrixLine()
+                var matrix = new ProductMatrixLine()
                 {
                     BaseCost = orderLine.Value,
                     LineType =  ProductMatrixLineType.Service,
-                    Title = orderLine.Key
-                });
+                    Title = orderLine.Key,
+                    OfficeProductId = officeProduct.Id,
+                    PriceType = ProductMatrixPriceType.PrPage,
+                    SpanLower = 1,
+                    SpanUpper = 1,
+                };
+                productMatrixService.Create(matrix);
             }
 
-            productMatrixService.Create(matrix);
+
         }
     }
 }

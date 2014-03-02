@@ -6,7 +6,7 @@ namespace LetterAmazer.Business.Services.Factory.Interfaces
 {
     public interface IProductMatrixFactory
     {
-        ProductMatrix Create(DbProductMatrix productMatrix);
-        List<ProductMatrix> Create(IEnumerable<DbProductMatrix> productMatrix);
+        ProductMatrixLine Create(DbProductMatrixLines productMatrix);
+        List<ProductMatrixLine> Create(IEnumerable<DbProductMatrixLines> productMatrix);
     }
 }

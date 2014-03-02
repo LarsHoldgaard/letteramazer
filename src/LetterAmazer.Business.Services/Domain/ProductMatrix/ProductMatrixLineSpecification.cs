@@ -8,11 +8,15 @@ using LetterAmazer.Business.Services.Domain.Common;
 
 namespace LetterAmazer.Business.Services.Domain.ProductMatrix
 {
-    public class ProductMatrixSpecification:Specifications
+    public class ProductMatrixLineSpecification:Specifications
     {
         public int OfficeProductId { get; set; }
-        public ProductMatrixPriceType? ProductMatrixPriceType { get; set; }
-        public ProductMatrixReferenceType? ProductMatrixReferenceType { get; set; }
-        public int PriceId { get; set; }
+
+        public int PageCount { get; set; }
+
+        public ProductMatrixLineSpecification()
+        {
+            this.PageCount = 1;
+        }
     }
 }

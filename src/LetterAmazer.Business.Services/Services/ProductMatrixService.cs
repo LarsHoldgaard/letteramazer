@@ -15,6 +15,7 @@ namespace LetterAmazer.Business.Services.Services
         private LetterAmazerEntities repository;
 
         private IProductMatrixFactory productMatrixFactory;
+        
 
         public ProductMatrixService(LetterAmazerEntities repository, IProductMatrixFactory productMatrixFactory)
         {
@@ -22,9 +23,9 @@ namespace LetterAmazer.Business.Services.Services
             this.productMatrixFactory = productMatrixFactory;
         }
 
-        public ProductMatrix GetProductMatrixById(int id)
+        public ProductMatrixLine GetProductMatrixById(int id)
         {
-            var dbProductMatrix = repository.DbProductMatrix.FirstOrDefault(c => c.Id == id);
+            var dbProductMatrix = repository.DbProductMatrixLines.FirstOrDefault(c => c.Id == id);
 
             if (dbProductMatrix == null)
             {
@@ -35,85 +36,61 @@ namespace LetterAmazer.Business.Services.Services
             return productMatrix;
         }
 
-        public IEnumerable<ProductMatrix> GetProductMatrixBySpecification(ProductMatrixSpecification specification)
+        public IEnumerable<ProductMatrixLine> GetProductMatrixBySpecification(ProductMatrixLineSpecification specification)
         {
-            IQueryable<DbProductMatrix> dbProductMatrices = repository.DbProductMatrix;
+            IQueryable<DbProductMatrixLines> dbProductMatrices = repository.DbProductMatrixLines;
 
             if (specification.OfficeProductId > 0)
             {
-                dbProductMatrices = dbProductMatrices.Where(c => c.ValueId == specification.OfficeProductId);
+                dbProductMatrices = dbProductMatrices.Where(c => c.OfficeProductId == specification.OfficeProductId);
             }
-            if (specification.PriceId > 0)
+            if (specification.PageCount > 1)
             {
-                dbProductMatrices = dbProductMatrices.Where(c => c.ValueId == specification.PriceId);
+                dbProductMatrices = dbProductMatrices.Where(c => c.Span_upper <= specification.PageCount);
             }
-            if (specification.ProductMatrixPriceType != null)
-            {
-                dbProductMatrices = dbProductMatrices.Where(c => c.PriceType == (int)specification.ProductMatrixPriceType.Value);
-            }
-            if (specification.ProductMatrixReferenceType != null)
-            {
-                dbProductMatrices =
-                    dbProductMatrices.Where(c => c.ReferenceType == (int) specification.ProductMatrixReferenceType);
-            }
+            
 
             return productMatrixFactory.Create(dbProductMatrices.OrderBy(c => c.Id).Skip(specification.Skip).Take(specification.Take).ToList());
         }
 
-        public ProductMatrix Create(ProductMatrix productMatrix)
+        public ProductMatrixLine Create(ProductMatrixLine productMatrixLine)
         {
-            var dbMatrix = new DbProductMatrix()
+            var dbMatrixLine = new DbProductMatrixLines()
             {
-                PriceType = (int)productMatrix.PriceType,
-                ReferenceType = (int)productMatrix.ReferenceType,
-                ValueId = productMatrix.ValueId,
+                BaseCost = productMatrixLine.BaseCost,
+                OfficeProductId = productMatrixLine.OfficeProductId,
+                Span_lower = productMatrixLine.SpanLower,
+                Span_upper = productMatrixLine.SpanUpper,
+                LineType = (int) productMatrixLine.LineType,
+                PriceType = (int) productMatrixLine.PriceType,
+                Title = productMatrixLine.Title
             };
 
-            if (productMatrix.PriceType == ProductMatrixPriceType.FirstPage)
-            {
-                if (dbMatrix.Span_lower == 0)
-                {
-                    dbMatrix.Span_lower = 1;
-                }
-                if (dbMatrix.Span_upper == 0)
-                {
-                    dbMatrix.Span_upper = 1;
-                }
-            }
-
-            repository.DbProductMatrix.Add(dbMatrix);
+            repository.DbProductMatrixLines.Add(dbMatrixLine);
             repository.SaveChanges();
 
-            foreach (var productMatrixLine in productMatrix.ProductLines)
-            {
-                dbMatrix.DbProductMatrixLines.Add(new DbProductMatrixLines()
-                {
-                    BaseCost = productMatrixLine.BaseCost,
-                    Title = productMatrixLine.Title,
-                    LineType = (int)productMatrixLine.LineType,
-                    ProductMatrixId = dbMatrix.Id,
-                });
-                repository.SaveChanges();
-            }
-
-            return GetProductMatrixById(dbMatrix.Id);
+            return GetProductMatrixById(dbMatrixLine.Id);
         }
 
-        public ProductMatrix Update(ProductMatrix productMatrix)
+        public ProductMatrixLine Update(ProductMatrixLine productMatrixLine)
         {
-            throw new NotImplementedException();
+            var dbMatrixLine = repository.DbProductMatrixLines.FirstOrDefault(c => c.Id == productMatrixLine.Id);
+            dbMatrixLine.BaseCost = productMatrixLine.BaseCost;
+            dbMatrixLine.OfficeProductId = productMatrixLine.OfficeProductId;
+            dbMatrixLine.Span_lower = productMatrixLine.SpanLower;
+            dbMatrixLine.Span_upper = productMatrixLine.SpanUpper;
+            dbMatrixLine.LineType = (int)productMatrixLine.LineType;
+            dbMatrixLine.PriceType = (int)productMatrixLine.PriceType;
+            dbMatrixLine.Title = productMatrixLine.Title;
+
+            return GetProductMatrixById(dbMatrixLine.Id);
         }
 
-        public void Delete(ProductMatrix productMatrix)
+        public void Delete(ProductMatrixLine productMatrixLine)
         {
-            var dbProductMatrix = repository.DbProductMatrix.FirstOrDefault(c => c.Id == productMatrix.Id);
-            var dbProductMatrixLines = repository.DbProductMatrixLines.Where(c => c.ProductMatrixId == productMatrix.Id);
-
-            foreach (var matrixLine in dbProductMatrixLines)
-            {
-                repository.DbProductMatrixLines.Remove(matrixLine);
-            }
-            repository.DbProductMatrix.Remove(dbProductMatrix);
+            var dbProductMatrix = repository.DbProductMatrixLines.FirstOrDefault(c => c.Id == productMatrixLine.Id);
+            
+            repository.DbProductMatrixLines.Remove(dbProductMatrix);
             repository.SaveChanges();
 
         }
