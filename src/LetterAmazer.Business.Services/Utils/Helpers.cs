@@ -14,7 +14,7 @@ namespace LetterAmazer.Business.Services.Utils
             List<ProductMatrix> m = new List<ProductMatrix>();
             foreach (var productMatrix in matrices)
             {
-                if (!m.Any(c => c.PriceType == productMatrix.PriceType))
+                if (m.All(c => c.PriceType != productMatrix.PriceType))
                 {
                     m.Add(productMatrix);
                 }

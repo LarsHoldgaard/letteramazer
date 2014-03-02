@@ -22,7 +22,7 @@ namespace LetterAmazer.Websites.Client.Controllers.Api
             var officeProduct = new OfficeProduct()
             {
                 CountryId = 1,
-                ProductScope = ProductScope.Single,
+                ProductScope = ProductScope.Country,
                 LetterDetails = new LetterDetails()
                 {
                     LetterColor = LetterColor.BlackWhite,

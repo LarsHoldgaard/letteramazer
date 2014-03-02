@@ -6,6 +6,7 @@ using LetterAmazer.Business.Services.Domain.Customers;
 using LetterAmazer.Business.Services.Domain.Letters;
 using LetterAmazer.Business.Services.Domain.Orders;
 using LetterAmazer.Business.Services.Domain.Payments;
+using LetterAmazer.Business.Services.Domain.PriceUpdater;
 using LetterAmazer.Business.Services.Domain.Pricing;
 using LetterAmazer.Business.Services.Domain.Products.ProductDetails;
 using LetterAmazer.Business.Services.Exceptions;
@@ -31,33 +32,25 @@ namespace LetterAmazer.Websites.Client.Controllers
         private ICountryService countryService;
         private IPriceService priceService;
         private ICustomerService customerService;
+        private IPriceUpdater priceUpdater;
         
         public SingleLetterController(IOrderService orderService, IPaymentService paymentService,
             ICouponService couponService, ICountryService countryService, IPriceService priceService,
-            ICustomerService customerService)
+            ICustomerService customerService,IPriceUpdater priceUpdater)
         {
-            couponService.Create(new Coupon()
-            {
-                CouponStatus = CouponStatus.New,
-                DateCreated = DateTime.Now,
-                ExpireDate = DateTime.Now.AddYears(2),
-                CouponValue = 3.0m,
-                CouponValueLeft = 4.799m,
-                Code = "ABCEFGHH"
-            });
-
             this.orderService = orderService;
             this.paymentService = paymentService;
             this.couponService = couponService;
             this.countryService = countryService;
             this.priceService = priceService;
             this.customerService = customerService;
+            this.priceUpdater = priceUpdater;
         }
 
         [HttpGet]
         public ActionResult Index()
         {
-           // priceUpdater.Execute();
+            priceUpdater.Execute();
 
             if (SessionHelper.Customer != null) return RedirectToAction("SendALetter", "User");
             CreateSingleLetterModel model = new CreateSingleLetterModel();

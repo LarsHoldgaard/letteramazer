@@ -76,7 +76,7 @@ namespace LetterAmazer.Business.Services.Services
                         Title = orderLine.Title
                     });
                 }
-                productMatrixService.Create(matrix);
+                //productMatrixService.Create(matrix);
                 priceService.Create(new Pricing()
                 {
                     DateCreated = DateTime.Now,

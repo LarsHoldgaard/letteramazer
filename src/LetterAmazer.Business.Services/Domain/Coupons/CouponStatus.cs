@@ -8,8 +8,8 @@ namespace LetterAmazer.Business.Services.Domain.Coupons
 {
     public enum CouponStatus
     {
-        New =0,
-        Used =1,
-        Done=2
+        NewCoupon =0,
+        CouponInUse =1,
+        CouponUsed=2
     }
 }

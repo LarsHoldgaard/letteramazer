@@ -35,11 +35,11 @@ namespace LetterAmazer.Business.Services.Services.PaymentMethods.Implementations
 
             if (coupon.CouponValueLeft > 0)
             {
-                coupon.CouponStatus=CouponStatus.Used;
+                coupon.CouponStatus=CouponStatus.CouponInUse;
             }
             else
             {
-                coupon.CouponStatus = CouponStatus.Done;
+                coupon.CouponStatus = CouponStatus.CouponUsed;
             }
 
             couponService.Update(coupon);

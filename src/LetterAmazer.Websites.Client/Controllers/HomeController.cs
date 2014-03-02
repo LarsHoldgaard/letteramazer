@@ -1,8 +1,11 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using LetterAmazer.Business.Services.Domain.AddressInfos;
+using LetterAmazer.Business.Services.Domain.Countries;
 using LetterAmazer.Business.Services.Domain.Customers;
 using LetterAmazer.Business.Services.Domain.Mails;
 using LetterAmazer.Business.Services.Domain.Offices;
+using LetterAmazer.Business.Services.Domain.Pricing;
 using LetterAmazer.Business.Services.Domain.Products.ProductDetails;
 using LetterAmazer.Business.Utils.Helpers;
 using LetterAmazer.Websites.Client.Attributes;
@@ -19,17 +22,21 @@ namespace LetterAmazer.Websites.Client.Controllers
     {
 
         private static readonly ILog logger = LogManager.GetLogger(typeof(HomeController));
-       
+
+        private ICountryService countryService;
         private ICustomerService customerService;
         private IOfficeService officeService;
         private IMailService mailService;
+        private IPriceService priceService;
 
         public HomeController(ICustomerService customerService,IOfficeService officeService,
-            IMailService mailService)
+            IMailService mailService, ICountryService countryService, IPriceService priceService)
         {
             this.customerService = customerService;
             this.officeService = officeService;
+            this.countryService = countryService;
             this.mailService = mailService;
+            this.priceService = priceService;
         }
 
         public ActionResult Index()
@@ -69,7 +76,36 @@ namespace LetterAmazer.Websites.Client.Controllers
 
         public ActionResult Pricing()
         {
-            return View();
+            var countries = countryService.GetCountryBySpecificaiton(new CountrySpecification()
+            {
+                Take = 999
+            });
+
+            PriceViewModel prices = new PriceViewModel();
+            foreach (var country in countries)
+            {
+                var selectedItem = new SelectListItem()
+                {
+                    Text = country.Name,
+                    Value = country.Id.ToString(),
+
+                };
+                prices.Countries.Add(selectedItem);
+            }
+
+            return View(prices);
+        }
+
+        [HttpGet]
+        public decimal GetPrice(int countryId, int pages)
+        {
+            var pricing = priceService.GetPriceBySpecification(new PriceSpecification()
+            {
+                CountryId = countryId,
+                PageCount = pages
+            });
+
+            return pricing.PriceExVat;
         }
 
         [HttpGet, AutoErrorRecovery]

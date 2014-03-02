@@ -172,7 +172,7 @@ namespace LetterAmazer.Websites.OfficeTool
             }
             else if (TypeOfLocationRbl.SelectedValue == "Country")
             {
-                officeProd.ProductScope = ProductScope.Single;
+                officeProd.ProductScope = ProductScope.Country;
                 officeProd.CountryId = int.Parse(CountryDll.SelectedValue);
             }
             else

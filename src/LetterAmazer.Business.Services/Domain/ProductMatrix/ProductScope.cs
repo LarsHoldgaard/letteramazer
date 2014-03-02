@@ -2,7 +2,7 @@
 {
     public enum ProductScope
     {
-        Single=0,
+        Country=0,
         Continent=1,
         ZipCode=2,
         RestOfWorld=3
