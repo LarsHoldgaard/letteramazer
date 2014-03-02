@@ -90,9 +90,6 @@
     <Compile Include="Data\DbPaymentMethods.cs">
       <DependentUpon>LetterAmazer.tt</DependentUpon>
     </Compile>
-    <Compile Include="Data\DbPricing.cs">
-      <DependentUpon>LetterAmazer.tt</DependentUpon>
-    </Compile>
     <Compile Include="Data\DbProductMatrix.cs">
       <DependentUpon>LetterAmazer.tt</DependentUpon>
     </Compile>

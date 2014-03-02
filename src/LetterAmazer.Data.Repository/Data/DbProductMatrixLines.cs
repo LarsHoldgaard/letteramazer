@@ -19,6 +19,7 @@ namespace LetterAmazer.Data.Repository.Data
         public int LineType { get; set; }
         public decimal BaseCost { get; set; }
         public int ProductMatrixId { get; set; }
+        public Nullable<int> PriceType { get; set; }
     
         public virtual DbProductMatrix DbProductMatrix { get; set; }
     }

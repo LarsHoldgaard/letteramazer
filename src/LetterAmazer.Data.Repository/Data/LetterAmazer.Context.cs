@@ -36,12 +36,11 @@ namespace LetterAmazer.Data.Repository.Data
         public DbSet<DbOffices> DbOffices { get; set; }
         public DbSet<DbOrderlines> DbOrderlines { get; set; }
         public DbSet<DbOrders> DbOrders { get; set; }
-        public DbSet<DbPricing> DbPricing { get; set; }
+        public DbSet<DbOrganisation> DbOrganisation { get; set; }
+        public DbSet<DbOrganisationAddressList> DbOrganisationAddressList { get; set; }
+        public DbSet<DbPaymentMethods> DbPaymentMethods { get; set; }
         public DbSet<DbProductMatrix> DbProductMatrix { get; set; }
         public DbSet<DbProductMatrixLines> DbProductMatrixLines { get; set; }
         public DbSet<DbShops> DbShops { get; set; }
-        public DbSet<DbPaymentMethods> DbPaymentMethods { get; set; }
-        public DbSet<DbOrganisation> DbOrganisation { get; set; }
-        public DbSet<DbOrganisationAddressList> DbOrganisationAddressList { get; set; }
     }
 }

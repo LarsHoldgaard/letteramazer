@@ -20,12 +20,11 @@ namespace LetterAmazer.Data.Repository.Data
         }
     
         public int Id { get; set; }
-        public int PriceType { get; set; }
         public int Span_lower { get; set; }
         public int Span_upper { get; set; }
-        public int ValueId { get; set; }
-        public int ReferenceType { get; set; }
+        public int OfficeProductId { get; set; }
     
         public virtual ICollection<DbProductMatrixLines> DbProductMatrixLines { get; set; }
+        public virtual DbOfficeProducts DbOfficeProducts { get; set; }
     }
 }
