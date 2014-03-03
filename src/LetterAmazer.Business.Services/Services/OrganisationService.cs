@@ -54,6 +54,14 @@ namespace LetterAmazer.Business.Services.Services
 
             dbOrganisation.Name = organisation.Name;
             dbOrganisation.DateModified = DateTime.Now;
+            dbOrganisation.Address1 = organisation.Address.Address1;
+            dbOrganisation.Address2 = organisation.Address.Address2;
+            dbOrganisation.State = organisation.Address.State;
+            dbOrganisation.City = organisation.Address.City;
+            dbOrganisation.AttPerson = organisation.Address.AttPerson;
+            dbOrganisation.Zipcode = organisation.Address.PostalCode;
+            dbOrganisation.CountryId = organisation.Address.Country.Id;
+
 
             repository.SaveChanges();
 

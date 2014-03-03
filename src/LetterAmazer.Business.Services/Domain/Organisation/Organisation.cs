@@ -20,6 +20,7 @@ namespace LetterAmazer.Business.Services.Domain.Organisation
         public Organisation()
         {
             this.AddressList = new List<AddressList>();
+            this.Address = new AddressInfo();
         }
     }
 }

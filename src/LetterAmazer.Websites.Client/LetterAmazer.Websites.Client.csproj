@@ -217,6 +217,7 @@
     <Compile Include="ViewModels\PriceViewModel.cs" />
     <Compile Include="ViewModels\ProfileViewModel.cs" />
     <Compile Include="ViewModels\RegisterViewModel.cs" />
+    <Compile Include="ViewModels\User\CreateOrganisationViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\css\General\Sidewide.css" />
@@ -629,7 +630,6 @@
     <Content Include="Views\SingleLetter\DropZone.cshtml" />
     <Content Include="Views\SingleLetter\Confirmation.cshtml" />
     <Content Include="Views\Home\Register.cshtml" />
-    <Content Include="Views\Home\RegisterSuccess.cshtml" />
     <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\Shared\Authentication.cshtml" />
     <Content Include="Views\Home\ForgotPassword.cshtml" />
@@ -642,6 +642,8 @@
     <Content Include="Views\User\Details.cshtml" />
     <Content Include="Views\Payment\Invoice.cshtml" />
     <Content Include="Views\Payment\Index.cshtml" />
+    <Content Include="Views\User\CreateOrganisation.cshtml" />
+    <Content Include="Views\Shared\_notActivated.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -670,6 +672,7 @@
     <EmbeddedResource Include="Resources\Views\Home\ViewRes.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>ViewRes.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\Views\Shared\ViewRes.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

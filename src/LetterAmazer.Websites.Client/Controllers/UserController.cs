@@ -18,6 +18,8 @@ using log4net;
 using System;
 using System.Web.Mvc;
 using ProductType = LetterAmazer.Business.Services.Domain.Products.ProductType;
+using LetterAmazer.Websites.Client.ViewModels.User;
+using LetterAmazer.Business.Services.Domain.Organisation;
 
 namespace LetterAmazer.Websites.Client.Controllers
 {
@@ -31,10 +33,11 @@ namespace LetterAmazer.Websites.Client.Controllers
         private ICouponService couponService;
         private ICountryService countryService;
         private IPriceService priceService;
-
+        private IOrganisationService organisationService;
 
         public UserController(IOrderService orderService, IPaymentService paymentService,
-            ILetterService letterService, ICouponService couponService, ICountryService countryService, IPriceService priceService)
+            ILetterService letterService, ICouponService couponService, ICountryService countryService, IPriceService priceService,
+            IOrganisationService organisationService)
         {
             this.orderService = orderService;
             this.paymentService = paymentService;
@@ -42,8 +45,14 @@ namespace LetterAmazer.Websites.Client.Controllers
             this.couponService = couponService;
             this.countryService = countryService;
             this.priceService = priceService;
+            this.organisationService = organisationService;
         }
 
+
+        public ActionResult Index()
+        {
+            return Index(0, new ProfileViewModel());
+        }
         public ActionResult Index(int? page, ProfileViewModel model)
         {
             buildOverviewModel(model);
@@ -75,6 +84,44 @@ namespace LetterAmazer.Websites.Client.Controllers
                 model.HasCredits = true;
             }
             return View(model);
+        }
+
+        public ActionResult CreateOrganisation() {
+            var orgView = new CreateOrganisationViewModel();
+
+            var countries = countryService.GetCountryBySpecificaiton(new CountrySpecification()
+            {
+                Take = 999
+            });
+
+            foreach (var country in countries)
+            {
+                var selectedItem = new SelectListItem()
+                {
+                    Text = country.Name,
+                    Value = country.Id.ToString()
+                };
+                orgView.Countries.Add(selectedItem);
+            }
+
+            return View(orgView);
+        }
+
+        [HttpPost]
+        public ActionResult CreateOrganisation(CreateOrganisationViewModel model)
+        {
+            var organisation = new Organisation();
+            organisation.Name = model.OrganisationName;
+            organisation.Address.Address1 = model.Address1;
+            organisation.Address.Address2 = model.Address2;
+            organisation.Address.City = model.City;
+            organisation.Address.PostalCode = model.ZipCode;
+            organisation.Address.State = model.State;
+            organisation.Address.Country = countryService.GetCountryById(int.Parse(model.SelectedCountry));
+            
+            organisationService.Create(organisation);
+
+            return View();
         }
 
         [HttpPost, ValidateInput(false)]

@@ -166,16 +166,13 @@ namespace LetterAmazer.Websites.Client.Controllers
                 
                 customer.Email = model.Email;
                 customer.Password = model.Password;
-                customer.CustomerInfo.FirstName = model.FirstName;
-                customer.CustomerInfo.LastName = model.LastName;
-                customer.CustomerInfo.Organisation = model.Organization;
 
                 var cust = customerService.Create(customer);
 
                 SessionHelper.Customer = cust;
                 FormsAuthentication.SetAuthCookie(cust.Id.ToString(), false);
 
-                return RedirectToAction("Index", "User");
+                return RedirectToAction("CreateOrganisation", "User");
             }
             catch (Exception ex)
             {

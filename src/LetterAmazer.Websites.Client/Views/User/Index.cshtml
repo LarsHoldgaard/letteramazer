@@ -9,6 +9,8 @@
     <script type="text/javascript" src="@Url.Content("~/Scripts/jquery-ui-1.10.3.min.js")"></script>
 }
 
+@Html.Partial("_notActivated")
+
 <div class="jumbotron-white">
     <div class="container">
         <h2>@ViewRes.SendALetter, @Model.Customer.CustomerInfo.Organisation</h2>
@@ -42,7 +44,6 @@
                     <td>@ViewRes.LetterCount</td>
                     <td>@ViewRes.Price</td>
                     <td>@ViewRes.Details</td>
-                    @*<td>@ViewRes.DeleteOrder</td>*@
                 </tr>
             </thead>
             <tbody>
@@ -57,16 +58,10 @@
                     <td>@item.Price.ToFriendlyMoney() USD</td>
                     <td><a href="@Url.Action("Details", new { id = item.Id })">See details</a></td>
                     
-                    @*@if (item.LetterStatus == LetterStatus.InProgress)
-                    {
-                        <td><a href="@Url.Action("Delete", new { id = item.Id })">Delete order</a></td>    
-                    }*@
-                    
                 </tr>
             }
             </tbody>
         </table>
-        @*@Html.Raw(Html.Paginator(Model.Orders.PageIndex, Model.Orders.PageSize, Model.Orders.TotalItems))*@
     </div>
 </div>
 <script type="text/javascript">
