@@ -1,6 +1,10 @@
 ﻿
+
+<div class="bg-success" id="activationLinkResend" style="display:none;">
+    <p>We have just send an email.</p>
+</div>
 <div class="bg-warning">
-    <p>Your account has not been activated yet. Check your e-mail for an activation e-mail, or <a href="#">receive a new one</a>.</p>
+    <p>Your account has not been activated yet. Check your e-mail for an activation e-mail, or <a id="receiveNewActivationlnk" href="#">receive a new one</a>.</p>
     <p>
         If you don't activate your account you cannot:<br />
         <ul>
@@ -16,3 +20,20 @@
         </ul>
     </p>
 </div>
+
+<script>
+    $(document).ready(function() {
+        $('#receiveNewActivationlnk').click(function() {
+            var url = '/user/ResendConfirmationEmail';
+            $.ajax({
+                type: "GET",
+                url: url,
+                datatype: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    $('#activationLinkResend').show();
+                }
+            });
+        });
+    });
+</script>

@@ -5,6 +5,7 @@ using LetterAmazer.Business.Services.Domain.Countries;
 using LetterAmazer.Business.Services.Domain.Coupons;
 using LetterAmazer.Business.Services.Domain.Customers;
 using LetterAmazer.Business.Services.Domain.Letters;
+using LetterAmazer.Business.Services.Domain.Mails;
 using LetterAmazer.Business.Services.Domain.Orders;
 using LetterAmazer.Business.Services.Domain.Payments;
 using LetterAmazer.Business.Services.Domain.Pricing;
@@ -26,7 +27,7 @@ namespace LetterAmazer.Websites.Client.Controllers
     [Authorize]
     public class UserController : BaseController
     {
-        private static readonly ILog logger = LogManager.GetLogger(typeof(UserController));
+        private static readonly ILog logger = LogManager.GetLogger(typeof (UserController));
         private IOrderService orderService;
         private IPaymentService paymentService;
         private ILetterService letterService;
@@ -34,10 +35,12 @@ namespace LetterAmazer.Websites.Client.Controllers
         private ICountryService countryService;
         private IPriceService priceService;
         private IOrganisationService organisationService;
+        private IMailService mailService;
 
         public UserController(IOrderService orderService, IPaymentService paymentService,
-            ILetterService letterService, ICouponService couponService, ICountryService countryService, IPriceService priceService,
-            IOrganisationService organisationService)
+            ILetterService letterService, ICouponService couponService, ICountryService countryService,
+            IPriceService priceService,
+            IOrganisationService organisationService, IMailService mailService)
         {
             this.orderService = orderService;
             this.paymentService = paymentService;
@@ -46,6 +49,7 @@ namespace LetterAmazer.Websites.Client.Controllers
             this.countryService = countryService;
             this.priceService = priceService;
             this.organisationService = organisationService;
+            this.mailService = mailService;
         }
 
 
@@ -53,6 +57,7 @@ namespace LetterAmazer.Websites.Client.Controllers
         {
             return Index(0, new ProfileViewModel());
         }
+
         public ActionResult Index(int? page, ProfileViewModel model)
         {
             buildOverviewModel(model);
@@ -86,7 +91,8 @@ namespace LetterAmazer.Websites.Client.Controllers
             return View(model);
         }
 
-        public ActionResult CreateOrganisation() {
+        public ActionResult CreateOrganisation()
+        {
             var orgView = new CreateOrganisationViewModel();
 
             var countries = countryService.GetCountryBySpecificaiton(new CountrySpecification()
@@ -118,7 +124,7 @@ namespace LetterAmazer.Websites.Client.Controllers
             organisation.Address.PostalCode = model.ZipCode;
             organisation.Address.State = model.State;
             organisation.Address.Country = countryService.GetCountryById(int.Parse(model.SelectedCountry));
-            
+
             organisationService.Create(organisation);
 
             return View();
@@ -139,7 +145,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                 addressInfo.FirstName = model.RecipientName;
                 addressInfo.City = model.DestinationCity;
                 addressInfo.Country = countryService.GetCountryBySpecificaiton(
-                    new CountrySpecification() { CountryCode = model.DestinationCountryCode }).FirstOrDefault();
+                    new CountrySpecification() {CountryCode = model.DestinationCountryCode}).FirstOrDefault();
                 addressInfo.PostalCode = model.ZipCode;
 
 
@@ -194,7 +200,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                     });
                     if (voucher != null && voucher.Any())
                     {
-                        coupon = (Coupon)voucher.FirstOrDefault();
+                        coupon = (Coupon) voucher.FirstOrDefault();
                     }
                 }
 
@@ -267,7 +273,7 @@ namespace LetterAmazer.Websites.Client.Controllers
             Order order = orderService.GetOrderById(id);
             OrderDetailViewModel model = new OrderDetailViewModel();
             // model.Order = order;
-            return RedirectToActionWithError("Delete", model, new { id = id });
+            return RedirectToActionWithError("Delete", model, new {id = id});
         }
 
         public ActionResult Details(int id)
@@ -290,10 +296,11 @@ namespace LetterAmazer.Websites.Client.Controllers
             model.Credit = SessionHelper.Customer.Credit;
             model.CreditLimit = SessionHelper.Customer.CreditLimit;
 
-            var possiblePaymentMethods = paymentService.GetPaymentMethodsBySpecification(new PaymentMethodSpecification()
-            {
-                CustomerId = SessionHelper.Customer.Id
-            });
+            var possiblePaymentMethods =
+                paymentService.GetPaymentMethodsBySpecification(new PaymentMethodSpecification()
+                {
+                    CustomerId = SessionHelper.Customer.Id
+                });
 
             model.PaymentMethods = getPaymentmethodViewModels(possiblePaymentMethods);
 
@@ -325,7 +332,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                 Cost = model.PurchaseAmount
             };
 
-            Order order = new Order { Cost = model.PurchaseAmount, Customer = SessionHelper.Customer };
+            Order order = new Order {Cost = model.PurchaseAmount, Customer = SessionHelper.Customer};
             order.OrderLines.Add(creditLine);
             order.OrderLines.Add(paymentLine);
 
@@ -339,7 +346,15 @@ namespace LetterAmazer.Websites.Client.Controllers
             return Redirect(redirectUrl);
         }
 
-        #region Private helpers
+
+        [HttpGet]
+        public ActionResult ResendConfirmationEmail()
+        {
+            mailService.ConfirmUser(SessionHelper.Customer);
+            return Json("OK");
+        }
+
+    #region Private helpers
 
         private OrderDetailViewModel getOrderDetailViewModel(Order order)
         {

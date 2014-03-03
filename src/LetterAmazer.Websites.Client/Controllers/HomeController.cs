@@ -183,10 +183,6 @@ namespace LetterAmazer.Websites.Client.Controllers
             return RedirectToActionWithError("Register", model);
         }
 
-        public ActionResult RegisterSuccess()
-        {
-            return View();
-        }
 
         [HttpGet, AutoErrorRecovery]
         public ActionResult ForgotPassword()
