@@ -203,7 +203,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                 {
                     ProductType = ProductType.Letter,
                     BaseProduct = letter,
-                    Cost = priceService.GetPriceByLetter(letter).PriceExVat
+                    Cost = priceService.GetPriceByLetter(letter).Total
                 });
 
                 var rest = addCouponlines(price, coupon, order);
@@ -432,7 +432,7 @@ namespace LetterAmazer.Websites.Client.Controllers
 
         private decimal addCouponlines(Price price, Coupon coupon, Order order)
         {
-            decimal rest = price.PriceExVat;
+            decimal rest = price.Total;
             if (coupon != null)
             {
                 decimal chargeCoupon = 0.0m;

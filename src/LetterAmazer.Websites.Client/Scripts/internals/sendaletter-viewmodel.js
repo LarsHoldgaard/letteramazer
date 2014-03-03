@@ -124,7 +124,7 @@
     
     self.getPrice = ko.computed(function () {
          try {
-             return self.cost().PriceExVat.toFixed(2) + ' $ (' + self.numberOfPages() + ' pages)';
+             return self.cost().Total.toFixed(2) + ' $ (' + self.numberOfPages() + ' pages)';
          } catch(ex) {
              return 0;
          }

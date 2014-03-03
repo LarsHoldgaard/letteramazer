@@ -50,7 +50,7 @@ namespace LetterAmazer.Websites.Client.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            priceUpdater.Execute();
+            //priceUpdater.Execute();
 
             if (SessionHelper.Customer != null) return RedirectToAction("SendALetter", "User");
             CreateSingleLetterModel model = new CreateSingleLetterModel();
@@ -159,7 +159,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                 {
                     ProductType = ProductType.Letter,
                     BaseProduct = letter,
-                    Cost = priceService.GetPriceByLetter(letter).PriceExVat
+                    Cost = priceService.GetPriceByLetter(letter).Total
                 });
 
                 var rest = addCouponlines(price, coupon, order);
@@ -197,7 +197,7 @@ namespace LetterAmazer.Websites.Client.Controllers
 
         private decimal addCouponlines(Price price, Coupon coupon, Order order)
         {
-            decimal rest = price.PriceExVat;
+            decimal rest = price.Total;
             if (coupon != null)
             {
                 decimal chargeCoupon = 0.0m;

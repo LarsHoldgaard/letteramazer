@@ -105,7 +105,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                 PageCount = pages
             });
 
-            return pricing.PriceExVat;
+            return pricing.Total;
         }
 
         [HttpGet, AutoErrorRecovery]
