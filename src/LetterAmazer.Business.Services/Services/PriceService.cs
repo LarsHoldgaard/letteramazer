@@ -87,33 +87,45 @@ namespace LetterAmazer.Business.Services.Services
 
         public Price GetPriceBySpecification(PriceSpecification specification)
         {
-            IQueryable<DbOfficeProducts> prices =
+            IQueryable<DbOfficeProducts> officeProducts =
                 repository.DbOfficeProducts.Where(c => c.ReferenceType == (int) ProductMatrixReferenceType.Sales);
 
             if (specification.LetterColor.HasValue)
             {
-                prices = prices.Where(c => c.LetterColor == (int)specification.LetterColor.Value);
+                officeProducts = officeProducts.Where(c => c.LetterColor == (int)specification.LetterColor.Value);
             }
             if (specification.LetterPaperWeight.HasValue)
             {
-                prices = prices.Where(c => c.LetterPaperWeight == (int)specification.LetterPaperWeight.Value);
+                officeProducts = officeProducts.Where(c => c.LetterPaperWeight == (int)specification.LetterPaperWeight.Value);
             }
             if (specification.LetterProcessing.HasValue)
             {
-                prices = prices.Where(c => c.LetterProcessing == (int)specification.LetterProcessing.Value);
+                officeProducts = officeProducts.Where(c => c.LetterProcessing == (int)specification.LetterProcessing.Value);
             }
             if (specification.LetterSize.HasValue)
             {
-                prices = prices.Where(c => c.LetterSize == (int)specification.LetterSize.Value);
+                officeProducts = officeProducts.Where(c => c.LetterSize == (int)specification.LetterSize.Value);
             }
             if (specification.LetterType.HasValue)
             {
-                prices = prices.Where(c => c.LetterType == (int)specification.LetterType.Value);
+                officeProducts = officeProducts.Where(c => c.LetterType == (int)specification.LetterType.Value);
             }
-            
+            if (specification.CountryId > 0)
+            {
+                var country = countryService.GetCountryById(specification.CountryId);
+                officeProducts = officeProducts.Where(c => c.CountryId == specification.CountryId || c.ContinentId == country.ContinentId || c.ScopeType == (int)ProductScope.RestOfWorld);
+            }
+            if (specification.ContinentId > 0)
+            {
+                officeProducts = officeProducts.Where(c => c.ContinentId == specification.ContinentId || c.ScopeType == (int)ProductScope.RestOfWorld);
+            }
+            // TODO: ZIP?
+
+
+            // find cheapest prices from the provided list of officeProducts
             decimal minCost = decimal.MaxValue;
             int officeProductId = 0;
-            foreach (var officeProduct in prices)
+            foreach (var officeProduct in officeProducts)
             {
                 var matrix = productMatrixService.GetProductMatrixBySpecification(new ProductMatrixLineSpecification()
                 {
