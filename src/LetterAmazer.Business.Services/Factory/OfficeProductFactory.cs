@@ -49,7 +49,7 @@ namespace LetterAmazer.Business.Services.Factory
                 new ProductMatrixLineSpecification()
                 {
                     OfficeProductId = dbproducts.Id
-                });
+                }).ToList();
 
             return officeProduct;
         }

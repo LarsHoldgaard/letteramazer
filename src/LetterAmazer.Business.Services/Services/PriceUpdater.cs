@@ -55,7 +55,6 @@ namespace LetterAmazer.Business.Services.Services
 
             foreach (var officeProduct in groupedProduct.Value)
             {
-
                 var matrices = total_matrices.Where(c => c.OfficeProductId == officeProduct.Id);
 
                 // TODO: Must fix more than 1
@@ -74,20 +73,63 @@ namespace LetterAmazer.Business.Services.Services
 
         private void SaveOfficeProduct(int lowestOfficeProductId)
         {
+            // We can assume this is the cheapest officeproduct of any with exact same product details
             var cheapest_officeProduct = officeProductService.GetOfficeProductById(lowestOfficeProductId);
             cheapest_officeProduct.ReferenceType = ProductMatrixReferenceType.Sales;
-
+           
+            // Update price of the office product matrix lines
             foreach (var productMatrixLine in cheapest_officeProduct.ProductMatrixLines)
             {
                 productMatrixLine.BaseCost = CalculateSalesPrice(productMatrixLine.BaseCost,
                     productMatrixLine.LineType);
             }
-            officeProductService.Create(cheapest_officeProduct);
-            foreach (var productMatrixLine in cheapest_officeProduct.ProductMatrixLines)
+
+            // Add cheapest office product to database by either creating or updating price
+            var existing_officeProduct =
+                officeProductService.GetOfficeProductBySpecification(new OfficeProductSpecification()
+                {
+                    ContinentId = cheapest_officeProduct.ContinentId,
+                    CountryId = cheapest_officeProduct.CountryId,
+                    LetterColor = cheapest_officeProduct.LetterDetails.LetterColor,
+                    LetterPaperWeight = cheapest_officeProduct.LetterDetails.LetterPaperWeight,
+                    LetterProcessing = cheapest_officeProduct.LetterDetails.LetterProcessing,
+                    LetterSize = cheapest_officeProduct.LetterDetails.LetterSize,
+                    LetterType = cheapest_officeProduct.LetterDetails.LetterType,
+                    ProductScope = cheapest_officeProduct.ProductScope,
+                    ZipId = cheapest_officeProduct.ContinentId,
+                    ProductMatrixReferenceType = ProductMatrixReferenceType.Sales
+                }).FirstOrDefault();
+
+            // If product doesn't exist, we will just create it
+            if (existing_officeProduct == null)
             {
-                productMatrixLine.OfficeProductId = cheapest_officeProduct.Id;
-                productMatrixService.Create(productMatrixLine);
+                existing_officeProduct = officeProductService.Create(cheapest_officeProduct);
+
+                foreach (var productMatrixLine in cheapest_officeProduct.ProductMatrixLines)
+                {
+                    productMatrixLine.OfficeProductId = existing_officeProduct.Id;
+                    productMatrixService.Create(productMatrixLine);
+                }
             }
+            else
+            {
+                // update lines
+                var lines = productMatrixService.GetProductMatrixBySpecification(new ProductMatrixLineSpecification()
+                {
+                    OfficeProductId = existing_officeProduct.Id
+                });
+
+                foreach (var productMatrixLine in lines)
+                {
+                    productMatrixService.Delete(productMatrixLine);
+                }
+
+                foreach (var productMatrixLine in cheapest_officeProduct.ProductMatrixLines)
+                {
+                    productMatrixService.Create(productMatrixLine);
+                }
+            }
+
         }
 
         private decimal CalculateSalesPrice(decimal value, ProductMatrixLineType lineType)
@@ -96,7 +138,7 @@ namespace LetterAmazer.Business.Services.Services
             {
                 return value;
             }
-            decimal adderPercentage = 20.0m / 100.0m;
+            decimal adderPercentage = 15.0m / 100.0m;
             return value * (1 + adderPercentage);
         }
 

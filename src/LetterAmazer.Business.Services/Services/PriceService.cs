@@ -90,22 +90,6 @@ namespace LetterAmazer.Business.Services.Services
             IQueryable<DbOfficeProducts> prices =
                 repository.DbOfficeProducts.Where(c => c.ReferenceType == (int) ProductMatrixReferenceType.Sales);
 
-            if (specification.CountryId > 0)
-            {
-                prices = prices.Where(c => c.CountryId == specification.CountryId);
-            }
-            if (specification.ContinentId > 0)
-            {
-                prices = prices.Where(c => c.ContinentId == specification.ContinentId);
-            }
-            if (specification.DeliveryDays > 0)
-            {
-                // TODO: implement delivery days
-            }
-            if (specification.ZipId > 0)
-            {
-                prices = prices.Where(c => c.ZipId == specification.ZipId);
-            }
             if (specification.LetterColor.HasValue)
             {
                 prices = prices.Where(c => c.LetterColor == (int)specification.LetterColor.Value);
@@ -127,7 +111,6 @@ namespace LetterAmazer.Business.Services.Services
                 prices = prices.Where(c => c.LetterType == (int)specification.LetterType.Value);
             }
             
-
             decimal minCost = decimal.MaxValue;
             int officeProductId = 0;
             foreach (var officeProduct in prices)
@@ -188,7 +171,12 @@ namespace LetterAmazer.Business.Services.Services
             decimal productCost = 0.0m;
             for (int page = 1; page <= pageCount; page++)
             {
-                var lines = matrix.Where(c => c.SpanLower >= page && c.SpanUpper <= page);
+                var lines = matrix.Where(c => c.SpanLower <= page && c.SpanUpper >= page);
+
+                if (!lines.Any())
+                {
+                    throw new BusinessException("No price for this page");
+                }
 
                 foreach (var productMatrixLine in lines)
                 {

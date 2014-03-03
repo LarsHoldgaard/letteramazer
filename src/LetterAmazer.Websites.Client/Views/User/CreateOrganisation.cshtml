@@ -8,7 +8,7 @@
         <h1>Create a new organisation</h1>
         
         
-        @using (Html.BeginForm())
+        @using (Html.BeginForm("CreateOrganisation","User",FormMethod.Post))
         {
             <div class="row login">
                 <div class="col-lg-6">
@@ -28,7 +28,7 @@
             <div class="row login ui-helper-hidden">
                 <div class="col-lg-6">
                     <label class="sr-only" for="VatNumber">Vat number</label>
-                    @Html.TextBoxFor(m => m.VatNumber, new { @class = "form-control", placeholder = "Organisation name" })
+                    @Html.TextBoxFor(m => m.VatNumber, new { @class = "form-control", placeholder = "Vat nr" })
                 </div>
             </div>
 

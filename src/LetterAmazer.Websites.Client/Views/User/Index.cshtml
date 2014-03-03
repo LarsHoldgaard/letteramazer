@@ -20,17 +20,18 @@
         <h2>@ViewRes.SendALetter, @Model.Customer.CustomerInfo.Organisation</h2>
         <h3>@ViewRes.Credits: <strong class="credit">@Model.Customer.Credit.ToFriendlyMoney()$</strong></h3>
 
-
+        
         @if (SessionHelper.Customer.IsActivated)
         {
             <h4>@ViewRes.SendALetter</h4>
             <p><a class="btn btn-primary" href="@Url.Action("Credits")">@ViewRes.BuyCredits</a></p>
 
-            @if (Model.Customer.CreditsLeft > 0)
+            if (Model.Customer.CreditsLeft > 0)
             {
                 <p><a class="btn btn-success" href="@Url.Action("SendALetter")">@ViewRes.SendALetterNow</a></p>
             }
         }
+
         <h4>@ViewRes.OrderOverview</h4>
         <form class="form-inline" role="form" method="get" action="@Url.Action("Index")">
             <div class="form-group">

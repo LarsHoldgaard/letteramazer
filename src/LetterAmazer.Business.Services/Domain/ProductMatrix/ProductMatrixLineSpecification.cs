@@ -16,6 +16,7 @@ namespace LetterAmazer.Business.Services.Domain.ProductMatrix
 
         public ProductMatrixLineSpecification()
         {
+            this.Take = 30;
             this.PageCount = 1;
         }
     }

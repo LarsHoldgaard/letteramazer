@@ -271,6 +271,9 @@ namespace LetterAmazer.Websites.Client.Controllers
 
                 customerService.ActivateUser(customer);
 
+                SessionHelper.Customer = customer;
+                FormsAuthentication.SetAuthCookie(customer.Id.ToString(), true);
+
                 return RedirectToAction("Index", "User");
             }
             catch (Exception ex)

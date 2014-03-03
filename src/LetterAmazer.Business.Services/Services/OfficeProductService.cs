@@ -49,6 +49,43 @@ namespace LetterAmazer.Business.Services.Services
             {
                 dbProducts = dbProducts.Where(c => c.ReferenceType == (int)specification.ProductMatrixReferenceType.Value);
             }
+            if (specification.LetterPaperWeight != null)
+            {
+                dbProducts = dbProducts.Where(c => c.LetterPaperWeight == (int)specification.LetterPaperWeight.Value);
+            }
+            if (specification.LetterColor != null)
+            {
+                dbProducts = dbProducts.Where(c => c.LetterColor == (int)specification.LetterColor.Value);
+            }
+            if (specification.LetterSize != null)
+            {
+                dbProducts = dbProducts.Where(c => c.LetterSize == (int)specification.LetterSize.Value);
+            }
+            if (specification.LetterProcessing != null)
+            {
+                dbProducts = dbProducts.Where(c => c.LetterProcessing == (int)specification.LetterProcessing.Value);
+            }
+            if (specification.LetterType != null)
+            {
+                dbProducts = dbProducts.Where(c => c.LetterType == (int)specification.LetterType.Value);
+            }
+            if (specification.ProductScope != null)
+            {
+                dbProducts = dbProducts.Where(c => c.ScopeType == (int)specification.ProductScope.Value);
+            }
+            if (specification.CountryId > 0)
+            {
+                dbProducts = dbProducts.Where(c => c.CountryId == specification.CountryId);
+            }
+            if (specification.ContinentId > 0)
+            {
+                dbProducts = dbProducts.Where(c => c.ContinentId == specification.ContinentId);
+            }
+            if (specification.ZipId > 0)
+            {
+                dbProducts = dbProducts.Where(c => c.ZipId == specification.ZipId);
+            }
+
 
             return
                 officeProductFactory.Create(

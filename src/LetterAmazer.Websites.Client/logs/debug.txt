@@ -1787,3 +1787,12 @@ Invalid column name 'OrganisationRole'.
    at LetterAmazer.Business.Services.Services.CustomerService.Create(Customer customer) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\CustomerService.cs:line 122
    at LetterAmazer.Websites.Client.Controllers.HomeController.Register(RegisterViewModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\HomeController.cs:line 137
 2014-03-02 13:23:10,015 [10] DEBUG LetterAmazer.Websites.Client.Controllers.UserController - upload file key: 2014/3/fe2ebcb3-1ece-472c-a082-6ae04bb51eb2.pdf
+2014-03-03 19:13:24,171 [9] ERROR LetterAmazer.Websites.Client.Controllers.HomeController - System.NullReferenceException: Object reference not set to an instance of an object.
+   at LetterAmazer.Business.Services.Services.CustomerService.ActivateUser(Customer customer) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\CustomerService.cs:line 107
+   at LetterAmazer.Websites.Client.Controllers.HomeController.Confirm(String key) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\HomeController.cs:line 272
+2014-03-03 19:13:36,200 [9] ERROR LetterAmazer.Websites.Client.Controllers.HomeController - System.NullReferenceException: Object reference not set to an instance of an object.
+   at LetterAmazer.Business.Services.Services.CustomerService.ActivateUser(Customer customer) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\CustomerService.cs:line 107
+   at LetterAmazer.Websites.Client.Controllers.HomeController.Confirm(String key) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\HomeController.cs:line 272
+2014-03-03 19:14:08,349 [10] ERROR LetterAmazer.Websites.Client.Controllers.HomeController - System.NullReferenceException: Object reference not set to an instance of an object.
+   at LetterAmazer.Business.Services.Services.CustomerService.ActivateUser(Customer customer) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\CustomerService.cs:line 107
+   at LetterAmazer.Websites.Client.Controllers.HomeController.Confirm(String key) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\HomeController.cs:line 272

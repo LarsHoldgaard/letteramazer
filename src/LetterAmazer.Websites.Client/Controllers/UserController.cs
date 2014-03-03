@@ -52,12 +52,6 @@ namespace LetterAmazer.Websites.Client.Controllers
             this.mailService = mailService;
         }
 
-
-        public ActionResult Index()
-        {
-            return Index(0, new ProfileViewModel());
-        }
-
         public ActionResult Index(int? page, ProfileViewModel model)
         {
             buildOverviewModel(model);

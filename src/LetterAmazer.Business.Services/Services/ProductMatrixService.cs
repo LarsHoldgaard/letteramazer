@@ -46,7 +46,7 @@ namespace LetterAmazer.Business.Services.Services
             }
             if (specification.PageCount > 1)
             {
-                dbProductMatrices = dbProductMatrices.Where(c => c.Span_upper <= specification.PageCount);
+                dbProductMatrices = dbProductMatrices.Where(c => c.Span_lower <= specification.PageCount);
             }
             
 
