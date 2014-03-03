@@ -1,4 +1,5 @@
 ﻿@using LetterAmazer.Business.Services.Domain.Letters
+@using LetterAmazer.Business.Utils.Helpers
 @using LetterAmazer.Websites.Client.Extensions
 @using LetterAmazer.Websites.Client.Resources.Views.User
 
@@ -9,29 +10,36 @@
     <script type="text/javascript" src="@Url.Content("~/Scripts/jquery-ui-1.10.3.min.js")"></script>
 }
 
-@Html.Partial("_notActivated")
+@if (!SessionHelper.Customer.IsActivated)
+{
+    @Html.Partial("_notActivated")
+}
 
 <div class="jumbotron-white">
     <div class="container">
         <h2>@ViewRes.SendALetter, @Model.Customer.CustomerInfo.Organisation</h2>
         <h3>@ViewRes.Credits: <strong class="credit">@Model.Customer.Credit.ToFriendlyMoney()$</strong></h3>
-        <h4>@ViewRes.SendALetter</h4>
-        <p><a class="btn btn-primary" href="@Url.Action("Credits")">@ViewRes.BuyCredits</a></p>
-        
-        @if (Model.Customer.CreditsLeft > 0)
+
+
+        @if (SessionHelper.Customer.IsActivated)
         {
-        <p><a class="btn btn-success" href="@Url.Action("SendALetter")">@ViewRes.SendALetterNow</a></p>    
+            <h4>@ViewRes.SendALetter</h4>
+            <p><a class="btn btn-primary" href="@Url.Action("Credits")">@ViewRes.BuyCredits</a></p>
+
+            @if (Model.Customer.CreditsLeft > 0)
+            {
+                <p><a class="btn btn-success" href="@Url.Action("SendALetter")">@ViewRes.SendALetterNow</a></p>
+            }
         }
-        
         <h4>@ViewRes.OrderOverview</h4>
         <form class="form-inline" role="form" method="get" action="@Url.Action("Index")">
             <div class="form-group">
                 <label class="sr-only" for="fromDate">From</label>
-                <input type="text" class="form-control" id="fromDate" placeholder="From" name="fromDate" value="@(Model.FromDate.HasValue ? Model.FromDate.Value.ToString("yyyy-MM-dd") : "")"/>
+                <input type="text" class="form-control" id="fromDate" placeholder="From" name="fromDate" value="@(Model.FromDate.HasValue ? Model.FromDate.Value.ToString("yyyy-MM-dd") : "")" />
             </div>
             <div class="form-group">
                 <label class="sr-only" for="toDate">To</label>
-                <input type="text" class="form-control" id="toDate" placeholder="To" name="toDate" value="@(Model.ToDate.HasValue ? Model.ToDate.Value.ToString("yyyy-MM-dd") : "")"/>
+                <input type="text" class="form-control" id="toDate" placeholder="To" name="toDate" value="@(Model.ToDate.HasValue ? Model.ToDate.Value.ToString("yyyy-MM-dd") : "")" />
             </div>
             <button type="submit" class="btn btn-success">@ViewRes.Search</button>
         </form>
@@ -47,19 +55,19 @@
                 </tr>
             </thead>
             <tbody>
-            @foreach (var item in Model.Orders)
-            {
-                
-                <tr>
-                    <td>@item.Id</td>
-                    <td>@item.DateCreated.ToFriendlyDateTime()</td>
-                    <td>@ViewRes.ResourceManager.GetString(item.OrderStatus.ToString())</td>
-                    <td>@item.OrderLines.Count</td>
-                    <td>@item.Price.ToFriendlyMoney() USD</td>
-                    <td><a href="@Url.Action("Details", new { id = item.Id })">See details</a></td>
-                    
-                </tr>
-            }
+                @foreach (var item in Model.Orders)
+                {
+
+                    <tr>
+                        <td>@item.Id</td>
+                        <td>@item.DateCreated.ToFriendlyDateTime()</td>
+                        <td>@ViewRes.ResourceManager.GetString(item.OrderStatus.ToString())</td>
+                        <td>@item.OrderLines.Count</td>
+                        <td>@item.Price.ToFriendlyMoney() USD</td>
+                        <td><a href="@Url.Action("Details", new { id = item.Id })">See details</a></td>
+
+                    </tr>
+                }
             </tbody>
         </table>
     </div>

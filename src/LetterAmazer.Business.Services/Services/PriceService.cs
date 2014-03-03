@@ -10,6 +10,7 @@ using LetterAmazer.Business.Services.Domain.Countries;
 using LetterAmazer.Business.Services.Domain.Letters;
 using LetterAmazer.Business.Services.Domain.OfficeProducts;
 using LetterAmazer.Business.Services.Domain.Orders;
+using LetterAmazer.Business.Services.Domain.Organisation;
 using LetterAmazer.Business.Services.Domain.Pricing;
 using LetterAmazer.Business.Services.Domain.ProductMatrix;
 using LetterAmazer.Business.Services.Domain.Products.ProductDetails;
@@ -26,14 +27,18 @@ namespace LetterAmazer.Business.Services.Services
         private LetterAmazerEntities repository;
         private IProductMatrixService productMatrixService;
         private IOfficeProductService offerProductService;
+        private IOrganisationService organisationService;
 
         public PriceService(ICountryService countryService,
-            LetterAmazerEntities repository, IProductMatrixService productMatrixService, IOfficeProductService offerProductService)
+            LetterAmazerEntities repository, IProductMatrixService productMatrixService, 
+            IOfficeProductService offerProductService, IOrganisationService organisationService
+            )
         {
             this.countryService = countryService;
             this.repository = repository;
             this.productMatrixService = productMatrixService;
             this.offerProductService = offerProductService;
+            this.organisationService = organisationService;
         }
 
         public Price GetPriceByOrder(Order order)
@@ -121,6 +126,7 @@ namespace LetterAmazer.Business.Services.Services
             {
                 prices = prices.Where(c => c.LetterType == (int)specification.LetterType.Value);
             }
+            
 
             decimal minCost = decimal.MaxValue;
             int officeProductId = 0;
@@ -145,12 +151,36 @@ namespace LetterAmazer.Business.Services.Services
                 throw new BusinessException("No price for this specification");
             }
 
+            var addVat = isVatAdded(specification);
+
             return new Price()
             {
                 OfficeProductId = officeProductId,
-                PriceExVat = minCost,
-                VatPercentage = 0.0m
+                PriceExVat =minCost,
+                VatPercentage = addVat ? 0.25m : 0.0m
             };
+        }
+
+        private bool isVatAdded(PriceSpecification specification)
+        {
+            bool addVat = true;
+            if (specification.OrganisationId > 0)
+            {
+                var organisation = organisationService.GetOrganisationById(specification.OrganisationId);
+
+                if (organisation.Address.Country.InsideEu)
+                {
+                    if (!string.IsNullOrEmpty(organisation.Address.VatNr))
+                    {
+                        addVat = false;
+                    }
+                }
+                else
+                {
+                    addVat = false;
+                }
+            }
+            return addVat;
         }
 
         public Price GetPriceByMatrixLines(IEnumerable<ProductMatrixLine> matrix, int pageCount)

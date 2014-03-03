@@ -23,6 +23,8 @@ namespace LetterAmazer.Business.Services.Domain.Pricing
         public int PageCount { get; set; }
         public int DeliveryDays { get; set; }
 
+        public int OrganisationId { get; set; }
+
         public PriceSpecification()
         {
             PageCount = 1;

@@ -21,6 +21,16 @@ namespace LetterAmazer.Business.Services.Domain.Customers
         public string RegisterKey { get; set; }
         public int OrganisationId { get; set; }
 
+        public bool IsActivated {
+            get
+            {
+                if ((DateActivated.HasValue && DateActivated.Value <= DateTime.Now)&& (string.IsNullOrEmpty(RegisterKey)))
+                {
+                    return true;
+                }
+                return false;
+            }
+        }
 
         public decimal CreditsLeft
         {
