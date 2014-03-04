@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using LetterAmazer.Business.Services.Domain.Customers;
 using LetterAmazer.Business.Services.Domain.Payments;
+using LetterAmazer.Business.Services.Domain.Pricing;
 using LetterAmazer.Business.Services.Domain.Products;
 
 namespace LetterAmazer.Business.Services.Domain.Orders
@@ -21,9 +22,8 @@ namespace LetterAmazer.Business.Services.Domain.Orders
         public DateTime? DateSent { get; set; }
 
         public string TransactionCode { get; set; }
-        public decimal Cost { get; set; }
 
-        public decimal VatPercentage { get; set; }
+        public Price Price { get; set; }
 
         
         public List<OrderLine> OrderLines { get; set; }
@@ -42,7 +42,7 @@ namespace LetterAmazer.Business.Services.Domain.Orders
         public decimal CostFromLines()
         {
             var lines = OrderLines.Where(c => c.ProductType == ProductType.Letter);
-            return lines.Sum(c => c.Cost);
+            return lines.Sum(c => c.Price.PriceExVat);
         }
     }
 }

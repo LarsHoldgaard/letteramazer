@@ -54,7 +54,24 @@ namespace LetterAmazer.Business.Services.Services
             dbInvoice.Invoice_AttPerson = invoice.InvoiceInfo.AttPerson;
             dbInvoice.Invoice_Address2 = invoice.InvoiceInfo.Address2;
             dbInvoice.Invoice_Address1 = invoice.InvoiceInfo.Address1;
-            
+
+
+            repository.DbInvoices.Add(dbInvoice);
+            repository.SaveChanges();
+
+            foreach (var invoiceLine in invoice.InvoiceLines)
+            {
+                var dbLine = new DbInvoiceLines()
+                {
+                    InvoiceId = dbInvoice.Id,
+                    Quantity = invoiceLine.Quantity,
+                    PriceExVat = invoiceLine.PriceExVat,
+                    Description = invoiceLine.Description
+                };
+                repository.DbInvoiceLines.Add(dbLine);
+            }
+            repository.SaveChanges();
+
             return GetInvoiceById(dbInvoice.Id);
         }
 

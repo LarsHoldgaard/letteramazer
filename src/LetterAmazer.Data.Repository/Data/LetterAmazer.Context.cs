@@ -30,6 +30,7 @@ namespace LetterAmazer.Data.Repository.Data
         public DbSet<DbCoupons> DbCoupons { get; set; }
         public DbSet<DbCustomers> DbCustomers { get; set; }
         public DbSet<DbFulfillmentPartners> DbFulfillmentPartners { get; set; }
+        public DbSet<DbInvoiceLines> DbInvoiceLines { get; set; }
         public DbSet<DbInvoices> DbInvoices { get; set; }
         public DbSet<DbLetters> DbLetters { get; set; }
         public DbSet<DbOfficeProducts> DbOfficeProducts { get; set; }
@@ -41,6 +42,5 @@ namespace LetterAmazer.Data.Repository.Data
         public DbSet<DbPaymentMethods> DbPaymentMethods { get; set; }
         public DbSet<DbProductMatrixLines> DbProductMatrixLines { get; set; }
         public DbSet<DbShops> DbShops { get; set; }
-        public DbSet<DbInvoiceLines> DbInvoiceLines { get; set; }
     }
 }

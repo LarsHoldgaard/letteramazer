@@ -43,6 +43,7 @@ namespace LetterAmazer.Business.Services.Domain.Invoice
         public Invoice()
         {
             this.InvoiceLines = new List<InvoiceLine>();
+            this.InvoiceStatus = InvoiceStatus.Created;
         }
     }
 }

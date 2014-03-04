@@ -31,7 +31,7 @@ namespace LetterAmazer.Business.Services.Services.PaymentMethods.Implementations
 
             var coupon = couponService.GetCouponById(orderLine.CouponId);
 
-            coupon.CouponValueLeft -= orderLine.Cost;
+            coupon.CouponValueLeft -= orderLine.Price.Total;
 
             if (coupon.CouponValueLeft > 0)
             {

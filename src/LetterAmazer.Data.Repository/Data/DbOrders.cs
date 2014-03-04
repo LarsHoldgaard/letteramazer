@@ -28,11 +28,13 @@ namespace LetterAmazer.Data.Repository.Data
         public System.Guid Guid { get; set; }
         public string OrderCode { get; set; }
         public string TransactionCode { get; set; }
-        public decimal Cost { get; set; }
+        public decimal PriceExVat { get; set; }
         public string CouponCode { get; set; }
         public string PaymentMethod { get; set; }
         public Nullable<System.DateTime> DatePaid { get; set; }
         public Nullable<System.DateTime> DateSent { get; set; }
+        public decimal VatPercentage { get; set; }
+        public decimal Total { get; set; }
     
         public virtual DbCustomers DbCustomers { get; set; }
         public virtual ICollection<DbInvoices> DbInvoices { get; set; }

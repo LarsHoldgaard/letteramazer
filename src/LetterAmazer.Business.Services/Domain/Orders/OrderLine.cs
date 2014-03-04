@@ -1,4 +1,5 @@
 ﻿using LetterAmazer.Business.Services.Domain.Payments;
+using LetterAmazer.Business.Services.Domain.Pricing;
 using LetterAmazer.Business.Services.Domain.Products;
 
 namespace LetterAmazer.Business.Services.Domain.Orders
@@ -13,8 +14,7 @@ namespace LetterAmazer.Business.Services.Domain.Orders
 
         public int Quantity { get; set; }
 
-        public decimal Cost { get; set; }
-
+        public Price Price { get; set; }
         public int CouponId { get; set; }
 
 

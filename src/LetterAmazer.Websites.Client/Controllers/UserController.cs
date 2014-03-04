@@ -484,7 +484,8 @@ namespace LetterAmazer.Websites.Client.Controllers
             var invoices = invoiceService.GetInvoiceBySpecification(new InvoiceSpecification()
             {
                 DateFrom = from,
-                DateTo = to
+                DateTo = to,
+                OrganisationId = organisationId
             });
             var models = new List<InvoiceSnippetViewModel>();
 
@@ -494,7 +495,8 @@ namespace LetterAmazer.Websites.Client.Controllers
                 {
                     DateCreated = invoice.DateCreated,
                     OrderNumber = invoice.InvoiceNumber,
-                    TotalPrice = 0.0m
+                    TotalPrice = invoice.PriceTotal,
+                    InvoiceId = invoice.Id
                 });
             }
 

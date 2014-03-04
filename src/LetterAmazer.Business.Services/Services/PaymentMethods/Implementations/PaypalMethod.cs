@@ -49,7 +49,7 @@ namespace LetterAmazer.Business.Services.Services.PaymentMethods.Implementations
                 addressInfo = order.Customer.CustomerInfo;
             }
 
-            var totalPrice = orderlinePayment.Cost;
+            var totalPrice = orderlinePayment.Price.Total;
 
             decimal volume = totalPrice;
             string firstName = addressInfo.FirstName;

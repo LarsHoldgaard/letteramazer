@@ -54,15 +54,16 @@ namespace LetterAmazer.Business.Utils.Helpers
             public class PracticalInformation
             {
                 public const string PhoneNr = "(+45) 6179 3650";
-                public const string Street = "Måløv Hovedgade 58C st. th.";
+                public const string Address1 = "Måløv Hovedgade 58C st. th.";
                 public const string City = "Måløv";
-                public const string PostalNr = "2760";
-                public const string Cvr = "33113544";
+                public const string Zipcode = "2760";
+                public const string VatNumber = "33113544";
                 public const string BankName = "Nordea";
                 public const string BankReg = "2279";
                 public const string BankAccount = "8971983559";
-                public const string CompanyName = "LetterAmazer";
+                public const string CompanyName = "LetterAmazer IvS";
                 public const string Country = "Denmark";
+                public const int CountryId = 59;
                 public const string AttPerson = "Lars Holdgaard";
 
             }

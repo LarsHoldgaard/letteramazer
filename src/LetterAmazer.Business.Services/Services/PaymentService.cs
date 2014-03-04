@@ -1,6 +1,8 @@
 ﻿using Amazon.EC2.Model;
+using LetterAmazer.Business.Services.Domain.Countries;
 using LetterAmazer.Business.Services.Domain.Coupons;
 using LetterAmazer.Business.Services.Domain.Customers;
+using LetterAmazer.Business.Services.Domain.Invoice;
 using LetterAmazer.Business.Services.Domain.Orders;
 using LetterAmazer.Business.Services.Domain.Payments;
 using LetterAmazer.Business.Services.Domain.Pricing;
@@ -25,8 +27,12 @@ namespace LetterAmazer.Business.Services.Services
         private ICouponService couponService;
         private ICustomerService customerService;
         private IOrderService orderService;
+        private ICountryService countryService;
+        private IInvoiceService invoiceService;
+
         public PaymentService(LetterAmazerEntities repository,IPriceService priceService,IPaymentFactory paymentFactory, 
-            ICouponService couponService, ICustomerService customerService, IOrderService orderService)
+            ICouponService couponService, ICustomerService customerService, 
+            IOrderService orderService, ICountryService countryService, IInvoiceService invoiceService)
         {
             this.priceService = priceService;
             this.repository = repository;
@@ -34,6 +40,8 @@ namespace LetterAmazer.Business.Services.Services
             this.couponService = couponService;
             this.customerService = customerService;
             this.orderService = orderService;
+            this.countryService = countryService;
+            this.invoiceService = invoiceService;
         }
 
         public string Process(Order order)
@@ -100,7 +108,7 @@ namespace LetterAmazer.Business.Services.Services
             }
             else if (name == "Invoice")
             {
-                return new InvoiceMethod();
+                return new InvoiceMethod(in);
             }
             else if (name == "Bitcoin")
             {

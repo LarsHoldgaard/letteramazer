@@ -7,6 +7,7 @@ using LetterAmazer.Business.Services.Domain.Customers;
 using LetterAmazer.Business.Services.Domain.Letters;
 using LetterAmazer.Business.Services.Domain.Orders;
 using LetterAmazer.Business.Services.Domain.Payments;
+using LetterAmazer.Business.Services.Domain.Pricing;
 using LetterAmazer.Business.Services.Domain.Products;
 using LetterAmazer.Business.Services.Factory.Interfaces;
 using LetterAmazer.Business.Services.Services;
@@ -35,13 +36,16 @@ namespace LetterAmazer.Business.Services.Factory
                 OrderStatus = (OrderStatus)(dborder.OrderStatus),
                 Customer = dborder.CustomerId.HasValue ? customerService.GetCustomerById(dborder.CustomerId.Value) : null,
                 DatePaid = dborder.DatePaid.HasValue ? dborder.DatePaid.Value : DateTime.MinValue,
-                VatPercentage = 0.0m,
-                Cost = dborder.Cost,
                 OrderCode = dborder.OrderCode,
                 TransactionCode = dborder.TransactionCode,
                 Guid = dborder.Guid,
                 OrderLines = Create(dborderLines),
-                DateSent = dborder.DateSent
+                DateSent = dborder.DateSent,
+                Price = new Price()
+                {
+                    PriceExVat = dborder.PriceExVat,
+                    VatPercentage = dborder.VatPercentage
+                }
             };
 
             return order;
@@ -68,7 +72,10 @@ namespace LetterAmazer.Business.Services.Factory
             {
                 Quantity = dborderlines.Quantity,
                 ProductType = (ProductType)dborderlines.ItemType,
-                Cost = dborderlines.Cost
+                Price = new Price()
+                {
+                    PriceExVat  =dborderlines.Cost
+                }
             };
 
             if (line.ProductType == ProductType.Letter && dborderlines.LetterId.HasValue)

@@ -47,7 +47,9 @@ namespace LetterAmazer.Business.Services.Services
             dborder.OrderStatus = (int)OrderStatus.Created;
             dborder.DateCreated = DateTime.Now;
             dborder.DateUpdated = DateTime.Now;
-            dborder.Cost = order.CostFromLines();
+            dborder.PriceExVat = order.CostFromLines();
+            dborder.Total = order.Price.Total;
+            dborder.VatPercentage = order.Price.VatPercentage;
             dborder.PaymentMethod = "";
             dborder.CustomerId = order.Customer != null ? order.Customer.Id : 0;
 
@@ -164,7 +166,7 @@ namespace LetterAmazer.Business.Services.Services
             {
                 if (orderLine.ProductType == ProductType.Credit)
                 {
-                    var credits = orderLine.Cost;
+                    var credits = orderLine.Price.PriceExVat;
                     order.Customer.Credit += credits;
                     customerService.Update(order.Customer);
                 }
@@ -244,7 +246,7 @@ namespace LetterAmazer.Business.Services.Services
             var dbOrderLine = new DbOrderlines();
             dbOrderLine.Quantity = orderLine.Quantity;
             dbOrderLine.ItemType = (int)orderLine.ProductType;
-            dbOrderLine.Cost = orderLine.Cost; 
+            dbOrderLine.Cost = orderLine.Price.PriceExVat; 
 
             if (orderLine.ProductType == ProductType.Payment && orderLine.PaymentMethodId >0)
             {

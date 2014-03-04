@@ -21,6 +21,7 @@ namespace LetterAmazer.Websites.Client.ViewModels.User
 
     public class InvoiceSnippetViewModel
     {
+        public Guid InvoiceGuid { get; set; }
         public string OrderNumber { get; set; }
         public DateTime DateCreated { get; set; }
         public decimal TotalPrice { get; set; }

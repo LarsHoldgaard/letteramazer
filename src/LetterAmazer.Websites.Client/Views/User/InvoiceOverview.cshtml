@@ -1,8 +1,43 @@
-﻿@model LetterAmazer.Websites.Client.ViewModels.User.InvoiceOverviewViewModel
+﻿@using LetterAmazer.Business.Services.Domain.Invoice
+@model LetterAmazer.Websites.Client.ViewModels.User.InvoiceOverviewViewModel
 
-@{
-    ViewBag.Title = "title";
-    Layout = "_Layout";
-}
 
-<h2>title</h2>
+
+<h1>Invoices</h1>
+
+
+<table class="table table-stripped">
+    <thead>
+        <tr>
+            <th>
+                Invoice number
+            </th>
+            <th>
+                Date
+            </th>
+            <th>
+                Total price
+            </th>
+            <th>
+                See invoice
+            </th>
+        </tr>
+    </thead>
+    @foreach (var invoiceSnippet in Model.InvoiceSnippets)
+    {
+        <tr>
+            <td>
+                @invoiceSnippet.OrderNumber
+            </td>
+            <td>
+                @invoiceSnippet.DateCreated
+            </td>
+            <td>
+                @invoiceSnippet.TotalPrice
+            </td>
+            <td>
+                <a href="/payment/invoice?id=@invoiceSnippet.InvoiceGuid"></a>
+            </td>
+        </tr>
+    }
+</table>

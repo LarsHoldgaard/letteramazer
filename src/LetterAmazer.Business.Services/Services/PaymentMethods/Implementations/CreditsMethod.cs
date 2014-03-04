@@ -73,7 +73,7 @@ namespace LetterAmazer.Business.Services.Services.PaymentMethods.Implementations
 
             var customer = customerService.GetCustomerById(order.Customer.Id);
 
-            customer.Credit -= orderLine.Cost*orderLine.Quantity;
+            customer.Credit -= orderLine.Price.PriceExVat*orderLine.Quantity;
 
             customerService.Update(customer);
 

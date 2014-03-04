@@ -37,10 +37,10 @@ namespace LetterAmazer.Websites.Client.Controllers
                 Id = order.Id,
                 CompanyInfo = new InvoiceAddressViewModel()
                 {
-                    Address = LetterAmazer.Business.Utils.Helpers.Constants.Texts.PracticalInformation.Street,
+                    Address = LetterAmazer.Business.Utils.Helpers.Constants.Texts.PracticalInformation.Address1,
                     Company = LetterAmazer.Business.Utils.Helpers.Constants.Texts.PracticalInformation.CompanyName,
-                    VatNumber = LetterAmazer.Business.Utils.Helpers.Constants.Texts.PracticalInformation.Cvr,
-                    ZipCode = LetterAmazer.Business.Utils.Helpers.Constants.Texts.PracticalInformation.PostalNr,
+                    VatNumber = LetterAmazer.Business.Utils.Helpers.Constants.Texts.PracticalInformation.VatNumber,
+                    ZipCode = LetterAmazer.Business.Utils.Helpers.Constants.Texts.PracticalInformation.Zipcode,
                     City = LetterAmazer.Business.Utils.Helpers.Constants.Texts.PracticalInformation.City,
                     Country = LetterAmazer.Business.Utils.Helpers.Constants.Texts.PracticalInformation.Country,
                     Name = LetterAmazer.Business.Utils.Helpers.Constants.Texts.PracticalInformation.AttPerson,

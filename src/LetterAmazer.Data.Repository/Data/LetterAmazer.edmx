@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="LetterAmazer.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="LetterAmazer.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="DbContinents">
           <Key>
             <PropertyRef Name="Id" />
@@ -230,11 +230,13 @@
           <Property Name="Guid" Type="uniqueidentifier" Nullable="false" />
           <Property Name="OrderCode" Type="nvarchar" MaxLength="20" Nullable="false" />
           <Property Name="TransactionCode" Type="nvarchar" MaxLength="20" />
-          <Property Name="Cost" Type="decimal" Precision="18" Scale="5" Nullable="false" />
+          <Property Name="PriceExVat" Type="decimal" Precision="18" Scale="5" Nullable="false" />
           <Property Name="CouponCode" Type="nvarchar" MaxLength="20" />
           <Property Name="PaymentMethod" Type="nvarchar" MaxLength="20" Nullable="false" />
           <Property Name="DatePaid" Type="datetime" />
           <Property Name="DateSent" Type="datetime" />
+          <Property Name="VatPercentage" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Total" Type="decimal" Precision="18" Scale="5" Nullable="false" />
         </EntityType>
         <EntityType Name="DbOrganisation">
           <Key>
@@ -611,7 +613,8 @@
             <End Role="DbShops" EntitySet="DbShops" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="LetterAmazer" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -713,6 +716,17 @@
           <NavigationProperty Name="DbShops" Relationship="Self.FK_FulfillmentPartners_Shops" FromRole="DbFulfillmentPartners" ToRole="DbShops" />
           <NavigationProperty Name="DbOffices" Relationship="Self.FK_Offices_FulfillmentPartners" FromRole="DbFulfillmentPartners" ToRole="DbOffices" />
         </EntityType>
+        <EntityType Name="DbInvoiceLines">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="InvoiceId" Type="Int32" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <Property Name="PriceExVat" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <NavigationProperty Name="DbInvoices" Relationship="Self.FK_DbInvoiceLines_DbInvoices" FromRole="DbInvoiceLines" ToRole="DbInvoices" />
+        </EntityType>
         <EntityType Name="DbInvoices">
           <Key>
             <PropertyRef Name="Id" />
@@ -744,10 +758,10 @@
           <Property Name="Invoice_Zipcode" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Invoice_State" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
           <Property Name="Invoice_CountryId" Type="Int32" Nullable="false" />
+          <Property Name="Invoice_Vatnumber" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Receiver_Vatnumber" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="DbInvoiceLines" Relationship="Self.FK_DbInvoiceLines_DbInvoices" FromRole="DbInvoices" ToRole="DbInvoiceLines" />
           <NavigationProperty Name="DbOrders" Relationship="Self.FK_DbInvoices_DbOrders" FromRole="DbInvoices" ToRole="DbOrders" />
-          <NavigationProperty Name="DbInvoiceLines" Relationship="LetterAmazer.FK_DbInvoiceLines_DbInvoices" FromRole="DbInvoices" ToRole="DbInvoiceLines" />
-          <Property Name="Invoice_Vatnumber" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="Receiver_Vatnumber" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="DbLetters">
           <Key>
@@ -856,11 +870,13 @@
           <Property Name="Guid" Type="Guid" Nullable="false" />
           <Property Name="OrderCode" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="TransactionCode" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="Cost" Type="Decimal" Precision="18" Scale="5" Nullable="false" />
+          <Property Name="PriceExVat" Type="Decimal" Precision="18" Scale="5" Nullable="false" />
           <Property Name="CouponCode" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="PaymentMethod" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="DatePaid" Type="DateTime" Precision="3" />
           <Property Name="DateSent" Type="DateTime" Precision="3" />
+          <Property Name="VatPercentage" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Total" Type="Decimal" Precision="18" Scale="5" Nullable="false" />
           <NavigationProperty Name="DbCustomers" Relationship="Self.FK_Order_Customer" FromRole="DbOrders" ToRole="DbCustomers" />
           <NavigationProperty Name="DbInvoices" Relationship="Self.FK_DbInvoices_DbOrders" FromRole="DbOrders" ToRole="DbInvoices" />
           <NavigationProperty Name="DbOrderlines" Relationship="Self.FK_OrderItem_Order" FromRole="DbOrders" ToRole="DbOrderlines" />
@@ -1059,6 +1075,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_DbInvoiceLines_DbInvoices">
+          <End Role="DbInvoices" Type="Self.DbInvoices" Multiplicity="1" />
+          <End Role="DbInvoiceLines" Type="Self.DbInvoiceLines" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DbInvoices">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DbInvoiceLines">
+              <PropertyRef Name="InvoiceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_DbInvoices_DbOrders">
           <End Role="DbOrders" Type="Self.DbOrders" Multiplicity="1" />
           <End Role="DbInvoices" Type="Self.DbInvoices" Multiplicity="*" />
@@ -1149,6 +1177,7 @@
           <EntitySet Name="DbCoupons" EntityType="Self.DbCoupons" />
           <EntitySet Name="DbCustomers" EntityType="Self.DbCustomers" />
           <EntitySet Name="DbFulfillmentPartners" EntityType="Self.DbFulfillmentPartners" />
+          <EntitySet Name="DbInvoiceLines" EntityType="Self.DbInvoiceLines" />
           <EntitySet Name="DbInvoices" EntityType="Self.DbInvoices" />
           <EntitySet Name="DbLetters" EntityType="Self.DbLetters" />
           <EntitySet Name="DbOfficeProducts" EntityType="Self.DbOfficeProducts" />
@@ -1200,6 +1229,10 @@
             <End Role="DbFulfillmentPartners" EntitySet="DbFulfillmentPartners" />
             <End Role="DbOffices" EntitySet="DbOffices" />
           </AssociationSet>
+          <AssociationSet Name="FK_DbInvoiceLines_DbInvoices" Association="Self.FK_DbInvoiceLines_DbInvoices">
+            <End Role="DbInvoices" EntitySet="DbInvoices" />
+            <End Role="DbInvoiceLines" EntitySet="DbInvoiceLines" />
+          </AssociationSet>
           <AssociationSet Name="FK_DbInvoices_DbOrders" Association="Self.FK_DbInvoices_DbOrders">
             <End Role="DbOrders" EntitySet="DbOrders" />
             <End Role="DbInvoices" EntitySet="DbInvoices" />
@@ -1228,35 +1261,7 @@
             <End Role="DbOrganisation" EntitySet="DbOrganisation" />
             <End Role="DbOrganisationAddressList" EntitySet="DbOrganisationAddressList" />
           </AssociationSet>
-          <EntitySet Name="DbInvoiceLines" EntityType="LetterAmazer.DbInvoiceLines" />
-          <AssociationSet Name="FK_DbInvoiceLines_DbInvoices" Association="LetterAmazer.FK_DbInvoiceLines_DbInvoices">
-            <End Role="DbInvoices" EntitySet="DbInvoices" />
-            <End Role="DbInvoiceLines" EntitySet="DbInvoiceLines" />
-          </AssociationSet>
         </EntityContainer>
-        <EntityType Name="DbInvoiceLines">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="InvoiceId" Type="Int32" Nullable="false" />
-          <Property Name="Description" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="Quantity" Type="Int32" Nullable="false" />
-          <Property Name="PriceExVat" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <NavigationProperty Name="DbInvoices" Relationship="LetterAmazer.FK_DbInvoiceLines_DbInvoices" FromRole="DbInvoiceLines" ToRole="DbInvoices" />
-        </EntityType>
-        <Association Name="FK_DbInvoiceLines_DbInvoices">
-          <End Type="LetterAmazer.DbInvoices" Role="DbInvoices" Multiplicity="1" />
-          <End Type="LetterAmazer.DbInvoiceLines" Role="DbInvoiceLines" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="DbInvoices">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="DbInvoiceLines">
-              <PropertyRef Name="InvoiceId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1355,11 +1360,20 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="DbInvoiceLines">
+            <EntityTypeMapping TypeName="LetterAmazer.DbInvoiceLines">
+              <MappingFragment StoreEntitySet="DbInvoiceLines">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="InvoiceId" ColumnName="InvoiceId" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="PriceExVat" ColumnName="PriceExVat" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="DbInvoices">
             <EntityTypeMapping TypeName="LetterAmazer.DbInvoices">
               <MappingFragment StoreEntitySet="DbInvoices">
-                <ScalarProperty Name="Receiver_Vatnumber" ColumnName="Receiver_Vatnumber" />
-                <ScalarProperty Name="Invoice_Vatnumber" ColumnName="Invoice_Vatnumber" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Guid" ColumnName="Guid" />
                 <ScalarProperty Name="OrderId" ColumnName="OrderId" />
@@ -1387,6 +1401,8 @@
                 <ScalarProperty Name="Invoice_Zipcode" ColumnName="Invoice_Zipcode" />
                 <ScalarProperty Name="Invoice_State" ColumnName="Invoice_State" />
                 <ScalarProperty Name="Invoice_CountryId" ColumnName="Invoice_CountryId" />
+                <ScalarProperty Name="Invoice_Vatnumber" ColumnName="Invoice_Vatnumber" />
+                <ScalarProperty Name="Receiver_Vatnumber" ColumnName="Receiver_Vatnumber" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1487,11 +1503,13 @@
                 <ScalarProperty Name="Guid" ColumnName="Guid" />
                 <ScalarProperty Name="OrderCode" ColumnName="OrderCode" />
                 <ScalarProperty Name="TransactionCode" ColumnName="TransactionCode" />
-                <ScalarProperty Name="Cost" ColumnName="Cost" />
+                <ScalarProperty Name="PriceExVat" ColumnName="PriceExVat" />
                 <ScalarProperty Name="CouponCode" ColumnName="CouponCode" />
                 <ScalarProperty Name="PaymentMethod" ColumnName="PaymentMethod" />
                 <ScalarProperty Name="DatePaid" ColumnName="DatePaid" />
                 <ScalarProperty Name="DateSent" ColumnName="DateSent" />
+                <ScalarProperty Name="VatPercentage" ColumnName="VatPercentage" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1565,17 +1583,6 @@
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="CountryId" ColumnName="CountryId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="DbInvoiceLines">
-            <EntityTypeMapping TypeName="LetterAmazer.DbInvoiceLines">
-              <MappingFragment StoreEntitySet="DbInvoiceLines">
-                <ScalarProperty Name="PriceExVat" ColumnName="PriceExVat" />
-                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="InvoiceId" ColumnName="InvoiceId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
