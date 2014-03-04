@@ -26,13 +26,13 @@ namespace LetterAmazer.Data.Repository.Data
         public Nullable<int> CountryId { get; set; }
         public Nullable<int> ContinentId { get; set; }
         public Nullable<int> ZipId { get; set; }
-        public int ProductDetailsId { get; set; }
         public int ReferenceType { get; set; }
         public int LetterColor { get; set; }
         public int LetterPaperWeight { get; set; }
         public int LetterProcessing { get; set; }
         public int LetterSize { get; set; }
         public int LetterType { get; set; }
+        public Nullable<int> OfficeProductReferenceId { get; set; }
     
         public virtual ICollection<DbLetters> DbLetters { get; set; }
         public virtual ICollection<DbProductMatrixLines> DbProductMatrixLines { get; set; }

@@ -97,7 +97,7 @@ namespace LetterAmazer.Business.Services.Services.PaymentMethods.Implementations
                 {
                     Description = orderLine.ProductType.ToString(),
                     Quantity =orderLine.Quantity,
-                    PriceExVat = orderLine.Cost
+                    PriceExVat = orderLine.Price.PriceExVat
                 });
             }
 

@@ -108,7 +108,7 @@ namespace LetterAmazer.Business.Services.Services
             }
             else if (name == "Invoice")
             {
-                return new InvoiceMethod(in);
+                return new InvoiceMethod(invoiceService,orderService,countryService);
             }
             else if (name == "Bitcoin")
             {

@@ -42,7 +42,8 @@ namespace LetterAmazer.Business.Services.Factory
                 ProductScope = (ProductScope)dbproducts.ScopeType,
                 ZipId = dbproducts.ZipId.HasValue ? dbproducts.ZipId.Value : 0,
                 OfficeId = dbproducts.OfficeId,
-                ReferenceType = (ProductMatrixReferenceType)dbproducts.ReferenceType
+                ReferenceType = (ProductMatrixReferenceType)dbproducts.ReferenceType,
+                OfficeProductReferenceId = dbproducts.OfficeProductReferenceId.HasValue ? dbproducts.OfficeProductReferenceId.Value : 0
             };
 
             officeProduct.ProductMatrixLines = productMatrixService.GetProductMatrixBySpecification(

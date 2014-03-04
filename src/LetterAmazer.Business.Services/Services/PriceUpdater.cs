@@ -103,6 +103,7 @@ namespace LetterAmazer.Business.Services.Services
             // If product doesn't exist, we will just create it
             if (existing_officeProduct == null)
             {
+                cheapest_officeProduct.OfficeProductReferenceId = lowestOfficeProductId;
                 existing_officeProduct = officeProductService.Create(cheapest_officeProduct);
 
                 foreach (var productMatrixLine in cheapest_officeProduct.ProductMatrixLines)
@@ -126,6 +127,7 @@ namespace LetterAmazer.Business.Services.Services
 
                 foreach (var productMatrixLine in cheapest_officeProduct.ProductMatrixLines)
                 {
+                    productMatrixLine.OfficeProductId = existing_officeProduct.Id;
                     productMatrixService.Create(productMatrixLine);
                 }
             }

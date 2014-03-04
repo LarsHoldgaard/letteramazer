@@ -107,6 +107,7 @@ namespace LetterAmazer.Business.Services.Services
                 LetterSize = (int)officeProduct.LetterDetails.LetterSize,
                 LetterProcessing = (int)officeProduct.LetterDetails.LetterProcessing,
                 ReferenceType = (int)officeProduct.ReferenceType,
+                OfficeProductReferenceId = officeProduct.OfficeProductReferenceId
             };
 
             repository.DbOfficeProducts.Add(dbOfficeProduct);
@@ -137,6 +138,7 @@ namespace LetterAmazer.Business.Services.Services
             dbOfficeProduct.LetterSize = (int)officeProduct.LetterDetails.LetterSize;
             dbOfficeProduct.LetterType = (int)officeProduct.LetterDetails.LetterType;
             dbOfficeProduct.ReferenceType = (int) officeProduct.ReferenceType;
+            dbOfficeProduct.OfficeProductReferenceId = officeProduct.OfficeProductReferenceId;
 
             return GetOfficeProductById(officeProduct.Id);
         }

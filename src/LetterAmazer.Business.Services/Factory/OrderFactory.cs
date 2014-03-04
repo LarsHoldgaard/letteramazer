@@ -74,7 +74,8 @@ namespace LetterAmazer.Business.Services.Factory
                 ProductType = (ProductType)dborderlines.ItemType,
                 Price = new Price()
                 {
-                    PriceExVat  =dborderlines.Cost
+                    PriceExVat  =dborderlines.PriceExVat,
+                    VatPercentage = dborderlines.VatPercentage,
                 }
             };
 

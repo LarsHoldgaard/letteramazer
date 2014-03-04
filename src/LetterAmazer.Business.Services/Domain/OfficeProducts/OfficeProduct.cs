@@ -25,6 +25,8 @@ namespace LetterAmazer.Business.Services.Domain.OfficeProducts
 
         public ProductMatrixReferenceType ReferenceType { get; set; }
 
+        public int OfficeProductReferenceId { get; set; }
+
         public OfficeProduct()
         {
             this.ProductMatrixLines = new List<ProductMatrixLine>();

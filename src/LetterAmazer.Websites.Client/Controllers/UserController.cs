@@ -3,7 +3,6 @@ using System.Linq;
 using LetterAmazer.Business.Services.Domain.AddressInfos;
 using LetterAmazer.Business.Services.Domain.Countries;
 using LetterAmazer.Business.Services.Domain.Coupons;
-using LetterAmazer.Business.Services.Domain.Customers;
 using LetterAmazer.Business.Services.Domain.Invoice;
 using LetterAmazer.Business.Services.Domain.Letters;
 using LetterAmazer.Business.Services.Domain.Mails;
@@ -12,7 +11,6 @@ using LetterAmazer.Business.Services.Domain.Payments;
 using LetterAmazer.Business.Services.Domain.Pricing;
 using LetterAmazer.Business.Services.Domain.Products;
 using LetterAmazer.Business.Services.Domain.Products.ProductDetails;
-using LetterAmazer.Business.Services.Factory;
 using LetterAmazer.Business.Services.Services;
 using LetterAmazer.Business.Utils.Helpers;
 using LetterAmazer.Websites.Client.Attributes;
@@ -208,7 +206,10 @@ namespace LetterAmazer.Websites.Client.Controllers
                 {
                     ProductType = ProductType.Letter,
                     BaseProduct = letter,
-                    Cost = priceService.GetPriceByLetter(letter).Total
+                    Price = new Price()
+                    {
+                        PriceExVat = priceService.GetPriceByLetter(letter).Total
+                    }
                 });
 
                 var rest = addCouponlines(price, coupon, order);
@@ -218,8 +219,11 @@ namespace LetterAmazer.Websites.Client.Controllers
                     order.OrderLines.Add(new OrderLine()
                     {
                         ProductType = ProductType.Payment,
-                        Cost = rest,
-                        PaymentMethodId = 2 // Paypal
+                        PaymentMethodId = 2, // Paypal
+                        Price = new Price()
+                        {
+                            PriceExVat = rest
+                        }
                     });
                 }
 
@@ -318,20 +322,30 @@ namespace LetterAmazer.Websites.Client.Controllers
             var creditLine = new OrderLine()
             {
                 Quantity = model.PurchaseAmount,
-                Cost = model.PurchaseAmount,
                 ProductType = ProductType.Credit,
                 BaseProduct = credit,
-
+                Price = new Price()
+                {
+                    PriceExVat = model.PurchaseAmount
+                }
             };
 
             var paymentLine = new OrderLine()
             {
                 PaymentMethodId = selectedPaymentMethod.Id,
                 ProductType = ProductType.Payment,
-                Cost = model.PurchaseAmount
+                Price = new Price()
+                {
+                    PriceExVat = model.PurchaseAmount
+                }
             };
 
-            Order order = new Order { Cost = model.PurchaseAmount, Customer = SessionHelper.Customer };
+            Order order = new Order { 
+                Price = new Price()
+                {
+                    PriceExVat = model.PurchaseAmount
+                }, 
+                Customer = SessionHelper.Customer };
             order.OrderLines.Add(creditLine);
             order.OrderLines.Add(paymentLine);
 
@@ -409,7 +423,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                         DateCreated = order.DateCreated,
                         OrderStatus = order.OrderStatus,
                         Id = order.Id,
-                        Price = order.Cost,
+                        Price = order.Price.PriceExVat,
                         LetterStatus = letter.LetterStatus
                     };
 
@@ -469,9 +483,12 @@ namespace LetterAmazer.Websites.Client.Controllers
                 order.OrderLines.Add(new OrderLine()
                 {
                     ProductType = ProductType.Payment,
-                    Cost = chargeCoupon,
                     PaymentMethodId = 3, // coupon                        
-                    CouponId = coupon.Id
+                    CouponId = coupon.Id,
+                    Price = new Price()
+                    {
+                        PriceExVat = chargeCoupon
+                    }
                 });
 
                 rest -= coupon.CouponValueLeft;
@@ -496,7 +513,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                     DateCreated = invoice.DateCreated,
                     OrderNumber = invoice.InvoiceNumber,
                     TotalPrice = invoice.PriceTotal,
-                    InvoiceId = invoice.Id
+                    InvoiceGuid = invoice.Guid
                 });
             }
 

@@ -60,7 +60,7 @@ namespace LetterAmazer.Websites.Client.Controllers
             {
                 invoiceModel.Lines.Add(new InvoiceLineViewModel()
                 {
-                    Price = letterLine.Cost,
+                    Price = letterLine.Price.PriceExVat,
                     Quantity = letterLine.Quantity,
                     Title = letterLine.ProductType.ToString()
                 });

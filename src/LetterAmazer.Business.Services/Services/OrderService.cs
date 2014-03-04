@@ -246,7 +246,9 @@ namespace LetterAmazer.Business.Services.Services
             var dbOrderLine = new DbOrderlines();
             dbOrderLine.Quantity = orderLine.Quantity;
             dbOrderLine.ItemType = (int)orderLine.ProductType;
-            dbOrderLine.Cost = orderLine.Price.PriceExVat; 
+            dbOrderLine.PriceExVat = orderLine.Price.PriceExVat;
+            dbOrderLine.VatPercentage = orderLine.Price.VatPercentage;
+            dbOrderLine.Total = orderLine.Price.Total;
 
             if (orderLine.ProductType == ProductType.Payment && orderLine.PaymentMethodId >0)
             {

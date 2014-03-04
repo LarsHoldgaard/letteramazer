@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="LetterAmazer.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="LetterAmazer.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="DbContinents">
           <Key>
             <PropertyRef Name="Id" />
@@ -188,13 +188,13 @@
           <Property Name="CountryId" Type="int" />
           <Property Name="ContinentId" Type="int" />
           <Property Name="ZipId" Type="int" />
-          <Property Name="ProductDetailsId" Type="int" Nullable="false" />
           <Property Name="ReferenceType" Type="int" Nullable="false" />
           <Property Name="LetterColor" Type="int" Nullable="false" />
           <Property Name="LetterPaperWeight" Type="int" Nullable="false" />
           <Property Name="LetterProcessing" Type="int" Nullable="false" />
           <Property Name="LetterSize" Type="int" Nullable="false" />
           <Property Name="LetterType" Type="int" Nullable="false" />
+          <Property Name="OfficeProductReferenceId" Type="int" />
         </EntityType>
         <EntityType Name="DbOffices">
           <Key>
@@ -214,9 +214,11 @@
           <Property Name="LetterId" Type="int" />
           <Property Name="ItemType" Type="int" Nullable="false" />
           <Property Name="Quantity" Type="int" Nullable="false" />
-          <Property Name="Cost" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="PriceExVat" Type="decimal" Precision="18" Scale="5" Nullable="false" />
           <Property Name="PaymentMethodId" Type="int" />
           <Property Name="CouponId" Type="int" />
+          <Property Name="VatPercentage" Type="decimal" Precision="18" Scale="5" Nullable="false" />
+          <Property Name="Total" Type="decimal" Precision="18" Scale="5" Nullable="false" />
         </EntityType>
         <EntityType Name="DbOrders">
           <Key>
@@ -613,8 +615,7 @@
             <End Role="DbShops" EntitySet="DbShops" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="LetterAmazer" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -820,7 +821,6 @@
           <Property Name="CountryId" Type="Int32" />
           <Property Name="ContinentId" Type="Int32" />
           <Property Name="ZipId" Type="Int32" />
-          <Property Name="ProductDetailsId" Type="Int32" Nullable="false" />
           <Property Name="ReferenceType" Type="Int32" Nullable="false" />
           <Property Name="LetterColor" Type="Int32" Nullable="false" />
           <Property Name="LetterPaperWeight" Type="Int32" Nullable="false" />
@@ -830,6 +830,7 @@
           <NavigationProperty Name="DbLetters" Relationship="Self.FK_Letters_OfficeProducts" FromRole="DbOfficeProducts" ToRole="DbLetters" />
           <NavigationProperty Name="DbProductMatrixLines" Relationship="Self.FK_DbProductMatrixLines_DbOfficeProducts" FromRole="DbOfficeProducts" ToRole="DbProductMatrixLines" />
           <NavigationProperty Name="DbOffices" Relationship="Self.FK_OfficeProducts_Offices" FromRole="DbOfficeProducts" ToRole="DbOffices" />
+          <Property Name="OfficeProductReferenceId" Type="Int32" />
         </EntityType>
         <EntityType Name="DbOffices">
           <Key>
@@ -852,9 +853,11 @@
           <Property Name="LetterId" Type="Int32" />
           <Property Name="ItemType" Type="Int32" Nullable="false" />
           <Property Name="Quantity" Type="Int32" Nullable="false" />
-          <Property Name="Cost" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="PriceExVat" Type="Decimal" Precision="18" Scale="5" Nullable="false" />
           <Property Name="PaymentMethodId" Type="Int32" />
           <Property Name="CouponId" Type="Int32" />
+          <Property Name="VatPercentage" Type="Decimal" Precision="18" Scale="5" Nullable="false" />
+          <Property Name="Total" Type="Decimal" Precision="18" Scale="5" Nullable="false" />
           <NavigationProperty Name="DbLetters" Relationship="Self.FK_OrderItem_Letter" FromRole="DbOrderlines" ToRole="DbLetters" />
           <NavigationProperty Name="DbOrders" Relationship="Self.FK_OrderItem_Order" FromRole="DbOrderlines" ToRole="DbOrders" />
         </EntityType>
@@ -1452,13 +1455,13 @@
           <EntitySetMapping Name="DbOfficeProducts">
             <EntityTypeMapping TypeName="LetterAmazer.DbOfficeProducts">
               <MappingFragment StoreEntitySet="DbOfficeProducts">
+                <ScalarProperty Name="OfficeProductReferenceId" ColumnName="OfficeProductReferenceId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="OfficeId" ColumnName="OfficeId" />
                 <ScalarProperty Name="ScopeType" ColumnName="ScopeType" />
                 <ScalarProperty Name="CountryId" ColumnName="CountryId" />
                 <ScalarProperty Name="ContinentId" ColumnName="ContinentId" />
                 <ScalarProperty Name="ZipId" ColumnName="ZipId" />
-                <ScalarProperty Name="ProductDetailsId" ColumnName="ProductDetailsId" />
                 <ScalarProperty Name="ReferenceType" ColumnName="ReferenceType" />
                 <ScalarProperty Name="LetterColor" ColumnName="LetterColor" />
                 <ScalarProperty Name="LetterPaperWeight" ColumnName="LetterPaperWeight" />
@@ -1486,9 +1489,11 @@
                 <ScalarProperty Name="LetterId" ColumnName="LetterId" />
                 <ScalarProperty Name="ItemType" ColumnName="ItemType" />
                 <ScalarProperty Name="Quantity" ColumnName="Quantity" />
-                <ScalarProperty Name="Cost" ColumnName="Cost" />
+                <ScalarProperty Name="PriceExVat" ColumnName="PriceExVat" />
                 <ScalarProperty Name="PaymentMethodId" ColumnName="PaymentMethodId" />
                 <ScalarProperty Name="CouponId" ColumnName="CouponId" />
+                <ScalarProperty Name="VatPercentage" ColumnName="VatPercentage" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
