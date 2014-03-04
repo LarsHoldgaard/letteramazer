@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LetterAmazer.Business.Services.Domain.Customers
 {
-    public enum CustomerRole
+    public enum OrganisationRole
     {
         User=0,
         Administrator=1

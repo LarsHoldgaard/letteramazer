@@ -190,7 +190,7 @@ namespace LetterAmazer.Business.Services.Services
             dbCustomer.Phone = customer.Phone;
             dbCustomer.DateActivated = customer.DateActivated;
             dbCustomer.RegistrationKey = customer.RegisterKey;
-            dbCustomer.OrganisationRole = customer.OrganisationId;
+            dbCustomer.OrganisationRole = customer.OrganisationRole.HasValue ?(int)customer.OrganisationRole.Value : 0;
             dbCustomer.OrganisationId = customer.OrganisationId;
             
             repository.SaveChanges();

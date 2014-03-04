@@ -21,6 +21,8 @@ namespace LetterAmazer.Business.Services.Domain.Customers
         public string RegisterKey { get; set; }
         public int OrganisationId { get; set; }
 
+        public OrganisationRole? OrganisationRole { get; set; }
+
         public bool IsActivated {
             get
             {

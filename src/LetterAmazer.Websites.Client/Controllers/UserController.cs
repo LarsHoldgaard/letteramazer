@@ -3,6 +3,7 @@ using System.Linq;
 using LetterAmazer.Business.Services.Domain.AddressInfos;
 using LetterAmazer.Business.Services.Domain.Countries;
 using LetterAmazer.Business.Services.Domain.Coupons;
+using LetterAmazer.Business.Services.Domain.Customers;
 using LetterAmazer.Business.Services.Domain.Invoice;
 using LetterAmazer.Business.Services.Domain.Letters;
 using LetterAmazer.Business.Services.Domain.Mails;
@@ -38,11 +39,13 @@ namespace LetterAmazer.Websites.Client.Controllers
         private IOrganisationService organisationService;
         private IMailService mailService;
         private IInvoiceService invoiceService;
+        private ICustomerService customerService;
 
         public UserController(IOrderService orderService, IPaymentService paymentService,
             ILetterService letterService, ICouponService couponService, ICountryService countryService,
             IPriceService priceService,
-            IOrganisationService organisationService, IMailService mailService, IInvoiceService invoiceService)
+            IOrganisationService organisationService, IMailService mailService, IInvoiceService invoiceService,
+            ICustomerService customerService)
         {
             this.orderService = orderService;
             this.paymentService = paymentService;
@@ -53,6 +56,7 @@ namespace LetterAmazer.Websites.Client.Controllers
             this.organisationService = organisationService;
             this.mailService = mailService;
             this.invoiceService = invoiceService;
+            this.customerService = customerService;
         }
 
         public ActionResult Index(int? page, ProfileViewModel model)
@@ -75,58 +79,19 @@ namespace LetterAmazer.Websites.Client.Controllers
             model.Customer = SessionHelper.Customer;
         }
 
+        #region Send letter
+
         [HttpGet]
         public ActionResult SendALetter()
         {
             CreateSingleLetterModel model = new CreateSingleLetterModel();
-            model.Email = SessionHelper.Customer.Email;
+           model.Email = SessionHelper.Customer.Email;
 
             if (SessionHelper.Customer.CreditLimit < SessionHelper.Customer.Credit)
             {
                 model.HasCredits = true;
             }
             return View(model);
-        }
-
-        public ActionResult CreateOrganisation()
-        {
-            var orgView = new CreateOrganisationViewModel();
-
-            var countries = countryService.GetCountryBySpecificaiton(new CountrySpecification()
-            {
-                Take = 999
-            });
-
-            foreach (var country in countries)
-            {
-                var selectedItem = new SelectListItem()
-                {
-                    Text = country.Name,
-                    Value = country.Id.ToString()
-                };
-                orgView.Countries.Add(selectedItem);
-            }
-
-            return View(orgView);
-        }
-
-        [HttpPost]
-        public ActionResult CreateOrganisation(CreateOrganisationViewModel model)
-        {
-            var organisation = new Organisation();
-            organisation.Name = model.OrganisationName;
-            organisation.Address.Address1 = model.Address1;
-            organisation.Address.Address2 = model.Address2;
-            organisation.Address.City = model.City;
-            organisation.Address.Zipcode = model.ZipCode;
-            organisation.Address.State = model.State;
-            organisation.Address.Country = countryService.GetCountryById(int.Parse(model.SelectedCountry));
-
-            organisationService.Create(organisation);
-
-            var profile_model = new ProfileViewModel();
-            buildOverviewModel(profile_model);
-            return View("Index", profile_model);
         }
 
         [HttpPost, ValidateInput(false)]
@@ -251,6 +216,71 @@ namespace LetterAmazer.Websites.Client.Controllers
             return RedirectToActionWithError("Index", model);
         }
 
+
+        #endregion
+
+        #region Organisation
+
+        public ActionResult EditOrganisation()
+        {
+            var organisationId = SessionHelper.Customer.OrganisationId;
+            var organisation = organisationService.GetOrganisationById(organisationId);
+
+            var organisationViewModel = new EditOrganisationViewModel();
+
+            return View(organisationViewModel);
+        }
+
+        public ActionResult CreateOrganisation()
+        {
+            var orgView = new CreateOrganisationViewModel();
+
+            var countries = countryService.GetCountryBySpecificaiton(new CountrySpecification()
+            {
+                Take = 999
+            });
+
+            foreach (var country in countries)
+            {
+                var selectedItem = new SelectListItem()
+                {
+                    Text = country.Name,
+                    Value = country.Id.ToString()
+                };
+                orgView.Countries.Add(selectedItem);
+            }
+
+            return View(orgView);
+        }
+
+        [HttpPost]
+        public ActionResult CreateOrganisation(CreateOrganisationViewModel model)
+        {
+            var organisation = new Organisation();
+            organisation.Name = model.OrganisationName;
+            organisation.Address.Address1 = model.Address1;
+            organisation.Address.Address2 = model.Address2;
+            organisation.Address.City = model.City;
+            organisation.Address.Zipcode = model.ZipCode;
+            organisation.Address.State = model.State;
+            organisation.Address.Country = countryService.GetCountryById(int.Parse(model.SelectedCountry));
+
+            var stored_organisation = organisationService.Create(organisation);
+
+            var customer = customerService.GetCustomerById(SessionHelper.Customer.Id);
+            customer.OrganisationId = stored_organisation.Id;
+            customer.OrganisationRole = OrganisationRole.Administrator;
+            customerService.Update(customer);
+
+
+            var profile_model = new ProfileViewModel();
+            buildOverviewModel(profile_model);
+            return View("Index", profile_model);
+        }
+
+        #endregion
+
+     
         [HttpGet, AutoErrorRecovery]
         public ActionResult Delete(int id)
         {

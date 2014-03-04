@@ -15,6 +15,6 @@ namespace LetterAmazer.Business.Services.Domain.Customers
         public string ResetPasswordKey { get; set; }
         public string RegistrationKey { get; set; }
         public int OrganisationId { get; set; }
-        public CustomerRole? CustomerRole { get; set; }
+        public OrganisationRole? CustomerRole { get; set; }
     }
 }
