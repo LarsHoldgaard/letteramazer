@@ -25,7 +25,7 @@ namespace LetterAmazer.Business.Services.Services
         {
             var dbOrganisation = new DbOrganisation()
             {
-                Guid = organisation.Guid,
+                Guid = Guid.NewGuid(),
                 Name = organisation.Name,
                 DateCreated = DateTime.Now,
                 Address1 = organisation.Address.Address1,
@@ -34,7 +34,7 @@ namespace LetterAmazer.Business.Services.Services
                 Zipcode = organisation.Address.Zipcode,
                 CountryId = organisation.Address.Country.Id,
                 State = organisation.Address.State,
-                AttPerson = organisation.Address.AttPerson 
+                AttPerson = organisation.Address.AttPerson ,
             };
 
             repository.DbOrganisation.Add(dbOrganisation);

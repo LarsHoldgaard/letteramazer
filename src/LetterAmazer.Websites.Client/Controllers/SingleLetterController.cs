@@ -315,7 +315,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                     price = price,
                     numberOfPages = letter.LetterContent.PageCount,
                     credits = credits,
-                    isAuthenticated = !(SessionHelper.Customer == null),
+                    isAuthenticated = SessionHelper.Customer != null,
                     isValidCredits = isValidCredits
                 });
             }

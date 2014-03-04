@@ -2,7 +2,7 @@
 using LetterAmazer.Business.Services.Domain.Payments;
 using LetterAmazer.Data.Repository.Data;
 
-namespace LetterAmazer.Business.Services.Factory
+namespace LetterAmazer.Business.Services.Factory.Interfaces
 {
     public interface IPaymentFactory
     {

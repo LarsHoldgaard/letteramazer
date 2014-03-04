@@ -20,6 +20,7 @@
     self.currentStep = ko.observable(1);
     self.uploadPdf = ko.observable(0);
     self.useVoucher = ko.observable(0);
+    self.showVatInclusive = ko.observable(data.isAuthenticated);
     
     self.orderid = ko.observable('');
     self.receiver = ko.observable('');
@@ -122,14 +123,23 @@
         return false;
     });
     
-    self.getPrice = ko.computed(function () {
-         try {
-             return self.cost().Total.toFixed(2) + ' $ (' + self.numberOfPages() + ' pages)';
-         } catch(ex) {
-             return 0;
-         }
-        
+    self.getPriceTotal = ko.computed(function () {
+        try {
+            return self.cost().Total.toFixed(2);
+        } catch (ex) {
+            return 0;
+        }
     });
+
+    self.getPriceExVat = ko.computed(function () {
+        try {
+            return self.cost().PriceExVat.toFixed(2);
+        } catch (ex) {
+            return 0;
+        }
+    });
+
+
 
     self.showStepOne = ko.computed(function () {
         return self.currentStep() == 1;

@@ -37,12 +37,12 @@ namespace LetterAmazer.Websites.Client.Controllers
         private IPriceService priceService;
         private IOrganisationService organisationService;
         private IMailService mailService;
-        private InvoiceService invoiceService;
+        private IInvoiceService invoiceService;
 
         public UserController(IOrderService orderService, IPaymentService paymentService,
             ILetterService letterService, ICouponService couponService, ICountryService countryService,
             IPriceService priceService,
-            IOrganisationService organisationService, IMailService mailService, InvoiceService invoiceService)
+            IOrganisationService organisationService, IMailService mailService, IInvoiceService invoiceService)
         {
             this.orderService = orderService;
             this.paymentService = paymentService;
@@ -124,7 +124,9 @@ namespace LetterAmazer.Websites.Client.Controllers
 
             organisationService.Create(organisation);
 
-            return View();
+            var profile_model = new ProfileViewModel();
+            buildOverviewModel(profile_model);
+            return View("Index", profile_model);
         }
 
         [HttpPost, ValidateInput(false)]
@@ -340,12 +342,14 @@ namespace LetterAmazer.Websites.Client.Controllers
                 }
             };
 
-            Order order = new Order { 
+            Order order = new Order
+            {
                 Price = new Price()
                 {
                     PriceExVat = model.PurchaseAmount
-                }, 
-                Customer = SessionHelper.Customer };
+                },
+                Customer = SessionHelper.Customer
+            };
             order.OrderLines.Add(creditLine);
             order.OrderLines.Add(paymentLine);
 
@@ -376,7 +380,7 @@ namespace LetterAmazer.Websites.Client.Controllers
             InvoiceOverviewViewModel invoiceOverview = new InvoiceOverviewViewModel();
             invoiceOverview.DateFrom = DateTime.Now.AddDays(-180).Date;
             invoiceOverview.DateFrom = DateTime.Now.Date;
-            invoiceOverview.InvoiceSnippets = getInvoiceSnippets(invoiceOverview.DateFrom, 
+            invoiceOverview.InvoiceSnippets = getInvoiceSnippets(invoiceOverview.DateFrom,
                 invoiceOverview.DateTo,
                 customer.OrganisationId);
 
