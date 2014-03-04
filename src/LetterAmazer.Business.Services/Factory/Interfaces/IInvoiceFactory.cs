@@ -10,7 +10,7 @@ namespace LetterAmazer.Business.Services.Factory.Interfaces
 {
     public interface IInvoiceFactory
     {
-        Invoice Create(DbInvoices invoices);
-        List<Invoice> Create(List<DbInvoices> invoices);
+        Invoice Create(DbInvoices invoices, List<DbInvoiceLines> invoiceLines);
+        List<Invoice> Create(List<DbInvoices> invoices,List<List<DbInvoiceLines>> invoiceLines);
     }
 }

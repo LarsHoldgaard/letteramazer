@@ -38,6 +38,8 @@
         <AssociationConnector Association="LetterAmazer.FK_OfficeProducts_Offices" ManuallyRouted="false" />
         <AssociationConnector Association="LetterAmazer.FK_OrderItem_Order" ManuallyRouted="false" />
         <AssociationConnector Association="LetterAmazer.FK_DbOrganisationAddressList_DbOrganisation" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="LetterAmazer.DbInvoiceLines" Width="1.5" PointX="9.75" PointY="23.625" />
+        <AssociationConnector Association="LetterAmazer.FK_DbInvoiceLines_DbInvoices" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

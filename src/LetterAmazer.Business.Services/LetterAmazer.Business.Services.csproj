@@ -89,6 +89,7 @@
     <Compile Include="Domain\Customers\CustomerRole.cs" />
     <Compile Include="Domain\Invoice\IInvoiceService.cs" />
     <Compile Include="Domain\Invoice\Invoice.cs" />
+    <Compile Include="Domain\Invoice\InvoiceLine.cs" />
     <Compile Include="Domain\Invoice\InvoiceSpecification.cs" />
     <Compile Include="Domain\Invoice\InvoiceStatus.cs" />
     <Compile Include="Domain\Mails\IMailService.cs" />
@@ -112,7 +113,7 @@
     <Compile Include="Factory\Interfaces\IOrganisationFactory.cs" />
     <Compile Include="Factory\Interfaces\IProductMatrixFactory.cs" />
     <Compile Include="Factory\InvoiceFactory.cs" />
-    <Compile Include="Factory\InvoiceService.cs" />
+    <Compile Include="Services\InvoiceService.cs" />
     <Compile Include="Factory\IPaymentFactory.cs" />
     <Compile Include="Factory\OfficeProductFactory.cs" />
     <Compile Include="Factory\OrganisationFactory.cs" />

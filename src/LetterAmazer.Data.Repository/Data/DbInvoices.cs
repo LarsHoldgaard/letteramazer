@@ -14,6 +14,11 @@ namespace LetterAmazer.Data.Repository.Data
     
     public partial class DbInvoices
     {
+        public DbInvoices()
+        {
+            this.DbInvoiceLines = new HashSet<DbInvoiceLines>();
+        }
+    
         public int Id { get; set; }
         public System.Guid Guid { get; set; }
         public int OrderId { get; set; }
@@ -41,7 +46,10 @@ namespace LetterAmazer.Data.Repository.Data
         public string Invoice_Zipcode { get; set; }
         public string Invoice_State { get; set; }
         public int Invoice_CountryId { get; set; }
+        public string Invoice_Vatnumber { get; set; }
+        public string Receiver_Vatnumber { get; set; }
     
         public virtual DbOrders DbOrders { get; set; }
+        public virtual ICollection<DbInvoiceLines> DbInvoiceLines { get; set; }
     }
 }

@@ -41,5 +41,6 @@ namespace LetterAmazer.Data.Repository.Data
         public DbSet<DbPaymentMethods> DbPaymentMethods { get; set; }
         public DbSet<DbProductMatrixLines> DbProductMatrixLines { get; set; }
         public DbSet<DbShops> DbShops { get; set; }
+        public DbSet<DbInvoiceLines> DbInvoiceLines { get; set; }
     }
 }

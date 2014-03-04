@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Amazon.EC2.Model;
 using LetterAmazer.Business.Services.Domain.AddressInfos;
 
 namespace LetterAmazer.Business.Services.Domain.Invoice
@@ -31,5 +32,17 @@ namespace LetterAmazer.Business.Services.Domain.Invoice
 
         public int OrderId { get; set; }
         public int OrganisationId { get; set; }
+
+        public List<InvoiceLine> InvoiceLines { get; set; }
+
+        public decimal PriceExVat { get; set; }
+        public decimal PriceVatPercentage { get; set; }
+        public decimal PriceTotal { get; set; }
+
+
+        public Invoice()
+        {
+            this.InvoiceLines = new List<InvoiceLine>();
+        }
     }
 }

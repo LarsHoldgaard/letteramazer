@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="LetterAmazer.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="LetterAmazer.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="DbContinents">
           <Key>
             <PropertyRef Name="Id" />
@@ -92,15 +92,16 @@
           <Property Name="ShopId" Type="int" Nullable="false" />
           <Property Name="PartnerJob" Type="int" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6013: The table/view 'LetterAmazer.dbo.DbInvoiceLines' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
         <EntityType Name="DbInvoiceLines">
-          <Property Name="Id" Type="int" />
-          <Property Name="InvoiceId" Type="int" />
-          <Property Name="Description" Type="varchar" MaxLength="250" />
-          <Property Name="Quantity" Type="int" />
-          <Property Name="PriceExVat" Type="decimal" Precision="18" Scale="0" />
-        </EntityType>-->
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="InvoiceId" Type="int" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="Quantity" Type="int" Nullable="false" />
+          <Property Name="PriceExVat" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+        </EntityType>
         <EntityType Name="DbInvoices">
           <Key>
             <PropertyRef Name="Id" />
@@ -132,6 +133,8 @@ warning 6013: The table/view 'LetterAmazer.dbo.DbInvoiceLines' does not have a p
           <Property Name="Invoice_Zipcode" Type="varchar" MaxLength="250" Nullable="false" />
           <Property Name="Invoice_State" Type="varchar" MaxLength="250" />
           <Property Name="Invoice_CountryId" Type="int" Nullable="false" />
+          <Property Name="Invoice_Vatnumber" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="Receiver_Vatnumber" Type="varchar" MaxLength="250" Nullable="false" />
         </EntityType>
         <EntityType Name="DbLetters">
           <Key>
@@ -313,9 +316,18 @@ warning 6013: The table/view 'LetterAmazer.dbo.DbInvoiceLines' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <!--Errors Found During Generation:
-error 6004: The table 'LetterAmazer.dbo.DbInvoiceLines' is referenced by a relationship, but cannot be found.
-        <Association Name="FK_DbInvoiceLines_DbInvoices" />-->
+        <Association Name="FK_DbInvoiceLines_DbInvoices">
+          <End Role="DbInvoices" Type="Self.DbInvoices" Multiplicity="1" />
+          <End Role="DbInvoiceLines" Type="Self.DbInvoiceLines" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DbInvoices">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DbInvoiceLines">
+              <PropertyRef Name="InvoiceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_DbInvoices_DbOrders">
           <End Role="DbOrders" Type="Self.DbOrders" Multiplicity="1" />
           <End Role="DbInvoices" Type="Self.DbInvoices" Multiplicity="*" />
@@ -514,6 +526,7 @@ error 6004: The table 'LetterAmazer.dbo.DbInvoiceLines' is referenced by a relat
           <EntitySet Name="DbCoupons" EntityType="Self.DbCoupons" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DbCustomers" EntityType="Self.DbCustomers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DbFulfillmentPartners" EntityType="Self.DbFulfillmentPartners" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DbInvoiceLines" EntityType="Self.DbInvoiceLines" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DbInvoices" EntityType="Self.DbInvoices" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DbLetters" EntityType="Self.DbLetters" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DbOfficeProducts" EntityType="Self.DbOfficeProducts" Schema="dbo" store:Type="Tables" />
@@ -528,6 +541,10 @@ error 6004: The table 'LetterAmazer.dbo.DbInvoiceLines' is referenced by a relat
           <AssociationSet Name="FK_Customers_Countries" Association="Self.FK_Customers_Countries">
             <End Role="DbCountries" EntitySet="DbCountries" />
             <End Role="DbCustomers" EntitySet="DbCustomers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DbInvoiceLines_DbInvoices" Association="Self.FK_DbInvoiceLines_DbInvoices">
+            <End Role="DbInvoices" EntitySet="DbInvoices" />
+            <End Role="DbInvoiceLines" EntitySet="DbInvoiceLines" />
           </AssociationSet>
           <AssociationSet Name="FK_DbInvoices_DbOrders" Association="Self.FK_DbInvoices_DbOrders">
             <End Role="DbOrders" EntitySet="DbOrders" />
@@ -594,8 +611,7 @@ error 6004: The table 'LetterAmazer.dbo.DbInvoiceLines' is referenced by a relat
             <End Role="DbShops" EntitySet="DbShops" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="LetterAmazer" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -729,6 +745,9 @@ error 6004: The table 'LetterAmazer.dbo.DbInvoiceLines' is referenced by a relat
           <Property Name="Invoice_State" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
           <Property Name="Invoice_CountryId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="DbOrders" Relationship="Self.FK_DbInvoices_DbOrders" FromRole="DbInvoices" ToRole="DbOrders" />
+          <NavigationProperty Name="DbInvoiceLines" Relationship="LetterAmazer.FK_DbInvoiceLines_DbInvoices" FromRole="DbInvoices" ToRole="DbInvoiceLines" />
+          <Property Name="Invoice_Vatnumber" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Receiver_Vatnumber" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="DbLetters">
           <Key>
@@ -1209,7 +1228,35 @@ error 6004: The table 'LetterAmazer.dbo.DbInvoiceLines' is referenced by a relat
             <End Role="DbOrganisation" EntitySet="DbOrganisation" />
             <End Role="DbOrganisationAddressList" EntitySet="DbOrganisationAddressList" />
           </AssociationSet>
+          <EntitySet Name="DbInvoiceLines" EntityType="LetterAmazer.DbInvoiceLines" />
+          <AssociationSet Name="FK_DbInvoiceLines_DbInvoices" Association="LetterAmazer.FK_DbInvoiceLines_DbInvoices">
+            <End Role="DbInvoices" EntitySet="DbInvoices" />
+            <End Role="DbInvoiceLines" EntitySet="DbInvoiceLines" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="DbInvoiceLines">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="InvoiceId" Type="Int32" Nullable="false" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <Property Name="PriceExVat" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <NavigationProperty Name="DbInvoices" Relationship="LetterAmazer.FK_DbInvoiceLines_DbInvoices" FromRole="DbInvoiceLines" ToRole="DbInvoices" />
+        </EntityType>
+        <Association Name="FK_DbInvoiceLines_DbInvoices">
+          <End Type="LetterAmazer.DbInvoices" Role="DbInvoices" Multiplicity="1" />
+          <End Type="LetterAmazer.DbInvoiceLines" Role="DbInvoiceLines" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DbInvoices">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DbInvoiceLines">
+              <PropertyRef Name="InvoiceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1311,6 +1358,8 @@ error 6004: The table 'LetterAmazer.dbo.DbInvoiceLines' is referenced by a relat
           <EntitySetMapping Name="DbInvoices">
             <EntityTypeMapping TypeName="LetterAmazer.DbInvoices">
               <MappingFragment StoreEntitySet="DbInvoices">
+                <ScalarProperty Name="Receiver_Vatnumber" ColumnName="Receiver_Vatnumber" />
+                <ScalarProperty Name="Invoice_Vatnumber" ColumnName="Invoice_Vatnumber" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Guid" ColumnName="Guid" />
                 <ScalarProperty Name="OrderId" ColumnName="OrderId" />
@@ -1516,6 +1565,17 @@ error 6004: The table 'LetterAmazer.dbo.DbInvoiceLines' is referenced by a relat
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="CountryId" ColumnName="CountryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DbInvoiceLines">
+            <EntityTypeMapping TypeName="LetterAmazer.DbInvoiceLines">
+              <MappingFragment StoreEntitySet="DbInvoiceLines">
+                <ScalarProperty Name="PriceExVat" ColumnName="PriceExVat" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="InvoiceId" ColumnName="InvoiceId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
