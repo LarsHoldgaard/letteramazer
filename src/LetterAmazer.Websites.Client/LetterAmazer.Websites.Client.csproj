@@ -224,7 +224,9 @@
   <ItemGroup>
     <Content Include="Content\css\General\Sidewide.css" />
     <Content Include="Content\css\General\Sidewide.min.css" />
-    <Content Include="Content\css\Main.css" />
+    <Content Include="Content\css\Main.css">
+      <DependentUpon>Main.less</DependentUpon>
+    </Content>
     <Content Include="Content\css\Main.min.css" />
     <Content Include="Content\css\Utils\FrontPage.css" />
     <Content Include="Content\css\Utils\FrontPage.min.css" />
@@ -315,6 +317,9 @@
     <Content Include="Scripts\ckeditor\samples\plugins\htmlwriter\assets\outputforflash\outputforflash.fla" />
     <Content Include="Scripts\ckeditor\skins\moono\readme.md" />
     <Content Include="Resources\countryInfoJSON.json" />
+    <Content Include="Content\css\Main.css.map">
+      <DependentUpon>Main.css</DependentUpon>
+    </Content>
     <None Include="Properties\PublishProfiles\FileDEploy.pubxml" />
     <None Include="Scripts\jquery-2.0.3.intellisense.js" />
     <Content Include="Scripts\ckeditor\adapters\jquery.js" />
@@ -627,7 +632,6 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Pricing.cshtml" />
     <Content Include="Views\SingleLetter\Index.cshtml" />
-    <Content Include="Views\Shared\NewsletterForm.cshtml" />
     <Content Include="Views\Shared\CountryList.cshtml" />
     <Content Include="Views\SingleLetter\DropZone.cshtml" />
     <Content Include="Views\SingleLetter\Confirmation.cshtml" />
@@ -676,8 +680,8 @@
   <ItemGroup>
     <EmbeddedResource Include="Resources\Views\Home\ViewRes.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>ViewRes.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>ViewRes1.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\Views\Shared\ViewRes.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

@@ -8,10 +8,13 @@
             <img src="/Content/images/letteramazer.png" />
             <div>
                 <p class="frontpageLead">
-                    @Html.Raw(ViewRes.SendLettersWorldWideAutomatically)
+                    @Html.Raw("Send letters world-wide, automatically")
                 </p>
                 <p>
-                    <a class="btn btn-primary btn-lg" href="@Url.Action("Index", "SingleLetter")" style="font-size: 25px; padding: 0 30px; line-height: 2.33;">@ViewRes.SendLetterNow &raquo;</a>
+                    <a class="btn btn-primary btn-lg" href="@Url.Action("Index", "SingleLetter")" style="font-size: 25px; padding: 0 30px; line-height: 2.33;">Send a letter now &raquo;</a>
+                    
+                    <a class="btn btn-success btn-lg" href="@Url.Action("Register", "Home")" style="font-size: 25px; padding: 0 30px; line-height: 2.33;">Send as a company &raquo;</a>
+
                 </p>
             </div>
         </div>
@@ -23,7 +26,10 @@
         <div class="promotionMargin">
             <div class="row">
                 <div class="col-md-10 col-md-offset-1">
-                    @Html.Raw(ViewRes.HomepageHint)
+                    <p class="frontpageLeadExplanation">LetterAmazer makes it possible to send physical letters around the globe, without ever touching the letters yourself. And it is easy.</p>
+                    <p class="frontpageSmallLeadExplanation">
+                        Today LetterAmazer are very good for consumers and soon we will treat businesses like angels. We will add amazing features like an API, mail merging, sending multiple letters plus many many more – it will be like letter heaven.
+                    </p>
                 </div>
             </div>
         </div>
@@ -33,19 +39,22 @@
 <div class="container frontpage-bottom-usp">
     <div class="row">
         <div class="col-lg-4">
-            <h2>@ViewRes.SendSingleALetter</h2>
-            @Html.Raw(ViewRes.SendSingleALetterContent)
-            <p><a class="btn btn-default" href="@Url.Action("Index", "SingleLetter")">@ViewRes.ViewDetails &raquo;</a></p>
+            <h2>Send a single letter</h2>
+            <p>Want to send a letter to someone? It is very easy, and your letter should be on its way within 5 minutes.</p>
+            <p>You can either use our online text-formatter, or simply upload a PDF file. Then we will take care of your letter, and make sure it arrives as soon as possible.</p>
+            <p><a class="btn btn-default" href="@Url.Action("Index", "SingleLetter")">View details &raquo;</a></p>
         </div>
         <div class="col-lg-4">
-            <h2>@ViewRes.ForBusiness</h2>
-            @Html.Raw(ViewRes.ForBusinessContent)
-            <p><a class="btn btn-default" href="@Url.Action("Business", "Home")">@ViewRes.ViewDetails &raquo;</a></p>
+            <h2>For business</h2>
+            <p>Need to send a lot of letters? Need to integrate letters into an application? You've arrived at the right place.</p>
+            <p>We provide a backend to companies who need to send multiple letters, which you with ease can use in your business. And yes, we send world-wide.</p>
+            <p><a class="btn btn-default" href="@Url.Action("Business", "Home")">View details &raquo;</a></p>
         </div>
         <div class="col-lg-4">
-            <h2>@ViewRes.Pricing</h2>
-            @Html.Raw(ViewRes.PricingHomepageContent)
-            <p><a class="btn btn-default" href="@Url.Action("Pricing", "Home")">@ViewRes.ViewDetails &raquo;</a></p>
+            <h2>Pricing</h2>
+            <p>We have providers in all regions of the world, which means we get the cheapest prices.</p>
+            <p>We constantly try to push the prices down, so we have the most competitive prices on the market.</p>
+            <p><a class="btn btn-default" href="@Url.Action("Pricing", "Home")">View details &raquo;</a></p>
         </div>
     </div>
 </div>
@@ -55,10 +64,24 @@
 <div class="container frontpage-bottom-usp frontpageBottomText">
     <div class="row">
         <div class="col-lg-8">
-            @Html.Raw(ViewRes.HomepageContent)
-        </div>
-        <div class="col-lg-4" id="newsletterStuff">
-            @Html.Partial("NewsletterForm")
+            <p><b style="font-size: 16px; font-weight: bold;">We don't get it.</b></p>
+            <p>15 Years ago we were blessed with the invention of e-mail, and communication has been extremely easy since. However, we all send physical letters from time to time. </p>
+
+            <p>Sending physical letters is so tiresome. First you have to <strong>buy some windowed envelopes</strong>. Then you have to <strong>manually adjust the document</strong>, so the recipients address fit the window in the envelope. Then you have to <strong>print the documents on a printer</strong> (oh wait, who does actually own a working printer with ink these days?). Then you have to <strong>bend the paper</strong>, and manually put the <strong>paper down in the envelope</strong>. Afterwards, you have to close the envelope (if you are lucky they seal automatically, if you are unlucky you have to use your tongue). At last, you have forgotten to <strong>buy stamps</strong>, and you need to go <strong>down to the postal office and buy them</strong>. Then you can send your letters… if you can find a mailbox.</p>
+
+            <p>Okay, let's stop the madness! We have decided to fix this problem so none ever has to face it again.</p>
+
+            <p>We have made a service which makes it easy to send letters. You go to www.letteramazer.com, insert the recipients address, upload the letter as a file and then we send the letter for you. Easy, done deal.</p>
+
+            <p>Heck, this is especially easy if you have a business. You can create an account with some credits, so you don't have to worry about payment each time. Then you can easily:</p>
+            - Send letters from our website without using any form of payment.<br />
+            - (Coming soon) Send us an e-mail with the attached PDF file, so you don't have to go to our website.<br />
+            - (Coming soon) Use our REST API (the IT-guys know what it is - it's awesome - we promise)<br />
+            - (Coming soon) Upload the files to our server with FTP (sorry, for the IT-guys again)<br />
+            <br />
+            <p>Good. It's time to stop the madness. Enough time has been spent licking those damn envelopes and stamps. Let's save time and money, and make everyone happier.</p>
+
+            <p>Welcome to LetterAmazer.</p>
         </div>
     </div>
 </div>

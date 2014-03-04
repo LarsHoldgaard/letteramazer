@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Web.Security;
 using LetterAmazer.Business.Services.Domain.AddressInfos;
 using LetterAmazer.Business.Services.Domain.Countries;
 using LetterAmazer.Business.Services.Domain.Coupons;
@@ -270,8 +271,11 @@ namespace LetterAmazer.Websites.Client.Controllers
             var customer = customerService.GetCustomerById(SessionHelper.Customer.Id);
             customer.OrganisationId = stored_organisation.Id;
             customer.OrganisationRole = OrganisationRole.Administrator;
-            customerService.Update(customer);
+            var updated_customer = customerService.Update(customer);
 
+
+            SessionHelper.Customer = updated_customer;
+            FormsAuthentication.SetAuthCookie(customer.Id.ToString(),true);
 
             var profile_model = new ProfileViewModel();
             buildOverviewModel(profile_model);
