@@ -16,6 +16,7 @@ namespace LetterAmazer.Data.Repository.Data
     {
         public DbOrders()
         {
+            this.DbInvoices = new HashSet<DbInvoices>();
             this.DbOrderlines = new HashSet<DbOrderlines>();
         }
     
@@ -34,6 +35,7 @@ namespace LetterAmazer.Data.Repository.Data
         public Nullable<System.DateTime> DateSent { get; set; }
     
         public virtual DbCustomers DbCustomers { get; set; }
+        public virtual ICollection<DbInvoices> DbInvoices { get; set; }
         public virtual ICollection<DbOrderlines> DbOrderlines { get; set; }
     }
 }

@@ -41,7 +41,7 @@ namespace LetterAmazer.Business.Services.Factory
                     Address1  = dbCustomer.CustomerInfo_Address,
                     Address2 = dbCustomer.CustomerInfo_Address2,
                     City = dbCustomer.CustomerInfo_City,
-                    PostalCode =dbCustomer.CustomerInfo_Postal,
+                    Zipcode =dbCustomer.CustomerInfo_Zipcode,
                     VatNr = dbCustomer.CustomerInfo_VatNr,
                     Country = dbCustomer.CustomerInfo_Country.HasValue ? CountryService.GetCountryById(dbCustomer.CustomerInfo_Country.Value) : null,
                     AttPerson = dbCustomer.CustomerInfo_AttPerson

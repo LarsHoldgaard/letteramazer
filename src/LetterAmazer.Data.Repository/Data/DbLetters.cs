@@ -29,7 +29,7 @@ namespace LetterAmazer.Data.Repository.Data
         public Nullable<int> FromAddress_Country { get; set; }
         public string FromAddress_FirstName { get; set; }
         public string FromAddress_LastName { get; set; }
-        public string FromAddress_Postal { get; set; }
+        public string FromAddress_Zipcode { get; set; }
         public string FromAddress_VatNr { get; set; }
         public string ToAddress_Address { get; set; }
         public string ToAddress_Address2 { get; set; }
@@ -39,7 +39,7 @@ namespace LetterAmazer.Data.Repository.Data
         public int ToAddress_Country { get; set; }
         public string ToAddress_FirstName { get; set; }
         public string ToAddress_LastName { get; set; }
-        public string ToAddress_Postal { get; set; }
+        public string ToAddress_Zipcode { get; set; }
         public string ToAddress_VatNr { get; set; }
         public string LetterContent_Path { get; set; }
         public string LetterContent_WrittenContent { get; set; }

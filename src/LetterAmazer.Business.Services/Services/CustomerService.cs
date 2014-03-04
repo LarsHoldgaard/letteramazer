@@ -135,7 +135,6 @@ namespace LetterAmazer.Business.Services.Services
                 dbCustomer.Password = givenPassword;
                 dbCustomer.CustomerInfo_FirstName = customer.CustomerInfo.FirstName;
                 dbCustomer.CustomerInfo_LastName = customer.CustomerInfo.LastName;
-                dbCustomer.CustomerInfo_CompanyName = customer.CustomerInfo.Organisation;
                 dbCustomer.DateCreated = DateTime.Now;
                 dbCustomer.RegistrationKey = Guid.NewGuid().ToString();
                 
@@ -152,7 +151,6 @@ namespace LetterAmazer.Business.Services.Services
                 dbCustomer.Password = givenPassword;
                 dbCustomer.CustomerInfo_FirstName = customer.CustomerInfo.FirstName;
                 dbCustomer.CustomerInfo_LastName = customer.CustomerInfo.LastName;
-                dbCustomer.CustomerInfo_CompanyName = customer.CustomerInfo.Organisation;
                 dbCustomer.RegistrationKey = Guid.NewGuid().ToString();
 
                 repository.SaveChanges();
@@ -179,11 +177,10 @@ namespace LetterAmazer.Business.Services.Services
             dbCustomer.CustomerInfo_Address2 = customer.CustomerInfo.Address2;
             dbCustomer.CustomerInfo_AttPerson = customer.CustomerInfo.AttPerson;
             dbCustomer.CustomerInfo_City = customer.CustomerInfo.City;
-            dbCustomer.CustomerInfo_CompanyName = customer.CustomerInfo.Organisation;
             
             dbCustomer.CustomerInfo_FirstName = customer.CustomerInfo.FirstName;
             dbCustomer.CustomerInfo_LastName = customer.CustomerInfo.LastName;
-            dbCustomer.CustomerInfo_Postal = customer.CustomerInfo.PostalCode;
+            dbCustomer.CustomerInfo_Zipcode = customer.CustomerInfo.Zipcode;
             dbCustomer.CustomerInfo_VatNr = customer.CustomerInfo.VatNr;
             dbCustomer.CreditLimit = customer.CreditLimit;
             dbCustomer.Credits = customer.Credit;

@@ -25,11 +25,10 @@ namespace LetterAmazer.Data.Repository.Data
         public string CustomerInfo_Address2 { get; set; }
         public string CustomerInfo_AttPerson { get; set; }
         public string CustomerInfo_City { get; set; }
-        public string CustomerInfo_CompanyName { get; set; }
         public Nullable<int> CustomerInfo_Country { get; set; }
         public string CustomerInfo_FirstName { get; set; }
         public string CustomerInfo_LastName { get; set; }
-        public string CustomerInfo_Postal { get; set; }
+        public string CustomerInfo_Zipcode { get; set; }
         public string CustomerInfo_VatNr { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }

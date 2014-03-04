@@ -41,7 +41,7 @@ namespace LetterAmazer.Business.Services.Factory
                 ToAddress =  AddressFactory.Create(
                     dbLetter.ToAddress_Address,
                     dbLetter.ToAddress_Address2,
-                    dbLetter.ToAddress_Postal,
+                    dbLetter.ToAddress_Zipcode,
                     dbLetter.ToAddress_City,
                     dbLetter.ToAddress_Country,
                     dbLetter.ToAddress_AttPerson,

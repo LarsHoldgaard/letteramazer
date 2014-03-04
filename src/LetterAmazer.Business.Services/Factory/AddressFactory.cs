@@ -27,7 +27,7 @@ namespace LetterAmazer.Business.Services.Factory
                 Country = country,
                 FirstName = firstName,
                 LastName = lastName,
-                PostalCode = postal,
+                Zipcode = postal,
                 VatNr = vatNr,
                 Organisation = organisation
             };

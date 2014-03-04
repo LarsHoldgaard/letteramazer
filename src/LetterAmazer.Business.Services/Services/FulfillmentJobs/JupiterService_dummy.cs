@@ -60,7 +60,7 @@ namespace LetterAmazer.Business.Services.Services.FulfillmentJobs
                         wr.WriteLine(string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12}",
                             Path.GetFileName(item.LetterContent.Path),
                             item.ToAddress.Country.Name, // TODO: Fix country
-                            item.ToAddress.PostalCode,
+                            item.ToAddress.Zipcode,
                             1,
                             string.Empty,
                             item.ToAddress.Address1,

@@ -31,7 +31,7 @@ namespace LetterAmazer.Business.Services.Services
                 Address1 = organisation.Address.Address1,
                 Address2 = organisation.Address.Address2,
                 City = organisation.Address.City,
-                Zipcode = organisation.Address.PostalCode,
+                Zipcode = organisation.Address.Zipcode,
                 CountryId = organisation.Address.Country.Id,
                 State = organisation.Address.State,
                 AttPerson = organisation.Address.AttPerson 
@@ -59,7 +59,7 @@ namespace LetterAmazer.Business.Services.Services
             dbOrganisation.State = organisation.Address.State;
             dbOrganisation.City = organisation.Address.City;
             dbOrganisation.AttPerson = organisation.Address.AttPerson;
-            dbOrganisation.Zipcode = organisation.Address.PostalCode;
+            dbOrganisation.Zipcode = organisation.Address.Zipcode;
             dbOrganisation.CountryId = organisation.Address.Country.Id;
 
 

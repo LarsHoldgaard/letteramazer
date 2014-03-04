@@ -63,11 +63,10 @@
           <Property Name="CustomerInfo_Address2" Type="nvarchar" MaxLength="150" />
           <Property Name="CustomerInfo_AttPerson" Type="nvarchar" MaxLength="150" />
           <Property Name="CustomerInfo_City" Type="nvarchar" MaxLength="150" />
-          <Property Name="CustomerInfo_CompanyName" Type="nvarchar" MaxLength="150" />
           <Property Name="CustomerInfo_Country" Type="int" />
           <Property Name="CustomerInfo_FirstName" Type="nvarchar" MaxLength="150" />
           <Property Name="CustomerInfo_LastName" Type="nvarchar" MaxLength="150" />
-          <Property Name="CustomerInfo_Postal" Type="nvarchar" MaxLength="150" />
+          <Property Name="CustomerInfo_Zipcode" Type="nvarchar" MaxLength="150" />
           <Property Name="CustomerInfo_VatNr" Type="nvarchar" MaxLength="159" />
           <Property Name="Email" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="Password" Type="nvarchar" MaxLength="100" Nullable="false" />
@@ -93,6 +92,47 @@
           <Property Name="ShopId" Type="int" Nullable="false" />
           <Property Name="PartnerJob" Type="int" Nullable="false" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6013: The table/view 'LetterAmazer.dbo.DbInvoiceLines' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="DbInvoiceLines">
+          <Property Name="Id" Type="int" />
+          <Property Name="InvoiceId" Type="int" />
+          <Property Name="Description" Type="varchar" MaxLength="250" />
+          <Property Name="Quantity" Type="int" />
+          <Property Name="PriceExVat" Type="decimal" Precision="18" Scale="0" />
+        </EntityType>-->
+        <EntityType Name="DbInvoices">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Guid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="OrderId" Type="int" Nullable="false" />
+          <Property Name="DateCreated" Type="datetime" Nullable="false" />
+          <Property Name="DateDue" Type="datetime" Nullable="false" />
+          <Property Name="InvoiceStatus" Type="int" Nullable="false" />
+          <Property Name="InvoiceNumber" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="OrganisationId" Type="int" Nullable="false" />
+          <Property Name="PriceExVat" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="PriceVatPercentage" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="PriceTotal" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Receiver_Organisation" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="Receiver_AttPerson" Type="varchar" MaxLength="250" />
+          <Property Name="Receiver_Address1" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="Receiver_Address2" Type="varchar" MaxLength="250" />
+          <Property Name="Receiver_City" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="Receiver_Zipcode" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="Receiver_State" Type="varchar" MaxLength="250" />
+          <Property Name="Receiver_CountryId" Type="int" Nullable="false" />
+          <Property Name="Invoice_Organisation" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="Invoice_AttPerson" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="Invoice_Address1" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="Invoice_Address2" Type="varchar" MaxLength="250" />
+          <Property Name="Invoice_City" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="Invoice_Zipcode" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="Invoice_State" Type="varchar" MaxLength="250" />
+          <Property Name="Invoice_CountryId" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="DbLetters">
           <Key>
             <PropertyRef Name="Id" />
@@ -107,7 +147,7 @@
           <Property Name="FromAddress_Country" Type="int" />
           <Property Name="FromAddress_FirstName" Type="nvarchar" MaxLength="150" />
           <Property Name="FromAddress_LastName" Type="nvarchar" MaxLength="150" />
-          <Property Name="FromAddress_Postal" Type="nvarchar" MaxLength="150" />
+          <Property Name="FromAddress_Zipcode" Type="nvarchar" MaxLength="150" />
           <Property Name="FromAddress_VatNr" Type="nvarchar" MaxLength="159" />
           <Property Name="ToAddress_Address" Type="nvarchar" MaxLength="150" Nullable="false" />
           <Property Name="ToAddress_Address2" Type="nvarchar" MaxLength="150" />
@@ -117,7 +157,7 @@
           <Property Name="ToAddress_Country" Type="int" Nullable="false" />
           <Property Name="ToAddress_FirstName" Type="nvarchar" MaxLength="150" />
           <Property Name="ToAddress_LastName" Type="nvarchar" MaxLength="150" />
-          <Property Name="ToAddress_Postal" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="ToAddress_Zipcode" Type="nvarchar" MaxLength="150" Nullable="false" />
           <Property Name="ToAddress_VatNr" Type="nvarchar" MaxLength="159" />
           <Property Name="LetterContent_Path" Type="nvarchar" MaxLength="250" />
           <Property Name="LetterContent_WrittenContent" Type="nvarchar" MaxLength="4000" />
@@ -273,6 +313,21 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <!--Errors Found During Generation:
+error 6004: The table 'LetterAmazer.dbo.DbInvoiceLines' is referenced by a relationship, but cannot be found.
+        <Association Name="FK_DbInvoiceLines_DbInvoices" />-->
+        <Association Name="FK_DbInvoices_DbOrders">
+          <End Role="DbOrders" Type="Self.DbOrders" Multiplicity="1" />
+          <End Role="DbInvoices" Type="Self.DbInvoices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DbOrders">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DbInvoices">
+              <PropertyRef Name="OrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_DbOrganisationAddressList_DbCountries">
           <End Role="DbCountries" Type="Self.DbCountries" Multiplicity="1" />
           <End Role="DbOrganisationAddressList" Type="Self.DbOrganisationAddressList" Multiplicity="*" />
@@ -294,6 +349,18 @@
             </Principal>
             <Dependent Role="DbOrganisationAddressList">
               <PropertyRef Name="OrganisationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DbProductMatrixLines_DbOfficeProducts">
+          <End Role="DbOfficeProducts" Type="Self.DbOfficeProducts" Multiplicity="1" />
+          <End Role="DbProductMatrixLines" Type="Self.DbProductMatrixLines" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DbOfficeProducts">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DbProductMatrixLines">
+              <PropertyRef Name="OfficeProductId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -447,6 +514,7 @@
           <EntitySet Name="DbCoupons" EntityType="Self.DbCoupons" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DbCustomers" EntityType="Self.DbCustomers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DbFulfillmentPartners" EntityType="Self.DbFulfillmentPartners" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DbInvoices" EntityType="Self.DbInvoices" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DbLetters" EntityType="Self.DbLetters" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DbOfficeProducts" EntityType="Self.DbOfficeProducts" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DbOffices" EntityType="Self.DbOffices" Schema="dbo" store:Type="Tables" />
@@ -461,6 +529,10 @@
             <End Role="DbCountries" EntitySet="DbCountries" />
             <End Role="DbCustomers" EntitySet="DbCustomers" />
           </AssociationSet>
+          <AssociationSet Name="FK_DbInvoices_DbOrders" Association="Self.FK_DbInvoices_DbOrders">
+            <End Role="DbOrders" EntitySet="DbOrders" />
+            <End Role="DbInvoices" EntitySet="DbInvoices" />
+          </AssociationSet>
           <AssociationSet Name="FK_DbOrganisationAddressList_DbCountries" Association="Self.FK_DbOrganisationAddressList_DbCountries">
             <End Role="DbCountries" EntitySet="DbCountries" />
             <End Role="DbOrganisationAddressList" EntitySet="DbOrganisationAddressList" />
@@ -468,6 +540,10 @@
           <AssociationSet Name="FK_DbOrganisationAddressList_DbOrganisation" Association="Self.FK_DbOrganisationAddressList_DbOrganisation">
             <End Role="DbOrganisation" EntitySet="DbOrganisation" />
             <End Role="DbOrganisationAddressList" EntitySet="DbOrganisationAddressList" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DbProductMatrixLines_DbOfficeProducts" Association="Self.FK_DbProductMatrixLines_DbOfficeProducts">
+            <End Role="DbOfficeProducts" EntitySet="DbOfficeProducts" />
+            <End Role="DbProductMatrixLines" EntitySet="DbProductMatrixLines" />
           </AssociationSet>
           <AssociationSet Name="FK_FulfillmentPartners_Shops" Association="Self.FK_FulfillmentPartners_Shops">
             <End Role="DbShops" EntitySet="DbShops" />
@@ -587,11 +663,10 @@
           <Property Name="CustomerInfo_Address2" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="CustomerInfo_AttPerson" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="CustomerInfo_City" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Name="CustomerInfo_CompanyName" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="CustomerInfo_Country" Type="Int32" />
           <Property Name="CustomerInfo_FirstName" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="CustomerInfo_LastName" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Name="CustomerInfo_Postal" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerInfo_Zipcode" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="CustomerInfo_VatNr" Type="String" MaxLength="159" FixedLength="false" Unicode="true" />
           <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Password" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
@@ -622,6 +697,39 @@
           <NavigationProperty Name="DbShops" Relationship="Self.FK_FulfillmentPartners_Shops" FromRole="DbFulfillmentPartners" ToRole="DbShops" />
           <NavigationProperty Name="DbOffices" Relationship="Self.FK_Offices_FulfillmentPartners" FromRole="DbFulfillmentPartners" ToRole="DbOffices" />
         </EntityType>
+        <EntityType Name="DbInvoices">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Guid" Type="Guid" Nullable="false" />
+          <Property Name="OrderId" Type="Int32" Nullable="false" />
+          <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DateDue" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="InvoiceStatus" Type="Int32" Nullable="false" />
+          <Property Name="InvoiceNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="OrganisationId" Type="Int32" Nullable="false" />
+          <Property Name="PriceExVat" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="PriceVatPercentage" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="PriceTotal" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Receiver_Organisation" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Receiver_AttPerson" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Receiver_Address1" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Receiver_Address2" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Receiver_City" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Receiver_Zipcode" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Receiver_State" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Receiver_CountryId" Type="Int32" Nullable="false" />
+          <Property Name="Invoice_Organisation" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Invoice_AttPerson" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Invoice_Address1" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Invoice_Address2" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Invoice_City" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Invoice_Zipcode" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Invoice_State" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Invoice_CountryId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="DbOrders" Relationship="Self.FK_DbInvoices_DbOrders" FromRole="DbInvoices" ToRole="DbOrders" />
+        </EntityType>
         <EntityType Name="DbLetters">
           <Key>
             <PropertyRef Name="Id" />
@@ -636,7 +744,7 @@
           <Property Name="FromAddress_Country" Type="Int32" />
           <Property Name="FromAddress_FirstName" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="FromAddress_LastName" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Name="FromAddress_Postal" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="FromAddress_Zipcode" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="FromAddress_VatNr" Type="String" MaxLength="159" FixedLength="false" Unicode="true" />
           <Property Name="ToAddress_Address" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="ToAddress_Address2" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
@@ -646,7 +754,7 @@
           <Property Name="ToAddress_Country" Type="Int32" Nullable="false" />
           <Property Name="ToAddress_FirstName" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="ToAddress_LastName" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Name="ToAddress_Postal" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ToAddress_Zipcode" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="ToAddress_VatNr" Type="String" MaxLength="159" FixedLength="false" Unicode="true" />
           <Property Name="LetterContent_Path" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="LetterContent_WrittenContent" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
@@ -687,6 +795,7 @@
           <Property Name="LetterSize" Type="Int32" Nullable="false" />
           <Property Name="LetterType" Type="Int32" Nullable="false" />
           <NavigationProperty Name="DbLetters" Relationship="Self.FK_Letters_OfficeProducts" FromRole="DbOfficeProducts" ToRole="DbLetters" />
+          <NavigationProperty Name="DbProductMatrixLines" Relationship="Self.FK_DbProductMatrixLines_DbOfficeProducts" FromRole="DbOfficeProducts" ToRole="DbProductMatrixLines" />
           <NavigationProperty Name="DbOffices" Relationship="Self.FK_OfficeProducts_Offices" FromRole="DbOfficeProducts" ToRole="DbOffices" />
         </EntityType>
         <EntityType Name="DbOffices">
@@ -734,6 +843,7 @@
           <Property Name="DatePaid" Type="DateTime" Precision="3" />
           <Property Name="DateSent" Type="DateTime" Precision="3" />
           <NavigationProperty Name="DbCustomers" Relationship="Self.FK_Order_Customer" FromRole="DbOrders" ToRole="DbCustomers" />
+          <NavigationProperty Name="DbInvoices" Relationship="Self.FK_DbInvoices_DbOrders" FromRole="DbOrders" ToRole="DbInvoices" />
           <NavigationProperty Name="DbOrderlines" Relationship="Self.FK_OrderItem_Order" FromRole="DbOrders" ToRole="DbOrderlines" />
         </EntityType>
         <EntityType Name="DbOrganisation">
@@ -798,6 +908,7 @@
           <Property Name="Span_lower" Type="Int32" Nullable="false" />
           <Property Name="Span_upper" Type="Int32" Nullable="false" />
           <Property Name="OfficeProductId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="DbOfficeProducts" Relationship="Self.FK_DbProductMatrixLines_DbOfficeProducts" FromRole="DbProductMatrixLines" ToRole="DbOfficeProducts" />
         </EntityType>
         <EntityType Name="DbShops">
           <Key>
@@ -929,6 +1040,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_DbInvoices_DbOrders">
+          <End Role="DbOrders" Type="Self.DbOrders" Multiplicity="1" />
+          <End Role="DbInvoices" Type="Self.DbInvoices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DbOrders">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DbInvoices">
+              <PropertyRef Name="OrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Letters_OfficeProducts">
           <End Role="DbOfficeProducts" Type="Self.DbOfficeProducts" Multiplicity="1" />
           <End Role="DbLetters" Type="Self.DbLetters" Multiplicity="*" />
@@ -950,6 +1073,18 @@
             </Principal>
             <Dependent Role="DbOrderlines">
               <PropertyRef Name="LetterId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DbProductMatrixLines_DbOfficeProducts">
+          <End Role="DbOfficeProducts" Type="Self.DbOfficeProducts" Multiplicity="1" />
+          <End Role="DbProductMatrixLines" Type="Self.DbProductMatrixLines" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DbOfficeProducts">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DbProductMatrixLines">
+              <PropertyRef Name="OfficeProductId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -995,6 +1130,7 @@
           <EntitySet Name="DbCoupons" EntityType="Self.DbCoupons" />
           <EntitySet Name="DbCustomers" EntityType="Self.DbCustomers" />
           <EntitySet Name="DbFulfillmentPartners" EntityType="Self.DbFulfillmentPartners" />
+          <EntitySet Name="DbInvoices" EntityType="Self.DbInvoices" />
           <EntitySet Name="DbLetters" EntityType="Self.DbLetters" />
           <EntitySet Name="DbOfficeProducts" EntityType="Self.DbOfficeProducts" />
           <EntitySet Name="DbOffices" EntityType="Self.DbOffices" />
@@ -1045,6 +1181,10 @@
             <End Role="DbFulfillmentPartners" EntitySet="DbFulfillmentPartners" />
             <End Role="DbOffices" EntitySet="DbOffices" />
           </AssociationSet>
+          <AssociationSet Name="FK_DbInvoices_DbOrders" Association="Self.FK_DbInvoices_DbOrders">
+            <End Role="DbOrders" EntitySet="DbOrders" />
+            <End Role="DbInvoices" EntitySet="DbInvoices" />
+          </AssociationSet>
           <AssociationSet Name="FK_Letters_OfficeProducts" Association="Self.FK_Letters_OfficeProducts">
             <End Role="DbOfficeProducts" EntitySet="DbOfficeProducts" />
             <End Role="DbLetters" EntitySet="DbLetters" />
@@ -1052,6 +1192,10 @@
           <AssociationSet Name="FK_OrderItem_Letter" Association="Self.FK_OrderItem_Letter">
             <End Role="DbLetters" EntitySet="DbLetters" />
             <End Role="DbOrderlines" EntitySet="DbOrderlines" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DbProductMatrixLines_DbOfficeProducts" Association="Self.FK_DbProductMatrixLines_DbOfficeProducts">
+            <End Role="DbOfficeProducts" EntitySet="DbOfficeProducts" />
+            <End Role="DbProductMatrixLines" EntitySet="DbProductMatrixLines" />
           </AssociationSet>
           <AssociationSet Name="FK_OfficeProducts_Offices" Association="Self.FK_OfficeProducts_Offices">
             <End Role="DbOffices" EntitySet="DbOffices" />
@@ -1132,11 +1276,10 @@
                 <ScalarProperty Name="CustomerInfo_Address2" ColumnName="CustomerInfo_Address2" />
                 <ScalarProperty Name="CustomerInfo_AttPerson" ColumnName="CustomerInfo_AttPerson" />
                 <ScalarProperty Name="CustomerInfo_City" ColumnName="CustomerInfo_City" />
-                <ScalarProperty Name="CustomerInfo_CompanyName" ColumnName="CustomerInfo_CompanyName" />
                 <ScalarProperty Name="CustomerInfo_Country" ColumnName="CustomerInfo_Country" />
                 <ScalarProperty Name="CustomerInfo_FirstName" ColumnName="CustomerInfo_FirstName" />
                 <ScalarProperty Name="CustomerInfo_LastName" ColumnName="CustomerInfo_LastName" />
-                <ScalarProperty Name="CustomerInfo_Postal" ColumnName="CustomerInfo_Postal" />
+                <ScalarProperty Name="CustomerInfo_Zipcode" ColumnName="CustomerInfo_Zipcode" />
                 <ScalarProperty Name="CustomerInfo_VatNr" ColumnName="CustomerInfo_VatNr" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="Password" ColumnName="Password" />
@@ -1165,6 +1308,39 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="DbInvoices">
+            <EntityTypeMapping TypeName="LetterAmazer.DbInvoices">
+              <MappingFragment StoreEntitySet="DbInvoices">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Guid" ColumnName="Guid" />
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="DateDue" ColumnName="DateDue" />
+                <ScalarProperty Name="InvoiceStatus" ColumnName="InvoiceStatus" />
+                <ScalarProperty Name="InvoiceNumber" ColumnName="InvoiceNumber" />
+                <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
+                <ScalarProperty Name="PriceExVat" ColumnName="PriceExVat" />
+                <ScalarProperty Name="PriceVatPercentage" ColumnName="PriceVatPercentage" />
+                <ScalarProperty Name="PriceTotal" ColumnName="PriceTotal" />
+                <ScalarProperty Name="Receiver_Organisation" ColumnName="Receiver_Organisation" />
+                <ScalarProperty Name="Receiver_AttPerson" ColumnName="Receiver_AttPerson" />
+                <ScalarProperty Name="Receiver_Address1" ColumnName="Receiver_Address1" />
+                <ScalarProperty Name="Receiver_Address2" ColumnName="Receiver_Address2" />
+                <ScalarProperty Name="Receiver_City" ColumnName="Receiver_City" />
+                <ScalarProperty Name="Receiver_Zipcode" ColumnName="Receiver_Zipcode" />
+                <ScalarProperty Name="Receiver_State" ColumnName="Receiver_State" />
+                <ScalarProperty Name="Receiver_CountryId" ColumnName="Receiver_CountryId" />
+                <ScalarProperty Name="Invoice_Organisation" ColumnName="Invoice_Organisation" />
+                <ScalarProperty Name="Invoice_AttPerson" ColumnName="Invoice_AttPerson" />
+                <ScalarProperty Name="Invoice_Address1" ColumnName="Invoice_Address1" />
+                <ScalarProperty Name="Invoice_Address2" ColumnName="Invoice_Address2" />
+                <ScalarProperty Name="Invoice_City" ColumnName="Invoice_City" />
+                <ScalarProperty Name="Invoice_Zipcode" ColumnName="Invoice_Zipcode" />
+                <ScalarProperty Name="Invoice_State" ColumnName="Invoice_State" />
+                <ScalarProperty Name="Invoice_CountryId" ColumnName="Invoice_CountryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="DbLetters">
             <EntityTypeMapping TypeName="LetterAmazer.DbLetters">
               <MappingFragment StoreEntitySet="DbLetters">
@@ -1178,7 +1354,7 @@
                 <ScalarProperty Name="FromAddress_Country" ColumnName="FromAddress_Country" />
                 <ScalarProperty Name="FromAddress_FirstName" ColumnName="FromAddress_FirstName" />
                 <ScalarProperty Name="FromAddress_LastName" ColumnName="FromAddress_LastName" />
-                <ScalarProperty Name="FromAddress_Postal" ColumnName="FromAddress_Postal" />
+                <ScalarProperty Name="FromAddress_Zipcode" ColumnName="FromAddress_Zipcode" />
                 <ScalarProperty Name="FromAddress_VatNr" ColumnName="FromAddress_VatNr" />
                 <ScalarProperty Name="ToAddress_Address" ColumnName="ToAddress_Address" />
                 <ScalarProperty Name="ToAddress_Address2" ColumnName="ToAddress_Address2" />
@@ -1188,7 +1364,7 @@
                 <ScalarProperty Name="ToAddress_Country" ColumnName="ToAddress_Country" />
                 <ScalarProperty Name="ToAddress_FirstName" ColumnName="ToAddress_FirstName" />
                 <ScalarProperty Name="ToAddress_LastName" ColumnName="ToAddress_LastName" />
-                <ScalarProperty Name="ToAddress_Postal" ColumnName="ToAddress_Postal" />
+                <ScalarProperty Name="ToAddress_Zipcode" ColumnName="ToAddress_Zipcode" />
                 <ScalarProperty Name="ToAddress_VatNr" ColumnName="ToAddress_VatNr" />
                 <ScalarProperty Name="LetterContent_Path" ColumnName="LetterContent_Path" />
                 <ScalarProperty Name="LetterContent_WrittenContent" ColumnName="LetterContent_WrittenContent" />

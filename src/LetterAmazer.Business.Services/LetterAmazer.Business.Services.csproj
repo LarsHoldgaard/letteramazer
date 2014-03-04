@@ -87,6 +87,10 @@
     <Compile Include="Domain\Common\S3Access.cs" />
     <Compile Include="Domain\Countries\Continent.cs" />
     <Compile Include="Domain\Customers\CustomerRole.cs" />
+    <Compile Include="Domain\Invoice\IInvoiceService.cs" />
+    <Compile Include="Domain\Invoice\Invoice.cs" />
+    <Compile Include="Domain\Invoice\InvoiceSpecification.cs" />
+    <Compile Include="Domain\Invoice\InvoiceStatus.cs" />
     <Compile Include="Domain\Mails\IMailService.cs" />
     <Compile Include="Domain\Mails\ViewModels\MandrillMessageSend.cs" />
     <Compile Include="Domain\Mails\ViewModels\MandrillTemplateSend.cs" />
@@ -103,9 +107,12 @@
     <Compile Include="Domain\ProductMatrix\IProductMatrixService.cs" />
     <Compile Include="Domain\ProductMatrix\ProductMatrixLineSpecification.cs" />
     <Compile Include="Domain\Products\Credit.cs" />
+    <Compile Include="Factory\Interfaces\IInvoiceFactory.cs" />
     <Compile Include="Factory\Interfaces\IOfficeProductFactory.cs" />
     <Compile Include="Factory\Interfaces\IOrganisationFactory.cs" />
     <Compile Include="Factory\Interfaces\IProductMatrixFactory.cs" />
+    <Compile Include="Factory\InvoiceFactory.cs" />
+    <Compile Include="Factory\InvoiceService.cs" />
     <Compile Include="Factory\IPaymentFactory.cs" />
     <Compile Include="Factory\OfficeProductFactory.cs" />
     <Compile Include="Factory\OrganisationFactory.cs" />

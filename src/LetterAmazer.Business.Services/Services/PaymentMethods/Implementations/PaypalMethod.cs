@@ -61,7 +61,7 @@ namespace LetterAmazer.Business.Services.Services.PaymentMethods.Implementations
                 addressInfo.Country.CountryCode.ToString(); // TODO: Fix country    
             }
 
-            string postal = addressInfo.PostalCode;
+            string postal = addressInfo.Zipcode;
             string city = addressInfo.City;
             string address = addressInfo.Address1;
             var id = order.Id;

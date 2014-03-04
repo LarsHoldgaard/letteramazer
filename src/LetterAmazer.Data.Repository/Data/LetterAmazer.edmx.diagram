@@ -4,22 +4,23 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="08d8e393c1df430a878653c3a7b1ab15" Name="Diagram1">
+      <Diagram DiagramId="744250f94c434886a6662ad0bd7ce71f" Name="Diagram1">
         <EntityTypeShape EntityType="LetterAmazer.DbContinents" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="LetterAmazer.DbCountries" Width="1.5" PointX="0.75" PointY="11.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="LetterAmazer.DbCountries" Width="1.5" PointX="0.75" PointY="13.125" IsExpanded="true" />
         <EntityTypeShape EntityType="LetterAmazer.DbCoupons" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="LetterAmazer.DbCustomers" Width="1.5" PointX="3" PointY="10" IsExpanded="true" />
-        <EntityTypeShape EntityType="LetterAmazer.DbFulfillmentPartners" Width="1.5" PointX="5.25" PointY="26.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="LetterAmazer.DbLetters" Width="1.5" PointX="5.25" PointY="9.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="LetterAmazer.DbOfficeProducts" Width="1.5" PointX="9.75" PointY="18.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="LetterAmazer.DbOffices" Width="1.5" PointX="7.5" PointY="19" IsExpanded="true" />
-        <EntityTypeShape EntityType="LetterAmazer.DbOrderlines" Width="1.5" PointX="7.5" PointY="14.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="LetterAmazer.DbOrders" Width="1.5" PointX="5.25" PointY="21.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="LetterAmazer.DbOrganisation" Width="1.5" PointX="0.75" PointY="18.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="LetterAmazer.DbOrganisationAddressList" Width="1.5" PointX="3" PointY="18.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="LetterAmazer.DbCustomers" Width="1.5" PointX="3" PointY="11.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="LetterAmazer.DbFulfillmentPartners" Width="1.5" PointX="5.25" PointY="27.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="LetterAmazer.DbInvoices" Width="1.5" PointX="7.5" PointY="21.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="LetterAmazer.DbLetters" Width="1.5" PointX="5.25" PointY="10.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="LetterAmazer.DbOfficeProducts" Width="1.5" PointX="9.75" PointY="17.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="LetterAmazer.DbOffices" Width="1.5" PointX="7.5" PointY="18.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="LetterAmazer.DbOrderlines" Width="1.5" PointX="7.5" PointY="14.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="LetterAmazer.DbOrders" Width="1.5" PointX="5.25" PointY="22.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="LetterAmazer.DbOrganisation" Width="1.5" PointX="0.75" PointY="20.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="LetterAmazer.DbOrganisationAddressList" Width="1.5" PointX="3" PointY="18.625" IsExpanded="true" />
         <EntityTypeShape EntityType="LetterAmazer.DbPaymentMethods" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="LetterAmazer.DbProductMatrixLines" Width="1.5" PointX="0.75" PointY="4.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="LetterAmazer.DbShops" Width="1.5" PointX="3" PointY="26.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="LetterAmazer.DbProductMatrixLines" Width="1.5" PointX="12" PointY="18" IsExpanded="true" />
+        <EntityTypeShape EntityType="LetterAmazer.DbShops" Width="1.5" PointX="3" PointY="27.5" IsExpanded="true" />
         <AssociationConnector Association="LetterAmazer.FK_Customers_Countries" ManuallyRouted="false" />
         <AssociationConnector Association="LetterAmazer.FK_DbOrganisationAddressList_DbCountries" ManuallyRouted="false" />
         <AssociationConnector Association="LetterAmazer.FK_Letters_FromCountry" ManuallyRouted="false" />
@@ -30,8 +31,10 @@
         <AssociationConnector Association="LetterAmazer.FK_Order_Customer" ManuallyRouted="false" />
         <AssociationConnector Association="LetterAmazer.FK_FulfillmentPartners_Shops" ManuallyRouted="false" />
         <AssociationConnector Association="LetterAmazer.FK_Offices_FulfillmentPartners" ManuallyRouted="false" />
+        <AssociationConnector Association="LetterAmazer.FK_DbInvoices_DbOrders" ManuallyRouted="false" />
         <AssociationConnector Association="LetterAmazer.FK_Letters_OfficeProducts" ManuallyRouted="false" />
         <AssociationConnector Association="LetterAmazer.FK_OrderItem_Letter" ManuallyRouted="false" />
+        <AssociationConnector Association="LetterAmazer.FK_DbProductMatrixLines_DbOfficeProducts" ManuallyRouted="false" />
         <AssociationConnector Association="LetterAmazer.FK_OfficeProducts_Offices" ManuallyRouted="false" />
         <AssociationConnector Association="LetterAmazer.FK_OrderItem_Order" ManuallyRouted="false" />
         <AssociationConnector Association="LetterAmazer.FK_DbOrganisationAddressList_DbOrganisation" ManuallyRouted="false" />

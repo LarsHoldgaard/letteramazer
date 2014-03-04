@@ -266,7 +266,7 @@ namespace LetterAmazer.Business.Services.Services
                     ToAddress_Country = letter.ToAddress.Country.Id,
                     ToAddress_FirstName = letter.ToAddress.FirstName,
                     ToAddress_LastName = letter.ToAddress.LastName,
-                    ToAddress_Postal = letter.ToAddress.PostalCode,
+                    ToAddress_Zipcode = letter.ToAddress.Zipcode,
                     ToAddress_State = letter.ToAddress.State,
                     ToAddress_VatNr = letter.ToAddress.VatNr,
                     OrderId = letter.OrderId,
@@ -293,7 +293,7 @@ namespace LetterAmazer.Business.Services.Services
 
                     dbLetter.FromAddress_FirstName = letter.FromAddress.FirstName;
                     dbLetter.FromAddress_LastName = letter.FromAddress.LastName;
-                    dbLetter.FromAddress_Postal = letter.FromAddress.PostalCode;
+                    dbLetter.FromAddress_Zipcode = letter.FromAddress.Zipcode;
                     dbLetter.FromAddress_State = letter.FromAddress.State;
                     dbLetter.FromAddress_VatNr = letter.FromAddress.VatNr;
                 }

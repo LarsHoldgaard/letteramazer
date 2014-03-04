@@ -12,7 +12,7 @@ namespace LetterAmazer.Business.Services.Domain.AddressInfos
         public Country Country { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public string PostalCode { get; set; }
+        public string Zipcode { get; set; }
         public string VatNr { get; set; }
         public string Co { get; set; }
         public string State { get; set; }

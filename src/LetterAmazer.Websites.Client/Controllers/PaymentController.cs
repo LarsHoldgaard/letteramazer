@@ -52,7 +52,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                     Company = order.Customer.CustomerInfo.Organisation,
                     Name = order.Customer.CustomerInfo.FirstName + " " + order.Customer.CustomerInfo.LastName,
                     VatNumber = order.Customer.CustomerInfo.VatNr,
-                    ZipCode  = order.Customer.CustomerInfo.PostalCode
+                    ZipCode  = order.Customer.CustomerInfo.Zipcode
                 }
             };
 

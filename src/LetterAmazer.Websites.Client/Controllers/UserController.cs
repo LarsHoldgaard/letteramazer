@@ -4,6 +4,7 @@ using LetterAmazer.Business.Services.Domain.AddressInfos;
 using LetterAmazer.Business.Services.Domain.Countries;
 using LetterAmazer.Business.Services.Domain.Coupons;
 using LetterAmazer.Business.Services.Domain.Customers;
+using LetterAmazer.Business.Services.Domain.Invoice;
 using LetterAmazer.Business.Services.Domain.Letters;
 using LetterAmazer.Business.Services.Domain.Mails;
 using LetterAmazer.Business.Services.Domain.Orders;
@@ -11,6 +12,7 @@ using LetterAmazer.Business.Services.Domain.Payments;
 using LetterAmazer.Business.Services.Domain.Pricing;
 using LetterAmazer.Business.Services.Domain.Products;
 using LetterAmazer.Business.Services.Domain.Products.ProductDetails;
+using LetterAmazer.Business.Services.Factory;
 using LetterAmazer.Business.Utils.Helpers;
 using LetterAmazer.Websites.Client.Attributes;
 using LetterAmazer.Websites.Client.ViewModels;
@@ -27,7 +29,7 @@ namespace LetterAmazer.Websites.Client.Controllers
     [Authorize]
     public class UserController : BaseController
     {
-        private static readonly ILog logger = LogManager.GetLogger(typeof (UserController));
+        private static readonly ILog logger = LogManager.GetLogger(typeof(UserController));
         private IOrderService orderService;
         private IPaymentService paymentService;
         private ILetterService letterService;
@@ -36,11 +38,12 @@ namespace LetterAmazer.Websites.Client.Controllers
         private IPriceService priceService;
         private IOrganisationService organisationService;
         private IMailService mailService;
+        private InvoiceService invoiceService;
 
         public UserController(IOrderService orderService, IPaymentService paymentService,
             ILetterService letterService, ICouponService couponService, ICountryService countryService,
             IPriceService priceService,
-            IOrganisationService organisationService, IMailService mailService)
+            IOrganisationService organisationService, IMailService mailService, InvoiceService invoiceService)
         {
             this.orderService = orderService;
             this.paymentService = paymentService;
@@ -50,6 +53,7 @@ namespace LetterAmazer.Websites.Client.Controllers
             this.priceService = priceService;
             this.organisationService = organisationService;
             this.mailService = mailService;
+            this.invoiceService = invoiceService;
         }
 
         public ActionResult Index(int? page, ProfileViewModel model)
@@ -115,7 +119,7 @@ namespace LetterAmazer.Websites.Client.Controllers
             organisation.Address.Address1 = model.Address1;
             organisation.Address.Address2 = model.Address2;
             organisation.Address.City = model.City;
-            organisation.Address.PostalCode = model.ZipCode;
+            organisation.Address.Zipcode = model.ZipCode;
             organisation.Address.State = model.State;
             organisation.Address.Country = countryService.GetCountryById(int.Parse(model.SelectedCountry));
 
@@ -139,8 +143,8 @@ namespace LetterAmazer.Websites.Client.Controllers
                 addressInfo.FirstName = model.RecipientName;
                 addressInfo.City = model.DestinationCity;
                 addressInfo.Country = countryService.GetCountryBySpecificaiton(
-                    new CountrySpecification() {CountryCode = model.DestinationCountryCode}).FirstOrDefault();
-                addressInfo.PostalCode = model.ZipCode;
+                    new CountrySpecification() { CountryCode = model.DestinationCountryCode }).FirstOrDefault();
+                addressInfo.Zipcode = model.ZipCode;
 
 
                 LetterDetails letterDetail = new LetterDetails()
@@ -194,7 +198,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                     });
                     if (voucher != null && voucher.Any())
                     {
-                        coupon = (Coupon) voucher.FirstOrDefault();
+                        coupon = (Coupon)voucher.FirstOrDefault();
                     }
                 }
 
@@ -267,7 +271,7 @@ namespace LetterAmazer.Websites.Client.Controllers
             Order order = orderService.GetOrderById(id);
             OrderDetailViewModel model = new OrderDetailViewModel();
             // model.Order = order;
-            return RedirectToActionWithError("Delete", model, new {id = id});
+            return RedirectToActionWithError("Delete", model, new { id = id });
         }
 
         public ActionResult Details(int id)
@@ -326,7 +330,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                 Cost = model.PurchaseAmount
             };
 
-            Order order = new Order {Cost = model.PurchaseAmount, Customer = SessionHelper.Customer};
+            Order order = new Order { Cost = model.PurchaseAmount, Customer = SessionHelper.Customer };
             order.OrderLines.Add(creditLine);
             order.OrderLines.Add(paymentLine);
 
@@ -348,7 +352,23 @@ namespace LetterAmazer.Websites.Client.Controllers
             return Json("OK");
         }
 
-    #region Private helpers
+
+        [HttpGet]
+        public ActionResult InvoiceOverview()
+        {
+            var customer = SessionHelper.Customer;
+
+            InvoiceOverviewViewModel invoiceOverview = new InvoiceOverviewViewModel();
+            invoiceOverview.DateFrom = DateTime.Now.AddDays(-180).Date;
+            invoiceOverview.DateFrom = DateTime.Now.Date;
+            invoiceOverview.InvoiceSnippets = getInvoiceSnippets(invoiceOverview.DateFrom, 
+                invoiceOverview.DateTo,
+                customer.OrganisationId);
+
+            return View(invoiceOverview);
+        }
+
+        #region Private helpers
 
         private OrderDetailViewModel getOrderDetailViewModel(Order order)
         {
@@ -458,6 +478,28 @@ namespace LetterAmazer.Websites.Client.Controllers
             return rest;
         }
 
+        private List<InvoiceSnippetViewModel> getInvoiceSnippets(DateTime from, DateTime to, int organisationId)
+        {
+            var invoices = invoiceService.GetInvoiceBySpecification(new InvoiceSpecification()
+            {
+                DateFrom = from,
+                DateTo = to
+            });
+            var models = new List<InvoiceSnippetViewModel>();
+
+            foreach (var invoice in invoices)
+            {
+                models.Add(new InvoiceSnippetViewModel()
+                {
+                    DateCreated = invoice.DateCreated,
+                    OrderNumber = invoice.InvoiceNumber,
+                    TotalPrice = 0.0m
+                });
+            }
+
+
+            return models;
+        }
 
         #endregion
     }

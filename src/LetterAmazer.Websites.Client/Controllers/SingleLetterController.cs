@@ -74,7 +74,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                 addressInfo.City = model.DestinationCity;
                 addressInfo.Country = countryService.GetCountryBySpecificaiton(
                     new CountrySpecification() {CountryCode = model.DestinationCountryCode}).FirstOrDefault();
-                addressInfo.PostalCode = model.ZipCode;
+                addressInfo.Zipcode = model.ZipCode;
 
 
                 Customer customer = null;
@@ -269,7 +269,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                 letter.ToAddress = new AddressInfo()
                 {
                     Address1 = address,
-                    PostalCode = postal,
+                    Zipcode = postal,
                     City = city,
                     Country = dl_country
                 }; // TODO: Fix country

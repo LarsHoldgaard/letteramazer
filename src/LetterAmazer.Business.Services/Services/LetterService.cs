@@ -83,7 +83,7 @@ namespace LetterAmazer.Business.Services.Services
             dbletter.ToAddress_Country = letter.ToAddress.Country.Id;
             dbletter.ToAddress_FirstName = letter.ToAddress.FirstName;
             dbletter.ToAddress_LastName = letter.ToAddress.LastName;
-            dbletter.ToAddress_Postal = letter.ToAddress.PostalCode;
+            dbletter.ToAddress_Zipcode = letter.ToAddress.Zipcode;
             dbletter.ToAddress_VatNr = letter.ToAddress.VatNr;
 
             dbletter.FromAddress_Address = letter.FromAddress.Address1;
@@ -94,7 +94,7 @@ namespace LetterAmazer.Business.Services.Services
             dbletter.FromAddress_Country = letter.FromAddress.Country.Id;
             dbletter.FromAddress_FirstName = letter.FromAddress.FirstName;
             dbletter.FromAddress_LastName = letter.FromAddress.LastName;
-            dbletter.FromAddress_Postal = letter.FromAddress.PostalCode;
+            dbletter.FromAddress_Zipcode = letter.FromAddress.Zipcode;
             dbletter.FromAddress_VatNr = letter.FromAddress.VatNr;
 
             repository.SaveChanges();
@@ -131,7 +131,7 @@ namespace LetterAmazer.Business.Services.Services
             dbletter.ToAddress_Country = letter.ToAddress.Country.Id;
             dbletter.ToAddress_FirstName = letter.ToAddress.FirstName;
             dbletter.ToAddress_LastName = letter.ToAddress.LastName;
-            dbletter.ToAddress_Postal = letter.ToAddress.PostalCode;
+            dbletter.ToAddress_Zipcode = letter.ToAddress.Zipcode;
             dbletter.ToAddress_VatNr = letter.ToAddress.VatNr;
 
             dbletter.FromAddress_Address = letter.FromAddress.Address1;
@@ -142,7 +142,7 @@ namespace LetterAmazer.Business.Services.Services
             dbletter.FromAddress_Country = letter.FromAddress.Country.Id;
             dbletter.FromAddress_FirstName = letter.FromAddress.FirstName;
             dbletter.FromAddress_LastName = letter.FromAddress.LastName;
-            dbletter.FromAddress_Postal = letter.FromAddress.PostalCode;
+            dbletter.FromAddress_Zipcode = letter.FromAddress.Zipcode;
             dbletter.FromAddress_VatNr = letter.FromAddress.VatNr;
 
             repository.SaveChanges();

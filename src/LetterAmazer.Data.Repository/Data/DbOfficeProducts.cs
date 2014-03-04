@@ -17,6 +17,7 @@ namespace LetterAmazer.Data.Repository.Data
         public DbOfficeProducts()
         {
             this.DbLetters = new HashSet<DbLetters>();
+            this.DbProductMatrixLines = new HashSet<DbProductMatrixLines>();
         }
     
         public int Id { get; set; }
@@ -34,6 +35,7 @@ namespace LetterAmazer.Data.Repository.Data
         public int LetterType { get; set; }
     
         public virtual ICollection<DbLetters> DbLetters { get; set; }
+        public virtual ICollection<DbProductMatrixLines> DbProductMatrixLines { get; set; }
         public virtual DbOffices DbOffices { get; set; }
     }
 }
