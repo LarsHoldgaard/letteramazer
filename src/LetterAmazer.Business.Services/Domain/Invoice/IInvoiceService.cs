@@ -13,6 +13,8 @@ namespace LetterAmazer.Business.Services.Domain.Invoice
         Invoice Update(Invoice invoice);
 
         Invoice GetInvoiceById(int id);
+        Invoice GetInvoiceById(Guid id);
+
 
         List<Invoice> GetInvoiceBySpecification(InvoiceSpecification specification);
     }

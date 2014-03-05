@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Linq;
 using iTextSharp.text;
 using LetterAmazer.Business.Services.Domain.AddressInfos;
 using LetterAmazer.Business.Services.Domain.Countries;
@@ -8,6 +9,7 @@ using LetterAmazer.Business.Services.Domain.Customers;
 using LetterAmazer.Business.Services.Domain.Invoice;
 using LetterAmazer.Business.Services.Domain.Orders;
 using LetterAmazer.Business.Services.Domain.Payments;
+using LetterAmazer.Business.Services.Domain.Products;
 using LetterAmazer.Business.Services.Exceptions;
 using LetterAmazer.Business.Utils.Helpers;
 
@@ -38,9 +40,9 @@ namespace LetterAmazer.Business.Services.Services.PaymentMethods.Implementations
             {
                 DateDue = DateTime.Now.AddDays(14),
                 PriceExVat = order.Price.PriceExVat,
-                InvoiceLines = getInvoiceLines(order.OrderLines),
                 PriceTotal = order.Price.Total,
                 PriceVatPercentage = order.Price.VatPercentage,
+                PriceVat = order.Price.VatPrice,
                 InvoiceInfo = new AddressInfo()
                 {
                     Address1 = Constants.Texts.PracticalInformation.Address1,
@@ -48,25 +50,38 @@ namespace LetterAmazer.Business.Services.Services.PaymentMethods.Implementations
                     Country = invoiceCountry,
                     VatNr = Constants.Texts.PracticalInformation.VatNumber,
                     Organisation = Constants.Texts.PracticalInformation.CompanyName,
-                   AttPerson= Constants.Texts.PracticalInformation.AttPerson
+                    AttPerson = Constants.Texts.PracticalInformation.AttPerson,
+                    City = Constants.Texts.PracticalInformation.City
                 },
                 ReceiverInfo = new AddressInfo()
                 {
-                    Address1 = order.Customer.CustomerInfo.Address1,
-                    Address2 = order.Customer.CustomerInfo.Address2,
-                    Zipcode = order.Customer.CustomerInfo.Zipcode,
-                    City = order.Customer.CustomerInfo.City,
-                    State = order.Customer.CustomerInfo.State,
-                    Country = order.Customer.CustomerInfo.Country,
-                    AttPerson = order.Customer.CustomerInfo.AttPerson,
-                    Organisation = order.Customer.CustomerInfo.Organisation,
-                    VatNr = order.Customer.CustomerInfo.VatNr,
-                    
+                    Address1 = order.Customer.InvoiceAddress.Address1,
+                    Address2 = order.Customer.InvoiceAddress.Address2,
+                    Zipcode = order.Customer.InvoiceAddress.Zipcode,
+                    City = order.Customer.InvoiceAddress.City,
+                    State = order.Customer.InvoiceAddress.State,
+                    Country = order.Customer.InvoiceAddress.Country,
+                    AttPerson = order.Customer.InvoiceAddress.AttPerson,
+                    Organisation = order.Customer.InvoiceAddress.Organisation,
+                    VatNr = order.Customer.InvoiceAddress.VatNr,
                 },
-                OrganisationId = order.Customer.OrganisationId,
+                OrganisationId = order.Customer.Organisation.Id,
                 Guid = Guid.NewGuid(),
-                OrderId = order.Id
+                OrderId = order.Id,
+                InvoiceNumber = string.Empty,
+                InvoiceStatus = InvoiceStatus.Created,
+                DateCreated = DateTime.Now
             };
+            foreach (var orderLine in order.OrderLines.Where(c => c.ProductType != ProductType.Payment))
+            {
+                invoice.InvoiceLines.Add(new InvoiceLine()
+                {
+                    Description = orderLine.ProductType.ToString(),
+                    Quantity = orderLine.Quantity,
+                    PriceExVat = orderLine.Price.PriceExVat
+                });
+            }
+
             var stored_invoice = invoiceService.Create(invoice);
 
             var url = baseUrl + serviceUrl;
@@ -86,24 +101,6 @@ namespace LetterAmazer.Business.Services.Services.PaymentMethods.Implementations
             throw new NotImplementedException();
         }
 
-        #region Private helpers
 
-        private List<InvoiceLine> getInvoiceLines(List<OrderLine> orderLines)
-        {
-            List<InvoiceLine> invoiceLines = new List<InvoiceLine>();
-            foreach (var orderLine in orderLines)
-            {
-                invoiceLines.Add(new InvoiceLine()
-                {
-                    Description = orderLine.ProductType.ToString(),
-                    Quantity =orderLine.Quantity,
-                    PriceExVat = orderLine.Price.PriceExVat
-                });
-            }
-
-            return invoiceLines;
-        }
-
-        #endregion
     }
 }

@@ -321,6 +321,7 @@
       <DependentUpon>Main.css</DependentUpon>
     </Content>
     <None Include="Properties\PublishProfiles\FileDEploy.pubxml" />
+    <None Include="Properties\PublishProfiles\Stat.pubxml" />
     <None Include="Scripts\jquery-2.0.3.intellisense.js" />
     <Content Include="Scripts\ckeditor\adapters\jquery.js" />
     <Content Include="Scripts\ckeditor\build-config.js" />

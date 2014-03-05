@@ -19,7 +19,7 @@ namespace LetterAmazer.Business.Services.Domain.Customers
         public decimal CreditLimit { get; set; }
         public string ResetPasswordKey { get; set; }
         public string RegisterKey { get; set; }
-        public int OrganisationId { get; set; }
+        public Organisation.Organisation Organisation { get; set; }
 
         public OrganisationRole? OrganisationRole { get; set; }
 
@@ -37,6 +37,41 @@ namespace LetterAmazer.Business.Services.Domain.Customers
         public decimal CreditsLeft
         {
             get { return Credit - CreditLimit; }
+        }
+
+        public AddressInfo InvoiceAddress
+        {
+            get
+            {
+                if (this.Organisation != null)
+                {
+                    return this.Organisation.Address;
+                }
+                return CustomerInfo;
+            }  
+
+        }
+
+        /// <summary>
+        /// Calculates the vat percentage of the given user
+        /// </summary>
+        public decimal VatPercentage()
+        {
+            if (this.Organisation != null)
+            {
+                if (!this.Organisation.Address.Country.InsideEu)
+                {
+                    return 0.0m;
+                }
+            }
+            else if (this.CustomerInfo != null && this.CustomerInfo.Country != null)
+            {
+                if (!this.CustomerInfo.Country.InsideEu)
+                {
+                    return 0.0m;
+                }
+            }
+            return 0.25m;
         }
 
         public Customer()

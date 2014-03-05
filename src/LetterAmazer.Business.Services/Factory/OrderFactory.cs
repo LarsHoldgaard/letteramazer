@@ -44,7 +44,8 @@ namespace LetterAmazer.Business.Services.Factory
                 Price = new Price()
                 {
                     PriceExVat = dborder.PriceExVat,
-                    VatPercentage = dborder.VatPercentage
+                    VatPercentage = dborder.VatPercentage,
+                    
                 }
             };
 

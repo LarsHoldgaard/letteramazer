@@ -3,14 +3,16 @@
 
 <h1>Prices to send physical letters around the globe</h1>
 <h3>Calculate price</h3>
-@Html.ListBoxFor(model => model.SelectedItem, Model.Countries)
 
+<b>Select country</b><br/>
+@Html.DropDownListFor(model => model.SelectedItem, Model.Countries)
+<br/><br/>How many pages?<br/>
 <input type="number" id="getPricePageCount" value="1" />
-
+<br /><br />
 <input type="button" id="getPriceBtn" value="Get price" class="btn btn-success" />
-
+<br/><br/>
 <label id="getPriceLbl"></label>
-            (ex. local VAT)
+            
 
 <p>So, when we started LetterAmazer, we found out sending letters isn't free. But! We have done anything in our power to find the cheapest prices, so you can send letters world-wide cheaply.</p>
 
@@ -40,7 +42,7 @@
             datatype: "json",
             contentType: "application/json; charset=utf-8",
             success: function (data) {
-                $('#getPriceLbl').text(data + ' $');
+                $('#getPriceLbl').text(data + ' $ (ex. local VAT)');
             },
             error: function () {
                 $('#getPriceLbl').text('No prices for this delivery');

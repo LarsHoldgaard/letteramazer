@@ -39,6 +39,7 @@ namespace LetterAmazer.Business.Services.Factory
                 PriceExVat = invoices.PriceExVat,
                 PriceTotal = invoices.PriceTotal,
                 PriceVatPercentage = invoices.PriceVatPercentage,
+                PriceVat = invoices.PriceVat,
                 OrganisationId = invoices.OrganisationId,
                 InvoiceInfo = addressFactory.Create(invoices.Invoice_Address1, invoices.Invoice_Address2, invoices.Invoice_Zipcode, invoices.Invoice_City, invoices.Invoice_CountryId, invoices.Invoice_AttPerson, string.Empty, string.Empty, invoices.Invoice_Vatnumber, string.Empty, invoices.Invoice_State, invoices.Invoice_Organisation),
                 ReceiverInfo = addressFactory.Create(invoices.Receiver_Address1, invoices.Receiver_Address2, invoices.Receiver_Zipcode, invoices.Invoice_City, invoices.Receiver_CountryId, invoices.Receiver_AttPerson, string.Empty, string.Empty, invoices.Receiver_Zipcode, string.Empty, invoices.Receiver_State, invoices.Receiver_Organisation),

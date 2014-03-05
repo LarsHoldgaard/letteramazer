@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using LetterAmazer.Business.Services.Domain.Invoice;
+using LetterAmazer.Business.Services.Domain.Mails;
 using LetterAmazer.Business.Services.Exceptions;
 using LetterAmazer.Business.Services.Factory.Interfaces;
 using LetterAmazer.Data.Repository.Data;
@@ -10,14 +11,15 @@ namespace LetterAmazer.Business.Services.Services
 {
     public class InvoiceService:IInvoiceService
     {
-
+        private IMailService mailService;
         private LetterAmazerEntities repository;
         private IInvoiceFactory invoiceFactory;
 
-        public InvoiceService(IInvoiceFactory invoiceFactory, LetterAmazerEntities repository)
+        public InvoiceService(IInvoiceFactory invoiceFactory, LetterAmazerEntities repository, IMailService mailService)
         {
             this.invoiceFactory = invoiceFactory;
             this.repository = repository;
+            this.mailService = mailService;
         }
 
 
@@ -34,6 +36,7 @@ namespace LetterAmazer.Business.Services.Services
             dbInvoice.PriceExVat = invoice.PriceExVat;
             dbInvoice.PriceTotal = invoice.PriceTotal;
             dbInvoice.PriceVatPercentage = invoice.PriceVatPercentage;
+            dbInvoice.PriceVat = invoice.PriceVat;
 
             dbInvoice.Receiver_Zipcode = invoice.ReceiverInfo.Zipcode;
             dbInvoice.Receiver_Vatnumber = invoice.ReceiverInfo.VatNr;
@@ -72,6 +75,8 @@ namespace LetterAmazer.Business.Services.Services
             }
             repository.SaveChanges();
 
+            mailService.NotificationInvoiceCreated();
+
             return GetInvoiceById(dbInvoice.Id);
         }
 
@@ -95,6 +100,7 @@ namespace LetterAmazer.Business.Services.Services
             dbInvoice.PriceExVat = invoice.PriceExVat;
             dbInvoice.PriceTotal = invoice.PriceTotal;
             dbInvoice.PriceVatPercentage = invoice.PriceVatPercentage;
+            dbInvoice.PriceVat = invoice.PriceVat;
 
             dbInvoice.Receiver_Zipcode = invoice.ReceiverInfo.Zipcode;
             dbInvoice.Receiver_Vatnumber = invoice.ReceiverInfo.VatNr;

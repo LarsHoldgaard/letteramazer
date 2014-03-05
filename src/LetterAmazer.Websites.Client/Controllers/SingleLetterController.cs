@@ -50,6 +50,8 @@ namespace LetterAmazer.Websites.Client.Controllers
         [HttpGet]
         public ActionResult Index()
         {
+            //priceUpdater.Execute();
+
             if (SessionHelper.Customer != null) return RedirectToAction("SendALetter", "User");
             CreateSingleLetterModel model = new CreateSingleLetterModel();
 
@@ -397,22 +399,6 @@ namespace LetterAmazer.Websites.Client.Controllers
         private string GetUploadFileName(string uploadFilename)
         {
             return string.Format("{0}/{1}/{2}.pdf", DateTime.Now.Year, DateTime.Now.Month, Guid.NewGuid().ToString());
-            //string filename = Path.GetFileName(uploadFilename);
-            //filename = string.Format("{0}/{1}/{2}", DateTime.Now.Year, DateTime.Now.Month, filename);
-            //string keyName = filename;
-            //filename = GetAbsoluteFile(filename);
-            //int index = 1;
-            //while (System.IO.File.Exists(filename))
-            //{
-            //    string ext = Path.GetExtension(uploadFilename);
-            //    string name = Path.GetFileNameWithoutExtension(uploadFilename);
-            //    filename = string.Format("{0}-{1}{2}", name, index, ext);
-            //    filename = string.Format("{0}/{1}/{2}", DateTime.Now.Year, DateTime.Now.Month, filename);
-            //    keyName = filename;
-            //    filename = GetAbsoluteFile(filename);
-            //    index++;
-            //}
-            //return keyName;
         }
 
     }

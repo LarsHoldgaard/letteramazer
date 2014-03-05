@@ -224,7 +224,7 @@ namespace LetterAmazer.Websites.Client.Controllers
 
         public ActionResult EditOrganisation()
         {
-            var organisationId = SessionHelper.Customer.OrganisationId;
+            var organisationId = SessionHelper.Customer.Organisation.Id;
             var organisation = organisationService.GetOrganisationById(organisationId);
 
             var organisationViewModel = new EditOrganisationViewModel();
@@ -269,7 +269,7 @@ namespace LetterAmazer.Websites.Client.Controllers
             var stored_organisation = organisationService.Create(organisation);
 
             var customer = customerService.GetCustomerById(SessionHelper.Customer.Id);
-            customer.OrganisationId = stored_organisation.Id;
+            customer.Organisation = stored_organisation;
             customer.OrganisationRole = OrganisationRole.Administrator;
             var updated_customer = customerService.Update(customer);
 
@@ -416,7 +416,7 @@ namespace LetterAmazer.Websites.Client.Controllers
             invoiceOverview.DateFrom = DateTime.Now.Date;
             invoiceOverview.InvoiceSnippets = getInvoiceSnippets(invoiceOverview.DateFrom,
                 invoiceOverview.DateTo,
-                customer.OrganisationId);
+                customer.Organisation.Id);
 
             return View(invoiceOverview);
         }

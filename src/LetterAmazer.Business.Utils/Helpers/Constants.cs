@@ -61,6 +61,9 @@ namespace LetterAmazer.Business.Utils.Helpers
                 public const string BankName = "Nordea";
                 public const string BankReg = "2279";
                 public const string BankAccount = "8971983559";
+                public const string Iban = "DK4420008971983559";
+                public const string Swift = "NDEADKKK";
+
                 public const string CompanyName = "LetterAmazer IvS";
                 public const string Country = "Denmark";
                 public const int CountryId = 59;

@@ -191,7 +191,12 @@ namespace LetterAmazer.Business.Services.Services
             dbCustomer.DateActivated = customer.DateActivated;
             dbCustomer.RegistrationKey = customer.RegisterKey;
             dbCustomer.OrganisationRole = customer.OrganisationRole.HasValue ?(int)customer.OrganisationRole.Value : 0;
-            dbCustomer.OrganisationId = customer.OrganisationId;
+
+            if (customer.Organisation != null)
+            {
+            dbCustomer.OrganisationId = customer.Organisation.Id;    
+            }
+            
             
             repository.SaveChanges();
 

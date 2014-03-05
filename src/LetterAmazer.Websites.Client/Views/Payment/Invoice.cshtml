@@ -1,4 +1,5 @@
-﻿@using LetterAmazer.Websites.Client.Extensions
+﻿@using LetterAmazer.Business.Utils.Helpers
+@using LetterAmazer.Websites.Client.Extensions
 @using LetterAmazer.Websites.Client.Resources.Views.User
 
 @model LetterAmazer.Websites.Client.ViewModels.Payment.InvoiceViewModel
@@ -7,55 +8,73 @@
 @section header {
 }
 
-<h2>title</h2>
+<h2>Invoice #@Model.InvoiceNumber</h2>
 
-<div>
-    <div>
-        @Model.CompanyInfo.Company
-        Att. @Model.CompanyInfo.Name
-        @Model.CompanyInfo.Address
-        @Model.CompanyInfo.ZipCode @Model.CompanyInfo.City
-        @Model.CompanyInfo.Country
+<div class="row">
+    <div class="col-md-6">
+        <h3>Invoice from</h3>
+        @Model.CompanyInfo.Company<br />
+        Att. @Model.CompanyInfo.Name<br />
+        @Model.CompanyInfo.Address<br />
+        @Model.CompanyInfo.ZipCode @Model.CompanyInfo.City<br />
+        @Model.CompanyInfo.Country<br />
 
     </div>
-    <div>
-        @Model.ReceiverInfo.Company
-        Att. @Model.ReceiverInfo.Name
-        @Model.ReceiverInfo.Address
-        @Model.ReceiverInfo.ZipCode @Model.ReceiverInfo.City
-        @Model.ReceiverInfo.Country
+    <div class="col-md-6">
+        <h3>Invoice to</h3>
+        @Model.ReceiverInfo.Company<br />
+        Att. @Model.ReceiverInfo.Name<br />
+        @Model.ReceiverInfo.Address<br />
+        @Model.ReceiverInfo.ZipCode @Model.ReceiverInfo.City<br />
+        @Model.ReceiverInfo.Country<br />
     </div>
 </div>
 
+<h3>Orderlines</h3>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>
+                Line
+            </th>
+            <th>
+                Quantity
+            </th>
+            <th>
+                Total
+            </th>
 
-<table>
-    <tr>
-        <th>
-            Line
-        </th>
-        <th>
-            Quantity
-        </th>
-        <th>
-            Total
-        </th>
+        </tr>
+    </thead>
 
-    </tr>
 
     @foreach (var line in Model.Lines)
     {
         <tr>
             <td>@line.Title</td>
             <td>@line.Quantity</td>
-            <td>@line.Price</td>
+            <td>@line.Price $</td>
 
         </tr>
     }
 </table>
 
-<div>
-    Total ex. VAT: @Model.TotalExVat
-    VAT: @Model.VatTotal (@Model.VatPercentage)
-    Total: @Model.Total
+<h3>Price</h3>
+
+<div class="row">
+    <div class="col-md-6">
+        <b>Total ex. VAT</b>: @Model.TotalExVat $<br />
+        <b>VAT</b>: @Model.VatTotal $ (@Model.VatPercentage)<br />
+        <b>Total</b>: @Model.Total $<br />
+    </div>
+
 
 </div>
+
+<h3>Bank details</h3>
+<ul>
+    <li>IBAN: @Constants.Texts.PracticalInformation.Iban</li>
+    <li>Swift: @Constants.Texts.PracticalInformation.Swift</li>
+    <li>Bank registration number: @Constants.Texts.PracticalInformation.BankReg</li>
+    <li>Bank account number: @Constants.Texts.PracticalInformation.BankAccount</li>
+</ul>

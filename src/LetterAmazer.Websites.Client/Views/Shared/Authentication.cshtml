@@ -12,8 +12,29 @@
 else
 {
     <ul class="nav navbar-nav navbar-right">
-        <li><a href="@Url.Action("Index", "User")">@ViewRes.Welcome, @(string.IsNullOrEmpty(SessionHelper.Customer.CustomerInfo.FirstName) ? SessionHelper.Customer.Email : SessionHelper.Customer.CustomerInfo.FirstName)</a></li>
+        <li><a href="@Url.Action("Index", "User")">Deatils</a></li>
         <li><a href="#" style="padding-left:0px;padding-right:0px;">|</a></li>
+
+
+
+        <li>@Html.ActionLink("Invoices", "InvoiceOverview", "User")</li>
+        <li><a href="#" style="padding-left:0px;padding-right:0px;">|</a></li>
+
+        @if (SessionHelper.Customer.Organisation != null)
+        {
+            <li>@Html.ActionLink("Edit organisation", "InvoiceOverview", "User")</li>
+        }
+        else
+        {
+            <li>@Html.ActionLink("Create organisation", "CreateOrganisation", "User")</li>
+        }
+
+
+
+        <li><a href="#" style="padding-left:0px;padding-right:0px;">|</a></li>
+
+
+
         <li><a href="@Url.Action("Logout", "Home")">@ViewRes.Logout</a></li>
     </ul>
 }

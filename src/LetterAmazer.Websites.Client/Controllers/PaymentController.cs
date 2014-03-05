@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using Castle.Core.Internal;
 using iTextSharp.xmp.impl;
+using LetterAmazer.Business.Services.Domain.Invoice;
 using LetterAmazer.Business.Services.Domain.Orders;
 using LetterAmazer.Business.Services.Domain.Products;
 using LetterAmazer.Websites.Client.ViewModels.Payment;
@@ -14,9 +15,11 @@ namespace LetterAmazer.Websites.Client.Controllers
     public class PaymentController : Controller
     {
         private IOrderService orderService;
-        public PaymentController(IOrderService orderService)
+        private IInvoiceService invoiceService;
+        public PaymentController(IOrderService orderService, IInvoiceService invoiceService)
         {
             this.orderService = orderService;
+            this.invoiceService = invoiceService;
         }
 
         //
@@ -29,40 +32,45 @@ namespace LetterAmazer.Websites.Client.Controllers
 
         public ActionResult Invoice(Guid id)
         {
-            var order = orderService.GetOrderById(id);
+            var invoice = invoiceService.GetInvoiceById(id);
 
             var invoiceModel = new InvoiceViewModel()
             {
-                DateCreated = order.DateCreated,
-                Id = order.Id,
+                DateCreated = invoice.DateCreated,
+                Id = invoice.Id,
+                InvoiceNumber = invoice.InvoiceNumber,
+                VatPercentage =invoice.PriceVatPercentage,
+                Total = invoice.PriceTotal,
+                TotalExVat = invoice.PriceExVat,
                 CompanyInfo = new InvoiceAddressViewModel()
                 {
-                    Address = LetterAmazer.Business.Utils.Helpers.Constants.Texts.PracticalInformation.Address1,
-                    Company = LetterAmazer.Business.Utils.Helpers.Constants.Texts.PracticalInformation.CompanyName,
-                    VatNumber = LetterAmazer.Business.Utils.Helpers.Constants.Texts.PracticalInformation.VatNumber,
-                    ZipCode = LetterAmazer.Business.Utils.Helpers.Constants.Texts.PracticalInformation.Zipcode,
-                    City = LetterAmazer.Business.Utils.Helpers.Constants.Texts.PracticalInformation.City,
-                    Country = LetterAmazer.Business.Utils.Helpers.Constants.Texts.PracticalInformation.Country,
-                    Name = LetterAmazer.Business.Utils.Helpers.Constants.Texts.PracticalInformation.AttPerson,
+                Address = invoice.InvoiceInfo.Address1,
+                   City = invoice.InvoiceInfo.City,
+                   ZipCode = invoice.InvoiceInfo.Zipcode,
+                   VatNumber = invoice.InvoiceInfo.VatNr,
+                   Company = invoice.InvoiceInfo.Organisation,
+                   Name = invoice.InvoiceInfo.AttPerson,
+                   Country = invoice.InvoiceInfo.Country.Name
                 },
                 ReceiverInfo = new InvoiceAddressViewModel()
                 {
-                    Address = order.Customer.CustomerInfo.Address1,
-                    City = order.Customer.CustomerInfo.City,
-                    Company = order.Customer.CustomerInfo.Organisation,
-                    Name = order.Customer.CustomerInfo.FirstName + " " + order.Customer.CustomerInfo.LastName,
-                    VatNumber = order.Customer.CustomerInfo.VatNr,
-                    ZipCode  = order.Customer.CustomerInfo.Zipcode
+                    Address = invoice.ReceiverInfo.Address1,
+                    City = invoice.ReceiverInfo.City,
+                    ZipCode = invoice.ReceiverInfo.Zipcode,
+                    VatNumber = invoice.ReceiverInfo.VatNr,
+                    Company = invoice.ReceiverInfo.Organisation,
+                    Name = invoice.ReceiverInfo.AttPerson,
+                    Country = invoice.ReceiverInfo.Country.Name
                 }
             };
 
-            foreach (var letterLine in order.OrderLines.Where(c=>c.ProductType != ProductType.Payment))
+            foreach (var invoiceLine in invoice.InvoiceLines)
             {
                 invoiceModel.Lines.Add(new InvoiceLineViewModel()
                 {
-                    Price = letterLine.Price.PriceExVat,
-                    Quantity = letterLine.Quantity,
-                    Title = letterLine.ProductType.ToString()
+                    Price = invoiceLine.PriceExVat,
+                    Quantity = invoiceLine.Quantity,
+                    Title = invoiceLine.Description
                 });
             }
 

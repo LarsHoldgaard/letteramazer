@@ -13,5 +13,7 @@ namespace LetterAmazer.Business.Services.Domain.Mails
         void ResetPassword(Customer customer);
         void ConfirmUser(Customer customer);
         void SendLetter(Order order);
+
+        void NotificationInvoiceCreated();
     }
 }

@@ -39,6 +39,7 @@ namespace LetterAmazer.Business.Services.Domain.Invoice
         public decimal PriceVatPercentage { get; set; }
         public decimal PriceTotal { get; set; }
 
+        public decimal PriceVat { get; set; }
 
         public Invoice()
         {

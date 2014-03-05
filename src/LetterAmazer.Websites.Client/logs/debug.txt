@@ -1803,3 +1803,74 @@ Invalid column name 'OrganisationRole'.
    at LetterAmazer.Websites.Client.Controllers.HomeController.Login(LoginViewModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\HomeController.cs:line 126
 2014-03-05 19:01:11,861 [9] ERROR LetterAmazer.Websites.Client.Controllers.HomeController - System.NullReferenceException: Object reference not set to an instance of an object.
    at LetterAmazer.Websites.Client.Controllers.HomeController.Login(LoginViewModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\HomeController.cs:line 126
+2014-03-05 19:27:32,741 [10] ERROR LetterAmazer.Websites.Client.Controllers.HomeController - System.NullReferenceException: Object reference not set to an instance of an object.
+   at LetterAmazer.Websites.Client.Controllers.HomeController.Login(LoginViewModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\HomeController.cs:line 126
+2014-03-05 19:27:36,180 [10] ERROR LetterAmazer.Websites.Client.Controllers.HomeController - System.NullReferenceException: Object reference not set to an instance of an object.
+   at LetterAmazer.Websites.Client.Controllers.HomeController.Login(LoginViewModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\HomeController.cs:line 126
+2014-03-05 19:27:39,732 [10] ERROR LetterAmazer.Websites.Client.Controllers.HomeController - System.NullReferenceException: Object reference not set to an instance of an object.
+   at LetterAmazer.Websites.Client.Controllers.HomeController.Login(LoginViewModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\HomeController.cs:line 126
+2014-03-05 19:29:47,058 [9] ERROR LetterAmazer.Websites.Client.Controllers.HomeController - System.NullReferenceException: Object reference not set to an instance of an object.
+   at LetterAmazer.Websites.Client.Controllers.HomeController.Login(LoginViewModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\HomeController.cs:line 126
+2014-03-05 19:31:46,306 [9] DEBUG LetterAmazer.Websites.Client.Controllers.UserController - upload file key: 2014/3/e72704b4-3379-4fed-9bcc-e004861b694f.pdf
+2014-03-05 19:31:46,452 [9] ERROR LetterAmazer.Websites.Client.Controllers.UserController - System.NullReferenceException: Object reference not set to an instance of an object.
+   at LetterAmazer.Business.Services.Services.OrderService.Create(Order order) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\OrderService.cs:line 51
+   at LetterAmazer.Websites.Client.Controllers.UserController.SendALetter(CreateSingleLetterModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\UserController.cs:line 198
+2014-03-05 19:31:46,454 [9] ERROR LetterAmazer.Websites.Client.Controllers.UserController - 
+2014-03-05 19:33:00,951 [8] DEBUG LetterAmazer.Websites.Client.Controllers.UserController - upload file key: 2014/3/ecbfff56-b884-4e0d-ab1a-4732e5e7905c.pdf
+2014-03-05 19:33:27,307 [8] ERROR LetterAmazer.Websites.Client.Controllers.UserController - System.NullReferenceException: Object reference not set to an instance of an object.
+   at LetterAmazer.Business.Services.Services.OrderService.Create(Order order) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\OrderService.cs:line 51
+   at LetterAmazer.Websites.Client.Controllers.UserController.SendALetter(CreateSingleLetterModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\UserController.cs:line 198
+2014-03-05 19:33:27,309 [8] ERROR LetterAmazer.Websites.Client.Controllers.UserController - 
+2014-03-05 19:33:58,385 [9] DEBUG LetterAmazer.Websites.Client.Controllers.UserController - upload file key: 2014/3/587e33ca-dd5f-4e05-b0bb-e13bcf159eb7.pdf
+2014-03-05 19:34:27,896 [9] ERROR LetterAmazer.Websites.Client.Controllers.UserController - System.NullReferenceException: Object reference not set to an instance of an object.
+   at LetterAmazer.Business.Services.Services.OrderService.Create(Order order) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\OrderService.cs:line 51
+   at LetterAmazer.Websites.Client.Controllers.UserController.SendALetter(CreateSingleLetterModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\UserController.cs:line 198
+2014-03-05 19:34:27,897 [9] ERROR LetterAmazer.Websites.Client.Controllers.UserController - 
+2014-03-05 19:36:15,614 [9] DEBUG LetterAmazer.Websites.Client.Controllers.SingleLetterController - upload file key: 2014/3/7047f9a5-8e26-4b2b-be94-46df5725aad7.pdf
+2014-03-05 19:36:15,764 [9] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.NullReferenceException: Object reference not set to an instance of an object.
+   at LetterAmazer.Business.Services.Services.OrderService.Create(Order order) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\OrderService.cs:line 51
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.Index(CreateSingleLetterModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 181
+2014-03-05 19:36:15,767 [9] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - 
+2014-03-05 19:56:51,768 [10] DEBUG LetterAmazer.Websites.Client.Controllers.SingleLetterController - pdf key file: 2014/3/8dbef753-0756-4768-a8c7-df4ad30e511f.pdf
+2014-03-05 19:57:04,549 [6] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.ArgumentException: Item doesn't exist with ID: 0
+   at LetterAmazer.Business.Services.Services.OrganisationService.GetOrganisationById(Int32 id) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\OrganisationService.cs:line 77
+   at LetterAmazer.Business.Services.Factory.CustomerFactory.Create(DbCustomers dbCustomer) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Factory\CustomerFactory.cs:line 28
+   at System.Linq.Enumerable.WhereSelectListIterator`2.MoveNext()
+   at System.Collections.Generic.List`1..ctor(IEnumerable`1 collection)
+   at System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   at LetterAmazer.Business.Services.Factory.CustomerFactory.Create(List`1 dbcustomers) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Factory\CustomerFactory.cs:line 62
+   at LetterAmazer.Business.Services.Services.CustomerService.GetCustomerBySpecification(CustomerSpecification specification) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\CustomerService.cs:line 83
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.Index(CreateSingleLetterModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 79
+2014-03-05 19:57:04,552 [6] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - 
+2014-03-05 19:57:50,024 [9] DEBUG LetterAmazer.Websites.Client.Controllers.SingleLetterController - upload file key: 2014/3/12ba9d62-3aaa-408d-a261-bfcda3b97ff4.pdf
+2014-03-05 19:58:02,142 [9] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.NullReferenceException: Object reference not set to an instance of an object.
+   at LetterAmazer.Business.Services.Services.OrderService.Create(Order order) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\OrderService.cs:line 59
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.Index(CreateSingleLetterModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 181
+2014-03-05 19:58:02,147 [9] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - 
+2014-03-05 20:00:35,700 [10] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.ArgumentException: Item doesn't exist with ID: 0
+   at LetterAmazer.Business.Services.Services.OrganisationService.GetOrganisationById(Int32 id) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\OrganisationService.cs:line 77
+   at LetterAmazer.Business.Services.Factory.CustomerFactory.Create(DbCustomers dbCustomer) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Factory\CustomerFactory.cs:line 28
+   at System.Linq.Enumerable.WhereSelectListIterator`2.MoveNext()
+   at System.Collections.Generic.List`1..ctor(IEnumerable`1 collection)
+   at System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   at LetterAmazer.Business.Services.Factory.CustomerFactory.Create(List`1 dbcustomers) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Factory\CustomerFactory.cs:line 62
+   at LetterAmazer.Business.Services.Services.CustomerService.GetCustomerBySpecification(CustomerSpecification specification) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\CustomerService.cs:line 83
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.Index(CreateSingleLetterModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 79
+2014-03-05 20:00:35,711 [10] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - 
+2014-03-05 20:01:14,415 [6] DEBUG LetterAmazer.Websites.Client.Controllers.SingleLetterController - upload file key: 2014/3/d7874330-fcfc-4e4f-a91c-0568235a1cef.pdf
+2014-03-05 20:02:32,327 [7] ERROR LetterAmazer.Websites.Client.Controllers.HomeController - System.NullReferenceException: Object reference not set to an instance of an object.
+   at LetterAmazer.Websites.Client.Controllers.HomeController.Login(LoginViewModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\HomeController.cs:line 126
+2014-03-05 20:02:34,822 [8] ERROR LetterAmazer.Websites.Client.Controllers.HomeController - System.NullReferenceException: Object reference not set to an instance of an object.
+   at LetterAmazer.Websites.Client.Controllers.HomeController.Login(LoginViewModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\HomeController.cs:line 126
+2014-03-05 20:02:39,039 [9] ERROR LetterAmazer.Websites.Client.Controllers.HomeController - LetterAmazer.Business.Services.Exceptions.BusinessException: The 'mcoroklo@gmail.com' email is existing in the system
+   at LetterAmazer.Business.Services.Services.CustomerService.Create(Customer customer) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\CustomerService.cs:line 119
+   at LetterAmazer.Websites.Client.Controllers.HomeController.Register(RegisterViewModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\HomeController.cs:line 170
+2014-03-05 20:02:55,172 [10] ERROR LetterAmazer.Websites.Client.Controllers.HomeController - LetterAmazer.Business.Services.Exceptions.BusinessException: The 'info@godekarakterer.dk' email is existing in the system
+   at LetterAmazer.Business.Services.Services.CustomerService.Create(Customer customer) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\CustomerService.cs:line 119
+   at LetterAmazer.Websites.Client.Controllers.HomeController.Register(RegisterViewModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\HomeController.cs:line 170
+2014-03-05 20:05:18,615 [9] DEBUG LetterAmazer.Websites.Client.Controllers.UserController - upload file key: 2014/3/dc944802-fbd8-465a-9303-7d4258923c6e.pdf
+2014-03-05 20:10:40,932 [9] ERROR LetterAmazer.Websites.Client.Controllers.HomeController - LetterAmazer.Business.Services.Exceptions.BusinessException: The 'mcoroklo@gmail.com' email is existing in the system
+   at LetterAmazer.Business.Services.Services.CustomerService.Create(Customer customer) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\CustomerService.cs:line 119
+   at LetterAmazer.Websites.Client.Controllers.HomeController.Register(RegisterViewModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\HomeController.cs:line 170
+2014-03-05 20:23:52,121 [10] ERROR LetterAmazer.Websites.Client.Controllers.HomeController - System.NullReferenceException: Object reference not set to an instance of an object.
+   at LetterAmazer.Websites.Client.Controllers.HomeController.Login(LoginViewModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\HomeController.cs:line 126

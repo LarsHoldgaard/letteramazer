@@ -34,14 +34,10 @@ namespace LetterAmazer.Business.Services.Domain.Orders
 
         }
 
-        public override string ToString()
-        {
-            return base.ToString();
-        }
-
         public decimal CostFromLines()
         {
-            var lines = OrderLines.Where(c => c.ProductType == ProductType.Letter);
+            var lines = OrderLines.Where(c => c.ProductType == ProductType.Letter ||
+                c.ProductType == ProductType.Credit);
             return lines.Sum(c => c.Price.PriceExVat);
         }
     }

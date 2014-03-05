@@ -26,6 +26,7 @@ namespace LetterAmazer.Business.Services.Services
 
         private string mandrillApiUrl;
         private string mandrillApiKey;
+        private string notificationEmail;
 
         public MailService()
         {
@@ -34,7 +35,7 @@ namespace LetterAmazer.Business.Services.Services
             this.resetPasswordUrl = baseUrl + ConfigurationManager.AppSettings.Get("LetterAmazer.Customer.ResetPassword");
             this.mandrillApiUrl = ConfigurationManager.AppSettings.Get("LetterAmazer.Mail.Mandrill.ApiUrl");
             this.mandrillApiKey = ConfigurationManager.AppSettings.Get("LetterAmazer.Mail.Mandrill.ApiKey");
-
+            this.notificationEmail = ConfigurationManager.AppSettings.Get("LetterAmazer.Notification.Emails");
         }
 
         private void SendTemplate(MandrillTemplateSend obj)
@@ -139,17 +140,27 @@ namespace LetterAmazer.Business.Services.Services
             model.message.merge_vars.Add(new Merge_Vars()
             {
                 rcpt = order.Customer.Email,
-                //vars = new List<Var>()
-                //{
-                //    new Var()
-                //    {
-                //        name = "REGISTERLINK",
-                //        content ="http://www.letteramazer.com"
-                //    }
-                //}
             });
 
             SendTemplate(model);
         }
+
+        public void NotificationInvoiceCreated()
+        {
+            var template_name = "letteramazer.notification.invoice_created";
+
+            var model = new MandrillTemplateSend();
+            model.template_name = template_name;
+            model.message.merge = false;
+            model.message.to.Add(new To()
+            {
+                email = notificationEmail
+            });
+
+            SendTemplate(model);
+        }
+    
+    
     }
+
 }

@@ -3,6 +3,7 @@ using LetterAmazer.Business.Services.Domain.Customers;
 using LetterAmazer.Business.Services.Domain.Letters;
 using LetterAmazer.Business.Services.Domain.Orders;
 using LetterAmazer.Business.Services.Domain.Payments;
+using LetterAmazer.Business.Services.Domain.Pricing;
 using LetterAmazer.Business.Services.Domain.Products;
 using LetterAmazer.Business.Services.Factory.Interfaces;
 using System;
@@ -47,13 +48,18 @@ namespace LetterAmazer.Business.Services.Services
             dborder.OrderStatus = (int)OrderStatus.Created;
             dborder.DateCreated = DateTime.Now;
             dborder.DateUpdated = DateTime.Now;
-            dborder.PriceExVat = order.CostFromLines();
-            dborder.Total = order.Price.Total;
-            dborder.VatPercentage = order.Price.VatPercentage;
             dborder.PaymentMethod = "";
             dborder.CustomerId = order.Customer != null ? order.Customer.Id : 0;
 
-   
+            Price price = new Price();
+            price.PriceExVat = order.CostFromLines();
+            price.VatPercentage = order.Customer.VatPercentage();
+            order.Price = price;
+
+            dborder.Total = order.Price.Total;
+            dborder.VatPercentage = order.Price.VatPercentage;
+            dborder.PriceExVat = order.Price.PriceExVat;
+
             repository.DbOrders.Add(dborder);
 
             repository.SaveChanges();

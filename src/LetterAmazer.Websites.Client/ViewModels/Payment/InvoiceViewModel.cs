@@ -22,6 +22,7 @@ namespace LetterAmazer.Websites.Client.ViewModels.Payment
         public decimal VatTotal { get; set; }
         public decimal VatPercentage { get; set; }
         public decimal TotalExVat { get; set; }
+        public string InvoiceNumber { get; set; }
 
         public InvoiceViewModel()
         {
