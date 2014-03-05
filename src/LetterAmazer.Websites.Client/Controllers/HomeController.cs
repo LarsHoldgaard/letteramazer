@@ -244,7 +244,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                     ResetPasswordKey = model.ResetPasswordKey
                 }).FirstOrDefault();
 
-                customer.Password = model.Password;
+                customer.Password = SHA1PasswordEncryptor.Encrypt(model.Password);
 
 
                 customerService.Update(customer);

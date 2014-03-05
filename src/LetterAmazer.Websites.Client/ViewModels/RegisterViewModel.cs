@@ -18,7 +18,11 @@ namespace LetterAmazer.Websites.Client.ViewModels
         [Display(Name = "Password", ResourceType = typeof(HomeRes.ViewRes))]
         [Required(ErrorMessageResourceName = "ThisFieldIsRequired", ErrorMessageResourceType = typeof(SharedRes.ViewRes))]
         public string Password { get; set; }
-        
+
+        [Display(Name = "ConfirmPassword", ResourceType = typeof(HomeRes.ViewRes))]
+        [EqualTo("Password", ErrorMessageResourceName = "PasswordNotMatch", ErrorMessageResourceType = typeof(SharedRes.ViewRes))]
+        public string ConfirmPassword { get; set; }
+
         public string ResetPasswordKey { get; set; }
     }
 }
