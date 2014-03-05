@@ -1,15 +1,19 @@
 ﻿body {
-  padding-top: 50px;
   padding-bottom: 20px;
+  padding-top: 50px;
+}
+.navbar-nav > li > a {
+  padding-top: 18px;
+  padding-bottom: 18px;
 }
 .jumbotron-lightblue {
-  background-color: #f1f6f9;
+  background-color: #F1F6F9;
 }
 .jumbotron-white {
-  background-color: white;
+  background-color: #FFFFFF;
 }
 .footer {
-  color: #81919b;
+  color: #81919B;
 }
 .footer ul,
 .footer li {
@@ -17,30 +21,27 @@
   margin-left: 20px;
 }
 .footer li {
-  list-style: none;
-}
-.container-top {
-  margin-top: 20px;
+  list-style: none outside none;
 }
 .promotionMargin {
-  margin-top: 45px;
   margin-bottom: 25px;
+  margin-top: 45px;
 }
 .frontpageLead {
+  color: #81919B;
+  font-family: 'Kite One', sans-serif;
   font-size: 30pt;
   font-weight: bolder;
-  color: #81919b;
-  font-family: 'Kite One', sans-serif;
 }
 .frontpageLeadExplanation {
-  color: #81919b;
-  font-size: 20pt;
+  color: #81919B;
   font-family: 'Kite One', sans-serif;
+  font-size: 20pt;
 }
 .frontpageSmallLeadExplanation {
-  color: #81919b;
-  font-size: 16pt;
+  color: #81919B;
   font-family: 'Kite One', sans-serif;
+  font-size: 16pt;
 }
 .frontpageCaption {
   font-family: 'Kite One', sans-serif;
@@ -49,43 +50,84 @@
   font-family: 'Kite One', sans-serif;
 }
 .frontpage-bottom-usp p {
-  font-size: 15;
   letter-spacing: 0.15px;
 }
 .frontpageBottomText {
-  color: gray;
-}
-#sendaletter-step2,
-#sendaletter-step3,
-#step2-upload,
-#step2-write,
-#sendAnimationFun,
-#voucherDiv {
-  display: none;
+  color: #808080;
 }
 .sendLettersForm {
   font-family: 'Kite One', sans-serif;
 }
 .sendLettersForm select {
-  border-radius: 6px 6px 6px 6px;
+  border-radius: 6px;
+  color: #81919B;
   height: 45px;
-  padding-top: 7px;
   line-height: 1.33;
-  color: #81919b;
   padding-left: 12px;
+  padding-top: 7px;
 }
 .sendLettersForm img {
   cursor: pointer;
 }
 #sendaletter-step1,
-#sendaletter-step2,
-#sendaletter-step3 {
+#sendaletter-step2 {
   min-height: 450px;
+}
+#sendaletter-step3 {
+  min-height: 572px;
 }
 .letterDestination dd label {
   font-weight: normal;
 }
 .submitAbe {
   margin-left: 11px;
+}
+.sendAletterSideboxSomething {
+  background: none repeat scroll 0 0 #FFFFB2;
+  border: 1px solid #D4D444;
+  border-radius: 10px;
+  margin-top: 8px;
+  padding: 12px;
+}
+label.error {
+  color: #ff0000;
+  padding-left: 5px;
+}
+dl {
+  margin-top: 20px;
+}
+.uploadify-button {
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25) !important;
+  background-color: #006dcc !important;
+  *background-color: #0044cc !important;
+  background-image: -moz-linear-gradient(top, #0088cc, #0044cc) !important;
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#0088cc), to(#0044cc)) !important;
+  background-image: -webkit-linear-gradient(top, #0088cc, #0044cc) !important;
+  background-image: -o-linear-gradient(top, #0088cc, #0044cc) !important;
+  background-image: linear-gradient(to bottom, #0088cc, #0044cc) !important;
+  background-repeat: repeat-x !important;
+  border: solid 1px #0044cc !important;
+  border-color: #0044cc #0044cc #002a80 !important;
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25) !important;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff0088cc', endColorstr='#ff0044cc', GradientType=0) !important;
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled=false) !important;
+  border-radius: 4px !important;
+  -webkit-border-radius: 4px !important;
+  -moz-border-radius: 4px !important;
+  font-weight: normal !important;
+}
+.loginSection {
+  padding: 25px 0px;
+}
+.loginSection form .login {
+  margin-bottom: 20px;
+}
+.field-validation-error {
+  color: red;
+}
+.alert-error {
+  background-color: #F2DEDE;
+  border-color: #EBCCD1;
+  color: #A94442;
 }
 /*# sourceMappingURL=Main.css.map */
