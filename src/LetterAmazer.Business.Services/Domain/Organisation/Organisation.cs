@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Security.AccessControl;
 using LetterAmazer.Business.Services.Domain.AddressInfos;
 
 namespace LetterAmazer.Business.Services.Domain.Organisation
@@ -17,10 +18,13 @@ namespace LetterAmazer.Business.Services.Domain.Organisation
 
         public List<AddressList> AddressList { get; set; }
 
+        public OrganisationSettings OrganisationSettings { get; set; }
+
         public Organisation()
         {
             this.AddressList = new List<AddressList>();
             this.Address = new AddressInfo();
+            this.OrganisationSettings = new OrganisationSettings();
         }
     }
 }
