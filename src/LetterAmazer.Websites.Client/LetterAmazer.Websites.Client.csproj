@@ -219,6 +219,7 @@
     <Compile Include="ViewModels\RegisterViewModel.cs" />
     <Compile Include="ViewModels\Shared\Utils\ControllerHelpers.cs" />
     <Compile Include="ViewModels\User\CreateOrganisationViewModel.cs" />
+    <Compile Include="ViewModels\User\EditContactsViewModel.cs" />
     <Compile Include="ViewModels\User\EditOrganisationSettingsViewModel.cs" />
     <Compile Include="ViewModels\User\EditOrganisationViewModel.cs" />
     <Compile Include="ViewModels\User\InvoiceOverviewViewModel.cs" />
@@ -657,6 +658,8 @@
     <Content Include="Views\Shared\_authorizedMenu.cshtml" />
     <Content Include="Views\User\EditOrganisation.cshtml" />
     <Content Include="Views\User\EditOrganisationSettings.cshtml" />
+    <Content Include="Views\User\EditContacts.cshtml" />
+    <Content Include="Views\User\EditSingleContact.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

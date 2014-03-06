@@ -293,6 +293,37 @@ namespace LetterAmazer.Websites.Client.Controllers
             return View(editViewModel);
         }
 
+        [HttpPost]
+        public ActionResult EditOrganisationSettings(EditOrganisationSettingsViewModel organisationSettings)
+        {
+            var organisation = organisationService.GetOrganisationById(organisationSettings.OrganisationId);
+
+            organisation.OrganisationSettings.PreferedCountryId = int.Parse(organisationSettings.PreferedCountry);
+            organisation.OrganisationSettings.LetterType = (LetterType)organisationSettings.LetterType;
+            
+            organisationService.Update(organisation);
+
+            return View(organisationSettings);
+        }
+
+        public ActionResult EditContacts()
+        {
+            return View(new EditContactsViewModel());
+        }
+
+        [HttpPost]
+        public ActionResult EditContacts(EditContactsViewModel editContacts)
+        {
+           
+            return View();
+        }
+
+        public ActionResult EditSingleContact(int organisationContactId)
+        {
+            var addressList = organisationService.GetAddressListById(organisationContactId);
+            return View(new ContactViewModel());
+        }
+
         #endregion
 
      

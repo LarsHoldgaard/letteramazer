@@ -118,6 +118,17 @@ namespace LetterAmazer.Business.Services.Services
             return organisation;
         }
 
+        public AddressList GetAddressListById(int id)
+        {
+            var dbAddressList = repository.DbOrganisationAddressList.FirstOrDefault(c => c.Id == id);
 
+            if (dbAddressList == null)
+            {
+               throw new ArgumentException("No address info for this ID: " + id);
+            }
+
+            var addressList = organisationFactory.CreateAddressList(dbAddressList);
+            return addressList;
+        }
     }
 }
