@@ -18,6 +18,7 @@ using LetterAmazer.Business.Utils.Helpers;
 using LetterAmazer.Websites.Client.Attributes;
 using LetterAmazer.Websites.Client.ViewModels;
 using LetterAmazer.Websites.Client.Extensions;
+using LetterAmazer.Websites.Client.ViewModels.Shared.Utils;
 using log4net;
 using System;
 using System.Web.Mvc;
@@ -280,6 +281,16 @@ namespace LetterAmazer.Websites.Client.Controllers
             var profile_model = new ProfileViewModel();
             buildOverviewModel(profile_model);
             return View("Index", profile_model);
+        }
+
+
+        public ActionResult EditOrganisationSettings()
+        {
+            var editViewModel = new EditOrganisationSettingsViewModel();
+
+            editViewModel.LetterTypes = ControllerHelpers.GetEnumSelectList<LetterType>();
+
+            return View(editViewModel);
         }
 
         #endregion
