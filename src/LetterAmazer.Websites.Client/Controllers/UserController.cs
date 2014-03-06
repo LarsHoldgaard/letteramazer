@@ -314,14 +314,50 @@ namespace LetterAmazer.Websites.Client.Controllers
         [HttpPost]
         public ActionResult EditContacts(EditContactsViewModel editContacts)
         {
-           
+            if (editContacts.NewContact != null)
+            {
+                var addressList = new AddressList();
+                addressList.AddressInfo.Address1 = editContacts.NewContact.Address1;
+                addressList.AddressInfo.Address2 = editContacts.NewContact.Address2;
+                addressList.AddressInfo.Zipcode = editContacts.NewContact.ZipCode;
+                addressList.AddressInfo.City = editContacts.NewContact.City;
+                addressList.AddressInfo.Organisation = editContacts.NewContact.OrganisationName;
+                addressList.AddressInfo.State = editContacts.NewContact.State;
+                addressList.AddressInfo.AttPerson = string.Empty;
+                addressList.AddressInfo.VatNr = editContacts.NewContact.VatNumber;
+
+                organisationService.Update(addressList);
+            }
+
             return View();
         }
 
         public ActionResult EditSingleContact(int organisationContactId)
         {
+
             var addressList = organisationService.GetAddressListById(organisationContactId);
+
+
+
             return View(new ContactViewModel());
+        }
+
+        [HttpPost]
+        public ActionResult EditSingleContact(ContactViewModel contact)
+        {
+            var addressList = organisationService.GetAddressListById(contact.AddressListId);
+            addressList.AddressInfo.Address1 = contact.Address1;
+            addressList.AddressInfo.Address2 = contact.Address2;
+            addressList.AddressInfo.Zipcode = contact.ZipCode;
+            addressList.AddressInfo.City = contact.City;
+            addressList.AddressInfo.Organisation = contact.OrganisationName;
+            addressList.AddressInfo.State = contact.State;
+            addressList.AddressInfo.AttPerson = string.Empty;
+            addressList.AddressInfo.VatNr = contact.VatNumber;
+
+            organisationService.Update(addressList);
+
+            return View();
         }
 
         #endregion

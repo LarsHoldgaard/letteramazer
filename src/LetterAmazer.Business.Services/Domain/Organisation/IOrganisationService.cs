@@ -7,5 +7,8 @@
         Organisation GetOrganisationById(int id);
 
         AddressList GetAddressListById(int id);
+        AddressList Update(AddressList addressList);
+        AddressList Create(AddressList addressList);
+
     }
 }

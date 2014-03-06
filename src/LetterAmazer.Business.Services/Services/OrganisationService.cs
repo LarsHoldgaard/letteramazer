@@ -130,5 +130,15 @@ namespace LetterAmazer.Business.Services.Services
             var addressList = organisationFactory.CreateAddressList(dbAddressList);
             return addressList;
         }
+
+        public AddressList Update(AddressList addressList)
+        {
+            throw new NotImplementedException();
+        }
+
+        public AddressList Create(AddressList addressList)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
