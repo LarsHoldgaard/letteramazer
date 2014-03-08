@@ -12,7 +12,7 @@
 else
 {
     <ul class="nav navbar-nav navbar-right">
-        <li><a href="@Url.Action("Index", "User")">Deatils</a></li>
+        <li><a href="@Url.Action("Index", "User")">Overview</a></li>
         <li><a href="#" style="padding-left:0px;padding-right:0px;">|</a></li>
 
 
@@ -22,7 +22,7 @@ else
 
         @if (SessionHelper.Customer.Organisation != null)
         {
-            <li>@Html.ActionLink("Edit organisation", "InvoiceOverview", "User")</li>
+            <li>@Html.ActionLink("Edit organisation", "EditOrganisation", "User")</li>
         }
         else
         {

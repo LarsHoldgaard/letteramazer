@@ -1874,3 +1874,7 @@ Invalid column name 'OrganisationRole'.
    at LetterAmazer.Websites.Client.Controllers.HomeController.Register(RegisterViewModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\HomeController.cs:line 170
 2014-03-05 20:23:52,121 [10] ERROR LetterAmazer.Websites.Client.Controllers.HomeController - System.NullReferenceException: Object reference not set to an instance of an object.
    at LetterAmazer.Websites.Client.Controllers.HomeController.Login(LoginViewModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\HomeController.cs:line 126
+2014-03-08 08:21:05,344 [15] ERROR LetterAmazer.Websites.Client.Controllers.HomeController - System.NullReferenceException: Object reference not set to an instance of an object.
+   at LetterAmazer.Websites.Client.Controllers.HomeController.Login(LoginViewModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\HomeController.cs:line 126
+2014-03-08 08:21:11,118 [16] ERROR LetterAmazer.Websites.Client.Controllers.HomeController - System.NullReferenceException: Object reference not set to an instance of an object.
+   at LetterAmazer.Websites.Client.Controllers.HomeController.Login(LoginViewModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\HomeController.cs:line 126
