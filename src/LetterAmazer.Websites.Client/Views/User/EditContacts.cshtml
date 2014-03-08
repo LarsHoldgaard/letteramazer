@@ -1,0 +1,59 @@
+﻿@model LetterAmazer.Websites.Client.ViewModels.User.EditContactsViewModel
+
+<h2>Edit contacts</h2>
+
+<h3>Existing contacts</h3>
+
+<table>
+    <thead>
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                Address
+            </th>
+            <th>
+                Edit
+            </th>
+            <th>
+                Delete
+            </th>
+        </tr>
+    </thead>
+    @foreach (var item in Model.Contacts)
+    {
+        <tr>
+            <td>@item.Address1</td>
+            <td>@item.ZipCode</td>
+            <td><a href="#">Edit</a></td>
+            <td>
+                <a href="#">Delete</a>
+            </td>
+        </tr>
+    }
+</table>
+
+<h3>New contact</h3>
+
+@Html.BeginForm("EditContacts", "User", FormMethod.Post)
+{
+@Html.EditorFor(model => model.NewContact.Address1)
+
+@Html.EditorFor(model => model.NewContact.Address2)
+
+@Html.EditorFor(model => model.NewContact.ZipCode)
+@Html.EditorFor(model => model.NewContact.City)
+
+
+
+@Html.EditorFor(model => model.NewContact.State)
+
+@Html.EditorFor(model => model.NewContact.OrganisationName)
+@Html.EditorFor(model => model.NewContact.VatNumber)
+
+
+<input type="submit" id="EditContactsBtn" class="btn btn-lg btn-success" value="Add new contact"/>
+
+@Html.HiddenFor(model => model.OrganisationId)
+}

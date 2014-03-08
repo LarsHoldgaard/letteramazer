@@ -1,0 +1,26 @@
+﻿@model LetterAmazer.Websites.Client.ViewModels.User.EditOrganisationSettingsViewModel
+
+<h1>Organisation settings</h1>
+
+<p>This is your default settings when sending a letter.</p>
+
+
+@Html.BeginForm("EditOrganisationSettings", "User", FormMethod.Post) {
+<p>
+    <b>Default country:</b><br />
+    @Html.DropDownListFor(model => model.PreferedCountry, Model.Countries)
+</p>
+
+<p>
+    <b>Letter type:</b><br />
+    @Html.DropDownListFor(model => model.LetterType, Model.LetterTypes)
+</p>
+<p>
+    <b>Letter color:</b><br />
+</p>
+
+<input type="submit" id="editSettingsBtn" value="Update settings" class="btn btn-success btn-lg" />
+
+
+@Html.HiddenFor(model=>model.OrganisationId)
+}

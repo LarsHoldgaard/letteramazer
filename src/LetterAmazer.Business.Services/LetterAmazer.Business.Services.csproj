@@ -102,6 +102,7 @@
     <Compile Include="Domain\OfficeProducts\IOfficeProductService.cs" />
     <Compile Include="Domain\OfficeProducts\OfficeProductSpecification.cs" />
     <Compile Include="Domain\Organisation\AddressList.cs" />
+    <Compile Include="Domain\Organisation\OrganisationSettings.cs" />
     <Compile Include="Domain\PriceUpdater\IPriceUpdater.cs" />
     <Compile Include="Domain\Pricing\PriceSpecification.cs" />
     <Compile Include="Domain\Pricing\ProductMatrixReferenceType.cs" />

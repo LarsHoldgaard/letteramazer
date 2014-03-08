@@ -40,6 +40,8 @@
         <AssociationConnector Association="LetterAmazer.FK_OfficeProducts_Offices" ManuallyRouted="false" />
         <AssociationConnector Association="LetterAmazer.FK_OrderItem_Order" ManuallyRouted="false" />
         <AssociationConnector Association="LetterAmazer.FK_DbOrganisationAddressList_DbOrganisation" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="LetterAmazer.DbOrganisationProfileSettings" Width="1.5" PointX="3" PointY="23.25" />
+        <AssociationConnector Association="LetterAmazer.FK_DbOrganisationProfileSettings_DbOrganisation" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

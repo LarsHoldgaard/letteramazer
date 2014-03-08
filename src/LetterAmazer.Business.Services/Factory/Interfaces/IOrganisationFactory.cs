@@ -12,8 +12,8 @@ namespace LetterAmazer.Business.Services.Factory.Interfaces
     public interface IOrganisationFactory
     {
 
-        Organisation Create(DbOrganisation organisation);
-        List<Organisation> Create(List<DbOrganisation> organisation);
+        Organisation Create(DbOrganisation organisation, DbOrganisationProfileSettings organisationProfileSettings);
+        List<Organisation> Create(List<DbOrganisation> organisation, List<DbOrganisationProfileSettings> organisationProfileSettings);
 
         AddressList CreateAddressList(DbOrganisationAddressList list);
         List<AddressList> CreateAddressList(List<DbOrganisationAddressList> list);

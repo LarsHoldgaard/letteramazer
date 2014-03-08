@@ -1,0 +1,26 @@
+﻿@model LetterAmazer.Websites.Client.ViewModels.User.ContactViewModel
+
+
+<h3>Edit contact</h3>
+
+@Html.BeginForm("EditSingleContact", "User", FormMethod.Post)
+{
+@Html.EditorFor(model => model.Address1)
+
+@Html.EditorFor(model => model.Address2)
+
+@Html.EditorFor(model => model.ZipCode)
+@Html.EditorFor(model => model.City)
+
+
+
+@Html.EditorFor(model => model.State)
+
+@Html.EditorFor(model => model.OrganisationName)
+@Html.EditorFor(model => model.VatNumber)
+
+
+<input type="submit" id="EditContactsBtn" class="btn btn-lg btn-success" value="Edit contact" />
+
+@Html.HiddenFor(model => model.AddressListId)
+}

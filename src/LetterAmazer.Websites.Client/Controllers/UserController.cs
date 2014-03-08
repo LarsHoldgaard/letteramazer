@@ -18,6 +18,7 @@ using LetterAmazer.Business.Utils.Helpers;
 using LetterAmazer.Websites.Client.Attributes;
 using LetterAmazer.Websites.Client.ViewModels;
 using LetterAmazer.Websites.Client.Extensions;
+using LetterAmazer.Websites.Client.ViewModels.Shared.Utils;
 using log4net;
 using System;
 using System.Web.Mvc;
@@ -280,6 +281,83 @@ namespace LetterAmazer.Websites.Client.Controllers
             var profile_model = new ProfileViewModel();
             buildOverviewModel(profile_model);
             return View("Index", profile_model);
+        }
+
+
+        public ActionResult EditOrganisationSettings()
+        {
+            var editViewModel = new EditOrganisationSettingsViewModel();
+
+            editViewModel.LetterTypes = ControllerHelpers.GetEnumSelectList<LetterType>();
+
+            return View(editViewModel);
+        }
+
+        [HttpPost]
+        public ActionResult EditOrganisationSettings(EditOrganisationSettingsViewModel organisationSettings)
+        {
+            var organisation = organisationService.GetOrganisationById(organisationSettings.OrganisationId);
+
+            organisation.OrganisationSettings.PreferedCountryId = int.Parse(organisationSettings.PreferedCountry);
+            organisation.OrganisationSettings.LetterType = (LetterType)organisationSettings.LetterType;
+            
+            organisationService.Update(organisation);
+
+            return View(organisationSettings);
+        }
+
+        public ActionResult EditContacts()
+        {
+            return View(new EditContactsViewModel());
+        }
+
+        [HttpPost]
+        public ActionResult EditContacts(EditContactsViewModel editContacts)
+        {
+            if (editContacts.NewContact != null)
+            {
+                var addressList = new AddressList();
+                addressList.AddressInfo.Address1 = editContacts.NewContact.Address1;
+                addressList.AddressInfo.Address2 = editContacts.NewContact.Address2;
+                addressList.AddressInfo.Zipcode = editContacts.NewContact.ZipCode;
+                addressList.AddressInfo.City = editContacts.NewContact.City;
+                addressList.AddressInfo.Organisation = editContacts.NewContact.OrganisationName;
+                addressList.AddressInfo.State = editContacts.NewContact.State;
+                addressList.AddressInfo.AttPerson = string.Empty;
+                addressList.AddressInfo.VatNr = editContacts.NewContact.VatNumber;
+
+                organisationService.Update(addressList);
+            }
+
+            return View();
+        }
+
+        public ActionResult EditSingleContact(int organisationContactId)
+        {
+
+            var addressList = organisationService.GetAddressListById(organisationContactId);
+
+
+
+            return View(new ContactViewModel());
+        }
+
+        [HttpPost]
+        public ActionResult EditSingleContact(ContactViewModel contact)
+        {
+            var addressList = organisationService.GetAddressListById(contact.AddressListId);
+            addressList.AddressInfo.Address1 = contact.Address1;
+            addressList.AddressInfo.Address2 = contact.Address2;
+            addressList.AddressInfo.Zipcode = contact.ZipCode;
+            addressList.AddressInfo.City = contact.City;
+            addressList.AddressInfo.Organisation = contact.OrganisationName;
+            addressList.AddressInfo.State = contact.State;
+            addressList.AddressInfo.AttPerson = string.Empty;
+            addressList.AddressInfo.VatNr = contact.VatNumber;
+
+            organisationService.Update(addressList);
+
+            return View();
         }
 
         #endregion
