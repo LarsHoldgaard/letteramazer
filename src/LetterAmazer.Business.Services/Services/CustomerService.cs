@@ -80,7 +80,7 @@ namespace LetterAmazer.Business.Services.Services
                 dbCustomers = dbCustomers.Where(c => c.OrganisationRole == (int)specification.CustomerRole);
             }
 
-            return customerFactory.Create(dbCustomers.OrderBy(c=>c.Id).Skip(specification.Skip).Take(specification.Take).ToList());
+            return customerFactory.Create(dbCustomers.OrderBy(c => c.Id).Skip(specification.Skip).Take(specification.Take).ToList());
         }
 
         public void RecoverPassword(string email)
@@ -96,7 +96,7 @@ namespace LetterAmazer.Business.Services.Services
             }
 
             customer.ResetPasswordKey = Guid.NewGuid().ToString();
-            
+
             mailService.ResetPassword(customer);
 
             Update(customer);
@@ -131,14 +131,14 @@ namespace LetterAmazer.Business.Services.Services
             if (existingcustomer == null)
             {
                 var dbCustomer = new DbCustomers();
-                dbCustomer.Email =providedEmail;
+                dbCustomer.Email = providedEmail;
                 dbCustomer.Password = givenPassword;
                 dbCustomer.CustomerInfo_FirstName = customer.CustomerInfo.FirstName;
                 dbCustomer.CustomerInfo_LastName = customer.CustomerInfo.LastName;
                 dbCustomer.CustomerInfo_Country = customer.CustomerInfo.Country.Id;
                 dbCustomer.DateCreated = DateTime.Now;
                 dbCustomer.RegistrationKey = Guid.NewGuid().ToString();
-                
+
                 repository.DbCustomers.Add(dbCustomer);
                 repository.SaveChanges();
 
@@ -160,7 +160,7 @@ namespace LetterAmazer.Business.Services.Services
                 id = dbCustomer.Id;
             }
 
-            var storedCustomer= GetCustomerById(id);
+            var storedCustomer = GetCustomerById(id);
             mailService.ConfirmUser(storedCustomer);
             return storedCustomer;
         }
@@ -179,7 +179,7 @@ namespace LetterAmazer.Business.Services.Services
             dbCustomer.CustomerInfo_Address2 = customer.CustomerInfo.Address2;
             dbCustomer.CustomerInfo_AttPerson = customer.CustomerInfo.AttPerson;
             dbCustomer.CustomerInfo_City = customer.CustomerInfo.City;
-            
+
             dbCustomer.CustomerInfo_FirstName = customer.CustomerInfo.FirstName;
             dbCustomer.CustomerInfo_LastName = customer.CustomerInfo.LastName;
             dbCustomer.CustomerInfo_Zipcode = customer.CustomerInfo.Zipcode;
@@ -192,14 +192,18 @@ namespace LetterAmazer.Business.Services.Services
             dbCustomer.Phone = customer.Phone;
             dbCustomer.DateActivated = customer.DateActivated;
             dbCustomer.RegistrationKey = customer.RegisterKey;
-            dbCustomer.OrganisationRole = customer.OrganisationRole.HasValue ?(int)customer.OrganisationRole.Value : 0;
+            dbCustomer.OrganisationRole = customer.OrganisationRole.HasValue ? (int)customer.OrganisationRole.Value : 0;
 
             if (customer.Organisation != null)
             {
-            dbCustomer.OrganisationId = customer.Organisation.Id;    
+                dbCustomer.OrganisationId = customer.Organisation.Id;
             }
-            
-            
+            else
+            {
+                dbCustomer.OrganisationId = null;
+            }
+
+
             repository.SaveChanges();
 
             return GetCustomerById(customer.Id);
@@ -212,6 +216,6 @@ namespace LetterAmazer.Business.Services.Services
             repository.SaveChanges();
         }
 
-        
+
     }
 }

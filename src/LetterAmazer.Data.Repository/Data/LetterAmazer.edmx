@@ -119,10 +119,10 @@
           <Property Name="PriceTotal" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="Receiver_Organisation" Type="varchar" MaxLength="250" Nullable="false" />
           <Property Name="Receiver_AttPerson" Type="varchar" MaxLength="250" />
-          <Property Name="Receiver_Address1" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="Receiver_Address1" Type="varchar" MaxLength="250" />
           <Property Name="Receiver_Address2" Type="varchar" MaxLength="250" />
-          <Property Name="Receiver_City" Type="varchar" MaxLength="250" Nullable="false" />
-          <Property Name="Receiver_Zipcode" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="Receiver_City" Type="varchar" MaxLength="250" />
+          <Property Name="Receiver_Zipcode" Type="varchar" MaxLength="250" />
           <Property Name="Receiver_State" Type="varchar" MaxLength="250" />
           <Property Name="Receiver_CountryId" Type="int" Nullable="false" />
           <Property Name="Invoice_Organisation" Type="varchar" MaxLength="250" Nullable="false" />
@@ -777,10 +777,10 @@
           <Property Name="PriceTotal" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="Receiver_Organisation" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Receiver_AttPerson" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="Receiver_Address1" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Receiver_Address1" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
           <Property Name="Receiver_Address2" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="Receiver_City" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Receiver_Zipcode" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Receiver_City" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Receiver_Zipcode" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
           <Property Name="Receiver_State" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
           <Property Name="Receiver_CountryId" Type="Int32" Nullable="false" />
           <Property Name="Invoice_Organisation" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />

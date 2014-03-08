@@ -11,32 +11,69 @@
 }
 else
 {
-    <ul class="nav navbar-nav navbar-right">
-        <li><a href="@Url.Action("Index", "User")">Overview</a></li>
-        <li><a href="#" style="padding-left:0px;padding-right:0px;">|</a></li>
+    <div class="visible-xs">
+        <ul class="nav navbar-nav navbar-right">
+            <li><a href="@Url.Action("Index", "User")">Overview</a></li>
+            
+            <li>@Html.ActionLink("Invoices", "InvoiceOverview", "User")</li>
+            
+            @if (SessionHelper.Customer.Organisation != null)
+            {
+                <li>@Html.ActionLink("Edit organisation", "EditOrganisation", "User")</li>
+            }
+            else
+            {
+                <li>@Html.ActionLink("Create organisation", "CreateOrganisation", "User")</li>
+            }
+
+            <li>@Html.ActionLink("Settings", "EditOrganisationSettings", "User")</li>
 
 
-
-        <li>@Html.ActionLink("Invoices", "InvoiceOverview", "User")</li>
-        <li><a href="#" style="padding-left:0px;padding-right:0px;">|</a></li>
-
-        @if (SessionHelper.Customer.Organisation != null)
-        {
-            <li>@Html.ActionLink("Edit organisation", "EditOrganisation", "User")</li>
-        }
-        else
-        {
-            <li>@Html.ActionLink("Create organisation", "CreateOrganisation", "User")</li>
-        }
-        
-        <li><a href="#" style="padding-left:0px;padding-right:0px;">|</a></li>
-
-            <li>@Html.ActionLink("Settings","EditOrganisationSettings","User")</li>
-
-        <li><a href="#" style="padding-left:0px;padding-right:0px;">|</a></li>
+            <li><a href="@Url.Action("Logout", "Home")">@ViewRes.Logout</a></li>
+        </ul>
+    </div>
+    <div class="hidden-xs">
+        <div class="nav navbar-nav navbar-right dropdown">
+            <label id="dLabel" role="button" data-toggle="dropdown" data-target="#">
+                Profile <span class="caret"></span>
+            </label>
 
 
+            <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                <li>
+                    <a href="@Url.Action("Index", "User")">Overview</a>
 
-        <li><a href="@Url.Action("Logout", "Home")">@ViewRes.Logout</a></li>
-    </ul>
+                </li>
+                <li>
+                    @Html.ActionLink("Invoices", "InvoiceOverview", "User")
+
+                </li>
+                <li>
+                    @if (SessionHelper.Customer.Organisation != null)
+                    {
+                        @Html.ActionLink("Edit organisation", "EditOrganisation", "User")
+                    }
+                    else
+                    {
+                    <li>@Html.ActionLink("Create organisation", "CreateOrganisation", "User")</li>
+                    }
+
+
+                    </li>
+                    <li role="presentation" class="divider"></li>
+                    <li><a href="@Url.Action("Logout", "Home")">@ViewRes.Logout</a></li>
+
+                </ul>
+            </div>
+        </div>
+        <script>
+            $('.dropdown-toggle').dropdown()
+        </script>
+
+
 }
+
+
+<script>
+    $('.dropdown-toggle').dropdown()
+</script>

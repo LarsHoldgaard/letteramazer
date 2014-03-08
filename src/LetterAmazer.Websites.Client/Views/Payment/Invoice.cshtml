@@ -10,10 +10,14 @@
 
 <h2>Invoice #@Model.InvoiceNumber</h2>
 
+@Html.ActionLink("Go back to invoice overview", "InvoiceOverview", "User")
+
+
 <div class="row">
     <div class="col-md-6">
         <h3>Invoice from</h3>
         @Model.CompanyInfo.Company<br />
+        @Model.CompanyInfo.Cvr<br/>
         Att. @Model.CompanyInfo.Name<br />
         @Model.CompanyInfo.Address<br />
         @Model.CompanyInfo.ZipCode @Model.CompanyInfo.City<br />
@@ -23,12 +27,27 @@
     <div class="col-md-6">
         <h3>Invoice to</h3>
         @Model.ReceiverInfo.Company<br />
-        Att. @Model.ReceiverInfo.Name<br />
+
+        @if (!string.IsNullOrEmpty(Model.ReceiverInfo.Cvr))
+        {
+            <text>Att. @Model.ReceiverInfo.Cvr<br /></text>
+        }
+
+        @if (!string.IsNullOrEmpty(Model.ReceiverInfo.Name))
+        {
+            <text>Att. @Model.ReceiverInfo.Name<br /></text>
+        }
+
         @Model.ReceiverInfo.Address<br />
         @Model.ReceiverInfo.ZipCode @Model.ReceiverInfo.City<br />
         @Model.ReceiverInfo.Country<br />
     </div>
 </div>
+
+<h3>
+    Invoice status
+</h3> @Model.Status
+
 
 <h3>Orderlines</h3>
 <table class="table table-striped">
@@ -64,7 +83,7 @@
 <div class="row">
     <div class="col-md-6">
         <b>Total ex. VAT</b>: @Model.TotalExVat $<br />
-        <b>VAT</b>: @Model.VatTotal $ (@Model.VatPercentage)<br />
+        <b>VAT</b>: @Model.VatTotal $ (@Model.VatPercentage %)<br />
         <b>Total</b>: @Model.Total $<br />
     </div>
 

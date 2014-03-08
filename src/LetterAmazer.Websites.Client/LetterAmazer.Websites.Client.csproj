@@ -655,7 +655,6 @@
     <Content Include="Views\User\CreateOrganisation.cshtml" />
     <Content Include="Views\Shared\_notActivated.cshtml" />
     <Content Include="Views\User\InvoiceOverview.cshtml" />
-    <Content Include="Views\Shared\_authorizedMenu.cshtml" />
     <Content Include="Views\User\EditOrganisation.cshtml" />
     <Content Include="Views\User\EditOrganisationSettings.cshtml" />
     <Content Include="Views\User\EditContacts.cshtml" />

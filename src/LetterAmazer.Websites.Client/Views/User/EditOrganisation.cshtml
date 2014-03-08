@@ -1,6 +1,6 @@
 ﻿@model LetterAmazer.Websites.Client.ViewModels.User.EditOrganisationViewModel
 
-<h1>Create a new organisation</h1>
+<h1>Edit your organisation @Model.OrganisationName</h1>
 
 
 @using (Html.BeginForm("EditOrganisation", "User", FormMethod.Post))
@@ -53,4 +53,6 @@
     </div>
 
     <input type="submit" value="Edit organisation" class="btn btn-lg btn-success" />
+    
+    @Html.HiddenFor(model=>model.OrganisationId);
 }

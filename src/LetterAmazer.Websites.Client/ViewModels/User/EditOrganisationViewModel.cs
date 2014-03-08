@@ -8,6 +8,7 @@ namespace LetterAmazer.Websites.Client.ViewModels.User
 {
     public class EditOrganisationViewModel
     {
+        public int OrganisationId { get; set; }
         public string OrganisationName { get; set; }
 
         public string Address1 { get; set; }

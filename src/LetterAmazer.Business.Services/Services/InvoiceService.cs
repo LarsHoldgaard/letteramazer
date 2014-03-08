@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Objects;
 using System.Linq;
 using LetterAmazer.Business.Services.Domain.Invoice;
 using LetterAmazer.Business.Services.Domain.Mails;
@@ -169,11 +170,11 @@ namespace LetterAmazer.Business.Services.Services
             }
             if (specification.DateFrom.HasValue)
             {
-                dbInvoices = dbInvoices.Where(c => c.DateCreated >= specification.DateFrom);
+                dbInvoices = dbInvoices.Where(c => EntityFunctions.TruncateTime(c.DateCreated) >= EntityFunctions.TruncateTime(specification.DateFrom.Value));
             }
             if (specification.DateTo.HasValue)
             {
-                dbInvoices = dbInvoices.Where(c => c.DateCreated <= specification.DateTo);
+                dbInvoices = dbInvoices.Where(c => EntityFunctions.TruncateTime(c.DateCreated) <= EntityFunctions.TruncateTime(specification.DateTo.Value));
             }
 
             var dbInvoiceFound =

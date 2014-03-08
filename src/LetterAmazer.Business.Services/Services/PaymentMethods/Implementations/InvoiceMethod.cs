@@ -68,7 +68,7 @@ namespace LetterAmazer.Business.Services.Services.PaymentMethods.Implementations
                 OrganisationId = order.Customer.Organisation.Id,
                 Guid = Guid.NewGuid(),
                 OrderId = order.Id,
-                InvoiceNumber = string.Empty,
+                InvoiceNumber = order.OrderCode,
                 InvoiceStatus = InvoiceStatus.Created,
                 DateCreated = DateTime.Now
             };

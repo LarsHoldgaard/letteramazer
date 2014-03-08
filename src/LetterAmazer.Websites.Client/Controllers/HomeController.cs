@@ -5,6 +5,7 @@ using LetterAmazer.Business.Services.Domain.Countries;
 using LetterAmazer.Business.Services.Domain.Customers;
 using LetterAmazer.Business.Services.Domain.Mails;
 using LetterAmazer.Business.Services.Domain.Offices;
+using LetterAmazer.Business.Services.Domain.Organisation;
 using LetterAmazer.Business.Services.Domain.Pricing;
 using LetterAmazer.Business.Services.Domain.Products.ProductDetails;
 using LetterAmazer.Business.Utils.Helpers;
@@ -28,15 +29,16 @@ namespace LetterAmazer.Websites.Client.Controllers
         private IOfficeService officeService;
         private IMailService mailService;
         private IPriceService priceService;
-
+        private IOrganisationService organisationService;
         public HomeController(ICustomerService customerService,IOfficeService officeService,
-            IMailService mailService, ICountryService countryService, IPriceService priceService)
+            IMailService mailService, ICountryService countryService, IPriceService priceService, IOrganisationService organisationService)
         {
             this.customerService = customerService;
             this.officeService = officeService;
             this.countryService = countryService;
             this.mailService = mailService;
             this.priceService = priceService;
+            this.organisationService = organisationService;
         }
 
         public ActionResult Index()
@@ -190,12 +192,19 @@ namespace LetterAmazer.Websites.Client.Controllers
                 SessionHelper.Customer = cust;
                 FormsAuthentication.SetAuthCookie(cust.Id.ToString(), false);
 
-                if (cust.Organisation != null && cust.Organisation.Id > 0)
+                if (cust.Organisation != null && cust.Organisation.Id > 0 && !cust.Organisation.IsPrivate)
                 {
                     return RedirectToAction("EditOrganisation", "User");
                 }
                 else
                 {
+                    if (cust.Organisation != null && cust.Organisation.Id > 0)
+                    {
+                        cust.Organisation = null;
+                        customerService.Update(cust);
+                        this.organisationService.Delete(cust.Organisation);
+                    }
+
                     return RedirectToAction("CreateOrganisation", "User");
                 }
 

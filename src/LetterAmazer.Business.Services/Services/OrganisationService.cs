@@ -97,6 +97,19 @@ namespace LetterAmazer.Business.Services.Services
             return GetOrganisationById(organisation.Id);
         }
 
+        public void Delete(Organisation organisation)
+        {
+            var dbOrganisation = repository.DbOrganisation.FirstOrDefault(c => c.Id == organisation.Id);
+
+            if (dbOrganisation == null)
+            {
+                throw new ArgumentException("No organisation settings with ID: " + organisation.Id);
+            }
+
+            repository.DbOrganisation.Remove(dbOrganisation);
+            repository.SaveChanges();
+        }
+
         public Organisation GetOrganisationById(int id)
         {
             var dbOrganisation = repository.DbOrganisation.FirstOrDefault(c => c.Id == id);

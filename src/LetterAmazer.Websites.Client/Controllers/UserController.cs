@@ -225,19 +225,7 @@ namespace LetterAmazer.Websites.Client.Controllers
 
         public ActionResult EditOrganisation()
         {
-            var organisationId = SessionHelper.Customer.Organisation.Id;
-            var organisation = organisationService.GetOrganisationById(organisationId);
-
             var organisationViewModel = new EditOrganisationViewModel();
-
-            return View(organisationViewModel);
-        }
-
-        public ActionResult CreateOrganisation()
-        {
-            var orgView = new CreateOrganisationViewModel();
-
-            var createdUserCountryId = SessionHelper.Customer.CustomerInfo.Country.Id;
 
             var countries = countryService.GetCountryBySpecificaiton(new CountrySpecification()
             {
@@ -252,7 +240,67 @@ namespace LetterAmazer.Websites.Client.Controllers
                     Value = country.Id.ToString(),
                 };
 
-                if (country.Id == createdUserCountryId)
+                if (country.Id == SessionHelper.Customer.Organisation.Address.Country.Id)
+                {
+                    selectedItem.Selected = true;
+                }
+
+                organisationViewModel.Countries.Add(selectedItem);
+            }
+
+            var organisationId = SessionHelper.Customer.Organisation.Id;
+            var organisation = organisationService.GetOrganisationById(organisationId);
+
+            organisationViewModel.OrganisationId = organisation.Id;
+            organisationViewModel.OrganisationName = organisation.Name;
+            organisationViewModel.Address1 = organisation.Address.Address1;
+            organisationViewModel.Address2 = organisation.Address.Address2;
+            organisationViewModel.State = organisation.Address.State;
+            organisationViewModel.City = organisation.Address.City;
+            organisationViewModel.ZipCode = organisation.Address.Zipcode;
+            organisationViewModel.VatNumber = organisation.Address.VatNr;
+    
+            return View(organisationViewModel);
+        }
+
+        [HttpPost]
+        public ActionResult EditOrganisation(EditOrganisationViewModel editOrganisationView)
+        {
+            var organisation = organisationService.GetOrganisationById(editOrganisationView.OrganisationId);
+
+            organisation.Name = editOrganisationView.OrganisationName;
+            
+            organisation.Address.Address1 = editOrganisationView.Address1;
+            organisation.Address.Address2 = editOrganisationView.Address2;
+            organisation.Address.City = editOrganisationView.City;
+            organisation.Address.Zipcode = editOrganisationView.ZipCode;
+            organisation.Address.State = editOrganisationView.State;
+            organisation.Address.VatNr = editOrganisationView.VatNumber;
+            organisation.Address.Country = countryService.GetCountryById(int.Parse(editOrganisationView.SelectedCountry));
+            
+
+            organisationService.Update(organisation);
+
+            return View(editOrganisationView);
+        }
+        public ActionResult CreateOrganisation()
+        {
+            var orgView = new CreateOrganisationViewModel();
+
+            var countries = countryService.GetCountryBySpecificaiton(new CountrySpecification()
+            {
+                Take = 999
+            });
+
+            foreach (var country in countries)
+            {
+                var selectedItem = new SelectListItem()
+                {
+                    Text = country.Name,
+                    Value = country.Id.ToString(),
+                };
+
+                if (country.Id == SessionHelper.Customer.PreferedCountryId)
                 {
                     selectedItem.Selected = true;
                 }
@@ -317,8 +365,30 @@ namespace LetterAmazer.Websites.Client.Controllers
         public ActionResult EditOrganisationSettings()
         {
             var editViewModel = new EditOrganisationSettingsViewModel();
+            editViewModel.OrganisationId = SessionHelper.Customer.Organisation.Id;
 
-            editViewModel.LetterTypes = ControllerHelpers.GetEnumSelectList<LetterType>();
+            var countries = countryService.GetCountryBySpecificaiton(new CountrySpecification()
+            {
+                Take = 999
+            });
+
+            foreach (var country in countries)
+            {
+                var selectedItem = new SelectListItem()
+                {
+                    Text = country.Name,
+                    Value = country.Id.ToString()
+                };
+
+                if (country.Id == SessionHelper.Customer.PreferedCountryId)
+                {
+                    selectedItem.Selected = true;
+                }
+
+                editViewModel.Countries.Add(selectedItem);
+            }
+
+            editViewModel.LetterTypes = ControllerHelpers.GetEnumSelectList<LetterType>().ToList();
 
             return View(editViewModel);
         }
@@ -521,7 +591,7 @@ namespace LetterAmazer.Websites.Client.Controllers
 
             InvoiceOverviewViewModel invoiceOverview = new InvoiceOverviewViewModel();
             invoiceOverview.DateFrom = DateTime.Now.AddDays(-180).Date;
-            invoiceOverview.DateFrom = DateTime.Now.Date;
+            invoiceOverview.DateTo = DateTime.Now.Date;
             invoiceOverview.InvoiceSnippets = getInvoiceSnippets(invoiceOverview.DateFrom,
                 invoiceOverview.DateTo,
                 customer.Organisation.Id);
@@ -607,7 +677,7 @@ namespace LetterAmazer.Websites.Client.Controllers
             return paymentMethods.Select(paymentMethodse => new PaymentMethodViewModel()
             {
                 Id = paymentMethodse.Id,
-                Name = paymentMethodse.Name
+                Name = paymentMethodse.Name,
             }).ToList();
         }
 
@@ -659,7 +729,8 @@ namespace LetterAmazer.Websites.Client.Controllers
                     DateCreated = invoice.DateCreated,
                     OrderNumber = invoice.InvoiceNumber,
                     TotalPrice = invoice.PriceTotal,
-                    InvoiceGuid = invoice.Guid
+                    InvoiceGuid = invoice.Guid,
+                    Status = invoice.InvoiceStatus.ToString()
                 });
             }
 

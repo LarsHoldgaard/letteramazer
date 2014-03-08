@@ -74,6 +74,24 @@ namespace LetterAmazer.Business.Services.Domain.Customers
             return 0.25m;
         }
 
+        public int PreferedCountryId
+        {
+            get
+            {
+                if (Organisation != null && Organisation.OrganisationSettings != null && Organisation.OrganisationSettings.PreferedCountryId.HasValue)
+                {
+                    return Organisation.OrganisationSettings.PreferedCountryId.Value;
+                }
+
+                if (Organisation != null && Organisation.OrganisationSettings != null && Organisation.Address != null)
+                {
+                    return Organisation.Address.Country.Id;
+                }
+
+                return CustomerInfo.Country.Id;
+            }
+        }
+
         public Customer()
         {
             this.CustomerInfo = new AddressInfo();

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.AccessControl;
 using System.Web;
 
 namespace LetterAmazer.Websites.Client.ViewModels.Payment
@@ -10,6 +11,8 @@ namespace LetterAmazer.Websites.Client.ViewModels.Payment
         public int Id { get; set; }
 
         public string Comment { get; set; }
+
+        public string Status { get; set; }
 
         public InvoiceAddressViewModel CompanyInfo { get; set; }
         public InvoiceAddressViewModel ReceiverInfo { get; set; }
@@ -39,6 +42,8 @@ namespace LetterAmazer.Websites.Client.ViewModels.Payment
         public string Country { get; set; }
         public string ZipCode { get; set; }
         public string City { get; set; }
+
+        public string Cvr { get; set; }
     }
 
     public class InvoiceLineViewModel

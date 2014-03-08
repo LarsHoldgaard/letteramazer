@@ -39,18 +39,21 @@ namespace LetterAmazer.Websites.Client.Controllers
                 DateCreated = invoice.DateCreated,
                 Id = invoice.Id,
                 InvoiceNumber = invoice.InvoiceNumber,
-                VatPercentage =invoice.PriceVatPercentage,
+                VatPercentage = invoice.PriceVatPercentage * 100,
                 Total = invoice.PriceTotal,
+                Status = invoice.InvoiceStatus.ToString(),
                 TotalExVat = invoice.PriceExVat,
+                VatTotal = invoice.PriceVat,
                 CompanyInfo = new InvoiceAddressViewModel()
                 {
-                Address = invoice.InvoiceInfo.Address1,
-                   City = invoice.InvoiceInfo.City,
-                   ZipCode = invoice.InvoiceInfo.Zipcode,
-                   VatNumber = invoice.InvoiceInfo.VatNr,
-                   Company = invoice.InvoiceInfo.Organisation,
-                   Name = invoice.InvoiceInfo.AttPerson,
-                   Country = invoice.InvoiceInfo.Country.Name
+                    Address = invoice.InvoiceInfo.Address1,
+                    City = invoice.InvoiceInfo.City,
+                    ZipCode = invoice.InvoiceInfo.Zipcode,
+                    VatNumber = invoice.InvoiceInfo.VatNr,
+                    Company = invoice.InvoiceInfo.Organisation,
+                    Name = invoice.InvoiceInfo.AttPerson,
+                    Country = invoice.InvoiceInfo.Country.Name,
+                    Cvr = invoice.InvoiceInfo.VatNr
                 },
                 ReceiverInfo = new InvoiceAddressViewModel()
                 {
@@ -60,7 +63,8 @@ namespace LetterAmazer.Websites.Client.Controllers
                     VatNumber = invoice.ReceiverInfo.VatNr,
                     Company = invoice.ReceiverInfo.Organisation,
                     Name = invoice.ReceiverInfo.AttPerson,
-                    Country = invoice.ReceiverInfo.Country.Name
+                    Country = invoice.ReceiverInfo.Country.Name,
+                    Cvr = invoice.ReceiverInfo.VatNr
                 }
             };
 
@@ -70,7 +74,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                 {
                     Price = invoiceLine.PriceExVat,
                     Quantity = invoiceLine.Quantity,
-                    Title = invoiceLine.Description
+                    Title = invoiceLine.Description,
                 });
             }
 

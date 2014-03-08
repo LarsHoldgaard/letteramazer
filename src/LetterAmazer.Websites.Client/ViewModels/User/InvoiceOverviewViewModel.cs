@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.AccessControl;
 using System.Web;
 
 namespace LetterAmazer.Websites.Client.ViewModels.User
@@ -9,6 +10,8 @@ namespace LetterAmazer.Websites.Client.ViewModels.User
     {
         public DateTime DateFrom { get; set; }
         public DateTime DateTo { get; set; }
+
+
 
         public List<InvoiceSnippetViewModel> InvoiceSnippets { get; set; }
 
@@ -25,6 +28,8 @@ namespace LetterAmazer.Websites.Client.ViewModels.User
         public string OrderNumber { get; set; }
         public DateTime DateCreated { get; set; }
         public decimal TotalPrice { get; set; }
+
+        public string Status { get; set; }
     }
 
 }

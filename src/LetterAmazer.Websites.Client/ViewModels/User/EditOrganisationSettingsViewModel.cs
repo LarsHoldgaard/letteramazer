@@ -11,11 +11,15 @@ namespace LetterAmazer.Websites.Client.ViewModels.User
         public int OrganisationId { get; set; }
 
         public string PreferedCountry { get; set; }
-        public IEnumerable<SelectListItem> Countries { get; set; }
+        public List<SelectListItem> Countries { get; set; }
 
         public int LetterType { get; set; }
-        public IEnumerable<SelectListItem> LetterTypes { get; set; }
+        public List<SelectListItem> LetterTypes { get; set; }
 
-
+        public EditOrganisationSettingsViewModel()
+        {
+            this.Countries = new List<SelectListItem>();
+            this.LetterTypes = new List<SelectListItem>();
+        }
     }
 }

@@ -18,6 +18,7 @@
             <th>
                 Total price
             </th>
+            <th>Status</th>
             <th>
                 See invoice
             </th>
@@ -36,7 +37,10 @@
                 @invoiceSnippet.TotalPrice $
             </td>
             <td>
-                <a href="/payment/invoice?id=@invoiceSnippet.InvoiceGuid"></a>
+                @invoiceSnippet.Status
+            </td>
+            <td>
+                <a href="/payment/invoice?id=@invoiceSnippet.InvoiceGuid">See invoice</a>
             </td>
         </tr>
     }

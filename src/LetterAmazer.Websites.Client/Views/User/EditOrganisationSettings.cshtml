@@ -5,7 +5,8 @@
 <p>This is your default settings when sending a letter.</p>
 
 
-@Html.BeginForm("EditOrganisationSettings", "User", FormMethod.Post) {
+@using (Html.BeginForm("EditOrganisationSettings", "User", FormMethod.Post))
+{
 <p>
     <b>Default country:</b><br />
     @Html.DropDownListFor(model => model.PreferedCountry, Model.Countries)
@@ -22,5 +23,5 @@
 <input type="submit" id="editSettingsBtn" value="Update settings" class="btn btn-success btn-lg" />
 
 
-@Html.HiddenFor(model=>model.OrganisationId)
+@Html.HiddenFor(model => model.OrganisationId)
 }
