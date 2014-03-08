@@ -1,8 +1,56 @@
 ﻿@model LetterAmazer.Websites.Client.ViewModels.User.EditOrganisationViewModel
 
-@{
-    ViewBag.Title = "title";
-    Layout = "_Layout";
-}
+<h1>Create a new organisation</h1>
 
-<h2>title</h2>
+
+@using (Html.BeginForm("EditOrganisation", "User", FormMethod.Post))
+{
+    <div class="row login">
+        <div class="col-lg-6">
+            <label class="sr-only" for="OrganisationName">Organisation name</label>
+            @Html.TextBoxFor(m => m.OrganisationName, new { @class = "form-control", placeholder = "Organisation name" })
+        </div>
+    </div>
+
+
+    <div class="row login">
+        <div class="col-lg-6">
+            <label class="sr-only" for="">Country</label>
+            @Html.DropDownListFor(model => model.SelectedCountry, Model.Countries)
+        </div>
+    </div>
+
+    <div class="row login ui-helper-hidden">
+        <div class="col-lg-6">
+            <label class="sr-only" for="VatNumber">Vat number</label>
+            @Html.TextBoxFor(m => m.VatNumber, new { @class = "form-control", placeholder = "Vat nr" })
+        </div>
+    </div>
+
+    <div class="row login">
+        <div class="col-lg-6">
+            <label class="sr-only" for="Address1">Address</label>
+            @Html.TextBoxFor(m => m.Address1, new { @class = "form-control", placeholder = "Address" })
+        </div>
+        <div class="col-lg-6">
+            <label class="sr-only" for="Address2">Address 2 (optional)</label>
+            @Html.TextBoxFor(m => m.Address2, new { @class = "form-control", placeholder = "Address 2" })
+        </div>
+        <div class="col-lg-6">
+            <label class="sr-only" for="ZipCode">Zip code</label>
+            @Html.TextBoxFor(m => m.ZipCode, new { @class = "form-control", placeholder = "Zip code" })
+        </div>
+        <div class="col-lg-6">
+            <label class="sr-only" for="State">State (optional)</label>
+            @Html.TextBoxFor(m => m.State, new { @class = "form-control", placeholder = "State" })
+        </div>
+        <div class="col-lg-6">
+            <label class="sr-only" for="City">City</label>
+            @Html.TextBoxFor(m => m.City, new { @class = "form-control", placeholder = "City" })
+        </div>
+
+
+    </div>
+
+    <input type="submit" value="Edit organisation" class="btn btn-lg btn-success" />
+}

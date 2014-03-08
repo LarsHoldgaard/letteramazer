@@ -16,7 +16,11 @@ namespace LetterAmazer.Business.Services.Factory
         public AddressInfo Create(string address1, string address2, string postal, string city, int countryid,
             string attPerson, string firstName, string lastName, string vatNr, string co, string state, string organisation)
         {
-            var country = CountryService.GetCountryById(countryid);
+            Country country = null;
+            if (countryid > 0)
+            {
+                country = CountryService.GetCountryById(countryid);    
+            }
 
             return new AddressInfo()
             {

@@ -135,6 +135,7 @@ namespace LetterAmazer.Business.Services.Services
                 dbCustomer.Password = givenPassword;
                 dbCustomer.CustomerInfo_FirstName = customer.CustomerInfo.FirstName;
                 dbCustomer.CustomerInfo_LastName = customer.CustomerInfo.LastName;
+                dbCustomer.CustomerInfo_Country = customer.CustomerInfo.Country.Id;
                 dbCustomer.DateCreated = DateTime.Now;
                 dbCustomer.RegistrationKey = Guid.NewGuid().ToString();
                 
@@ -152,6 +153,7 @@ namespace LetterAmazer.Business.Services.Services
                 dbCustomer.CustomerInfo_FirstName = customer.CustomerInfo.FirstName;
                 dbCustomer.CustomerInfo_LastName = customer.CustomerInfo.LastName;
                 dbCustomer.RegistrationKey = Guid.NewGuid().ToString();
+                dbCustomer.CustomerInfo_Country = customer.CustomerInfo.Country.Id;
 
                 repository.SaveChanges();
 

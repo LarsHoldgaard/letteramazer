@@ -2,9 +2,6 @@
 @model LetterAmazer.Websites.Client.ViewModels.User.CreateOrganisationViewModel
 
 
-<div class="jumbotron-white">
-    <div class="container">
-
         <h1>Create a new organisation</h1>
         
         
@@ -60,13 +57,16 @@
             <input type="submit" value="Create organisation" class="btn btn-lg btn-success" />
         }
  
-        <input type="button" value="Skip creating organisation" id="skipOrganisationBtn" class="btn btn-danger btn-sm"/>
+        
+@using (Html.BeginForm("SkipOrganisation", "User", FormMethod.Post))
+{
+
+    <input type="submit" value="Skip creating organisation" id="skipOrganisationBtn" class="btn btn-danger btn-sm"/>
+}
         <ul>
             <li>You have to pay VAT</li>
             <li>...</li>
         </ul>
-    </div>
-</div>
 
 <script>
     $(document).ready(function() {

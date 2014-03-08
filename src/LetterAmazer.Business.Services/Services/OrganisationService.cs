@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LetterAmazer.Business.Services.Domain.Customers;
 using LetterAmazer.Business.Services.Domain.Organisation;
+using LetterAmazer.Business.Services.Domain.Products.ProductDetails;
 using LetterAmazer.Business.Services.Factory.Interfaces;
 using LetterAmazer.Data.Repository.Data;
 
@@ -28,19 +29,26 @@ namespace LetterAmazer.Business.Services.Services
                 Guid = Guid.NewGuid(),
                 Name = organisation.Name,
                 DateCreated = DateTime.Now,
-                Address1 = organisation.Address.Address1,
-                Address2 = organisation.Address.Address2,
-                City = organisation.Address.City,
-                Zipcode = organisation.Address.Zipcode,
-                CountryId = organisation.Address.Country.Id,
-                State = organisation.Address.State,
-                AttPerson = organisation.Address.AttPerson ,
+                IsPrivate = organisation.IsPrivate,
+                CountryId = organisation.Address.Country.Id
             };
+
+            if (!organisation.IsPrivate)
+            {
+                dbOrganisation.Address1 = organisation.Address.Address1;
+                dbOrganisation.Address2 = organisation.Address.Address2;
+                dbOrganisation.City = organisation.Address.City;
+                dbOrganisation.Zipcode = organisation.Address.Zipcode;
+                dbOrganisation.CountryId = organisation.Address.Country.Id;
+                dbOrganisation.State = organisation.Address.State;
+                dbOrganisation.AttPerson = organisation.Address.AttPerson;
+            }
 
             repository.DbOrganisation.Add(dbOrganisation);
             repository.SaveChanges();
 
             DbOrganisationProfileSettings dbOrganisationSettings = new DbOrganisationProfileSettings();
+            dbOrganisationSettings.LetterType = (int) LetterType.Pres;
             dbOrganisationSettings.OrganisationId = dbOrganisation.Id;
 
             repository.DbOrganisationProfileSettings.Add(dbOrganisationSettings);
@@ -67,7 +75,8 @@ namespace LetterAmazer.Business.Services.Services
             dbOrganisation.AttPerson = organisation.Address.AttPerson;
             dbOrganisation.Zipcode = organisation.Address.Zipcode;
             dbOrganisation.CountryId = organisation.Address.Country.Id;
-
+            dbOrganisation.IsPrivate = organisation.IsPrivate;
+            
             var dbOrganisationSettings =
                 repository.DbOrganisationProfileSettings.FirstOrDefault(c => c.OrganisationId == organisation.Id);
 
@@ -84,8 +93,6 @@ namespace LetterAmazer.Business.Services.Services
             dbOrganisationSettings.LetterType = (int?)organisation.OrganisationSettings.LetterType;
 
             repository.SaveChanges();
-
-
 
             return GetOrganisationById(organisation.Id);
         }
@@ -138,7 +145,23 @@ namespace LetterAmazer.Business.Services.Services
 
         public AddressList Create(AddressList addressList)
         {
-            throw new NotImplementedException();
+            var dbAddresslist = new DbOrganisationAddressList()
+            {
+                Address1 = addressList.AddressInfo.Address1,
+                Address2 = addressList.AddressInfo.Address2,
+                City = addressList.AddressInfo.City,
+                Zipcode = addressList.AddressInfo.Zipcode,
+                OrderIndex = addressList.SortIndex,
+                CountryId = addressList.AddressInfo.Country.Id,
+                OrganisationId = addressList.OrganisationId,
+                State = addressList.AddressInfo.State,
+            };
+
+            repository.DbOrganisationAddressList.Add(dbAddresslist);
+            repository.SaveChanges();
+
+            return GetAddressListById(dbAddresslist.Id);
+
         }
     }
 }

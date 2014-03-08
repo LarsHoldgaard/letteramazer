@@ -87,7 +87,7 @@ namespace LetterAmazer.Websites.Client.Controllers
         public ActionResult SendALetter()
         {
             CreateSingleLetterModel model = new CreateSingleLetterModel();
-           model.Email = SessionHelper.Customer.Email;
+            model.Email = SessionHelper.Customer.Email;
 
             if (SessionHelper.Customer.CreditLimit < SessionHelper.Customer.Credit)
             {
@@ -237,6 +237,8 @@ namespace LetterAmazer.Websites.Client.Controllers
         {
             var orgView = new CreateOrganisationViewModel();
 
+            var createdUserCountryId = SessionHelper.Customer.CustomerInfo.Country.Id;
+
             var countries = countryService.GetCountryBySpecificaiton(new CountrySpecification()
             {
                 Take = 999
@@ -247,8 +249,14 @@ namespace LetterAmazer.Websites.Client.Controllers
                 var selectedItem = new SelectListItem()
                 {
                     Text = country.Name,
-                    Value = country.Id.ToString()
+                    Value = country.Id.ToString(),
                 };
+
+                if (country.Id == createdUserCountryId)
+                {
+                    selectedItem.Selected = true;
+                }
+
                 orgView.Countries.Add(selectedItem);
             }
 
@@ -265,6 +273,7 @@ namespace LetterAmazer.Websites.Client.Controllers
             organisation.Address.City = model.City;
             organisation.Address.Zipcode = model.ZipCode;
             organisation.Address.State = model.State;
+            organisation.IsPrivate = false;
             organisation.Address.Country = countryService.GetCountryById(int.Parse(model.SelectedCountry));
 
             var stored_organisation = organisationService.Create(organisation);
@@ -276,13 +285,34 @@ namespace LetterAmazer.Websites.Client.Controllers
 
 
             SessionHelper.Customer = updated_customer;
-            FormsAuthentication.SetAuthCookie(customer.Id.ToString(),true);
+            FormsAuthentication.SetAuthCookie(customer.Id.ToString(), true);
 
             var profile_model = new ProfileViewModel();
             buildOverviewModel(profile_model);
             return View("Index", profile_model);
         }
 
+        public ActionResult SkipOrganisation()
+        {
+            var organisation = new Organisation();
+            organisation.Name = SessionHelper.Customer.Email;
+            organisation.IsPrivate = true;
+            organisation.Address.Country = SessionHelper.Customer.CustomerInfo.Country;
+
+            var stored_organisation = organisationService.Create(organisation);
+
+            var customer = customerService.GetCustomerById(SessionHelper.Customer.Id);
+            customer.Organisation = stored_organisation;
+            customer.OrganisationRole = OrganisationRole.Administrator;
+            var updated_customer = customerService.Update(customer);
+
+            SessionHelper.Customer = updated_customer;
+            FormsAuthentication.SetAuthCookie(customer.Id.ToString(), true);
+
+            var profile_model = new ProfileViewModel();
+            buildOverviewModel(profile_model);
+            return View("Index", profile_model);
+        }
 
         public ActionResult EditOrganisationSettings()
         {
@@ -300,7 +330,7 @@ namespace LetterAmazer.Websites.Client.Controllers
 
             organisation.OrganisationSettings.PreferedCountryId = int.Parse(organisationSettings.PreferedCountry);
             organisation.OrganisationSettings.LetterType = (LetterType)organisationSettings.LetterType;
-            
+
             organisationService.Update(organisation);
 
             return View(organisationSettings);
@@ -362,7 +392,7 @@ namespace LetterAmazer.Websites.Client.Controllers
 
         #endregion
 
-     
+
         [HttpGet, AutoErrorRecovery]
         public ActionResult Delete(int id)
         {

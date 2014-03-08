@@ -12,7 +12,7 @@ using LetterAmazer.Data.Repository.Data;
 
 namespace LetterAmazer.Business.Services.Factory
 {
-    public class OrganisationFactory:IOrganisationFactory
+    public class OrganisationFactory : IOrganisationFactory
     {
         private IAddressFactory addressFactory;
 
@@ -23,29 +23,42 @@ namespace LetterAmazer.Business.Services.Factory
 
         public Organisation Create(DbOrganisation organisation, DbOrganisationProfileSettings organisationProfileSettings)
         {
-            return new Organisation()
+            var new_organisation= new Organisation()
             {
                 Id = organisation.Id,
                 Guid = organisation.Guid,
                 DateCreated = organisation.DateCreated,
                 DateDeleted = organisation.DateDeleted,
                 DateModified = organisation.DateModified,
-                Address = addressFactory.Create(organisation.Address1,organisation.Address2,organisation.Zipcode,
-                    organisation.City,organisation.CountryId.Value,organisation.AttPerson,string.Empty,
-                    string.Empty,string.Empty,string.Empty,organisation.State,organisation.Name),
-                OrganisationSettings = new OrganisationSettings()
-                {
-                    Id = organisationProfileSettings.Id,
-                    PreferedCountryId  = organisationProfileSettings.PreferedCountryId,
-                    LetterColor = (LetterColor?)organisationProfileSettings.LetterColor,
-                    LetterPaperWeight = (LetterPaperWeight?)organisationProfileSettings.LetterPaperWeight,
-                    LetterProcessing = (LetterProcessing?)organisationProfileSettings.LetterProcessing,
-                    LetterSize = (LetterSize?)organisationProfileSettings.LetterSize,
-                    LetterType = (LetterType?)organisationProfileSettings.LetterType,
-
-                }
-              
+                IsPrivate = organisation.IsPrivate,
+                Name = organisation.Name,
+               
             };
+
+            int countryId = 0;
+            if (organisation.CountryId.HasValue && organisation.CountryId.Value > 0)
+            {
+                countryId = organisation.CountryId.Value;
+            }
+
+            new_organisation.Address = addressFactory.Create(organisation.Address1, organisation.Address2,
+                organisation.Zipcode,
+                organisation.City, countryId, organisation.AttPerson, string.Empty,
+                string.Empty, string.Empty, string.Empty, organisation.State, organisation.Name);
+
+            new_organisation.OrganisationSettings = new OrganisationSettings()
+            {
+                Id = organisationProfileSettings.Id,
+                PreferedCountryId = organisationProfileSettings.PreferedCountryId,
+                LetterColor = (LetterColor?) organisationProfileSettings.LetterColor,
+                LetterPaperWeight = (LetterPaperWeight?) organisationProfileSettings.LetterPaperWeight,
+                LetterProcessing = (LetterProcessing?) organisationProfileSettings.LetterProcessing,
+                LetterSize = (LetterSize?) organisationProfileSettings.LetterSize,
+                LetterType = (LetterType?) organisationProfileSettings.LetterType,
+
+            };
+
+            return new_organisation;
         }
 
         public List<Organisation> Create(List<DbOrganisation> organisation, List<DbOrganisationProfileSettings> organisationProfileSettings)
@@ -63,10 +76,11 @@ namespace LetterAmazer.Business.Services.Factory
             return new AddressList()
             {
                 AddressInfo = addressFactory.Create(list.Address1, list.Address2, list.Zipcode,
-                    list.City, list.CountryId,string.Empty, string.Empty,
+                    list.City, list.CountryId, string.Empty, string.Empty,
                     string.Empty, string.Empty, string.Empty, list.State, string.Empty),
-                    Id = list.Id,
-                    SortIndex = list.OrderIndex
+                Id = list.Id,
+                SortIndex = list.OrderIndex,
+                OrganisationId = list.OrganisationId
             };
         }
 

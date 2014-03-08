@@ -154,6 +154,22 @@ namespace LetterAmazer.Websites.Client.Controllers
         public ActionResult Register()
         {
             RegisterViewModel model = new RegisterViewModel();
+
+            var countries = countryService.GetCountryBySpecificaiton(new CountrySpecification()
+            {
+                Take = 999
+            });
+
+            foreach (var country in countries)
+            {
+                var selectedItem = new SelectListItem()
+                {
+                    Text = country.Name,
+                    Value = country.Id.ToString()
+                };
+                model.Countries.Add(selectedItem);
+            }
+
             return View(model);
         }
 
@@ -166,13 +182,24 @@ namespace LetterAmazer.Websites.Client.Controllers
                 
                 customer.Email = model.Email;
                 customer.Password = model.Password;
+                customer.CustomerInfo = new AddressInfo();
+                customer.CustomerInfo.Country = countryService.GetCountryById(int.Parse(model.SelectedCountry));
 
                 var cust = customerService.Create(customer);
 
                 SessionHelper.Customer = cust;
                 FormsAuthentication.SetAuthCookie(cust.Id.ToString(), false);
 
-                return RedirectToAction("CreateOrganisation", "User");
+                if (cust.Organisation != null && cust.Organisation.Id > 0)
+                {
+                    return RedirectToAction("EditOrganisation", "User");
+                }
+                else
+                {
+                    return RedirectToAction("CreateOrganisation", "User");
+                }
+
+                
             }
             catch (Exception ex)
             {

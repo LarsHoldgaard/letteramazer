@@ -1,4 +1,5 @@
-﻿using DataAnnotationsExtensions;
+﻿using System.Web.Mvc;
+using DataAnnotationsExtensions;
 using SharedRes = LetterAmazer.Websites.Client.Resources.Views.Shared;
 using HomeRes = LetterAmazer.Websites.Client.Resources.Views.Home;
 using System;
@@ -19,10 +20,20 @@ namespace LetterAmazer.Websites.Client.ViewModels
         [Required(ErrorMessageResourceName = "ThisFieldIsRequired", ErrorMessageResourceType = typeof(SharedRes.ViewRes))]
         public string Password { get; set; }
 
+
+        public string SelectedCountry { get; set; }
+        public List<SelectListItem> Countries { get; set; }
+
+
         [Display(Name = "ConfirmPassword", ResourceType = typeof(HomeRes.ViewRes))]
         [EqualTo("Password", ErrorMessageResourceName = "PasswordNotMatch", ErrorMessageResourceType = typeof(SharedRes.ViewRes))]
         public string ConfirmPassword { get; set; }
 
         public string ResetPasswordKey { get; set; }
+
+        public RegisterViewModel()
+        {
+            this.Countries = new List<SelectListItem>();
+        }
     }
 }

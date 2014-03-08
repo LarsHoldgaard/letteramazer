@@ -258,6 +258,7 @@
           <Property Name="AttPerson" Type="varchar" MaxLength="250" />
           <Property Name="State" Type="varchar" MaxLength="250" />
           <Property Name="Guid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="IsPrivate" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="DbOrganisationAddressList">
           <Key>
@@ -277,7 +278,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="OrganisationId" Type="int" Nullable="false" />
           <Property Name="LetterColor" Type="int" />
           <Property Name="LetterProcessing" Type="int" />
@@ -792,10 +793,9 @@
           <Property Name="Invoice_CountryId" Type="Int32" Nullable="false" />
           <Property Name="Invoice_Vatnumber" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Receiver_Vatnumber" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PriceVat" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
           <NavigationProperty Name="DbInvoiceLines" Relationship="Self.FK_DbInvoiceLines_DbInvoices" FromRole="DbInvoices" ToRole="DbInvoiceLines" />
           <NavigationProperty Name="DbOrders" Relationship="Self.FK_DbInvoices_DbOrders" FromRole="DbInvoices" ToRole="DbOrders" />
-          <Property Name="PriceVat" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="PriceVat1" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
         </EntityType>
         <EntityType Name="DbLetters">
           <Key>
@@ -860,10 +860,10 @@
           <Property Name="LetterProcessing" Type="Int32" Nullable="false" />
           <Property Name="LetterSize" Type="Int32" Nullable="false" />
           <Property Name="LetterType" Type="Int32" Nullable="false" />
+          <Property Name="OfficeProductReferenceId" Type="Int32" />
           <NavigationProperty Name="DbLetters" Relationship="Self.FK_Letters_OfficeProducts" FromRole="DbOfficeProducts" ToRole="DbLetters" />
           <NavigationProperty Name="DbProductMatrixLines" Relationship="Self.FK_DbProductMatrixLines_DbOfficeProducts" FromRole="DbOfficeProducts" ToRole="DbProductMatrixLines" />
           <NavigationProperty Name="DbOffices" Relationship="Self.FK_OfficeProducts_Offices" FromRole="DbOfficeProducts" ToRole="DbOffices" />
-          <Property Name="OfficeProductReferenceId" Type="Int32" />
         </EntityType>
         <EntityType Name="DbOffices">
           <Key>
@@ -935,7 +935,8 @@
           <Property Name="State" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
           <Property Name="Guid" Type="Guid" Nullable="false" />
           <NavigationProperty Name="DbOrganisationAddressList" Relationship="Self.FK_DbOrganisationAddressList_DbOrganisation" FromRole="DbOrganisation" ToRole="DbOrganisationAddressList" />
-          <NavigationProperty Name="DbOrganisationProfileSettings" Relationship="LetterAmazer.FK_DbOrganisationProfileSettings_DbOrganisation" FromRole="DbOrganisation" ToRole="DbOrganisationProfileSettings" />
+          <NavigationProperty Name="DbOrganisationProfileSettings" Relationship="Self.FK_DbOrganisationProfileSettings_DbOrganisation" FromRole="DbOrganisation" ToRole="DbOrganisationProfileSettings" />
+          <Property Name="IsPrivate" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="DbOrganisationAddressList">
           <Key>
@@ -952,6 +953,20 @@
           <Property Name="OrderIndex" Type="Int32" Nullable="false" />
           <NavigationProperty Name="DbCountries" Relationship="Self.FK_DbOrganisationAddressList_DbCountries" FromRole="DbOrganisationAddressList" ToRole="DbCountries" />
           <NavigationProperty Name="DbOrganisation" Relationship="Self.FK_DbOrganisationAddressList_DbOrganisation" FromRole="DbOrganisationAddressList" ToRole="DbOrganisation" />
+        </EntityType>
+        <EntityType Name="DbOrganisationProfileSettings">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="OrganisationId" Type="Int32" Nullable="false" />
+          <Property Name="LetterColor" Type="Int32" />
+          <Property Name="LetterProcessing" Type="Int32" />
+          <Property Name="LetterPaperWeight" Type="Int32" />
+          <Property Name="LetterType" Type="Int32" />
+          <Property Name="LetterSize" Type="Int32" />
+          <Property Name="PreferedCountryId" Type="Int32" />
+          <NavigationProperty Name="DbOrganisation" Relationship="Self.FK_DbOrganisationProfileSettings_DbOrganisation" FromRole="DbOrganisationProfileSettings" ToRole="DbOrganisation" />
         </EntityType>
         <EntityType Name="DbPaymentMethods">
           <Key>
@@ -1208,6 +1223,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_DbOrganisationProfileSettings_DbOrganisation">
+          <End Role="DbOrganisation" Type="Self.DbOrganisation" Multiplicity="1" />
+          <End Role="DbOrganisationProfileSettings" Type="Self.DbOrganisationProfileSettings" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DbOrganisation">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DbOrganisationProfileSettings">
+              <PropertyRef Name="OrganisationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="LetterAmazerEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="DbContinents" EntityType="Self.DbContinents" />
           <EntitySet Name="DbCountries" EntityType="Self.DbCountries" />
@@ -1223,6 +1250,7 @@
           <EntitySet Name="DbOrders" EntityType="Self.DbOrders" />
           <EntitySet Name="DbOrganisation" EntityType="Self.DbOrganisation" />
           <EntitySet Name="DbOrganisationAddressList" EntityType="Self.DbOrganisationAddressList" />
+          <EntitySet Name="DbOrganisationProfileSettings" EntityType="Self.DbOrganisationProfileSettings" />
           <EntitySet Name="DbPaymentMethods" EntityType="Self.DbPaymentMethods" />
           <EntitySet Name="DbProductMatrixLines" EntityType="Self.DbProductMatrixLines" />
           <EntitySet Name="DbShops" EntityType="Self.DbShops" />
@@ -1298,52 +1326,11 @@
             <End Role="DbOrganisation" EntitySet="DbOrganisation" />
             <End Role="DbOrganisationAddressList" EntitySet="DbOrganisationAddressList" />
           </AssociationSet>
-          <EntitySet Name="DbOrganisationSettings" EntityType="LetterAmazer.DbOrganisationSettings" />
-          <EntitySet Name="DbOrganisationProfileSettings" EntityType="LetterAmazer.DbOrganisationProfileSettings" />
-          <AssociationSet Name="FK_DbOrganisationProfileSettings_DbOrganisation" Association="LetterAmazer.FK_DbOrganisationProfileSettings_DbOrganisation">
+          <AssociationSet Name="FK_DbOrganisationProfileSettings_DbOrganisation" Association="Self.FK_DbOrganisationProfileSettings_DbOrganisation">
             <End Role="DbOrganisation" EntitySet="DbOrganisation" />
             <End Role="DbOrganisationProfileSettings" EntitySet="DbOrganisationProfileSettings" />
           </AssociationSet>
         </EntityContainer>
-        <EntityType Name="DbOrganisationSettings">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="OrganisationId" Type="Int32" Nullable="false" />
-          <Property Name="LetterColor" Type="Int32" />
-          <Property Name="LetterProcessing" Type="Int32" />
-          <Property Name="LetterType" Type="Int32" />
-          <Property Name="PreferedCountry" Type="Int32" />
-          <Property Name="LetterSize" Type="Int32" />
-          <Property Name="LetterPaperWeight" Type="Int32" />
-        </EntityType>
-        <EntityType Name="DbOrganisationProfileSettings">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="OrganisationId" Type="Int32" Nullable="false" />
-          <Property Name="LetterColor" Type="Int32" />
-          <Property Name="LetterProcessing" Type="Int32" />
-          <Property Name="LetterPaperWeight" Type="Int32" />
-          <Property Name="LetterType" Type="Int32" />
-          <Property Name="LetterSize" Type="Int32" />
-          <Property Name="PreferedCountryId" Type="Int32" />
-          <NavigationProperty Name="DbOrganisation" Relationship="LetterAmazer.FK_DbOrganisationProfileSettings_DbOrganisation" FromRole="DbOrganisationProfileSettings" ToRole="DbOrganisation" />
-        </EntityType>
-        <Association Name="FK_DbOrganisationProfileSettings_DbOrganisation">
-          <End Type="LetterAmazer.DbOrganisation" Role="DbOrganisation" Multiplicity="1" />
-          <End Type="LetterAmazer.DbOrganisationProfileSettings" Role="DbOrganisationProfileSettings" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="DbOrganisation">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="DbOrganisationProfileSettings">
-              <PropertyRef Name="OrganisationId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1456,7 +1443,6 @@
           <EntitySetMapping Name="DbInvoices">
             <EntityTypeMapping TypeName="LetterAmazer.DbInvoices">
               <MappingFragment StoreEntitySet="DbInvoices">
-                <ScalarProperty Name="PriceVat1" ColumnName="PriceVat" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Guid" ColumnName="Guid" />
                 <ScalarProperty Name="OrderId" ColumnName="OrderId" />
@@ -1486,6 +1472,7 @@
                 <ScalarProperty Name="Invoice_CountryId" ColumnName="Invoice_CountryId" />
                 <ScalarProperty Name="Invoice_Vatnumber" ColumnName="Invoice_Vatnumber" />
                 <ScalarProperty Name="Receiver_Vatnumber" ColumnName="Receiver_Vatnumber" />
+                <ScalarProperty Name="PriceVat" ColumnName="PriceVat" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1535,7 +1522,6 @@
           <EntitySetMapping Name="DbOfficeProducts">
             <EntityTypeMapping TypeName="LetterAmazer.DbOfficeProducts">
               <MappingFragment StoreEntitySet="DbOfficeProducts">
-                <ScalarProperty Name="OfficeProductReferenceId" ColumnName="OfficeProductReferenceId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="OfficeId" ColumnName="OfficeId" />
                 <ScalarProperty Name="ScopeType" ColumnName="ScopeType" />
@@ -1548,6 +1534,7 @@
                 <ScalarProperty Name="LetterProcessing" ColumnName="LetterProcessing" />
                 <ScalarProperty Name="LetterSize" ColumnName="LetterSize" />
                 <ScalarProperty Name="LetterType" ColumnName="LetterType" />
+                <ScalarProperty Name="OfficeProductReferenceId" ColumnName="OfficeProductReferenceId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1601,6 +1588,7 @@
           <EntitySetMapping Name="DbOrganisation">
             <EntityTypeMapping TypeName="LetterAmazer.DbOrganisation">
               <MappingFragment StoreEntitySet="DbOrganisation">
+                <ScalarProperty Name="IsPrivate" ColumnName="IsPrivate" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
@@ -1629,6 +1617,20 @@
                 <ScalarProperty Name="CountryId" ColumnName="CountryId" />
                 <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
                 <ScalarProperty Name="OrderIndex" ColumnName="OrderIndex" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DbOrganisationProfileSettings">
+            <EntityTypeMapping TypeName="LetterAmazer.DbOrganisationProfileSettings">
+              <MappingFragment StoreEntitySet="DbOrganisationProfileSettings">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
+                <ScalarProperty Name="LetterColor" ColumnName="LetterColor" />
+                <ScalarProperty Name="LetterProcessing" ColumnName="LetterProcessing" />
+                <ScalarProperty Name="LetterPaperWeight" ColumnName="LetterPaperWeight" />
+                <ScalarProperty Name="LetterType" ColumnName="LetterType" />
+                <ScalarProperty Name="LetterSize" ColumnName="LetterSize" />
+                <ScalarProperty Name="PreferedCountryId" ColumnName="PreferedCountryId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1668,20 +1670,6 @@
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="CountryId" ColumnName="CountryId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="DbOrganisationProfileSettings">
-            <EntityTypeMapping TypeName="LetterAmazer.DbOrganisationProfileSettings">
-              <MappingFragment StoreEntitySet="DbOrganisationProfileSettings">
-                <ScalarProperty Name="PreferedCountryId" ColumnName="PreferedCountryId" />
-                <ScalarProperty Name="LetterSize" ColumnName="LetterSize" />
-                <ScalarProperty Name="LetterType" ColumnName="LetterType" />
-                <ScalarProperty Name="LetterPaperWeight" ColumnName="LetterPaperWeight" />
-                <ScalarProperty Name="LetterProcessing" ColumnName="LetterProcessing" />
-                <ScalarProperty Name="LetterColor" ColumnName="LetterColor" />
-                <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

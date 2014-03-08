@@ -30,6 +30,13 @@
                     @Html.ValidationMessageFor(m => m.Password)
                 </div>
             </div>
+            <div class="row login">
+                <div class="col-lg-6">
+                    <label class="sr-only" for="Password">Your country</label>
+                    @Html.DropDownListFor(model => model.SelectedCountry, Model.Countries)
+                </div>
+            </div>
+            
             <input type="submit" class="btn btn-primary btn-lg" value="I agree, let's go" />
         }
     </div>

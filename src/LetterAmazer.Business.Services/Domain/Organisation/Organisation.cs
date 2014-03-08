@@ -18,6 +18,8 @@ namespace LetterAmazer.Business.Services.Domain.Organisation
 
         public List<AddressList> AddressList { get; set; }
 
+        public bool IsPrivate { get; set; }
+
         public OrganisationSettings OrganisationSettings { get; set; }
 
         public Organisation()

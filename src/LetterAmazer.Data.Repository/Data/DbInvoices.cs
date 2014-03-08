@@ -49,7 +49,6 @@ namespace LetterAmazer.Data.Repository.Data
         public string Invoice_Vatnumber { get; set; }
         public string Receiver_Vatnumber { get; set; }
         public decimal PriceVat { get; set; }
-        public decimal PriceVat1 { get; set; }
     
         public virtual ICollection<DbInvoiceLines> DbInvoiceLines { get; set; }
         public virtual DbOrders DbOrders { get; set; }

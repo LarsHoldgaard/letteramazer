@@ -1,4 +1,5 @@
-﻿using LetterAmazer.Business.Services.Domain.AddressInfos;
+﻿using Amazon.EC2.Model;
+using LetterAmazer.Business.Services.Domain.AddressInfos;
 
 namespace LetterAmazer.Business.Services.Domain.Organisation
 {
@@ -8,5 +9,6 @@ namespace LetterAmazer.Business.Services.Domain.Organisation
         public AddressInfo AddressInfo { get; set; }
         public int SortIndex { get; set; }
 
+        public int OrganisationId { get; set; }
     }
 }

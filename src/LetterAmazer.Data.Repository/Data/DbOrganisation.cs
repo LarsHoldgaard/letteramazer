@@ -33,6 +33,7 @@ namespace LetterAmazer.Data.Repository.Data
         public string AttPerson { get; set; }
         public string State { get; set; }
         public System.Guid Guid { get; set; }
+        public bool IsPrivate { get; set; }
     
         public virtual ICollection<DbOrganisationAddressList> DbOrganisationAddressList { get; set; }
         public virtual ICollection<DbOrganisationProfileSettings> DbOrganisationProfileSettings { get; set; }
