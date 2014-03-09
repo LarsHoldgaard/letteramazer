@@ -68,18 +68,6 @@ namespace LetterAmazer.Websites.Client.Controllers
             return View(model);
         }
 
-        private void buildOverviewModel(ProfileViewModel model)
-        {
-            var orders = orderService.GetOrderBySpecification(new OrderSpecification()
-            {
-                UserId = SessionHelper.Customer.Id,
-                FromDate = model.FromDate,
-                ToDate = model.ToDate
-            }).OrderByDescending(c => c.DateCreated);
-
-            model.Orders = getOrderViewModel(orders);
-            model.Customer = SessionHelper.Customer;
-        }
 
         #region Send letter
 
@@ -408,7 +396,9 @@ namespace LetterAmazer.Websites.Client.Controllers
 
         public ActionResult EditContacts()
         {
-            return View(new EditContactsViewModel());
+            var editContactsModel = new EditContactsViewModel();
+            buildContactsModel(editContactsModel);
+            return View(editContactsModel);
         }
 
         [HttpPost]
@@ -425,19 +415,22 @@ namespace LetterAmazer.Websites.Client.Controllers
                 addressList.AddressInfo.State = editContacts.NewContact.State;
                 addressList.AddressInfo.AttPerson = string.Empty;
                 addressList.AddressInfo.VatNr = editContacts.NewContact.VatNumber;
+                addressList.AddressInfo.Country = countryService.GetCountryById(int.Parse(editContacts.NewContact.SelectedCountry));
+                addressList.OrganisationId = editContacts.OrganisationId;
+                
 
-                organisationService.Update(addressList);
+                organisationService.Create(addressList);
             }
 
-            return View();
+            var editContactsModel = new EditContactsViewModel();
+            buildContactsModel(editContactsModel);
+
+            return View(editContactsModel);
         }
 
         public ActionResult EditSingleContact(int organisationContactId)
         {
-
             var addressList = organisationService.GetAddressListById(organisationContactId);
-
-
 
             return View(new ContactViewModel());
         }
@@ -580,7 +573,7 @@ namespace LetterAmazer.Websites.Client.Controllers
         public ActionResult ResendConfirmationEmail()
         {
             mailService.ConfirmUser(SessionHelper.Customer);
-            return Json("OK");
+            return Json("OK",JsonRequestBehavior.AllowGet);
         }
 
 
@@ -736,6 +729,64 @@ namespace LetterAmazer.Websites.Client.Controllers
 
 
             return models;
+        }
+
+        private void buildOverviewModel(ProfileViewModel model)
+        {
+            var orders = orderService.GetOrderBySpecification(new OrderSpecification()
+            {
+                UserId = SessionHelper.Customer.Id,
+                FromDate = model.FromDate,
+                ToDate = model.ToDate
+            }).OrderByDescending(c => c.DateCreated);
+
+            model.Orders = getOrderViewModel(orders);
+            model.Customer = SessionHelper.Customer;
+        }
+
+        private void buildContactsModel(EditContactsViewModel model)
+        {
+            var organisation = SessionHelper.Customer.Organisation;
+
+            foreach (var addressList in organisation.AddressList)
+            {
+                model.Contacts.Add(getContactViewModel(addressList));
+            }
+            model.OrganisationId = organisation.Id;
+
+            var countries = countryService.GetCountryBySpecificaiton(new CountrySpecification()
+            {
+                Take = 999
+            });
+
+            foreach (var country in countries)
+            {
+                var selectedItem = new SelectListItem()
+                {
+                    Text = country.Name,
+                    Value = country.Id.ToString(),
+                };
+
+                if (country.Id == SessionHelper.Customer.PreferedCountryId)
+                {
+                    selectedItem.Selected = true;
+                }
+
+                model.NewContact.Countries.Add(selectedItem);
+            }
+        }
+
+        private ContactViewModel getContactViewModel(AddressList addressList)
+        {
+            return new ContactViewModel()
+            {
+                Address1 = addressList.AddressInfo.Address1,
+                Address2 = addressList.AddressInfo.Address1,
+                City = addressList.AddressInfo.Address1,
+                ZipCode = addressList.AddressInfo.Address1,
+                State = addressList.AddressInfo.Address1,
+                OrganisationName = addressList.AddressInfo.Organisation
+            };
         }
 
         #endregion

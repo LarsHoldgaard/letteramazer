@@ -5,43 +5,52 @@
 
 <h1>Invoices</h1>
 
+<p>Here is a list of all invoices you have received from LetterAmazer.</p>
 
-<table class="table table-stripped">
-    <thead>
-        <tr>
-            <th>
-                Invoice number
-            </th>
-            <th>
-                Date
-            </th>
-            <th>
-                Total price
-            </th>
-            <th>Status</th>
-            <th>
-                See invoice
-            </th>
-        </tr>
-    </thead>
-    @foreach (var invoiceSnippet in Model.InvoiceSnippets)
-    {
-        <tr>
-            <td>
-                @invoiceSnippet.OrderNumber
-            </td>
-            <td>
-                @invoiceSnippet.DateCreated
-            </td>
-            <td>
-                @invoiceSnippet.TotalPrice $
-            </td>
-            <td>
-                @invoiceSnippet.Status
-            </td>
-            <td>
-                <a href="/payment/invoice?id=@invoiceSnippet.InvoiceGuid">See invoice</a>
-            </td>
-        </tr>
-    }
-</table>
+@if (Model.InvoiceSnippets != null && Model.InvoiceSnippets.Any())
+{
+    <table class="table table-stripped">
+        <thead>
+            <tr>
+                <th>
+                    Invoice number
+                </th>
+                <th>
+                    Date
+                </th>
+                <th>
+                    Total price
+                </th>
+                <th>Status</th>
+                <th>
+                    See invoice
+                </th>
+            </tr>
+        </thead>
+        @foreach (var invoiceSnippet in Model.InvoiceSnippets)
+        {
+            <tr>
+                <td>
+                    @invoiceSnippet.OrderNumber
+                </td>
+                <td>
+                    @invoiceSnippet.DateCreated
+                </td>
+                <td>
+                    @invoiceSnippet.TotalPrice $
+                </td>
+                <td>
+                    @invoiceSnippet.Status
+                </td>
+                <td>
+                    <a href="/payment/invoice?id=@invoiceSnippet.InvoiceGuid">See invoice</a>
+                </td>
+            </tr>
+        }
+    </table>
+}
+else
+{
+    <p>Right now you have none invoices.</p>
+    
+}

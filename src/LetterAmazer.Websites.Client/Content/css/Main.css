@@ -2,8 +2,8 @@
   padding-bottom: 20px;
   padding-top: 50px;
 }
-.navbar-nav > li > a,
-label {
+.navbar .container .navbar-nav > li > a,
+.navbar .container .navbar-nav label {
   padding-top: 18px;
   padding-bottom: 18px;
   color: #999;

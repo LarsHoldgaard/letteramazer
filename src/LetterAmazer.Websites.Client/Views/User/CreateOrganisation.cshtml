@@ -2,75 +2,88 @@
 @model LetterAmazer.Websites.Client.ViewModels.User.CreateOrganisationViewModel
 
 
-        <h1>Create a new organisation</h1>
-        
-        
-        @using (Html.BeginForm("CreateOrganisation","User",FormMethod.Post))
+<h1>Tell us more about you</h1>
+
+
+<div id="createOrganisationDiv" >
+    <p>Do you have a company? Then tell us more about you. Otherwise: <a id="notACompany" href="#">I do not represent a company</a></p>
+    
+    <h3>Please fill information</h3>
+    <div class="row">
+        <div class="col-md-8">
+            @using (Html.BeginForm("CreateOrganisation", "User", FormMethod.Post))
+            {
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="form-label" for="OrganisationName">Organisation name</label><br />
+                        @Html.TextBoxFor(m => m.OrganisationName, new { @class = "form-control", placeholder = "Organisation name" })
+
+                        <br />
+                        <label class="form-label" for="">Country</label><br />
+                        @Html.DropDownListFor(model => model.SelectedCountry, Model.Countries)
+                        <br />
+                        <label class="form-label" for="VatNumber">Vat number</label><br />
+                        @Html.TextBoxFor(m => m.VatNumber, new { @class = "form-control", placeholder = "Vat nr" })
+                        <br />
+                        <label class="form-label" for="Address1">Address</label><br />
+                        @Html.TextBoxFor(m => m.Address1, new { @class = "form-control", placeholder = "Address" })
+                        <br />
+                        <label class="form-label" for="Address2">Address 2 (optional)</label><br />
+                        @Html.TextBoxFor(m => m.Address2, new { @class = "form-control", placeholder = "Address 2" })
+                        <br />
+                        <label class="form-label" for="ZipCode">Zip code</label><br />
+                        @Html.TextBoxFor(m => m.ZipCode, new { @class = "form-control", placeholder = "Zip code" })
+                        <br />
+                        <label class="form-label" for="State">State (optional)</label><br />
+                        @Html.TextBoxFor(m => m.State, new { @class = "form-control", placeholder = "State" })
+                        <br />
+                        <label class="form-label" for="City">City</label><br />
+                        @Html.TextBoxFor(m => m.City, new { @class = "form-control", placeholder = "City" })
+
+
+                        <br /><br />
+                        <input type="submit" value="Create your organisation" class="btn btn-lg btn-success" />
+
+
+                    </div>
+                </div>
+            }
+
+        </div>
+    </div>
+</div>
+<div id="skipOrganisationDiv" style="display: none">
+    <p>You don't represent a company? Then click here:</p>
+    
+        @using (Html.BeginForm("SkipOrganisation", "User", FormMethod.Post))
         {
-            <div class="row login">
-                <div class="col-lg-6">
-                    <label class="sr-only" for="OrganisationName">@ViewRes.Organization</label>
-                    @Html.TextBoxFor(m => m.OrganisationName, new { @class = "form-control", placeholder = "Organisation name" })
-                </div>
-            </div>
 
-
-            <div class="row login">
-                <div class="col-lg-6">
-                    <label class="sr-only" for="">Country</label>
-                    @Html.DropDownListFor(model => model.SelectedCountry, Model.Countries)
-                </div>
-            </div>
-
-            <div class="row login ui-helper-hidden">
-                <div class="col-lg-6">
-                    <label class="sr-only" for="VatNumber">Vat number</label>
-                    @Html.TextBoxFor(m => m.VatNumber, new { @class = "form-control", placeholder = "Vat nr" })
-                </div>
-            </div>
-
-            <div class="row login">
-                <div class="col-lg-6">
-                    <label class="sr-only" for="Address1">Address</label>
-                    @Html.TextBoxFor(m => m.Address1, new { @class = "form-control", placeholder = "Address" })
-                </div>
-                <div class="col-lg-6">
-                    <label class="sr-only" for="Address2">Address 2 (optional)</label>
-                    @Html.TextBoxFor(m => m.Address2, new { @class = "form-control", placeholder = "Address 2" })
-                </div>
-                <div class="col-lg-6">
-                    <label class="sr-only" for="ZipCode">Zip code</label>
-                    @Html.TextBoxFor(m => m.ZipCode, new { @class = "form-control", placeholder = "Zip code" })
-                </div>
-                <div class="col-lg-6">
-                    <label class="sr-only" for="State">State (optional)</label>
-                    @Html.TextBoxFor(m => m.State, new { @class = "form-control", placeholder = "State" })
-                </div>
-                <div class="col-lg-6">
-                    <label class="sr-only" for="City">City</label>
-                    @Html.TextBoxFor(m => m.City, new { @class = "form-control", placeholder = "City" })
-                </div>
-
-
-            </div>
-
-            <input type="submit" value="Create organisation" class="btn btn-lg btn-success" />
+            <input type="submit" value="Skip creating organisation" id="skipOrganisationBtn" class="btn btn-danger btn-lg" />
         }
- 
         
-@using (Html.BeginForm("SkipOrganisation", "User", FormMethod.Post))
-{
+        
+        <a href="#" id="isCompany">Wait - I actually represent a company</a>
 
-    <input type="submit" value="Skip creating organisation" id="skipOrganisationBtn" class="btn btn-danger btn-sm"/>
-}
-        <ul>
-            <li>You have to pay VAT</li>
-            <li>...</li>
-        </ul>
+    
+</div>
+
+
+
+
 
 <script>
     $(document).ready(function() {
-        $('#skipOrganisationBtn').click(function() {
+        $('#notACompany').click(function() {
+            $('#skipOrganisationDiv').show(400);
+            $('#createOrganisationDiv').hide(400);
+        });
+
+        $('#isCompany').click(function() {
+            $('#skipOrganisationDiv').hide(400);
+            $('#createOrganisationDiv').show(400);
+        });
+
+        $('#skipOrganisationBtn').click(function () {
             window.location.href = "/user/";
         });
     });

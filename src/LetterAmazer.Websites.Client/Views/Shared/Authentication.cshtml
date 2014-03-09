@@ -27,7 +27,8 @@ else
             }
 
             <li>@Html.ActionLink("Settings", "EditOrganisationSettings", "User")</li>
-
+            
+            <li>@Html.ActionLink("Address book", "EditContacts", "User")</li>
 
             <li><a href="@Url.Action("Logout", "Home")">@ViewRes.Logout</a></li>
         </ul>
@@ -48,21 +49,21 @@ else
                     @Html.ActionLink("Invoices", "InvoiceOverview", "User")
 
                 </li>
-                <li>
+               
                     @if (SessionHelper.Customer.Organisation != null)
                     {
-                        @Html.ActionLink("Edit organisation", "EditOrganisation", "User")
+                        <li> @Html.ActionLink("Edit organisation", "EditOrganisation", "User")</li>
                     }
                     else
                     {
                     <li>@Html.ActionLink("Create organisation", "CreateOrganisation", "User")</li>
                     }
 
-
-                    </li>
+                <li>@Html.ActionLink("Address book", "EditContacts", "User")</li>
+                    
                     <li role="presentation" class="divider"></li>
                     <li><a href="@Url.Action("Logout", "Home")">@ViewRes.Logout</a></li>
-
+                
                 </ul>
             </div>
         </div>

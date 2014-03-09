@@ -10,5 +10,11 @@ namespace LetterAmazer.Business.Services.Domain.Organisation
         public int SortIndex { get; set; }
 
         public int OrganisationId { get; set; }
+
+
+        public AddressList()
+        {
+            this.AddressInfo = new AddressInfo();
+        }
     }
 }

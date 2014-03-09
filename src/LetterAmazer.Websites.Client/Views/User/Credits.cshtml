@@ -6,17 +6,18 @@
 @section header {
 }
 
-<div class="jumbotron-white">
-    <div class="container">
-        <h2>@ViewRes.InsufficientFunds</h2>
-        <p>@string.Format(ViewRes.InsufficientFundsHint, Model.Credit.ToFriendlyMoney(), Model.CreditLimit.ToFriendlyMoney())</p>
-        <h3>@ViewRes.AddFunds</h3>
+<h1>Buy credits</h1>
+
+You currently have @Model.Credit.ToFriendlyMoney() credits.
         
-        @using (Html.BeginForm("Credits","User",FormMethod.Post))
+
+<h3>How many credits do you want to purchase?</h3>
+@using (Html.BeginForm("Credits","User",FormMethod.Post))
         {
             
             @Html.EditorFor(model => model.PurchaseAmount) <text>($)</text>
 
+    <h3>Select payment method</h3>
             <div>
                 
                 
@@ -30,12 +31,10 @@
             
 
             <div class="form-group">
-                <input type="submit" class="btn btn-success" value="@ViewRes.GoToPayment" />
+                <input type="submit" class="btn btn-success btn-lg" value="Purchase credits" />
             </div>
         }
 
-    </div>
-</div>
 <script type="text/javascript">
     $(document).ready(function() {
         $('#@Html.IdFor(model=>model.PurchaseAmount)').change(function() {

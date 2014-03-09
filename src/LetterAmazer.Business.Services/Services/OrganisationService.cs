@@ -48,7 +48,7 @@ namespace LetterAmazer.Business.Services.Services
             repository.SaveChanges();
 
             DbOrganisationProfileSettings dbOrganisationSettings = new DbOrganisationProfileSettings();
-            dbOrganisationSettings.LetterType = (int) LetterType.Pres;
+            dbOrganisationSettings.LetterType = (int)LetterType.Pres;
             dbOrganisationSettings.OrganisationId = dbOrganisation.Id;
 
             repository.DbOrganisationProfileSettings.Add(dbOrganisationSettings);
@@ -76,7 +76,7 @@ namespace LetterAmazer.Business.Services.Services
             dbOrganisation.Zipcode = organisation.Address.Zipcode;
             dbOrganisation.CountryId = organisation.Address.Country.Id;
             dbOrganisation.IsPrivate = organisation.IsPrivate;
-            
+
             var dbOrganisationSettings =
                 repository.DbOrganisationProfileSettings.FirstOrDefault(c => c.OrganisationId == organisation.Id);
 
@@ -132,7 +132,7 @@ namespace LetterAmazer.Business.Services.Services
 
             var addresses = organisationFactory.CreateAddressList(dbAddresses.ToList());
 
-            var organisation = organisationFactory.Create(dbOrganisation,dbOrganisationSettings);
+            var organisation = organisationFactory.Create(dbOrganisation, dbOrganisationSettings);
             organisation.AddressList = addresses;
 
             return organisation;
@@ -144,7 +144,7 @@ namespace LetterAmazer.Business.Services.Services
 
             if (dbAddressList == null)
             {
-               throw new ArgumentException("No address info for this ID: " + id);
+                throw new ArgumentException("No address info for this ID: " + id);
             }
 
             var addressList = organisationFactory.CreateAddressList(dbAddressList);
@@ -153,7 +153,19 @@ namespace LetterAmazer.Business.Services.Services
 
         public AddressList Update(AddressList addressList)
         {
-            throw new NotImplementedException();
+            var dbaddresslist = repository.DbOrganisationAddressList.FirstOrDefault(c => c.Id == addressList.Id);
+            dbaddresslist.Address1 = addressList.AddressInfo.Address1;
+            dbaddresslist.Address2 = addressList.AddressInfo.Address2;
+            dbaddresslist.City = addressList.AddressInfo.City;
+            dbaddresslist.Zipcode = addressList.AddressInfo.Zipcode;
+            dbaddresslist.OrderIndex = addressList.SortIndex;
+            dbaddresslist.CountryId = addressList.AddressInfo.Country.Id;
+            dbaddresslist.OrganisationId = addressList.OrganisationId;
+            dbaddresslist.State = addressList.AddressInfo.State;
+
+            repository.SaveChanges();
+
+            return GetAddressListById(addressList.Id);
         }
 
         public AddressList Create(AddressList addressList)

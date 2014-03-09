@@ -5,54 +5,39 @@
 
 @using (Html.BeginForm("EditOrganisation", "User", FormMethod.Post))
 {
-    <div class="row login">
-        <div class="col-lg-6">
-            <label class="sr-only" for="OrganisationName">Organisation name</label>
+
+    <div class="row">
+        <div class="col-md-6">
+            <label class="form-label" for="OrganisationName">Organisation name</label><br />
             @Html.TextBoxFor(m => m.OrganisationName, new { @class = "form-control", placeholder = "Organisation name" })
-        </div>
-    </div>
 
-
-    <div class="row login">
-        <div class="col-lg-6">
-            <label class="sr-only" for="">Country</label>
+            <br />
+            <label class="form-label" for="">Country</label><br />
             @Html.DropDownListFor(model => model.SelectedCountry, Model.Countries)
-        </div>
-    </div>
-
-    <div class="row login ui-helper-hidden">
-        <div class="col-lg-6">
-            <label class="sr-only" for="VatNumber">Vat number</label>
+            <br />
+            <label class="form-label" for="VatNumber">Vat number</label><br />
             @Html.TextBoxFor(m => m.VatNumber, new { @class = "form-control", placeholder = "Vat nr" })
-        </div>
-    </div>
-
-    <div class="row login">
-        <div class="col-lg-6">
-            <label class="sr-only" for="Address1">Address</label>
+            <br />
+            <label class="form-label" for="Address1">Address</label><br />
             @Html.TextBoxFor(m => m.Address1, new { @class = "form-control", placeholder = "Address" })
-        </div>
-        <div class="col-lg-6">
-            <label class="sr-only" for="Address2">Address 2 (optional)</label>
+            <br />
+            <label class="form-label" for="Address2">Address 2 (optional)</label><br />
             @Html.TextBoxFor(m => m.Address2, new { @class = "form-control", placeholder = "Address 2" })
-        </div>
-        <div class="col-lg-6">
-            <label class="sr-only" for="ZipCode">Zip code</label>
+            <br />
+            <label class="form-label" for="ZipCode">Zip code</label><br />
             @Html.TextBoxFor(m => m.ZipCode, new { @class = "form-control", placeholder = "Zip code" })
-        </div>
-        <div class="col-lg-6">
-            <label class="sr-only" for="State">State (optional)</label>
+            <br />
+            <label class="form-label" for="State">State (optional)</label><br />
             @Html.TextBoxFor(m => m.State, new { @class = "form-control", placeholder = "State" })
-        </div>
-        <div class="col-lg-6">
-            <label class="sr-only" for="City">City</label>
+            <br />
+            <label class="form-label" for="City">City</label><br />
             @Html.TextBoxFor(m => m.City, new { @class = "form-control", placeholder = "City" })
+
+
+
+            <input type="submit" value="Edit organisation" class="btn btn-lg btn-success" />
+
+            @Html.HiddenFor(model => model.OrganisationId);
         </div>
-
-
     </div>
-
-    <input type="submit" value="Edit organisation" class="btn btn-lg btn-success" />
-    
-    @Html.HiddenFor(model=>model.OrganisationId);
 }

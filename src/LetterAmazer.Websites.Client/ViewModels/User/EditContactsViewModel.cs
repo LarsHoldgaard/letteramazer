@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
+using Microsoft.Ajax.Utilities;
 
 namespace LetterAmazer.Websites.Client.ViewModels.User
 {
@@ -15,6 +17,7 @@ namespace LetterAmazer.Websites.Client.ViewModels.User
 
         public EditContactsViewModel()
         {
+            this.NewContact = new ContactViewModel();
            this.Contacts = new List<ContactViewModel>();
         }
     }
@@ -35,5 +38,13 @@ namespace LetterAmazer.Websites.Client.ViewModels.User
         public string VatNumber { get; set; }
 
         public int AddressListId { get; set; }
+
+        public string SelectedCountry { get; set; }
+        public List<SelectListItem> Countries { get; set; }
+
+        public ContactViewModel()
+        {
+            this.Countries = new List<SelectListItem>();
+        }
     }
 }
