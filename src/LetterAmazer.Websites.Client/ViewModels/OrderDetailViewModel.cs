@@ -2,6 +2,7 @@
 using LetterAmazer.Business.Services.Domain.AddressInfos;
 using LetterAmazer.Business.Services.Domain.Letters;
 using LetterAmazer.Business.Services.Domain.Orders;
+using LetterAmazer.Business.Services.Domain.Pricing;
 
 namespace LetterAmazer.Websites.Client.ViewModels
 {
@@ -18,6 +19,8 @@ namespace LetterAmazer.Websites.Client.ViewModels
         public DateTime? DatePaid { get; set; }
 
         public DateTime? DateSent { get; set; }
+
+        public Price Price { get; set; }
 
         public int Id { get; set; }
     }

@@ -16,7 +16,7 @@
 
 @using (Html.BeginForm("EditSingleContact", "User", FormMethod.Post))
 {
-    <label class="form-label" for="OrganisationName">Name of address</label><br />
+    <label class="form-label" for="OrganisationName">Name of senders address (ie. name of an organisation)</label><br />
     @Html.TextBoxFor(model => model.OrganisationName, new { @class = "form-control", placeholder = "Name" })
     <br/>
     <label class="form-label" for="Address1">Address</label><br />
@@ -39,7 +39,7 @@
     
     <br/><br/>
 
-    <input type="submit" id="EditContactsBtn" class="btn btn-lg btn-success" value="Edit contact" />
+    <input type="submit" id="EditContactsBtn" class="btn btn-lg btn-primary" value="Edit contact" />
 
     @Html.HiddenFor(model => model.AddressListId)
 }

@@ -52,7 +52,18 @@ namespace LetterAmazer.Websites.Client.Controllers
         {
             //priceUpdater.Execute();
 
-            if (SessionHelper.Customer != null) return RedirectToAction("SendALetter", "User");
+            if (SessionHelper.Customer != null)
+            {
+                if (SessionHelper.Customer.CreditsLeft > 0.0m)
+                {
+                    return RedirectToAction("SendALetter", "User");
+                }
+                else
+                {
+                    return RedirectToAction("Credits", "User");
+                }
+            }
+                
             CreateSingleLetterModel model = new CreateSingleLetterModel();
 
             return View(model);

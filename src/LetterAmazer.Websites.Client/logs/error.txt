@@ -2305,3 +2305,11 @@ Invalid column name 'OrganisationRole'.
    at LetterAmazer.Business.Services.Services.CustomerService.Create(Customer customer) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\CustomerService.cs:line 119
    at LetterAmazer.Websites.Client.Controllers.HomeController.Register(RegisterViewModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\HomeController.cs:line 190
 2014-03-09 18:57:28,117 [9] DEBUG LetterAmazer.Websites.Client.Controllers.UserController - upload file key: 2014/3/780241f0-4da2-43dd-85c4-c2be045ec596.pdf
+2014-03-09 19:27:03,118 [8] ERROR LetterAmazer.Websites.Client.Controllers.HomeController - System.NullReferenceException: Object reference not set to an instance of an object.
+   at LetterAmazer.Websites.Client.Controllers.HomeController.Login(LoginViewModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\HomeController.cs:line 128
+2014-03-09 19:30:23,862 [8] ERROR LetterAmazer.Websites.Client.Controllers.HomeController - System.NullReferenceException: Object reference not set to an instance of an object.
+   at LetterAmazer.Websites.Client.Controllers.HomeController.Login(LoginViewModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\HomeController.cs:line 128
+2014-03-09 19:30:28,770 [8] ERROR LetterAmazer.Websites.Client.Controllers.HomeController - System.NullReferenceException: Object reference not set to an instance of an object.
+   at LetterAmazer.Websites.Client.Controllers.HomeController.Login(LoginViewModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\HomeController.cs:line 128
+2014-03-09 19:31:54,264 [10] DEBUG LetterAmazer.Websites.Client.Controllers.UserController - upload file key: 2014/3/70feeaa7-c65f-481d-97db-fd0149174480.pdf
+2014-03-09 19:39:17,671 [9] DEBUG LetterAmazer.Websites.Client.Controllers.SingleLetterController - upload file key: 2014/3/6d4d7cbf-bd83-4cde-9f38-113696c07c95.pdf

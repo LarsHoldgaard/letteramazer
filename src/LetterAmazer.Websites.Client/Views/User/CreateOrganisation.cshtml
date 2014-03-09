@@ -42,7 +42,7 @@
 
 
                         <br /><br />
-                        <input type="submit" value="Create your organisation" class="btn btn-lg btn-success" />
+                        <input type="submit" value="Create your organisation" class="btn btn-lg btn-primary" />
 
 
                     </div>
@@ -56,10 +56,10 @@
     <p>You don't represent a company? Then click here:</p>
     
         @using (Html.BeginForm("SkipOrganisation", "User", FormMethod.Post))
-        {
+{
 
-            <input type="submit" value="Skip creating organisation" id="skipOrganisationBtn" class="btn btn-success btn-lg" />
-        }
+    <input type="submit" value="Skip creating organisation" id="skipOrganisationBtn" class="btn btn-primary btn-lg" />
+}
         
         
         <a href="#" id="isCompany">Wait - I actually represent a company</a>

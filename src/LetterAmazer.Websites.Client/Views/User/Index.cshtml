@@ -52,7 +52,7 @@ Credits available: @Model.Customer.Credit.ToFriendlyMoney() $
         <label class="sr-only" for="toDate">To</label>
         <input type="text" class="form-control" id="toDate" placeholder="To" name="toDate" value="@(Model.ToDate.HasValue ? Model.ToDate.Value.ToString("yyyy-MM-dd") : "")" />
     </div>
-    <button type="submit" class="btn btn-success">@ViewRes.Search</button>
+    <button type="submit" class="btn btn-primary">@ViewRes.Search</button>
 </form>
 <table class="table table-striped">
     <thead>

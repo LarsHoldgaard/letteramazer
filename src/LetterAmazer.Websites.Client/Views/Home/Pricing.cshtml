@@ -8,11 +8,11 @@
 
 <b>Select country</b><br/>
 @Html.DropDownListFor(model => model.SelectedItem, Model.Countries, new { @class = "form-control" })
-<br/><br/><b>How many pages?</b><br/>
-<input type="number" id="getPricePageCount" value="1" />
-<br /><br />
-<input type="button" id="getPriceBtn" value="Get price" class="btn btn-success" />
-<br/><br/>
+<br/><b>How many pages?</b><br/>
+<input type="number" id="getPricePageCount" value="1" class="form-control" />
+<br />
+<input type="button" id="getPriceBtn" value="Get price" class="btn btn-primary btn-lg" />
+<br/>
 <label id="getPriceLbl"></label>
             
 

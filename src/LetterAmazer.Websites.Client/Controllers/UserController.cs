@@ -632,7 +632,8 @@ namespace LetterAmazer.Websites.Client.Controllers
                 DateSent = order.DateSent.HasValue ? order.DateSent.Value : (DateTime?)null,
                 OrderStatus = order.OrderStatus,
                 LetterDetails = letter.LetterDetails,
-                Id = letter.Id
+                Id = letter.Id,
+                Price = order.Price
 
             };
 
