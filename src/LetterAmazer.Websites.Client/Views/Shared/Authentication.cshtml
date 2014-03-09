@@ -17,7 +17,7 @@ else
             
             <li>@Html.ActionLink("Invoices", "InvoiceOverview", "User")</li>
             
-            @if (SessionHelper.Customer.Organisation != null)
+            @if (SessionHelper.Customer.Organisation != null && !SessionHelper.Customer.Organisation.IsPrivate)
             {
                 <li>@Html.ActionLink("Edit organisation", "EditOrganisation", "User")</li>
             }
@@ -29,13 +29,14 @@ else
             <li>@Html.ActionLink("Settings", "EditOrganisationSettings", "User")</li>
             
             <li>@Html.ActionLink("Address book", "EditContacts", "User")</li>
+            <li>@Html.ActionLink("Settings", "EditOrganisationSettings", "User")</li>
 
             <li><a href="@Url.Action("Logout", "Home")">@ViewRes.Logout</a></li>
         </ul>
     </div>
     <div class="hidden-xs">
         <div class="nav navbar-nav navbar-right dropdown">
-            <label id="dLabel" role="button" data-toggle="dropdown" data-target="#">
+            <label id="dLabel" role="button" data-toggle="dropdown" data-target="#" style="cursor: pointer;">
                 Profile <span class="caret"></span>
             </label>
 
@@ -49,22 +50,24 @@ else
                     @Html.ActionLink("Invoices", "InvoiceOverview", "User")
 
                 </li>
-               
-                    @if (SessionHelper.Customer.Organisation != null)
-                    {
-                        <li> @Html.ActionLink("Edit organisation", "EditOrganisation", "User")</li>
-                    }
-                    else
-                    {
+
+                @if (SessionHelper.Customer.Organisation != null && !SessionHelper.Customer.Organisation.IsPrivate)
+                {
+                    <li> @Html.ActionLink("Edit organisation", "EditOrganisation", "User")</li>
+                }
+                else
+                {
                     <li>@Html.ActionLink("Create organisation", "CreateOrganisation", "User")</li>
-                    }
+                }
 
                 <li>@Html.ActionLink("Address book", "EditContacts", "User")</li>
-                    
-                    <li role="presentation" class="divider"></li>
-                    <li><a href="@Url.Action("Logout", "Home")">@ViewRes.Logout</a></li>
-                
-                </ul>
+
+                <li>@Html.ActionLink("Settings", "EditOrganisationSettings", "User")</li>
+                <li role="presentation" class="divider"></li>
+                <li><a href="@Url.Action("Logout", "Home")">@ViewRes.Logout</a></li>
+
+            </ul>
+
             </div>
         </div>
         <script>

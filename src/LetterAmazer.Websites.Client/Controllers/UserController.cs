@@ -248,6 +248,8 @@ namespace LetterAmazer.Websites.Client.Controllers
             organisationViewModel.ZipCode = organisation.Address.Zipcode;
             organisationViewModel.VatNumber = organisation.Address.VatNr;
     
+            
+
             return View(organisationViewModel);
         }
 
@@ -268,6 +270,8 @@ namespace LetterAmazer.Websites.Client.Controllers
             
 
             organisationService.Update(organisation);
+
+            ViewData.Add("status","Organisation has now been updated");
 
             return View(editOrganisationView);
         }
@@ -352,8 +356,12 @@ namespace LetterAmazer.Websites.Client.Controllers
 
         public ActionResult EditOrganisationSettings()
         {
+            var customer = customerService.GetCustomerById(SessionHelper.Customer.Id);
             var editViewModel = new EditOrganisationSettingsViewModel();
-            editViewModel.OrganisationId = SessionHelper.Customer.Organisation.Id;
+            editViewModel.OrganisationId = customer.Organisation.Id;
+            editViewModel.Password = customer.Password;
+            editViewModel.Email = customer.Email;
+
 
             var countries = countryService.GetCountryBySpecificaiton(new CountrySpecification()
             {
@@ -384,12 +392,19 @@ namespace LetterAmazer.Websites.Client.Controllers
         [HttpPost]
         public ActionResult EditOrganisationSettings(EditOrganisationSettingsViewModel organisationSettings)
         {
-            var organisation = organisationService.GetOrganisationById(organisationSettings.OrganisationId);
+            // user settings
+            var customer = customerService.GetCustomerById(SessionHelper.Customer.Id);
+            customer.Password = SHA1PasswordEncryptor.Encrypt(organisationSettings.Password);
+            customerService.Update(customer);
 
+            // organisation settings
+            var organisation = organisationService.GetOrganisationById(organisationSettings.OrganisationId);
             organisation.OrganisationSettings.PreferedCountryId = int.Parse(organisationSettings.PreferedCountry);
             organisation.OrganisationSettings.LetterType = (LetterType)organisationSettings.LetterType;
-
             organisationService.Update(organisation);
+
+
+            ViewData.Add("status", "Settings has now been updated");
 
             return View(organisationSettings);
         }
@@ -416,14 +431,19 @@ namespace LetterAmazer.Websites.Client.Controllers
                 addressList.AddressInfo.AttPerson = string.Empty;
                 addressList.AddressInfo.VatNr = editContacts.NewContact.VatNumber;
                 addressList.AddressInfo.Country = countryService.GetCountryById(int.Parse(editContacts.NewContact.SelectedCountry));
+               
                 addressList.OrganisationId = editContacts.OrganisationId;
                 
 
                 organisationService.Create(addressList);
+
+                ViewData.Add("status", "New address has been added");
             }
 
             var editContactsModel = new EditContactsViewModel();
             buildContactsModel(editContactsModel);
+
+            
 
             return View(editContactsModel);
         }
@@ -432,7 +452,7 @@ namespace LetterAmazer.Websites.Client.Controllers
         {
             var addressList = organisationService.GetAddressListById(organisationContactId);
 
-            return View(new ContactViewModel());
+            return View(buildContactViewModel(addressList));
         }
 
         [HttpPost]
@@ -448,9 +468,13 @@ namespace LetterAmazer.Websites.Client.Controllers
             addressList.AddressInfo.AttPerson = string.Empty;
             addressList.AddressInfo.VatNr = contact.VatNumber;
 
-            organisationService.Update(addressList);
+            var updated_addressList = organisationService.Update(addressList);
 
-            return View();
+            ViewData.Add("status", "The address has been updated");
+
+            var model = buildContactViewModel(addressList);
+
+            return View(model);
         }
 
         #endregion
@@ -711,7 +735,8 @@ namespace LetterAmazer.Websites.Client.Controllers
             {
                 DateFrom = from,
                 DateTo = to,
-                OrganisationId = organisationId
+                OrganisationId = organisationId,
+                Take = 9999
             });
             var models = new List<InvoiceSnippetViewModel>();
 
@@ -781,13 +806,52 @@ namespace LetterAmazer.Websites.Client.Controllers
             return new ContactViewModel()
             {
                 Address1 = addressList.AddressInfo.Address1,
-                Address2 = addressList.AddressInfo.Address1,
-                City = addressList.AddressInfo.Address1,
-                ZipCode = addressList.AddressInfo.Address1,
-                State = addressList.AddressInfo.Address1,
-                OrganisationName = addressList.AddressInfo.Organisation
+                Address2 = addressList.AddressInfo.Address2,
+                City = addressList.AddressInfo.City,
+                ZipCode = addressList.AddressInfo.Zipcode,
+                State = addressList.AddressInfo.State,
+                OrganisationName = addressList.AddressInfo.Organisation,
+                AddressListId = addressList.Id,
+                
             };
         }
+
+
+        private ContactViewModel buildContactViewModel(AddressList addressList)
+        {
+            ContactViewModel model = new ContactViewModel();
+            model.Address1 = addressList.AddressInfo.Address1;
+            model.Address2 = addressList.AddressInfo.Address2;
+            model.State = addressList.AddressInfo.State;
+            model.City = addressList.AddressInfo.City;
+            model.ZipCode = addressList.AddressInfo.Zipcode;
+            model.State = addressList.AddressInfo.State;
+            model.OrganisationName = addressList.AddressInfo.Organisation;
+            model.AddressListId = addressList.Id;
+            var countries = countryService.GetCountryBySpecificaiton(new CountrySpecification()
+            {
+                Take = 999
+            });
+
+            foreach (var country in countries)
+            {
+                var selectedItem = new SelectListItem()
+                {
+                    Text = country.Name,
+                    Value = country.Id.ToString()
+                };
+
+                if (country.Id == addressList.AddressInfo.Country.Id)
+                {
+                    selectedItem.Selected = true;
+                }
+
+                model.Countries.Add(selectedItem);
+            }
+
+            return model;
+        }
+
 
         #endregion
     }

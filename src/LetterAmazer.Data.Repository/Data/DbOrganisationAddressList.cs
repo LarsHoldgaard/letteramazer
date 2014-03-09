@@ -23,6 +23,7 @@ namespace LetterAmazer.Data.Repository.Data
         public int CountryId { get; set; }
         public int OrganisationId { get; set; }
         public int OrderIndex { get; set; }
+        public string OrganisationName { get; set; }
     
         public virtual DbCountries DbCountries { get; set; }
         public virtual DbOrganisation DbOrganisation { get; set; }

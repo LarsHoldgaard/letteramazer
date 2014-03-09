@@ -178,7 +178,7 @@ namespace LetterAmazer.Business.Services.Services
             }
 
             var dbInvoiceFound =
-                dbInvoices.OrderBy(c => c.Id).Skip(specification.Skip).Take(specification.Take).ToList();
+                dbInvoices.OrderByDescending(c => c.DateCreated).Skip(specification.Skip).Take(specification.Take).ToList();
             var dbInvoiceLinesFound = new List<List<DbInvoiceLines>>();
 
             foreach (var dbInvoicesInFound in dbInvoiceFound)

@@ -2,6 +2,15 @@
 
 <h1>Edit your organisation @Model.OrganisationName</h1>
 
+@Html.ActionLink("Go to overview", "Index", "User")<br /><br />
+
+@if (!string.IsNullOrEmpty(ViewBag.status))
+{
+    <div class="alert alert-success">
+        @ViewBag.status
+    </div>
+}
+
 
 @using (Html.BeginForm("EditOrganisation", "User", FormMethod.Post))
 {
@@ -13,7 +22,7 @@
 
             <br />
             <label class="form-label" for="">Country</label><br />
-            @Html.DropDownListFor(model => model.SelectedCountry, Model.Countries)
+            @Html.DropDownListFor(model => model.SelectedCountry, Model.Countries, new { @class = "form-control" })
             <br />
             <label class="form-label" for="VatNumber">Vat number</label><br />
             @Html.TextBoxFor(m => m.VatNumber, new { @class = "form-control", placeholder = "Vat nr" })
@@ -33,11 +42,11 @@
             <label class="form-label" for="City">City</label><br />
             @Html.TextBoxFor(m => m.City, new { @class = "form-control", placeholder = "City" })
 
-
+            <br />
 
             <input type="submit" value="Edit organisation" class="btn btn-lg btn-success" />
 
-            @Html.HiddenFor(model => model.OrganisationId);
+            @Html.HiddenFor(model => model.OrganisationId)
         </div>
     </div>
 }

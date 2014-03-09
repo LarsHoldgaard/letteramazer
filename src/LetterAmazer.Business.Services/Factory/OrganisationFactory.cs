@@ -77,7 +77,7 @@ namespace LetterAmazer.Business.Services.Factory
             {
                 AddressInfo = addressFactory.Create(list.Address1, list.Address2, list.Zipcode,
                     list.City, list.CountryId, string.Empty, string.Empty,
-                    string.Empty, string.Empty, string.Empty, list.State, string.Empty),
+                    string.Empty, string.Empty, string.Empty, list.State, list.OrganisationName),
                 Id = list.Id,
                 SortIndex = list.OrderIndex,
                 OrganisationId = list.OrganisationId

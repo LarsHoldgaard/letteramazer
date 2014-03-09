@@ -273,6 +273,7 @@
           <Property Name="CountryId" Type="int" Nullable="false" />
           <Property Name="OrganisationId" Type="int" Nullable="false" />
           <Property Name="OrderIndex" Type="int" Nullable="false" />
+          <Property Name="OrganisationName" Type="varchar" MaxLength="250" />
         </EntityType>
         <EntityType Name="DbOrganisationProfileSettings">
           <Key>
@@ -953,6 +954,7 @@
           <Property Name="OrderIndex" Type="Int32" Nullable="false" />
           <NavigationProperty Name="DbCountries" Relationship="Self.FK_DbOrganisationAddressList_DbCountries" FromRole="DbOrganisationAddressList" ToRole="DbCountries" />
           <NavigationProperty Name="DbOrganisation" Relationship="Self.FK_DbOrganisationAddressList_DbOrganisation" FromRole="DbOrganisationAddressList" ToRole="DbOrganisation" />
+          <Property Name="OrganisationName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="DbOrganisationProfileSettings">
           <Key>
@@ -1608,6 +1610,7 @@
           <EntitySetMapping Name="DbOrganisationAddressList">
             <EntityTypeMapping TypeName="LetterAmazer.DbOrganisationAddressList">
               <MappingFragment StoreEntitySet="DbOrganisationAddressList">
+                <ScalarProperty Name="OrganisationName" ColumnName="OrganisationName" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Address1" ColumnName="Address1" />
                 <ScalarProperty Name="Address2" ColumnName="Address2" />

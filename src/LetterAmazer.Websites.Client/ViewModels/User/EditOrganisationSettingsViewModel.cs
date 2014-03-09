@@ -10,6 +10,9 @@ namespace LetterAmazer.Websites.Client.ViewModels.User
     {
         public int OrganisationId { get; set; }
 
+        public string Email { get; set; }
+        public string Password { get; set; }
+
         public string PreferedCountry { get; set; }
         public List<SelectListItem> Countries { get; set; }
 

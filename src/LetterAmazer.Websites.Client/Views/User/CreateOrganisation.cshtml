@@ -6,7 +6,7 @@
 
 
 <div id="createOrganisationDiv" >
-    <p>Do you have a company? Then tell us more about you. Otherwise: <a id="notACompany" href="#">I do not represent a company</a></p>
+    <p>Do you have a company? Then tell us more about you. Otherwise: <a id="notACompany" href="#" style="font-weight: bold">I do not represent a company</a></p>
     
     <h3>Please fill information</h3>
     <div class="row">
@@ -20,7 +20,7 @@
 
                         <br />
                         <label class="form-label" for="">Country</label><br />
-                        @Html.DropDownListFor(model => model.SelectedCountry, Model.Countries)
+                        @Html.DropDownListFor(model => model.SelectedCountry, Model.Countries, new { @class = "form-control" })
                         <br />
                         <label class="form-label" for="VatNumber">Vat number</label><br />
                         @Html.TextBoxFor(m => m.VatNumber, new { @class = "form-control", placeholder = "Vat nr" })
@@ -58,7 +58,7 @@
         @using (Html.BeginForm("SkipOrganisation", "User", FormMethod.Post))
         {
 
-            <input type="submit" value="Skip creating organisation" id="skipOrganisationBtn" class="btn btn-danger btn-lg" />
+            <input type="submit" value="Skip creating organisation" id="skipOrganisationBtn" class="btn btn-success btn-lg" />
         }
         
         

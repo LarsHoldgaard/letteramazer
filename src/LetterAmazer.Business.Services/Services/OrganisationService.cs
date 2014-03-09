@@ -162,6 +162,7 @@ namespace LetterAmazer.Business.Services.Services
             dbaddresslist.CountryId = addressList.AddressInfo.Country.Id;
             dbaddresslist.OrganisationId = addressList.OrganisationId;
             dbaddresslist.State = addressList.AddressInfo.State;
+            dbaddresslist.OrganisationName = addressList.AddressInfo.Organisation;
 
             repository.SaveChanges();
 
@@ -180,6 +181,7 @@ namespace LetterAmazer.Business.Services.Services
                 CountryId = addressList.AddressInfo.Country.Id,
                 OrganisationId = addressList.OrganisationId,
                 State = addressList.AddressInfo.State,
+                OrganisationName = addressList.AddressInfo.Organisation
             };
 
             repository.DbOrganisationAddressList.Add(dbAddresslist);

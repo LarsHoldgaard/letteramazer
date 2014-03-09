@@ -2,26 +2,48 @@
 
 <h1>Organisation settings</h1>
 
+@if (!string.IsNullOrEmpty(ViewBag.status))
+{
+    <div class="alert alert-success">
+        @ViewBag.status
+    </div>
+}
+
+
+
 <p>This is your default settings when sending a letter.</p>
 
 
 @using (Html.BeginForm("EditOrganisationSettings", "User", FormMethod.Post))
 {
-<p>
-    <b>Default country:</b><br />
-    @Html.DropDownListFor(model => model.PreferedCountry, Model.Countries)
-</p>
+    <h2>Profile settings</h2>
 
-<p>
-    <b>Letter type:</b><br />
-    @Html.DropDownListFor(model => model.LetterType, Model.LetterTypes)
-</p>
-<p>
-    <b>Letter color:</b><br />
-</p>
-
-<input type="submit" id="editSettingsBtn" value="Update settings" class="btn btn-success btn-lg" />
+    <p>
+        <b>E-mail:</b><br />
+        @Model.Email
+    </p>
+    <p>
+        <b>Enter a new password:</b><br />
+        @Html.PasswordFor(model=>model.Password)
+    </p>
 
 
-@Html.HiddenFor(model => model.OrganisationId)
+
+    <h2>Letter settings</h2>
+
+    <p>
+        <b>Default country:</b><br />
+        @Html.DropDownListFor(model => model.PreferedCountry, Model.Countries, new { @class = "form-control" })
+    </p>
+
+    <p>
+        <b>Letter type:</b><br />
+        @Html.DropDownListFor(model => model.LetterType, Model.LetterTypes, new { @class = "form-control" })
+    </p>
+
+
+    <input type="submit" id="editSettingsBtn" value="Update settings" class="btn btn-success btn-lg" />
+
+
+    @Html.HiddenFor(model => model.OrganisationId)
 }

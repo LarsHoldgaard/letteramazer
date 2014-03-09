@@ -169,6 +169,12 @@ namespace LetterAmazer.Websites.Client.Controllers
                     Text = country.Name,
                     Value = country.Id.ToString()
                 };
+
+                if (country.Id == 59)
+                {
+                    selectedItem.Selected = true;
+                }
+
                 model.Countries.Add(selectedItem);
             }
 

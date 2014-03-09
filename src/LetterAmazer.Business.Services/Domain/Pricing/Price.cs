@@ -26,7 +26,7 @@ namespace LetterAmazer.Business.Services.Domain.Pricing
         {
             get
             {
-                return (PriceExVat*VatPercentage)/(1+VatPercentage);
+                return (PriceExVat*VatPercentage);
             } 
         }
 

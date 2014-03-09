@@ -33,7 +33,7 @@
             <div class="row login">
                 <div class="col-lg-6">
                     <label class="sr-only" for="Password">Your country</label>
-                    @Html.DropDownListFor(model => model.SelectedCountry, Model.Countries)
+                    @Html.DropDownListFor(model => model.SelectedCountry, Model.Countries, new { @class = "form-control" })
                 </div>
             </div>
             
