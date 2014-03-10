@@ -306,6 +306,8 @@ namespace LetterAmazer.Websites.Client.Controllers
         [HttpPost]
         public ActionResult CreateOrganisation(CreateOrganisationViewModel model)
         {
+            var country = countryService.GetCountryById(int.Parse(model.SelectedCountry));
+
             var organisation = new Organisation();
             organisation.Name = model.OrganisationName;
             organisation.Address.Address1 = model.Address1;
@@ -314,16 +316,34 @@ namespace LetterAmazer.Websites.Client.Controllers
             organisation.Address.Zipcode = model.ZipCode;
             organisation.Address.State = model.State;
             organisation.IsPrivate = false;
-            organisation.Address.Country = countryService.GetCountryById(int.Parse(model.SelectedCountry));
+            organisation.Address.Country = country;
 
             var stored_organisation = organisationService.Create(organisation);
 
+
+            var addressList = new AddressList()
+            {
+                AddressInfo = new AddressInfo()
+                {
+                    Organisation = model.OrganisationName,
+                    Address1 = model.Address1,
+                    Address2 = model.Address2,
+                    City = model.City,
+                    Zipcode = model.ZipCode,
+                    VatNr = model.VatNumber,
+                    State = model.State,
+                    Country = country,   
+                },
+                OrganisationId = stored_organisation.Id
+            };
+
+            organisationService.Create(addressList);
+            
             var customer = customerService.GetCustomerById(SessionHelper.Customer.Id);
             customer.Organisation = stored_organisation;
             customer.OrganisationRole = OrganisationRole.Administrator;
+            
             var updated_customer = customerService.Update(customer);
-
-
             SessionHelper.Customer = updated_customer;
             FormsAuthentication.SetAuthCookie(customer.Id.ToString(), true);
 
@@ -403,6 +423,10 @@ namespace LetterAmazer.Websites.Client.Controllers
             organisation.OrganisationSettings.LetterType = (LetterType)organisationSettings.LetterType;
             organisationService.Update(organisation);
 
+            var updated_customer = customerService.Update(customer);
+            SessionHelper.Customer = updated_customer;
+            FormsAuthentication.SetAuthCookie(customer.Id.ToString(), true);
+
 
             ViewData.Add("status", "Settings has now been updated");
 
@@ -443,7 +467,10 @@ namespace LetterAmazer.Websites.Client.Controllers
             var editContactsModel = new EditContactsViewModel();
             buildContactsModel(editContactsModel);
 
-            
+            var updated_customer = customerService.Update(SessionHelper.Customer);
+            SessionHelper.Customer = updated_customer;
+            FormsAuthentication.SetAuthCookie(SessionHelper.Customer.Id.ToString(), true);
+
 
             return View(editContactsModel);
         }
@@ -473,6 +500,11 @@ namespace LetterAmazer.Websites.Client.Controllers
             ViewData.Add("status", "The address has been updated");
 
             var model = buildContactViewModel(addressList);
+
+            var updated_customer = customerService.Update(SessionHelper.Customer);
+            SessionHelper.Customer = updated_customer;
+            FormsAuthentication.SetAuthCookie(SessionHelper.Customer.Id.ToString(), true);
+
 
             return View(model);
         }
@@ -584,6 +616,11 @@ namespace LetterAmazer.Websites.Client.Controllers
 
             var placed_order = orderService.Create(order);
             string redirectUrl = paymentService.Process(placed_order);
+
+            var updated_customer = customerService.Update(SessionHelper.Customer);
+            SessionHelper.Customer = updated_customer;
+            FormsAuthentication.SetAuthCookie(SessionHelper.Customer.Id.ToString(), true);
+
 
             if (string.IsNullOrEmpty(redirectUrl))
             {

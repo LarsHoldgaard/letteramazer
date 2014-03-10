@@ -10,7 +10,6 @@ using LetterAmazer.Business.Services.Domain.Invoice;
 using LetterAmazer.Business.Services.Domain.Orders;
 using LetterAmazer.Business.Services.Domain.Payments;
 using LetterAmazer.Business.Services.Domain.Products;
-using LetterAmazer.Business.Services.Exceptions;
 using LetterAmazer.Business.Utils.Helpers;
 
 namespace LetterAmazer.Business.Services.Services.PaymentMethods.Implementations
@@ -70,7 +69,8 @@ namespace LetterAmazer.Business.Services.Services.PaymentMethods.Implementations
                 OrderId = order.Id,
                 InvoiceNumber = order.OrderCode,
                 InvoiceStatus = InvoiceStatus.Created,
-                DateCreated = DateTime.Now
+                DateCreated = DateTime.Now,
+                InvoicePaymentMessage = PasswordGenerator.Generate(8)
             };
             foreach (var orderLine in order.OrderLines.Where(c => c.ProductType != ProductType.Payment))
             {

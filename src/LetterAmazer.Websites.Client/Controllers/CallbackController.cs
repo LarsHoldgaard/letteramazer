@@ -3,11 +3,14 @@ using System.Configuration;
 using System.IO;
 using System.Net;
 using System.Text;
+using System.Web.Security;
+using LetterAmazer.Business.Services.Domain.Customers;
 using LetterAmazer.Business.Services.Domain.Orders;
 using LetterAmazer.Business.Services.Domain.Payments;
 using LetterAmazer.Business.Services.Domain.Pricing;
 using LetterAmazer.Business.Services.Exceptions;
 using LetterAmazer.Business.Services.Services.PaymentMethods.Implementations;
+using LetterAmazer.Business.Utils.Helpers;
 using log4net;
 using System;
 using System.Collections.Generic;
@@ -24,14 +27,15 @@ namespace LetterAmazer.Websites.Client.Controllers
         private IPaymentService paymentService;
         private IPriceService priceService;
         private IOrderService orderService;
+        private ICustomerService customerService;
 
-
-        public CallbackController(IPaymentService paymentService, IPriceService priceService, IOrderService orderService)
+        public CallbackController(IPaymentService paymentService, IPriceService priceService, IOrderService orderService, ICustomerService customerService)
         {
             this.paymentService = paymentService;
             this.priceService = priceService;
             this.serviceUrl = ConfigurationManager.AppSettings.Get("LetterAmazer.Payment.PayPal.ServiceUrl");
             this.orderService = orderService;
+            this.customerService = customerService;
         }
 
         //
@@ -127,6 +131,12 @@ namespace LetterAmazer.Websites.Client.Controllers
                 {
                     logger.InfoFormat("IPN Invlalid, Parameters: {0}", strRequest);
                 }
+
+                var updated_customer = customerService.Update(SessionHelper.Customer);
+                SessionHelper.Customer = updated_customer;
+                FormsAuthentication.SetAuthCookie(SessionHelper.Customer.Id.ToString(), true);
+
+
                 return Json(new { status = "success" }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)

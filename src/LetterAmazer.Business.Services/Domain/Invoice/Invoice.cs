@@ -41,6 +41,8 @@ namespace LetterAmazer.Business.Services.Domain.Invoice
 
         public decimal PriceVat { get; set; }
 
+        public string InvoicePaymentMessage { get; set; }
+
         public Invoice()
         {
             this.InvoiceLines = new List<InvoiceLine>();

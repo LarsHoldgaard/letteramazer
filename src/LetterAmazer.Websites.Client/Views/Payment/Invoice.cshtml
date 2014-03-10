@@ -17,7 +17,7 @@
     <div class="col-md-6">
         <h3>Invoice from</h3>
         @Model.CompanyInfo.Company<br />
-        @Model.CompanyInfo.Cvr<br/>
+        @Model.CompanyInfo.Cvr<br />
         Att. @Model.CompanyInfo.Name<br />
         @Model.CompanyInfo.Address<br />
         @Model.CompanyInfo.ZipCode @Model.CompanyInfo.City<br />
@@ -89,6 +89,12 @@
 
 
 </div>
+
+<h3>Label on invoice</h3>
+<p>
+    When tranfering the money, use the following label:<br /><b>@Model.InvoicePaymentMessage</b>
+</p>
+
 
 <h3>Bank details</h3>
 <ul>

@@ -38,6 +38,7 @@ namespace LetterAmazer.Business.Services.Services
             dbInvoice.PriceTotal = invoice.PriceTotal;
             dbInvoice.PriceVatPercentage = invoice.PriceVatPercentage;
             dbInvoice.PriceVat = invoice.PriceVat;
+            dbInvoice.InvoicePaymentMessage = invoice.InvoicePaymentMessage;
 
             dbInvoice.Receiver_Zipcode = invoice.ReceiverInfo.Zipcode;
             dbInvoice.Receiver_Vatnumber = invoice.ReceiverInfo.VatNr;
@@ -97,6 +98,7 @@ namespace LetterAmazer.Business.Services.Services
             dbInvoice.OrderId = invoice.OrderId;
             dbInvoice.InvoiceStatus = (int)invoice.InvoiceStatus;
             dbInvoice.InvoiceNumber = invoice.InvoiceNumber;
+            dbInvoice.InvoicePaymentMessage = invoice.InvoicePaymentMessage;
 
             dbInvoice.PriceExVat = invoice.PriceExVat;
             dbInvoice.PriceTotal = invoice.PriceTotal;

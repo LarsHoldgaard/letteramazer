@@ -65,7 +65,8 @@ namespace LetterAmazer.Websites.Client.Controllers
                     Name = invoice.ReceiverInfo.AttPerson,
                     Country = invoice.ReceiverInfo.Country.Name,
                     Cvr = invoice.ReceiverInfo.VatNr
-                }
+                },
+                InvoicePaymentMessage = invoice.InvoicePaymentMessage
             };
 
             foreach (var invoiceLine in invoice.InvoiceLines)

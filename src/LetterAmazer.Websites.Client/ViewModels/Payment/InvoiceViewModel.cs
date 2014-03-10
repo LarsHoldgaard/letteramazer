@@ -27,6 +27,8 @@ namespace LetterAmazer.Websites.Client.ViewModels.Payment
         public decimal TotalExVat { get; set; }
         public string InvoiceNumber { get; set; }
 
+        public string InvoicePaymentMessage { get; set; }
+
         public InvoiceViewModel()
         {
             this.Lines = new List<InvoiceLineViewModel>();

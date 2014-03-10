@@ -136,6 +136,7 @@
           <Property Name="Invoice_Vatnumber" Type="varchar" MaxLength="250" Nullable="false" />
           <Property Name="Receiver_Vatnumber" Type="varchar" MaxLength="250" Nullable="false" />
           <Property Name="PriceVat" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="InvoicePaymentMessage" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="DbLetters">
           <Key>
@@ -797,6 +798,7 @@
           <Property Name="PriceVat" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
           <NavigationProperty Name="DbInvoiceLines" Relationship="Self.FK_DbInvoiceLines_DbInvoices" FromRole="DbInvoices" ToRole="DbInvoiceLines" />
           <NavigationProperty Name="DbOrders" Relationship="Self.FK_DbInvoices_DbOrders" FromRole="DbInvoices" ToRole="DbOrders" />
+          <Property Name="InvoicePaymentMessage" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="DbLetters">
           <Key>
@@ -1445,6 +1447,7 @@
           <EntitySetMapping Name="DbInvoices">
             <EntityTypeMapping TypeName="LetterAmazer.DbInvoices">
               <MappingFragment StoreEntitySet="DbInvoices">
+                <ScalarProperty Name="InvoicePaymentMessage" ColumnName="InvoicePaymentMessage" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Guid" ColumnName="Guid" />
                 <ScalarProperty Name="OrderId" ColumnName="OrderId" />
