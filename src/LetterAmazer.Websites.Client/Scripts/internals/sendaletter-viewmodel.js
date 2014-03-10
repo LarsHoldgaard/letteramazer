@@ -20,7 +20,7 @@
     self.currentStep = ko.observable(1);
     self.uploadPdf = ko.observable(0);
     self.useVoucher = ko.observable(0);
-    self.showVatInclusive = ko.observable(data.isAuthenticated);
+    self.showVatInclusive = ko.observable(true);
     
     self.orderid = ko.observable('');
     self.receiver = ko.observable('');
@@ -107,7 +107,7 @@
                 if (data.isAuthenticated) {
                     self.isAuthenticated(true);
                     self.isValidCredits(data.isValidCredits);
-                    self.paymentMethod('Credits (' + data.credits + '$ left)');
+                    self.paymentMethod('Credits (' + data.credits.toFixed(2) + '$ left)');
                 }
 
                 thiz.currentStep(3);

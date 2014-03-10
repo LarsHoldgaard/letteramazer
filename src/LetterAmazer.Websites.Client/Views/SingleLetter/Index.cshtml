@@ -117,7 +117,7 @@
                                 </div>
 
                                 <input id="btn-back-21" type="button" class="btn btn-default" value="Back" data-bind="click: goToStepOne, visible: uploadPdf() == 0" />
-                                <input id="btn-proceed-23" type="button" class="btn btn-primary btn-lg" value="@ViewRes.Proceed &raquo;" data-bind="click: goToStepThree, visible: showStepTwoAction()"/>
+                                <input id="btn-proceed-23" type="button" class="btn btn-primary btn-lg" value="@ViewRes.Proceed &raquo;" data-bind="click: goToStepThree, visible: showStepTwoAction()" />
                             </div>
 
                             <div id="sendaletter-step3" data-bind="visible: showStepThree()">
@@ -143,83 +143,77 @@
 
                                             <dt>@ViewRes.Price</dt>
                                             <dd>
-                                                <label id="priceOfLetterLbl" data-bind="text: getPriceTotal"></label> $ (inclusive local taxes)
+                                                <label id="priceOfLetterLbl" data-bind="text: getPriceExVat"></label> $
+
+                                                <text>(<label id="priceOfLetterLbl" data-bind="text: getPriceTotal"></label> $ inc. local VAT)</text>
+
+
                                             </dd>
                                         </dl>
                                     </div>
                                     <div class="col-lg-6 ">
                                         <dl>
                                             <dt>@ViewRes.LetterDestination</dt>
-                                            <dd>@ViewRes.To
-                                                <label id="receiverLbl" data-bind="text: receiver"></label>
-                                                <br />
-                                                <label id="addressLbl" data-bind="text: address"></label>
-                                                <br />
-                                                <label id="postalLbl" data-bind="text: postal"></label>
-                                                <label id="cityLbl" data-bind="text: city"></label>
-                                                <br />
-                                                <label id="countryLbl" data-bind="text: country"></label>
-                                            </dd>
-                                        </dl>
-                                    </div>
-                                </div>
-                                
-                                @Html.CheckBoxFor(m => m.SignUpNewsletter)
-                                @ViewRes.FollowOurExcitingJourneyThroughEmail
-                                <br />
-                                <br />
-
-
-                                <input id="btn-back-32" type="button" class="btn btn-default" value="@ViewRes.Back" data-bind="click: goToStepTwo"/>
-
-                                
-                                <label data-bind="text: priceStatusMessage, visible: !canSendLetter()"></label>
-                                <input id="btnsubmit" type="submit" class="btn btn-primary btn-lg submitAbe" value="@ViewRes.StampAndSendLetter &raquo;" data-bind="visible: canSendLetter(), click: save" />
-                                
-                                
-
-                                @* <!-- ko if: priceStatus =='success' -->
-                                <input id="btnsubmit" type="submit" class="btn btn-primary btn-lg submitAbe" value="@ViewRes.StampAndSendLetter &raquo;" data-bind="click: save" />
-                                <!-- /ko -->
-                                <!-- ko if: priceStatus != 'success' -->
-                                <label data-bind="text: priceStatusMessage"></label>
-                                <!-- /ko -->*@
-
-                                
-                                @Html.HiddenFor(m => m.UseUploadFile, new Dictionary<string, object> { { "data-bind", "value:useUploadFile" } })
-                                @Html.HiddenFor(m => m.UploadFile, new Dictionary<string, object> { { "data-bind", "value:uploadFileKey" } })
-                                <br />
-                                <br />
-                                <a href="javascript:void(0)" id="toggleVoucherLnk" data-bind="click: toggleVoucherPanel">(@ViewRes.AddVoucher)</a>
-                                <div id="voucherDiv" data-bind="visible: showVoucher()">
-                                    <p>
-                                        @ViewRes.Voucher:<br />
-                                        @Html.TextBoxFor(m => m.VoucherCode, new Dictionary<string, object> { { "id", "voucherBox" }, { "class", "input-lg" }, { "placeholder", ViewRes.EnterVoucherCode }, { "data-bind", "value:voucherCode" } })
-                                        <label id="voucherStatus" data-bind="text: voucherStatus, attr: { 'style': voucherColor }"></label>
-                                    </p>
+                                            <dd>
+                                                @ViewRes.To
+                                            <label id="receiverLbl" data-bind="text: receiver"></label>
+                                            <br />
+                                            <label id="addressLbl" data-bind="text: address"></label>
+                                            <br />
+                                            <label id="postalLbl" data-bind="text: postal"></label>
+                                            <label id="cityLbl" data-bind="text: city"></label>
+                                            <br />
+                                            <label id="countryLbl" data-bind="text: country"></label>
+                                        </dd>
+                                    </dl>
                                 </div>
                             </div>
 
+                            @Html.CheckBoxFor(m => m.SignUpNewsletter)
+                            @ViewRes.FollowOurExcitingJourneyThroughEmail
+                            <br />
+                            <br />
+
+                            <input id="btn-back-32" type="button" class="btn btn-default" value="@ViewRes.Back" data-bind="click: goToStepTwo" />
+
+
+                            <label data-bind="text: priceStatusMessage, visible: !canSendLetter()"></label>
+                            <input id="btnsubmit" type="submit" class="btn btn-primary btn-lg submitAbe" value="@ViewRes.StampAndSendLetter &raquo;" data-bind="visible: canSendLetter(), click: save" />
+                                
+                            @Html.HiddenFor(m => m.UseUploadFile, new Dictionary<string, object> { { "data-bind", "value:useUploadFile" } })
+                            @Html.HiddenFor(m => m.UploadFile, new Dictionary<string, object> { { "data-bind", "value:uploadFileKey" } })
+                            <br />
+                            <br />
+                            <a href="javascript:void(0)" id="toggleVoucherLnk" data-bind="click: toggleVoucherPanel">(@ViewRes.AddVoucher)</a>
+                            <div id="voucherDiv" data-bind="visible: showVoucher()">
+                                <p>
+                                    @ViewRes.Voucher:<br />
+                                    @Html.TextBoxFor(m => m.VoucherCode, new Dictionary<string, object> { { "id", "voucherBox" }, { "class", "input-lg" }, { "placeholder", ViewRes.EnterVoucherCode }, { "data-bind", "value:voucherCode" } })
+                                    <label id="voucherStatus" data-bind="text: voucherStatus, attr: { 'style': voucherColor }"></label>
+                                </p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-lg-5">
+                    <div id="locationMap" style="margin-top: 15px;" data-bind="visible: showMap()">
+                        <div class="google-map-canvas" data-bind="visible: initMap()">
+                            <div id="mapsDiv">
+                                <div id="map-canvas" style="width: 457px; height: 500px; border: 1px solid #d9d9d9; border-radius: 10px;"></div>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-lg-5">
-                        <div id="locationMap" style="margin-top: 15px;" data-bind="visible: showMap()">
-                            <div class="google-map-canvas" data-bind="visible: initMap()">
-                                <div id="mapsDiv">
-                                    <div id="map-canvas" style="width: 457px; height: 500px; border: 1px solid #d9d9d9; border-radius: 10px;"></div>
-                                </div>
-                            </div>
+                    <div id="sendAnimationFun" data-bind="visible: showAnimation()">
+                        <div id="stampDiv" style="position: relative; z-index: 100">
+                            <img src="/Content/images/stamp.png" width="100" />
                         </div>
-                        <div id="sendAnimationFun" data-bind="visible: showAnimation()">
-                            <div id="stampDiv" style="position: relative; z-index: 100">
-                                <img src="/Content/images/stamp.png" width="100" />
-                            </div>
-                            <div style="position: relative; top: 200px; z-index: 5">
-                                <img src="/Content/images/letter.png" width="100" />
-                            </div>
+                        <div style="position: relative; top: 200px; z-index: 5">
+                            <img src="/Content/images/letter.png" width="100" />
                         </div>
                     </div>
                 </div>
+            </div>
             }
         </div>
     </div>

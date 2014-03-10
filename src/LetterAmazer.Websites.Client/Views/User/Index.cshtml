@@ -34,7 +34,7 @@ else
 <a class="btn btn-primary btn-lg" href="@Url.Action("Credits")">Buy credits</a>
 
 <h2>Account status</h2>
-Credits available: @Model.Customer.Credit.ToFriendlyMoney() $ 
+Credits available: <b>@Model.Customer.Credit.ToFriendlyMoney() $</b> 
 @if (SessionHelper.Customer.CreditLimit != 0)
 {
     <p>Your account has a limit of @SessionHelper.Customer.CreditLimit.</p>

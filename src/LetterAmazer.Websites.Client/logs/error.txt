@@ -2316,3 +2316,14 @@ Invalid column name 'OrganisationRole'.
 2014-03-10 20:18:12,120 [9] ERROR LetterAmazer.Websites.Client.Controllers.HomeController - LetterAmazer.Business.Services.Exceptions.BusinessException: The 'mcoroklo@gmail.com' email is existing in the system
    at LetterAmazer.Business.Services.Services.CustomerService.Create(Customer customer) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\CustomerService.cs:line 119
    at LetterAmazer.Websites.Client.Controllers.HomeController.Register(RegisterViewModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\HomeController.cs:line 196
+2014-03-10 21:06:26,013 [11] ERROR LetterAmazer.Websites.Client.Controllers.HomeController - LetterAmazer.Business.Services.Exceptions.BusinessException: The 'hyperterminal@gmail.com' email is existing in the system
+   at LetterAmazer.Business.Services.Services.CustomerService.Create(Customer customer) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\CustomerService.cs:line 119
+   at LetterAmazer.Websites.Client.Controllers.HomeController.Register(RegisterViewModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\HomeController.cs:line 196
+2014-03-10 21:10:52,228 [19] DEBUG LetterAmazer.Websites.Client.Controllers.UserController - upload file key: 2014/3/2eef9cc2-b2d9-4b0d-84d2-7c3c3b1f95a1.pdf
+2014-03-10 21:19:30,074 [10] DEBUG LetterAmazer.Websites.Client.Controllers.UserController - upload file key: 2014/3/66698394-ddf7-420e-86f7-ea5d7617001c.pdf
+2014-03-10 21:20:35,234 [11] DEBUG LetterAmazer.Websites.Client.Controllers.UserController - upload file key: 2014/3/9c777e39-6bcc-490a-ab7a-ff0f0f15a9dd.pdf
+2014-03-10 21:52:45,801 [8] DEBUG LetterAmazer.Websites.Client.Controllers.UserController - upload file key: 2014/3/43fc0f5a-cbca-4cc3-8ceb-60ddd9f8ab90.pdf
+2014-03-10 21:54:01,472 [8] DEBUG LetterAmazer.Websites.Client.Controllers.UserController - upload file key: 2014/3/c93df511-d00e-4bba-b3c5-265f190acf43.pdf
+2014-03-10 21:57:51,203 [10] DEBUG LetterAmazer.Websites.Client.Controllers.UserController - upload file key: 2014/3/7c4aaf55-88d8-4b25-b4ec-830763ecae69.pdf
+2014-03-10 21:58:55,180 [10] DEBUG LetterAmazer.Websites.Client.Controllers.UserController - upload file key: 2014/3/786668e0-0627-402c-9a66-bd70f8d9b108.pdf
+2014-03-10 22:02:29,030 [5] DEBUG LetterAmazer.Websites.Client.Controllers.UserController - upload file key: 2014/3/23175d04-8f3e-4a49-a258-e807e8758755.pdf

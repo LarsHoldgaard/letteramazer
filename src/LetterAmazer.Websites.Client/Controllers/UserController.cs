@@ -143,6 +143,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                 }
 
                 var price = priceService.GetPriceByAddress(addressInfo, letter.LetterContent.PageCount);
+                price.VatPercentage = SessionHelper.Customer.VatPercentage();
                 letter.OfficeProductId = price.OfficeProductId;
 
                 Coupon coupon = null;
@@ -165,7 +166,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                     BaseProduct = letter,
                     Price = new Price()
                     {
-                        PriceExVat = priceService.GetPriceByLetter(letter).Total
+                        PriceExVat = price.Total
                     }
                 });
 
@@ -270,6 +271,10 @@ namespace LetterAmazer.Websites.Client.Controllers
             
 
             organisationService.Update(organisation);
+
+            var customer = customerService.GetCustomerById(SessionHelper.Customer.Id);
+            SessionHelper.Customer = customer;
+            FormsAuthentication.SetAuthCookie(customer.Id.ToString(), true);
 
             ViewData.Add("status","Organisation has now been updated");
 
@@ -415,7 +420,7 @@ namespace LetterAmazer.Websites.Client.Controllers
             // user settings
             var customer = customerService.GetCustomerById(SessionHelper.Customer.Id);
             customer.Password = SHA1PasswordEncryptor.Encrypt(organisationSettings.Password);
-            customerService.Update(customer);
+            
 
             // organisation settings
             var organisation = organisationService.GetOrganisationById(organisationSettings.OrganisationId);
