@@ -6,12 +6,15 @@ using System.Threading.Tasks;
 using LetterAmazer.Business.Services.Domain.Fulfillments;
 using LetterAmazer.Business.Services.Domain.Letters;
 using LetterAmazer.Business.Services.Domain.Orders;
+using log4net;
 
 namespace LetterAmazer.Business.Services.Services.FulfillmentJobs
 {
     public class PostalMethodsService : IFulfillmentService
     {
-
+        private static readonly ILog logger = LogManager.GetLogger(typeof(PostalMethodsService));
+        private string username;
+        private string password;
         private ILetterService letterService;
         private IOrderService orderService;
 
@@ -23,9 +26,20 @@ namespace LetterAmazer.Business.Services.Services.FulfillmentJobs
 
         public void Process(IEnumerable<Letter> letters)
         {
+            const com.postalmethods.api.WorkMode workMode = com.postalmethods.api.WorkMode.Development;
+
             foreach (var letter in letters)
             {
-                // use postal methods API to send some letters
+                var letterId = "LA_" + letter.Id;
+                com.postalmethods.api.PostalWS objPM = new com.postalmethods.api.PostalWS();
+
+                long value = objPM.SendLetter(username, password, letterId, "pdf", letter.LetterContent.Content, workMode);
+
+                if (value < 0)
+                {
+                    logger.Error("Error postal methods with letterid " + letter.Id);
+                }
+
             }
         }
     }
