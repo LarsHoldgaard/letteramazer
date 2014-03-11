@@ -114,6 +114,7 @@
     <Compile Include="Factory\Interfaces\IOrganisationFactory.cs" />
     <Compile Include="Factory\Interfaces\IProductMatrixFactory.cs" />
     <Compile Include="Factory\InvoiceFactory.cs" />
+    <Compile Include="Services\FulfillmentJobs\PostalMethodsService.cs" />
     <Compile Include="Services\InvoiceService.cs" />
     <Compile Include="Factory\Interfaces\IPaymentFactory.cs" />
     <Compile Include="Factory\OfficeProductFactory.cs" />

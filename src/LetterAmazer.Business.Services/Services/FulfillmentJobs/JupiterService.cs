@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Web;
 using System.Xml;
@@ -12,7 +11,6 @@ using LetterAmazer.Business.Services.Domain.Common;
 using LetterAmazer.Business.Services.Domain.Fulfillments;
 using LetterAmazer.Business.Services.Domain.Letters;
 using LetterAmazer.Business.Services.Domain.Orders;
-using LetterAmazer.Business.Services.Domain.Products;
 using LetterAmazer.Business.Services.Services.Fulfillment;
 using LetterAmazer.Business.Utils.Helpers;
 using log4net;
