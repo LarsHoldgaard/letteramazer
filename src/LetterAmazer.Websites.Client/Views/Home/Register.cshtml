@@ -18,21 +18,21 @@
 
             <div class="row login">
                 <div class="col-lg-6">
-                    <label class="sr-only" for="Email">@ViewRes.Email</label>
+                    <label class="sr-only" for="Email">@ViewRes.Email<span class="input-required">*</span></label>
                     @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = ViewRes.Email })
                     @Html.ValidationMessageFor(m => m.Email)
                 </div>
             </div>
             <div class="row login">
                 <div class="col-lg-6">
-                    <label class="sr-only" for="Password">@ViewRes.Password</label>
+                    <label class="sr-only" for="Password">@ViewRes.Password<span class="input-required">*</span></label>
                     @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = ViewRes.Password })
                     @Html.ValidationMessageFor(m => m.Password)
                 </div>
             </div>
             <div class="row login">
                 <div class="col-lg-6">
-                    <label class="sr-only" for="Password">Your country</label>
+                    <label class="sr-only" for="Password">Your country<span class="input-required">*</span></label>
                     @Html.DropDownListFor(model => model.SelectedCountry, Model.Countries, new { @class = "form-control" })
                 </div>
             </div>

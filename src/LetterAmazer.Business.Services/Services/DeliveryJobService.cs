@@ -14,6 +14,7 @@ using LetterAmazer.Business.Services.Domain.Orders;
 using LetterAmazer.Business.Services.Domain.Products;
 using LetterAmazer.Business.Services.Services.FulfillmentJobs;
 using log4net;
+using NCrontab;
 
 namespace LetterAmazer.Business.Services.Services
 {
@@ -47,7 +48,8 @@ namespace LetterAmazer.Business.Services.Services
                 OrderStatus = new List<OrderStatus>()
                     {
                         OrderStatus.Paid,
-                        OrderStatus.InProgress
+                        OrderStatus.InProgress,
+                        OrderStatus.Created
                     }
             });
 
@@ -75,23 +77,29 @@ namespace LetterAmazer.Business.Services.Services
             }
         }
 
-        private void processDelivery(KeyValuePair<PartnerJob, List<Letter>> entity)
+        private void processDelivery(KeyValuePair<int, List<Letter>> entity)
         {
-            // ADD time interval in DB to make sure not every job runs at the same time
-
+            var fulfillmentPartner = fulfillmentPartnerService.GetFulfillmentPartnerById(entity.Key);
+       
             IFulfillmentService fulfillmentService = null;
-            if (entity.Key == PartnerJob.Jupiter)
+            if (fulfillmentPartner.PartnerJob == PartnerJob.Jupiter)
             {
                 fulfillmentService = new JupiterService(letterService, orderService);
             }
-            else if (entity.Key == PartnerJob.PostalMethods)
+            else if (fulfillmentPartner.PartnerJob == PartnerJob.PostalMethods)
             {
                 fulfillmentService = new PostalMethodsService(letterService, orderService);
             }
 
             if (fulfillmentService != null)
             {
-                fulfillmentService.Process(entity.Value);
+                var schedule = CrontabSchedule.Parse(fulfillmentPartner.CronInterval);
+                var exDate = schedule.GetNextOccurrence(DateTime.Now.AddHours(-1));
+
+                if (exDate < DateTime.Now)
+                {
+                    fulfillmentService.Process(entity.Value);
+                }
             }
         }
 
@@ -115,20 +123,20 @@ namespace LetterAmazer.Business.Services.Services
             return letters;
         }
 
-        private Dictionary<PartnerJob, List<Letter>> getLettersByPartnerJob(IEnumerable<Letter> letters)
+        private Dictionary<int, List<Letter>> getLettersByPartnerJob(IEnumerable<Letter> letters)
         {
-            var letterByPartnerJob = new Dictionary<PartnerJob, List<Letter>>();
+            var letterByPartnerJob = new Dictionary<int, List<Letter>>();
             foreach (var letter in letters)
             {
                 var officeProduct = officeProductService.GetOfficeProductById(letter.OfficeProductId);
                 var office = officeService.GetOfficeById(officeProduct.OfficeId);
                 var partner = fulfillmentPartnerService.GetFulfillmentPartnerById(office.FulfillmentPartnerId);
 
-                if (!letterByPartnerJob.ContainsKey(partner.PartnerJob))
+                if (!letterByPartnerJob.ContainsKey(partner.Id))
                 {
-                    letterByPartnerJob.Add(partner.PartnerJob, new List<Letter>());
+                    letterByPartnerJob.Add(partner.Id, new List<Letter>());
                 }
-                letterByPartnerJob[partner.PartnerJob].Add(letter);
+                letterByPartnerJob[partner.Id].Add(letter);
             }
             return letterByPartnerJob;
         }

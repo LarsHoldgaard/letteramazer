@@ -3,6 +3,7 @@ using LetterAmazer.Business.Services.Domain.AddressInfos;
 using LetterAmazer.Business.Services.Domain.Countries;
 using LetterAmazer.Business.Services.Domain.Coupons;
 using LetterAmazer.Business.Services.Domain.Customers;
+using LetterAmazer.Business.Services.Domain.DeliveryJobs;
 using LetterAmazer.Business.Services.Domain.Letters;
 using LetterAmazer.Business.Services.Domain.Orders;
 using LetterAmazer.Business.Services.Domain.Payments;
@@ -33,10 +34,11 @@ namespace LetterAmazer.Websites.Client.Controllers
         private IPriceService priceService;
         private ICustomerService customerService;
         private IPriceUpdater priceUpdater;
+        private IDeliveryJobService deliveryJobService;
         
         public SingleLetterController(IOrderService orderService, IPaymentService paymentService,
             ICouponService couponService, ICountryService countryService, IPriceService priceService,
-            ICustomerService customerService,IPriceUpdater priceUpdater)
+            ICustomerService customerService,IPriceUpdater priceUpdater, IDeliveryJobService deliveryJobService)
         {
             this.orderService = orderService;
             this.paymentService = paymentService;
@@ -45,12 +47,13 @@ namespace LetterAmazer.Websites.Client.Controllers
             this.priceService = priceService;
             this.customerService = customerService;
             this.priceUpdater = priceUpdater;
+            this.deliveryJobService = deliveryJobService;
         }
 
         [HttpGet]
         public ActionResult Index()
         {
-            //priceUpdater.Execute();
+            priceUpdater.Execute();
 
             if (SessionHelper.Customer != null)
             {

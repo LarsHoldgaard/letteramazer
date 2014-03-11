@@ -18,7 +18,8 @@ namespace LetterAmazer.Business.Services.Factory
                 Id = dbpFulfillmentPartners.Id,
                 Name = dbpFulfillmentPartners.Name,
                 ShopId = dbpFulfillmentPartners.ShopId,
-                PartnerJob = (PartnerJob)dbpFulfillmentPartners.PartnerJob
+                PartnerJob = (PartnerJob)dbpFulfillmentPartners.PartnerJob,
+                CronInterval = dbpFulfillmentPartners.CronInterval
             };
         }
 

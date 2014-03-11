@@ -91,6 +91,7 @@
           <Property Name="Name" Type="varchar" MaxLength="250" Nullable="false" />
           <Property Name="ShopId" Type="int" Nullable="false" />
           <Property Name="PartnerJob" Type="int" Nullable="false" />
+          <Property Name="CronInterval" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="DbInvoiceLines">
           <Key>
@@ -750,6 +751,7 @@
           <Property Name="PartnerJob" Type="Int32" Nullable="false" />
           <NavigationProperty Name="DbShops" Relationship="Self.FK_FulfillmentPartners_Shops" FromRole="DbFulfillmentPartners" ToRole="DbShops" />
           <NavigationProperty Name="DbOffices" Relationship="Self.FK_Offices_FulfillmentPartners" FromRole="DbFulfillmentPartners" ToRole="DbOffices" />
+          <Property Name="CronInterval" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="DbInvoiceLines">
           <Key>
@@ -1426,6 +1428,7 @@
           <EntitySetMapping Name="DbFulfillmentPartners">
             <EntityTypeMapping TypeName="LetterAmazer.DbFulfillmentPartners">
               <MappingFragment StoreEntitySet="DbFulfillmentPartners">
+                <ScalarProperty Name="CronInterval" ColumnName="CronInterval" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="ShopId" ColumnName="ShopId" />

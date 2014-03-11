@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="9e54d72431414d088596a8fa60aa2183" Name="Diagram1">
+      <Diagram DiagramId="9e54d72431414d088596a8fa60aa2183" Name="Diagram1" ZoomLevel="55">
         <EntityTypeShape EntityType="LetterAmazer.DbContinents" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="LetterAmazer.DbCountries" Width="1.5" PointX="0.75" PointY="13.5" IsExpanded="true" />
         <EntityTypeShape EntityType="LetterAmazer.DbCoupons" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />

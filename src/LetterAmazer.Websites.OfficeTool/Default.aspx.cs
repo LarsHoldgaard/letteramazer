@@ -53,16 +53,21 @@ namespace LetterAmazer.Websites.OfficeTool
         {
             get
             {
-                if (string.IsNullOrEmpty(FulfilmentPartnersDdl.SelectedValue))
-                {
-                    return new List<Office>();
-                }
-                var partnerId = int.Parse(FulfilmentPartnersDdl.SelectedValue);
-
                 var offices = officeService.GetOfficeBySpecification(new OfficeSpecification()
                 {
-                    FulfilmentPartnerId = partnerId
+                    Take = 100
                 });
+
+                //if (string.IsNullOrEmpty(FulfilmentPartnersDdl.SelectedValue))
+                //{
+                //    return new List<Office>();
+                //}
+                //var partnerId = int.Parse(FulfilmentPartnersDdl.SelectedValue);
+
+                //var offices = officeService.GetOfficeBySpecification(new OfficeSpecification()
+                //{
+                //    FulfilmentPartnerId = partnerId
+                //});
 
 
                 return offices;
