@@ -68,8 +68,83 @@ namespace LetterAmazer.Websites.Client.Controllers
             return View(model);
         }
 
+        #region Send letter windowed
 
-        #region Send letter
+        public ActionResult SendWindowedLetter()
+        {
+            var windowedModel = new SendWindowedLetterViewModel();
+
+            var countries = countryService.GetCountryBySpecificaiton(new CountrySpecification()
+            {
+                Take = 999
+            });
+
+            foreach (var country in countries)
+            {
+                var selectedItem = new SelectListItem()
+                {
+                    Text = country.Name,
+                    Value = country.Id.ToString()
+                };
+
+                if (country.Id == 59)
+                {
+                    selectedItem.Selected = true;
+                }
+
+                windowedModel.Countries.Add(selectedItem);
+            }
+
+            return View(windowedModel);
+        }
+
+    
+        [HttpPost]
+        public ActionResult SendWindowedLetter(SendWindowedLetterViewModel model)
+        {
+            Order order = new Order();
+
+            order.Customer = SessionHelper.Customer;
+            AddressInfo addressInfo = new AddressInfo();
+
+            addressInfo.Country = countryService.GetCountryById(int.Parse(model.SelectedCountry));
+
+            LetterDetails letterDetail = new LetterDetails()
+            {
+                LetterColor = LetterColor.Color,
+                LetterPaperWeight = LetterPaperWeight.Eight,
+                LetterProcessing = LetterProcessing.Dull,
+                LetterSize = LetterSize.A4,
+                LetterType = LetterType.Windowed
+            };
+
+            Letter letter = new Letter()
+            {
+                LetterDetails = letterDetail,
+                ToAddress = addressInfo,
+
+            };
+
+            order.OrderLines.Add(new OrderLine()
+            {
+                BaseProduct = letter,
+                ProductType = ProductType.Letter
+            });
+            order.OrderLines.Add(new OrderLine()
+            {
+                BaseProduct = letter,
+                ProductType = ProductType.Payment
+            });
+
+            var updated_order = orderService.Create(order);
+
+
+            return View("Index");
+        }
+
+        #endregion
+
+        #region Send letter pressed (with address)
 
         [HttpGet]
         public ActionResult SendALetter()

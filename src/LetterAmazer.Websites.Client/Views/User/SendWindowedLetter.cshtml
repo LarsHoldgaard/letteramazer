@@ -1,0 +1,88 @@
+﻿@model LetterAmazer.Websites.Client.ViewModels.User.SendWindowedLetterViewModel
+
+<h1>Send a windowed envelope</h1>
+<h2>What country are you sending this letter to?</h2>
+<div class="col-lg-6">
+    <label class="sr-only" for="Password">Your country<span class="input-required">*</span></label>
+    @Html.DropDownListFor(model => model.SelectedCountry, Model.Countries, new { @class = "form-control" })
+</div>
+
+<h2>Upload your file</h2>
+<div id="myDropzone" class="la-dropzone">
+    <div class="dz-default dz-message">
+        <span>
+            Upload, thanks
+        </span>
+    </div>
+</div>
+<label data-bind="visible: showMissingUpload" class="error">Please upload your letter!</label>
+
+<h2>Send this letter</h2>
+<dl>
+    <dt>Payment methods</dt>
+    <dd>Credits</dd>
+    <dt>Price</dt>
+    <dd></dd>
+    <dt>Shipping time</dt>
+    <dd></dd>
+</dl>
+
+    <script>
+        $('div#myDropzone').dropzone({
+            url: '@Url.Action("Upload", "SingleLetter")',
+            acceptedFiles: 'application/pdf',
+            maxFilesize: 10,
+            addRemoveLinks: true,
+            dictRemoveFile: 'Remove file',
+            fallback: function () {
+                $('div#myDropzone').hide();
+                $('div#uploadFallbackPanel').show();
+            },
+            success: function (file, data) {
+                var template = file.previewTemplate;
+                if (data.status == "success") {
+                    $(template).find('.dz-progress').hide();
+                    $(template).find('.dz-details img').attr({
+                        'src': '@Url.Content("~/Content/images/pdf-icon.png")',
+                        'height': '100',
+                        'style': 'margin-top: 28px; margin-left: 20px; height: 65px; width: 65px; display: block;'
+                    });
+                } else {
+                    $(template).find('.dz-error-message').remove();
+                    $(template).addClass('dz-error');
+                    $(template).find('.dz-error-mark').on('click', function () {
+                        $(template).remove();
+                    });
+                }
+            },
+            error: function (file, responseText) {
+                var template = file.previewTemplate;
+                $(template).remove();
+            },
+            removedfile: function (file) {
+                var template = file.previewTemplate;
+                $(template).remove();
+            }
+        });
+
+        $('#fileUpload').uploadify({
+            'buttonText': 'Upload pdf',
+            'fileTypeDesc': 'PDF Files',
+            'fileTypeExts': '*.pdf',
+            'fileObjName': 'uploadFile',
+            'removeCompleted': false,
+            'multi': false,
+            'swf': '@Url.Content("~/Scripts/uploadify/uploadify.swf")',
+            'uploader': '@Url.Action("Upload", "SingleLetter")',
+            'onUploadSuccess': function (file, data, response) {
+                console.info("data: ", data);
+                var result = $.parseJSON(data);
+                if (result.status == "success") {
+                    //viewModel.uploadFileKey(result.key);
+                }
+            },
+            'onUploadError': function (ex, e, er) {
+                console.log(er);
+            }
+        });
+    </script>

@@ -166,6 +166,10 @@ namespace LetterAmazer.Business.Services.Services
                 dbOrderItems.Skip(specification.Skip).Take(specification.Take).ToList());
         }
 
+        /// <summary>
+        /// When an order turns to paid, this runs on every orderline (for instance providing credits)
+        /// </summary>
+        /// <param name="order"></param>
         public void ReplenishOrderLines(Order order)
         {
             foreach (var orderLine in order.OrderLines)
@@ -175,10 +179,6 @@ namespace LetterAmazer.Business.Services.Services
                     var credits = orderLine.Price.PriceExVat;
                     order.Customer.Credit += credits;
                     customerService.Update(order.Customer);
-                }
-                if (orderLine.ProductType == ProductType.Letter)
-                {
-                    // TODO: Some order logic maybe?
                 }
             }
         }

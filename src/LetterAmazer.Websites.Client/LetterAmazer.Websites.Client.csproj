@@ -223,6 +223,7 @@
     <Compile Include="ViewModels\User\EditOrganisationSettingsViewModel.cs" />
     <Compile Include="ViewModels\User\EditOrganisationViewModel.cs" />
     <Compile Include="ViewModels\User\InvoiceOverviewViewModel.cs" />
+    <Compile Include="ViewModels\User\SendWindowedLetterViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\css\General\Sidewide.css" />
@@ -659,6 +660,7 @@
     <Content Include="Views\User\EditOrganisationSettings.cshtml" />
     <Content Include="Views\User\EditContacts.cshtml" />
     <Content Include="Views\User\EditSingleContact.cshtml" />
+    <Content Include="Views\User\SendWindowedLetter.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
