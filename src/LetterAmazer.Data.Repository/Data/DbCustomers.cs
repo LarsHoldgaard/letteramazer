@@ -44,6 +44,7 @@ namespace LetterAmazer.Data.Repository.Data
         public string RegistrationKey { get; set; }
         public Nullable<int> OrganisationId { get; set; }
         public Nullable<int> OrganisationRole { get; set; }
+        public int AccountStatus { get; set; }
     
         public virtual DbCountries DbCountries { get; set; }
         public virtual ICollection<DbLetters> DbLetters { get; set; }

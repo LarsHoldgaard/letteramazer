@@ -82,6 +82,7 @@
           <Property Name="RegistrationKey" Type="varchar" MaxLength="250" />
           <Property Name="OrganisationId" Type="int" />
           <Property Name="OrganisationRole" Type="int" />
+          <Property Name="AccountStatus" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="DbFulfillmentPartners">
           <Key>
@@ -740,6 +741,7 @@
           <NavigationProperty Name="DbCountries" Relationship="Self.FK_Customers_Countries" FromRole="DbCustomers" ToRole="DbCountries" />
           <NavigationProperty Name="DbLetters" Relationship="Self.FK_Letter_Customer" FromRole="DbCustomers" ToRole="DbLetters" />
           <NavigationProperty Name="DbOrders" Relationship="Self.FK_Order_Customer" FromRole="DbCustomers" ToRole="DbOrders" />
+          <Property Name="AccountStatus" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="DbFulfillmentPartners">
           <Key>
@@ -1398,6 +1400,7 @@
           <EntitySetMapping Name="DbCustomers">
             <EntityTypeMapping TypeName="LetterAmazer.DbCustomers">
               <MappingFragment StoreEntitySet="DbCustomers">
+                <ScalarProperty Name="AccountStatus" ColumnName="AccountStatus" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="CustomerInfo_Address" ColumnName="CustomerInfo_Address" />
                 <ScalarProperty Name="CustomerInfo_Address2" ColumnName="CustomerInfo_Address2" />

@@ -1,4 +1,5 @@
-﻿@model LetterAmazer.Websites.Client.ViewModels.User.SendWindowedLetterViewModel
+﻿@using LetterAmazer.Business.Utils.Helpers
+@model LetterAmazer.Websites.Client.ViewModels.User.SendWindowedLetterViewModel
 
 @section header {
     <link href="@Url.Content("~/Scripts/uploadify/uploadify.css")" rel="stylesheet" type="text/css" />
@@ -8,19 +9,24 @@
     <script type="text/javascript" src="@Url.Content("~/Scripts/dropzone/dropzone.min.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Scripts/knockout-3.0.0.js")"></script>
 
-<script type="text/javascript" src="@Url.Content("~/Scripts/internals/windowedletter-viewmodel.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/internals/windowedletter-viewmodel.js")"></script>
 }
 
-<h1>Send a windowed envelope</h1>
+<h1>Send a windowed envelope (BETA)</h1>
+
+<div class="alert alert-warning">
+    <b>This is in beta, and will have problems</b>. It only works for letters to Denmark, and even for Denmark, we cannot promise you anything as of right now.
+</div>
+
 
 @using (Html.BeginForm("SendWindowedLetter", "User", FormMethod.Post, new { id = "sendLetterForm" }))
 {
 
 
 
-    <h2>What country are you sending this letter to?</h2>
+    @*<h2>What country are you sending this letter to?</h2>
 
-    @Html.DropDownListFor(model => model.SelectedCountry, Model.Countries, new { @class = "form-control" })
+        @Html.DropDownListFor(model => model.SelectedCountry, Model.Countries, new { @class = "form-control" })*@
 
 
     <h2>Upload your file</h2>
@@ -33,35 +39,40 @@
     </div>
     @Html.HiddenFor(m => m.UploadFile, new Dictionary<string, object> { { "data-bind", "value:uploadFileKey" } })
 
-    <button id="saveFile" class="btn">Store file</button>
-
+        <div data-bind="visible: getPriceExVat() > 0.0">
     <h2>Send this letter</h2>
     <dl>
         <dt>Payment method</dt>
         <dd>Credits</dd>
         <dt>Price</dt>
-        <dd data-bind="text: price"></dd>
+        <dd>
+
+            <label id="priceOfLetterLbl" data-bind="text: getPriceExVat"></label> $
+
+            @if (SessionHelper.Customer.VatPercentage() > 0.0m)
+            {
+                <text>(<label id="priceOfLetterLbl" data-bind="text: getPriceTotal"></label> $ inc. local VAT)</text>
+            }
+        </dd>
+        <dt>Pages</dt>
+        <dd data-bind="text: numberOfPages"></dd>
         <dt>Shipping time</dt>
-        <dd data-bind="text: shippingtime"></dd>
+        <dd>1-2 Week days</dd>
     </dl>
 
-    <input type="submit" value="Send letter" class="btn btn-success btn-lg"/>
+
+        <input type="submit" value="Send letter" class="btn btn-success btn-lg" />
+    </div>
 }
 
 <script>
 
     var createLetterData = {
-
+        getPriceUrl: '@Url.Action("GetPrice", "SingleLetter")',
     };
 
     var viewModel = new SendWindowedLetterViewModel('#sendLetterForm', createLetterData);
     ko.applyBindings(viewModel, document.getElementById('sendLetterForm'));
-
-    $(document).ready(function () {
-        $('#saveFile').click(function () {
-
-        });
-    });
 
     $('div#myDropzone').dropzone({
         url: '@Url.Action("Upload", "SingleLetter")',
@@ -116,15 +127,22 @@
         'swf': '@Url.Content("~/Scripts/uploadify/uploadify.swf")',
         'uploader': '@Url.Action("Upload", "SingleLetter")',
         'onUploadSuccess': function (file, data, response) {
-            console.info("data: ", data);
             var result = $.parseJSON(data);
             if (result.status == "success") {
-                console.log('We are setting the viewmodel: ' + viewModel);
                 viewModel.uploadFileKey(result.key);
             }
+
         },
         'onUploadError': function (ex, e, er) {
             console.log(er);
         }
+    });
+
+    //Hack as the onUploadSuccess is never called
+    $(document).ready(function () {
+        (function () {
+            viewModel.downloadPrices();
+            setTimeout(arguments.callee, 2000);
+        })();
     });
 </script>

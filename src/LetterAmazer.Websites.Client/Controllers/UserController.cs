@@ -102,6 +102,7 @@ namespace LetterAmazer.Websites.Client.Controllers
         [HttpPost]
         public ActionResult SendWindowedLetter(SendWindowedLetterViewModel model)
         {
+            model.SelectedCountry = "59";
             Order order = new Order();
 
             order.Customer = SessionHelper.Customer;
@@ -523,9 +524,12 @@ namespace LetterAmazer.Websites.Client.Controllers
         {
             // user settings
             var customer = customerService.GetCustomerById(SessionHelper.Customer.Id);
-            customer.Password = SHA1PasswordEncryptor.Encrypt(organisationSettings.Password);
-            
 
+            if (!string.IsNullOrEmpty(organisationSettings.Password))
+            {
+                customer.Password = SHA1PasswordEncryptor.Encrypt(organisationSettings.Password);    
+            }
+            
             // organisation settings
             var organisation = organisationService.GetOrganisationById(organisationSettings.OrganisationId);
             organisation.OrganisationSettings.PreferedCountryId = int.Parse(organisationSettings.PreferedCountry);

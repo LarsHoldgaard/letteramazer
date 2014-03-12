@@ -51,7 +51,8 @@ namespace LetterAmazer.Business.Services.Factory
                 DateActivated = dbCustomer.DateActivated.HasValue ? dbCustomer.DateActivated.Value : (DateTime?)null,
                 RegisterKey = dbCustomer.RegistrationKey,
                 OrganisationRole = (OrganisationRole?)dbCustomer.OrganisationRole,
-                Organisation = dbCustomer.OrganisationId.HasValue ? organsiationService.GetOrganisationById(dbCustomer.OrganisationId.Value) : null
+                Organisation = dbCustomer.OrganisationId.HasValue ? organsiationService.GetOrganisationById(dbCustomer.OrganisationId.Value) : null,
+                AccountStatus = (AccountStatus)(dbCustomer.AccountStatus)
             };
 
             return customer;

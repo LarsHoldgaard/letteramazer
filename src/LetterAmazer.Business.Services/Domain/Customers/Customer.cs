@@ -21,6 +21,9 @@ namespace LetterAmazer.Business.Services.Domain.Customers
         public string ResetPasswordKey { get; set; }
         public string RegisterKey { get; set; }
         public Organisation.Organisation Organisation { get; set; }
+        public AccountStatus AccountStatus { get; set; }
+
+        #region Properties
 
         public OrganisationRole? OrganisationRole { get; set; }
 
@@ -107,10 +110,12 @@ namespace LetterAmazer.Business.Services.Domain.Customers
                 return CustomerInfo.Country.Id;
             }
         }
-
+        #endregion
+        
         public Customer()
         {
             this.CustomerInfo = new AddressInfo();
+            this.AccountStatus =AccountStatus.Production;
         }
     }
 }

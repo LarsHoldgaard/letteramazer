@@ -138,6 +138,7 @@ namespace LetterAmazer.Business.Services.Services
                 dbCustomer.CustomerInfo_Country = customer.CustomerInfo.Country.Id;
                 dbCustomer.DateCreated = DateTime.Now;
                 dbCustomer.RegistrationKey = Guid.NewGuid().ToString();
+                dbCustomer.AccountStatus = (int) (customer.AccountStatus);
 
                 repository.DbCustomers.Add(dbCustomer);
                 repository.SaveChanges();
@@ -193,6 +194,7 @@ namespace LetterAmazer.Business.Services.Services
             dbCustomer.DateActivated = customer.DateActivated;
             dbCustomer.RegistrationKey = customer.RegisterKey;
             dbCustomer.OrganisationRole = customer.OrganisationRole.HasValue ? (int)customer.OrganisationRole.Value : 0;
+            dbCustomer.AccountStatus = (int) (customer.AccountStatus);
 
             if (customer.Organisation != null)
             {

@@ -248,6 +248,7 @@
     <Content Include="Content\images\stamp.png" />
     <Content Include="Content\images\uploadpdf.png" />
     <Content Include="Content\images\writetext.png" />
+    <Content Include="Content\sql\12-03-2014-account-types.txt" />
     <Content Include="Content\themes\base\images\animated-overlay.gif" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
