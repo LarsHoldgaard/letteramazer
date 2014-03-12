@@ -45,7 +45,18 @@ namespace LetterAmazer.Business.Services.Services
 
             dborder.Guid = Guid.NewGuid();
             dborder.OrderCode = GenerateOrderCode();
-            dborder.OrderStatus = (int)OrderStatus.Created;
+
+            if (order.Customer.AccountStatus == AccountStatus.Test)
+            {
+                dborder.OrderStatus = (int)OrderStatus.Test;    
+            }
+            else
+            {
+                dborder.OrderStatus = (int)OrderStatus.Created;
+            }
+            
+            
+            
             dborder.DateCreated = DateTime.Now;
             dborder.DateUpdated = DateTime.Now;
             dborder.PaymentMethod = "";

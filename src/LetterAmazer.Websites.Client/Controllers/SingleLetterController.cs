@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Data.Entity.Infrastructure;
+using System.Linq;
 using LetterAmazer.Business.Services.Domain.AddressInfos;
 using LetterAmazer.Business.Services.Domain.Countries;
 using LetterAmazer.Business.Services.Domain.Coupons;
@@ -53,8 +54,6 @@ namespace LetterAmazer.Websites.Client.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            priceUpdater.Execute();
-
             if (SessionHelper.Customer != null)
             {
                 if (SessionHelper.Customer.CreditsLeft > 0.0m)
@@ -102,7 +101,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                     Customer newCustomer = new Customer();
                     newCustomer.Email = model.Email;
                     newCustomer.Phone = model.Phone;
-                    
+
                     customer = customerService.Create(newCustomer);
                 }
                 else
@@ -127,9 +126,9 @@ namespace LetterAmazer.Websites.Client.Controllers
                 {
                     LetterDetails = letterDetail,
                     ToAddress = addressInfo
-                  
+
                 };
-                
+
                 if (model.UseUploadFile)
                 {
                     logger.DebugFormat("upload file key: {0}", model.UploadFile);
@@ -152,9 +151,9 @@ namespace LetterAmazer.Websites.Client.Controllers
                         System.IO.File.ReadAllBytes(PathHelper.GetAbsoluteFile(letter.LetterContent.Path));
                 }
 
-                var price = priceService.GetPriceByAddress(addressInfo,letter.LetterContent.PageCount);
+                var price = priceService.GetPriceByAddress(addressInfo, letter.LetterContent.PageCount);
                 letter.OfficeProductId = price.OfficeProductId;
-                
+
                 Coupon coupon = null;
                 if (!string.IsNullOrEmpty(model.VoucherCode))
                 {

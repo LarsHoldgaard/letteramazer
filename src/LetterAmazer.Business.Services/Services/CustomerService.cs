@@ -135,7 +135,7 @@ namespace LetterAmazer.Business.Services.Services
                 dbCustomer.Password = givenPassword;
                 dbCustomer.CustomerInfo_FirstName = customer.CustomerInfo.FirstName;
                 dbCustomer.CustomerInfo_LastName = customer.CustomerInfo.LastName;
-                dbCustomer.CustomerInfo_Country = customer.CustomerInfo.Country.Id;
+                dbCustomer.CustomerInfo_Country = customer.CustomerInfo.Country != null ?  customer.CustomerInfo.Country.Id : 59; // TODO: Don't hardcode Denmark
                 dbCustomer.DateCreated = DateTime.Now;
                 dbCustomer.RegistrationKey = Guid.NewGuid().ToString();
                 dbCustomer.AccountStatus = (int) (customer.AccountStatus);

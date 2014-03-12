@@ -3137,3 +3137,308 @@ Invalid column name 'OrganisationRole'.
    at LetterAmazer.Business.Services.Domain.Letters.LetterContent.get_PageCount() in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Domain\Letters\LetterContent.cs:line 20
    at LetterAmazer.Business.Services.Services.PriceService.GetPriceByLetter(Letter letter) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PriceService.cs:line 64
    at LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetPrice(Boolean usePdf, String uploadFileKey, String content, String address, String postal, String city, String state, String country) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 316
+2014-03-12 22:23:46,075 [8] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.IO.IOException: D:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\UserData\PdfLetters\ not found as file or resource.
+   at iTextSharp.text.io.RandomAccessSourceFactory.CreateByReadingToMemory(String filename)
+   at iTextSharp.text.io.RandomAccessSourceFactory.CreateBestSource(String filename)
+   at iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword, Boolean partial)
+   at iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword)
+   at iTextSharp.text.pdf.PdfReader..ctor(String filename)
+   at LetterAmazer.Business.Utils.Helpers.PdfHelper.GetPagesCount(String path) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Utils\Helpers\PdfHelper.cs:line 14
+   at LetterAmazer.Business.Services.Domain.Letters.LetterContent.get_PageCount() in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Domain\Letters\LetterContent.cs:line 20
+   at LetterAmazer.Business.Services.Services.PriceService.GetPriceByLetter(Letter letter) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PriceService.cs:line 64
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetPrice(Boolean usePdf, String uploadFileKey, String content, String address, String postal, String city, String state, String country) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 316
+2014-03-12 22:23:48,078 [8] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.IO.IOException: D:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\UserData\PdfLetters\ not found as file or resource.
+   at iTextSharp.text.io.RandomAccessSourceFactory.CreateByReadingToMemory(String filename)
+   at iTextSharp.text.io.RandomAccessSourceFactory.CreateBestSource(String filename)
+   at iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword, Boolean partial)
+   at iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword)
+   at iTextSharp.text.pdf.PdfReader..ctor(String filename)
+   at LetterAmazer.Business.Utils.Helpers.PdfHelper.GetPagesCount(String path) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Utils\Helpers\PdfHelper.cs:line 14
+   at LetterAmazer.Business.Services.Domain.Letters.LetterContent.get_PageCount() in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Domain\Letters\LetterContent.cs:line 20
+   at LetterAmazer.Business.Services.Services.PriceService.GetPriceByLetter(Letter letter) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PriceService.cs:line 64
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetPrice(Boolean usePdf, String uploadFileKey, String content, String address, String postal, String city, String state, String country) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 316
+2014-03-12 22:23:50,086 [11] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.IO.IOException: D:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\UserData\PdfLetters\ not found as file or resource.
+   at iTextSharp.text.io.RandomAccessSourceFactory.CreateByReadingToMemory(String filename)
+   at iTextSharp.text.io.RandomAccessSourceFactory.CreateBestSource(String filename)
+   at iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword, Boolean partial)
+   at iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword)
+   at iTextSharp.text.pdf.PdfReader..ctor(String filename)
+   at LetterAmazer.Business.Utils.Helpers.PdfHelper.GetPagesCount(String path) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Utils\Helpers\PdfHelper.cs:line 14
+   at LetterAmazer.Business.Services.Domain.Letters.LetterContent.get_PageCount() in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Domain\Letters\LetterContent.cs:line 20
+   at LetterAmazer.Business.Services.Services.PriceService.GetPriceByLetter(Letter letter) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PriceService.cs:line 64
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetPrice(Boolean usePdf, String uploadFileKey, String content, String address, String postal, String city, String state, String country) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 316
+2014-03-12 22:24:26,766 [9] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.IO.IOException: D:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\UserData\PdfLetters\ not found as file or resource.
+   at iTextSharp.text.io.RandomAccessSourceFactory.CreateByReadingToMemory(String filename)
+   at iTextSharp.text.io.RandomAccessSourceFactory.CreateBestSource(String filename)
+   at iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword, Boolean partial)
+   at iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword)
+   at iTextSharp.text.pdf.PdfReader..ctor(String filename)
+   at LetterAmazer.Business.Utils.Helpers.PdfHelper.GetPagesCount(String path) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Utils\Helpers\PdfHelper.cs:line 14
+   at LetterAmazer.Business.Services.Domain.Letters.LetterContent.get_PageCount() in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Domain\Letters\LetterContent.cs:line 20
+   at LetterAmazer.Business.Services.Services.PriceService.GetPriceByLetter(Letter letter) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PriceService.cs:line 64
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetPrice(Boolean usePdf, String uploadFileKey, String content, String address, String postal, String city, String state, String country) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 316
+2014-03-12 22:26:23,410 [12] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.IO.IOException: D:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\UserData\PdfLetters\ not found as file or resource.
+   at iTextSharp.text.io.RandomAccessSourceFactory.CreateByReadingToMemory(String filename)
+   at iTextSharp.text.io.RandomAccessSourceFactory.CreateBestSource(String filename)
+   at iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword, Boolean partial)
+   at iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword)
+   at iTextSharp.text.pdf.PdfReader..ctor(String filename)
+   at LetterAmazer.Business.Utils.Helpers.PdfHelper.GetPagesCount(String path) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Utils\Helpers\PdfHelper.cs:line 14
+   at LetterAmazer.Business.Services.Domain.Letters.LetterContent.get_PageCount() in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Domain\Letters\LetterContent.cs:line 20
+   at LetterAmazer.Business.Services.Services.PriceService.GetPriceByLetter(Letter letter) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PriceService.cs:line 64
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetPrice(Boolean usePdf, String uploadFileKey, String content, String address, String postal, String city, String state, String country) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 316
+2014-03-12 22:26:26,094 [7] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.IO.IOException: D:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\UserData\PdfLetters\ not found as file or resource.
+   at iTextSharp.text.io.RandomAccessSourceFactory.CreateByReadingToMemory(String filename)
+   at iTextSharp.text.io.RandomAccessSourceFactory.CreateBestSource(String filename)
+   at iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword, Boolean partial)
+   at iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword)
+   at iTextSharp.text.pdf.PdfReader..ctor(String filename)
+   at LetterAmazer.Business.Utils.Helpers.PdfHelper.GetPagesCount(String path) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Utils\Helpers\PdfHelper.cs:line 14
+   at LetterAmazer.Business.Services.Domain.Letters.LetterContent.get_PageCount() in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Domain\Letters\LetterContent.cs:line 20
+   at LetterAmazer.Business.Services.Services.PriceService.GetPriceByLetter(Letter letter) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PriceService.cs:line 64
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetPrice(Boolean usePdf, String uploadFileKey, String content, String address, String postal, String city, String state, String country) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 316
+2014-03-12 22:26:28,116 [7] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.IO.IOException: D:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\UserData\PdfLetters\ not found as file or resource.
+   at iTextSharp.text.io.RandomAccessSourceFactory.CreateByReadingToMemory(String filename)
+   at iTextSharp.text.io.RandomAccessSourceFactory.CreateBestSource(String filename)
+   at iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword, Boolean partial)
+   at iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword)
+   at iTextSharp.text.pdf.PdfReader..ctor(String filename)
+   at LetterAmazer.Business.Utils.Helpers.PdfHelper.GetPagesCount(String path) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Utils\Helpers\PdfHelper.cs:line 14
+   at LetterAmazer.Business.Services.Domain.Letters.LetterContent.get_PageCount() in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Domain\Letters\LetterContent.cs:line 20
+   at LetterAmazer.Business.Services.Services.PriceService.GetPriceByLetter(Letter letter) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PriceService.cs:line 64
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetPrice(Boolean usePdf, String uploadFileKey, String content, String address, String postal, String city, String state, String country) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 316
+2014-03-12 22:26:30,122 [15] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.IO.IOException: D:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\UserData\PdfLetters\ not found as file or resource.
+   at iTextSharp.text.io.RandomAccessSourceFactory.CreateByReadingToMemory(String filename)
+   at iTextSharp.text.io.RandomAccessSourceFactory.CreateBestSource(String filename)
+   at iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword, Boolean partial)
+   at iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword)
+   at iTextSharp.text.pdf.PdfReader..ctor(String filename)
+   at LetterAmazer.Business.Utils.Helpers.PdfHelper.GetPagesCount(String path) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Utils\Helpers\PdfHelper.cs:line 14
+   at LetterAmazer.Business.Services.Domain.Letters.LetterContent.get_PageCount() in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Domain\Letters\LetterContent.cs:line 20
+   at LetterAmazer.Business.Services.Services.PriceService.GetPriceByLetter(Letter letter) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PriceService.cs:line 64
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetPrice(Boolean usePdf, String uploadFileKey, String content, String address, String postal, String city, String state, String country) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 316
+2014-03-12 22:26:32,087 [15] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.IO.IOException: D:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\UserData\PdfLetters\ not found as file or resource.
+   at iTextSharp.text.io.RandomAccessSourceFactory.CreateByReadingToMemory(String filename)
+   at iTextSharp.text.io.RandomAccessSourceFactory.CreateBestSource(String filename)
+   at iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword, Boolean partial)
+   at iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword)
+   at iTextSharp.text.pdf.PdfReader..ctor(String filename)
+   at LetterAmazer.Business.Utils.Helpers.PdfHelper.GetPagesCount(String path) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Utils\Helpers\PdfHelper.cs:line 14
+   at LetterAmazer.Business.Services.Domain.Letters.LetterContent.get_PageCount() in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Domain\Letters\LetterContent.cs:line 20
+   at LetterAmazer.Business.Services.Services.PriceService.GetPriceByLetter(Letter letter) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PriceService.cs:line 64
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetPrice(Boolean usePdf, String uploadFileKey, String content, String address, String postal, String city, String state, String country) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 316
+2014-03-12 22:26:34,070 [7] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.IO.IOException: D:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\UserData\PdfLetters\ not found as file or resource.
+   at iTextSharp.text.io.RandomAccessSourceFactory.CreateByReadingToMemory(String filename)
+   at iTextSharp.text.io.RandomAccessSourceFactory.CreateBestSource(String filename)
+   at iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword, Boolean partial)
+   at iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword)
+   at iTextSharp.text.pdf.PdfReader..ctor(String filename)
+   at LetterAmazer.Business.Utils.Helpers.PdfHelper.GetPagesCount(String path) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Utils\Helpers\PdfHelper.cs:line 14
+   at LetterAmazer.Business.Services.Domain.Letters.LetterContent.get_PageCount() in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Domain\Letters\LetterContent.cs:line 20
+   at LetterAmazer.Business.Services.Services.PriceService.GetPriceByLetter(Letter letter) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PriceService.cs:line 64
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetPrice(Boolean usePdf, String uploadFileKey, String content, String address, String postal, String city, String state, String country) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 316
+2014-03-12 22:26:36,070 [13] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.IO.IOException: D:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\UserData\PdfLetters\ not found as file or resource.
+   at iTextSharp.text.io.RandomAccessSourceFactory.CreateByReadingToMemory(String filename)
+   at iTextSharp.text.io.RandomAccessSourceFactory.CreateBestSource(String filename)
+   at iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword, Boolean partial)
+   at iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword)
+   at iTextSharp.text.pdf.PdfReader..ctor(String filename)
+   at LetterAmazer.Business.Utils.Helpers.PdfHelper.GetPagesCount(String path) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Utils\Helpers\PdfHelper.cs:line 14
+   at LetterAmazer.Business.Services.Domain.Letters.LetterContent.get_PageCount() in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Domain\Letters\LetterContent.cs:line 20
+   at LetterAmazer.Business.Services.Services.PriceService.GetPriceByLetter(Letter letter) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PriceService.cs:line 64
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetPrice(Boolean usePdf, String uploadFileKey, String content, String address, String postal, String city, String state, String country) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 316
+2014-03-12 22:26:40,848 [9] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.InvalidOperationException: The context cannot be used while the model is being created.
+   at System.Data.Entity.Internal.LazyInternalContext.InitializeContext()
+   at System.Data.Entity.Internal.InternalContext.GetEntitySetAndBaseTypeForType(Type entityType)
+   at System.Data.Entity.Internal.Linq.InternalSet`1.Initialize()
+   at System.Data.Entity.Internal.Linq.InternalSet`1.get_InternalContext()
+   at System.Data.Entity.Infrastructure.DbQuery`1.System.Linq.IQueryable.get_Provider()
+   at System.Linq.Queryable.Where[TSource](IQueryable`1 source, Expression`1 predicate)
+   at LetterAmazer.Business.Services.Services.CountryService.GetCountryBySpecificaiton(CountrySpecification specification) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\CountryService.cs:line 0
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetPrice(Boolean usePdf, String uploadFileKey, String content, String address, String postal, String city, String state, String country) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 287
+2014-03-12 22:26:41,203 [6] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.IO.IOException: D:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\UserData\PdfLetters\ not found as file or resource.
+   at iTextSharp.text.io.RandomAccessSourceFactory.CreateByReadingToMemory(String filename)
+   at iTextSharp.text.io.RandomAccessSourceFactory.CreateBestSource(String filename)
+   at LetterAmazer.Business.Utils.Helpers.PdfHelper.GetPagesCount(String path) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Utils\Helpers\PdfHelper.cs:line 14
+   at LetterAmazer.Business.Services.Domain.Letters.LetterContent.get_PageCount() in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Domain\Letters\LetterContent.cs:line 20
+   at LetterAmazer.Business.Services.Services.PriceService.GetPriceByLetter(Letter letter) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PriceService.cs:line 64
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetPrice(Boolean usePdf, String uploadFileKey, String content, String address, String postal, String city, String state, String country) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 316
+2014-03-12 22:26:50,318 [7] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.IO.IOException: D:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\UserData\PdfLetters\ not found as file or resource.
+   at iTextSharp.text.io.RandomAccessSourceFactory.CreateByReadingToMemory(String filename)
+   at iTextSharp.text.io.RandomAccessSourceFactory.CreateBestSource(String filename)
+   at LetterAmazer.Business.Utils.Helpers.PdfHelper.GetPagesCount(String path) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Utils\Helpers\PdfHelper.cs:line 14
+   at LetterAmazer.Business.Services.Domain.Letters.LetterContent.get_PageCount() in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Domain\Letters\LetterContent.cs:line 20
+   at LetterAmazer.Business.Services.Services.PriceService.GetPriceByLetter(Letter letter) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PriceService.cs:line 64
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetPrice(Boolean usePdf, String uploadFileKey, String content, String address, String postal, String city, String state, String country) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 316
+2014-03-12 22:26:52,321 [9] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.IO.IOException: D:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\UserData\PdfLetters\ not found as file or resource.
+   at iTextSharp.text.io.RandomAccessSourceFactory.CreateByReadingToMemory(String filename)
+   at iTextSharp.text.io.RandomAccessSourceFactory.CreateBestSource(String filename)
+   at LetterAmazer.Business.Utils.Helpers.PdfHelper.GetPagesCount(String path) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Utils\Helpers\PdfHelper.cs:line 14
+   at LetterAmazer.Business.Services.Domain.Letters.LetterContent.get_PageCount() in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Domain\Letters\LetterContent.cs:line 20
+   at LetterAmazer.Business.Services.Services.PriceService.GetPriceByLetter(Letter letter) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PriceService.cs:line 64
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetPrice(Boolean usePdf, String uploadFileKey, String content, String address, String postal, String city, String state, String country) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 316
+2014-03-12 22:26:55,930 [6] DEBUG LetterAmazer.Websites.Client.Controllers.UserController - upload file key: 2014/3/695c6422-d189-4357-9247-55b105c02f4a.pdf
+2014-03-12 22:33:44,870 [7] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.NullReferenceException: Object reference not set to an instance of an object.
+   at LetterAmazer.Business.Services.Services.CustomerService.Create(Customer customer) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\CustomerService.cs:line 138
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.Index(CreateSingleLetterModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 106
+2014-03-12 22:33:44,882 [7] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - 
+2014-03-12 22:35:30,482 [9] DEBUG LetterAmazer.Websites.Client.Controllers.SingleLetterController - upload file key: 2014/3/35351ae3-adbd-4150-b4d5-b3b0ada1e411.pdf
+2014-03-12 22:36:53,939 [10] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.NullReferenceException: Object reference not set to an instance of an object.
+   at LetterAmazer.Business.Services.Services.CustomerService.Create(Customer customer) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\CustomerService.cs:line 138
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.Index(CreateSingleLetterModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 106
+2014-03-12 22:36:53,949 [10] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - 
+2014-03-12 22:38:21,099 [10] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.NullReferenceException: Object reference not set to an instance of an object.
+   at LetterAmazer.Business.Services.Services.CustomerService.Create(Customer customer) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\CustomerService.cs:line 138
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.Index(CreateSingleLetterModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 106
+2014-03-12 22:38:21,108 [10] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - 
+2014-03-12 22:43:44,403 [9] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.Data.Entity.Infrastructure.DbUpdateException: An error occurred while updating the entries. See the inner exception for details. ---> System.Data.UpdateException: An error occurred while updating the entries. See the inner exception for details. ---> System.Data.SqlClient.SqlException: The INSERT statement conflicted with the FOREIGN KEY constraint "FK_Customers_Countries". The conflict occurred in database "LetterAmazer", table "dbo.DbCountries", column 'Id'.
+The statement has been terminated.
+   at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at System.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   at System.Data.SqlClient.SqlDataReader.get_MetaData()
+   at System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   at System.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior, String method)
+   at System.Data.SqlClient.SqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   at System.Data.Common.DbCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.Mapping.Update.Internal.DynamicUpdateCommand.Execute(UpdateTranslator translator, EntityConnection connection, Dictionary`2 identifierValues, List`1 generatedValues)
+   at System.Data.Mapping.Update.Internal.UpdateTranslator.Update(IEntityStateManager stateManager, IEntityAdapter adapter)
+   --- End of inner exception stack trace ---
+   at System.Data.Mapping.Update.Internal.UpdateTranslator.Update(IEntityStateManager stateManager, IEntityAdapter adapter)
+   at System.Data.EntityClient.EntityAdapter.Update(IEntityStateManager entityCache)
+   at System.Data.Objects.ObjectContext.SaveChanges(SaveOptions options)
+   at System.Data.Entity.Internal.InternalContext.SaveChanges()
+   --- End of inner exception stack trace ---
+   at System.Data.Entity.Internal.InternalContext.SaveChanges()
+   at System.Data.Entity.Internal.LazyInternalContext.SaveChanges()
+   at System.Data.Entity.DbContext.SaveChanges()
+   at LetterAmazer.Business.Services.Services.CustomerService.Create(Customer customer) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\CustomerService.cs:line 144
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.Index(CreateSingleLetterModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 106
+2014-03-12 22:43:44,414 [9] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.Data.UpdateException: An error occurred while updating the entries. See the inner exception for details. ---> System.Data.SqlClient.SqlException: The INSERT statement conflicted with the FOREIGN KEY constraint "FK_Customers_Countries". The conflict occurred in database "LetterAmazer", table "dbo.DbCountries", column 'Id'.
+The statement has been terminated.
+   at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at System.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   at System.Data.SqlClient.SqlDataReader.get_MetaData()
+   at System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   at System.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior, String method)
+   at System.Data.SqlClient.SqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   at System.Data.Common.DbCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.Mapping.Update.Internal.DynamicUpdateCommand.Execute(UpdateTranslator translator, EntityConnection connection, Dictionary`2 identifierValues, List`1 generatedValues)
+   at System.Data.Mapping.Update.Internal.UpdateTranslator.Update(IEntityStateManager stateManager, IEntityAdapter adapter)
+   --- End of inner exception stack trace ---
+   at System.Data.Mapping.Update.Internal.UpdateTranslator.Update(IEntityStateManager stateManager, IEntityAdapter adapter)
+   at System.Data.EntityClient.EntityAdapter.Update(IEntityStateManager entityCache)
+   at System.Data.Objects.ObjectContext.SaveChanges(SaveOptions options)
+   at System.Data.Entity.Internal.InternalContext.SaveChanges()
+2014-03-12 22:46:11,770 [9] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.Data.Entity.Infrastructure.DbUpdateException: An error occurred while updating the entries. See the inner exception for details. ---> System.Data.UpdateException: An error occurred while updating the entries. See the inner exception for details. ---> System.Data.SqlClient.SqlException: The INSERT statement conflicted with the FOREIGN KEY constraint "FK_Customers_Countries". The conflict occurred in database "LetterAmazer", table "dbo.DbCountries", column 'Id'.
+The statement has been terminated.
+   at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at System.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   at System.Data.SqlClient.SqlDataReader.get_MetaData()
+   at System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   at System.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior, String method)
+   at System.Data.SqlClient.SqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   at System.Data.Common.DbCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.Mapping.Update.Internal.DynamicUpdateCommand.Execute(UpdateTranslator translator, EntityConnection connection, Dictionary`2 identifierValues, List`1 generatedValues)
+   at System.Data.Mapping.Update.Internal.UpdateTranslator.Update(IEntityStateManager stateManager, IEntityAdapter adapter)
+   --- End of inner exception stack trace ---
+   at System.Data.Mapping.Update.Internal.UpdateTranslator.Update(IEntityStateManager stateManager, IEntityAdapter adapter)
+   at System.Data.EntityClient.EntityAdapter.Update(IEntityStateManager entityCache)
+   at System.Data.Objects.ObjectContext.SaveChanges(SaveOptions options)
+   at System.Data.Entity.Internal.InternalContext.SaveChanges()
+   --- End of inner exception stack trace ---
+   at System.Data.Entity.Internal.InternalContext.SaveChanges()
+   at System.Data.Entity.Internal.LazyInternalContext.SaveChanges()
+   at System.Data.Entity.DbContext.SaveChanges()
+   at LetterAmazer.Business.Services.Services.CustomerService.Create(Customer customer) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\CustomerService.cs:line 144
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.Index(CreateSingleLetterModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 104
+2014-03-12 22:46:11,780 [9] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.Data.UpdateException: An error occurred while updating the entries. See the inner exception for details. ---> System.Data.SqlClient.SqlException: The INSERT statement conflicted with the FOREIGN KEY constraint "FK_Customers_Countries". The conflict occurred in database "LetterAmazer", table "dbo.DbCountries", column 'Id'.
+The statement has been terminated.
+   at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at System.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   at System.Data.SqlClient.SqlDataReader.get_MetaData()
+   at System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   at System.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior, String method)
+   at System.Data.SqlClient.SqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   at System.Data.Common.DbCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.Mapping.Update.Internal.DynamicUpdateCommand.Execute(UpdateTranslator translator, EntityConnection connection, Dictionary`2 identifierValues, List`1 generatedValues)
+   at System.Data.Mapping.Update.Internal.UpdateTranslator.Update(IEntityStateManager stateManager, IEntityAdapter adapter)
+   --- End of inner exception stack trace ---
+   at System.Data.Mapping.Update.Internal.UpdateTranslator.Update(IEntityStateManager stateManager, IEntityAdapter adapter)
+   at System.Data.EntityClient.EntityAdapter.Update(IEntityStateManager entityCache)
+   at System.Data.Objects.ObjectContext.SaveChanges(SaveOptions options)
+   at System.Data.Entity.Internal.InternalContext.SaveChanges()
+2014-03-12 22:53:28,013 [10] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.Data.Entity.Infrastructure.DbUpdateException: An error occurred while updating the entries. See the inner exception for details. ---> System.Data.UpdateException: An error occurred while updating the entries. See the inner exception for details. ---> System.Data.SqlClient.SqlException: The INSERT statement conflicted with the FOREIGN KEY constraint "FK_Customers_Countries". The conflict occurred in database "LetterAmazer", table "dbo.DbCountries", column 'Id'.
+The statement has been terminated.
+   at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at System.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   at System.Data.SqlClient.SqlDataReader.get_MetaData()
+   at System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   at System.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior, String method)
+   at System.Data.SqlClient.SqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   at System.Data.Common.DbCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.Mapping.Update.Internal.DynamicUpdateCommand.Execute(UpdateTranslator translator, EntityConnection connection, Dictionary`2 identifierValues, List`1 generatedValues)
+   at System.Data.Mapping.Update.Internal.UpdateTranslator.Update(IEntityStateManager stateManager, IEntityAdapter adapter)
+   --- End of inner exception stack trace ---
+   at System.Data.Mapping.Update.Internal.UpdateTranslator.Update(IEntityStateManager stateManager, IEntityAdapter adapter)
+   at System.Data.EntityClient.EntityAdapter.Update(IEntityStateManager entityCache)
+   at System.Data.Objects.ObjectContext.SaveChanges(SaveOptions options)
+   at System.Data.Entity.Internal.InternalContext.SaveChanges()
+   --- End of inner exception stack trace ---
+   at System.Data.Entity.Internal.InternalContext.SaveChanges()
+   at System.Data.Entity.Internal.LazyInternalContext.SaveChanges()
+   at System.Data.Entity.DbContext.SaveChanges()
+   at LetterAmazer.Business.Services.Services.CustomerService.Create(Customer customer) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\CustomerService.cs:line 144
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.Index(CreateSingleLetterModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 105
+2014-03-12 22:53:28,021 [10] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.Data.UpdateException: An error occurred while updating the entries. See the inner exception for details. ---> System.Data.SqlClient.SqlException: The INSERT statement conflicted with the FOREIGN KEY constraint "FK_Customers_Countries". The conflict occurred in database "LetterAmazer", table "dbo.DbCountries", column 'Id'.
+The statement has been terminated.
+   at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at System.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   at System.Data.SqlClient.SqlDataReader.get_MetaData()
+   at System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   at System.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior, String method)
+   at System.Data.SqlClient.SqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   at System.Data.Common.DbCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.Mapping.Update.Internal.DynamicUpdateCommand.Execute(UpdateTranslator translator, EntityConnection connection, Dictionary`2 identifierValues, List`1 generatedValues)
+   at System.Data.Mapping.Update.Internal.UpdateTranslator.Update(IEntityStateManager stateManager, IEntityAdapter adapter)
+   --- End of inner exception stack trace ---
+   at System.Data.Mapping.Update.Internal.UpdateTranslator.Update(IEntityStateManager stateManager, IEntityAdapter adapter)
+   at System.Data.EntityClient.EntityAdapter.Update(IEntityStateManager entityCache)
+   at System.Data.Objects.ObjectContext.SaveChanges(SaveOptions options)
+   at System.Data.Entity.Internal.InternalContext.SaveChanges()
+2014-03-12 22:57:35,172 [13] DEBUG LetterAmazer.Websites.Client.Controllers.SingleLetterController - upload file key: 2014/3/bc4c1ffe-460a-4288-8f0e-e9d3ff8cc2f6.pdf

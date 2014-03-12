@@ -80,7 +80,7 @@ Credits available: <b>@Model.Customer.Credit.ToFriendlyMoney() $</b>
                 <tr>
                     <td>@item.Id</td>
                     <td>@item.DateCreated.ToFriendlyDateTime()</td>
-                    <td>@ViewRes.ResourceManager.GetString(item.OrderStatus.ToString())</td>
+                    <td>@item.OrderStatus.ToString()</td>
                     <td>@item.OrderLines.Count</td>
                     <td>@item.Price.ToFriendlyMoney() USD</td>
                     <td><a href="@Url.Action("Details", new { id = item.Id })">See details</a></td>
