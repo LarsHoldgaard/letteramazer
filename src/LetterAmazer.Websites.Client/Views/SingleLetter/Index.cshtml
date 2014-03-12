@@ -246,7 +246,7 @@
         acceptedFiles: 'application/pdf',
         maxFilesize: 10,
         addRemoveLinks: true,
-        dictRemoveFile: '@ViewRes.RemoveFile',
+        dictRemoveFile: 'Remove file',
         fallback: function () {
             $('div#myDropzone').hide();
             $('div#uploadFallbackPanel').show();
@@ -285,7 +285,7 @@
     });
 
     $('#fileUpload').uploadify({
-        'buttonText': '@ViewRes.SelectPDF',
+        'buttonText': 'Select PDF',
         'fileTypeDesc': 'PDF Files',
         'fileTypeExts': '*.pdf',
         'fileObjName': 'uploadFile',

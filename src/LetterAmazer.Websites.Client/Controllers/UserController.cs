@@ -122,24 +122,54 @@ namespace LetterAmazer.Websites.Client.Controllers
             {
                 LetterDetails = letterDetail,
                 ToAddress = addressInfo,
-
             };
 
+            logger.DebugFormat("upload file key: {0}", model.UploadFile);
+            letter.LetterContent.Path = model.UploadFile;
+            
+            if (System.IO.File.Exists(PathHelper.GetAbsoluteFile(letter.LetterContent.Path)))
+            {
+                letter.LetterContent.Content =
+                    System.IO.File.ReadAllBytes(PathHelper.GetAbsoluteFile(letter.LetterContent.Path));
+            }
+
+
+            var price = priceService.GetPriceByAddress(addressInfo, letter.LetterContent.PageCount);
+            price.VatPercentage = SessionHelper.Customer.VatPercentage();
+            letter.OfficeProductId = price.OfficeProductId;
+
+            
             order.OrderLines.Add(new OrderLine()
             {
                 BaseProduct = letter,
-                ProductType = ProductType.Letter
+                ProductType = ProductType.Letter,
+                Price = new Price()
+                {
+                    PriceExVat = price.Total
+                }
             });
             order.OrderLines.Add(new OrderLine()
             {
                 BaseProduct = letter,
-                ProductType = ProductType.Payment
+                ProductType = ProductType.Payment,
+                PaymentMethodId = 2, // Credit
+                Price = new Price()
+                {
+                    PriceExVat = price.Total
+                }
             });
 
             var updated_order = orderService.Create(order);
 
+            string redirectUrl = paymentService.Process(updated_order);
 
-            return View("Index");
+            if (string.IsNullOrEmpty(redirectUrl))
+            {
+                ProfileViewModel profileViewModel = new ProfileViewModel();
+                return RedirectToAction("Index", "User", profileViewModel);
+            }
+
+            return Redirect(redirectUrl);
         }
 
         #endregion
@@ -191,9 +221,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                 Letter letter = new Letter()
                 {
                     LetterDetails = letterDetail,
-                    ToAddress = addressInfo,
-                    LetterStatus = LetterStatus.Created,
-
+                    ToAddress = addressInfo
                 };
 
                 if (model.UseUploadFile)
@@ -253,7 +281,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                     order.OrderLines.Add(new OrderLine()
                     {
                         ProductType = ProductType.Payment,
-                        PaymentMethodId = 2, // Paypal
+                        PaymentMethodId = 2, // Credit
                         Price = new Price()
                         {
                             PriceExVat = rest
@@ -881,11 +909,12 @@ namespace LetterAmazer.Websites.Client.Controllers
             {
                 UserId = SessionHelper.Customer.Id,
                 FromDate = model.FromDate,
-                ToDate = model.ToDate
+                ToDate = model.ToDate,
             }).OrderByDescending(c => c.DateCreated);
 
             model.Orders = getOrderViewModel(orders);
             model.Customer = SessionHelper.Customer;
+            model.LetterType = SessionHelper.Customer.DefaultLetterType;
         }
 
         private void buildContactsModel(EditContactsViewModel model)

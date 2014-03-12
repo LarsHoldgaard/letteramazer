@@ -155,15 +155,15 @@
           <Property Name="FromAddress_LastName" Type="nvarchar" MaxLength="150" />
           <Property Name="FromAddress_Zipcode" Type="nvarchar" MaxLength="150" />
           <Property Name="FromAddress_VatNr" Type="nvarchar" MaxLength="159" />
-          <Property Name="ToAddress_Address" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="ToAddress_Address" Type="nvarchar" MaxLength="150" />
           <Property Name="ToAddress_Address2" Type="nvarchar" MaxLength="150" />
           <Property Name="ToAddress_AttPerson" Type="nvarchar" MaxLength="150" />
-          <Property Name="ToAddress_City" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="ToAddress_City" Type="nvarchar" MaxLength="150" />
           <Property Name="ToAddress_CompanyName" Type="nvarchar" MaxLength="150" />
           <Property Name="ToAddress_Country" Type="int" Nullable="false" />
           <Property Name="ToAddress_FirstName" Type="nvarchar" MaxLength="150" />
           <Property Name="ToAddress_LastName" Type="nvarchar" MaxLength="150" />
-          <Property Name="ToAddress_Zipcode" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="ToAddress_Zipcode" Type="nvarchar" MaxLength="150" />
           <Property Name="ToAddress_VatNr" Type="nvarchar" MaxLength="159" />
           <Property Name="LetterContent_Path" Type="nvarchar" MaxLength="250" />
           <Property Name="LetterContent_WrittenContent" Type="nvarchar" MaxLength="4000" />
@@ -818,15 +818,15 @@
           <Property Name="FromAddress_LastName" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="FromAddress_Zipcode" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="FromAddress_VatNr" Type="String" MaxLength="159" FixedLength="false" Unicode="true" />
-          <Property Name="ToAddress_Address" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ToAddress_Address" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="ToAddress_Address2" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="ToAddress_AttPerson" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Name="ToAddress_City" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ToAddress_City" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="ToAddress_CompanyName" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="ToAddress_Country" Type="Int32" Nullable="false" />
           <Property Name="ToAddress_FirstName" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="ToAddress_LastName" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Name="ToAddress_Zipcode" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ToAddress_Zipcode" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="ToAddress_VatNr" Type="String" MaxLength="159" FixedLength="false" Unicode="true" />
           <Property Name="LetterContent_Path" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="LetterContent_WrittenContent" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />

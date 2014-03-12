@@ -21,7 +21,7 @@
     self.uploadPdf = ko.observable(0);
     self.useVoucher = ko.observable(0);
     self.showVatInclusive = ko.observable(true);
-    
+
     self.orderid = ko.observable('');
     self.receiver = ko.observable('');
     self.address = ko.observable('');
@@ -66,7 +66,7 @@
             },
             DestinationState: {
                 required: false
-}
+            }
         }
     });
 
@@ -127,7 +127,7 @@
         }
         return false;
     });
-    
+
     self.getPriceTotal = ko.computed(function () {
         try {
             return self.cost().Total.toFixed(2);

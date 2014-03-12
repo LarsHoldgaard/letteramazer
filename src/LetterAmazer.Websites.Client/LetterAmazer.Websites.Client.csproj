@@ -593,6 +593,7 @@
     <Content Include="Scripts\dropzone\images\spritemap.png" />
     <Content Include="Scripts\internals\country.js" />
     <Content Include="Scripts\internals\sendaletter-viewmodel.js" />
+    <Content Include="Scripts\internals\windowedletter-viewmodel.js" />
     <Content Include="Scripts\jquery-2.0.3.js" />
     <Content Include="Scripts\jquery-2.0.3.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />

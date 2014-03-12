@@ -3,6 +3,7 @@ using LetterAmazer.Business.Services.Domain.Customers;
 using LetterAmazer.Business.Services.Domain.Letters;
 using LetterAmazer.Business.Services.Domain.Orders;
 using System;
+using LetterAmazer.Business.Services.Domain.Products.ProductDetails;
 
 namespace LetterAmazer.Websites.Client.ViewModels
 {
@@ -14,6 +15,8 @@ namespace LetterAmazer.Websites.Client.ViewModels
         public DateTime? ToDate { get; set; }
 
         public string SuccessMsg { get; set; }
+
+        public LetterType LetterType { get; set; }
     }
 
     public class OrderViewModel

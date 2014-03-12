@@ -2413,3 +2413,35 @@ Invalid column name 'OrganisationRole'.
    ved LetterAmazer.Business.Services.Services.CustomerService.Update(Customer customer) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Services\CustomerService.cs:linje 207
    ved LetterAmazer.Business.Services.Services.CustomerService.ActivateUser(Customer customer) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Services\CustomerService.cs:linje 110
    ved LetterAmazer.Websites.Client.Controllers.HomeController.Confirm(String key) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\Controllers\HomeController.cs:linje 314
+2014-03-12 17:59:35,191 [7] ERROR LetterAmazer.Websites.Client.Controllers.HomeController - System.NullReferenceException: Object reference not set to an instance of an object.
+   at LetterAmazer.Websites.Client.Controllers.HomeController.Login(LoginViewModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\HomeController.cs:line 128
+2014-03-12 17:59:56,727 [9] ERROR LetterAmazer.Websites.Client.Controllers.HomeController - System.NullReferenceException: Object reference not set to an instance of an object.
+   at LetterAmazer.Websites.Client.Controllers.HomeController.Login(LoginViewModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\HomeController.cs:line 128
+2014-03-12 18:44:38,813 [8] ERROR LetterAmazer.Websites.Client.Controllers.HomeController - System.NullReferenceException: Object reference not set to an instance of an object.
+   at LetterAmazer.Websites.Client.Controllers.HomeController.Login(LoginViewModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\HomeController.cs:line 128
+2014-03-12 19:26:00,722 [11] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.NullReferenceException: Object reference not set to an instance of an object.
+   at LetterAmazer.Business.Services.Services.CustomerService.Create(Customer customer) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\CustomerService.cs:line 138
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.Index(CreateSingleLetterModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 106
+2014-03-12 19:26:00,731 [11] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - 
+2014-03-12 19:26:33,362 [8] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.NullReferenceException: Object reference not set to an instance of an object.
+   at LetterAmazer.Business.Services.Services.CustomerService.Create(Customer customer) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\CustomerService.cs:line 138
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.Index(CreateSingleLetterModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 106
+2014-03-12 19:26:33,363 [8] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - 
+2014-03-12 19:27:01,542 [9] DEBUG LetterAmazer.Websites.Client.Controllers.SingleLetterController - upload file key: 2014/3/b7f9cf00-20b9-46ec-acb3-af58ce7649b2.pdf
+2014-03-12 19:28:21,370 [9] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.NullReferenceException: Object reference not set to an instance of an object.
+   at LetterAmazer.Business.Services.Services.OrderService.Create(Order order) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\OrderService.cs:line 56
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.Index(CreateSingleLetterModel model) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 197
+2014-03-12 19:28:21,371 [9] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - 
+2014-03-12 19:50:31,482 [10] DEBUG LetterAmazer.Websites.Client.Controllers.UserController - upload file key: 2014/3/a6112c89-ec60-4df2-be99-9c1a1d63608a.pdf
+2014-03-12 19:53:24,157 [7] DEBUG LetterAmazer.Websites.Client.Controllers.UserController - upload file key: 2014/3/af079d49-dcde-4e36-acf2-6a3d5d2e4f81.pdf
+2014-03-12 19:58:31,947 [10] DEBUG LetterAmazer.Websites.Client.Controllers.UserController - upload file key: 2014/3/98b86fc3-d729-4f11-8332-c61cceffc0d1.pdf
+2014-03-12 20:01:55,537 [6] DEBUG LetterAmazer.Websites.Client.Controllers.UserController - upload file key: 2014/3/76b0dc46-a31f-4bb3-9bd9-84ac44a593cf.pdf
+2014-03-12 20:03:49,221 [5] DEBUG LetterAmazer.Websites.Client.Controllers.UserController - upload file key: 2014/3/87aa3345-3a8d-4731-8f45-3cfeec884cf0.pdf
+2014-03-12 20:05:19,489 [6] DEBUG LetterAmazer.Websites.Client.Controllers.UserController - upload file key: 2014/3/90398849-7f6a-4ea0-a021-a3910fbea502.pdf
+2014-03-12 20:07:02,007 [9] DEBUG LetterAmazer.Websites.Client.Controllers.UserController - upload file key: 2014/3/97e09639-5f12-4338-b5be-a47201049484.pdf
+2014-03-12 20:08:43,608 [9] DEBUG LetterAmazer.Websites.Client.Controllers.UserController - upload file key: 2014/3/44fa8871-0ff1-41ad-b5f4-3b299aaa7f63.pdf
+2014-03-12 20:09:15,578 [8] DEBUG LetterAmazer.Websites.Client.Controllers.UserController - upload file key: 2014/3/854a20cd-ca3b-40f3-86eb-b27688b8d248.pdf
+2014-03-12 20:09:27,391 [7] DEBUG LetterAmazer.Websites.Client.Controllers.UserController - upload file key: 2014/3/00d55915-7595-4ab6-9e37-3eb7bccc3e0d.pdf
+2014-03-12 20:11:28,537 [5] DEBUG LetterAmazer.Websites.Client.Controllers.UserController - upload file key: 2014/3/9a5f4e5e-63a1-48a1-a3b9-736e801ed1ea.pdf
+2014-03-12 20:12:16,453 [11] DEBUG LetterAmazer.Websites.Client.Controllers.UserController - upload file key: 2014/3/aab2e4e7-1b35-4c16-839f-9ac0fcb27af5.pdf
+2014-03-12 20:13:51,636 [18] DEBUG LetterAmazer.Websites.Client.Controllers.UserController - upload file key: 2014/3/4b9c40cd-70bc-4a43-802b-497c00820672.pdf

@@ -1,4 +1,5 @@
-﻿using LetterAmazer.Business.Services.Domain.Coupons;
+﻿using System.Data.Entity.Validation;
+using LetterAmazer.Business.Services.Domain.Coupons;
 using LetterAmazer.Business.Services.Domain.Customers;
 using LetterAmazer.Business.Services.Domain.Letters;
 using LetterAmazer.Business.Services.Domain.Orders;
@@ -42,7 +43,6 @@ namespace LetterAmazer.Business.Services.Services
                 dborder.DbOrderlines.Add(dbOrderLine);
             }
 
-
             dborder.Guid = Guid.NewGuid();
             dborder.OrderCode = GenerateOrderCode();
             dborder.OrderStatus = (int)OrderStatus.Created;
@@ -63,7 +63,7 @@ namespace LetterAmazer.Business.Services.Services
             repository.DbOrders.Add(dborder);
 
             repository.SaveChanges();
-
+           
             return GetOrderById(dborder.Id);
         }
 

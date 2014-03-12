@@ -1,6 +1,7 @@
 ﻿using System;
 using Amazon.EC2.Model;
 using LetterAmazer.Business.Services.Domain.AddressInfos;
+using LetterAmazer.Business.Services.Domain.Products.ProductDetails;
 
 namespace LetterAmazer.Business.Services.Domain.Customers
 {
@@ -37,6 +38,21 @@ namespace LetterAmazer.Business.Services.Domain.Customers
         public decimal CreditsLeft
         {
             get { return Credit - CreditLimit; }
+        }
+
+
+        public LetterType DefaultLetterType
+        {
+            get
+            {
+                if (Organisation != null && Organisation.OrganisationSettings != null &&
+                    Organisation.OrganisationSettings.LetterType.HasValue)
+                {
+                    return Organisation.OrganisationSettings.LetterType.Value;
+                }
+
+                return LetterType.Pres;
+            }
         }
 
         public AddressInfo InvoiceAddress
