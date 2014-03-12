@@ -27,6 +27,7 @@
     self.address = ko.observable('');
     self.postal = ko.observable('');
     self.city = ko.observable('');
+    self.state = ko.observable('');
     self.country = ko.observable('');
     self.countryCode = ko.observable('');
     self.voucherCode = ko.observable('');
@@ -62,7 +63,10 @@
             },
             DestinationAddress: {
                 required: true
-            }
+            },
+            DestinationState: {
+                required: false
+}
         }
     });
 
@@ -96,6 +100,7 @@
                 address: self.address(),
                 postal: self.postal(),
                 city: self.city(),
+                state: self.state(),
                 country: self.country()
             },
             dataType: 'json',

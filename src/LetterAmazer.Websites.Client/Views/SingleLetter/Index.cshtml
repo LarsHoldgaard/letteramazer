@@ -43,31 +43,35 @@
                                     <div class="col-lg-11 col-lg-offset-1">
                                         <p class="frontpageLeadExplanation">@ViewRes.StepOne</p>
                                         <p>
-                                            @ViewRes.YourEmail:<br />
+                                            @ViewRes.YourEmail<span class="input-required">*</span><br />
                                             @Html.TextBoxFor(m => m.Email, new { @class = "input-lg", placeholder = "Enter your e-mail" })
                                         </p>
                                         <p>
-                                            @ViewRes.RecipientName:<br />
+                                            @ViewRes.RecipientName<span class="input-required">*</span><br />
                                             @Html.TextBoxFor(m => m.RecipientName, new Dictionary<string, object> { { "class", "input-lg" }, { "placeholder", "Enter recipient" }, { "data-bind", "value: receiver" } })
                                         </p>
                                         <p>
-                                            @ViewRes.DestinationCountry:<br />
+                                            @ViewRes.DestinationCountry<span class="input-required">*</span><br />
                                             <select class="address" data-bind="options: countries, optionsText: 'text', optionsValue: 'value', value: selectedCountry, event: { change: selectCountry }"></select>
                                             @Html.HiddenFor(m => m.DestinationCountry, new Dictionary<string, object> { { "data-bind", "value:country" } })
                                             @Html.HiddenFor(m => m.DestinationCountryCode, new Dictionary<string, object> { { "data-bind", "value:countryCode" } })
                                             <br />
                                         </p>
                                         <p>
-                                            @ViewRes.DestinationZipCode:<br />
+                                            @ViewRes.DestinationZipCode<span class="input-required">*</span><br />
                                             @Html.TextBoxFor(m => m.ZipCode, new Dictionary<string, object> { { "class", "input-lg address" }, { "placeholder", "Enter destination ZIP code" }, { "data-bind", "value:postal" } })
                                         </p>
                                         <p>
-                                            @ViewRes.DestinationCity:<br />
+                                            @ViewRes.DestinationCity<span class="input-required">*</span><br />
                                             @Html.TextBoxFor(m => m.DestinationCity, new Dictionary<string, object> { { "class", "input-lg address" }, { "placeholder", "Enter destination city" }, { "data-bind", "value:city" } })
+                                        </p>
+                                        <p>
+                                            State (optional)<br />
+                                            @Html.TextBoxFor(m => m.DestinationState, new Dictionary<string, object> { { "class", "input-lg address" }, { "placeholder", "Enter destination state" }, { "data-bind", "value:state" } })
                                         </p>
 
                                         <p>
-                                            @ViewRes.DestinationAddress:<br />
+                                            @ViewRes.DestinationAddress<span class="input-required">*</span><br />
                                             @Html.TextBoxFor(m => m.DestinationAddress, new Dictionary<string, object> { { "class", "input-lg address" }, { "placeholder", "Enter destination address" }, { "data-bind", "value:address" } })
                                         </p>
                                         <input id="btn-proceed-12" type="button" class="btn btn-primary btn-lg" value="@ViewRes.Proceed &raquo;" data-bind="click: goToStepTwo" />

@@ -97,6 +97,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                 AddressInfo addressInfo = new AddressInfo();
                 addressInfo.Address1 = model.DestinationAddress;
                 addressInfo.FirstName = model.RecipientName;
+                addressInfo.State = model.DestinationState;
                 addressInfo.City = model.DestinationCity;
                 addressInfo.Country = countryService.GetCountryBySpecificaiton(
                     new CountrySpecification() { CountryCode = model.DestinationCountryCode }).FirstOrDefault();

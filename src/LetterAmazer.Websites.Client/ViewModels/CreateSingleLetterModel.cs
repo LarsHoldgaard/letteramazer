@@ -18,6 +18,7 @@ namespace LetterAmazer.Websites.Client.ViewModels
         public string RecipientName { get; set; }
         public string DestinationCountry { get; set; }
         public string DestinationCountryCode { get; set; }
+        public string DestinationState { get; set; }
         public string ZipCode { get; set; }
         public string DestinationCity { get; set; }
         public string DestinationAddress { get; set; }
