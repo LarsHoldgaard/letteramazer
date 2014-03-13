@@ -11,5 +11,11 @@ namespace LetterAmazer.Business.Services.Domain.Countries
         List<Country> GetCountryBySpecificaiton(CountrySpecification specification);
 
         List<Continent> GetContinents();
+
+        CountryName Create(CountryName countryName);
+        CountryName GetCountryNameById(int id);
+        List<CountryName> GetCountryNamesBySpecification(CountryNameSpecification specification);
+
+
     }
 }

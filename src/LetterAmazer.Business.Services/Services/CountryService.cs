@@ -80,9 +80,7 @@ namespace LetterAmazer.Business.Services.Services
             if (specification.ContinentId > 0)
             {
                 dbcountries = repository.DbCountries.Where(c => c.ContinentId == specification.ContinentId);
-            
             }
-
             return countryFactory.Create(dbcountries.OrderBy(c=>c.CountryName).Skip(specification.Skip).Take(specification.Take).ToList());
         }
 
@@ -91,6 +89,41 @@ namespace LetterAmazer.Business.Services.Services
             var dbContinent = repository.DbContinents.ToList();
 
             return countryFactory.CreateContinent(dbContinent);
+        }
+
+        public CountryName Create(CountryName countryName)
+        {
+            var dbCountry = new DbCountryNames()
+            {
+                CountryId = countryName.CountryId,
+                Name = countryName.Name,
+                Language = countryName.Language
+            };
+
+            repository.DbCountryNames.Add(dbCountry);
+            repository.SaveChanges();
+
+            return GetCountryNameById(dbCountry.Id);
+        }
+
+        public CountryName GetCountryNameById(int id)
+        {
+            var dbCountryName = repository.DbCountryNames.First(c => c.Id == id);
+
+            if (dbCountryName == null)
+            {
+                throw new ArgumentException("No countryname with this id: " + id);
+            }
+
+            return countryFactory.CreateCountryName(dbCountryName);
+        }
+
+        public List<CountryName> GetCountryNamesBySpecification(CountryNameSpecification specification)
+        {
+            IQueryable<DbCountryNames> dbCustomers = repository.DbCountryNames;
+
+            return countryFactory.
+                CreateCountryName(dbCustomers.Skip(specification.Skip).Take(specification.Take).ToList());
         }
     }
 }

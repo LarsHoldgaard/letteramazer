@@ -38,6 +38,15 @@
           <Property Name="ContinentId" Type="int" />
           <Property Name="VatPercentage" Type="decimal" Precision="18" Scale="2" />
         </EntityType>
+        <EntityType Name="DbCountryNames">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="CountryId" Type="int" Nullable="false" />
+          <Property Name="Language" Type="varchar" MaxLength="250" Nullable="false" />
+        </EntityType>
         <EntityType Name="DbCoupons">
           <Key>
             <PropertyRef Name="Id" />
@@ -558,6 +567,7 @@
         <EntityContainer Name="LetterAmazerStoreContainer">
           <EntitySet Name="DbContinents" EntityType="Self.DbContinents" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DbCountries" EntityType="Self.DbCountries" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DbCountryNames" EntityType="Self.DbCountryNames" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DbCoupons" EntityType="Self.DbCoupons" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DbCustomers" EntityType="Self.DbCustomers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DbFulfillmentPartners" EntityType="Self.DbFulfillmentPartners" Schema="dbo" store:Type="Tables" />
@@ -1338,7 +1348,17 @@
             <End Role="DbOrganisation" EntitySet="DbOrganisation" />
             <End Role="DbOrganisationProfileSettings" EntitySet="DbOrganisationProfileSettings" />
           </AssociationSet>
+          <EntitySet Name="DbCountryNames" EntityType="LetterAmazer.DbCountryNames" />
         </EntityContainer>
+        <EntityType Name="DbCountryNames">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="CountryId" Type="Int32" Nullable="false" />
+          <Property Name="Language" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1682,6 +1702,16 @@
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="CountryId" ColumnName="CountryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DbCountryNames">
+            <EntityTypeMapping TypeName="LetterAmazer.DbCountryNames">
+              <MappingFragment StoreEntitySet="DbCountryNames">
+                <ScalarProperty Name="Language" ColumnName="Language" />
+                <ScalarProperty Name="CountryId" ColumnName="CountryId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

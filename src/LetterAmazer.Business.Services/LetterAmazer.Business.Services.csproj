@@ -91,6 +91,8 @@
   <ItemGroup>
     <Compile Include="Domain\Common\S3Access.cs" />
     <Compile Include="Domain\Countries\Continent.cs" />
+    <Compile Include="Domain\Countries\CountryName.cs" />
+    <Compile Include="Domain\Countries\CountryNameSpecification.cs" />
     <Compile Include="Domain\Customers\AccountStatus.cs" />
     <Compile Include="Domain\Customers\OrganisationRole.cs" />
     <Compile Include="Domain\Invoice\IInvoiceService.cs" />

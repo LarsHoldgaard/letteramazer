@@ -3442,3 +3442,43 @@ The statement has been terminated.
    at System.Data.Objects.ObjectContext.SaveChanges(SaveOptions options)
    at System.Data.Entity.Internal.InternalContext.SaveChanges()
 2014-03-12 22:57:35,172 [13] DEBUG LetterAmazer.Websites.Client.Controllers.SingleLetterController - upload file key: 2014/3/bc4c1ffe-460a-4288-8f0e-e9d3ff8cc2f6.pdf
+2014-03-13 19:36:16,498 [8] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.IO.IOException: D:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\UserData\PdfLetters\ not found as file or resource.
+   at iTextSharp.text.io.RandomAccessSourceFactory.CreateByReadingToMemory(String filename)
+   at iTextSharp.text.io.RandomAccessSourceFactory.CreateBestSource(String filename)
+   at iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword, Boolean partial)
+   at iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword)
+   at iTextSharp.text.pdf.PdfReader..ctor(String filename)
+   at LetterAmazer.Business.Utils.Helpers.PdfHelper.GetPagesCount(String path) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Utils\Helpers\PdfHelper.cs:line 14
+   at LetterAmazer.Business.Services.Domain.Letters.LetterContent.get_PageCount() in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Domain\Letters\LetterContent.cs:line 20
+   at LetterAmazer.Business.Services.Services.PriceService.GetPriceByLetter(Letter letter) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PriceService.cs:line 64
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetPrice(Boolean usePdf, String uploadFileKey, String content, String address, String postal, String city, String state, String country) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 315
+2014-03-13 19:36:18,454 [8] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.IO.IOException: D:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\UserData\PdfLetters\ not found as file or resource.
+   at iTextSharp.text.io.RandomAccessSourceFactory.CreateByReadingToMemory(String filename)
+   at iTextSharp.text.io.RandomAccessSourceFactory.CreateBestSource(String filename)
+   at iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword, Boolean partial)
+   at iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword)
+   at iTextSharp.text.pdf.PdfReader..ctor(String filename)
+   at LetterAmazer.Business.Utils.Helpers.PdfHelper.GetPagesCount(String path) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Utils\Helpers\PdfHelper.cs:line 14
+   at LetterAmazer.Business.Services.Domain.Letters.LetterContent.get_PageCount() in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Domain\Letters\LetterContent.cs:line 20
+   at LetterAmazer.Business.Services.Services.PriceService.GetPriceByLetter(Letter letter) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PriceService.cs:line 64
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetPrice(Boolean usePdf, String uploadFileKey, String content, String address, String postal, String city, String state, String country) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 315
+2014-03-13 20:06:56,713 [30] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.IO.IOException: D:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\UserData\PdfLetters\ not found as file or resource.
+   at iTextSharp.text.io.RandomAccessSourceFactory.CreateByReadingToMemory(String filename)
+   at iTextSharp.text.io.RandomAccessSourceFactory.CreateBestSource(String filename)
+   at iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword, Boolean partial)
+   at iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword)
+   at iTextSharp.text.pdf.PdfReader..ctor(String filename)
+   at LetterAmazer.Business.Utils.Helpers.PdfHelper.GetPagesCount(String path) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Utils\Helpers\PdfHelper.cs:line 14
+   at LetterAmazer.Business.Services.Domain.Letters.LetterContent.get_PageCount() in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Domain\Letters\LetterContent.cs:line 20
+   at LetterAmazer.Business.Services.Services.PriceService.GetPriceByLetter(Letter letter) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PriceService.cs:line 64
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetPrice(Boolean usePdf, String uploadFileKey, String content, String address, String postal, String city, String state, String country) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 331
+2014-03-13 20:06:58,709 [32] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.IO.IOException: D:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\UserData\PdfLetters\ not found as file or resource.
+   at iTextSharp.text.io.RandomAccessSourceFactory.CreateByReadingToMemory(String filename)
+   at iTextSharp.text.io.RandomAccessSourceFactory.CreateBestSource(String filename)
+   at iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword, Boolean partial)
+   at iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword)
+   at iTextSharp.text.pdf.PdfReader..ctor(String filename)
+   at LetterAmazer.Business.Utils.Helpers.PdfHelper.GetPagesCount(String path) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Utils\Helpers\PdfHelper.cs:line 14
+   at LetterAmazer.Business.Services.Domain.Letters.LetterContent.get_PageCount() in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Domain\Letters\LetterContent.cs:line 20
+   at LetterAmazer.Business.Services.Services.PriceService.GetPriceByLetter(Letter letter) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PriceService.cs:line 64
+   at LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetPrice(Boolean usePdf, String uploadFileKey, String content, String address, String postal, String city, String state, String country) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 331

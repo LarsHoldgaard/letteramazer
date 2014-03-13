@@ -47,5 +47,21 @@ namespace LetterAmazer.Business.Services.Factory
         {
             return dbContinents.Select(CreateContinent).ToList();
         }
+
+        public CountryName CreateCountryName(DbCountryNames countryNames)
+        {
+            return new CountryName()
+            {
+                CountryId = countryNames.CountryId,
+                Name = countryNames.Name,
+                Id = countryNames.Id,
+                Language = countryNames.Language
+            };
+        }
+
+        public List<CountryName> CreateCountryName(List<DbCountryNames> countryNames)
+        {
+            return countryNames.Select(CreateCountryName).ToList();
+        }
     }
 }

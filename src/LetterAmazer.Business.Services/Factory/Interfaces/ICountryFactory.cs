@@ -10,5 +10,9 @@ namespace LetterAmazer.Business.Services.Factory.Interfaces
         List<Country> Create(List<DbCountries> country);
         Continent CreateContinent(DbContinents dbContinents);
         List<Continent> CreateContinent(List<DbContinents> dbContinents);
+
+        CountryName CreateCountryName(DbCountryNames countryNames);
+        List<CountryName> CreateCountryName(List<DbCountryNames> countryNames);
+
     }
 }

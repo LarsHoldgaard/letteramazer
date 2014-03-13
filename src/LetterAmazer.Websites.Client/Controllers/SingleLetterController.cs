@@ -68,6 +68,22 @@ namespace LetterAmazer.Websites.Client.Controllers
                 
             CreateSingleLetterModel model = new CreateSingleLetterModel();
 
+            var countries = countryService.GetCountryBySpecificaiton(new CountrySpecification()
+            {
+                Take = 999
+            });
+
+            foreach (var country in countries)
+            {
+                var selectedItem = new SelectListItem()
+                {
+                    Text = country.Name,
+                    Value = country.Id.ToString(),
+                };
+
+                model.Countries.Add(selectedItem);
+            }
+
             return View(model);
         }
 
