@@ -123,7 +123,7 @@ namespace LetterAmazer.Business.Services.Services
             IQueryable<DbCountryNames> dbCustomers = repository.DbCountryNames;
 
             return countryFactory.
-                CreateCountryName(dbCustomers.Skip(specification.Skip).Take(specification.Take).ToList());
+                CreateCountryName(dbCustomers.OrderBy(c=>c.Id).Skip(specification.Skip).Take(specification.Take).ToList());
         }
     }
 }

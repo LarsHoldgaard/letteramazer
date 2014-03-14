@@ -3482,3 +3482,556 @@ The statement has been terminated.
    at LetterAmazer.Business.Services.Domain.Letters.LetterContent.get_PageCount() in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Domain\Letters\LetterContent.cs:line 20
    at LetterAmazer.Business.Services.Services.PriceService.GetPriceByLetter(Letter letter) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Business.Services\Services\PriceService.cs:line 64
    at LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetPrice(Boolean usePdf, String uploadFileKey, String content, String address, String postal, String city, String state, String country) in d:\Sourcetree\www.letteramazer.com\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:line 331
+2014-03-14 12:57:14,521 [9] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.IO.IOException: C:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\UserData\PdfLetters\ not found as file or resource.
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateByReadingToMemory(String filename)
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateBestSource(String filename)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword, Boolean partial)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename)
+   ved LetterAmazer.Business.Utils.Helpers.PdfHelper.GetPagesCount(String path) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Utils\Helpers\PdfHelper.cs:linje 38
+   ved LetterAmazer.Business.Services.Domain.Letters.LetterContent.get_PageCount() i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Domain\Letters\LetterContent.cs:linje 21
+   ved LetterAmazer.Business.Services.Services.PriceService.GetPriceByLetter(Letter letter) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Services\PriceService.cs:linje 64
+   ved LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetPrice(Boolean usePdf, String uploadFileKey, String content, String address, String postal, String city, String state, String country) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:linje 331
+2014-03-14 12:57:16,420 [9] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.IO.IOException: C:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\UserData\PdfLetters\ not found as file or resource.
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateByReadingToMemory(String filename)
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateBestSource(String filename)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword, Boolean partial)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename)
+   ved LetterAmazer.Business.Utils.Helpers.PdfHelper.GetPagesCount(String path) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Utils\Helpers\PdfHelper.cs:linje 38
+   ved LetterAmazer.Business.Services.Domain.Letters.LetterContent.get_PageCount() i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Domain\Letters\LetterContent.cs:linje 21
+   ved LetterAmazer.Business.Services.Services.PriceService.GetPriceByLetter(Letter letter) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Services\PriceService.cs:linje 64
+   ved LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetPrice(Boolean usePdf, String uploadFileKey, String content, String address, String postal, String city, String state, String country) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:linje 331
+2014-03-14 12:57:18,432 [8] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.IO.IOException: C:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\UserData\PdfLetters\ not found as file or resource.
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateByReadingToMemory(String filename)
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateBestSource(String filename)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword, Boolean partial)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename)
+   ved LetterAmazer.Business.Utils.Helpers.PdfHelper.GetPagesCount(String path) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Utils\Helpers\PdfHelper.cs:linje 38
+   ved LetterAmazer.Business.Services.Domain.Letters.LetterContent.get_PageCount() i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Domain\Letters\LetterContent.cs:linje 21
+   ved LetterAmazer.Business.Services.Services.PriceService.GetPriceByLetter(Letter letter) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Services\PriceService.cs:linje 64
+   ved LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetPrice(Boolean usePdf, String uploadFileKey, String content, String address, String postal, String city, String state, String country) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:linje 331
+2014-03-14 12:57:20,424 [9] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.IO.IOException: C:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\UserData\PdfLetters\ not found as file or resource.
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateByReadingToMemory(String filename)
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateBestSource(String filename)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword, Boolean partial)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename)
+   ved LetterAmazer.Business.Utils.Helpers.PdfHelper.GetPagesCount(String path) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Utils\Helpers\PdfHelper.cs:linje 38
+   ved LetterAmazer.Business.Services.Domain.Letters.LetterContent.get_PageCount() i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Domain\Letters\LetterContent.cs:linje 21
+   ved LetterAmazer.Business.Services.Services.PriceService.GetPriceByLetter(Letter letter) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Services\PriceService.cs:linje 64
+   ved LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetPrice(Boolean usePdf, String uploadFileKey, String content, String address, String postal, String city, String state, String country) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:linje 331
+2014-03-14 12:57:22,429 [9] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.IO.IOException: C:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\UserData\PdfLetters\ not found as file or resource.
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateByReadingToMemory(String filename)
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateBestSource(String filename)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword, Boolean partial)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename)
+   ved LetterAmazer.Business.Utils.Helpers.PdfHelper.GetPagesCount(String path) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Utils\Helpers\PdfHelper.cs:linje 38
+   ved LetterAmazer.Business.Services.Domain.Letters.LetterContent.get_PageCount() i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Domain\Letters\LetterContent.cs:linje 21
+   ved LetterAmazer.Business.Services.Services.PriceService.GetPriceByLetter(Letter letter) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Services\PriceService.cs:linje 64
+   ved LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetPrice(Boolean usePdf, String uploadFileKey, String content, String address, String postal, String city, String state, String country) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:linje 331
+2014-03-14 12:57:24,462 [9] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.IO.IOException: C:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\UserData\PdfLetters\ not found as file or resource.
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateByReadingToMemory(String filename)
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateBestSource(String filename)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword, Boolean partial)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename)
+   ved LetterAmazer.Business.Utils.Helpers.PdfHelper.GetPagesCount(String path) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Utils\Helpers\PdfHelper.cs:linje 38
+   ved LetterAmazer.Business.Services.Domain.Letters.LetterContent.get_PageCount() i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Domain\Letters\LetterContent.cs:linje 21
+   ved LetterAmazer.Business.Services.Services.PriceService.GetPriceByLetter(Letter letter) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Services\PriceService.cs:linje 64
+   ved LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetPrice(Boolean usePdf, String uploadFileKey, String content, String address, String postal, String city, String state, String country) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:linje 331
+2014-03-14 12:57:26,701 [7] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.IO.IOException: C:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\UserData\PdfLetters\ not found as file or resource.
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateByReadingToMemory(String filename)
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateBestSource(String filename)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword, Boolean partial)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename)
+   ved LetterAmazer.Business.Utils.Helpers.PdfHelper.GetPagesCount(String path) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Utils\Helpers\PdfHelper.cs:linje 38
+   ved LetterAmazer.Business.Services.Domain.Letters.LetterContent.get_PageCount() i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Domain\Letters\LetterContent.cs:linje 21
+   ved LetterAmazer.Business.Services.Services.PriceService.GetPriceByLetter(Letter letter) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Services\PriceService.cs:linje 64
+   ved LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetPrice(Boolean usePdf, String uploadFileKey, String content, String address, String postal, String city, String state, String country) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:linje 331
+2014-03-14 12:57:28,750 [7] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.IO.IOException: C:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\UserData\PdfLetters\ not found as file or resource.
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateByReadingToMemory(String filename)
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateBestSource(String filename)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword, Boolean partial)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename)
+   ved LetterAmazer.Business.Utils.Helpers.PdfHelper.GetPagesCount(String path) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Utils\Helpers\PdfHelper.cs:linje 38
+   ved LetterAmazer.Business.Services.Domain.Letters.LetterContent.get_PageCount() i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Domain\Letters\LetterContent.cs:linje 21
+   ved LetterAmazer.Business.Services.Services.PriceService.GetPriceByLetter(Letter letter) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Services\PriceService.cs:linje 64
+   ved LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetPrice(Boolean usePdf, String uploadFileKey, String content, String address, String postal, String city, String state, String country) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:linje 331
+2014-03-14 12:57:30,441 [7] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.IO.IOException: C:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\UserData\PdfLetters\ not found as file or resource.
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateByReadingToMemory(String filename)
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateBestSource(String filename)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword, Boolean partial)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename)
+   ved LetterAmazer.Business.Utils.Helpers.PdfHelper.GetPagesCount(String path) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Utils\Helpers\PdfHelper.cs:linje 38
+   ved LetterAmazer.Business.Services.Domain.Letters.LetterContent.get_PageCount() i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Domain\Letters\LetterContent.cs:linje 21
+   ved LetterAmazer.Business.Services.Services.PriceService.GetPriceByLetter(Letter letter) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Services\PriceService.cs:linje 64
+   ved LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetPrice(Boolean usePdf, String uploadFileKey, String content, String address, String postal, String city, String state, String country) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:linje 331
+2014-03-14 12:57:32,427 [9] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.IO.IOException: C:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\UserData\PdfLetters\ not found as file or resource.
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateByReadingToMemory(String filename)
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateBestSource(String filename)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword, Boolean partial)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename)
+   ved LetterAmazer.Business.Utils.Helpers.PdfHelper.GetPagesCount(String path) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Utils\Helpers\PdfHelper.cs:linje 38
+   ved LetterAmazer.Business.Services.Domain.Letters.LetterContent.get_PageCount() i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Domain\Letters\LetterContent.cs:linje 21
+   ved LetterAmazer.Business.Services.Services.PriceService.GetPriceByLetter(Letter letter) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Services\PriceService.cs:linje 64
+   ved LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetPrice(Boolean usePdf, String uploadFileKey, String content, String address, String postal, String city, String state, String country) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:linje 331
+2014-03-14 12:57:34,427 [9] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.IO.IOException: C:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\UserData\PdfLetters\ not found as file or resource.
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateByReadingToMemory(String filename)
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateBestSource(String filename)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword, Boolean partial)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename)
+   ved LetterAmazer.Business.Utils.Helpers.PdfHelper.GetPagesCount(String path) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Utils\Helpers\PdfHelper.cs:linje 38
+   ved LetterAmazer.Business.Services.Domain.Letters.LetterContent.get_PageCount() i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Domain\Letters\LetterContent.cs:linje 21
+   ved LetterAmazer.Business.Services.Services.PriceService.GetPriceByLetter(Letter letter) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Services\PriceService.cs:linje 64
+   ved LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetPrice(Boolean usePdf, String uploadFileKey, String content, String address, String postal, String city, String state, String country) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:linje 331
+2014-03-14 12:57:36,436 [9] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.IO.IOException: C:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\UserData\PdfLetters\ not found as file or resource.
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateByReadingToMemory(String filename)
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateBestSource(String filename)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword, Boolean partial)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename)
+   ved LetterAmazer.Business.Utils.Helpers.PdfHelper.GetPagesCount(String path) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Utils\Helpers\PdfHelper.cs:linje 38
+   ved LetterAmazer.Business.Services.Domain.Letters.LetterContent.get_PageCount() i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Domain\Letters\LetterContent.cs:linje 21
+   ved LetterAmazer.Business.Services.Services.PriceService.GetPriceByLetter(Letter letter) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Services\PriceService.cs:linje 64
+   ved LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetPrice(Boolean usePdf, String uploadFileKey, String content, String address, String postal, String city, String state, String country) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:linje 331
+2014-03-14 12:57:38,433 [7] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.IO.IOException: C:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\UserData\PdfLetters\ not found as file or resource.
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateByReadingToMemory(String filename)
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateBestSource(String filename)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword, Boolean partial)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename)
+   ved LetterAmazer.Business.Utils.Helpers.PdfHelper.GetPagesCount(String path) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Utils\Helpers\PdfHelper.cs:linje 38
+   ved LetterAmazer.Business.Services.Domain.Letters.LetterContent.get_PageCount() i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Domain\Letters\LetterContent.cs:linje 21
+   ved LetterAmazer.Business.Services.Services.PriceService.GetPriceByLetter(Letter letter) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Services\PriceService.cs:linje 64
+   ved LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetPrice(Boolean usePdf, String uploadFileKey, String content, String address, String postal, String city, String state, String country) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:linje 331
+2014-03-14 12:57:40,439 [7] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.IO.IOException: C:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\UserData\PdfLetters\ not found as file or resource.
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateByReadingToMemory(String filename)
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateBestSource(String filename)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword, Boolean partial)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename)
+   ved LetterAmazer.Business.Utils.Helpers.PdfHelper.GetPagesCount(String path) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Utils\Helpers\PdfHelper.cs:linje 38
+   ved LetterAmazer.Business.Services.Domain.Letters.LetterContent.get_PageCount() i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Domain\Letters\LetterContent.cs:linje 21
+   ved LetterAmazer.Business.Services.Services.PriceService.GetPriceByLetter(Letter letter) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Services\PriceService.cs:linje 64
+   ved LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetPrice(Boolean usePdf, String uploadFileKey, String content, String address, String postal, String city, String state, String country) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:linje 331
+2014-03-14 12:57:42,465 [9] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.IO.IOException: C:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\UserData\PdfLetters\ not found as file or resource.
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateByReadingToMemory(String filename)
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateBestSource(String filename)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword, Boolean partial)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename)
+   ved LetterAmazer.Business.Utils.Helpers.PdfHelper.GetPagesCount(String path) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Utils\Helpers\PdfHelper.cs:linje 38
+   ved LetterAmazer.Business.Services.Domain.Letters.LetterContent.get_PageCount() i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Domain\Letters\LetterContent.cs:linje 21
+   ved LetterAmazer.Business.Services.Services.PriceService.GetPriceByLetter(Letter letter) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Services\PriceService.cs:linje 64
+   ved LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetPrice(Boolean usePdf, String uploadFileKey, String content, String address, String postal, String city, String state, String country) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:linje 331
+2014-03-14 12:57:44,443 [7] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.IO.IOException: C:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\UserData\PdfLetters\ not found as file or resource.
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateByReadingToMemory(String filename)
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateBestSource(String filename)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword, Boolean partial)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename)
+   ved LetterAmazer.Business.Utils.Helpers.PdfHelper.GetPagesCount(String path) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Utils\Helpers\PdfHelper.cs:linje 38
+   ved LetterAmazer.Business.Services.Domain.Letters.LetterContent.get_PageCount() i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Domain\Letters\LetterContent.cs:linje 21
+   ved LetterAmazer.Business.Services.Services.PriceService.GetPriceByLetter(Letter letter) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Services\PriceService.cs:linje 64
+   ved LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetPrice(Boolean usePdf, String uploadFileKey, String content, String address, String postal, String city, String state, String country) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:linje 331
+2014-03-14 12:57:46,444 [6] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.IO.IOException: C:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\UserData\PdfLetters\ not found as file or resource.
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateByReadingToMemory(String filename)
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateBestSource(String filename)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword, Boolean partial)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename)
+   ved LetterAmazer.Business.Utils.Helpers.PdfHelper.GetPagesCount(String path) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Utils\Helpers\PdfHelper.cs:linje 38
+   ved LetterAmazer.Business.Services.Domain.Letters.LetterContent.get_PageCount() i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Domain\Letters\LetterContent.cs:linje 21
+   ved LetterAmazer.Business.Services.Services.PriceService.GetPriceByLetter(Letter letter) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Services\PriceService.cs:linje 64
+   ved LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetPrice(Boolean usePdf, String uploadFileKey, String content, String address, String postal, String city, String state, String country) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:linje 331
+2014-03-14 12:57:48,444 [9] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.IO.IOException: C:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\UserData\PdfLetters\ not found as file or resource.
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateByReadingToMemory(String filename)
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateBestSource(String filename)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword, Boolean partial)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename)
+   ved LetterAmazer.Business.Utils.Helpers.PdfHelper.GetPagesCount(String path) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Utils\Helpers\PdfHelper.cs:linje 38
+   ved LetterAmazer.Business.Services.Domain.Letters.LetterContent.get_PageCount() i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Domain\Letters\LetterContent.cs:linje 21
+   ved LetterAmazer.Business.Services.Services.PriceService.GetPriceByLetter(Letter letter) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Services\PriceService.cs:linje 64
+   ved LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetPrice(Boolean usePdf, String uploadFileKey, String content, String address, String postal, String city, String state, String country) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:linje 331
+2014-03-14 12:57:50,466 [6] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.IO.IOException: C:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\UserData\PdfLetters\ not found as file or resource.
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateByReadingToMemory(String filename)
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateBestSource(String filename)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword, Boolean partial)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename)
+   ved LetterAmazer.Business.Utils.Helpers.PdfHelper.GetPagesCount(String path) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Utils\Helpers\PdfHelper.cs:linje 38
+   ved LetterAmazer.Business.Services.Domain.Letters.LetterContent.get_PageCount() i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Domain\Letters\LetterContent.cs:linje 21
+   ved LetterAmazer.Business.Services.Services.PriceService.GetPriceByLetter(Letter letter) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Services\PriceService.cs:linje 64
+   ved LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetPrice(Boolean usePdf, String uploadFileKey, String content, String address, String postal, String city, String state, String country) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:linje 331
+2014-03-14 12:57:52,447 [6] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.IO.IOException: C:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\UserData\PdfLetters\ not found as file or resource.
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateByReadingToMemory(String filename)
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateBestSource(String filename)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword, Boolean partial)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename)
+   ved LetterAmazer.Business.Utils.Helpers.PdfHelper.GetPagesCount(String path) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Utils\Helpers\PdfHelper.cs:linje 38
+   ved LetterAmazer.Business.Services.Domain.Letters.LetterContent.get_PageCount() i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Domain\Letters\LetterContent.cs:linje 21
+   ved LetterAmazer.Business.Services.Services.PriceService.GetPriceByLetter(Letter letter) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Services\PriceService.cs:linje 64
+   ved LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetPrice(Boolean usePdf, String uploadFileKey, String content, String address, String postal, String city, String state, String country) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:linje 331
+2014-03-14 12:57:54,479 [10] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.IO.IOException: C:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\UserData\PdfLetters\ not found as file or resource.
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateByReadingToMemory(String filename)
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateBestSource(String filename)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword, Boolean partial)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename)
+   ved LetterAmazer.Business.Utils.Helpers.PdfHelper.GetPagesCount(String path) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Utils\Helpers\PdfHelper.cs:linje 38
+   ved LetterAmazer.Business.Services.Domain.Letters.LetterContent.get_PageCount() i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Domain\Letters\LetterContent.cs:linje 21
+   ved LetterAmazer.Business.Services.Services.PriceService.GetPriceByLetter(Letter letter) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Services\PriceService.cs:linje 64
+   ved LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetPrice(Boolean usePdf, String uploadFileKey, String content, String address, String postal, String city, String state, String country) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:linje 331
+2014-03-14 12:57:56,457 [6] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.IO.IOException: C:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\UserData\PdfLetters\ not found as file or resource.
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateByReadingToMemory(String filename)
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateBestSource(String filename)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword, Boolean partial)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename)
+   ved LetterAmazer.Business.Utils.Helpers.PdfHelper.GetPagesCount(String path) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Utils\Helpers\PdfHelper.cs:linje 38
+   ved LetterAmazer.Business.Services.Domain.Letters.LetterContent.get_PageCount() i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Domain\Letters\LetterContent.cs:linje 21
+   ved LetterAmazer.Business.Services.Services.PriceService.GetPriceByLetter(Letter letter) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Services\PriceService.cs:linje 64
+   ved LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetPrice(Boolean usePdf, String uploadFileKey, String content, String address, String postal, String city, String state, String country) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:linje 331
+2014-03-14 12:57:58,458 [10] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.IO.IOException: C:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\UserData\PdfLetters\ not found as file or resource.
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateByReadingToMemory(String filename)
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateBestSource(String filename)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword, Boolean partial)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename)
+   ved LetterAmazer.Business.Utils.Helpers.PdfHelper.GetPagesCount(String path) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Utils\Helpers\PdfHelper.cs:linje 38
+   ved LetterAmazer.Business.Services.Domain.Letters.LetterContent.get_PageCount() i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Domain\Letters\LetterContent.cs:linje 21
+   ved LetterAmazer.Business.Services.Services.PriceService.GetPriceByLetter(Letter letter) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Services\PriceService.cs:linje 64
+   ved LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetPrice(Boolean usePdf, String uploadFileKey, String content, String address, String postal, String city, String state, String country) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:linje 331
+2014-03-14 12:58:00,463 [10] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.IO.IOException: C:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\UserData\PdfLetters\ not found as file or resource.
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateByReadingToMemory(String filename)
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateBestSource(String filename)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword, Boolean partial)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename)
+   ved LetterAmazer.Business.Utils.Helpers.PdfHelper.GetPagesCount(String path) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Utils\Helpers\PdfHelper.cs:linje 38
+   ved LetterAmazer.Business.Services.Domain.Letters.LetterContent.get_PageCount() i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Domain\Letters\LetterContent.cs:linje 21
+   ved LetterAmazer.Business.Services.Services.PriceService.GetPriceByLetter(Letter letter) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Services\PriceService.cs:linje 64
+   ved LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetPrice(Boolean usePdf, String uploadFileKey, String content, String address, String postal, String city, String state, String country) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:linje 331
+2014-03-14 12:58:02,566 [10] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.IO.IOException: C:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\UserData\PdfLetters\ not found as file or resource.
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateByReadingToMemory(String filename)
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateBestSource(String filename)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword, Boolean partial)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename)
+   ved LetterAmazer.Business.Utils.Helpers.PdfHelper.GetPagesCount(String path) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Utils\Helpers\PdfHelper.cs:linje 38
+   ved LetterAmazer.Business.Services.Domain.Letters.LetterContent.get_PageCount() i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Domain\Letters\LetterContent.cs:linje 21
+   ved LetterAmazer.Business.Services.Services.PriceService.GetPriceByLetter(Letter letter) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Services\PriceService.cs:linje 64
+   ved LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetPrice(Boolean usePdf, String uploadFileKey, String content, String address, String postal, String city, String state, String country) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:linje 331
+2014-03-14 12:58:04,461 [10] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.IO.IOException: C:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\UserData\PdfLetters\ not found as file or resource.
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateByReadingToMemory(String filename)
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateBestSource(String filename)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword, Boolean partial)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename)
+   ved LetterAmazer.Business.Utils.Helpers.PdfHelper.GetPagesCount(String path) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Utils\Helpers\PdfHelper.cs:linje 38
+   ved LetterAmazer.Business.Services.Domain.Letters.LetterContent.get_PageCount() i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Domain\Letters\LetterContent.cs:linje 21
+   ved LetterAmazer.Business.Services.Services.PriceService.GetPriceByLetter(Letter letter) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Services\PriceService.cs:linje 64
+   ved LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetPrice(Boolean usePdf, String uploadFileKey, String content, String address, String postal, String city, String state, String country) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:linje 331
+2014-03-14 12:58:06,472 [10] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.IO.IOException: C:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\UserData\PdfLetters\ not found as file or resource.
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateByReadingToMemory(String filename)
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateBestSource(String filename)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword, Boolean partial)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename)
+   ved LetterAmazer.Business.Utils.Helpers.PdfHelper.GetPagesCount(String path) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Utils\Helpers\PdfHelper.cs:linje 38
+   ved LetterAmazer.Business.Services.Domain.Letters.LetterContent.get_PageCount() i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Domain\Letters\LetterContent.cs:linje 21
+   ved LetterAmazer.Business.Services.Services.PriceService.GetPriceByLetter(Letter letter) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Services\PriceService.cs:linje 64
+   ved LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetPrice(Boolean usePdf, String uploadFileKey, String content, String address, String postal, String city, String state, String country) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:linje 331
+2014-03-14 12:58:08,458 [10] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.IO.IOException: C:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\UserData\PdfLetters\ not found as file or resource.
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateByReadingToMemory(String filename)
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateBestSource(String filename)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword, Boolean partial)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename)
+   ved LetterAmazer.Business.Utils.Helpers.PdfHelper.GetPagesCount(String path) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Utils\Helpers\PdfHelper.cs:linje 38
+   ved LetterAmazer.Business.Services.Domain.Letters.LetterContent.get_PageCount() i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Domain\Letters\LetterContent.cs:linje 21
+   ved LetterAmazer.Business.Services.Services.PriceService.GetPriceByLetter(Letter letter) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Services\PriceService.cs:linje 64
+   ved LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetPrice(Boolean usePdf, String uploadFileKey, String content, String address, String postal, String city, String state, String country) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:linje 331
+2014-03-14 12:58:10,503 [9] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.IO.IOException: C:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\UserData\PdfLetters\ not found as file or resource.
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateByReadingToMemory(String filename)
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateBestSource(String filename)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword, Boolean partial)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename)
+   ved LetterAmazer.Business.Utils.Helpers.PdfHelper.GetPagesCount(String path) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Utils\Helpers\PdfHelper.cs:linje 38
+   ved LetterAmazer.Business.Services.Domain.Letters.LetterContent.get_PageCount() i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Domain\Letters\LetterContent.cs:linje 21
+   ved LetterAmazer.Business.Services.Services.PriceService.GetPriceByLetter(Letter letter) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Services\PriceService.cs:linje 64
+   ved LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetPrice(Boolean usePdf, String uploadFileKey, String content, String address, String postal, String city, String state, String country) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:linje 331
+2014-03-14 12:58:12,486 [9] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.IO.IOException: C:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\UserData\PdfLetters\ not found as file or resource.
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateByReadingToMemory(String filename)
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateBestSource(String filename)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword, Boolean partial)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename)
+   ved LetterAmazer.Business.Utils.Helpers.PdfHelper.GetPagesCount(String path) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Utils\Helpers\PdfHelper.cs:linje 38
+   ved LetterAmazer.Business.Services.Domain.Letters.LetterContent.get_PageCount() i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Domain\Letters\LetterContent.cs:linje 21
+   ved LetterAmazer.Business.Services.Services.PriceService.GetPriceByLetter(Letter letter) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Services\PriceService.cs:linje 64
+   ved LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetPrice(Boolean usePdf, String uploadFileKey, String content, String address, String postal, String city, String state, String country) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:linje 331
+2014-03-14 12:58:14,468 [7] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.IO.IOException: C:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\UserData\PdfLetters\ not found as file or resource.
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateByReadingToMemory(String filename)
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateBestSource(String filename)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword, Boolean partial)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename)
+   ved LetterAmazer.Business.Utils.Helpers.PdfHelper.GetPagesCount(String path) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Utils\Helpers\PdfHelper.cs:linje 38
+   ved LetterAmazer.Business.Services.Domain.Letters.LetterContent.get_PageCount() i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Domain\Letters\LetterContent.cs:linje 21
+   ved LetterAmazer.Business.Services.Services.PriceService.GetPriceByLetter(Letter letter) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Services\PriceService.cs:linje 64
+   ved LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetPrice(Boolean usePdf, String uploadFileKey, String content, String address, String postal, String city, String state, String country) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:linje 331
+2014-03-14 12:58:16,503 [10] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.IO.IOException: C:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\UserData\PdfLetters\ not found as file or resource.
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateByReadingToMemory(String filename)
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateBestSource(String filename)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword, Boolean partial)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename)
+   ved LetterAmazer.Business.Utils.Helpers.PdfHelper.GetPagesCount(String path) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Utils\Helpers\PdfHelper.cs:linje 38
+   ved LetterAmazer.Business.Services.Domain.Letters.LetterContent.get_PageCount() i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Domain\Letters\LetterContent.cs:linje 21
+   ved LetterAmazer.Business.Services.Services.PriceService.GetPriceByLetter(Letter letter) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Services\PriceService.cs:linje 64
+   ved LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetPrice(Boolean usePdf, String uploadFileKey, String content, String address, String postal, String city, String state, String country) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:linje 331
+2014-03-14 12:58:18,616 [7] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.IO.IOException: C:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\UserData\PdfLetters\ not found as file or resource.
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateByReadingToMemory(String filename)
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateBestSource(String filename)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword, Boolean partial)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename)
+   ved LetterAmazer.Business.Utils.Helpers.PdfHelper.GetPagesCount(String path) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Utils\Helpers\PdfHelper.cs:linje 38
+   ved LetterAmazer.Business.Services.Domain.Letters.LetterContent.get_PageCount() i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Domain\Letters\LetterContent.cs:linje 21
+   ved LetterAmazer.Business.Services.Services.PriceService.GetPriceByLetter(Letter letter) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Services\PriceService.cs:linje 64
+   ved LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetPrice(Boolean usePdf, String uploadFileKey, String content, String address, String postal, String city, String state, String country) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:linje 331
+2014-03-14 12:58:20,472 [10] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.IO.IOException: C:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\UserData\PdfLetters\ not found as file or resource.
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateByReadingToMemory(String filename)
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateBestSource(String filename)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword, Boolean partial)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename)
+   ved LetterAmazer.Business.Utils.Helpers.PdfHelper.GetPagesCount(String path) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Utils\Helpers\PdfHelper.cs:linje 38
+   ved LetterAmazer.Business.Services.Domain.Letters.LetterContent.get_PageCount() i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Domain\Letters\LetterContent.cs:linje 21
+   ved LetterAmazer.Business.Services.Services.PriceService.GetPriceByLetter(Letter letter) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Services\PriceService.cs:linje 64
+   ved LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetPrice(Boolean usePdf, String uploadFileKey, String content, String address, String postal, String city, String state, String country) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:linje 331
+2014-03-14 12:58:22,476 [9] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.IO.IOException: C:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\UserData\PdfLetters\ not found as file or resource.
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateByReadingToMemory(String filename)
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateBestSource(String filename)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword, Boolean partial)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename)
+   ved LetterAmazer.Business.Utils.Helpers.PdfHelper.GetPagesCount(String path) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Utils\Helpers\PdfHelper.cs:linje 38
+   ved LetterAmazer.Business.Services.Domain.Letters.LetterContent.get_PageCount() i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Domain\Letters\LetterContent.cs:linje 21
+   ved LetterAmazer.Business.Services.Services.PriceService.GetPriceByLetter(Letter letter) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Services\PriceService.cs:linje 64
+   ved LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetPrice(Boolean usePdf, String uploadFileKey, String content, String address, String postal, String city, String state, String country) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:linje 331
+2014-03-14 12:58:24,490 [9] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.IO.IOException: C:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\UserData\PdfLetters\ not found as file or resource.
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateByReadingToMemory(String filename)
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateBestSource(String filename)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword, Boolean partial)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename)
+   ved LetterAmazer.Business.Utils.Helpers.PdfHelper.GetPagesCount(String path) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Utils\Helpers\PdfHelper.cs:linje 38
+   ved LetterAmazer.Business.Services.Domain.Letters.LetterContent.get_PageCount() i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Domain\Letters\LetterContent.cs:linje 21
+   ved LetterAmazer.Business.Services.Services.PriceService.GetPriceByLetter(Letter letter) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Services\PriceService.cs:linje 64
+   ved LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetPrice(Boolean usePdf, String uploadFileKey, String content, String address, String postal, String city, String state, String country) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:linje 331
+2014-03-14 12:58:26,463 [9] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.IO.IOException: C:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\UserData\PdfLetters\ not found as file or resource.
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateByReadingToMemory(String filename)
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateBestSource(String filename)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword, Boolean partial)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename)
+   ved LetterAmazer.Business.Utils.Helpers.PdfHelper.GetPagesCount(String path) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Utils\Helpers\PdfHelper.cs:linje 38
+   ved LetterAmazer.Business.Services.Domain.Letters.LetterContent.get_PageCount() i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Domain\Letters\LetterContent.cs:linje 21
+   ved LetterAmazer.Business.Services.Services.PriceService.GetPriceByLetter(Letter letter) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Services\PriceService.cs:linje 64
+   ved LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetPrice(Boolean usePdf, String uploadFileKey, String content, String address, String postal, String city, String state, String country) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:linje 331
+2014-03-14 12:58:28,465 [7] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.IO.IOException: C:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\UserData\PdfLetters\ not found as file or resource.
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateByReadingToMemory(String filename)
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateBestSource(String filename)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword, Boolean partial)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename)
+   ved LetterAmazer.Business.Utils.Helpers.PdfHelper.GetPagesCount(String path) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Utils\Helpers\PdfHelper.cs:linje 38
+   ved LetterAmazer.Business.Services.Domain.Letters.LetterContent.get_PageCount() i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Domain\Letters\LetterContent.cs:linje 21
+   ved LetterAmazer.Business.Services.Services.PriceService.GetPriceByLetter(Letter letter) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Services\PriceService.cs:linje 64
+   ved LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetPrice(Boolean usePdf, String uploadFileKey, String content, String address, String postal, String city, String state, String country) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:linje 331
+2014-03-14 12:58:30,476 [9] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.IO.IOException: C:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\UserData\PdfLetters\ not found as file or resource.
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateByReadingToMemory(String filename)
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateBestSource(String filename)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword, Boolean partial)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename)
+   ved LetterAmazer.Business.Utils.Helpers.PdfHelper.GetPagesCount(String path) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Utils\Helpers\PdfHelper.cs:linje 38
+   ved LetterAmazer.Business.Services.Domain.Letters.LetterContent.get_PageCount() i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Domain\Letters\LetterContent.cs:linje 21
+   ved LetterAmazer.Business.Services.Services.PriceService.GetPriceByLetter(Letter letter) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Services\PriceService.cs:linje 64
+   ved LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetPrice(Boolean usePdf, String uploadFileKey, String content, String address, String postal, String city, String state, String country) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:linje 331
+2014-03-14 12:58:32,475 [9] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.IO.IOException: C:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\UserData\PdfLetters\ not found as file or resource.
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateByReadingToMemory(String filename)
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateBestSource(String filename)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword, Boolean partial)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename)
+   ved LetterAmazer.Business.Utils.Helpers.PdfHelper.GetPagesCount(String path) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Utils\Helpers\PdfHelper.cs:linje 38
+   ved LetterAmazer.Business.Services.Domain.Letters.LetterContent.get_PageCount() i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Domain\Letters\LetterContent.cs:linje 21
+   ved LetterAmazer.Business.Services.Services.PriceService.GetPriceByLetter(Letter letter) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Services\PriceService.cs:linje 64
+   ved LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetPrice(Boolean usePdf, String uploadFileKey, String content, String address, String postal, String city, String state, String country) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:linje 331
+2014-03-14 12:58:34,478 [9] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.IO.IOException: C:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\UserData\PdfLetters\ not found as file or resource.
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateByReadingToMemory(String filename)
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateBestSource(String filename)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword, Boolean partial)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename)
+   ved LetterAmazer.Business.Utils.Helpers.PdfHelper.GetPagesCount(String path) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Utils\Helpers\PdfHelper.cs:linje 38
+   ved LetterAmazer.Business.Services.Domain.Letters.LetterContent.get_PageCount() i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Domain\Letters\LetterContent.cs:linje 21
+   ved LetterAmazer.Business.Services.Services.PriceService.GetPriceByLetter(Letter letter) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Services\PriceService.cs:linje 64
+   ved LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetPrice(Boolean usePdf, String uploadFileKey, String content, String address, String postal, String city, String state, String country) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:linje 331
+2014-03-14 12:58:36,474 [9] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.IO.IOException: C:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\UserData\PdfLetters\ not found as file or resource.
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateByReadingToMemory(String filename)
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateBestSource(String filename)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword, Boolean partial)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename)
+   ved LetterAmazer.Business.Utils.Helpers.PdfHelper.GetPagesCount(String path) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Utils\Helpers\PdfHelper.cs:linje 38
+   ved LetterAmazer.Business.Services.Domain.Letters.LetterContent.get_PageCount() i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Domain\Letters\LetterContent.cs:linje 21
+   ved LetterAmazer.Business.Services.Services.PriceService.GetPriceByLetter(Letter letter) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Services\PriceService.cs:linje 64
+   ved LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetPrice(Boolean usePdf, String uploadFileKey, String content, String address, String postal, String city, String state, String country) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:linje 331
+2014-03-14 12:58:38,485 [9] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.IO.IOException: C:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\UserData\PdfLetters\ not found as file or resource.
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateByReadingToMemory(String filename)
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateBestSource(String filename)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword, Boolean partial)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename)
+   ved LetterAmazer.Business.Utils.Helpers.PdfHelper.GetPagesCount(String path) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Utils\Helpers\PdfHelper.cs:linje 38
+   ved LetterAmazer.Business.Services.Domain.Letters.LetterContent.get_PageCount() i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Domain\Letters\LetterContent.cs:linje 21
+   ved LetterAmazer.Business.Services.Services.PriceService.GetPriceByLetter(Letter letter) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Services\PriceService.cs:linje 64
+   ved LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetPrice(Boolean usePdf, String uploadFileKey, String content, String address, String postal, String city, String state, String country) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:linje 331
+2014-03-14 12:58:40,475 [6] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.IO.IOException: C:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\UserData\PdfLetters\ not found as file or resource.
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateByReadingToMemory(String filename)
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateBestSource(String filename)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword, Boolean partial)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename)
+   ved LetterAmazer.Business.Utils.Helpers.PdfHelper.GetPagesCount(String path) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Utils\Helpers\PdfHelper.cs:linje 38
+   ved LetterAmazer.Business.Services.Domain.Letters.LetterContent.get_PageCount() i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Domain\Letters\LetterContent.cs:linje 21
+   ved LetterAmazer.Business.Services.Services.PriceService.GetPriceByLetter(Letter letter) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Services\PriceService.cs:linje 64
+   ved LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetPrice(Boolean usePdf, String uploadFileKey, String content, String address, String postal, String city, String state, String country) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:linje 331
+2014-03-14 12:58:42,469 [9] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.IO.IOException: C:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\UserData\PdfLetters\ not found as file or resource.
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateByReadingToMemory(String filename)
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateBestSource(String filename)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword, Boolean partial)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename)
+   ved LetterAmazer.Business.Utils.Helpers.PdfHelper.GetPagesCount(String path) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Utils\Helpers\PdfHelper.cs:linje 38
+   ved LetterAmazer.Business.Services.Domain.Letters.LetterContent.get_PageCount() i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Domain\Letters\LetterContent.cs:linje 21
+   ved LetterAmazer.Business.Services.Services.PriceService.GetPriceByLetter(Letter letter) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Services\PriceService.cs:linje 64
+   ved LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetPrice(Boolean usePdf, String uploadFileKey, String content, String address, String postal, String city, String state, String country) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:linje 331
+2014-03-14 12:58:44,480 [7] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.IO.IOException: C:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\UserData\PdfLetters\ not found as file or resource.
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateByReadingToMemory(String filename)
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateBestSource(String filename)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword, Boolean partial)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename)
+   ved LetterAmazer.Business.Utils.Helpers.PdfHelper.GetPagesCount(String path) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Utils\Helpers\PdfHelper.cs:linje 38
+   ved LetterAmazer.Business.Services.Domain.Letters.LetterContent.get_PageCount() i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Domain\Letters\LetterContent.cs:linje 21
+   ved LetterAmazer.Business.Services.Services.PriceService.GetPriceByLetter(Letter letter) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Services\PriceService.cs:linje 64
+   ved LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetPrice(Boolean usePdf, String uploadFileKey, String content, String address, String postal, String city, String state, String country) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:linje 331
+2014-03-14 12:58:46,473 [13] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.IO.IOException: C:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\UserData\PdfLetters\ not found as file or resource.
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateByReadingToMemory(String filename)
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateBestSource(String filename)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword, Boolean partial)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename)
+   ved LetterAmazer.Business.Utils.Helpers.PdfHelper.GetPagesCount(String path) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Utils\Helpers\PdfHelper.cs:linje 38
+   ved LetterAmazer.Business.Services.Domain.Letters.LetterContent.get_PageCount() i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Domain\Letters\LetterContent.cs:linje 21
+   ved LetterAmazer.Business.Services.Services.PriceService.GetPriceByLetter(Letter letter) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Services\PriceService.cs:linje 64
+   ved LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetPrice(Boolean usePdf, String uploadFileKey, String content, String address, String postal, String city, String state, String country) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:linje 331
+2014-03-14 12:58:48,510 [11] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.IO.IOException: C:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\UserData\PdfLetters\ not found as file or resource.
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateByReadingToMemory(String filename)
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateBestSource(String filename)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword, Boolean partial)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename)
+   ved LetterAmazer.Business.Utils.Helpers.PdfHelper.GetPagesCount(String path) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Utils\Helpers\PdfHelper.cs:linje 38
+   ved LetterAmazer.Business.Services.Domain.Letters.LetterContent.get_PageCount() i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Domain\Letters\LetterContent.cs:linje 21
+   ved LetterAmazer.Business.Services.Services.PriceService.GetPriceByLetter(Letter letter) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Services\PriceService.cs:linje 64
+   ved LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetPrice(Boolean usePdf, String uploadFileKey, String content, String address, String postal, String city, String state, String country) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:linje 331
+2014-03-14 12:58:50,472 [11] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.IO.IOException: C:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\UserData\PdfLetters\ not found as file or resource.
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateByReadingToMemory(String filename)
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateBestSource(String filename)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword, Boolean partial)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename)
+   ved LetterAmazer.Business.Utils.Helpers.PdfHelper.GetPagesCount(String path) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Utils\Helpers\PdfHelper.cs:linje 38
+   ved LetterAmazer.Business.Services.Domain.Letters.LetterContent.get_PageCount() i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Domain\Letters\LetterContent.cs:linje 21
+   ved LetterAmazer.Business.Services.Services.PriceService.GetPriceByLetter(Letter letter) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Services\PriceService.cs:linje 64
+   ved LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetPrice(Boolean usePdf, String uploadFileKey, String content, String address, String postal, String city, String state, String country) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:linje 331
+2014-03-14 12:58:52,473 [9] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.IO.IOException: C:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\UserData\PdfLetters\ not found as file or resource.
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateByReadingToMemory(String filename)
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateBestSource(String filename)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword, Boolean partial)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename)
+   ved LetterAmazer.Business.Utils.Helpers.PdfHelper.GetPagesCount(String path) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Utils\Helpers\PdfHelper.cs:linje 38
+   ved LetterAmazer.Business.Services.Domain.Letters.LetterContent.get_PageCount() i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Domain\Letters\LetterContent.cs:linje 21
+   ved LetterAmazer.Business.Services.Services.PriceService.GetPriceByLetter(Letter letter) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Services\PriceService.cs:linje 64
+   ved LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetPrice(Boolean usePdf, String uploadFileKey, String content, String address, String postal, String city, String state, String country) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:linje 331
+2014-03-14 12:58:54,477 [7] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.IO.IOException: C:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\UserData\PdfLetters\ not found as file or resource.
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateByReadingToMemory(String filename)
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateBestSource(String filename)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword, Boolean partial)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename)
+   ved LetterAmazer.Business.Utils.Helpers.PdfHelper.GetPagesCount(String path) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Utils\Helpers\PdfHelper.cs:linje 38
+   ved LetterAmazer.Business.Services.Domain.Letters.LetterContent.get_PageCount() i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Domain\Letters\LetterContent.cs:linje 21
+   ved LetterAmazer.Business.Services.Services.PriceService.GetPriceByLetter(Letter letter) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Services\PriceService.cs:linje 64
+   ved LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetPrice(Boolean usePdf, String uploadFileKey, String content, String address, String postal, String city, String state, String country) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:linje 331
+2014-03-14 12:58:59,545 [11] DEBUG LetterAmazer.Websites.Client.Controllers.UserController - upload file key: 2014/3/4411d33b-d1d8-489f-ba03-89515c95c501.pdf
+2014-03-14 13:00:05,420 [8] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.IO.IOException: C:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\UserData\PdfLetters\ not found as file or resource.
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateByReadingToMemory(String filename)
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateBestSource(String filename)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword, Boolean partial)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename)
+   ved LetterAmazer.Business.Utils.Helpers.PdfHelper.GetPagesCount(String path) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Utils\Helpers\PdfHelper.cs:linje 38
+   ved LetterAmazer.Business.Services.Domain.Letters.LetterContent.get_PageCount() i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Domain\Letters\LetterContent.cs:linje 21
+   ved LetterAmazer.Business.Services.Services.PriceService.GetPriceByLetter(Letter letter) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Services\PriceService.cs:linje 64
+   ved LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetPrice(Boolean usePdf, String uploadFileKey, String content, String address, String postal, String city, String state, String country) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:linje 331
+2014-03-14 13:00:07,311 [9] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.IO.IOException: C:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\UserData\PdfLetters\ not found as file or resource.
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateByReadingToMemory(String filename)
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateBestSource(String filename)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword, Boolean partial)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename)
+   ved LetterAmazer.Business.Utils.Helpers.PdfHelper.GetPagesCount(String path) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Utils\Helpers\PdfHelper.cs:linje 38
+   ved LetterAmazer.Business.Services.Domain.Letters.LetterContent.get_PageCount() i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Domain\Letters\LetterContent.cs:linje 21
+   ved LetterAmazer.Business.Services.Services.PriceService.GetPriceByLetter(Letter letter) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Services\PriceService.cs:linje 64
+   ved LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetPrice(Boolean usePdf, String uploadFileKey, String content, String address, String postal, String city, String state, String country) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:linje 331
+2014-03-14 13:00:11,157 [6] DEBUG LetterAmazer.Websites.Client.Controllers.UserController - upload file key: 2014/3/6c6adad6-5182-4625-a30d-bc0e417878e9.pdf
+2014-03-14 13:00:38,876 [6] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.IO.IOException: C:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\UserData\PdfLetters\ not found as file or resource.
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateByReadingToMemory(String filename)
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateBestSource(String filename)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword, Boolean partial)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename)
+   ved LetterAmazer.Business.Utils.Helpers.PdfHelper.GetPagesCount(String path) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Utils\Helpers\PdfHelper.cs:linje 38
+   ved LetterAmazer.Business.Services.Domain.Letters.LetterContent.get_PageCount() i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Domain\Letters\LetterContent.cs:linje 21
+   ved LetterAmazer.Business.Services.Services.PriceService.GetPriceByLetter(Letter letter) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Services\PriceService.cs:linje 64
+   ved LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetPrice(Boolean usePdf, String uploadFileKey, String content, String address, String postal, String city, String state, String country) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:linje 331
+2014-03-14 13:00:41,011 [6] ERROR LetterAmazer.Websites.Client.Controllers.SingleLetterController - System.IO.IOException: C:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\UserData\PdfLetters\ not found as file or resource.
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateByReadingToMemory(String filename)
+   ved iTextSharp.text.io.RandomAccessSourceFactory.CreateBestSource(String filename)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword, Boolean partial)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename, Byte[] ownerPassword)
+   ved iTextSharp.text.pdf.PdfReader..ctor(String filename)
+   ved LetterAmazer.Business.Utils.Helpers.PdfHelper.GetPagesCount(String path) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Utils\Helpers\PdfHelper.cs:linje 38
+   ved LetterAmazer.Business.Services.Domain.Letters.LetterContent.get_PageCount() i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Domain\Letters\LetterContent.cs:linje 21
+   ved LetterAmazer.Business.Services.Services.PriceService.GetPriceByLetter(Letter letter) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Business.Services\Services\PriceService.cs:linje 64
+   ved LetterAmazer.Websites.Client.Controllers.SingleLetterController.GetPrice(Boolean usePdf, String uploadFileKey, String content, String address, String postal, String city, String state, String country) i c:\Users\larsholdgaard\Documents\PrivateWork\Git\LetterAmazer\src\LetterAmazer.Websites.Client\Controllers\SingleLetterController.cs:linje 331
+2014-03-14 13:00:44,396 [9] DEBUG LetterAmazer.Websites.Client.Controllers.UserController - upload file key: 2014/3/080a2a96-525e-4656-97a3-d67347da7949.pdf

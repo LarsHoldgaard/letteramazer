@@ -139,6 +139,15 @@ namespace LetterAmazer.Websites.Client.Controllers
             price.VatPercentage = SessionHelper.Customer.VatPercentage();
             letter.OfficeProductId = price.OfficeProductId;
 
+
+
+            var allCountryNames = countryService.GetCountryNamesBySpecification(new CountryNameSpecification()
+            {
+                Take = 99999
+            });
+
+            var lolol = letter.LetterContent.GetFirstCountryInPdf(allCountryNames.ToList());
+
             
             order.OrderLines.Add(new OrderLine()
             {

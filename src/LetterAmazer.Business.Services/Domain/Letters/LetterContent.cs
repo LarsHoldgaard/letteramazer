@@ -10,13 +10,6 @@ namespace LetterAmazer.Business.Services.Domain.Letters
 {
     public class LetterContent
     {
-        private ICountryService countryService;
-
-        public LetterContent(ICountryService countryService)
-        {
-            this.countryService = countryService;
-        }
-       
         public string Path { get; set; }
         public byte[] Content { get; set; }
         public string WrittenContent { get; set; }
@@ -30,26 +23,30 @@ namespace LetterAmazer.Business.Services.Domain.Letters
             }
         }
 
+        private string textinpdf;
         public string TextInPdf
         {
-            get { return string.Empty; }
+            get
+            {
+                if (string.IsNullOrEmpty(textinpdf))
+                {
+                    textinpdf = PdfHelper.GetContentsOfPdf(PathHelper.GetAbsoluteFile(Path));
+                }
+                return textinpdf;
+            }
         }
 
-        public Country GetFirstCountryInPdf()
+        public Country GetFirstCountryInPdf(List<CountryName> countryNamesList)
         {
-            var allCountryNames = countryService.GetCountryNamesBySpecification(new CountryNameSpecification()
-            {
-                Take = 99999
-            }).Select(c=>c.Name);
-
+            var countryNames = countryNamesList.Select(c => c.Name);
             var textInPdf = TextInPdf;
             var words = textInPdf.Split(' ');
 
             foreach (var word in words)
             {
-                if (allCountryNames.Contains(word))
+                if (countryNames.Contains(word))
                 {
-                    // win
+                    int i = 0;
                 }
             }
 
