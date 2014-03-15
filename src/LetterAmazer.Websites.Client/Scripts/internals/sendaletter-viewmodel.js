@@ -30,7 +30,7 @@
     self.state = ko.observable('');
     self.country = ko.observable('');
     self.countryCode = ko.observable('');
-    self.countryId = ko.observable('');
+    self.countryId = ko.observable(0);
 
     self.voucherCode = ko.observable('');
     self.voucherStatus = ko.observable('');
@@ -92,6 +92,7 @@
 
         var thiz = self;
         var writtenContent = encodeURIComponent(self.htmlEncode(self.writeContentEditor.getData()));
+        console.log(self);
         $.ajax({
             url: self.getPriceUrl,
             type: 'POST',
@@ -103,7 +104,7 @@
                 postal: self.postal(),
                 city: self.city(),
                 state: self.state(),
-                country: self.country()
+                country: self.countryId()
             },
             dataType: 'json',
             success: function (data) {

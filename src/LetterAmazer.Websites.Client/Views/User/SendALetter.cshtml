@@ -52,9 +52,9 @@
                                         </p>
                                         <p>
                                             @ViewRes.DestinationCountry<span class="input-required">*</span><br />
-                                            <select class="address" data-bind="options: countries, optionsText: 'text', optionsValue: 'value', value: selectedCountry, event: {change: selectCountry}"></select>
-                                            @Html.HiddenFor(m => m.DestinationCountry, new Dictionary<string, object> { { "data-bind", "value:country" } })
-                                            @Html.HiddenFor(m => m.DestinationCountryCode, new Dictionary<string, object> { { "data-bind", "value:countryCode" } })
+                                            @Html.DropDownListFor(model => model.SelectedCountry, Model.Countries, new Dictionary<string, object> { { "class", "form-control sendaletter_countrylist" }, { "data-bind", "value:countryId" } })
+
+@Html.HiddenFor(m => m.DestinationCountry, new Dictionary<string, object> { { "data-bind", "value:countryId" } })
                                             <br />
                                         </p>
                                         <p>

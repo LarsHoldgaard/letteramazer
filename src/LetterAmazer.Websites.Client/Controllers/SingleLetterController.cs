@@ -101,8 +101,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                 addressInfo.Address1 = model.DestinationAddress;
                 addressInfo.FirstName = model.RecipientName;
                 addressInfo.City = model.DestinationCity;
-                addressInfo.Country = countryService.GetCountryBySpecificaiton(
-                    new CountrySpecification() {CountryCode = model.DestinationCountryCode}).FirstOrDefault();
+                addressInfo.Country = countryService.GetCountryById(model.DestinationCountry);
                 addressInfo.Zipcode = model.ZipCode;
                 addressInfo.State = model.DestinationState;
 
@@ -294,15 +293,12 @@ namespace LetterAmazer.Websites.Client.Controllers
         }
 
         [HttpPost]
-        public JsonResult GetPrice(bool usePdf, string uploadFileKey, string content, string address, string postal, string city, string state,string country)
+        public JsonResult GetPrice(bool usePdf, string uploadFileKey, string content, string address, string postal, string city, string state,int country)
         {
             try
             {
                 Letter letter = new Letter();
-                var dl_country = countryService.GetCountryBySpecificaiton(new CountrySpecification()
-                {
-                    CountryName = country
-                }).FirstOrDefault();
+                var dl_country = countryService.GetCountryById(country);
 
                 letter.ToAddress = new AddressInfo()
                 {
@@ -311,7 +307,8 @@ namespace LetterAmazer.Websites.Client.Controllers
                     City = city,
                     Country = dl_country,
                     State = state
-                }; // TODO: Fix country
+                };
+
                 letter.LetterContent = new LetterContent();
                 if (usePdf)
                 {

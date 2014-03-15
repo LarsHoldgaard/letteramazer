@@ -11,6 +11,8 @@ namespace LetterAmazer.Websites.Client.ViewModels.User
         public string SelectedCountry { get; set; }
         public List<SelectListItem> Countries { get; set; }
 
+        public int DestinationCountryId { get; set; }
+
         public bool UseUploadFile { get; set; }
         public string UploadFile { get; set; }
         public string WriteContent { get; set; }

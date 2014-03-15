@@ -1,7 +1,7 @@
 ﻿var SendWindowedLetterViewModel = function (formSelector, data) {
     var self = this;
     self.getPriceUrl = data.getPriceUrl;
-    self.country = ko.observable('Denmark');
+    self.countryId = ko.observable(0);
     self.uploadFileKey = ko.observable('');
     self.cost = ko.observable(0);
     self.numberOfPages = ko.observable(0);
@@ -16,7 +16,7 @@
             data: {
                 usePdf: true,
                 uploadFileKey: self.uploadFileKey(),
-                country: self.country(),
+                country: self.countryId(),
                 content: '',
                 address: '',
                 postal: '',

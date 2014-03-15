@@ -36,21 +36,23 @@ namespace LetterAmazer.Business.Services.Domain.Letters
             }
         }
 
-        public Country GetFirstCountryInPdf(List<CountryName> countryNamesList)
+        public int GetFirstCountryIdInPdf(List<CountryName> countryNamesList)
         {
-            var countryNames = countryNamesList.Select(c => c.Name);
+            var countryNames = countryNamesList;
+            //var countryNames = countryNamesList.Select(c => c.Name);
             var textInPdf = TextInPdf;
             var words = textInPdf.Split(' ');
 
-            foreach (var word in words)
+            foreach (var word in words.Select(HelperMethods.RemoveSpecialCharacters))
             {
-                if (countryNames.Contains(word))
+                var p_word = word.ToLower();
+                
+                if (countryNames.Any(c=>c.Name == p_word))
                 {
-                    int i = 0;
+                    return countryNames.FirstOrDefault(c => c.Name == p_word).CountryId;
                 }
             }
-
-            return null;
+            return 0;
         }
     }
 }

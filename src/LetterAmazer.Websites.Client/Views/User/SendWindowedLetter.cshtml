@@ -29,7 +29,7 @@
         @Html.DropDownListFor(model => model.SelectedCountry, Model.Countries, new { @class = "form-control" })*@
 
 
-    <h2>Upload your file</h2>
+    <h2>1. Upload your file</h2>
     <div id="myDropzone" class="la-dropzone">
         <div class="dz-default dz-message">
             <span>
@@ -39,26 +39,45 @@
     </div>
     @Html.HiddenFor(m => m.UploadFile, new Dictionary<string, object> { { "data-bind", "value:uploadFileKey" } })
 
-        <div data-bind="visible: getPriceExVat() > 0.0">
-    <h2>Send this letter</h2>
-    <dl>
-        <dt>Payment method</dt>
-        <dd>Credits</dd>
-        <dt>Price</dt>
-        <dd>
 
-            <label id="priceOfLetterLbl" data-bind="text: getPriceExVat"></label> $
+    <h2>What country should we send the letter to?</h2>
+    @Html.DropDownListFor(model => model.SelectedCountry, Model.Countries, new Dictionary<string, object> { { "class", "form-control sendaletter_countrylist" }, { "data-bind", "value:countryId" } })
+    @Html.HiddenFor(m => m.DestinationCountryId, new Dictionary<string, object> { { "data-bind", "value:countryId" } })
 
-            @if (SessionHelper.Customer.VatPercentage() > 0.0m)
-            {
-                <text>(<label id="priceOfLetterLbl" data-bind="text: getPriceTotal"></label> $ inc. local VAT)</text>
-            }
-        </dd>
-        <dt>Pages</dt>
-        <dd data-bind="text: numberOfPages"></dd>
-        <dt>Shipping time</dt>
-        <dd>1-2 Week days</dd>
-    </dl>
+    //if (letter.LetterContent.PageCount > 5)
+    //{
+    //    var allCountryNames = countryService.GetCountryNamesBySpecification(new CountryNameSpecification()
+    //    {
+    //        Take = 99999
+    //    });
+
+    //    var countryId = letter.LetterContent.GetFirstCountryIdInPdf(allCountryNames.ToList());
+    //    var selected_Country = countryService.GetCountryById(countryId);
+    //    var str = selected_Country.Name;
+    //}
+
+
+    <div data-bind="visible: getPriceExVat() > 0.0">
+
+        <h2>Send this letter</h2>
+        <dl>
+            <dt>Payment method</dt>
+            <dd>Credits</dd>
+            <dt>Price</dt>
+            <dd>
+
+                <label id="priceOfLetterLbl" data-bind="text: getPriceExVat"></label> $
+
+                @if (SessionHelper.Customer.VatPercentage() > 0.0m)
+                {
+                    <text>(<label id="priceOfLetterLbl" data-bind="text: getPriceTotal"></label> $ inc. local VAT)</text>
+                }
+            </dd>
+            <dt>Pages</dt>
+            <dd data-bind="text: numberOfPages"></dd>
+            <dt>Shipping time</dt>
+            <dd>1-2 Week days</dd>
+        </dl>
 
 
         <input type="submit" value="Send letter" class="btn btn-success btn-lg" />

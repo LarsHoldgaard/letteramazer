@@ -139,16 +139,6 @@ namespace LetterAmazer.Websites.Client.Controllers
             price.VatPercentage = SessionHelper.Customer.VatPercentage();
             letter.OfficeProductId = price.OfficeProductId;
 
-
-
-            var allCountryNames = countryService.GetCountryNamesBySpecification(new CountryNameSpecification()
-            {
-                Take = 99999
-            });
-
-            var lolol = letter.LetterContent.GetFirstCountryInPdf(allCountryNames.ToList());
-
-            
             order.OrderLines.Add(new OrderLine()
             {
                 BaseProduct = letter,
@@ -214,8 +204,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                 addressInfo.FirstName = model.RecipientName;
                 addressInfo.State = model.DestinationState;
                 addressInfo.City = model.DestinationCity;
-                addressInfo.Country = countryService.GetCountryBySpecificaiton(
-                    new CountrySpecification() { CountryCode = model.DestinationCountryCode }).FirstOrDefault();
+                addressInfo.Country = countryService.GetCountryById(model.DestinationCountry);
                 addressInfo.Zipcode = model.ZipCode;
 
 

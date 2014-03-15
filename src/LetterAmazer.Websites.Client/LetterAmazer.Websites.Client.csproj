@@ -639,7 +639,6 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Pricing.cshtml" />
     <Content Include="Views\SingleLetter\Index.cshtml" />
-    <Content Include="Views\Shared\CountryList.cshtml" />
     <Content Include="Views\SingleLetter\DropZone.cshtml" />
     <Content Include="Views\SingleLetter\Confirmation.cshtml" />
     <Content Include="Views\Home\Register.cshtml" />
