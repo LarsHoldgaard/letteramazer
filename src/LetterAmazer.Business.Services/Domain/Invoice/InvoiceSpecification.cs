@@ -13,6 +13,8 @@ namespace LetterAmazer.Business.Services.Domain.Invoice
         public int OrganisationId { get; set; }
         public int OrderId { get; set; }
 
+        public InvoiceStatus? InvoiceStatus { get; set; }
+
         public DateTime? DateFrom { get; set; }
         public DateTime? DateTo { get; set; }
 

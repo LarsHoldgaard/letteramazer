@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace LetterAmazer.Websites.Client.ViewModels
 {
     public class CreditsViewModel
     {
-        public IEnumerable<PaymentMethodViewModel> PaymentMethods { get; set; }
-        public int SelectedPaymentMethod { get; set; }
+        public List<SelectListItem> PaymentMethods { get; set; }
+        public string SelectedPaymentMethod { get; set; }
 
         public int PurchaseAmount { get; set; }
 
@@ -17,13 +18,8 @@ namespace LetterAmazer.Websites.Client.ViewModels
 
         public CreditsViewModel()
         {
+            this.PaymentMethods = new List<SelectListItem>();
             this.PurchaseAmount = 50;
         }
-    }
-
-    public class PaymentMethodViewModel
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
     }
 }

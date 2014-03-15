@@ -4,10 +4,11 @@ using LetterAmazer.Business.Services.Domain.Letters;
 using LetterAmazer.Business.Services.Domain.Orders;
 using System;
 using LetterAmazer.Business.Services.Domain.Products.ProductDetails;
+using LetterAmazer.Websites.Client.ViewModels.User;
 
 namespace LetterAmazer.Websites.Client.ViewModels
 {
-    public class ProfileViewModel
+    public class DashboardViewModel
     {
         public Customer Customer { get; set; }
         public List<OrderViewModel> Orders { get; set; }
@@ -17,6 +18,13 @@ namespace LetterAmazer.Websites.Client.ViewModels
         public string SuccessMsg { get; set; }
 
         public LetterType LetterType { get; set; }
+
+        public InvoiceOverviewViewModel UnpaidInvoices { get; set; }
+
+        public DashboardViewModel()
+        {
+            this.UnpaidInvoices = new InvoiceOverviewViewModel();
+        }
     }
 
     public class OrderViewModel

@@ -43,6 +43,17 @@ namespace LetterAmazer.Business.Services.Domain.Customers
             get { return Credit - CreditLimit; }
         }
 
+        public bool HasOrganisation
+        {
+            get
+            {
+                if (Organisation != null && !this.Organisation.IsPrivate)
+                {
+                    return true;
+                }
+                return false;
+            }
+        }
 
         public LetterType DefaultLetterType
         {

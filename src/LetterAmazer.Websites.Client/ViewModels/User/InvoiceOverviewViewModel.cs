@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.AccessControl;
 using System.Web;
+using LetterAmazer.Business.Services.Domain.Invoice;
 
 namespace LetterAmazer.Websites.Client.ViewModels.User
 {
@@ -29,7 +30,7 @@ namespace LetterAmazer.Websites.Client.ViewModels.User
         public DateTime DateCreated { get; set; }
         public decimal TotalPrice { get; set; }
 
-        public string Status { get; set; }
+        public InvoiceStatus Status { get; set; }
     }
 
 }

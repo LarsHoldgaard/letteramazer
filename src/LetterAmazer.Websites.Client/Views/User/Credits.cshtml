@@ -1,43 +1,32 @@
 ﻿@using LetterAmazer.Websites.Client.Extensions
-@using LetterAmazer.Websites.Client.Resources.Views.User
 
 @model LetterAmazer.Websites.Client.ViewModels.CreditsViewModel
 
-@section header {
-}
-
 <h1>Buy credits</h1>
 
-You currently have @Model.Credit.ToFriendlyMoney() credits.
-        
+<a href="@Url.Action("Index")">Go back to overview</a><br/><hr/>
 
-<h3>How many credits do you want to purchase?</h3>
-@using (Html.BeginForm("Credits","User",FormMethod.Post))
-        {
-            
-            @Html.EditorFor(model => model.PurchaseAmount) <text>($)</text>
+You currently have @Model.Credit.ToFriendlyMoney() $ on your account.
 
+
+<h3>How many dollars do you want to insert?</h3>
+@using (Html.BeginForm("Credits", "User", FormMethod.Post))
+{
+    
+    @Html.TextBoxFor(model => model.PurchaseAmount, new { @class = "form-control", placeholder = "How many credits?" })
+    
     <h3>Select payment method</h3>
-            <div>
-                
-                
-                @foreach (var a in Model.PaymentMethods)
-                {
-                    <p>
-                        @Html.RadioButtonFor(b => b.SelectedPaymentMethod, a.Id)  @a.Name
-                    </p>
-                }
-            </div>
-            
+        
+        @Html.DropDownListFor(model => model.SelectedPaymentMethod, Model.PaymentMethods, new { @class = "form-control" })
+    
+    <br/><br/>
+    <input type="submit" class="btn btn-primary btn-lg" value="Purchase credits" />
 
-            <div class="form-group">
-                <input type="submit" class="btn btn-primary btn-lg" value="Purchase credits" />
-            </div>
-        }
+}
 
 <script type="text/javascript">
-    $(document).ready(function() {
-        $('#@Html.IdFor(model=>model.PurchaseAmount)').change(function() {
+    $(document).ready(function () {
+        $('#@Html.IdFor(model=>model.PurchaseAmount)').change(function () {
             var value = $('#@Html.IdFor(model => model.PurchaseAmount)').val();
             if (value <= 1) {
                 $('#@Html.IdFor(model=>model.PurchaseAmount)').val('1');

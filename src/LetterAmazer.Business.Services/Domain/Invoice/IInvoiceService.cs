@@ -8,6 +8,8 @@ namespace LetterAmazer.Business.Services.Domain.Invoice
 {
     public interface IInvoiceService
     {
+        void Delete(Invoice invoice);
+
         Invoice Create(Invoice invoice);
 
         Invoice Update(Invoice invoice);

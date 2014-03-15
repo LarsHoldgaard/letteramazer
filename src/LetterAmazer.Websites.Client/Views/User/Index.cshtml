@@ -1,10 +1,9 @@
-﻿@using LetterAmazer.Business.Services.Domain.Letters
-@using LetterAmazer.Business.Services.Domain.Products.ProductDetails
+﻿@using LetterAmazer.Business.Services.Domain.Products.ProductDetails
 @using LetterAmazer.Business.Utils.Helpers
 @using LetterAmazer.Websites.Client.Extensions
 @using LetterAmazer.Websites.Client.Resources.Views.User
 
-@model LetterAmazer.Websites.Client.ViewModels.ProfileViewModel
+@model LetterAmazer.Websites.Client.ViewModels.DashboardViewModel
 
 @section header {
     <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/themes/base/jquery-ui.css")" />
@@ -16,10 +15,11 @@
     @Html.Partial("_notActivated")
 }
 
-<h1>Overview</h1>
+<h1>Dashboard</h1>
 
-<h2>Buy credits</h2>
-<a class="btn btn-primary btn-lg" href="@Url.Action("Credits")">Buy credits</a>
+
+<h2>Insert more money</h2>
+<a class="btn btn-primary btn-lg" href="@Url.Action("Credits")">Insert money</a>
 
 
 <h2>Actions</h2>
@@ -36,17 +36,21 @@
 }
 else
 {
-    <p>You need more credits, to send letters.</p>
+    <p>You to insert more money, to send letters.</p>
     <p><a href="#" class="btn-default btn btn-lg" disabled="disabled">Send a letter</a></p>
 }
 
-
 <h2>Account status</h2>
-Credits available: <b>@Model.Customer.Credit.ToFriendlyMoney() $</b>
+Money available: <b>@Model.Customer.Credit.ToFriendlyMoney() $</b>
 @if (SessionHelper.Customer.CreditLimit != 0)
 {
     <p>Your account has a limit of @SessionHelper.Customer.CreditLimit $</p>
 }
+
+<h2>Unpaid invoices</h2>
+@Html.Partial("_invoiceOverview", Model.UnpaidInvoices)
+
+
 
 @if (Model.Orders != null && Model.Orders.Any())
 {

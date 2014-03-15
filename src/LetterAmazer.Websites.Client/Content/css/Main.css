@@ -140,4 +140,7 @@ dl {
 .la-dropzone {
   min-height: 240px !important;
 }
+.form-control {
+  max-width: 250px;
+}
 /*# sourceMappingURL=Main.css.map */

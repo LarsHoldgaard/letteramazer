@@ -60,7 +60,7 @@ namespace LetterAmazer.Websites.Client.Controllers
             this.customerService = customerService;
         }
 
-        public ActionResult Index(int? page, ProfileViewModel model)
+        public ActionResult Index(int? page, DashboardViewModel model)
         {
             buildOverviewModel(model);
 
@@ -164,8 +164,8 @@ namespace LetterAmazer.Websites.Client.Controllers
 
             if (string.IsNullOrEmpty(redirectUrl))
             {
-                ProfileViewModel profileViewModel = new ProfileViewModel();
-                return RedirectToAction("Index", "User", profileViewModel);
+                DashboardViewModel dashboardViewModel = new DashboardViewModel();
+                return RedirectToAction("Index", "User", dashboardViewModel);
             }
 
             return Redirect(redirectUrl);
@@ -316,8 +316,8 @@ namespace LetterAmazer.Websites.Client.Controllers
 
                 if (string.IsNullOrEmpty(redirectUrl))
                 {
-                    ProfileViewModel profileViewModel = new ProfileViewModel();
-                    return RedirectToAction("Index", "User", profileViewModel);
+                    DashboardViewModel dashboardViewModel = new DashboardViewModel();
+                    return RedirectToAction("Index", "User", dashboardViewModel);
                 }
 
                 return Redirect(redirectUrl);
@@ -477,7 +477,7 @@ namespace LetterAmazer.Websites.Client.Controllers
             SessionHelper.Customer = updated_customer;
             FormsAuthentication.SetAuthCookie(customer.Id.ToString(), true);
 
-            var profile_model = new ProfileViewModel();
+            var profile_model = new DashboardViewModel();
             buildOverviewModel(profile_model);
             return View("Index", profile_model);
         }
@@ -499,7 +499,7 @@ namespace LetterAmazer.Websites.Client.Controllers
             SessionHelper.Customer = updated_customer;
             FormsAuthentication.SetAuthCookie(customer.Id.ToString(), true);
 
-            var profile_model = new ProfileViewModel();
+            var profile_model = new DashboardViewModel();
             buildOverviewModel(profile_model);
             return View("Index", profile_model);
         }
@@ -700,8 +700,16 @@ namespace LetterAmazer.Websites.Client.Controllers
                 {
                     CustomerId = SessionHelper.Customer.Id
                 });
+            
+            foreach (var possiblePaymentMethod in possiblePaymentMethods)
+            {
+                model.PaymentMethods.Add(new SelectListItem()
+                {
+                    Text = possiblePaymentMethod.Name,
+                    Value = possiblePaymentMethod.Id.ToString()
+                });
+            }
 
-            model.PaymentMethods = getPaymentmethodViewModels(possiblePaymentMethods);
 
             return View(model);
         }
@@ -712,7 +720,7 @@ namespace LetterAmazer.Websites.Client.Controllers
         [HttpPost]
         public ActionResult Credits(CreditsViewModel model)
         {
-            var selectedPaymentMethod = paymentService.GetPaymentMethodById(model.SelectedPaymentMethod);
+            var selectedPaymentMethod = paymentService.GetPaymentMethodById(int.Parse(model.SelectedPaymentMethod));
             var credit = new Credit();
 
             var creditLine = new OrderLine()
@@ -770,6 +778,7 @@ namespace LetterAmazer.Websites.Client.Controllers
             return Json("OK",JsonRequestBehavior.AllowGet);
         }
 
+        #region "Invoices"
 
         [HttpGet]
         public ActionResult InvoiceOverview()
@@ -785,6 +794,16 @@ namespace LetterAmazer.Websites.Client.Controllers
 
             return View(invoiceOverview);
         }
+
+        [HttpPost]
+        public JsonResult DeleteInvoice(Guid id)
+        {
+            var invoice = invoiceService.GetInvoiceById(id);
+            invoiceService.Delete(invoice);
+            return Json("OK");
+        }
+
+        #endregion
 
         #region Private helpers
 
@@ -860,15 +879,6 @@ namespace LetterAmazer.Websites.Client.Controllers
             };
         }
 
-        private IEnumerable<PaymentMethodViewModel> getPaymentmethodViewModels(IEnumerable<PaymentMethods> paymentMethods)
-        {
-            return paymentMethods.Select(paymentMethodse => new PaymentMethodViewModel()
-            {
-                Id = paymentMethodse.Id,
-                Name = paymentMethodse.Name,
-            }).ToList();
-        }
-
         private decimal addCouponlines(Price price, Coupon coupon, Order order)
         {
             decimal rest = price.Total;
@@ -919,7 +929,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                     OrderNumber = invoice.InvoiceNumber,
                     TotalPrice = invoice.PriceTotal,
                     InvoiceGuid = invoice.Guid,
-                    Status = invoice.InvoiceStatus.ToString()
+                    Status = invoice.InvoiceStatus
                 });
             }
 
@@ -927,7 +937,7 @@ namespace LetterAmazer.Websites.Client.Controllers
             return models;
         }
 
-        private void buildOverviewModel(ProfileViewModel model)
+        private void buildOverviewModel(DashboardViewModel model)
         {
             var orders = orderService.GetOrderBySpecification(new OrderSpecification()
             {
@@ -939,6 +949,23 @@ namespace LetterAmazer.Websites.Client.Controllers
             model.Orders = getOrderViewModel(orders);
             model.Customer = SessionHelper.Customer;
             model.LetterType = SessionHelper.Customer.DefaultLetterType;
+
+            var unpaidInvoices = invoiceService.GetInvoiceBySpecification(new InvoiceSpecification()
+            {
+                OrganisationId = SessionHelper.Customer.Organisation.Id,
+                InvoiceStatus = InvoiceStatus.Created
+            });
+            foreach (var unpaidInvoice in unpaidInvoices)
+            {
+                model.UnpaidInvoices.InvoiceSnippets.Add(new InvoiceSnippetViewModel()
+                {
+                    DateCreated = unpaidInvoice.DateCreated,
+                    InvoiceGuid = unpaidInvoice.Guid,
+                    OrderNumber = unpaidInvoice.InvoiceNumber,
+                    Status = unpaidInvoice.InvoiceStatus,
+                    TotalPrice = unpaidInvoice.PriceTotal
+                });
+            }
         }
 
         private void buildContactsModel(EditContactsViewModel model)

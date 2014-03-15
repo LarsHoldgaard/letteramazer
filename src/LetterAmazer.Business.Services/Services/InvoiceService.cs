@@ -24,6 +24,20 @@ namespace LetterAmazer.Business.Services.Services
         }
 
 
+        public void Delete(Invoice invoice)
+        {
+            var dbInvoice = repository.DbInvoices.FirstOrDefault(c => c.Id == invoice.Id);
+
+            // invoices cannot be deleted by law if is paid / being a real invoice
+            if (dbInvoice.InvoiceStatus != (int)InvoiceStatus.Created)
+            {
+                throw new BusinessException("Only invoices with status created can be deleted");
+            }
+
+            repository.DbInvoices.Remove(dbInvoice);
+            repository.SaveChanges();
+        }
+
         public Invoice Create(Invoice invoice)
         {
             DbInvoices dbInvoice = new DbInvoices();
@@ -175,6 +189,10 @@ namespace LetterAmazer.Business.Services.Services
             if (specification.DateTo.HasValue)
             {
                 dbInvoices = dbInvoices.Where(c => EntityFunctions.TruncateTime(c.DateCreated) <= EntityFunctions.TruncateTime(specification.DateTo.Value));
+            }
+            if (specification.InvoiceStatus.HasValue)
+            {
+                dbInvoices = dbInvoices.Where(c => c.InvoiceStatus == (int)specification.InvoiceStatus.Value);
             }
 
             var dbInvoiceFound =
