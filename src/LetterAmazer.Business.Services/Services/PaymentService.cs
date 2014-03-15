@@ -3,6 +3,7 @@ using LetterAmazer.Business.Services.Domain.Countries;
 using LetterAmazer.Business.Services.Domain.Coupons;
 using LetterAmazer.Business.Services.Domain.Customers;
 using LetterAmazer.Business.Services.Domain.Invoice;
+using LetterAmazer.Business.Services.Domain.Mails;
 using LetterAmazer.Business.Services.Domain.Orders;
 using LetterAmazer.Business.Services.Domain.Payments;
 using LetterAmazer.Business.Services.Domain.Pricing;
@@ -30,10 +31,12 @@ namespace LetterAmazer.Business.Services.Services
         private IOrderService orderService;
         private ICountryService countryService;
         private IInvoiceService invoiceService;
+        private IMailService mailService;
 
         public PaymentService(LetterAmazerEntities repository,IPriceService priceService,IPaymentFactory paymentFactory, 
             ICouponService couponService, ICustomerService customerService, 
-            IOrderService orderService, ICountryService countryService, IInvoiceService invoiceService)
+            IOrderService orderService, ICountryService countryService, IInvoiceService invoiceService,
+            IMailService mailService)
         {
             this.priceService = priceService;
             this.repository = repository;
@@ -43,6 +46,7 @@ namespace LetterAmazer.Business.Services.Services
             this.orderService = orderService;
             this.countryService = countryService;
             this.invoiceService = invoiceService;
+            this.mailService = mailService;
         }
 
         public string Process(Order order)
@@ -109,7 +113,7 @@ namespace LetterAmazer.Business.Services.Services
             }
             else if (name == "Invoice")
             {
-                return new InvoiceMethod(invoiceService,orderService,countryService);
+                return new InvoiceMethod(invoiceService,orderService,countryService,mailService);
             }
             else if (name == "Bitcoin")
             {

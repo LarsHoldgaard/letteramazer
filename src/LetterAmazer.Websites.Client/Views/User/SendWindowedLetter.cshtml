@@ -30,36 +30,41 @@
 
 
     <h2>1. Upload your file</h2>
-    <div id="myDropzone" class="la-dropzone">
-        <div class="dz-default dz-message">
-            <span>
-                Upload the PDF file you want to send
-            </span>
+    <p>You can upload a PDF file below, by clicking the gray zone. It is important you follow a normal letter template, as this is directly printed into a windowed envelope.</p>
+
+    <div style="max-width: 350px">
+        <div id="myDropzone" class="la-dropzone">
+            <div class="dz-default dz-message">
+                <span>
+                    Click here to upload your PDF file
+                </span>
+            </div>
         </div>
     </div>
     @Html.HiddenFor(m => m.UploadFile, new Dictionary<string, object> { { "data-bind", "value:uploadFileKey" } })
 
 
-    <h2>What country should we send the letter to?</h2>
-    @Html.DropDownListFor(model => model.SelectedCountry, Model.Countries, new Dictionary<string, object> { { "class", "form-control sendaletter_countrylist" }, { "data-bind", "value:countryId" } })
-    @Html.HiddenFor(m => m.DestinationCountryId, new Dictionary<string, object> { { "data-bind", "value:countryId" } })
+    <h2>2. What country should we send the letter to?</h2>
+    <p>Select the country we should send this letter to:</p>
+    <div style="max-width: 350px">
 
-    //if (letter.LetterContent.PageCount > 5)
-    //{
-    //    var allCountryNames = countryService.GetCountryNamesBySpecification(new CountryNameSpecification()
-    //    {
-    //        Take = 99999
-    //    });
+        @Html.DropDownListFor(model => model.SelectedCountry, Model.Countries, new Dictionary<string, object> { { "class", "form-control sendaletter_countrylist" }, { "data-bind", "value:countryId" } })
+        @Html.HiddenFor(m => m.DestinationCountryId, new Dictionary<string, object> { { "data-bind", "value:countryId" } })
 
-    //    var countryId = letter.LetterContent.GetFirstCountryIdInPdf(allCountryNames.ToList());
-    //    var selected_Country = countryService.GetCountryById(countryId);
-    //    var str = selected_Country.Name;
-    //}
+    </div>
+    <div data-bind="visible: getPriceExVat() <= 0.0">
+        <h2>3. Send this letter</h2>
+        <div class="alert alert-warning">
 
-
+            <p>Please upload a letter, before you can send it.</p>
+            <p>It can take up to 3 seconds after you uploaded a letter before this form updates...</p>
+            <br/>
+            <img src="@Url.Content("/Content/images/ajax-loader.gif")"/>
+        </div>
+    </div>
     <div data-bind="visible: getPriceExVat() > 0.0">
 
-        <h2>Send this letter</h2>
+        <h2>3. Send this letter</h2>
         <dl>
             <dt>Payment method</dt>
             <dd>Credits</dd>
@@ -76,9 +81,8 @@
             <dt>Pages</dt>
             <dd data-bind="text: numberOfPages"></dd>
             <dt>Shipping time</dt>
-            <dd>1-2 Week days</dd>
+            <dd>1-3 Week days</dd>
         </dl>
-
 
         <input type="submit" value="Send letter" class="btn btn-success btn-lg" />
     </div>

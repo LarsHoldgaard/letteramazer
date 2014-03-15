@@ -54,7 +54,7 @@
                                             @ViewRes.DestinationCountry<span class="input-required">*</span><br />
                                             @Html.DropDownListFor(model => model.SelectedCountry, Model.Countries, new Dictionary<string, object> { { "class", "form-control sendaletter_countrylist" }, { "data-bind", "value:countryId" } })
 
-@Html.HiddenFor(m => m.DestinationCountry, new Dictionary<string, object> { { "data-bind", "value:countryId" } })
+                                            @Html.HiddenFor(m => m.DestinationCountry, new Dictionary<string, object> { { "data-bind", "value:countryId" } })
                                             <br />
                                         </p>
                                         <p>
@@ -66,7 +66,7 @@
                                             @Html.TextBoxFor(m => m.DestinationCity, new Dictionary<string, object> { { "class", "input-lg address" }, { "placeholder", "Enter destination city" }, { "data-bind", "value:city" } })
                                         </p>
                                         <p>
-                                            State (optional)<br/>
+                                            State (optional)<br />
                                             @Html.TextBoxFor(m => m.DestinationState, new Dictionary<string, object> { { "class", "input-lg address" }, { "placeholder", "Enter destination state" }, { "data-bind", "value:state" } })
                                         </p>
 

@@ -10,6 +10,7 @@
 
 
 <h1>Log in</h1>
+<p>Please log in with your e-mail or password.<br/><br/>If you don't have an account, you @Html.ActionLink("can create a free account","Register"). If you cannot remember your password, @Html.ActionLink("you can recover it", "RecoverPassword").</p>
 
 <div class="row loginSection">
     <div class="col-lg-6">
@@ -32,7 +33,7 @@
             </div>
             <div class="row login">
                 <div class="col-lg-12">
-                    <input type="submit" class="btn btn-primary btn-lg" value="Login" />
+                    <input type="submit" class="btn btn-primary btn-lg" value="Log in" />
                 </div>
             </div>
             <div class="row login">
@@ -43,6 +44,6 @@
         }
     </div>
     <div class="col-lg-6" style="text-align: right">
-        <img src="@Url.Content("~/Content/images/printer_cartoon.gif")" alt="" width="300" />
+        @*<img src="@Url.Content("~/Content/images/printer_cartoon.gif")" alt="" width="300" />*@
     </div>
 </div>

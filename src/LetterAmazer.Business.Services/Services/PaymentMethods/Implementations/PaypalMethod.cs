@@ -40,7 +40,8 @@ namespace LetterAmazer.Business.Services.Services.PaymentMethods.Implementations
         }
         public string Process(Order order)
         {
-            var orderlinePayment = order.OrderLines.FirstOrDefault(c => c.ProductType == ProductType.Payment && c.PaymentMethodId == 1);
+            var orderlinePayment = order.OrderLines.FirstOrDefault(c => c.ProductType == ProductType.Payment && 
+                c.PaymentMethodId == 1);
             var orderlineProduct = order.OrderLines.FirstOrDefault(c => c.ProductType != ProductType.Payment);
 
             AddressInfo addressInfo = new AddressInfo();

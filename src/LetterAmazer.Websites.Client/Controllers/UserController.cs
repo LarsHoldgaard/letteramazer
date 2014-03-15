@@ -13,7 +13,6 @@ using LetterAmazer.Business.Services.Domain.Payments;
 using LetterAmazer.Business.Services.Domain.Pricing;
 using LetterAmazer.Business.Services.Domain.Products;
 using LetterAmazer.Business.Services.Domain.Products.ProductDetails;
-using LetterAmazer.Business.Services.Services;
 using LetterAmazer.Business.Utils.Helpers;
 using LetterAmazer.Websites.Client.Attributes;
 using LetterAmazer.Websites.Client.ViewModels;
@@ -179,6 +178,11 @@ namespace LetterAmazer.Websites.Client.Controllers
         [HttpGet]
         public ActionResult SendALetter()
         {
+            if (SessionHelper.Customer.CreditsLeft <= 0.0m)
+            {
+                return View("Credits");
+            }
+
             CreateSingleLetterModel model = new CreateSingleLetterModel();
             model.Email = SessionHelper.Customer.Email;
 
@@ -186,6 +190,24 @@ namespace LetterAmazer.Websites.Client.Controllers
             {
                 model.HasCredits = true;
             }
+
+
+            var countries = countryService.GetCountryBySpecificaiton(new CountrySpecification()
+            {
+                Take = 999
+            });
+
+            foreach (var country in countries)
+            {
+                var selectedItem = new SelectListItem()
+                {
+                    Text = country.Name,
+                    Value = country.Id.ToString(),
+                };
+
+                model.Countries.Add(selectedItem);
+            }
+
             return View(model);
         }
 

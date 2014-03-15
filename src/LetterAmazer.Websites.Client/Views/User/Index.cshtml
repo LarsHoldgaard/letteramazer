@@ -16,12 +16,13 @@
     @Html.Partial("_notActivated")
 }
 
-
 <h1>Overview</h1>
+
+<h2>Buy credits</h2>
+<a class="btn btn-primary btn-lg" href="@Url.Action("Credits")">Buy credits</a>
 
 
 <h2>Actions</h2>
-
 @if (Model.Customer.CreditsLeft > 0)
 {
     if (Model.LetterType == LetterType.Pres)
@@ -35,23 +36,22 @@
 }
 else
 {
-    <p>To send letters, you need to purchase credits.</p>
-    <p><a href="#" class="btn-success btn btn-lg" disabled="disabled">Send a letter</a></p>
+    <p>You need more credits, to send letters.</p>
+    <p><a href="#" class="btn-default btn btn-lg" disabled="disabled">Send a letter</a></p>
 }
 
-<a class="btn btn-primary btn-lg" href="@Url.Action("Credits")">Buy credits</a>
 
 <h2>Account status</h2>
 Credits available: <b>@Model.Customer.Credit.ToFriendlyMoney() $</b>
 @if (SessionHelper.Customer.CreditLimit != 0)
 {
-    <p>Your account has a limit of @SessionHelper.Customer.CreditLimit.</p>
+    <p>Your account has a limit of @SessionHelper.Customer.CreditLimit $</p>
 }
 
 @if (Model.Orders != null && Model.Orders.Any())
 {
     <h2>@ViewRes.OrderOverview</h2>
-    <form class="form-inline" role="form" method="get" action="@Url.Action("Index")">
+    @*<form class="form-inline" role="form" method="get" action="@Url.Action("Index")">
         <div class="form-group">
             <label class="sr-only" for="fromDate">From</label>
             <input type="text" class="form-control" id="fromDate" placeholder="From" name="fromDate" value="@(Model.FromDate.HasValue ? Model.FromDate.Value.ToString("yyyy-MM-dd") : "")" />
@@ -61,7 +61,7 @@ Credits available: <b>@Model.Customer.Credit.ToFriendlyMoney() $</b>
             <input type="text" class="form-control" id="toDate" placeholder="To" name="toDate" value="@(Model.ToDate.HasValue ? Model.ToDate.Value.ToString("yyyy-MM-dd") : "")" />
         </div>
         <button type="submit" class="btn btn-primary">@ViewRes.Search</button>
-    </form>
+    </form>*@
     <table class="table table-striped">
         <thead>
             <tr>

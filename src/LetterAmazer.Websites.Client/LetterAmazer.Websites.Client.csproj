@@ -239,6 +239,7 @@
     <Content Include="Content\css\Utils\Variables.css" />
     <Content Include="Content\css\Utils\Variables.min.css" />
     <Content Include="Content\images\1383510546_Forward.png" />
+    <Content Include="Content\images\ajax-loader.gif" />
     <Content Include="Content\images\letter.png" />
     <Content Include="Content\images\letteramazer.png" />
     <Content Include="Content\images\letteramazer_small.png" />
@@ -248,7 +249,6 @@
     <Content Include="Content\images\stamp.png" />
     <Content Include="Content\images\uploadpdf.png" />
     <Content Include="Content\images\writetext.png" />
-    <Content Include="Content\sql\12-03-2014-account-types.txt" />
     <Content Include="Content\themes\base\images\animated-overlay.gif" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
@@ -665,7 +665,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="logs\" />
+    <Folder Include="Content\sql\" />
     <Folder Include="UserData\PdfLetters\" />
     <Folder Include="UserData\Zip\" />
   </ItemGroup>

@@ -77,8 +77,6 @@ namespace LetterAmazer.Business.Services.Services
             }
             repository.SaveChanges();
 
-            mailService.NotificationInvoiceCreated();
-
             return GetInvoiceById(dbInvoice.Id);
         }
 

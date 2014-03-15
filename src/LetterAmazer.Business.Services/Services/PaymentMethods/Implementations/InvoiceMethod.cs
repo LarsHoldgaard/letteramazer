@@ -7,6 +7,7 @@ using LetterAmazer.Business.Services.Domain.AddressInfos;
 using LetterAmazer.Business.Services.Domain.Countries;
 using LetterAmazer.Business.Services.Domain.Customers;
 using LetterAmazer.Business.Services.Domain.Invoice;
+using LetterAmazer.Business.Services.Domain.Mails;
 using LetterAmazer.Business.Services.Domain.Orders;
 using LetterAmazer.Business.Services.Domain.Payments;
 using LetterAmazer.Business.Services.Domain.Products;
@@ -16,19 +17,22 @@ namespace LetterAmazer.Business.Services.Services.PaymentMethods.Implementations
 {
     public class InvoiceMethod : IPaymentMethod
     {
+        private IMailService mailService;
         private IInvoiceService invoiceService;
         private IOrderService orderService;
         private ICountryService countryService;
         private string baseUrl;
         private string serviceUrl;
 
-        public InvoiceMethod(IInvoiceService invoiceService, IOrderService orderService, ICountryService countryService)
+        public InvoiceMethod(IInvoiceService invoiceService, IOrderService orderService, 
+            ICountryService countryService,IMailService mailService)
         {
             this.baseUrl = ConfigurationManager.AppSettings.Get("LetterAmazer.BasePath");
             this.serviceUrl = ConfigurationManager.AppSettings.Get("LetterAmazer.Payment.Invoice.ServiceUrl");
             this.orderService = orderService;
             this.invoiceService = invoiceService;
             this.countryService = countryService;
+            this.mailService = mailService;
         }
 
         public string Process(Order order)
@@ -86,6 +90,10 @@ namespace LetterAmazer.Business.Services.Services.PaymentMethods.Implementations
 
             var url = baseUrl + serviceUrl;
             var fullurl = string.Format(url, stored_invoice.Guid);
+
+            mailService.SendInvoice(order, stored_invoice);
+            mailService.NotificationInvoiceCreated();
+ 
             return fullurl;
         }
 

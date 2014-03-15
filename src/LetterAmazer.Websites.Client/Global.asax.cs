@@ -14,11 +14,13 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using System.Web.Http.Dispatcher;
+using log4net;
 
 namespace LetterAmazer.Websites.Client
 {
     public class MvcApplication : System.Web.HttpApplication, IContainerAccessor
     {
+
         protected void Application_Start()
         {
             log4net.Config.XmlConfigurator.Configure();
@@ -31,6 +33,15 @@ namespace LetterAmazer.Websites.Client
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+        }
+
+        protected void Application_Error(object sender, EventArgs e)
+        {
+            ILog logger = LogManager.GetLogger(typeof(GlobalContext));
+
+            Exception ex = Server.GetLastError();
+
+            logger.Error(ex);
         }
 
         private void InitializeContainer()

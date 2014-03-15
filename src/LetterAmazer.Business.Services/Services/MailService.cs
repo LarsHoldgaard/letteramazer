@@ -7,6 +7,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using LetterAmazer.Business.Services.Domain.Customers;
+using LetterAmazer.Business.Services.Domain.Invoice;
 using LetterAmazer.Business.Services.Domain.Mails;
 using LetterAmazer.Business.Services.Domain.Mails.ViewModels;
 using LetterAmazer.Business.Services.Domain.Orders;
@@ -22,6 +23,7 @@ namespace LetterAmazer.Business.Services.Services
 
         private string resetPasswordUrl;
         private string baseUrl;
+        private string invoiceUrl;
         private string createUrl;
 
         private string mandrillApiUrl;
@@ -33,9 +35,11 @@ namespace LetterAmazer.Business.Services.Services
             this.baseUrl = ConfigurationManager.AppSettings.Get("LetterAmazer.BasePath");
             this.createUrl = baseUrl + ConfigurationManager.AppSettings.Get("LetterAmazer.Customer.Confirm");
             this.resetPasswordUrl = baseUrl + ConfigurationManager.AppSettings.Get("LetterAmazer.Customer.ResetPassword");
+            this.invoiceUrl = baseUrl + ConfigurationManager.AppSettings.Get("LetterAmazer.Payment.Invoice.ServiceUrl");
             this.mandrillApiUrl = ConfigurationManager.AppSettings.Get("LetterAmazer.Mail.Mandrill.ApiUrl");
             this.mandrillApiKey = ConfigurationManager.AppSettings.Get("LetterAmazer.Mail.Mandrill.ApiKey");
             this.notificationEmail = ConfigurationManager.AppSettings.Get("LetterAmazer.Notification.Emails");
+
         }
 
         private void SendTemplate(MandrillTemplateSend obj)
@@ -142,6 +146,32 @@ namespace LetterAmazer.Business.Services.Services
                 rcpt = order.Customer.Email,
             });
 
+            SendTemplate(model);
+        }
+
+        public void SendInvoice(Order order, Invoice invoice)
+        {
+            var template_name = "letteramazer.customer.invoice_created";
+
+            var model = new MandrillTemplateSend();
+            model.template_name = template_name;
+            model.message.merge = true;
+            model.message.to.Add(new To()
+            {
+                email = order.Customer.Email
+            });
+            model.message.merge_vars.Add(new Merge_Vars()
+            {
+                rcpt = order.Customer.Email,
+                vars = new List<Var>()
+                {
+                    new Var()
+                    {
+                        name = "INVOICELINK",
+                        content =string.Format(invoiceUrl,invoice.Guid) 
+                    }
+                }
+            });
             SendTemplate(model);
         }
 

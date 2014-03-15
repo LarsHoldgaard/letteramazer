@@ -14,6 +14,7 @@ using LetterAmazer.Websites.Client.ViewModels;
 using System;
 using System.Web.Mvc;
 using LetterAmazer.Websites.Client.Extensions;
+using LetterAmazer.Websites.Client.ViewModels.Shared.Utils;
 using log4net;
 using System.Web.Security;
 
@@ -43,11 +44,13 @@ namespace LetterAmazer.Websites.Client.Controllers
 
         public ActionResult Index()
         {
+            logger.Info("HomeController -> Index");
             return View();
         }
 
         public ActionResult Faq()
         {
+            logger.Info("HomeController -> FAQ");
             mailService.ConfirmUser(new Customer()
             {
                 Email = "mcoroklo@gmail.com",
@@ -90,21 +93,30 @@ namespace LetterAmazer.Websites.Client.Controllers
                 {
                     Text = country.Name,
                     Value = country.Id.ToString(),
-
                 };
+
+                if (country.Id == 59)
+                {
+                    selectedItem.Selected = true;
+                }
+
                 prices.Countries.Add(selectedItem);
             }
+
+            prices.SelectedLetterSizes = ControllerHelpers.GetEnumSelectList<LetterSize>().ToList();
 
             return View(prices);
         }
 
         [HttpGet]
-        public decimal GetPrice(int countryId, int pages)
+        public decimal GetPrice(int countryId, int lettersize, int pages)
         {
+            var letterSize = (LetterSize) lettersize;
             var pricing = priceService.GetPriceBySpecification(new PriceSpecification()
             {
                 CountryId = countryId,
-                PageCount = pages
+                PageCount = pages,
+                LetterSize = letterSize
             });
 
             return pricing.PriceExVat;

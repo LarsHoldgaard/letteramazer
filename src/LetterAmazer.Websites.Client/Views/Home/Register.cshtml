@@ -9,9 +9,23 @@
 }
 
 <h1>Register</h1>
-<div class="row loginSection">
+<p>
+   Accounts are for both companies and private. By creating a <b>free account</b>, you are able to: <br />
+    <ul>
+        <li>Send letters much faster</li>
+        <li>Insert credits on your account, so you don't have to pay every time you send a letter</li>
+        <li>Get an overview of all your invoices</li>
+        <li>
+            See and download all letters you have sent previously
+        </li>
+    </ul>
+</p>
+
+<div class="row loginSection" style="padding-top: 0px;">
     <div class="col-lg-6">
-        <p>@ViewRes.LoginHint</p>
+
+        
+        <h2>Fill out your information</h2>
         @using (Html.BeginForm())
         {
             @Html.BusinessErrorMessageBox()
@@ -37,10 +51,14 @@
                 </div>
             </div>
             
-            <input type="submit" class="btn btn-primary btn-lg" value="I agree, let's go" />
+            <input type="submit" class="btn btn-primary btn-lg" value="Create your account now" />
         }
+        
+        <br/>
+        <p>Do you already have an account? <a href="@Url.Action("Login")">You can log in here</a>.</p>
     </div>
-    <div class="col-lg-6" style="text-align: right">
+
+    @*<div class="col-lg-6" style="text-align: right">
         <img src="@Url.Content("~/Content/images/printer_cartoon.gif")" alt="" width="300" />
-    </div>
+    </div>*@
 </div>
