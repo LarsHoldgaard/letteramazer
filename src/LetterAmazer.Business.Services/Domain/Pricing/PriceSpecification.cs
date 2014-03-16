@@ -15,6 +15,8 @@ namespace LetterAmazer.Business.Services.Domain.Pricing
         public int ContinentId { get; set; }
         public int ZipId { get; set; }
         public int OfficeId { get; set; }
+
+        
         public LetterColor? LetterColor { get; set; }
         public LetterPaperWeight? LetterPaperWeight { get; set; }
         public LetterProcessing? LetterProcessing { get; set; }
@@ -22,6 +24,8 @@ namespace LetterAmazer.Business.Services.Domain.Pricing
         public LetterType? LetterType { get; set; }
         public int PageCount { get; set; }
         public int DeliveryDays { get; set; }
+
+        
 
         public int OrganisationId { get; set; }
 

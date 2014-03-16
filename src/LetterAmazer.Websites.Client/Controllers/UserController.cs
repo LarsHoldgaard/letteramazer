@@ -8,6 +8,8 @@ using LetterAmazer.Business.Services.Domain.Customers;
 using LetterAmazer.Business.Services.Domain.Invoice;
 using LetterAmazer.Business.Services.Domain.Letters;
 using LetterAmazer.Business.Services.Domain.Mails;
+using LetterAmazer.Business.Services.Domain.OfficeProducts;
+using LetterAmazer.Business.Services.Domain.Offices;
 using LetterAmazer.Business.Services.Domain.Orders;
 using LetterAmazer.Business.Services.Domain.Payments;
 using LetterAmazer.Business.Services.Domain.Pricing;
@@ -41,12 +43,14 @@ namespace LetterAmazer.Websites.Client.Controllers
         private IMailService mailService;
         private IInvoiceService invoiceService;
         private ICustomerService customerService;
+        private IOfficeService officeService;
+        private IOfficeProductService officeProductService;
 
         public UserController(IOrderService orderService, IPaymentService paymentService,
             ILetterService letterService, ICouponService couponService, ICountryService countryService,
             IPriceService priceService,
             IOrganisationService organisationService, IMailService mailService, IInvoiceService invoiceService,
-            ICustomerService customerService)
+            ICustomerService customerService,IOfficeService officeService, IOfficeProductService officeProductService)
         {
             this.orderService = orderService;
             this.paymentService = paymentService;
@@ -58,6 +62,8 @@ namespace LetterAmazer.Websites.Client.Controllers
             this.mailService = mailService;
             this.invoiceService = invoiceService;
             this.customerService = customerService;
+            this.officeProductService = officeProductService;
+            this.officeService = officeService;
         }
 
         public ActionResult Index(int? page, DashboardViewModel model)
@@ -131,11 +137,23 @@ namespace LetterAmazer.Websites.Client.Controllers
                 letter.LetterContent.Content =
                     System.IO.File.ReadAllBytes(PathHelper.GetAbsoluteFile(letter.LetterContent.Path));
             }
+            
+            var price = priceService.GetPriceBySpecification(new PriceSpecification()
+            {
+                CountryId = addressInfo.Country.Id,
+                LetterColor = LetterColor.Color,
+                LetterProcessing = LetterProcessing.Dull,
+                LetterSize = LetterSize.A4,
+                LetterType = LetterType.Pres,
+                LetterPaperWeight = LetterPaperWeight.Eight,
+                PageCount = letter.LetterContent.PageCount,
+                OfficeId = SessionHelper.Customer.Organisation.RequiredOfficeId.HasValue ? SessionHelper.Customer.Organisation.RequiredOfficeId.Value : 0
+            });
 
-
-            var price = priceService.GetPriceByAddress(addressInfo, letter.LetterContent.PageCount);
+            
             price.VatPercentage = SessionHelper.Customer.VatPercentage();
-            letter.OfficeProductId = price.OfficeProductId;
+            var officeProductId = price.OfficeProductId;
+            letter.OfficeId = officeProductService.GetOfficeProductById(officeProductId).OfficeId;
 
             order.OrderLines.Add(new OrderLine()
             {
@@ -234,7 +252,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                     LetterColor = LetterColor.Color,
                     LetterPaperWeight = LetterPaperWeight.Eight,
                     LetterProcessing = LetterProcessing.Dull,
-                    LetterSize = LetterSize.A4,
+                    LetterSize = (LetterSize)model.LetterSize,
                     LetterType = LetterType.Pres
                 };
 
@@ -266,9 +284,22 @@ namespace LetterAmazer.Websites.Client.Controllers
                         System.IO.File.ReadAllBytes(PathHelper.GetAbsoluteFile(letter.LetterContent.Path));
                 }
 
-                var price = priceService.GetPriceByAddress(addressInfo, letter.LetterContent.PageCount);
+                var price = priceService.GetPriceBySpecification(new PriceSpecification()
+                {
+                    CountryId = addressInfo.Country.Id,
+                    LetterColor = LetterColor.Color,
+                    LetterProcessing = LetterProcessing.Dull,
+                    LetterSize = LetterSize.A4,
+                    LetterType = LetterType.Pres,
+                    LetterPaperWeight = LetterPaperWeight.Eight,
+                    PageCount = letter.LetterContent.PageCount,
+                    OfficeId = SessionHelper.Customer.Organisation.RequiredOfficeId.HasValue ? SessionHelper.Customer.Organisation.RequiredOfficeId.Value : 0
+                });
+
                 price.VatPercentage = SessionHelper.Customer.VatPercentage();
-                letter.OfficeProductId = price.OfficeProductId;
+
+                var officeProductId = price.OfficeProductId;
+                letter.OfficeId = officeProductService.GetOfficeProductById(officeProductId).OfficeId;
 
                 Coupon coupon = null;
                 if (!string.IsNullOrEmpty(model.VoucherCode))
@@ -946,9 +977,7 @@ namespace LetterAmazer.Websites.Client.Controllers
         {
             var orders = orderService.GetOrderBySpecification(new OrderSpecification()
             {
-                UserId = SessionHelper.Customer.Id,
-                FromDate = model.FromDate,
-                ToDate = model.ToDate,
+                UserId = SessionHelper.Customer.Id
             }).OrderByDescending(c => c.DateCreated);
 
             model.Orders = getOrderViewModel(orders);

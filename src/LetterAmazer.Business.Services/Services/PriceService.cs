@@ -119,6 +119,11 @@ namespace LetterAmazer.Business.Services.Services
             {
                 officeProducts = officeProducts.Where(c => c.ContinentId == specification.ContinentId || c.ScopeType == (int)ProductScope.RestOfWorld);
             }
+            if (specification.OfficeId > 0)
+            {
+                officeProducts = officeProducts.Where(c => c.OfficeId == specification.OfficeId);
+            }
+
             // TODO: ZIP?
 
 

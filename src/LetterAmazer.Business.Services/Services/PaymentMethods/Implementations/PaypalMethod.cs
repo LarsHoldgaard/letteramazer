@@ -13,6 +13,7 @@ using LetterAmazer.Business.Services.Domain.Payments;
 using LetterAmazer.Business.Services.Domain.Pricing;
 using LetterAmazer.Business.Services.Domain.Products;
 using LetterAmazer.Business.Services.Exceptions;
+using LetterAmazer.Business.Utils.Helpers;
 using log4net;
 
 namespace LetterAmazer.Business.Services.Services.PaymentMethods.Implementations
@@ -79,7 +80,7 @@ namespace LetterAmazer.Business.Services.Services.PaymentMethods.Implementations
                 country,
                 postal,
                 address,
-                "mcoroklo@gmail.com",
+                Constants.Texts.PracticalInformation.PaypalEmail,
                 city,
                 id,
                 successUrl);

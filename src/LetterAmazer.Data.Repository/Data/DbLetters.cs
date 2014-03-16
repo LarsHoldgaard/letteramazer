@@ -45,7 +45,6 @@ namespace LetterAmazer.Data.Repository.Data
         public string LetterContent_WrittenContent { get; set; }
         public byte[] LetterContent_Content { get; set; }
         public int LetterStatus { get; set; }
-        public int OfficeProductId { get; set; }
         public string ToAddress_State { get; set; }
         public string ToAddress_Co { get; set; }
         public string FromAddress_State { get; set; }
@@ -56,11 +55,11 @@ namespace LetterAmazer.Data.Repository.Data
         public int LetterProcessing { get; set; }
         public int LetterSize { get; set; }
         public int LetterType { get; set; }
+        public int OfficeId { get; set; }
     
         public virtual DbCountries DbCountries { get; set; }
         public virtual DbCountries DbCountries1 { get; set; }
         public virtual DbCustomers DbCustomers { get; set; }
-        public virtual DbOfficeProducts DbOfficeProducts { get; set; }
         public virtual ICollection<DbOrderlines> DbOrderlines { get; set; }
     }
 }

@@ -28,6 +28,8 @@ namespace LetterAmazer.Websites.Client.ViewModels
         public string DestinationCity { get; set; }
         public string DestinationAddress { get; set; }
 
+        public int LetterSize { get; set; }
+
         public string VoucherCode { get; set; }
         public bool SignUpNewsletter { get; set; }
 

@@ -75,6 +75,9 @@
     <Compile Include="Data\DbLetters.cs">
       <DependentUpon>LetterAmazer.tt</DependentUpon>
     </Compile>
+    <Compile Include="Data\DbLog.cs">
+      <DependentUpon>LetterAmazer.tt</DependentUpon>
+    </Compile>
     <Compile Include="Data\DbOfficeProducts.cs">
       <DependentUpon>LetterAmazer.tt</DependentUpon>
     </Compile>

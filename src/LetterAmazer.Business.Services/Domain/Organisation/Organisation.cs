@@ -22,6 +22,10 @@ namespace LetterAmazer.Business.Services.Domain.Organisation
 
         public OrganisationSettings OrganisationSettings { get; set; }
 
+        public int? RequiredOfficeId { get; set; }
+        public int? RequiredFulfillmentPartnerId { get; set; }
+
+
         public Organisation()
         {
             this.AddressList = new List<AddressList>();

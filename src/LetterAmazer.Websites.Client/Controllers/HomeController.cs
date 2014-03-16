@@ -6,6 +6,7 @@ using LetterAmazer.Business.Services.Domain.Customers;
 using LetterAmazer.Business.Services.Domain.Mails;
 using LetterAmazer.Business.Services.Domain.Offices;
 using LetterAmazer.Business.Services.Domain.Organisation;
+using LetterAmazer.Business.Services.Domain.PriceUpdater;
 using LetterAmazer.Business.Services.Domain.Pricing;
 using LetterAmazer.Business.Services.Domain.Products.ProductDetails;
 using LetterAmazer.Business.Utils.Helpers;
@@ -31,7 +32,8 @@ namespace LetterAmazer.Websites.Client.Controllers
         private IMailService mailService;
         private IPriceService priceService;
         private IOrganisationService organisationService;
-        public HomeController(ICustomerService customerService,IOfficeService officeService,
+        private IPriceUpdater priceUpdater;
+        public HomeController(ICustomerService customerService,IOfficeService officeService,IPriceUpdater priceUpdater,
             IMailService mailService, ICountryService countryService, IPriceService priceService, IOrganisationService organisationService)
         {
             this.customerService = customerService;
@@ -40,6 +42,7 @@ namespace LetterAmazer.Websites.Client.Controllers
             this.mailService = mailService;
             this.priceService = priceService;
             this.organisationService = organisationService;
+            this.priceUpdater = priceUpdater;
         }
 
         public ActionResult Index()
@@ -50,12 +53,7 @@ namespace LetterAmazer.Websites.Client.Controllers
 
         public ActionResult Faq()
         {
-            logger.Info("HomeController -> FAQ");
-            mailService.ConfirmUser(new Customer()
-            {
-                Email = "mcoroklo@gmail.com",
-                
-            });
+            priceUpdater.Execute();
             return View();
         }
 

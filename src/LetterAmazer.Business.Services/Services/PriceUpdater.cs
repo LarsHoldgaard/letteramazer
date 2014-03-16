@@ -40,6 +40,8 @@ namespace LetterAmazer.Business.Services.Services
                 Take = int.MaxValue,
             });
 
+            DeleteAllPrices();
+
             foreach (var groupedProduct in groupedProducts)
             {
                 StoreCheapestOfficeProductInGroup(groupedProduct, total_matrices);
@@ -47,6 +49,31 @@ namespace LetterAmazer.Business.Services.Services
         }
 
         #region Private helpers
+
+        private void DeleteAllPrices()
+        {
+            var total_products = officeProductService.GetOfficeProductBySpecification(new OfficeProductSpecification()
+            {
+                Take = int.MaxValue,
+                ProductMatrixReferenceType = ProductMatrixReferenceType.Sales
+            }).ToList();
+
+
+            for (int j = 0; j < total_products.Count; j++)
+            {
+                var lines = productMatrixService.GetProductMatrixBySpecification(new ProductMatrixLineSpecification()
+                {
+                    OfficeProductId = total_products[j].Id
+                }).ToList();
+
+                for (int i = 0; i < lines.Count(); i++)
+                {
+                    productMatrixService.Delete(lines[i]);
+                }
+
+                officeProductService.Delete(total_products[j]);
+            }
+        }
 
         private void StoreCheapestOfficeProductInGroup(KeyValuePair<int, List<OfficeProduct>> groupedProduct, IEnumerable<ProductMatrixLine> total_matrices)
         {

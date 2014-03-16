@@ -27,6 +27,7 @@ namespace LetterAmazer.Data.Repository.Data
     
         public DbSet<DbContinents> DbContinents { get; set; }
         public DbSet<DbCountries> DbCountries { get; set; }
+        public DbSet<DbCountryNames> DbCountryNames { get; set; }
         public DbSet<DbCoupons> DbCoupons { get; set; }
         public DbSet<DbCustomers> DbCustomers { get; set; }
         public DbSet<DbFulfillmentPartners> DbFulfillmentPartners { get; set; }
@@ -43,6 +44,6 @@ namespace LetterAmazer.Data.Repository.Data
         public DbSet<DbPaymentMethods> DbPaymentMethods { get; set; }
         public DbSet<DbProductMatrixLines> DbProductMatrixLines { get; set; }
         public DbSet<DbShops> DbShops { get; set; }
-        public DbSet<DbCountryNames> DbCountryNames { get; set; }
+        public DbSet<DbLog> DbLog { get; set; }
     }
 }

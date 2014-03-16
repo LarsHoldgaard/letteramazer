@@ -295,7 +295,7 @@ namespace LetterAmazer.Business.Services.Services
                     LetterContent_Content = letter.LetterContent.Content,
                     LetterContent_Path = letter.LetterContent.Path,
                     LetterStatus = (int)letter.LetterStatus,
-                    OfficeProductId = letter.OfficeProductId,
+                    OfficeId = letter.OfficeId,
                 };
 
                 if (letter.FromAddress != null)

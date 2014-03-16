@@ -18,9 +18,11 @@ namespace LetterAmazer.Business.Services.Domain.Letters
         public AddressInfo FromAddress { get; set; }
         public AddressInfo ToAddress { get; set; }
         public LetterStatus LetterStatus { get; set; }
-        public int OfficeProductId { get; set; }
+        
         public LetterContent LetterContent { get; set; }
         public LetterDetails LetterDetails { get; set; }
+
+        public int OfficeId { get; set; }
 
         public Letter()
         {

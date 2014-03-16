@@ -32,6 +32,7 @@
     self.countryCode = ko.observable('');
     self.countryId = ko.observable(0);
 
+    self.lettersize = ko.observable(0);
     self.voucherCode = ko.observable('');
     self.voucherStatus = ko.observable('');
     self.voucherColor = ko.observable('color:green');

@@ -67,7 +67,7 @@ namespace LetterAmazer.Business.Services.Services
             dbletter.LetterContent_Path = letter.LetterContent.Path;
             dbletter.LetterContent_WrittenContent = letter.LetterContent.WrittenContent;
             dbletter.LetterStatus = (int)letter.LetterStatus;
-            dbletter.OfficeProductId = letter.OfficeProductId;
+            dbletter.OfficeId = letter.OfficeId;
 
             dbletter.LetterColor = (int)letter.LetterDetails.LetterColor;
             dbletter.LetterPaperWeight = (int)letter.LetterDetails.LetterPaperWeight;
@@ -115,7 +115,7 @@ namespace LetterAmazer.Business.Services.Services
             dbletter.LetterContent_Path = letter.LetterContent.Path;
             dbletter.LetterContent_WrittenContent = letter.LetterContent.WrittenContent;
             dbletter.LetterStatus = (int)letter.LetterStatus;
-            dbletter.OfficeProductId = letter.OfficeProductId;
+            dbletter.OfficeId = letter.OfficeId;
 
             dbletter.LetterColor = (int)letter.LetterDetails.LetterColor;
             dbletter.LetterPaperWeight = (int)letter.LetterDetails.LetterPaperWeight;

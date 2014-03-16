@@ -6,6 +6,8 @@ using LetterAmazer.Business.Services.Domain.Coupons;
 using LetterAmazer.Business.Services.Domain.Customers;
 using LetterAmazer.Business.Services.Domain.DeliveryJobs;
 using LetterAmazer.Business.Services.Domain.Letters;
+using LetterAmazer.Business.Services.Domain.OfficeProducts;
+using LetterAmazer.Business.Services.Domain.Offices;
 using LetterAmazer.Business.Services.Domain.Orders;
 using LetterAmazer.Business.Services.Domain.Payments;
 using LetterAmazer.Business.Services.Domain.PriceUpdater;
@@ -36,10 +38,13 @@ namespace LetterAmazer.Websites.Client.Controllers
         private ICustomerService customerService;
         private IPriceUpdater priceUpdater;
         private IDeliveryJobService deliveryJobService;
-        
+
+        private IOfficeService officeService;
+        private IOfficeProductService officeProductService;
         public SingleLetterController(IOrderService orderService, IPaymentService paymentService,
             ICouponService couponService, ICountryService countryService, IPriceService priceService,
-            ICustomerService customerService,IPriceUpdater priceUpdater, IDeliveryJobService deliveryJobService)
+            ICustomerService customerService,IPriceUpdater priceUpdater, IDeliveryJobService deliveryJobService,
+            IOfficeService officeService, IOfficeProductService officeProductService)
         {
             this.orderService = orderService;
             this.paymentService = paymentService;
@@ -49,6 +54,9 @@ namespace LetterAmazer.Websites.Client.Controllers
             this.customerService = customerService;
             this.priceUpdater = priceUpdater;
             this.deliveryJobService = deliveryJobService;
+            
+            this.officeProductService = officeProductService;
+            this.officeService = officeService;
         }
 
         [HttpGet]
@@ -167,7 +175,10 @@ namespace LetterAmazer.Websites.Client.Controllers
                 }
 
                 var price = priceService.GetPriceByAddress(addressInfo, letter.LetterContent.PageCount);
-                letter.OfficeProductId = price.OfficeProductId;
+
+
+                var officeProductId = price.OfficeProductId;
+                letter.OfficeId = officeProductService.GetOfficeProductById(officeProductId).OfficeId;
 
                 Coupon coupon = null;
                 if (!string.IsNullOrEmpty(model.VoucherCode))

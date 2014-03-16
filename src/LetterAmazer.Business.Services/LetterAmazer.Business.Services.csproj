@@ -238,6 +238,7 @@
     <Compile Include="Services\PriceService.cs" />
     <Compile Include="Services\ShippingService.cs" />
     <Compile Include="Utils\Helpers.cs" />
+    <Compile Include="Utils\PdfHelper.cs" />
     <Compile Include="Utils\SessionHelper.cs" />
     <Compile Include="Web References\com.postalmethods.api\Reference.cs">
       <AutoGen>True</AutoGen>

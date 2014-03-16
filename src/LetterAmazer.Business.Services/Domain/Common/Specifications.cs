@@ -11,7 +11,7 @@ namespace LetterAmazer.Business.Services.Domain.Common
         protected Specifications()
         {
             Skip = 0;
-            Take = 10;
+            Take = 100;
         }
 
         public int Skip { get; set; }

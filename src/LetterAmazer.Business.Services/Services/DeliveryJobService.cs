@@ -128,8 +128,7 @@ namespace LetterAmazer.Business.Services.Services
             var letterByPartnerJob = new Dictionary<int, List<Letter>>();
             foreach (var letter in letters)
             {
-                var officeProduct = officeProductService.GetOfficeProductById(letter.OfficeProductId);
-                var office = officeService.GetOfficeById(officeProduct.OfficeId);
+                var office = officeService.GetOfficeById(letter.OfficeId);
                 var partner = fulfillmentPartnerService.GetFulfillmentPartnerById(office.FulfillmentPartnerId);
 
                 if (!letterByPartnerJob.ContainsKey(partner.Id))

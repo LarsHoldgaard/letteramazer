@@ -52,7 +52,7 @@ namespace LetterAmazer.Business.Services.Factory
                     dbLetter.ToAddress_State,
                     dbLetter.ToAddress_CompanyName
                 ),
-                OfficeProductId = dbLetter.OfficeProductId,
+                OfficeId = dbLetter.OfficeId,
                 OrderId = dbLetter.OrderId,
                 LetterDetails = new LetterDetails()
                 {
