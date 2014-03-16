@@ -1,14 +1,17 @@
-﻿using LetterAmazer.Business.Services;
-using LetterAmazer.Business.Services.Data;
-using LetterAmazer.Business.Services.Interfaces;
-using LetterAmazer.Business.Services.Model;
+﻿using System.Collections.Generic;
+using System.Configuration;
+using System.Linq;
+using System.Reflection;
+using Castle.MicroKernel.Registration;
+using Castle.Windsor;
+using LetterAmazer.Business.Services;
+using LetterAmazer.Business.Services.Domain.Fulfillments;
+using LetterAmazer.Business.Services.Domain.Letters;
+using LetterAmazer.Business.Services.Domain.Orders;
+using LetterAmazer.Business.Services.Domain.Products;
 using log4net;
 using Quartz;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LetterAmazer.BackgroundService.Jobs
 {
@@ -21,22 +24,49 @@ namespace LetterAmazer.BackgroundService.Jobs
             logger.DebugFormat("start delivery letter job at: {0}", DateTime.Now);
 
             IOrderService orderService;
+
             IFulfillmentService fulfillmentService;
             try
             {
-                orderService = ServiceFactory.Get<IOrderService>();
+
+                orderService = Container.Resolve<IOrderService>();
+                
                 fulfillmentService = ServiceFactory.Get<IFulfillmentService>();
 
-                PaginatedCriteria criteria = new PaginatedCriteria();
-                criteria.PageIndex = 0;
-                criteria.PageSize = int.MaxValue;
-                PaginatedResult<Order> orders = orderService.GetOrdersShouldBeDelivered(criteria);
-                if (orders.Results.Count == 0) return;
+                var relevantOrders = orderService.GetOrderBySpecification(new OrderSpecification()
+                {
+                    OrderStatus = new List<OrderStatus>()
+                    {
+                        OrderStatus.Paid,
+                        OrderStatus.InProgress
+                    }
+                });
+
+                List<Letter> letters = new List<Letter>();
+                foreach (var relevantOrder in relevantOrders)
+                {
+                    foreach (var letter in relevantOrder.OrderLines)
+                    {
+                        if (letter.ProductType == ProductType.Letter)
+                        {
+                            var baseProduct = (Letter) letter.BaseProduct;
+                            if (baseProduct.LetterStatus == LetterStatus.Created)
+                            {
+                                letters.Add(baseProduct);    
+                            }
+                            
+                        }
+                    }
+                }
+
+                if (!letters.Any())
+                {
+                    return;
+                }
 
                 try
                 {
-                    fulfillmentService.Process(orders.Results);
-                    orderService.MarkOrdersIsDone(orders.Results);
+                    fulfillmentService.Process(letters);
                 }
                 catch (Exception ex)
                 {
@@ -51,6 +81,12 @@ namespace LetterAmazer.BackgroundService.Jobs
             {
                 logger.DebugFormat("end delivery letter job at: {0}", DateTime.Now);
             }
+        }
+
+
+        public new IWindsorContainer Container
+        {
+            get { return ServiceFactory.Container; }
         }
     }
 }

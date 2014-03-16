@@ -1,7 +1,5 @@
-﻿@using LetterAmazer.Business.Services.Utilities
-@using LetterAmazer.Websites.Client.Extensions
+﻿@using LetterAmazer.Websites.Client.Extensions
 @using LetterAmazer.Websites.Client.Resources.Views.User
-
 @model LetterAmazer.Websites.Client.ViewModels.OrderDetailViewModel
 
 @section header {
@@ -11,63 +9,79 @@
 
 <div class="jumbotron-white">
     <div class="container">
-        <h2>@ViewRes.DetailsForOrder @Model.Order.Id</h2>
+        <h2>@ViewRes.DetailsForOrder @Model.Id</h2>
         <p><a href="@Url.Action("Index")">@ViewRes.GoBackToOrderOverview</a></p>
         <h3>@ViewRes.OrderDetails</h3>
         <dl>
             <dt>@ViewRes.Status:</dt>
-            <dd>@ViewRes.ResourceManager.GetString(Model.Order.OrderStatus.ToString())</dd>
+            <dd>@ViewRes.ResourceManager.GetString(Model.OrderStatus.ToString())</dd>
             <dt>@ViewRes.Created:</dt>
-            <dd>@Model.Order.DateCreated.ToFriendlyDateTime()</dd>
+            <dd>@Model.DateCreated.ToFriendlyDateTime()</dd>
             <dt>@ViewRes.LastUpdated</dt>
-            <dd>@Model.Order.DateUpdated.ToFriendlyDateTime()</dd>
-            <dt>@ViewRes.LettersInOrder</dt>
-            <dd>@Model.Order.OrderItems.Count</dd>
+            <dd>@Model.DateModified.ToFriendlyDateTime()</dd>
         </dl>
 
         <h3>@ViewRes.DetailsOfLetters</h3>
-        @foreach (var item in Model.Order.OrderItems)
-        {
-            <h4>@ViewRes.Letter</h4>
-            <p><a href="@Url.Action("Download", new { id = item.Letter.Id })">@ViewRes.DownloadLetterContent</a></p>
-            <div class="row">
-                <div class="col-lg-6">
-                    <h4>@ViewRes.ReceipientDetails</h4>
-                    <p>
-                        Att. @item.Letter.ToAddress.AttPerson <br />
-                        @item.Letter.ToAddress.Address <br />
-                        @item.Letter.ToAddress.Postal @item.Letter.ToAddress.City <br />
-                        @item.Letter.ToAddress.Country
-                    </p>
-                    <h4>@ViewRes.PrintingDetails</h4>
-                    <dl>
-                        <dt>@ViewRes.Color:</dt>
-                        <dd>@item.Letter.LetterDetail.Color.ToString()</dd>
-                        <dt>@ViewRes.PaperType:</dt>
-                        <dd>@item.Letter.LetterDetail.PaperQuality.ToString()</dd>
-                        <dt>@ViewRes.PrintingQuality:</dt>
-                        <dd>@item.Letter.LetterDetail.PrintQuality.ToString()</dd>
-                    </dl>
-                </div>
-                <div class="col-lg-6">
-                    <h4>@ViewRes.LetterStatus</h4>
-                    <dl>
-                        <dt>@Model.Order.DateCreated.ToFriendlyDateTime():</dt>
-                        <dd>@ViewRes.OrderWasCreated</dd>
-                        @if (Model.Order.DatePaid.HasValue)
-                        {
-                        <dt>@Model.Order.DatePaid.Value.ToFriendlyDateTime():</dt>
-                        <dd>@ViewRes.OrderWasPaid</dd>
-                        }
-                        @if (Model.Order.DateSent.HasValue)
-                        {
-                        <dt>@Model.Order.DateSent.Value.ToFriendlyDateTime():</dt>
-                        <dd>@ViewRes.OrderWasSent</dd>
-                        }
-                    </dl>
-                </div>
+
+        <h4>@ViewRes.Letter</h4>
+        <p><a href="@Url.Action("Download", new { id = Model.Id })">@ViewRes.DownloadLetterContent</a></p>
+        <div class="row">
+            <div class="col-lg-6">
+                <h4>@ViewRes.ReceipientDetails</h4>
+                <p>
+                    <b>Att</b>
+                    @if (!string.IsNullOrEmpty(Model.AddressInfo.AttPerson))
+                    {
+                        @Model.AddressInfo.AttPerson
+                    }
+                    else
+                    {
+                        @Model.AddressInfo.FirstName @Model.AddressInfo.LastName   
+                    }
+                    <br />
+                    @Model.AddressInfo.Address1
+                    <br />
+                    @Model.AddressInfo.Zipcode @Model.AddressInfo.City
+                    <br />
+                    @Model.AddressInfo.Country.Name
+                </p>
+                <h4>@ViewRes.PrintingDetails</h4>
+                <dl>
+                    <dt>@ViewRes.Color:</dt>
+                    <dd>@Model.LetterDetails.LetterColor.ToString()</dd>
+                    <dt>@ViewRes.PaperType:</dt>
+                    <dd>@Model.LetterDetails.LetterProcessing.ToString()</dd>
+                    <dt>@ViewRes.PrintingQuality:</dt>
+                    <dd>@Model.LetterDetails.LetterSize.ToString()</dd>
+                    <dt>@ViewRes.PrintingQuality:</dt>
+                    <dd>@Model.LetterDetails.LetterPaperWeight.ToString()</dd>
+                    <dt>@ViewRes.PrintingQuality:</dt>
+                    <dd>@Model.LetterDetails.LetterType.ToString()</dd>
+
+                </dl>
             </div>
-        }
+            <div class="col-lg-6">
+                <h4>@ViewRes.LetterStatus</h4>
+                <dl>
+                    <dt>@Model.DateCreated.ToFriendlyDateTime():</dt>
+                    <dd>@ViewRes.OrderWasCreated</dd>
+
+
+                    @if (Model.DateSent.HasValue)
+                    {
+                        <dt>@Model.DateSent.Value.ToFriendlyDateTime():</dt>
+                        <dd>@ViewRes.OrderWasSent</dd>
+                            
+                    }
+
+                </dl>
+                
+                <h4>Price</h4>
+                Price ex. VAT: @Math.Round(Model.Price.PriceExVat,2) $<br/>
+                Vat (@(Model.Price.VatPercentage*100) %): @Math.Round(Model.Price.VatPrice,2) $<br/>
+                Total: @Math.Round(Model.Price.Total,2) $<br/>
+            </div>
+        </div>
     </div>
 </div>
 <script type="text/javascript">

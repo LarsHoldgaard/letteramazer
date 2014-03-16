@@ -1,145 +1,108 @@
-﻿using LetterAmazer.Business.Services.Data;
+﻿using System.Collections.Generic;
+using Amazon.DirectConnect.Model;
+using LetterAmazer.Business.Services.Domain.Coupons;
 using LetterAmazer.Business.Services.Exceptions;
-using LetterAmazer.Business.Services.Interfaces;
-using LetterAmazer.Business.Services.Model;
+using LetterAmazer.Business.Services.Factory;
+using LetterAmazer.Business.Services.Factory.Interfaces;
 using LetterAmazer.Business.Utils.Helpers;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
+using LetterAmazer.Data.Repository.Data;
 
 namespace LetterAmazer.Business.Services.Services
 {
     public class CouponService : ICouponService
     {
-        private const int CouponLength = 7;
-        private IRepository repository;
-        private IUnitOfWork unitOfWork;
-        public CouponService(IRepository repository, IUnitOfWork unitOfWork)
+        private LetterAmazerEntities Repository;
+        private ICouponFactory CouponFactory;
+
+        public CouponService(LetterAmazerEntities repository, ICouponFactory couponFactory)
         {
-            this.repository = repository;
-            this.unitOfWork = unitOfWork;
+            Repository = repository;
+            CouponFactory = couponFactory;
         }
 
-        public bool VerifyAminoUser(string username)
+
+        public Coupon Update(Coupon coupon)
         {
-            var urlFirst = string.Format("http://www.amino.dk/{0}", username);
-            var urlSecond = string.Format("http://www.amino.dk/members/{0}/default.aspx", username);
+            var dbcoupon = Repository.DbCoupons.FirstOrDefault(c => c.Id == coupon.Id);
 
-            var respFirst = GetResponseCode(urlFirst);
-            var respSecond = GetResponseCode(urlSecond);
+            if (dbcoupon == null)
+            {
+                return null;
+            }
 
-            return respFirst || respSecond;
+            dbcoupon.DateGiven = coupon.DateCreated;
+            dbcoupon.DateModified = coupon.DateModified;
+            dbcoupon.Code = coupon.Code;
+            dbcoupon.CouponExpire = coupon.ExpireDate;
+            dbcoupon.CouponStatus = (int)coupon.CouponStatus;
+            dbcoupon.CouponValueLeft = coupon.CouponValueLeft;
+            dbcoupon.CouponValue = coupon.CouponValue;
+            dbcoupon.EarlierCouponRef = coupon.EarlierCouponRef;
+            dbcoupon.RefSource=coupon.RefSource;
+            dbcoupon.RefUserValue = coupon.RefUserValue;
+
+            Repository.SaveChanges();
+
+            return GetCouponById(dbcoupon.Id);
         }
 
-        private bool GetResponseCode(string url)
+        public Coupon Create(Coupon coupon)
         {
+            var dbcoupon = new DbCoupons();
+            dbcoupon.DateGiven = coupon.DateCreated;
+            dbcoupon.DateModified = coupon.DateModified;
+            dbcoupon.Code = coupon.Code;
+            dbcoupon.CouponExpire = coupon.ExpireDate;
+            dbcoupon.CouponStatus = (int)coupon.CouponStatus;
+            dbcoupon.CouponValueLeft = coupon.CouponValueLeft;
+            dbcoupon.CouponValue = coupon.CouponValue;
+            dbcoupon.EarlierCouponRef = coupon.EarlierCouponRef;
+            dbcoupon.RefSource = coupon.RefSource;
+            dbcoupon.RefUserValue = coupon.RefUserValue;
 
-            //404: Filen ikke fundet 
-            // 
-            using (var client = new WebClient())
-            {
-                client.Headers.Add("User-Agent", "Mozilla/5.0 (Windows NT 6.1; Trident/7.0; rv:11.0) like Gecko");
-                var content = client.DownloadString(url);
-                if (content.Contains("404: Filen ikke fundet") ||
-                    content.Contains("Brugeren blev ikke fundet") ||
-                    content.Contains("Uuups - noget gik galt!"))
-                {
-                    return false;
-                }
-            }
-            return true;
+            Repository.DbCoupons.Add(dbcoupon);
+            Repository.SaveChanges();
+
+            return GetCouponById(dbcoupon.Id);
         }
 
-        public string GenerateCoupon(decimal value, int daysToExpire, string source, string sourcevalue)
+        public void Delete(Coupon coupon)
         {
-            return GenerateCoupon(value, daysToExpire, source, sourcevalue, 0);
+            var dbCoupon = Repository.DbCoupons.FirstOrDefault(c => c.Id == coupon.Id);
+
+            Repository.DbCoupons.Remove(dbCoupon);
+            Repository.SaveChanges();
         }
 
-        public string GenerateCoupon(decimal value, int daysToExpire, string source, string sourcevalue, int earlierCoupon)
+
+        public Coupon GetCouponById(int id)
         {
-            var code = PasswordGenerator.Generate(CouponLength);
+            var dbCoupon = Repository.DbCoupons.FirstOrDefault(c => c.Id == id);
 
-            var coupon = new Coupon(){
-                Code = code,
-                CouponExpire = DateTime.Now.AddDays(daysToExpire),
-                RefSource = source,
-                RefUserValue = sourcevalue,
-                CouponValue = value,
-                DateGiven = DateTime.Now,
-                EarlierCouponRef = earlierCoupon,
-                CouponValueLeft = value,
-                CouponStatus = CouponStatus.NotUsed
-            };
+            if (dbCoupon == null)
+            {
+                return null;
+            }
 
-            repository.Create<Coupon>(coupon);
-            unitOfWork.Commit();
-
-            return code;
-
+            return CouponFactory.Create(dbCoupon);
         }
 
-        public bool IsCouponActive(string code)
+        public List<Coupon> GetCouponBySpecification(CouponSpecification specification)
         {
-            var lowerCode = code.ToLower();
-            var codes = repository.Find<Coupon>(c => c.Code.ToLower() == lowerCode && c.CouponExpire >= DateTime.Now && c.CouponStatus != CouponStatus.Done && c.CouponValueLeft > 0.0m, 0, int.MaxValue, OrderBy.Desc("Id"));
-            if (codes.Results.Any())
+            IQueryable<DbCoupons> dbCouponses = Repository.DbCoupons;
+           
+            if (specification.Id > 0)
             {
-                return true;
+                dbCouponses = Repository.DbCoupons.Where(c => c.Id == specification.Id);
             }
-            return false;
-        }
-
-        public Coupon GetCoupon(string code)
-        {
-            code = code.ToLower();
-            if (!IsCouponActive(code))
+            if (!string.IsNullOrEmpty(specification.Code))
             {
-                throw new ArgumentException("Code has been used");
+                dbCouponses = dbCouponses.Where(c => c.Code == specification.Code);
             }
 
-            var currentCode = repository.FindFirst<Coupon>(c => c.Code == code);
-            if (currentCode == null)
-            {
-                throw new ItemNotFoundException("Coupon");
-            }
-            return currentCode;
-        }
-
-        public decimal UseCoupon(string code, decimal price)
-        {
-            code = code.ToLower();
-            if (!IsCouponActive(code))
-            {
-                throw new BusinessException("Code has been used");
-            }
-
-            var currentCode = repository.FindFirst<Coupon>(c => c.Code == code);
-
-            if (currentCode == null)
-            {
-                throw new ItemNotFoundException("Coupon");
-            }
-
-            decimal differenceInValue = currentCode.CouponValueLeft- price;
-
-            // credits left
-            if (differenceInValue > 0)
-            {
-                currentCode.CouponValueLeft = differenceInValue;
-                currentCode.CouponStatus = CouponStatus.Used;
-            }
-            else
-            {
-                currentCode.CouponStatus = CouponStatus.Done;
-                currentCode.CouponValueLeft = 0;
-            }
-
-            unitOfWork.Commit();
-
-            return differenceInValue;
+            return CouponFactory.Create(dbCouponses.OrderBy(c=>c.Id).Skip(specification.Skip).Take(specification.Take).ToList());
         }
     }
 }

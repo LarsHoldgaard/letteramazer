@@ -1,0 +1,40 @@
+﻿@using LetterAmazer.Business.Utils.Helpers
+
+
+<div class="alert alert-success" id="activationLinkResend" style="display:none; margin-top: 8px;">
+    <p>We have just dispatched an e-mail to @SessionHelper.Customer.Email .</p>
+</div>
+<div class="alert alert-warning" style="margin-top: 8px;">
+    <h1>Important: you have not activated your account yet</h1>
+    <p>Check your e-mail for an activation e-mail, or <span id="receiveNewActivationlnk" style="text-decoration:underline; cursor:pointer;">receive a new one</span>.</p>
+    <p>
+        If you don't activate your account you cannot:<br />
+        <ul>
+            <li>
+                Add credits
+            </li>
+
+            <li>
+                Send letters
+            </li>
+
+        </ul>
+    </p>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#receiveNewActivationlnk').click(function () {
+            var url = '/user/ResendConfirmationEmail';
+            $.ajax({
+                type: "GET",
+                url: url,
+                datatype: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    $('#activationLinkResend').show();
+                }
+            });
+        });
+    });
+</script>

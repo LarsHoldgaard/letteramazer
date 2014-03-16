@@ -179,7 +179,7 @@
             &lt;p&gt;BUT. Currently we are in beta. That means most of our features are being developed while you are reading this message. Get a message when we are ready by signing up here:&lt;/p&gt;</value>
   </data>
   <data name="BusinessHint" xml:space="preserve">
-    <value>Send physical letters online for businesses</value>
+    <value />
   </data>
   <data name="ConfirmPassword" xml:space="preserve">
     <value>ConfirmPassword</value>
@@ -196,13 +196,6 @@
   <data name="FirstName" xml:space="preserve">
     <value>First name</value>
   </data>
-  <data name="ForBusiness" xml:space="preserve">
-    <value>For business</value>
-  </data>
-  <data name="ForBusinessContent" xml:space="preserve">
-    <value>&lt;p&gt;Need to send a lot of letters? Need to integrate letters into an application? You've arrived at the right place.&lt;/p&gt;
-            &lt;p&gt;We provide a backend to companies who need to send multiple letters, which you with ease can use in your business. And yes, we send world-wide.&lt;/p&gt;</value>
-  </data>
   <data name="ForgotPassword" xml:space="preserve">
     <value>Forgot your password?</value>
   </data>
@@ -211,32 +204,6 @@
   </data>
   <data name="Home" xml:space="preserve">
     <value>Home</value>
-  </data>
-  <data name="HomepageContent" xml:space="preserve">
-    <value>&lt;p&gt;&lt;b style="font-size: 16px; font-weight: bold;"&gt;We don't get it.&lt;/b&gt;&lt;/p&gt;
-            &lt;p&gt;15 Years ago we were blessed with the invention of e-mail, and communication has been extremely easy since. However, we all send physical letters from time to time. &lt;/p&gt;
-
-            &lt;p&gt;Sending physical letters is so tiresome. First you have to &lt;strong&gt;buy some windowed envelopes&lt;/strong&gt;. Then you have to &lt;strong&gt;manually adjust the document&lt;/strong&gt;, so the recipients address fit the window in the envelope. Then you have to &lt;strong&gt;print the documents on a printer&lt;/strong&gt; (oh wait, who does actually own a working printer with ink these days?). Then you have to &lt;strong&gt;bend the paper&lt;/strong&gt;, and manually put the &lt;strong&gt;paper down in the envelope&lt;/strong&gt;. Afterwards, you have to close the envelope (if you are lucky they seal automatically, if you are unlucky you have to use your tongue). At last, you have forgotten to &lt;strong&gt;buy stamps&lt;/strong&gt;, and you need to go &lt;strong&gt;down to the postal office and buy them&lt;/strong&gt;. Then you can send your letters… if you can find a mailbox.&lt;/p&gt;
-
-            &lt;p&gt;Okay, let's stop the madness! We have decided to fix this problem so none ever has to face it again.&lt;/p&gt;
-
-            &lt;p&gt;We have made a service which makes it easy to send letters. You go to www.letteramazer.com, insert the recipients address, upload the letter as a file and then we send the letter for you. Easy, done deal.&lt;/p&gt;
-
-            &lt;p&gt;Heck, this is especially easy if you have a business. You can create an account with some credits, so you don't have to worry about payment each time. Then you can easily:&lt;/p&gt;
-            - Send letters from our website without using any form of payment.&lt;br /&gt;
-            - (Coming soon) Send us an e-mail with the attached PDF file, so you don't have to go to our website.&lt;br /&gt;
-            - (Coming soon) Use our REST API (the IT-guys know what it is - it's awesome - we promise)&lt;br /&gt;
-            - (Coming soon) Upload the files to our server with FTP (sorry, for the IT-guys again)&lt;br /&gt;
-            &lt;br /&gt;
-            &lt;p&gt;Good. It's time to stop the madness. Enough time has been spent licking those damn envelopes and stamps. Let's save time and money, and make everyone happier.&lt;/p&gt;
-
-            &lt;p&gt;Welcome to LetterAmazer.&lt;/p&gt;</value>
-  </data>
-  <data name="HomepageHint" xml:space="preserve">
-    <value>&lt;p class="frontpageLeadExplanation"&gt;LetterAmazer makes it possible to send physical letters around the globe, without ever touching the letters yourself. And it is easy.&lt;/p&gt;
-                    &lt;p class="frontpageSmallLeadExplanation"&gt;
-                        Today LetterAmazer are very good for consumers and soon we will treat businesses like angels. We will add amazing features like an API, mail merging, sending multiple letters plus many many more – it will be like letter heaven. &lt;a href="#newsletterStuff"&gt;Sign up for our exiting newsletter, to get all the inside scoops&lt;/a&gt;.
-                    &lt;/p&gt;</value>
   </data>
   <data name="LastName" xml:space="preserve">
     <value>Last name</value>
@@ -292,19 +259,6 @@
   </data>
   <data name="RegisterSuccessContent" xml:space="preserve">
     <value>&lt;p class="frontpageLead"&gt;Fantastic!&lt;br/&gt;Your account is registered.&lt;/p&gt;           </value>
-  </data>
-  <data name="SendLetterNow" xml:space="preserve">
-    <value>Send a letter now</value>
-  </data>
-  <data name="SendLettersWorldWideAutomatically" xml:space="preserve">
-    <value>Send letters world-wide, automatically</value>
-  </data>
-  <data name="SendSingleALetter" xml:space="preserve">
-    <value>Send a single letter</value>
-  </data>
-  <data name="SendSingleALetterContent" xml:space="preserve">
-    <value>&lt;p&gt;Want to send a letter to someone? It is very easy, and your letter should be on its way within 5 minutes.&lt;/p&gt;
-            &lt;p&gt;You can either use our online text-formatter, or simply upload a PDF file. Then we will take care of your letter, and make sure it arrives as soon as possible.&lt;/p&gt;</value>
   </data>
   <data name="Subscribe" xml:space="preserve">
     <value>Subscribe</value>

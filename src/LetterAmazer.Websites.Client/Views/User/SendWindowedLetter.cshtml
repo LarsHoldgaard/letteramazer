@@ -1,0 +1,169 @@
+﻿@using LetterAmazer.Business.Utils.Helpers
+@model LetterAmazer.Websites.Client.ViewModels.User.SendWindowedLetterViewModel
+
+@section header {
+    <link href="@Url.Content("~/Scripts/uploadify/uploadify.css")" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="@Url.Content("~/Scripts/uploadify/jquery.uploadify.min.js")"></script>
+
+    <link type="text/css" rel="stylesheet" href="@Url.Content("~/Scripts/dropzone/css/dropzone.css")" />
+    <script type="text/javascript" src="@Url.Content("~/Scripts/dropzone/dropzone.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/knockout-3.0.0.js")"></script>
+
+    <script type="text/javascript" src="@Url.Content("~/Scripts/internals/windowedletter-viewmodel.js")"></script>
+}
+
+<h1>Send a windowed envelope (BETA)</h1>
+
+@Html.ActionLink("Go back to your dashboard","Index")<br/><br/>
+
+<div class="alert alert-warning">
+    <b>This is in beta, and will have problems</b>. It only works for letters to Denmark, and even for Denmark, we cannot promise you anything as of right now.
+</div>
+
+
+@using (Html.BeginForm("SendWindowedLetter", "User", FormMethod.Post, new { id = "sendLetterForm" }))
+{
+
+
+
+    @*<h2>What country are you sending this letter to?</h2>
+
+        @Html.DropDownListFor(model => model.SelectedCountry, Model.Countries, new { @class = "form-control" })*@
+
+
+    <h2>1. Upload your file</h2>
+    <p>You can upload a PDF file below, by clicking the gray zone. It is important you follow a normal letter template, as this is directly printed into a windowed envelope.</p>
+
+    <div style="max-width: 350px">
+        <div id="myDropzone" class="la-dropzone">
+            <div class="dz-default dz-message">
+                <span>
+                    Click here to upload your PDF file
+                </span>
+            </div>
+        </div>
+    </div>
+    @Html.HiddenFor(m => m.UploadFile, new Dictionary<string, object> { { "data-bind", "value:uploadFileKey" } })
+
+
+    <h2>2. What country should we send the letter to?</h2>
+    <p>Select the country we should send this letter to:</p>
+    <div style="max-width: 350px">
+
+        @Html.DropDownListFor(model => model.SelectedCountry, Model.Countries, new Dictionary<string, object> { { "class", "form-control sendaletter_countrylist" }, { "data-bind", "value:countryId" } })
+        @Html.HiddenFor(m => m.DestinationCountryId, new Dictionary<string, object> { { "data-bind", "value:countryId" } })
+
+    </div>
+    <div data-bind="visible: getPriceExVat() <= 0.0">
+        <h2>3. Send this letter</h2>
+        <div class="alert alert-warning">
+
+            <p>Please upload a letter, before you can send it.</p>
+            @*<p>It can take up to 3 seconds after you uploaded a letter before this form updates...</p>
+            <br/>
+            <img src="@Url.Content("/Content/images/ajax-loader.gif")"/>*@
+        </div>
+    </div>
+    <div data-bind="visible: getPriceExVat() > 0.0">
+
+        <h2>3. Send this letter</h2>
+        <dl>
+            <dt>Payment method</dt>
+            <dd>Credits</dd>
+            <dt>Price</dt>
+            <dd>
+
+                <label id="priceOfLetterLbl" data-bind="text: getPriceExVat"></label> $
+
+                @if (SessionHelper.Customer.VatPercentage() > 0.0m)
+                {
+                    <text>(<label id="priceOfLetterLbl" data-bind="text: getPriceTotal"></label> $ inc. local VAT)</text>
+                }
+            </dd>
+            <dt>Pages</dt>
+            <dd data-bind="text: numberOfPages"></dd>
+            <dt>Shipping time</dt>
+            <dd>1-3 Week days</dd>
+        </dl>
+
+        <input type="submit" value="Send letter" class="btn btn-success btn-lg" />
+    </div>
+}
+
+<script>
+
+    var createLetterData = {
+        getPriceUrl: '@Url.Action("GetPrice", "SingleLetter")',
+    };
+
+    var viewModel = new SendWindowedLetterViewModel('#sendLetterForm', createLetterData);
+    ko.applyBindings(viewModel, document.getElementById('sendLetterForm'));
+
+    $('div#myDropzone').dropzone({
+        url: '@Url.Action("Upload", "SingleLetter")',
+        acceptedFiles: 'application/pdf',
+        maxFilesize: 10,
+        addRemoveLinks: true,
+        dictRemoveFile: 'Remove file',
+        fallback: function () {
+            $('div#myDropzone').hide();
+            $('div#uploadFallbackPanel').show();
+        },
+        success: function (file, data) {
+            var template = file.previewTemplate;
+            if (data.status == "success") {
+                if (createLetterData.currentFile != null) $(createLetterData.currentFile.previewTemplate).remove();
+                createLetterData.currentFile = file;
+                $(template).find('.dz-progress').hide();
+                $(template).find('.dz-details img').attr({
+                    'src': '@Url.Content("~/Content/images/pdf-icon.png")',
+                    'height': '100',
+                    'style': 'margin-top: 28px; margin-left: 20px; height: 65px; width: 65px; display: block;'
+                });
+                viewModel.uploadFileKey(data.key);
+                viewModel.downloadPrices();
+
+            } else {
+                $(template).find('.dz-error-message').remove();
+                $(template).addClass('dz-error');
+                $(template).find('.dz-error-mark').on('click', function () {
+                    $(template).remove();
+                });
+                viewModel.uploadFileKey('');
+            }
+        },
+        error: function (file, responseText) {
+            var template = file.previewTemplate;
+            $(template).remove();
+            viewModel.uploadFileKey('');
+        },
+        removedfile: function (file) {
+            var template = file.previewTemplate;
+            $(template).remove();
+            viewModel.uploadFileKey('');
+
+            viewModel.downloadPrices();
+        }
+    });
+
+    $('#fileUpload').uploadify({
+        'buttonText': 'Select PDF',
+        'fileTypeDesc': 'PDF Files',
+        'fileTypeExts': '*.pdf',
+        'fileObjName': 'uploadFile',
+        'removeCompleted': false,
+        'multi': false,
+        'swf': '@Url.Content("~/Scripts/uploadify/uploadify.swf")',
+        'uploader': '@Url.Action("Upload", "SingleLetter")',
+        'onUploadSuccess': function (file, data, response) {
+            var result = $.parseJSON(data);
+            if (result.status == "success") {
+                viewModel.uploadFileKey(result.key);
+            }
+
+        },
+        'onUploadError': function (ex, e, er) {
+            console.log(er);
+        }
+    });
+</script>

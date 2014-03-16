@@ -1,0 +1,45 @@
+﻿@model LetterAmazer.Websites.Client.ViewModels.User.ContactViewModel
+
+
+<h1>Edit sender contracts</h1>
+@Html.ActionLink("Go back to address list","EditContacts","User")
+
+<p>Here you can edit the sender address for organisation @Model.OrganisationName .</p>
+
+@if (!string.IsNullOrEmpty(ViewBag.status))
+{
+    <div class="alert alert-success">
+        @ViewBag.status
+    </div>
+}
+
+
+@using (Html.BeginForm("EditSingleContact", "User", FormMethod.Post))
+{
+    <label class="form-label" for="OrganisationName">Name of senders address (ie. name of an organisation)<span class="input-required">*</span></label><br />
+    @Html.TextBoxFor(model => model.OrganisationName, new { @class = "form-control", placeholder = "Name" })
+    <br/>
+    <label class="form-label" for="Address1">Address<span class="input-required">*</span></label><br />
+    @Html.TextBoxFor(model => model.Address1, new { @class = "form-control", placeholder = "Address 1" })
+    <br />
+    <label class="form-label" for="Address2">Address 2 (optional)</label><br />
+    @Html.TextBoxFor(model => model.Address2, new { @class = "form-control", placeholder = "Address 2" })
+    <br />
+    <label class="form-label" for="ZipCode">Zip code<span class="input-required">*</span></label><br />
+    @Html.TextBoxFor(model => model.ZipCode, new { @class = "form-control", placeholder = "Zip code" })
+    <br />
+    <label class="form-label" for="City">City<span class="input-required">*</span></label><br />
+    @Html.TextBoxFor(model => model.City, new { @class = "form-control", placeholder = "City" })
+    <br />
+    <label class="form-label" for="State">State (optional)</label><br />
+    @Html.TextBoxFor(model => model.State, new { @class = "form-control", placeholder = "State" })
+    <br />
+    <label class="form-label" for="Address1">Country<span class="input-required">*</span></label><br />
+    @Html.DropDownListFor(model => model.SelectedCountry, Model.Countries, new { @class = "form-control" })
+    
+    <br/><br/>
+
+    <input type="submit" id="EditContactsBtn" class="btn btn-lg btn-primary" value="Edit contact" />
+
+    @Html.HiddenFor(model => model.AddressListId)
+}

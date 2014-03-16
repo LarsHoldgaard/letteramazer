@@ -1,9 +1,10 @@
-﻿@using LetterAmazer.Websites.Client.Resources.Views.Shared
+﻿@using LetterAmazer.Business.Utils.Helpers
+@using LetterAmazer.Websites.Client.Resources.Views.Shared
 @{
     var controller = ViewContext.RouteData.Values["controller"].ToString().ToLower();
     var action = ViewContext.RouteData.Values["action"].ToString().ToLower();
 }
-<!DOCTYPE hml>
+<!DOCTYPE HML>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -35,15 +36,26 @@
                     <li class="@(action == "index" && controller == "home" ? "active" : "")"><a href="@Url.Action("Index", "Home")">@ViewRes.Home</a></li>
                     <li class="@(action == "index" && controller == "singleletter" ? "active" : "")"><a href="@Url.Action("Index", "SingleLetter")">@ViewRes.SendALetter</a></li>
                     <li class="@(action == "business" && controller == "home" ? "active" : "")"><a href="@Url.Action("Business", "Home")">@ViewRes.Business</a></li>
-                    <li class="@(action == "api" && controller == "home" ? "active" : "")"><a href="@Url.Action("Api", "Home")">@ViewRes.Api</a></li>
+                    <li class="@(action == "api" && controller == "home" ? "active" : "")"><a href="@Url.Action("ApiInfo", "Home")">@ViewRes.Api</a></li>
                     <li class="@(action == "pricing" && controller == "home" ? "active" : "")"><a href="@Url.Action("Pricing", "Home")">@ViewRes.Pricing</a></li>
+                    
                 </ul>
                 @Html.Partial("Authentication")
+                
             </div>
         </div>
     </div>
 
-    @RenderBody()
+
+    <div class="container container-top">
+        <div class="row">
+            <div class="col-lg-12">
+                @RenderBody()
+                
+             
+            </div>
+        </div>
+    </div>
 
     <div class="container">
         <hr />
@@ -61,11 +73,12 @@
             i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
                 (i[r].q = i[r].q || []).push(arguments)
             }, i[r].l = 1 * new Date(); a = s.createElement(o),
-            m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+                m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
         })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
 
         ga('create', 'UA-45976349-1', 'letteramazer.com');
         ga('send', 'pageview');
     </script>
 </body>
+
 </html>

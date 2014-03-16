@@ -1,160 +1,223 @@
-﻿using LetterAmazer.Business.Services.Data;
+﻿using System.Collections.Generic;
+using LetterAmazer.Business.Services.Domain.Customers;
+using LetterAmazer.Business.Services.Domain.Mails;
 using LetterAmazer.Business.Services.Exceptions;
-using LetterAmazer.Business.Services.Interfaces;
+using LetterAmazer.Business.Services.Factory.Interfaces;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using LetterAmazer.Business.Utils.Helpers;
+using LetterAmazer.Data.Repository.Data;
 
 namespace LetterAmazer.Business.Services.Services
 {
     public class CustomerService : ICustomerService
     {
-        private IPasswordEncryptor passwordEncryptor;
-        private IRepository repository;
-        private IUnitOfWork unitOfWork;
-        private string resetPasswordUrl;
-        private INotificationService notificationService;
-        public CustomerService(string resetPasswordUrl, IRepository repository, IUnitOfWork unitOfWork, 
-            IPasswordEncryptor passwordEncryptor, INotificationService notificationService)
+        private ICustomerFactory customerFactory;
+        private LetterAmazerEntities repository;
+        private IMailService mailService;
+
+        public CustomerService(LetterAmazerEntities repository, ICustomerFactory customerFactory,
+            IMailService mailService)
         {
-            this.resetPasswordUrl = resetPasswordUrl;
             this.repository = repository;
-            this.unitOfWork = unitOfWork;
-            this.passwordEncryptor = passwordEncryptor;
-            this.notificationService = notificationService;
+            this.customerFactory = customerFactory;
+            this.mailService = mailService;
         }
 
         public Customer GetCustomerById(int customerId)
         {
-            Customer customer = repository.GetById<Customer>(customerId);
-            if (customer == null)
+            DbCustomers dbcustomer = repository.DbCustomers.FirstOrDefault(c => c.Id == customerId);
+            if (dbcustomer == null)
             {
                 throw new ItemNotFoundException("Customer");
             }
+
+            var customer = customerFactory.Create(dbcustomer);
+
             return customer;
         }
 
-        public void CreateCustomer(Customer customer)
+        public Customer LoginUser(string email, string password)
         {
-            customer.Email = customer.Email.Trim().ToLower();
-            if (repository.Exists<Customer>(u => u.Email == customer.Email))
+            var lower_email = email.ToLower();
+            var givenPassword = SHA1PasswordEncryptor.Encrypt(password);
+
+            var user = repository.DbCustomers.Where(c => c.Email == lower_email && c.Password == givenPassword && c.DateActivated != null && c.DateActivated <= DateTime.Now);
+
+            if (!user.Any())
             {
-                throw new BusinessException("The '" + customer.Email + "' email is existing in the system");
+                return null;
             }
-            customer.Username = customer.Email;
-            customer.DateCreated = DateTime.Now;
-            customer.DateUpdated = DateTime.Now;
-            customer.Credits = 0;
-            string password = customer.Password;
-            customer.Password = passwordEncryptor.Encrypt(customer.Password);
-            repository.Create(customer);
-            unitOfWork.Commit();
 
-            customer.Password = password;
-            notificationService.SendMembershipInformation(customer);
+            var first_user = user.FirstOrDefault();
+
+            return customerFactory.Create(first_user);
         }
 
-        public void UpdateCustomer(Customer customer)
+        public List<Customer> GetCustomerBySpecification(CustomerSpecification specification)
         {
-            Customer current = GetCustomerById(customer.Id);
-            current.DateUpdated = DateTime.Now;
-            current.CustomerInfo = customer.CustomerInfo;
-            repository.Update(current);
-            unitOfWork.Commit();
-        }
+            IQueryable<DbCustomers> dbCustomers = repository.DbCustomers;
 
-        public Customer GetUserByEmail(string email)
-        {
-            Customer customer = repository.FindFirst<Customer>(c => c.Email == email);
-            if (customer == null)
+            if (specification.Id > 0)
             {
-                throw new ItemNotFoundException("Customer");
+                dbCustomers = dbCustomers.Where(c => c.Id == specification.Id);
             }
-            return customer;
-        }
+            if (!string.IsNullOrEmpty(specification.Email))
+            {
+                var selectedEmail = specification.Email.ToLower();
+                dbCustomers = dbCustomers.Where(c => c.Email == selectedEmail);
+            }
+            if (!string.IsNullOrEmpty(specification.ResetPasswordKey))
+            {
+                dbCustomers = dbCustomers.Where(c => c.ResetPasswordKey == specification.ResetPasswordKey);
+            }
+            if (!string.IsNullOrEmpty(specification.RegistrationKey))
+            {
+                dbCustomers = dbCustomers.Where(c => c.RegistrationKey == specification.RegistrationKey);
+            }
+            if (specification.CustomerRole != null)
+            {
+                dbCustomers = dbCustomers.Where(c => c.OrganisationRole == (int)specification.CustomerRole);
+            }
 
-        public void DeleteCustomer(int customerId)
-        {
-            Customer current = GetCustomerById(customerId);
-            repository.Delete(current);
-            unitOfWork.Commit();
+            return customerFactory.Create(dbCustomers.OrderBy(c => c.Id).Skip(specification.Skip).Take(specification.Take).ToList());
         }
 
         public void RecoverPassword(string email)
         {
-            Customer user = GetUserByEmail(email);
-            user.ResetPasswordKey = Guid.NewGuid().ToString();
-            string resetPasswordUrl = string.Format(this.resetPasswordUrl, System.Threading.Thread.CurrentThread.CurrentCulture.TwoLetterISOLanguageName, user.ResetPasswordKey);
-            notificationService.SendResetPasswordUrl(resetPasswordUrl, user);
-            repository.Update(user);
-            unitOfWork.Commit();
-        }
-
-        public void ChangePassword(string username, string oldPassword, string newPassword)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Customer ValidateUser(string email, string password)
-        {
-            try
+            var customer = GetCustomerBySpecification(new CustomerSpecification()
             {
-                Customer user = GetUserByEmail(email.ToLower());
-                if (user == null)
-                {
-                    throw new BusinessException("Email or password is not valid.");
-                }
+                Email = email
+            }).FirstOrDefault();
 
-                if (!passwordEncryptor.Equal(password, user.Password))
-                {
-                    throw new BusinessException("Email or password is not valid.");
-                }
-
-                return user;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
-        public Customer GetUserByResetPasswordKey(string resetPasswordKey)
-        {
-            Customer customer = repository.FindFirst<Customer>(c => c.ResetPasswordKey == resetPasswordKey);
             if (customer == null)
             {
-                throw new ItemNotFoundException("Customer");
+                throw new BusinessException("Customer doesn't exist");
             }
-            return customer;
+
+            customer.ResetPasswordKey = Guid.NewGuid().ToString();
+
+            mailService.ResetPassword(customer);
+
+            Update(customer);
         }
 
-        public void ResetPassword(string resetPasswordKey, string newPassword)
+        public void ActivateUser(Customer customer)
         {
-            Customer customer = repository.FindFirst<Customer>(c => c.ResetPasswordKey == resetPasswordKey);
-            if (customer == null)
+            customer.RegisterKey = string.Empty;
+            customer.DateModified = DateTime.Now;
+            customer.DateActivated = DateTime.Now;
+            Update(customer);
+        }
+
+        public Customer Create(Customer customer)
+        {
+            var providedEmail = customer.Email.ToLower().Trim();
+
+            if (repository.DbCustomers.Any(c => c.Email == providedEmail && c.DateActivated != null && c.DateActivated <= DateTime.Now))
             {
-                throw new ItemNotFoundException("Customer");
+                throw new BusinessException("The '" + providedEmail + "' email is existing in the system");
             }
-            customer.Password = passwordEncryptor.Encrypt(newPassword);
-            customer.ResetPasswordKey = string.Empty;
-            unitOfWork.Commit();
+
+            var existingcustomer = GetCustomerBySpecification(new CustomerSpecification()
+            {
+                Email = providedEmail
+            }).FirstOrDefault();
+
+            var givenPassword = SHA1PasswordEncryptor.Encrypt(customer.Password);
+
+            int id = 0;
+            // new user
+            if (existingcustomer == null)
+            {
+                var dbCustomer = new DbCustomers();
+                dbCustomer.Email = providedEmail;
+                dbCustomer.Password = givenPassword;
+                dbCustomer.CustomerInfo_FirstName = customer.CustomerInfo.FirstName;
+                dbCustomer.CustomerInfo_LastName = customer.CustomerInfo.LastName;
+                dbCustomer.CustomerInfo_Country = customer.CustomerInfo.Country != null ?  customer.CustomerInfo.Country.Id : 59; // TODO: Don't hardcode Denmark
+                dbCustomer.DateCreated = DateTime.Now;
+                dbCustomer.RegistrationKey = Guid.NewGuid().ToString();
+                dbCustomer.AccountStatus = (int) (customer.AccountStatus);
+
+                repository.DbCustomers.Add(dbCustomer);
+                repository.SaveChanges();
+
+                id = dbCustomer.Id;
+            }
+            // update old
+            else
+            {
+                var dbCustomer = repository.DbCustomers.FirstOrDefault(c => c.Email == providedEmail);
+                dbCustomer.Email = customer.Email;
+                dbCustomer.Password = givenPassword;
+                dbCustomer.CustomerInfo_FirstName = customer.CustomerInfo.FirstName;
+                dbCustomer.CustomerInfo_LastName = customer.CustomerInfo.LastName;
+                dbCustomer.RegistrationKey = Guid.NewGuid().ToString();
+                dbCustomer.CustomerInfo_Country = customer.CustomerInfo.Country.Id;
+
+                repository.SaveChanges();
+
+                id = dbCustomer.Id;
+            }
+
+            var storedCustomer = GetCustomerById(id);
+            mailService.ConfirmUser(storedCustomer);
+            return storedCustomer;
         }
 
-        public bool IsValidCredits(int userId, decimal price)
+        public Customer Update(Customer customer)
         {
-            Customer customer = repository.GetById<Customer>(userId);
-            if (customer == null) return false;
+            var dbCustomer = repository.DbCustomers.FirstOrDefault(c => c.Id == customer.Id);
 
-            decimal creditsLeft = customer.Credits.Value + Math.Abs(customer.CreditLimit);
-            return creditsLeft >= price;
+            if (dbCustomer == null)
+            {
+                throw new BusinessException("The customer doesn't exist");
+            }
+
+            dbCustomer.DateUpdated = DateTime.Now;
+            dbCustomer.CustomerInfo_Address = customer.CustomerInfo.Address1;
+            dbCustomer.CustomerInfo_Address2 = customer.CustomerInfo.Address2;
+            dbCustomer.CustomerInfo_AttPerson = customer.CustomerInfo.AttPerson;
+            dbCustomer.CustomerInfo_City = customer.CustomerInfo.City;
+
+            dbCustomer.CustomerInfo_FirstName = customer.CustomerInfo.FirstName;
+            dbCustomer.CustomerInfo_LastName = customer.CustomerInfo.LastName;
+            dbCustomer.CustomerInfo_Zipcode = customer.CustomerInfo.Zipcode;
+            dbCustomer.CustomerInfo_VatNr = customer.CustomerInfo.VatNr;
+            dbCustomer.CreditLimit = customer.CreditLimit;
+            dbCustomer.Credits = customer.Credit;
+            dbCustomer.Email = customer.Email;
+            dbCustomer.ResetPasswordKey = customer.ResetPasswordKey;
+            dbCustomer.Password = customer.Password;
+            dbCustomer.Phone = customer.Phone;
+            dbCustomer.DateActivated = customer.DateActivated;
+            dbCustomer.RegistrationKey = customer.RegisterKey;
+            dbCustomer.OrganisationRole = customer.OrganisationRole.HasValue ? (int)customer.OrganisationRole.Value : 0;
+            dbCustomer.AccountStatus = (int) (customer.AccountStatus);
+
+            if (customer.Organisation != null)
+            {
+                dbCustomer.OrganisationId = customer.Organisation.Id;
+            }
+            else
+            {
+                dbCustomer.OrganisationId = null;
+            }
+
+
+            repository.SaveChanges();
+
+            return GetCustomerById(customer.Id);
         }
 
-        public decimal GetAvailableCredits(int userId)
+        public void Delete(Customer customer)
         {
-            Customer customer = repository.GetById<Customer>(userId);
-            return customer.Credits.Value + Math.Abs(customer.CreditLimit);
+            var dbcust = repository.DbCustomers.FirstOrDefault(c => c.Id == customer.Id);
+            repository.DbCustomers.Remove(dbcust);
+            repository.SaveChanges();
         }
+
+
     }
 }

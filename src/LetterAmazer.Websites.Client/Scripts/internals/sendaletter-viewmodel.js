@@ -20,13 +20,18 @@
     self.currentStep = ko.observable(1);
     self.uploadPdf = ko.observable(0);
     self.useVoucher = ko.observable(0);
+    self.showVatInclusive = ko.observable(true);
 
+    self.orderid = ko.observable('');
     self.receiver = ko.observable('');
     self.address = ko.observable('');
     self.postal = ko.observable('');
     self.city = ko.observable('');
+    self.state = ko.observable('');
     self.country = ko.observable('');
     self.countryCode = ko.observable('');
+    self.countryId = ko.observable(0);
+
     self.voucherCode = ko.observable('');
     self.voucherStatus = ko.observable('');
     self.voucherColor = ko.observable('color:green');
@@ -36,6 +41,8 @@
     self.selectedCountry = ko.observable('');
     self.useUploadFile = ko.observable('');
     self.uploadFileKey = ko.observable('');
+    self.priceStatus = ko.observable('');
+    self.priceStatusMessage = ko.observable('');
 
     self.formSelector = formSelector;
     $(self.formSelector).validate({
@@ -58,6 +65,9 @@
             },
             DestinationAddress: {
                 required: true
+            },
+            DestinationState: {
+                required: false
             }
         }
     });
@@ -82,6 +92,7 @@
 
         var thiz = self;
         var writtenContent = encodeURIComponent(self.htmlEncode(self.writeContentEditor.getData()));
+        console.log(self);
         $.ajax({
             url: self.getPriceUrl,
             type: 'POST',
@@ -92,25 +103,51 @@
                 address: self.address(),
                 postal: self.postal(),
                 city: self.city(),
-                country: self.country()
+                state: self.state(),
+                country: self.countryId()
             },
             dataType: 'json',
             success: function (data) {
+                thiz.priceStatus(data.status);
+                thiz.priceStatusMessage(data.message);
                 thiz.cost(data.price);
                 thiz.numberOfPages(data.numberOfPages);
                 if (data.isAuthenticated) {
                     self.isAuthenticated(true);
                     self.isValidCredits(data.isValidCredits);
-                    self.paymentMethod('Credits (' + data.credits + '$ left)');
+                    self.paymentMethod('Credits (' + data.credits.toFixed(2) + '$ left)');
                 }
+
                 thiz.currentStep(3);
+
             }
         });
     };
-    
-    self.getPrice = ko.computed(function () {
-        return self.cost().toFixed(2) + ' $ (' + self.numberOfPages() + ' pages)';
+
+    self.canSendLetter = ko.computed(function () {
+        if (self.priceStatus() == "success") {
+            return true;
+        }
+        return false;
     });
+
+    self.getPriceTotal = ko.computed(function () {
+        try {
+            return self.cost().Total.toFixed(2);
+        } catch (ex) {
+            return 0;
+        }
+    });
+
+    self.getPriceExVat = ko.computed(function () {
+        try {
+            return self.cost().PriceExVat.toFixed(2);
+        } catch (ex) {
+            return 0;
+        }
+    });
+
+
 
     self.showStepOne = ko.computed(function () {
         return self.currentStep() == 1;

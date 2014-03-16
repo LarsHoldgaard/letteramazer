@@ -16,9 +16,9 @@ namespace LetterAmazer.Websites.Client
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
-                name: "SingleLetterPaypalIPN",
-                url: "SingleLetter/PaypalIpn/{id}",
-                defaults: new { controller = "SingleLetter", action = "PaypalIpn", id = UrlParameter.Optional }
+                name: "PaypalIPN",
+                url: "Callback/PaypalIpn/{id}",
+                defaults: new { controller = "Callback", action = "PaypalIpn", id = UrlParameter.Optional }
             );
 
             routes.MapRoute(
@@ -26,6 +26,13 @@ namespace LetterAmazer.Websites.Client
                 url: "SingleLetter/{action}/{id}",
                 defaults: new { controller = "SingleLetter", action = "Index", id = UrlParameter.Optional }
             );
+
+            routes.MapRoute(
+                name: "Invoice",
+                url: "payment/{action}/{id}",
+                defaults: new { controller = "Payment", action = "Invoice", id = UrlParameter.Optional }
+            );
+
 
             routes.MapRoute(
                 name: "User",
@@ -38,29 +45,6 @@ namespace LetterAmazer.Websites.Client
                 url: "{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
-
-            foreach (Route r in routes)
-            {
-                if (!(r.RouteHandler is SingleCultureMvcRouteHandler))
-                {
-                    r.RouteHandler = new MultiCultureMvcRouteHandler();
-                    r.Url = "{culture}/" + r.Url;
-
-                    if (r.Defaults == null)
-                    {
-                        r.Defaults = new RouteValueDictionary();
-                    }
-                    r.Defaults.Add("culture", Culture.en.ToString());
-
-                    //Adding constraint for culture param
-                    if (r.Constraints == null)
-                    {
-                        r.Constraints = new RouteValueDictionary();
-                    }
-                    r.Constraints.Add("culture", new CultureConstraint(Culture.en.ToString(), Culture.da.ToString()));
-                }
-            }
-
         }
     }
 }

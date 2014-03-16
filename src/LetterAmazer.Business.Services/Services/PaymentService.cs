@@ -1,41 +1,130 @@
-﻿using LetterAmazer.Business.Services.Exceptions;
-using LetterAmazer.Business.Services.Interfaces;
+﻿using Amazon.EC2.Model;
+using LetterAmazer.Business.Services.Domain.Countries;
+using LetterAmazer.Business.Services.Domain.Coupons;
+using LetterAmazer.Business.Services.Domain.Customers;
+using LetterAmazer.Business.Services.Domain.Invoice;
+using LetterAmazer.Business.Services.Domain.Mails;
+using LetterAmazer.Business.Services.Domain.Orders;
+using LetterAmazer.Business.Services.Domain.Payments;
+using LetterAmazer.Business.Services.Domain.Pricing;
+using LetterAmazer.Business.Services.Domain.Products;
+using LetterAmazer.Business.Services.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LetterAmazer.Business.Services.Factory;
+using LetterAmazer.Business.Services.Factory.Interfaces;
+using LetterAmazer.Business.Services.Services.PaymentMethods.Implementations;
+using LetterAmazer.Data.Repository.Data;
 
 namespace LetterAmazer.Business.Services.Services
 {
     public class PaymentService : IPaymentService
     {
-        private IDictionary<string, IPaymentMethod> methods;
+        private IPaymentFactory paymentFactory;
+        private LetterAmazerEntities repository;
+        private IPriceService priceService;
+        private ICouponService couponService;
+        private ICustomerService customerService;
+        private IOrderService orderService;
+        private ICountryService countryService;
+        private IInvoiceService invoiceService;
+        private IMailService mailService;
 
-        public PaymentService(IPaymentMethod[] methods)
+        public PaymentService(LetterAmazerEntities repository,IPriceService priceService,IPaymentFactory paymentFactory, 
+            ICouponService couponService, ICustomerService customerService, 
+            IOrderService orderService, ICountryService countryService, IInvoiceService invoiceService,
+            IMailService mailService)
         {
-            this.methods = new Dictionary<string, IPaymentMethod>();
-            foreach (var method in methods)
+            this.priceService = priceService;
+            this.repository = repository;
+            this.paymentFactory = paymentFactory;
+            this.couponService = couponService;
+            this.customerService = customerService;
+            this.orderService = orderService;
+            this.countryService = countryService;
+            this.invoiceService = invoiceService;
+            this.mailService = mailService;
+        }
+
+        public string Process(Order order)
+        {
+            var paymentMethods = order.OrderLines.Where(c => c.ProductType == ProductType.Payment);
+            var url = string.Empty;
+
+            foreach (var orderLine in paymentMethods)
             {
-                Register(method);
+                var paymentMethod = GetPaymentMethodById(orderLine.PaymentMethodId);
+                if (paymentMethod != null && !string.IsNullOrEmpty(paymentMethod.Name))
+                {
+                    var pm = getPaymentMethod(paymentMethod.Name);
+                    url = pm.Process(order);
+                }    
+            }
+
+            return url;
+        }
+
+        public List<Domain.Payments.PaymentMethods> GetPaymentMethodsBySpecification(PaymentMethodSpecification specification)
+        {
+            IQueryable<DbPaymentMethods> dbPaymentMethods = repository.DbPaymentMethods;
+            dbPaymentMethods = dbPaymentMethods.Where(c => c.IsVisible && (c.DateDeleted == null||c.DateDeleted > DateTime.Now));
+
+            // Credits always useable for customers with credits
+            if (specification.CustomerId == 0)
+            {   
+                dbPaymentMethods = dbPaymentMethods.Where(c => !c.RequiresLogin);
+            }
+            if (specification.TotalPrice > 0) 
+            {
+                dbPaymentMethods =
+                    dbPaymentMethods.Where(
+                        c => c.MinimumAmount <= specification.TotalPrice && c.MaximumAmount >= specification.TotalPrice);
+            }
+
+            return paymentFactory.Create(dbPaymentMethods.OrderBy(c=>c.SortOrder).Skip(specification.Skip).Take(specification.Take).ToList());
+        }
+
+        public Domain.Payments.PaymentMethods GetPaymentMethodById(int id)
+        {
+            DbPaymentMethods dbPayment = repository.DbPaymentMethods.FirstOrDefault(c => c.Id == id);
+            if (dbPayment == null)
+            {
+                throw new ItemNotFoundException("Payment method doesn't exist");
+            }
+
+            var paymentMethod = paymentFactory.Create(dbPayment);
+            return paymentMethod;
+        }
+
+        #region Private methods
+
+        private IPaymentMethod getPaymentMethod(string name)
+        {
+            if (name == "Credit")
+            {
+                return new CreditsMethod(customerService);
+            }
+            else if (name == "Coupon")
+            {
+                return new CouponMethod(couponService);
+            }
+            else if (name == "Invoice")
+            {
+                return new InvoiceMethod(invoiceService,orderService,countryService,mailService);
+            }
+            else if (name == "Bitcoin")
+            {
+                return new BitcoinMethod();
+            }
+            else
+            {
+                return new PaypalMethod(orderService);
             }
         }
 
-        private void Register(IPaymentMethod method)
-        {
-            if (this.methods.ContainsKey(method.Name)) throw new PaymentMethodDuplicatedException();
-            this.methods[method.Name] = method;
-        }
-
-        public string Process(Model.OrderContext orderContext)
-        {
-            return this.methods[orderContext.Order.PaymentMethod].Process(orderContext);
-        }
-
-        public IPaymentMethod Get(string methodName)
-        {
-            if (!this.methods.ContainsKey(methodName)) throw new PaymentMethodNotFoundException();
-            return this.methods[methodName];
-        }
+        #endregion
     }
 }

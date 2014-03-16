@@ -93,6 +93,9 @@ AppPackages/
 [Oo]bj
 UserData
 
+[Ll]ogs
+
+
 sql
 TestResults
 [Tt]est[Rr]esult*

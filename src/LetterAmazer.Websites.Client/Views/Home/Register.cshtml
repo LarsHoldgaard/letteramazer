@@ -8,73 +8,57 @@
     <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")"></script>
 }
 
-<div class="jumbotron-white">
-    <div class="container">
-        <div class="text-center promotionMargin">
-            <img src="/Content/images/letteramazer.png" />
-            <div>
-                <p class="frontpageLead">
-                    @Html.Raw(ViewRes.SendLettersWorldWideAutomatically)
-                </p>
-                <p>
-                    <a class="btn btn-primary btn-lg" href="@Url.Action("Index", "SingleLetter")" style="font-size: 25px; padding: 0 30px; line-height: 2.33;">@ViewRes.SendLetterNow &raquo;</a>
-                </p>
-            </div>
-        </div>
-    </div>
-</div>
+<h1>Register</h1>
+<p>
+   Accounts are for both companies and private. By creating a <b>free account</b>, you are able to: <br />
+    <ul>
+        <li>Send letters much faster</li>
+        <li>Insert credits on your account, so you don't have to pay every time you send a letter</li>
+        <li>Get an overview of all your invoices</li>
+        <li>
+            See and download all letters you have sent previously
+        </li>
+    </ul>
+</p>
 
-<div class="jumbotron-lightblue">
-    <div class="container">
-        <div class="row loginSection">
-            <div class="col-lg-6">
-                <p>@ViewRes.LoginHint</p>
-                @using (Html.BeginForm())
-                {
-                    @Html.BusinessErrorMessageBox()
-                    <div class="row login">
-                        <div class="col-lg-6">
-                            <label class="sr-only" for="FirstName">@ViewRes.FirstName</label>
-                            @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", placeholder = ViewRes.FirstName })
-                            @Html.ValidationMessageFor(m => m.FirstName)
-                        </div>
-                        <div class="col-lg-6">
-                            <label class="sr-only" for="LastName">@ViewRes.LastName</label>
-                            @Html.TextBoxFor(m => m.LastName, new { @class = "form-control", placeholder = ViewRes.LastName })
-                            @Html.ValidationMessageFor(m => m.LastName)
-                        </div>
-                    </div>
-                    <div class="row login">
-                        <div class="col-lg-12">
-                            <label class="sr-only" for="Organization">@ViewRes.Organization</label>
-                            @Html.TextBoxFor(m => m.Organization, new { @class = "form-control", placeholder = ViewRes.Organization })
-                        </div>
-                    </div>
-                    <div class="row login">
-                        <div class="col-lg-12">
-                            <label class="sr-only" for="Email">@ViewRes.Email</label>
-                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = ViewRes.Email })
-                            @Html.ValidationMessageFor(m => m.Email)
-                        </div>
-                    </div>
-                    <div class="row login">
-                        <div class="col-lg-6">
-                            <label class="sr-only" for="Password">@ViewRes.Password</label>
-                            @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = ViewRes.Password })
-                            @Html.ValidationMessageFor(m => m.Password)
-                        </div>
-                        <div class="col-lg-6">
-                            <label class="sr-only" for="ConfirmPassword">@ViewRes.ConfirmPassword</label>
-                            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", placeholder = ViewRes.ConfirmPassword })
-                            @Html.ValidationMessageFor(m => m.ConfirmPassword)
-                        </div>
-                    </div>
-                    <input type="submit" class="btn btn-primary btn-lg" value="I agree, let's go" />
-                }
+<div class="row loginSection" style="padding-top: 0px;">
+    <div class="col-lg-6">
+
+        
+        <h2>Fill out your information</h2>
+        @using (Html.BeginForm())
+        {
+            @Html.BusinessErrorMessageBox()
+
+            <div class="row login">
+                <div class="col-lg-6">
+                    <label class="sr-only" for="Email">@ViewRes.Email<span class="input-required">*</span></label>
+                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = ViewRes.Email })
+                    @Html.ValidationMessageFor(m => m.Email)
+                </div>
             </div>
-            <div class="col-lg-6" style="text-align: right">
-                <img src="@Url.Content("~/Content/images/printer_cartoon.gif")" alt="" width="300" />
+            <div class="row login">
+                <div class="col-lg-6">
+                    <label class="sr-only" for="Password">@ViewRes.Password<span class="input-required">*</span></label>
+                    @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = ViewRes.Password })
+                    @Html.ValidationMessageFor(m => m.Password)
+                </div>
             </div>
-        </div>
+            <div class="row login">
+                <div class="col-lg-6">
+                    <label class="sr-only" for="Password">Your country<span class="input-required">*</span></label>
+                    @Html.DropDownListFor(model => model.SelectedCountry, Model.Countries, new { @class = "form-control" })
+                </div>
+            </div>
+            
+            <input type="submit" class="btn btn-primary btn-lg" value="Create your account now" />
+        }
+        
+        <br/>
+        <p>Do you already have an account? <a href="@Url.Action("Login")">You can log in here</a>.</p>
     </div>
+
+    @*<div class="col-lg-6" style="text-align: right">
+        <img src="@Url.Content("~/Content/images/printer_cartoon.gif")" alt="" width="300" />
+    </div>*@
 </div>

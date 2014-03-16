@@ -1,8 +1,5 @@
-﻿using LetterAmazer.Business.Services.Data;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System;
+using LetterAmazer.Business.Services.Domain.Customers;
 
 namespace LetterAmazer.Websites.Client.Extensions
 {
@@ -10,7 +7,7 @@ namespace LetterAmazer.Websites.Client.Extensions
     {
         public static decimal GetAvailableCredits(this Customer customer)
         {
-            return customer.Credits.Value + Math.Abs(customer.CreditLimit);
+            return customer.Credit + Math.Abs(customer.CreditLimit);
         }
     }
 }

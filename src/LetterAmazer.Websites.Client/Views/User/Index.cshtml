@@ -1,62 +1,108 @@
-﻿@using LetterAmazer.Business.Services.Utilities
+﻿@using iTextSharp.text.pdf.qrcode
+@using LetterAmazer.Business.Services.Domain.Products.ProductDetails
+@using LetterAmazer.Business.Utils.Helpers
 @using LetterAmazer.Websites.Client.Extensions
 @using LetterAmazer.Websites.Client.Resources.Views.User
 
-@model LetterAmazer.Websites.Client.ViewModels.ProfileViewModel
+@model LetterAmazer.Websites.Client.ViewModels.DashboardViewModel
 
 @section header {
     <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/themes/base/jquery-ui.css")" />
     <script type="text/javascript" src="@Url.Content("~/Scripts/jquery-ui-1.10.3.min.js")"></script>
 }
 
-<div class="jumbotron-white">
-    <div class="container">
-        <h2>@ViewRes.SendALetter, @Model.Customer.CustomerInfo.CompanyName</h2>
-        <h3>@ViewRes.Credits: <strong class="credit">@Model.Customer.Credits.Value.ToFriendlyMoney()$</strong></h3>
-        <h4>@ViewRes.SendALetter</h4>
-        <p><a class="btn btn-success" href="@Url.Action("SendALetter")">@ViewRes.SendALetterNow</a></p>
-        <h4>@ViewRes.OrderOverview</h4>
-        <form class="form-inline" role="form" method="get" action="@Url.Action("Index")">
-            <div class="form-group">
-                <label class="sr-only" for="fromDate">From</label>
-                <input type="text" class="form-control" id="fromDate" placeholder="From" name="fromDate" value="@(Model.FromDate.HasValue ? Model.FromDate.Value.ToString("yyyy-MM-dd") : "")"/>
-            </div>
-            <div class="form-group">
-                <label class="sr-only" for="toDate">To</label>
-                <input type="text" class="form-control" id="toDate" placeholder="To" name="toDate" value="@(Model.ToDate.HasValue ? Model.ToDate.Value.ToString("yyyy-MM-dd") : "")"/>
-            </div>
-            <button type="submit" class="btn btn-success">@ViewRes.Search</button>
-        </form>
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <td>@ViewRes.Order#</td>
-                    <td>@ViewRes.Date</td>
-                    <td>@ViewRes.OrderState</td>
-                    <td>@ViewRes.LetterCount</td>
-                    <td>@ViewRes.Price</td>
-                    <td>@ViewRes.Details</td>
-                    <td>@ViewRes.DeleteOrder</td>
-                </tr>
-            </thead>
-            <tbody>
-            @foreach (var item in Model.Orders.Results)
+@if (!SessionHelper.Customer.IsActivated)
+{
+    @Html.Partial("_notActivated")
+}
+
+<h1>LetterAmazer dashboard</h1>
+
+
+<h2>Insert more money</h2>
+<a class="btn btn-primary btn-lg" href="@Url.Action("Credits")">Insert money</a>
+
+
+<h2>Actions</h2>
+@if (Model.Customer.CreditsLeft > 0)
+{
+    if (Model.LetterType == LetterType.Pres)
+    {
+        <p><a class="btn btn-success btn-lg" href="@Url.Action("SendALetter")">Send a letter</a></p>
+    }
+    else
+    {
+        <p><a href="@Url.Action("SendWindowedLetter")" class="btn-success btn btn-lg">Send a windowed letter</a></p>
+    }
+}
+else
+{
+    <p>You to insert more money, to send letters.</p>
+    <p><a href="#" class="btn-default btn btn-lg" disabled="disabled">Send a letter</a></p>
+}
+
+<h2>Account status</h2>
+Money available: <b>@Model.Customer.Credit.ToFriendlyMoney() $</b>
+@if (SessionHelper.Customer.CreditLimit != 0)
+{
+    <p>Your account has a limit of @SessionHelper.Customer.CreditLimit $</p>
+}
+
+@if (Model.UnpaidInvoices.InvoiceSnippets.Any())
+{
+<h2>Pending unpaid invoices</h2>
+@Html.Partial("_invoiceOverview", Model.UnpaidInvoices)
+@Html.ActionLink("See all your invoices", "InvoiceOverview", "User", null, new { @class = "btn-primary btn" })    
+}
+
+
+
+@if (Model.Orders != null && Model.Orders.Any())
+{
+    <h2>@ViewRes.OrderOverview</h2>
+    @*<form class="form-inline" role="form" method="get" action="@Url.Action("Index")">
+        <div class="form-group">
+            <label class="sr-only" for="fromDate">From</label>
+            <input type="text" class="form-control" id="fromDate" placeholder="From" name="fromDate" value="@(Model.FromDate.HasValue ? Model.FromDate.Value.ToString("yyyy-MM-dd") : "")" />
+        </div>
+        <div class="form-group">
+            <label class="sr-only" for="toDate">To</label>
+            <input type="text" class="form-control" id="toDate" placeholder="To" name="toDate" value="@(Model.ToDate.HasValue ? Model.ToDate.Value.ToString("yyyy-MM-dd") : "")" />
+        </div>
+        <button type="submit" class="btn btn-primary">@ViewRes.Search</button>
+    </form>*@
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <td>@ViewRes.Order#</td>
+                <td>@ViewRes.Date</td>
+                <td>@ViewRes.OrderState</td>
+                <td>@ViewRes.LetterCount</td>
+                <td>@ViewRes.Price</td>
+                <td>@ViewRes.Details</td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Orders)
             {
+
                 <tr>
                     <td>@item.Id</td>
                     <td>@item.DateCreated.ToFriendlyDateTime()</td>
-                    <td>@ViewRes.ResourceManager.GetString(item.OrderStatus.ToString())</td>
-                    <td>@item.OrderItems.Count</td>
+                    <td>@item.OrderStatus.ToString()</td>
+                    <td>@item.OrderLines.Count</td>
                     <td>@item.Price.ToFriendlyMoney() USD</td>
                     <td><a href="@Url.Action("Details", new { id = item.Id })">See details</a></td>
-                    <td><a href="@Url.Action("Delete", new { id = item.Id })">Delete order</a></td>
+
                 </tr>
             }
-            </tbody>
-        </table>
-        @Html.Raw(Html.Paginator(Model.Orders.PageIndex, Model.Orders.PageSize, Model.Orders.TotalItems))
-    </div>
-</div>
+        </tbody>
+    </table>
+
+}
+
+
+
 <script type="text/javascript">
     $(function () {
         $('#fromDate').datepicker({
@@ -64,6 +110,6 @@
         });
         $('#toDate').datepicker({
             dateFormat: 'yy-mm-dd'
-        })
+        });
     });
 </script>

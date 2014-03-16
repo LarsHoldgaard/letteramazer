@@ -1,226 +1,331 @@
-﻿using LetterAmazer.Business.Services.Data;
-using LetterAmazer.Business.Services.Interfaces;
-using LetterAmazer.Business.Services.Model;
+﻿using System.Data.Entity.Validation;
+using LetterAmazer.Business.Services.Domain.Coupons;
+using LetterAmazer.Business.Services.Domain.Customers;
+using LetterAmazer.Business.Services.Domain.Letters;
+using LetterAmazer.Business.Services.Domain.Orders;
+using LetterAmazer.Business.Services.Domain.Payments;
+using LetterAmazer.Business.Services.Domain.Pricing;
+using LetterAmazer.Business.Services.Domain.Products;
+using LetterAmazer.Business.Services.Factory.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using LinqKit;
-using System.Threading;
+using LetterAmazer.Data.Repository.Data;
 using LetterAmazer.Business.Services.Exceptions;
 
 namespace LetterAmazer.Business.Services.Services
 {
     public class OrderService : IOrderService
     {
-        private IRepository repository;
-        private IUnitOfWork unitOfWork;
+        private IOrderFactory orderFactory;
+        
+        private LetterAmazerEntities repository;
         private ILetterService letterService;
-        private IPaymentService paymentService;
-        private ICouponService couponService;
+        private ICustomerService customerService;
 
-        public OrderService(IRepository repository, IUnitOfWork unitOfWork, 
-            ILetterService letterService, IPaymentService paymentService,
-            ICouponService couponService)
+        public OrderService(LetterAmazerEntities repository,
+            ILetterService letterService,
+            IOrderFactory orderFactory, ICustomerService customerService)
         {
             this.repository = repository;
-            this.unitOfWork = unitOfWork;
             this.letterService = letterService;
-            this.paymentService = paymentService;
-            this.couponService = couponService;
+            this.orderFactory = orderFactory;
+            this.customerService = customerService;
         }
 
-        public string CreateOrder(OrderContext orderContext)
+        public Order Create(Order order)
         {
-            Order order = orderContext.Order;
-            order.OrderType = OrderType.SendLetters;
-            order.Guid = Guid.NewGuid().ToString();
-            order.OrderCode = GenerateOrderCode();
-            order.OrderStatus = OrderStatus.Created;
-            order.DateCreated = DateTime.Now;
-            order.DateUpdated = DateTime.Now;
-            order.Cost = 0m;
-            foreach (var orderItem in order.OrderItems)
-            {
-                repository.Create(orderItem.Letter);
-                orderItem.Price = letterService.GetCost(orderItem.Letter);
-                order.Cost += orderItem.Price;
-            }
-            order.Discount = 0m;
-            order.Price = order.Cost;
-            if (!string.IsNullOrEmpty(order.CouponCode))
-            {
-                var voucher = order.CouponCode;
-                if (couponService.IsCouponActive(voucher))
-                {
-                    var left = couponService.UseCoupon(voucher, order.Cost);
+            DbOrders dborder = new DbOrders();
 
-                    // either equal or something else has to be paid
-                    if (left <= 0)
-                    {
-                        order.Price = Math.Abs(left);
-                        order.Discount = order.Cost - order.Price;
-                    }
-                    else
-                    {
-                        order.Price = 0.0m;
-                        order.Discount = order.Cost;
-                        order.OrderStatus = OrderStatus.Paid;
-                    }
-                }
+            foreach (var orderLine in order.OrderLines)
+            {
+                var dbOrderLine = setOrderline(orderLine);
+                dborder.DbOrderlines.Add(dbOrderLine);
             }
-            repository.Create(order);
-            unitOfWork.Commit();
+
+            dborder.Guid = Guid.NewGuid();
+            dborder.OrderCode = GenerateOrderCode();
+
+            if (order.Customer.AccountStatus == AccountStatus.Test)
+            {
+                dborder.OrderStatus = (int)OrderStatus.Test;    
+            }
+            else
+            {
+                dborder.OrderStatus = (int)OrderStatus.Created;
+            }
             
-            //Cusomer haven't to pay
-            if (order.Price == 0) return string.Format("/{0}/singleletter/confirmation", orderContext.CurrentCulture);
-
-            return paymentService.Process(orderContext);
-        }
-
-        private string GenerateOrderCode()
-        {
-            string orderCode = "LA" + DateTime.Now.Ticks.GetHashCode();
-            while (repository.Exists<Order>(o => o.OrderCode == orderCode))
-            {
-                orderCode = "LA" + DateTime.Now.Ticks.GetHashCode();
-            }
-            return orderCode;
-        }
-
-        public void MarkOrderIsPaid(int orderId)
-        {
-            Order order = repository.GetById<Order>(orderId);
-            if (order.OrderStatus == OrderStatus.Created)
-            {
-                order.OrderStatus = OrderStatus.Paid;
-                order.DatePaid = DateTime.Now;
-                unitOfWork.Commit();
-            }
-        }
-
-        public void MarkOrderIsDone(int orderId)
-        {
-            Order order = repository.GetById<Order>(orderId);
-            if (order.OrderStatus == OrderStatus.Paid)
-            {
-                order.OrderStatus = OrderStatus.Done;
-                order.DateSent = DateTime.Now;
-                unitOfWork.Commit();
-            }
-        }
-
-        public PaginatedResult<Order> GetOrdersShouldBeDelivered(PaginatedCriteria criteria)
-        {
-            return repository.Find<Order>(o => o.OrderStatus == OrderStatus.Paid && o.OrderType == OrderType.SendLetters, criteria.PageIndex, criteria.PageSize, OrderBy.Asc("DateCreated"));
-        }
-
-        public void MarkLetterIsSent(int letterId)
-        {
-            Letter letter = repository.GetById<Letter>(letterId);
-            if (letter.LetterStatus == LetterStatus.Created)
-            {
-                letter.LetterStatus = LetterStatus.Sent;
-                unitOfWork.Commit();
-            }
-        }
-
-        public void MarkOrdersIsDone(IList<Order> orders)
-        {
-            foreach (var order in orders)
-            {
-                foreach (var item in order.OrderItems)
-                {
-                    item.Letter.LetterStatus = LetterStatus.Sent;
-                }
-                order.OrderStatus = OrderStatus.Done;
-            }
-            unitOfWork.Commit();
-        }
-
-        public PaginatedResult<Order> GetOrders(OrderCriteria criteria)
-        {
-            System.Linq.Expressions.Expression<Func<Order, bool>> query = PredicateBuilder.True<Order>();
-            if (criteria.CustomerId > 0)
-            {
-                query = query.And(o => o.CustomerId == criteria.CustomerId);
-            }
-            if (criteria.From.HasValue)
-            {
-                query = query.And(o => o.DateCreated >= criteria.From);
-            }
-            if (criteria.To.HasValue)
-            {
-                query = query.And(o => o.DateCreated <= criteria.To);
-            }
-            if (criteria.OrderType.HasValue)
-            {
-                query = query.And(o => o.OrderType == criteria.OrderType.Value);
-            }
-            return repository.Find<Order>(query, criteria.PageIndex, criteria.PageSize, criteria.OrderBy.ToArray());
-        }
-
-        public string AddFunds(int customerId, decimal price)
-        {
-            Customer customer = repository.GetById<Customer>(customerId);
-            Order order = new Order();
-            order.CustomerId = customerId;
-            order.Customer = customer;
-            order.Email = customer.Email;
-            order.OrderType = OrderType.AddFunds;
-            order.Guid = Guid.NewGuid().ToString();
-            order.OrderCode = GenerateOrderCode();
-            order.OrderStatus = OrderStatus.Created;
-            order.DateCreated = DateTime.Now;
-            order.DateUpdated = DateTime.Now;
-            order.Cost = price;
-            order.PaymentMethod = LetterAmazer.Business.Services.Services.PaymentMethod.PaypalMethod.NAME;
-            OrderItem orderItem = new OrderItem();
-            orderItem.Price = price;
-            orderItem.Order = order;
-
-            order.OrderItems = new List<OrderItem>();
-            order.OrderItems.Add(orderItem);
-
-            order.Discount = 0m;
-            order.Price = order.Cost;
             
-            repository.Create(order);
-            unitOfWork.Commit();
+            
+            dborder.DateCreated = DateTime.Now;
+            dborder.DateUpdated = DateTime.Now;
+            dborder.PaymentMethod = "";
+            dborder.CustomerId = order.Customer != null ? order.Customer.Id : 0;
 
-            return paymentService.Process(new OrderContext() { Order = order, Customer = customer, CurrentCulture = Thread.CurrentThread.CurrentCulture.TwoLetterISOLanguageName });
+            Price price = new Price();
+            price.PriceExVat = order.CostFromLines();
+            price.VatPercentage = order.Customer.VatPercentage();
+            order.Price = price;
+
+            dborder.Total = order.Price.Total;
+            dborder.VatPercentage = order.Price.VatPercentage;
+            dborder.PriceExVat = order.Price.PriceExVat;
+
+            repository.DbOrders.Add(dborder);
+
+            repository.SaveChanges();
+           
+            return GetOrderById(dborder.Id);
         }
 
-        public void AddFundsForAccount(int orderId)
+        
+        public Order Update(Order order)
         {
-            Order order = repository.GetById<Order>(orderId);
-            if (order.OrderStatus != OrderStatus.Paid)
+            var dborder = repository.DbOrders.FirstOrDefault(c => c.Id == order.Id);
+
+            if (dborder == null)
             {
-                throw new BusinessException("The order is not paid!");
+                throw new BusinessException("Order is null");
             }
-            Customer customer = repository.GetById<Customer>(order.CustomerId.Value);
-            customer.DateUpdated = DateTime.Now;
-            customer.Credits += order.Price;
-            repository.Update(customer);
+
+            dborder.Guid = order.Guid;
+            dborder.OrderCode = order.OrderCode;
+            dborder.OrderStatus = (int)order.OrderStatus;
+            dborder.DateUpdated = DateTime.Now;
+            
+            repository.SaveChanges();
+
+            return GetOrderById(order.Id);
+        }
+
+        public List<Order> GetOrderBySpecification(OrderSpecification specification)
+        {
+            IQueryable<DbOrders> dbOrders = repository.DbOrders;
+
+            if (specification.OrderStatus.Any())
+            {
+                dbOrders = dbOrders.Where(c => specification.OrderStatus.Contains((OrderStatus) c.OrderStatus));
+            }
+            if (specification.FromDate != null)
+            {
+                dbOrders = dbOrders.Where(c => c.DateCreated >= specification.FromDate);
+            }
+            if (specification.ToDate != null)
+            {
+                dbOrders = dbOrders.Where(c => c.DateCreated <= specification.ToDate);
+            }
+            if (specification.UserId > 0)
+            {
+                dbOrders = dbOrders.Where(c => c.CustomerId == specification.UserId);
+            }
+
+            var ord = dbOrders.OrderBy(c=>c.Id).Skip(specification.Skip).Take(specification.Take).ToList();
+
+            List<List<DbOrderlines>> dbOrderItems = ord.
+                Select(dbOrderse => repository.DbOrderlines.Where(c => c.OrderId == dbOrderse.Id).
+                    ToList()).ToList();
+            return orderFactory.Create(ord, dbOrderItems);
+        }
+
+        public Order GetOrderById(Guid orderId)
+        {
+            DbOrders dborder = repository.DbOrders.FirstOrDefault(c => c.Guid == orderId);
+            if (dborder == null)
+            {
+                throw new ItemNotFoundException("Order");
+            }
+
+            var lines = repository.DbOrderlines.Where(c => c.OrderId == dborder.Id).ToList();
+            var order = orderFactory.Create(dborder, lines);
+
+            return order;
         }
 
         public Order GetOrderById(int orderId)
         {
-            Order order = repository.GetById<Order>(orderId);
-            if (order == null)
+            DbOrders dborder = repository.DbOrders.FirstOrDefault(c => c.Id == orderId);
+            if (dborder == null)
             {
                 throw new ItemNotFoundException("Order");
             }
+
+            var lines = repository.DbOrderlines.Where(c => c.OrderId == orderId).ToList();
+            var order = orderFactory.Create(dborder, lines);
+
             return order;
         }
 
-        public void DeleteOrder(int orderId)
+        public void Delete(Order order)
         {
-            Order order = repository.GetById<Order>(orderId);
-            if (order == null) return;
-            order.OrderStatus = OrderStatus.Cancelled;
-            repository.Update(order);
+            var dborder = repository.DbOrders.FirstOrDefault(c => c.Id == order.Id);
+            repository.DbOrders.Remove(dborder);
+            repository.SaveChanges();
+
         }
+
+        public List<OrderLine> GetOrderLinesBySpecification(OrderLineSpecification specification)
+        {
+            IQueryable<DbOrderlines> dbOrderItems = repository.DbOrderlines;
+
+            if (specification.OrderId > 0)
+            {
+                dbOrderItems = dbOrderItems.Where(c => c.OrderId == specification.OrderId);
+            }
+            
+
+            return orderFactory.Create(
+                dbOrderItems.Skip(specification.Skip).Take(specification.Take).ToList());
+        }
+
+        /// <summary>
+        /// When an order turns to paid, this runs on every orderline (for instance providing credits)
+        /// </summary>
+        /// <param name="order"></param>
+        public void ReplenishOrderLines(Order order)
+        {
+            foreach (var orderLine in order.OrderLines)
+            {
+                if (orderLine.ProductType == ProductType.Credit)
+                {
+                    var credits = orderLine.Price.PriceExVat;
+                    order.Customer.Credit += credits;
+                    customerService.Update(order.Customer);
+                }
+            }
+        }
+
+        public void DeleteOrder(Order order)
+        {
+            var dborder = repository.DbOrders.FirstOrDefault(c => c.Id == order.Id);
+
+            repository.DbOrders.Remove(dborder);
+            repository.SaveChanges();
+        }
+
+        public void UpdateByLetters(IEnumerable<Letter> letters)
+        {
+            foreach (var letter in letters)
+            {
+                letter.LetterStatus = LetterStatus.Sent;
+                letterService.Update(letter);
+
+                var order = GetOrderById(letter.OrderId);
+                
+                bool isOrderDone = true;
+
+                foreach (var orderLine in order.OrderLines)
+                {
+                    // if this is the case, there are multiple lines and one of them is not sent yet, which means the order is in progress
+                    if (orderLine.ProductType == ProductType.Letter && ((Letter)orderLine.BaseProduct).LetterStatus == LetterStatus.Created)
+                    {
+                        isOrderDone = false;
+                    }
+                }
+                if (isOrderDone)
+                {
+                    order.OrderStatus = OrderStatus.Done;
+                }
+                else
+                {
+                    order.OrderStatus = OrderStatus.InProgress;
+                }
+                Update(order);
+            }
+        }
+
+        public OrderLine GetOrderlineById(int orderLineId)
+        {
+            var orderLineDb = repository.DbOrderlines.FirstOrDefault(c => c.Id == orderLineId);
+
+            if (orderLineDb == null)
+            {
+                throw new BusinessException("Orderline doesn't exist");
+            }
+
+            return orderFactory.Create(orderLineDb);
+        }
+
+        #region Private helper methods
+        private string GenerateOrderCode()
+        {
+            string orderCode = "LA" + DateTime.Now.Ticks.GetHashCode();
+
+            if (repository.DbOrders.Any(c => c.OrderCode == orderCode))
+            {
+                orderCode = "LA" + DateTime.Now.Ticks.GetHashCode();
+            }
+
+            return orderCode;
+        }
+
+        private DbOrderlines setOrderline(OrderLine orderLine)
+        {
+            var dbOrderLine = new DbOrderlines();
+            dbOrderLine.Quantity = orderLine.Quantity;
+            dbOrderLine.ItemType = (int)orderLine.ProductType;
+            dbOrderLine.PriceExVat = orderLine.Price.PriceExVat;
+            dbOrderLine.VatPercentage = orderLine.Price.VatPercentage;
+            dbOrderLine.Total = orderLine.Price.Total;
+
+            if (orderLine.ProductType == ProductType.Payment && orderLine.PaymentMethodId >0)
+            {
+                dbOrderLine.PaymentMethodId = orderLine.PaymentMethodId;
+                dbOrderLine.CouponId = orderLine.CouponId;
+            }
+            if (orderLine.ProductType == ProductType.Letter)
+            {
+                var letter = ((Letter)orderLine.BaseProduct);
+
+                DbLetters dbLetter = new DbLetters()
+                {
+                    ToAddress_Address = letter.ToAddress.Address1,
+                    ToAddress_Address2 = letter.ToAddress.Address2,
+                    ToAddress_AttPerson = letter.ToAddress.AttPerson,
+                    ToAddress_City = letter.ToAddress.City,
+                    ToAddress_Co = letter.ToAddress.Co,
+                    ToAddress_CompanyName = string.Empty,
+                    ToAddress_Country = letter.ToAddress.Country.Id,
+                    ToAddress_FirstName = letter.ToAddress.FirstName,
+                    ToAddress_LastName = letter.ToAddress.LastName,
+                    ToAddress_Zipcode = letter.ToAddress.Zipcode,
+                    ToAddress_State = letter.ToAddress.State,
+                    ToAddress_VatNr = letter.ToAddress.VatNr,
+                    OrderId = letter.OrderId,
+                    LetterContent_WrittenContent = letter.LetterContent.WrittenContent,
+                    LetterContent_Content = letter.LetterContent.Content,
+                    LetterContent_Path = letter.LetterContent.Path,
+                    LetterStatus = (int)letter.LetterStatus,
+                    OfficeProductId = letter.OfficeProductId,
+                };
+
+                if (letter.FromAddress != null)
+                {
+                    dbLetter.FromAddress_Address = letter.FromAddress.Address1;
+                    dbLetter.FromAddress_Address2 = letter.FromAddress.Address2;
+                    dbLetter.FromAddress_AttPerson = letter.FromAddress.AttPerson;
+                    dbLetter.FromAddress_City = letter.FromAddress.City;
+                    dbLetter.FromAddress_Co = letter.FromAddress.Co;
+                    dbLetter.FromAddress_CompanyName = string.Empty;
+
+                    if (letter.FromAddress.Country != null && letter.FromAddress.Country.Id > 0)
+                    {
+                        dbLetter.FromAddress_Country = letter.FromAddress.Country.Id;
+                    }
+
+                    dbLetter.FromAddress_FirstName = letter.FromAddress.FirstName;
+                    dbLetter.FromAddress_LastName = letter.FromAddress.LastName;
+                    dbLetter.FromAddress_Zipcode = letter.FromAddress.Zipcode;
+                    dbLetter.FromAddress_State = letter.FromAddress.State;
+                    dbLetter.FromAddress_VatNr = letter.FromAddress.VatNr;
+                }
+                dbOrderLine.DbLetters = dbLetter;
+            }
+            return dbOrderLine;
+        }
+
+
+        #endregion
+
+
     }
 }

@@ -1,36 +1,61 @@
-﻿using LetterAmazer.Websites.Client.Attributes;
+﻿using System.Collections.Generic;
+using System.Linq;
+using LetterAmazer.Business.Services.Domain.AddressInfos;
+using LetterAmazer.Business.Services.Domain.Countries;
+using LetterAmazer.Business.Services.Domain.Customers;
+using LetterAmazer.Business.Services.Domain.Mails;
+using LetterAmazer.Business.Services.Domain.Offices;
+using LetterAmazer.Business.Services.Domain.Organisation;
+using LetterAmazer.Business.Services.Domain.Pricing;
+using LetterAmazer.Business.Services.Domain.Products.ProductDetails;
+using LetterAmazer.Business.Utils.Helpers;
+using LetterAmazer.Websites.Client.Attributes;
 using LetterAmazer.Websites.Client.ViewModels;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using System.Xml;
 using LetterAmazer.Websites.Client.Extensions;
+using LetterAmazer.Websites.Client.ViewModels.Shared.Utils;
 using log4net;
-using LetterAmazer.Business.Services.Data;
-using LetterAmazer.Business.Services.Interfaces;
 using System.Web.Security;
-using LetterAmazer.Websites.Client.Resources.Views.Home;
 
 namespace LetterAmazer.Websites.Client.Controllers
 {
     public class HomeController : BaseController
     {
+
         private static readonly ILog logger = LogManager.GetLogger(typeof(HomeController));
+
+        private ICountryService countryService;
         private ICustomerService customerService;
-        public HomeController(ICustomerService customerService)
+        private IOfficeService officeService;
+        private IMailService mailService;
+        private IPriceService priceService;
+        private IOrganisationService organisationService;
+        public HomeController(ICustomerService customerService,IOfficeService officeService,
+            IMailService mailService, ICountryService countryService, IPriceService priceService, IOrganisationService organisationService)
         {
             this.customerService = customerService;
+            this.officeService = officeService;
+            this.countryService = countryService;
+            this.mailService = mailService;
+            this.priceService = priceService;
+            this.organisationService = organisationService;
         }
 
         public ActionResult Index()
         {
+            logger.Info("HomeController -> Index");
             return View();
         }
 
         public ActionResult Faq()
         {
+            logger.Info("HomeController -> FAQ");
+            mailService.ConfirmUser(new Customer()
+            {
+                Email = "mcoroklo@gmail.com",
+                
+            });
             return View();
         }
 
@@ -39,7 +64,7 @@ namespace LetterAmazer.Websites.Client.Controllers
             return View();
         }
 
-        public ActionResult Api()
+        public ActionResult ApiInfo()
         {
             return View();
         }
@@ -56,7 +81,45 @@ namespace LetterAmazer.Websites.Client.Controllers
 
         public ActionResult Pricing()
         {
-            return View();
+            var countries = countryService.GetCountryBySpecificaiton(new CountrySpecification()
+            {
+                Take = 999
+            });
+
+            PriceViewModel prices = new PriceViewModel();
+            foreach (var country in countries)
+            {
+                var selectedItem = new SelectListItem()
+                {
+                    Text = country.Name,
+                    Value = country.Id.ToString(),
+                };
+
+                if (country.Id == 59)
+                {
+                    selectedItem.Selected = true;
+                }
+
+                prices.Countries.Add(selectedItem);
+            }
+
+            prices.SelectedLetterSizes = ControllerHelpers.GetEnumSelectList<LetterSize>().ToList();
+
+            return View(prices);
+        }
+
+        [HttpGet]
+        public decimal GetPrice(int countryId, int lettersize, int pages)
+        {
+            var letterSize = (LetterSize) lettersize;
+            var pricing = priceService.GetPriceBySpecification(new PriceSpecification()
+            {
+                CountryId = countryId,
+                PageCount = pages,
+                LetterSize = letterSize
+            });
+
+            return pricing.PriceExVat;
         }
 
         [HttpGet, AutoErrorRecovery]
@@ -71,9 +134,10 @@ namespace LetterAmazer.Websites.Client.Controllers
         {
             try
             {
-                Customer user = customerService.ValidateUser(model.Email, model.Password);
+                var customer = customerService.LoginUser(model.Email, model.Password);
 
-                FormsAuthentication.SetAuthCookie(user.Id.ToString(), model.Remember ?? false);
+                SessionHelper.Customer = customer;
+                FormsAuthentication.SetAuthCookie(customer.Id.ToString(), model.Remember ?? false);
 
                 if (!string.IsNullOrEmpty(model.ReturnUrl))
                 {
@@ -95,6 +159,7 @@ namespace LetterAmazer.Websites.Client.Controllers
         [HttpGet, AutoErrorRecovery]
         public ActionResult Logout()
         {
+            SessionHelper.Customer = null;
             FormsAuthentication.SignOut();
             return RedirectToAction("Index");
         }
@@ -103,6 +168,28 @@ namespace LetterAmazer.Websites.Client.Controllers
         public ActionResult Register()
         {
             RegisterViewModel model = new RegisterViewModel();
+
+            var countries = countryService.GetCountryBySpecificaiton(new CountrySpecification()
+            {
+                Take = 999
+            });
+
+            foreach (var country in countries)
+            {
+                var selectedItem = new SelectListItem()
+                {
+                    Text = country.Name,
+                    Value = country.Id.ToString()
+                };
+
+                if (country.Id == 59)
+                {
+                    selectedItem.Selected = true;
+                }
+
+                model.Countries.Add(selectedItem);
+            }
+
             return View(model);
         }
 
@@ -112,17 +199,34 @@ namespace LetterAmazer.Websites.Client.Controllers
             try
             {
                 Customer customer = new Customer();
+                
                 customer.Email = model.Email;
                 customer.Password = model.Password;
                 customer.CustomerInfo = new AddressInfo();
-                customer.CustomerInfo.FirstName = model.FirstName;
-                customer.CustomerInfo.LastName = model.LastName;
-                customer.CustomerInfo.CompanyName = model.Organization;
-                customerService.CreateCustomer(customer);
+                customer.CustomerInfo.Country = countryService.GetCountryById(int.Parse(model.SelectedCountry));
 
-                FormsAuthentication.SetAuthCookie(customer.Id.ToString(), false);
+                var cust = customerService.Create(customer);
 
-                return RedirectToAction("Index", "User");
+                SessionHelper.Customer = cust;
+                FormsAuthentication.SetAuthCookie(cust.Id.ToString(), false);
+
+                if (cust.Organisation != null && cust.Organisation.Id > 0 && !cust.Organisation.IsPrivate)
+                {
+                    return RedirectToAction("EditOrganisation", "User");
+                }
+                else
+                {
+                    if (cust.Organisation != null && cust.Organisation.Id > 0)
+                    {
+                        cust.Organisation = null;
+                        customerService.Update(cust);
+                        this.organisationService.Delete(cust.Organisation);
+                    }
+
+                    return RedirectToAction("CreateOrganisation", "User");
+                }
+
+                
             }
             catch (Exception ex)
             {
@@ -133,10 +237,6 @@ namespace LetterAmazer.Websites.Client.Controllers
             return RedirectToActionWithError("Register", model);
         }
 
-        public ActionResult RegisterSuccess()
-        {
-            return View();
-        }
 
         [HttpGet, AutoErrorRecovery]
         public ActionResult ForgotPassword()
@@ -172,7 +272,10 @@ namespace LetterAmazer.Websites.Client.Controllers
         {
             try
             {
-                Customer customer = customerService.GetUserByResetPasswordKey(key);
+                Customer customer = customerService.GetCustomerBySpecification(new CustomerSpecification()
+                {
+                    ResetPasswordKey = key
+                }).FirstOrDefault();
 
                 return View(new RegisterViewModel() { ResetPasswordKey = key });
             }
@@ -189,7 +292,16 @@ namespace LetterAmazer.Websites.Client.Controllers
         {
             try
             {
-                customerService.ResetPassword(model.ResetPasswordKey, model.Password);
+
+                Customer customer = customerService.GetCustomerBySpecification(new CustomerSpecification()
+                {
+                    ResetPasswordKey = model.ResetPasswordKey
+                }).FirstOrDefault();
+
+                customer.Password = SHA1PasswordEncryptor.Encrypt(model.Password);
+
+
+                customerService.Update(customer);
 
                 return RedirectToAction("Login");
             }
@@ -199,6 +311,31 @@ namespace LetterAmazer.Websites.Client.Controllers
             }
 
             return RedirectToActionWithError("RecoverPassword", model);
+        }
+
+        [HttpGet, AutoErrorRecovery]
+        public ActionResult Confirm(string key)
+        {
+            try
+            {
+                Customer customer = customerService.GetCustomerBySpecification(new CustomerSpecification()
+                {
+                    RegistrationKey = key
+                }).FirstOrDefault();
+
+                customerService.ActivateUser(customer);
+
+                SessionHelper.Customer = customer;
+                FormsAuthentication.SetAuthCookie(customer.Id.ToString(), true);
+
+                return RedirectToAction("Index", "User");
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex);
+            }
+
+            return new HttpStatusCodeResult(404);
         }
     }
 }

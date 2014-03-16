@@ -271,5 +271,10 @@ namespace LetterAmazer.Business.Utils.Helpers
             return number*(1+(percentage/100));
 
         }
+
+        public static string RemoveSpecialCharacters(string str)
+        {
+            return Regex.Replace(str, "[^a-zA-Zæøå0-9_.]+", "", RegexOptions.Compiled);
+        }
     }
 }
