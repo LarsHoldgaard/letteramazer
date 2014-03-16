@@ -28,12 +28,12 @@ namespace LetterAmazer.Websites.Client
             );
 
             routes.MapRoute(
-            name: "Invoice",
-            url: "payment/{action}/{id}",
-            defaults: new { controller = "Payment", action = "Invoice", id = UrlParameter.Optional }
-        );
+                name: "Invoice",
+                url: "payment/{action}/{id}",
+                defaults: new { controller = "Payment", action = "Invoice", id = UrlParameter.Optional }
+            );
 
-        
+
             routes.MapRoute(
                 name: "User",
                 url: "User/{action}/{id}",
@@ -45,29 +45,6 @@ namespace LetterAmazer.Websites.Client
                 url: "{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
-
-            //foreach (Route r in routes)
-            //{
-            //    if (!(r.RouteHandler is SingleCultureMvcRouteHandler))
-            //    {
-            //        r.RouteHandler = new MultiCultureMvcRouteHandler();
-            //        r.Url = "{culture}/" + r.Url;
-
-            //        if (r.Defaults == null)
-            //        {
-            //            r.Defaults = new RouteValueDictionary();
-            //        }
-            //        r.Defaults.Add("culture", Culture.en.ToString());
-
-            //        //Adding constraint for culture param
-            //        if (r.Constraints == null)
-            //        {
-            //            r.Constraints = new RouteValueDictionary();
-            //        }
-            //        r.Constraints.Add("culture", new CultureConstraint(Culture.en.ToString(), Culture.da.ToString()));
-            //    }
-            //}
-
         }
     }
 }

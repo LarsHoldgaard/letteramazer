@@ -45,7 +45,11 @@
                 <td>
                     @if (invoiceSnippet.Status == InvoiceStatus.Created)
                     {
-                        @Html.ActionLink("Delete invoice","DeleteInvoice","User", new {id = @invoiceSnippet.InvoiceGuid},null)   
+                        <a href="/user/deleteinvoice?id=@invoiceSnippet.InvoiceGuid">Delete invoice</a>
+                    }
+                    else
+                    {
+                        <span style="text-decoration: line-through; color:gray" title="You cannot deleted invoices which has been paid">Delete</span>
                     }
                 </td>
             </tr>

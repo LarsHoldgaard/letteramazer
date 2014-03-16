@@ -1,10 +1,11 @@
-﻿@using LetterAmazer.Websites.Client.Extensions
+﻿@using LetterAmazer.Business.Utils.Helpers
+@using LetterAmazer.Websites.Client.Extensions
 
 @model LetterAmazer.Websites.Client.ViewModels.CreditsViewModel
 
-<h1>Buy credits</h1>
+<h1>Insert money on your account</h1>
 
-<a href="@Url.Action("Index")">Go back to overview</a><br/><hr/>
+@Html.ActionLink("Go back to your dashboard", "Index")<br /><br />
 
 You currently have @Model.Credit.ToFriendlyMoney() $ on your account.
 
@@ -12,25 +13,107 @@ You currently have @Model.Credit.ToFriendlyMoney() $ on your account.
 <h3>How many dollars do you want to insert?</h3>
 @using (Html.BeginForm("Credits", "User", FormMethod.Post))
 {
-    
+
     @Html.TextBoxFor(model => model.PurchaseAmount, new { @class = "form-control", placeholder = "How many credits?" })
+
+    <label id="areyousure" style="font-style:italic; color:red; display:none;">Woah - are you sure? That's quite a lot of letters...</label>
     
     <h3>Select payment method</h3>
-        
-        @Html.DropDownListFor(model => model.SelectedPaymentMethod, Model.PaymentMethods, new { @class = "form-control" })
+
+    @Html.DropDownListFor(model => model.SelectedPaymentMethod, Model.PaymentMethods, new { @class = "form-control" })
+
     
-    <br/><br/>
-    <input type="submit" class="btn btn-primary btn-lg" value="Purchase credits" />
+    <h3>Summary</h3>
+    
+    <table class="table table-striped ">
+        <thead>
+            <tr>
+                <th>
+                    Line
+                </th>
+                <th>
+                    Quantity
+                </th>
+                <th>
+                    Total
+                </th>
+            </tr>
+        </thead>
+        <tr>
+            <td>
+                Credits
+            </td>
+            <td><span id="table_credit_quantity"></span></td>
+            <td><span id="table_credit_total"></span> $</td>
+        </tr>
+    </table>
+    <div class="row">
+        <div class="col-md-6">
+            <b>Total ex. VAT</b>: <span id="summary_total_ex"></span> $<br />
+            <b>VAT</b>: <span id="summary_vatprice"></span> $ (<span id="summary_vatpercentage"></span> %)<br />
+            <b>Total</b>: <span id="summary_total"></span> $<br />
+        </div>
+    </div><br/><br/>
+    
+    <input type="submit" class="btn btn-primary btn-lg" value="Insert money into your account" />
+
+    
+
 
 }
 
 <script type="text/javascript">
     $(document).ready(function () {
-        $('#@Html.IdFor(model=>model.PurchaseAmount)').change(function () {
-            var value = $('#@Html.IdFor(model => model.PurchaseAmount)').val();
-            if (value <= 1) {
-                $('#@Html.IdFor(model=>model.PurchaseAmount)').val('1');
-            }
+        updatePrices();
+        $('#@Html.IdFor(model=>model.PurchaseAmount)').keyup(function () {
+            updatePrices();
         });
     });
+
+    function updatePrices() {
+        var value = parseFloat($('#@Html.IdFor(model => model.PurchaseAmount)').val());
+        if (value <= 0) {
+            $('#@Html.IdFor(model=>model.PurchaseAmount)').val('25');
+            value = 25;
+        }
+
+        var vatPercentageStr = '@SessionHelper.Customer.VatPercentage()'.replace(/,/g, '.');
+        var vatPercentage = parseFloat(vatPercentageStr)*100;
+        
+        var vatAmount = (vatPercentage/100) * value;
+        var total = vatAmount + value;
+        $('#table_credit_quantity').text(value);
+        $('#table_credit_total').text(value);
+        $('#summary_total_ex').text(value);
+        $('#summary_vatpercentage').text(vatPercentage);
+        $('#summary_vatprice').text(vatAmount);
+        $('#summary_total').text(total);
+
+        if (value > 100000) {
+            $('#areyousure').show();
+        } else {
+            $('#areyousure').hide();
+        }
+
+    }
+
+
+
+
+
+
+
+
+    //public decimal VatPrice
+    //{
+    //    get
+    //    {
+    //        return (PriceExVat*VatPercentage);
+    //    }
+    //}
+
+    //public decimal Total
+    //{
+    //    get { return PriceExVat*(1 + VatPercentage); }
+    //}
 </script>

@@ -34,6 +34,13 @@ namespace LetterAmazer.Business.Services.Services
                 throw new BusinessException("Only invoices with status created can be deleted");
             }
 
+            var lines = dbInvoice.DbInvoiceLines.ToList();
+            for (int i = 0; i < lines.Count; i++)
+            {
+                repository.DbInvoiceLines.Remove(lines[i]);
+            }
+
+
             repository.DbInvoices.Remove(dbInvoice);
             repository.SaveChanges();
         }

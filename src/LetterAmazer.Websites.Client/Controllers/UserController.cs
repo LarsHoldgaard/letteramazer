@@ -101,7 +101,6 @@ namespace LetterAmazer.Websites.Client.Controllers
         [HttpPost]
         public ActionResult SendWindowedLetter(SendWindowedLetterViewModel model)
         {
-            model.SelectedCountry = "59";
             Order order = new Order();
 
             order.Customer = SessionHelper.Customer;
@@ -730,7 +729,8 @@ namespace LetterAmazer.Websites.Client.Controllers
                 BaseProduct = credit,
                 Price = new Price()
                 {
-                    PriceExVat = model.PurchaseAmount
+                    PriceExVat = model.PurchaseAmount,
+                    VatPercentage = SessionHelper.Customer.VatPercentage()
                 }
             };
 
@@ -740,7 +740,8 @@ namespace LetterAmazer.Websites.Client.Controllers
                 ProductType = ProductType.Payment,
                 Price = new Price()
                 {
-                    PriceExVat = model.PurchaseAmount
+                    PriceExVat = model.PurchaseAmount,
+                    VatPercentage = SessionHelper.Customer.VatPercentage()
                 }
             };
 
@@ -748,7 +749,8 @@ namespace LetterAmazer.Websites.Client.Controllers
             {
                 Price = new Price()
                 {
-                    PriceExVat = model.PurchaseAmount
+                    PriceExVat = model.PurchaseAmount,
+                    VatPercentage = SessionHelper.Customer.VatPercentage()
                 },
                 Customer = SessionHelper.Customer
             };
@@ -795,12 +797,15 @@ namespace LetterAmazer.Websites.Client.Controllers
             return View(invoiceOverview);
         }
 
-        [HttpPost]
-        public JsonResult DeleteInvoice(Guid id)
+        [HttpGet]
+        public ActionResult DeleteInvoice(Guid id)
         {
             var invoice = invoiceService.GetInvoiceById(id);
             invoiceService.Delete(invoice);
-            return Json("OK");
+
+            var dashboardModel = new DashboardViewModel();
+            buildOverviewModel(dashboardModel);
+            return View("Index", dashboardModel);
         }
 
         #endregion
@@ -955,16 +960,21 @@ namespace LetterAmazer.Websites.Client.Controllers
                 OrganisationId = SessionHelper.Customer.Organisation.Id,
                 InvoiceStatus = InvoiceStatus.Created
             });
-            foreach (var unpaidInvoice in unpaidInvoices)
+
+            if (unpaidInvoices != null && unpaidInvoices.Any())
             {
-                model.UnpaidInvoices.InvoiceSnippets.Add(new InvoiceSnippetViewModel()
+                model.UnpaidInvoices = new InvoiceOverviewViewModel();
+                foreach (var unpaidInvoice in unpaidInvoices)
                 {
-                    DateCreated = unpaidInvoice.DateCreated,
-                    InvoiceGuid = unpaidInvoice.Guid,
-                    OrderNumber = unpaidInvoice.InvoiceNumber,
-                    Status = unpaidInvoice.InvoiceStatus,
-                    TotalPrice = unpaidInvoice.PriceTotal
-                });
+                    model.UnpaidInvoices.InvoiceSnippets.Add(new InvoiceSnippetViewModel()
+                    {
+                        DateCreated = unpaidInvoice.DateCreated,
+                        InvoiceGuid = unpaidInvoice.Guid,
+                        OrderNumber = unpaidInvoice.InvoiceNumber,
+                        Status = unpaidInvoice.InvoiceStatus,
+                        TotalPrice = unpaidInvoice.PriceTotal
+                    });
+                }    
             }
         }
 
