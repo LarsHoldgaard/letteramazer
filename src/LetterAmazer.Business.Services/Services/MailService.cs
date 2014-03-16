@@ -21,6 +21,7 @@ namespace LetterAmazer.Business.Services.Services
     {
         private static readonly ILog logger = LogManager.GetLogger(typeof(MailService));
 
+        private bool isactivated;
         private string resetPasswordUrl;
         private string baseUrl;
         private string invoiceUrl;
@@ -39,6 +40,7 @@ namespace LetterAmazer.Business.Services.Services
             this.mandrillApiUrl = ConfigurationManager.AppSettings.Get("LetterAmazer.Mail.Mandrill.ApiUrl");
             this.mandrillApiKey = ConfigurationManager.AppSettings.Get("LetterAmazer.Mail.Mandrill.ApiKey");
             this.notificationEmail = ConfigurationManager.AppSettings.Get("LetterAmazer.Notification.Emails");
+            this.isactivated = bool.Parse(ConfigurationManager.AppSettings.Get("LetterAmazer.Settings.EmailsActivated"));
 
         }
 
@@ -50,30 +52,27 @@ namespace LetterAmazer.Business.Services.Services
 
             var jsonContent = JsonConvert.SerializeObject(obj);
 
+            if (!isactivated)
+            {
+                return;
+            }
+
             var httpWebRequest = (HttpWebRequest)WebRequest.Create(postUrl);
             httpWebRequest.ContentType = "text/json";
             httpWebRequest.Method = "POST";
 
-            try
+            using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
             {
-                using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
-                {
-                    streamWriter.Write(jsonContent);
-                    streamWriter.Flush();
-                    streamWriter.Close();
+                streamWriter.Write(jsonContent);
+                streamWriter.Flush();
+                streamWriter.Close();
 
-                    var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
-                    using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
-                    {
-                        var result = streamReader.ReadToEnd();
-                    }
+                var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+                using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+                {
+                    var result = streamReader.ReadToEnd();
                 }
             }
-            catch (Exception exp)
-            {
-                throw;
-            }
-
         }
 
         public void ResetPassword(Customer customer)

@@ -59,9 +59,9 @@
         <div class="alert alert-warning">
 
             <p>Please upload a letter, before you can send it.</p>
-            <p>It can take up to 3 seconds after you uploaded a letter before this form updates...</p>
+            @*<p>It can take up to 3 seconds after you uploaded a letter before this form updates...</p>
             <br/>
-            <img src="@Url.Content("/Content/images/ajax-loader.gif")"/>
+            <img src="@Url.Content("/Content/images/ajax-loader.gif")"/>*@
         </div>
     </div>
     <div data-bind="visible: getPriceExVat() > 0.0">
@@ -121,6 +121,8 @@
                     'style': 'margin-top: 28px; margin-left: 20px; height: 65px; width: 65px; display: block;'
                 });
                 viewModel.uploadFileKey(data.key);
+                viewModel.downloadPrices();
+
             } else {
                 $(template).find('.dz-error-message').remove();
                 $(template).addClass('dz-error');
@@ -139,6 +141,8 @@
             var template = file.previewTemplate;
             $(template).remove();
             viewModel.uploadFileKey('');
+
+            viewModel.downloadPrices();
         }
     });
 
@@ -161,13 +165,5 @@
         'onUploadError': function (ex, e, er) {
             console.log(er);
         }
-    });
-
-    //Hack as the onUploadSuccess is never called
-    $(document).ready(function () {
-        (function () {
-            viewModel.downloadPrices();
-            setTimeout(arguments.callee, 2000);
-        })();
     });
 </script>
