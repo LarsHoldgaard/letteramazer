@@ -9,6 +9,7 @@ namespace LetterAmazer.Business.Services.Domain.FulfillmentPartners
     public enum PartnerJob
     {
         Jupiter=0,
-        PostalMethods=1
+        PostalMethods=1,
+        Intermail = 2
     }
 }

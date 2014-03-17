@@ -159,6 +159,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\SingleCultureMvcRouteHandler.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\Api\OfficeProductController.cs" />
     <Compile Include="Areas\Api\Routing\ApiAreaRegistration.cs" />
     <Compile Include="Attributes\AutoErrorRecoveryAttribute.cs" />
@@ -208,6 +209,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ViewRes.resx</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\Admin\AdminDefaultViewModel.cs" />
     <Compile Include="ViewModels\Api\OfficeProductViewModel.cs" />
     <Compile Include="ViewModels\CreateSingleLetterModel.cs" />
     <Compile Include="ViewModels\CreditsViewModel.cs" />
@@ -662,6 +664,7 @@
     <Content Include="Views\User\EditSingleContact.cshtml" />
     <Content Include="Views\User\SendWindowedLetter.cshtml" />
     <Content Include="Views\Shared\_invoiceOverview.cshtml" />
+    <Content Include="Views\Admin\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

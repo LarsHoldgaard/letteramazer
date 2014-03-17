@@ -48,8 +48,7 @@ namespace LetterAmazer.Business.Services.Services
                 OrderStatus = new List<OrderStatus>()
                     {
                         OrderStatus.Paid,
-                        OrderStatus.InProgress,
-                        OrderStatus.Created
+                        OrderStatus.InProgress
                     }
             });
 
@@ -89,6 +88,10 @@ namespace LetterAmazer.Business.Services.Services
             else if (fulfillmentPartner.PartnerJob == PartnerJob.PostalMethods)
             {
                 fulfillmentService = new PostalMethodsService(letterService, orderService);
+            }
+            else if (fulfillmentPartner.PartnerJob == PartnerJob.Intermail)
+            {
+                fulfillmentService = new IntermailService(letterService,orderService);
             }
 
             if (fulfillmentService != null)

@@ -128,6 +128,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="Services\FulfillmentJobs\IntermailService.cs" />
     <Compile Include="Services\FulfillmentJobs\PostalMethodsService.cs" />
     <Compile Include="Services\InvoiceService.cs" />
     <Compile Include="Factory\Interfaces\IPaymentFactory.cs" />
