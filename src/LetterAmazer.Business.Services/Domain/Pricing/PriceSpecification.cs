@@ -16,6 +16,7 @@ namespace LetterAmazer.Business.Services.Domain.Pricing
         public int ZipId { get; set; }
         public int OfficeId { get; set; }
 
+        public int OfficeProductId { get; set; }
         
         public LetterColor? LetterColor { get; set; }
         public LetterPaperWeight? LetterPaperWeight { get; set; }

@@ -105,7 +105,7 @@ namespace LetterAmazer.Business.Services.Services
         {
             if (name == "Credit")
             {
-                return new CreditsMethod(customerService);
+                return new CreditsMethod(customerService,orderService);
             }
             else if (name == "Coupon")
             {

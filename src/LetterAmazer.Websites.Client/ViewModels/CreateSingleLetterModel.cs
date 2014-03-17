@@ -1,9 +1,6 @@
 ﻿using System.Web.Mvc;
 using LetterAmazer.Websites.Client.Resources.Views.SingleLetter;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace LetterAmazer.Websites.Client.ViewModels
 {
@@ -27,8 +24,10 @@ namespace LetterAmazer.Websites.Client.ViewModels
         public string ZipCode { get; set; }
         public string DestinationCity { get; set; }
         public string DestinationAddress { get; set; }
+        public int PaymentMethodId { get; set; }
 
-        public int LetterSize { get; set; }
+        public int? LetterSize { get; set; }
+        public int? LetterType { get; set; }
 
         public string VoucherCode { get; set; }
         public bool SignUpNewsletter { get; set; }
@@ -40,5 +39,7 @@ namespace LetterAmazer.Websites.Client.ViewModels
         public bool HasCredits { get; set; }
 
         
+
+
     }
 }

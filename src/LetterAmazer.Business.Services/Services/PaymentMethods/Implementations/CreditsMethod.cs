@@ -15,11 +15,13 @@ namespace LetterAmazer.Business.Services.Services.PaymentMethods.Implementations
     public class CreditsMethod : IPaymentMethod
     {
 
+        private IOrderService orderService;
         private ICustomerService customerService;
 
-        public CreditsMethod(ICustomerService customerService)
+        public CreditsMethod(ICustomerService customerService, IOrderService orderService)
         {
             this.customerService = customerService;
+            this.orderService = orderService;
         }
 
         public string Process(Order order)
@@ -36,6 +38,10 @@ namespace LetterAmazer.Business.Services.Services.PaymentMethods.Implementations
             customer.Credit -= orderLine.Price.PriceExVat*orderLine.Quantity;
 
             var updated_customer = customerService.Update(customer);
+
+            order.OrderStatus =OrderStatus.Paid;
+            orderService.Update(order);
+
             SessionHelper.Customer = updated_customer;
             FormsAuthentication.SetAuthCookie(customer.Id.ToString(), true);
 

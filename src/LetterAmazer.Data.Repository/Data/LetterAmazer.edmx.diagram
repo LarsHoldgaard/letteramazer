@@ -43,6 +43,7 @@
         <AssociationConnector Association="LetterAmazer.FK_OrderItem_Order" ManuallyRouted="false" />
         <AssociationConnector Association="LetterAmazer.FK_DbOrganisationAddressList_DbOrganisation" ManuallyRouted="false" />
         <AssociationConnector Association="LetterAmazer.FK_DbOrganisationProfileSettings_DbOrganisation" ManuallyRouted="false" />
+        <AssociationConnector Association="LetterAmazer.FK_DbLetters_DbOrders" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

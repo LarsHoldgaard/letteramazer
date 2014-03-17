@@ -52,7 +52,7 @@ namespace LetterAmazer.Business.Services.Services
             }
             else
             {
-                dborder.OrderStatus = (int)OrderStatus.Created;
+                dborder.OrderStatus = (int)order.OrderStatus;
             }
             
             
@@ -296,6 +296,12 @@ namespace LetterAmazer.Business.Services.Services
                     LetterContent_Path = letter.LetterContent.Path,
                     LetterStatus = (int)letter.LetterStatus,
                     OfficeId = letter.OfficeId,
+                    LetterColor = (int)letter.LetterDetails.LetterColor,
+                    LetterPaperWeight = (int)letter.LetterDetails.LetterPaperWeight,
+                    LetterProcessing = (int)letter.LetterDetails.LetterProcessing,
+                    LetterSize = (int)letter.LetterDetails.LetterSize,
+                    LetterType = (int)letter.LetterDetails.LetterType,
+                    
                 };
 
                 if (letter.FromAddress != null)
@@ -318,6 +324,7 @@ namespace LetterAmazer.Business.Services.Services
                     dbLetter.FromAddress_State = letter.FromAddress.State;
                     dbLetter.FromAddress_VatNr = letter.FromAddress.VatNr;
                 }
+                
                 dbOrderLine.DbLetters = dbLetter;
             }
             return dbOrderLine;

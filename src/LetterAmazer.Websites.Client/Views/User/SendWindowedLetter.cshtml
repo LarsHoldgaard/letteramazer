@@ -88,6 +88,9 @@
 
         <input type="submit" value="Send letter" class="btn btn-success btn-lg" />
     </div>
+    
+    @Html.HiddenFor(model=>model.PaymentMethodId)
+                @Html.HiddenFor(model=>model.LetterType)
 }
 
 <script>

@@ -27,12 +27,15 @@ namespace LetterAmazer.Business.Services.Services.FulfillmentJobs
         private string serviceUrl;
         private ILetterService letterService;
         private IOrderService orderService;
+        private bool isactivated;
 
         public JupiterService(ILetterService letterService, IOrderService orderService)
         {
-            this.serviceUrl = ConfigurationManager.AppSettings["LetterAmazer.Fulfilment.Jupiter.ServiceUrl"]; ;
-            this.username = ConfigurationManager.AppSettings["LetterAmazer.Fulfilment.Jupiter.Username"]; ;
-            this.password = ConfigurationManager.AppSettings["LetterAmazer.Fulfilment.Jupiter.Password"]; ;
+            this.isactivated = bool.Parse(ConfigurationManager.AppSettings.Get("LetterAmazer.Settings.SendLetters"));
+
+            this.serviceUrl = ConfigurationManager.AppSettings["LetterAmazer.Fulfilment.Jupiter.ServiceUrl"];
+            this.username = ConfigurationManager.AppSettings["LetterAmazer.Fulfilment.Jupiter.Username"];
+            this.password = ConfigurationManager.AppSettings["LetterAmazer.Fulfilment.Jupiter.Password"];
             this.zipStoragePath = ConfigurationManager.AppSettings["LetterAmazer.Settings.StoreZipPath"];
             this.pdfStoragePath = ConfigurationManager.AppSettings["LetterAmazer.Settings.StorePdfPath"];
             this.letterService = letterService;
@@ -62,11 +65,14 @@ namespace LetterAmazer.Business.Services.Services.FulfillmentJobs
                 fileStream.Position = 0;
                 var md5val = HelperMethods.HashFile(fileStream);
                 fileStream.Position = 0;
-                amazonService.UploadFile(s3.Bucket, fileStream, zipName, md5valBase64);
 
-                var sqsDoc = DeliveryXml(md5val, s3.Bucket, "Job run at " + DateTime.Now.ToString("yyMMdd-HHmmss"), zipName);
-
-                amazonService.SendSQSMessage(sqsDoc.ToString(), s3.PostQueue);
+                if (isactivated)
+                {
+                    amazonService.UploadFile(s3.Bucket, fileStream, zipName, md5valBase64);
+                    var sqsDoc = DeliveryXml(md5val, s3.Bucket, "Job run at " + DateTime.Now.ToString("yyMMdd-HHmmss"), zipName);
+                    amazonService.SendSQSMessage(sqsDoc.ToString(), s3.PostQueue);    
+                }
+                
             }
 
             orderService.UpdateByLetters(letters);

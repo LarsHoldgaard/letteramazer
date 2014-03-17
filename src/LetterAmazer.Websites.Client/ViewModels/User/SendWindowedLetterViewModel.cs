@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
 using System.Web.Mvc;
 
 namespace LetterAmazer.Websites.Client.ViewModels.User
@@ -13,9 +10,14 @@ namespace LetterAmazer.Websites.Client.ViewModels.User
 
         public int DestinationCountryId { get; set; }
 
+        public int? LetterSize { get; set; }
+        public int? LetterType { get; set; }
+
         public bool UseUploadFile { get; set; }
         public string UploadFile { get; set; }
         public string WriteContent { get; set; }
+
+        public int PaymentMethodId { get; set; }
 
         public SendWindowedLetterViewModel()
         {

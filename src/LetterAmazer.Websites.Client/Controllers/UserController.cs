@@ -77,7 +77,11 @@ namespace LetterAmazer.Websites.Client.Controllers
 
         public ActionResult SendWindowedLetter()
         {
-            var windowedModel = new SendWindowedLetterViewModel();
+            var windowedModel = new SendWindowedLetterViewModel()
+            {
+                PaymentMethodId = 2,
+                LetterType = (int)LetterType.Windowed
+            };
 
             var countries = countryService.GetCountryBySpecificaiton(new CountrySpecification()
             {
@@ -107,73 +111,7 @@ namespace LetterAmazer.Websites.Client.Controllers
         [HttpPost]
         public ActionResult SendWindowedLetter(SendWindowedLetterViewModel model)
         {
-            Order order = new Order();
-
-            order.Customer = SessionHelper.Customer;
-            AddressInfo addressInfo = new AddressInfo();
-
-            addressInfo.Country = countryService.GetCountryById(int.Parse(model.SelectedCountry));
-
-            LetterDetails letterDetail = new LetterDetails()
-            {
-                LetterColor = LetterColor.Color,
-                LetterPaperWeight = LetterPaperWeight.Eight,
-                LetterProcessing = LetterProcessing.Dull,
-                LetterSize = LetterSize.A4,
-                LetterType = LetterType.Windowed
-            };
-
-            Letter letter = new Letter()
-            {
-                LetterDetails = letterDetail,
-                ToAddress = addressInfo,
-            };
-
-            logger.DebugFormat("upload file key: {0}", model.UploadFile);
-            letter.LetterContent.Path = model.UploadFile;
-            
-            if (System.IO.File.Exists(PathHelper.GetAbsoluteFile(letter.LetterContent.Path)))
-            {
-                letter.LetterContent.Content =
-                    System.IO.File.ReadAllBytes(PathHelper.GetAbsoluteFile(letter.LetterContent.Path));
-            }
-            
-            var price = priceService.GetPriceBySpecification(new PriceSpecification()
-            {
-                CountryId = addressInfo.Country.Id,
-                LetterColor = LetterColor.Color,
-                LetterProcessing = LetterProcessing.Dull,
-                LetterSize = LetterSize.A4,
-                LetterType = LetterType.Pres,
-                LetterPaperWeight = LetterPaperWeight.Eight,
-                PageCount = letter.LetterContent.PageCount,
-                OfficeId = SessionHelper.Customer.Organisation.RequiredOfficeId.HasValue ? SessionHelper.Customer.Organisation.RequiredOfficeId.Value : 0
-            });
-
-            
-            price.VatPercentage = SessionHelper.Customer.VatPercentage();
-            var officeProductId = price.OfficeProductId;
-            letter.OfficeId = officeProductService.GetOfficeProductById(officeProductId).OfficeId;
-
-            order.OrderLines.Add(new OrderLine()
-            {
-                BaseProduct = letter,
-                ProductType = ProductType.Letter,
-                Price = new Price()
-                {
-                    PriceExVat = price.Total
-                }
-            });
-            order.OrderLines.Add(new OrderLine()
-            {
-                BaseProduct = letter,
-                ProductType = ProductType.Payment,
-                PaymentMethodId = 2, // Credit
-                Price = new Price()
-                {
-                    PriceExVat = price.Total
-                }
-            });
+            var order = new SingleLetterController(orderService,paymentService,couponService,countryService,priceService,customerService,null,null,officeService,officeProductService).CreateOrderFromViewModel(model);
 
             var updated_order = orderService.Create(order);
 
@@ -200,7 +138,11 @@ namespace LetterAmazer.Websites.Client.Controllers
                 return View("Credits");
             }
 
-            CreateSingleLetterModel model = new CreateSingleLetterModel();
+            CreateSingleLetterModel model = new CreateSingleLetterModel()
+            {
+                PaymentMethodId = 2,
+                LetterType =(int) LetterType.Pres
+            };
             model.Email = SessionHelper.Customer.Email;
 
             if (SessionHelper.Customer.CreditLimit < SessionHelper.Customer.Credit)
@@ -235,110 +177,7 @@ namespace LetterAmazer.Websites.Client.Controllers
             {
                 ValidateInput();
 
-                Order order = new Order();
-
-                order.Customer = SessionHelper.Customer;
-                AddressInfo addressInfo = new AddressInfo();
-                addressInfo.Address1 = model.DestinationAddress;
-                addressInfo.FirstName = model.RecipientName;
-                addressInfo.State = model.DestinationState;
-                addressInfo.City = model.DestinationCity;
-                addressInfo.Country = countryService.GetCountryById(model.DestinationCountry);
-                addressInfo.Zipcode = model.ZipCode;
-
-
-                LetterDetails letterDetail = new LetterDetails()
-                {
-                    LetterColor = LetterColor.Color,
-                    LetterPaperWeight = LetterPaperWeight.Eight,
-                    LetterProcessing = LetterProcessing.Dull,
-                    LetterSize = (LetterSize)model.LetterSize,
-                    LetterType = LetterType.Pres
-                };
-
-                Letter letter = new Letter()
-                {
-                    LetterDetails = letterDetail,
-                    ToAddress = addressInfo
-                };
-
-                if (model.UseUploadFile)
-                {
-                    logger.DebugFormat("upload file key: {0}", model.UploadFile);
-                    letter.LetterContent.Path = model.UploadFile;
-                }
-                else
-                {
-                    string tempKeyName = string.Format("{0}/{1}/{2}.pdf", DateTime.Now.Year, DateTime.Now.Month,
-                        Guid.NewGuid().ToString());
-                    string tempPath = PathHelper.GetAbsoluteFile(tempKeyName);
-
-                    var convertedText = HelperMethods.Utf8FixString(model.WriteContent);
-                    PdfHelper.ConvertToPdf(tempPath, convertedText);
-                    letter.LetterContent.Path = tempKeyName;
-                    letter.LetterContent.WrittenContent = model.WriteContent;
-                }
-                if (System.IO.File.Exists(PathHelper.GetAbsoluteFile(letter.LetterContent.Path)))
-                {
-                    letter.LetterContent.Content =
-                        System.IO.File.ReadAllBytes(PathHelper.GetAbsoluteFile(letter.LetterContent.Path));
-                }
-
-                var price = priceService.GetPriceBySpecification(new PriceSpecification()
-                {
-                    CountryId = addressInfo.Country.Id,
-                    LetterColor = LetterColor.Color,
-                    LetterProcessing = LetterProcessing.Dull,
-                    LetterSize = LetterSize.A4,
-                    LetterType = LetterType.Pres,
-                    LetterPaperWeight = LetterPaperWeight.Eight,
-                    PageCount = letter.LetterContent.PageCount,
-                    OfficeId = SessionHelper.Customer.Organisation.RequiredOfficeId.HasValue ? SessionHelper.Customer.Organisation.RequiredOfficeId.Value : 0
-                });
-
-                price.VatPercentage = SessionHelper.Customer.VatPercentage();
-
-                var officeProductId = price.OfficeProductId;
-                letter.OfficeId = officeProductService.GetOfficeProductById(officeProductId).OfficeId;
-
-                Coupon coupon = null;
-                if (!string.IsNullOrEmpty(model.VoucherCode))
-                {
-                    var voucher = couponService.GetCouponBySpecification(new CouponSpecification()
-                    {
-                        Code = model.VoucherCode
-                    });
-                    if (voucher != null && voucher.Any())
-                    {
-                        coupon = (Coupon)voucher.FirstOrDefault();
-                    }
-                }
-
-
-                order.OrderLines.Add(new OrderLine()
-                {
-                    ProductType = ProductType.Letter,
-                    BaseProduct = letter,
-                    Price = new Price()
-                    {
-                        PriceExVat = price.Total
-                    }
-                });
-
-                var rest = addCouponlines(price, coupon, order);
-
-                if (rest > 0)
-                {
-                    order.OrderLines.Add(new OrderLine()
-                    {
-                        ProductType = ProductType.Payment,
-                        PaymentMethodId = 2, // Credit
-                        Price = new Price()
-                        {
-                            PriceExVat = rest
-                        }
-                    });
-                }
+                var order = new SingleLetterController(orderService, paymentService, couponService, countryService, priceService, customerService, null, null, officeService, officeProductService).CreateOrderFromViewModel(model);
 
                 var storedOrder = orderService.Create(order);
 

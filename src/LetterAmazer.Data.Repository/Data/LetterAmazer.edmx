@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="LetterAmazer.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="LetterAmazer.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="DbContinents">
           <Key>
             <PropertyRef Name="Id" />
@@ -393,6 +393,18 @@ warning 6002: The table/view 'LetterAmazer.dbo.DbLog' does not have a primary ke
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_DbLetters_DbOrders">
+          <End Role="DbOrders" Type="Self.DbOrders" Multiplicity="1" />
+          <End Role="DbLetters" Type="Self.DbLetters" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DbOrders">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DbLetters">
+              <PropertyRef Name="OrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_DbOrganisationAddressList_DbCountries">
           <End Role="DbCountries" Type="Self.DbCountries" Multiplicity="1" />
           <End Role="DbOrganisationAddressList" Type="Self.DbOrganisationAddressList" Multiplicity="*" />
@@ -616,6 +628,10 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
             <End Role="DbOrders" EntitySet="DbOrders" />
             <End Role="DbInvoices" EntitySet="DbInvoices" />
           </AssociationSet>
+          <AssociationSet Name="FK_DbLetters_DbOrders" Association="Self.FK_DbLetters_DbOrders">
+            <End Role="DbOrders" EntitySet="DbOrders" />
+            <End Role="DbLetters" EntitySet="DbLetters" />
+          </AssociationSet>
           <AssociationSet Name="FK_DbOrganisationAddressList_DbCountries" Association="Self.FK_DbOrganisationAddressList_DbCountries">
             <End Role="DbCountries" EntitySet="DbCountries" />
             <End Role="DbOrganisationAddressList" EntitySet="DbOrganisationAddressList" />
@@ -677,8 +693,7 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
             <End Role="DbShops" EntitySet="DbShops" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="LetterAmazer" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -885,6 +900,7 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
           <NavigationProperty Name="DbCountries1" Relationship="Self.FK_Letters_ToCountry" FromRole="DbLetters" ToRole="DbCountries" />
           <NavigationProperty Name="DbCustomers" Relationship="Self.FK_Letter_Customer" FromRole="DbLetters" ToRole="DbCustomers" />
           <NavigationProperty Name="DbOrderlines" Relationship="Self.FK_OrderItem_Letter" FromRole="DbLetters" ToRole="DbOrderlines" />
+          <NavigationProperty Name="DbOrders" Relationship="LetterAmazer.FK_DbLetters_DbOrders" FromRole="DbLetters" ToRole="DbOrders" />
         </EntityType>
         <EntityType Name="DbOfficeProducts">
           <Key>
@@ -957,6 +973,7 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
           <NavigationProperty Name="DbCustomers" Relationship="Self.FK_Order_Customer" FromRole="DbOrders" ToRole="DbCustomers" />
           <NavigationProperty Name="DbInvoices" Relationship="Self.FK_DbInvoices_DbOrders" FromRole="DbOrders" ToRole="DbInvoices" />
           <NavigationProperty Name="DbOrderlines" Relationship="Self.FK_OrderItem_Order" FromRole="DbOrders" ToRole="DbOrderlines" />
+          <NavigationProperty Name="DbLetters" Relationship="LetterAmazer.FK_DbLetters_DbOrders" FromRole="DbOrders" ToRole="DbLetters" />
         </EntityType>
         <EntityType Name="DbOrganisation">
           <Key>
@@ -1377,7 +1394,23 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
             <End Role="DbOrganisation" EntitySet="DbOrganisation" />
             <End Role="DbOrganisationProfileSettings" EntitySet="DbOrganisationProfileSettings" />
           </AssociationSet>
+          <AssociationSet Name="FK_DbLetters_DbOrders" Association="LetterAmazer.FK_DbLetters_DbOrders">
+            <End Role="DbOrders" EntitySet="DbOrders" />
+            <End Role="DbLetters" EntitySet="DbLetters" />
+          </AssociationSet>
         </EntityContainer>
+        <Association Name="FK_DbLetters_DbOrders">
+          <End Type="LetterAmazer.DbOrders" Role="DbOrders" Multiplicity="1" />
+          <End Type="LetterAmazer.DbLetters" Role="DbLetters" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DbOrders">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DbLetters">
+              <PropertyRef Name="OrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->

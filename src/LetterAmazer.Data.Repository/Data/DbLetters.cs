@@ -61,5 +61,6 @@ namespace LetterAmazer.Data.Repository.Data
         public virtual DbCountries DbCountries1 { get; set; }
         public virtual DbCustomers DbCustomers { get; set; }
         public virtual ICollection<DbOrderlines> DbOrderlines { get; set; }
+        public virtual DbOrders DbOrders { get; set; }
     }
 }

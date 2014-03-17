@@ -90,6 +90,10 @@ namespace LetterAmazer.Business.Services.Services
             IQueryable<DbOfficeProducts> officeProducts =
                 repository.DbOfficeProducts.Where(c => c.ReferenceType == (int) ProductMatrixReferenceType.Sales);
 
+            if (specification.OfficeProductId > 0)
+            {
+                officeProducts = officeProducts.Where(c => c.Id == specification.OfficeProductId);
+            }
             if (specification.LetterColor.HasValue)
             {
                 officeProducts = officeProducts.Where(c => c.LetterColor == (int)specification.LetterColor.Value);

@@ -3,6 +3,7 @@ using System.Linq;
 using LetterAmazer.Business.Services.Domain.AddressInfos;
 using LetterAmazer.Business.Services.Domain.Countries;
 using LetterAmazer.Business.Services.Domain.Customers;
+using LetterAmazer.Business.Services.Domain.DeliveryJobs;
 using LetterAmazer.Business.Services.Domain.Mails;
 using LetterAmazer.Business.Services.Domain.Offices;
 using LetterAmazer.Business.Services.Domain.Organisation;
@@ -33,8 +34,10 @@ namespace LetterAmazer.Websites.Client.Controllers
         private IPriceService priceService;
         private IOrganisationService organisationService;
         private IPriceUpdater priceUpdater;
+        private IDeliveryJobService deliveryJobService;
         public HomeController(ICustomerService customerService,IOfficeService officeService,IPriceUpdater priceUpdater,
-            IMailService mailService, ICountryService countryService, IPriceService priceService, IOrganisationService organisationService)
+            IMailService mailService, ICountryService countryService, IPriceService priceService, IOrganisationService organisationService,
+            IDeliveryJobService deliveryJobService)
         {
             this.customerService = customerService;
             this.officeService = officeService;
@@ -43,6 +46,7 @@ namespace LetterAmazer.Websites.Client.Controllers
             this.priceService = priceService;
             this.organisationService = organisationService;
             this.priceUpdater = priceUpdater;
+            this.deliveryJobService = deliveryJobService;
         }
 
         public ActionResult Index()
@@ -53,7 +57,9 @@ namespace LetterAmazer.Websites.Client.Controllers
 
         public ActionResult Faq()
         {
+            
             priceUpdater.Execute();
+            deliveryJobService.Execute();
             return View();
         }
 

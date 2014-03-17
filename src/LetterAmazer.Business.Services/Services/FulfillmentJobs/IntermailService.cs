@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,9 +14,12 @@ namespace LetterAmazer.Business.Services.Services.FulfillmentJobs
     {
         private ILetterService letterService;
         private IOrderService orderService;
+        private bool isactivated;
 
         public IntermailService(ILetterService letterService, IOrderService orderService)
         {
+            this.isactivated = bool.Parse(ConfigurationManager.AppSettings.Get("LetterAmazer.Settings.SendLetters"));
+
             this.letterService = letterService;
             this.orderService = orderService;
         }
