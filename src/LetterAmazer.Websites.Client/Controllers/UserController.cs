@@ -80,7 +80,8 @@ namespace LetterAmazer.Websites.Client.Controllers
             var windowedModel = new SendWindowedLetterViewModel()
             {
                 PaymentMethodId = 2,
-                LetterType = (int)LetterType.Windowed
+                LetterType = (int)LetterType.Windowed,
+                UseUploadFile = true
             };
 
             var countries = countryService.GetCountryBySpecificaiton(new CountrySpecification()

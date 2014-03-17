@@ -381,7 +381,32 @@ namespace LetterAmazer.Websites.Client.Controllers
            
             Order order = new Order();
 
-            order.Customer = SessionHelper.Customer;
+            if (SessionHelper.Customer != null)
+            {
+                            order.Customer = SessionHelper.Customer;
+            }
+            else
+            {
+                Customer customer = null;
+                var existingCustomer = customerService.GetCustomerBySpecification(new CustomerSpecification()
+                {
+                    Email = model.Email
+                }).FirstOrDefault();
+
+                if (existingCustomer == null)
+                {
+                    Customer newCustomer = new Customer();
+                    newCustomer.Email = model.Email;
+                    newCustomer.Phone = model.Phone;
+
+                    customer = customerService.Create(newCustomer);
+                }
+                else
+                {
+                    customer = existingCustomer;
+                }
+                order.Customer = customer;
+            }
 
             if (model.UseUploadFile)
             {
@@ -428,10 +453,8 @@ namespace LetterAmazer.Websites.Client.Controllers
                 price.VatPercentage = 0.25m;
             }
 
-            
             var officeProductId = price.OfficeProductId;
             letter.OfficeId = officeProductService.GetOfficeProductById(officeProductId).OfficeId;
-
 
             Coupon coupon = null;
             if (!string.IsNullOrEmpty(model.VoucherCode))

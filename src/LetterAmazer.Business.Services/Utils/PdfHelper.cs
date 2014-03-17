@@ -52,7 +52,7 @@ namespace LetterAmazer.Business.Utils.Helpers
 
             string original = path;
             string inPDF = path;
-            string outPDF = "temp.pdf";
+            string outPDF = PathHelper.GetAbsoluteFile(Guid.NewGuid().ToString());
             using (PdfReader pdfr = new PdfReader(inPDF))
             {
                 using (Document doc = new Document(PageSize.LETTER))
