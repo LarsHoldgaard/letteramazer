@@ -89,21 +89,7 @@ namespace LetterAmazer.BackgroundService
         {
             logger.Info("Starting Background Service...");
 
-            // All services in service DLL
-            var path = ConfigurationManager.AppSettings["LetterAmazer.Assembly.Services"];
-            
-            var assembly = Assembly.LoadFrom(path);
-            Container.Register(
-                Classes.FromAssembly(assembly)
-                .InNamespace("LetterAmazer.Business.Services.Services")
-                .WithServiceAllInterfaces());
-
-            // All factories in service DLL
-            Container.Register(
-                Classes.FromAssembly(assembly)
-                .InNamespace("LetterAmazer.Business.Services.Factory")
-                .WithServiceAllInterfaces());
-
+            Container.Install(Castle.Windsor.Installer.Configuration.FromXmlFile("components.config"));
 
             Container.Register(Castle.MicroKernel.Registration.Component.For<LetterAmazerEntities>());
 
