@@ -44,6 +44,8 @@
         <AssociationConnector Association="LetterAmazer.FK_DbOrganisationAddressList_DbOrganisation" ManuallyRouted="false" />
         <AssociationConnector Association="LetterAmazer.FK_DbOrganisationProfileSettings_DbOrganisation" ManuallyRouted="false" />
         <AssociationConnector Association="LetterAmazer.FK_DbLetters_DbOrders" />
+        <EntityTypeShape EntityType="LetterAmazer.DbApiAccess" Width="1.5" PointX="3" PointY="31.875" />
+        <AssociationConnector Association="LetterAmazer.FK_DbApiAccess_DbApiAccess" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

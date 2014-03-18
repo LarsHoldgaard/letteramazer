@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LetterAmazer.Business.Services.Domain.Api;
 using LetterAmazer.Business.Services.Domain.Customers;
 using LetterAmazer.Business.Services.Domain.Organisation;
 using LetterAmazer.Data.Repository.Data;
@@ -17,6 +18,9 @@ namespace LetterAmazer.Business.Services.Factory.Interfaces
 
         AddressList CreateAddressList(DbOrganisationAddressList list);
         List<AddressList> CreateAddressList(List<DbOrganisationAddressList> list);
+
+        ApiKeys CreateApiKeys(DbApiAccess apiAccess);
+        List<ApiKeys> CreateApiKeys(List<DbApiAccess> apiAccess);
 
     }
 }

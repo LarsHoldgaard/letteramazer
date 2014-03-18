@@ -193,9 +193,6 @@
     self.showMap = ko.computed(function () {
         return self.currentStep() == 1 || self.currentStep() == 2;
     });
-    self.showAnimation = ko.computed(function () {
-        return self.currentStep() == 3;
-    });
 
     self.loadMap = function () {
         var address = (self.address() ? self.address() + ' ' : '') + (self.postal() ? self.postal() + ' ' : '') + (self.city() ? self.city() + ' ' : '') + (self.country() ? self.country() : '');
@@ -306,9 +303,6 @@
     self.save = function (data, event) {
         $(event.target).prop("disabled", "disabled");
 
-        $('#stampDiv').animate({
-            top: '+=250px'
-        }, 800);
         if (self.uploadPdf() == 1) self.useUploadFile('true');
         else self.useUploadFile('false');
 

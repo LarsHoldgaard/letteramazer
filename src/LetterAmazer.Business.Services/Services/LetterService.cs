@@ -140,7 +140,12 @@ namespace LetterAmazer.Business.Services.Services
             dbletter.FromAddress_AttPerson = letter.FromAddress.AttPerson;
             dbletter.FromAddress_City = letter.FromAddress.City;
             dbletter.FromAddress_CompanyName = string.Empty;
-            dbletter.FromAddress_Country = letter.FromAddress.Country.Id;
+
+            if (letter.FromAddress.Country != null)
+            {
+                dbletter.FromAddress_Country = letter.FromAddress.Country.Id;    
+            }
+            
             dbletter.FromAddress_FirstName = letter.FromAddress.FirstName;
             dbletter.FromAddress_LastName = letter.FromAddress.LastName;
             dbletter.FromAddress_Zipcode = letter.FromAddress.Zipcode;

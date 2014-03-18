@@ -96,6 +96,7 @@
 
 <script>
 
+
     var createLetterData = {
         getPriceUrl: '@Url.Action("GetPrice", "SingleLetter")',
     };
@@ -169,5 +170,13 @@
         'onUploadError': function (ex, e, er) {
             console.log(er);
         }
+    });
+
+
+    $(document).ready(function () {
+        $('#SelectedCountry').change(function () {
+            viewModel.downloadPrices();
+        });
+
     });
 </script>

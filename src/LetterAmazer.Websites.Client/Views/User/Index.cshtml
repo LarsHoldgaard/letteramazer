@@ -48,7 +48,8 @@ Money available: <b>@Model.Customer.Credit.ToFriendlyMoney() $</b>
     <p>Your account has a limit of @SessionHelper.Customer.CreditLimit $</p>
 }
 
-@if (Model.UnpaidInvoices.InvoiceSnippets.Any())
+
+@if (Model.UnpaidInvoices != null && Model.UnpaidInvoices.InvoiceSnippets.Any())
 {
 <h2>Pending unpaid invoices</h2>
 @Html.Partial("_invoiceOverview", Model.UnpaidInvoices)

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Security.AccessControl;
 using LetterAmazer.Business.Services.Domain.AddressInfos;
+using LetterAmazer.Business.Services.Domain.Api;
 
 namespace LetterAmazer.Business.Services.Domain.Organisation
 {
@@ -25,12 +26,15 @@ namespace LetterAmazer.Business.Services.Domain.Organisation
         public int? RequiredOfficeId { get; set; }
         public int? RequiredFulfillmentPartnerId { get; set; }
 
+        public List<ApiKeys> ApiKeys { get; set; }
+
 
         public Organisation()
         {
             this.AddressList = new List<AddressList>();
             this.Address = new AddressInfo();
             this.OrganisationSettings = new OrganisationSettings();
+            this.ApiKeys = new List<ApiKeys>();
         }
     }
 }

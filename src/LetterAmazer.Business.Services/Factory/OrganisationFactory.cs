@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LetterAmazer.Business.Services.Domain.AddressInfos;
+using LetterAmazer.Business.Services.Domain.Api;
 using LetterAmazer.Business.Services.Domain.Customers;
 using LetterAmazer.Business.Services.Domain.Organisation;
 using LetterAmazer.Business.Services.Domain.Products.ProductDetails;
@@ -88,6 +89,20 @@ namespace LetterAmazer.Business.Services.Factory
         public List<AddressList> CreateAddressList(List<DbOrganisationAddressList> list)
         {
             return list.Select(CreateAddressList).ToList();
+        }
+
+        public ApiKeys CreateApiKeys(DbApiAccess apiAccess)
+        {
+            return new ApiKeys()
+            {
+                ApiKey = apiAccess.ApiKey,
+                ApiSecret = apiAccess.ApiSecret
+            };
+        }
+
+        public List<ApiKeys> CreateApiKeys(List<DbApiAccess> apiAccess)
+        {
+            return apiAccess.Select(CreateApiKeys).ToList();
         }
     }
 }

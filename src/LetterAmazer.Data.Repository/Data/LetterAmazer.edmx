@@ -5,6 +5,15 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="LetterAmazer.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="DbApiAccess">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OrganisationId" Type="int" Nullable="false" />
+          <Property Name="ApiKey" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="ApiSecret" Type="varchar" MaxLength="500" Nullable="false" />
+        </EntityType>
         <EntityType Name="DbContinents">
           <Key>
             <PropertyRef Name="Id" />
@@ -369,6 +378,18 @@ warning 6002: The table/view 'LetterAmazer.dbo.DbLog' does not have a primary ke
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_DbApiAccess_DbApiAccess">
+          <End Role="DbOrganisation" Type="Self.DbOrganisation" Multiplicity="1" />
+          <End Role="DbApiAccess" Type="Self.DbApiAccess" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DbOrganisation">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DbApiAccess">
+              <PropertyRef Name="OrganisationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_DbInvoiceLines_DbInvoices">
           <End Role="DbInvoices" Type="Self.DbInvoices" Multiplicity="1" />
           <End Role="DbInvoiceLines" Type="Self.DbInvoiceLines" Multiplicity="*" />
@@ -586,6 +607,7 @@ warning 6002: The table/view 'LetterAmazer.dbo.DbLog' does not have a primary ke
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="LetterAmazerStoreContainer">
+          <EntitySet Name="DbApiAccess" EntityType="Self.DbApiAccess" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DbContinents" EntityType="Self.DbContinents" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DbCountries" EntityType="Self.DbCountries" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DbCountryNames" EntityType="Self.DbCountryNames" Schema="dbo" store:Type="Tables" />
@@ -619,6 +641,10 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
           <AssociationSet Name="FK_Customers_Countries" Association="Self.FK_Customers_Countries">
             <End Role="DbCountries" EntitySet="DbCountries" />
             <End Role="DbCustomers" EntitySet="DbCustomers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DbApiAccess_DbApiAccess" Association="Self.FK_DbApiAccess_DbApiAccess">
+            <End Role="DbOrganisation" EntitySet="DbOrganisation" />
+            <End Role="DbApiAccess" EntitySet="DbApiAccess" />
           </AssociationSet>
           <AssociationSet Name="FK_DbInvoiceLines_DbInvoices" Association="Self.FK_DbInvoiceLines_DbInvoices">
             <End Role="DbInvoices" EntitySet="DbInvoices" />
@@ -997,6 +1023,7 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
           <Property Name="RequiredOfficeId" Type="Int32" />
           <NavigationProperty Name="DbOrganisationAddressList" Relationship="Self.FK_DbOrganisationAddressList_DbOrganisation" FromRole="DbOrganisation" ToRole="DbOrganisationAddressList" />
           <NavigationProperty Name="DbOrganisationProfileSettings" Relationship="Self.FK_DbOrganisationProfileSettings_DbOrganisation" FromRole="DbOrganisation" ToRole="DbOrganisationProfileSettings" />
+          <NavigationProperty Name="DbApiAccess" Relationship="LetterAmazer.FK_DbApiAccess_DbApiAccess" FromRole="DbOrganisation" ToRole="DbApiAccess" />
         </EntityType>
         <EntityType Name="DbOrganisationAddressList">
           <Key>
@@ -1398,6 +1425,11 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
             <End Role="DbOrders" EntitySet="DbOrders" />
             <End Role="DbLetters" EntitySet="DbLetters" />
           </AssociationSet>
+          <EntitySet Name="DbApiAccess" EntityType="LetterAmazer.DbApiAccess" />
+          <AssociationSet Name="FK_DbApiAccess_DbApiAccess" Association="LetterAmazer.FK_DbApiAccess_DbApiAccess">
+            <End Role="DbOrganisation" EntitySet="DbOrganisation" />
+            <End Role="DbApiAccess" EntitySet="DbApiAccess" />
+          </AssociationSet>
         </EntityContainer>
         <Association Name="FK_DbLetters_DbOrders">
           <End Type="LetterAmazer.DbOrders" Role="DbOrders" Multiplicity="1" />
@@ -1408,6 +1440,28 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
             </Principal>
             <Dependent Role="DbLetters">
               <PropertyRef Name="OrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="DbApiAccess">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OrganisationId" Type="Int32" Nullable="false" />
+          <Property Name="ApiKey" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="ApiSecret" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="DbOrganisation" Relationship="LetterAmazer.FK_DbApiAccess_DbApiAccess" FromRole="DbApiAccess" ToRole="DbOrganisation" />
+        </EntityType>
+        <Association Name="FK_DbApiAccess_DbApiAccess">
+          <End Type="LetterAmazer.DbOrganisation" Role="DbOrganisation" Multiplicity="1" />
+          <End Type="LetterAmazer.DbApiAccess" Role="DbApiAccess" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DbOrganisation">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DbApiAccess">
+              <PropertyRef Name="OrganisationId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1779,6 +1833,16 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
                 <ScalarProperty Name="Logger" ColumnName="Logger" />
                 <ScalarProperty Name="Message" ColumnName="Message" />
                 <ScalarProperty Name="Exception" ColumnName="Exception" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DbApiAccess">
+            <EntityTypeMapping TypeName="LetterAmazer.DbApiAccess">
+              <MappingFragment StoreEntitySet="DbApiAccess">
+                <ScalarProperty Name="ApiSecret" ColumnName="ApiSecret" />
+                <ScalarProperty Name="ApiKey" ColumnName="ApiKey" />
+                <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

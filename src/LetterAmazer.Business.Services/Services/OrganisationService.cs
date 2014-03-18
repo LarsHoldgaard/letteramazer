@@ -129,11 +129,14 @@ namespace LetterAmazer.Business.Services.Services
             }
 
             var dbAddresses = repository.DbOrganisationAddressList.Where(c => c.OrganisationId == id);
-
             var addresses = organisationFactory.CreateAddressList(dbAddresses.ToList());
+
+            var dbApis = repository.DbApiAccess.Where(c => c.OrganisationId == id);
+            var apis = organisationFactory.CreateApiKeys(dbApis.ToList());
 
             var organisation = organisationFactory.Create(dbOrganisation, dbOrganisationSettings);
             organisation.AddressList = addresses;
+            organisation.ApiKeys = apis;
 
             return organisation;
         }

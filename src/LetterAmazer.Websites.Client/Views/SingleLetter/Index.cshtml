@@ -173,8 +173,8 @@
                                     </div>
                                 </div>
 
-                                @Html.CheckBoxFor(m => m.SignUpNewsletter)
-                                @ViewRes.FollowOurExcitingJourneyThroughEmail
+                                @*@Html.CheckBoxFor(m => m.SignUpNewsletter)
+                                @ViewRes.FollowOurExcitingJourneyThroughEmail*@
                                 <br />
                                 <br />
 
@@ -188,7 +188,7 @@
                                 @Html.HiddenFor(m => m.UploadFile, new Dictionary<string, object> { { "data-bind", "value:uploadFileKey" } })
                                 <br />
                                 <br />
-                                <a href="javascript:void(0)" id="toggleVoucherLnk" data-bind="click: toggleVoucherPanel">(@ViewRes.AddVoucher)</a>
+                                @*<a href="javascript:void(0)" id="toggleVoucherLnk" data-bind="click: toggleVoucherPanel">(@ViewRes.AddVoucher)</a>*@
                                 <div id="voucherDiv" data-bind="visible: showVoucher()">
                                     <p>
                                         @ViewRes.Voucher:<br />
@@ -206,14 +206,6 @@
                                 <div id="mapsDiv">
                                     <div id="map-canvas" style="width: 457px; height: 500px; border: 1px solid #d9d9d9; border-radius: 10px;"></div>
                                 </div>
-                            </div>
-                        </div>
-                        <div id="sendAnimationFun" data-bind="visible: showAnimation()">
-                            <div id="stampDiv" style="position: relative; z-index: 100">
-                                <img src="/Content/images/stamp.png" width="100" />
-                            </div>
-                            <div style="position: relative; top: 200px; z-index: 5">
-                                <img src="/Content/images/letter.png" width="100" />
                             </div>
                         </div>
                     </div>

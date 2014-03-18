@@ -681,7 +681,34 @@ namespace LetterAmazer.Websites.Client.Controllers
 
         #endregion
 
+        #region "Api keys"
+
+        public ActionResult ApiKeys()
+        {
+            var organisation = SessionHelper.Customer.Organisation;
+            var model = buildApiKeysViewModel(organisation);
+            return View(model);
+        }
+
+        #endregion
+
         #region Private helpers
+
+        private ApiKeysViewModel buildApiKeysViewModel(Organisation organisation)
+        {
+            ApiKeysViewModel model = new ApiKeysViewModel();
+
+            foreach (var apiKeyse in organisation.ApiKeys)
+            {
+                model.ApiKeys.Add(new ApiKeyViewModel()
+                {
+                    ApiKey = apiKeyse.ApiKey,
+                    ApiSecret =apiKeyse.ApiSecret
+                });
+            }
+
+            return model;
+        }
 
         private OrderDetailViewModel getOrderDetailViewModel(Order order)
         {

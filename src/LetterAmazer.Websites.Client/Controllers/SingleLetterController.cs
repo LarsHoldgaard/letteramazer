@@ -129,35 +129,42 @@ namespace LetterAmazer.Websites.Client.Controllers
             return RedirectToActionWithError("Index", model);
         }
 
-        private decimal addCouponlines(Price price, Coupon coupon, Order order)
+        private Price addCouponlines(Price price, Coupon coupon, Order order)
         {
-            decimal rest = price.Total;
-            if (coupon != null)
-            {
-                decimal chargeCoupon = 0.0m;
-                if (rest > coupon.CouponValueLeft)
-                {
-                    chargeCoupon = coupon.CouponValueLeft;
-                }
-                else
-                {
-                    chargeCoupon = rest;
-                }
+            return price;
+            //Price rest = new Price();
+            //rest.VatPercentage = price.VatPercentage;
+            //rest.PriceExVat = price.PriceExVat;
 
-                order.OrderLines.Add(new OrderLine()
-                {
-                    ProductType = ProductType.Payment,
-                    PaymentMethodId = 3, // coupon                        
-                    CouponId = coupon.Id,
-                    Price = new Price()
-                    {
-                        PriceExVat = chargeCoupon
-                    }
-                });
+            //if (coupon != null)
+            //{
+            //    decimal chargeCoupon = 0.0m;
 
-                rest -= coupon.CouponValueLeft;
-            }
-            return rest;
+            //    // if the price is higher than what is left on the coupon, the
+            //    if (rest.Total > coupon.CouponValueLeft)
+            //    {
+            //        chargeCoupon = coupon.CouponValueLeft;
+            //    }
+            //    else
+            //    {
+            //        chargeCoupon = rest.Total;
+            //    }
+
+            //    order.OrderLines.Add(new OrderLine()
+            //    {
+            //        ProductType = ProductType.Payment,
+            //        PaymentMethodId = 3, // coupon                        
+            //        CouponId = coupon.Id,
+            //        Price = new Price()
+            //        {
+            //            PriceExVat = chargeCoupon,
+            //            VatPercentage = price.VatPercentage
+            //        }
+            //    });
+
+            //    rest.Total -= coupon.CouponValueLeft;
+            //}
+            //return rest;
         }
 
         [HttpPost]
@@ -220,7 +227,31 @@ namespace LetterAmazer.Websites.Client.Controllers
                     PdfHelper.ConvertToPdf(filepath, convertedText);
                 }
 
-                var price = priceService.GetPriceByLetter(letter);
+                var priceSpec = new PriceSpecification()
+                {
+                    CountryId = letter.ToAddress.Country.Id,
+                    LetterColor = LetterColor.Color,
+                    LetterProcessing = LetterProcessing.Dull,
+                    LetterPaperWeight = LetterPaperWeight.Eight,
+                };
+
+                if (SessionHelper.Customer != null)
+                {
+                    priceSpec.OfficeId =
+                        SessionHelper.Customer.Organisation.RequiredOfficeId.HasValue
+                            ? SessionHelper.Customer.Organisation.RequiredOfficeId.Value
+                            : 0;
+                }
+
+                var selectedOfficeProductId = priceService.GetPriceBySpecification(priceSpec).OfficeProductId;
+                
+                var price = priceService.GetPriceBySpecification(new PriceSpecification()
+                {
+                    CountryId = letter.ToAddress.Country.Id,
+                    PageCount = letter.LetterContent.PageCount,
+                    OfficeProductId = selectedOfficeProductId
+                });
+
 
                 bool isValidCredits = false;
                 decimal credits = 0;
@@ -476,7 +507,8 @@ namespace LetterAmazer.Websites.Client.Controllers
                 ProductType = ProductType.Letter,
                 Price = new Price()
                 {
-                    PriceExVat = price.Total
+                    PriceExVat = price.PriceExVat,
+                    VatPercentage = price.VatPercentage
                 }
             });
 
@@ -484,7 +516,7 @@ namespace LetterAmazer.Websites.Client.Controllers
 
             var rest = addCouponlines(price, coupon, order);
 
-            if (rest > 0)
+            if (rest.Total > 0)
             {
                 order.OrderLines.Add(new OrderLine()
                 {
@@ -492,7 +524,8 @@ namespace LetterAmazer.Websites.Client.Controllers
                     PaymentMethodId =model.PaymentMethodId,
                     Price = new Price()
                     {
-                        PriceExVat = rest
+                        PriceExVat = rest.PriceExVat,
+                        VatPercentage = price.VatPercentage
                     }
                 });
             }

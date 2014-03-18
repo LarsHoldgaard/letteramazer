@@ -218,6 +218,7 @@
     <Compile Include="ViewModels\DashboardViewModel.cs" />
     <Compile Include="ViewModels\RegisterViewModel.cs" />
     <Compile Include="ViewModels\Shared\Utils\ControllerHelpers.cs" />
+    <Compile Include="ViewModels\User\ApiKeysViewModel.cs" />
     <Compile Include="ViewModels\User\CreateOrganisationViewModel.cs" />
     <Compile Include="ViewModels\User\EditContactsViewModel.cs" />
     <Compile Include="ViewModels\User\EditOrganisationSettingsViewModel.cs" />
@@ -662,6 +663,7 @@
     <Content Include="Views\User\EditSingleContact.cshtml" />
     <Content Include="Views\User\SendWindowedLetter.cshtml" />
     <Content Include="Views\Shared\_invoiceOverview.cshtml" />
+    <Content Include="Views\User\ApiKeys.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
