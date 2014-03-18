@@ -1,51 +1,345 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web;
+using LetterAmazer.Business.Services.Domain.AddressInfos;
+using LetterAmazer.Business.Services.Domain.Countries;
+using LetterAmazer.Business.Services.Domain.Customers;
+using LetterAmazer.Business.Services.Domain.DeliveryJobs;
+using LetterAmazer.Business.Services.Domain.Mails;
+using LetterAmazer.Business.Services.Domain.Offices;
+using LetterAmazer.Business.Services.Domain.Organisation;
+using LetterAmazer.Business.Services.Domain.PriceUpdater;
+using LetterAmazer.Business.Services.Domain.Pricing;
+using LetterAmazer.Business.Services.Domain.Products.ProductDetails;
+using LetterAmazer.Business.Utils.Helpers;
+using LetterAmazer.Websites.Client.Attributes;
+using LetterAmazer.Websites.Client.ViewModels;
+using System;
 using System.Web.Mvc;
+using LetterAmazer.Websites.Client.Extensions;
+using LetterAmazer.Websites.Client.ViewModels.Shared.Utils;
+using log4net;
+using System.Web.Security;
 
 namespace LetterAmazer.Websites.Client.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
-        //
-        // GET: /Home/
+
+        private static readonly ILog logger = LogManager.GetLogger(typeof(HomeController));
+
+        private ICountryService countryService;
+        private ICustomerService customerService;
+        private IOfficeService officeService;
+        private IMailService mailService;
+        private IPriceService priceService;
+        private IOrganisationService organisationService;
+        private IPriceUpdater priceUpdater;
+        private IDeliveryJobService deliveryJobService;
+        public HomeController(ICustomerService customerService,IOfficeService officeService,IPriceUpdater priceUpdater,
+            IMailService mailService, ICountryService countryService, IPriceService priceService, IOrganisationService organisationService,
+            IDeliveryJobService deliveryJobService)
+        {
+            this.customerService = customerService;
+            this.officeService = officeService;
+            this.countryService = countryService;
+            this.mailService = mailService;
+            this.priceService = priceService;
+            this.organisationService = organisationService;
+            this.priceUpdater = priceUpdater;
+            this.deliveryJobService = deliveryJobService;
+        }
 
         public ActionResult Index()
         {
-            if (!(Request.Url.AbsolutePath.Contains("/en") || Request.Url.AbsolutePath.Contains("/da")))
-            {
-                Response.Redirect("~/en");
-            }
+            logger.Info("HomeController -> Index");
             return View();
         }
 
         public ActionResult Faq()
         {
+            
+            priceUpdater.Execute();
+            deliveryJobService.Execute();
             return View();
         }
+
         public ActionResult Business()
         {
             return View();
         }
-        public ActionResult Api()
+
+        public ActionResult ApiInfo()
         {
             return View();
         }
+
         public ActionResult About()
         {
             return View();
         }
+
         public ActionResult Contact()
         {
             return View();
         }
+
         public ActionResult Pricing()
+        {
+            var countries = countryService.GetCountryBySpecificaiton(new CountrySpecification()
+            {
+                Take = 999
+            });
+
+            PriceViewModel prices = new PriceViewModel();
+            foreach (var country in countries)
+            {
+                var selectedItem = new SelectListItem()
+                {
+                    Text = country.Name,
+                    Value = country.Id.ToString(),
+                };
+
+                if (country.Id == 59)
+                {
+                    selectedItem.Selected = true;
+                }
+
+                prices.Countries.Add(selectedItem);
+            }
+
+            prices.SelectedLetterSizes = ControllerHelpers.GetEnumSelectList<LetterSize>().ToList();
+
+            return View(prices);
+        }
+
+        [HttpGet]
+        public decimal GetPrice(int countryId, int lettersize, int pages)
+        {
+            var letterSize = (LetterSize) lettersize;
+            var pricing = priceService.GetPriceBySpecification(new PriceSpecification()
+            {
+                CountryId = countryId,
+                PageCount = pages,
+                LetterSize = letterSize
+            });
+
+            return pricing.PriceExVat;
+        }
+
+        [HttpGet, AutoErrorRecovery]
+        public ActionResult Login()
+        {
+            LoginViewModel model = new LoginViewModel();
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult Login(LoginViewModel model)
+        {
+            try
+            {
+                var customer = customerService.LoginUser(model.Email, model.Password);
+
+                SessionHelper.Customer = customer;
+                FormsAuthentication.SetAuthCookie(customer.Id.ToString(), model.Remember ?? false);
+
+                if (!string.IsNullOrEmpty(model.ReturnUrl))
+                {
+                    return Redirect(model.ReturnUrl);
+                }
+                
+                return RedirectToAction("Index", "User");
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex);
+                ModelState.AddBusinessError(LetterAmazer.Websites.Client.Resources.Views.Shared.ViewRes.EmailOrPasswordInvalid);
+            }
+
+            FormsAuthentication.SignOut();
+            return RedirectToActionWithError("Login", model);
+        }
+
+        [HttpGet, AutoErrorRecovery]
+        public ActionResult Logout()
+        {
+            SessionHelper.Customer = null;
+            FormsAuthentication.SignOut();
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet, AutoErrorRecovery]
+        public ActionResult Register()
+        {
+            RegisterViewModel model = new RegisterViewModel();
+
+            var countries = countryService.GetCountryBySpecificaiton(new CountrySpecification()
+            {
+                Take = 999
+            });
+
+            foreach (var country in countries)
+            {
+                var selectedItem = new SelectListItem()
+                {
+                    Text = country.Name,
+                    Value = country.Id.ToString()
+                };
+
+                if (country.Id == 59)
+                {
+                    selectedItem.Selected = true;
+                }
+
+                model.Countries.Add(selectedItem);
+            }
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult Register(RegisterViewModel model)
+        {
+            try
+            {
+                Customer customer = new Customer();
+                
+                customer.Email = model.Email;
+                customer.Password = model.Password;
+                customer.CustomerInfo = new AddressInfo();
+                customer.CustomerInfo.Country = countryService.GetCountryById(int.Parse(model.SelectedCountry));
+
+                var cust = customerService.Create(customer);
+
+                SessionHelper.Customer = cust;
+                FormsAuthentication.SetAuthCookie(cust.Id.ToString(), false);
+
+                if (cust.Organisation != null && cust.Organisation.Id > 0 && !cust.Organisation.IsPrivate)
+                {
+                    return RedirectToAction("EditOrganisation", "User");
+                }
+                else
+                {
+                    if (cust.Organisation != null && cust.Organisation.Id > 0)
+                    {
+                        cust.Organisation = null;
+                        customerService.Update(cust);
+                        this.organisationService.Delete(cust.Organisation);
+                    }
+
+                    return RedirectToAction("CreateOrganisation", "User");
+                }
+
+                
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex);
+                ModelState.AddBusinessError(ex.Message);
+            }
+
+            return RedirectToActionWithError("Register", model);
+        }
+
+
+        [HttpGet, AutoErrorRecovery]
+        public ActionResult ForgotPassword()
+        {
+            LoginViewModel model = new LoginViewModel();
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult ForgotPassword(LoginViewModel model)
+        {
+            try
+            {
+                customerService.RecoverPassword(model.Email);
+
+                return RedirectToAction("ForgotPasswordSuccess");
+            }
+            catch (Exception)
+            {
+                ModelState.AddBusinessError(LetterAmazer.Websites.Client.Resources.Views.Shared.ViewRes.EmailInvalid);
+            }
+
+            return RedirectToActionWithError("ForgotPassword", model);
+        }
+
+        public ActionResult ForgotPasswordSuccess()
         {
             return View();
         }
 
+        [HttpGet, AutoErrorRecovery]
+        public ActionResult RecoverPassword(string key)
+        {
+            try
+            {
+                Customer customer = customerService.GetCustomerBySpecification(new CustomerSpecification()
+                {
+                    ResetPasswordKey = key
+                }).FirstOrDefault();
+
+                return View(new RegisterViewModel() { ResetPasswordKey = key });
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex);
+            }
+
+            return new HttpStatusCodeResult(404);
+        }
+
+        [HttpPost]
+        public ActionResult RecoverPassword(RegisterViewModel model)
+        {
+            try
+            {
+
+                Customer customer = customerService.GetCustomerBySpecification(new CustomerSpecification()
+                {
+                    ResetPasswordKey = model.ResetPasswordKey
+                }).FirstOrDefault();
+
+                customer.Password = SHA1PasswordEncryptor.Encrypt(model.Password);
 
 
+                customerService.Update(customer);
+
+                return RedirectToAction("Login");
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex);
+            }
+
+            return RedirectToActionWithError("RecoverPassword", model);
+        }
+
+        [HttpGet, AutoErrorRecovery]
+        public ActionResult Confirm(string key)
+        {
+            try
+            {
+                Customer customer = customerService.GetCustomerBySpecification(new CustomerSpecification()
+                {
+                    RegistrationKey = key
+                }).FirstOrDefault();
+
+                customerService.ActivateUser(customer);
+
+                SessionHelper.Customer = customer;
+                FormsAuthentication.SetAuthCookie(customer.Id.ToString(), true);
+
+                return RedirectToAction("Index", "User");
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex);
+            }
+
+            return new HttpStatusCodeResult(404);
+        }
     }
 }

@@ -1,0 +1,269 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AboutUs" xml:space="preserve">
+    <value>About us</value>
+  </data>
+  <data name="AboutUsContent" xml:space="preserve">
+    <value>&lt;p&gt;We decided to start LetterAmazer to make letters easy. Our overall vision is to be &lt;b&gt;friendly&lt;/b&gt;. When you use our service or call us, you should feel &lt;b&gt;welcome!&lt;/b&gt;&lt;/p&gt;
+
+            &lt;p&gt;We've made it extremely simple to send a single letter, with no extra charges just because you don't want to register a new account. For businesses it is extremely simple to use, with many ways of integrating to our service.&lt;/p&gt;
+
+            &lt;p&gt;We are two guys from Denmark. Lars Holdgaard is the tech-wizard and works as a UX/conversion specialist at SAXO.com. Martin Carlsson is the optimization-and-analyst genius, and works as an accountant / data analyst at Rezidor Hotel Group. &lt;/p&gt;
+
+            &lt;h3&gt;How do we send the letters you might ask?&lt;/h3&gt;
+            &lt;p&gt;We've hired a global team of goblins working 24 hours a day. No, seriously, we use several sub-contractors around the globe, which does all the hard work. (And we work hard to make sure they deliver the quality you guys need).&lt;/p&gt;
+
+            &lt;p&gt;Enough talk! Mail us if you have any questions, or send a letter now!&lt;/p&gt;</value>
+  </data>
+  <data name="AddVoucher" xml:space="preserve">
+    <value>add voucher</value>
+  </data>
+  <data name="Api" xml:space="preserve">
+    <value>Api</value>
+  </data>
+  <data name="ApiContent" xml:space="preserve">
+    <value>&lt;p&gt;We are currently developing an API, so our system can be integrated into any software application or website. That means if you need automated physical letters, we are there to provide it.&lt;/p&gt;
+
+            &lt;p&gt;We promise it will be an extremely simple REST API, and we expect it to be up in December 2013 or January 2014.&lt;/p&gt;
+
+            &lt;p&gt;Frankly, we hate FAQ's, where business owners invent their own questions and answer them by a sales speech. However, we will try to answer some of the obvious questions, we've met when we discuss our business with others.&lt;/p&gt;
+
+            &lt;h3&gt;Can I integrate it into my intranet / portal / website?&lt;/h3&gt;
+            &lt;p&gt;Yes, that's the idea!&lt;/p&gt;
+
+            &lt;p&gt;Unfortunately, it will require some IT-guys to make it work. It probably won't take too long, as we've made it as simple as possible for you to integrate.&lt;/p&gt;
+
+            &lt;h3&gt;Can you help with our integration?&lt;/h3&gt;
+            &lt;p&gt;Yes, and yes. Why yes, twice? &lt;/p&gt;
+
+            &lt;p&gt;First of all, we will of course the help IT-guys. If they have questions or problems, we help... For free. Unlike those 150 USD pr. hour bastards ;-)&lt;/p&gt;
+
+            &lt;p&gt;If you don't have the IT resources inside your company, it gets more complex. We will help make the integration, depending on the system. Please make contact and we will figure something out.&lt;/p&gt;</value>
+  </data>
+  <data name="ApiHint" xml:space="preserve">
+    <value>API to send physical letters automatically</value>
+  </data>
+  <data name="Business" xml:space="preserve">
+    <value>Business</value>
+  </data>
+  <data name="BusinessContent" xml:space="preserve">
+    <value>&lt;p&gt;No employee loves the tiresome process of sending those physical letters. Let's make everyone's lives easier, and let us send them for you. Heck, it's probably even cheaper (and much cheaper if you count in the hourly wage).&lt;/p&gt;
+
+            &lt;p&gt;As a business, you can either use our easy "send a letter" form, and then pay every time you need send a letter, &lt;b&gt;or&lt;/b&gt; you can create an account. If you create an account, you can add credits, and then get a friendly e-mail when your credits are running out.&lt;/p&gt;
+
+            &lt;p&gt;If you create an account and add credits, things get even more easy. You can:&lt;/p&gt;
+            - Send letters by going to our website, upload the file and click "send"&lt;br /&gt;
+            - (Coming soon) Instead of visiting our website, you can just send us an e-mail with a PDF attachment. Then we will automatically print the letter and send it
+
+            &lt;p&gt;For the IT-guys, we can even make a more automated solution:&lt;/p&gt;
+            - (Coming soon) REST API which can be integrated into any system&lt;br /&gt;
+            - (Coming soon) Upload files to our web-server using FTP
+
+            &lt;p&gt;BUT. Currently we are in beta. That means most of our features are being developed while you are reading this message. Get a message when we are ready by signing up here:&lt;/p&gt;</value>
+  </data>
+  <data name="BusinessHint" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ConfirmPassword" xml:space="preserve">
+    <value>ConfirmPassword</value>
+  </data>
+  <data name="ContactUs" xml:space="preserve">
+    <value>Contact us</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="Faq" xml:space="preserve">
+    <value>FAQ</value>
+  </data>
+  <data name="FirstName" xml:space="preserve">
+    <value>First name</value>
+  </data>
+  <data name="ForgotPassword" xml:space="preserve">
+    <value>Forgot your password?</value>
+  </data>
+  <data name="GetUpdates" xml:space="preserve">
+    <value>Get updates</value>
+  </data>
+  <data name="Home" xml:space="preserve">
+    <value>Home</value>
+  </data>
+  <data name="LastName" xml:space="preserve">
+    <value>Last name</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="LoginHint" xml:space="preserve">
+    <value>Super fast, and absolutely free to get going</value>
+  </data>
+  <data name="Organization" xml:space="preserve">
+    <value>Organization</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="PleaseCheckEmailAndStartToRecoverPassword" xml:space="preserve">
+    <value>&lt;p class="frontpageLead"&gt;Fantastic!&lt;br/&gt;Please click on url in your email and start to recover password.&lt;/p&gt;</value>
+  </data>
+  <data name="Pricing" xml:space="preserve">
+    <value>Pricing</value>
+  </data>
+  <data name="PricingContent" xml:space="preserve">
+    <value>&lt;p&gt;So, when we started LetterAmazer, we found out sending letters isn't free. But! We have done anything in our power to find the cheapest prices, so you can send letters world-wide cheaply.&lt;/p&gt;
+
+            &lt;p&gt;
+                Our price structure is really simple:&lt;br /&gt;
+                &lt;b&gt;1.75 USD pr. letter (world wide)&lt;/b&gt;
+            &lt;/p&gt;
+
+            &lt;p&gt;
+                If you need to send additional pages:&lt;br /&gt;
+                1 page: 1.75 USD&lt;br /&gt;
+                2 pages: 1.95 USD&lt;br /&gt;
+                3 pages: 2.15 USD&lt;br /&gt;
+                4 pages: 2.35 USD&lt;br /&gt;
+                ...
+            &lt;/p&gt;
+
+            &lt;h3&gt;Why no country specific prices?&lt;/h3&gt;
+            &lt;p&gt;Unfortunately EVERY other company sending letters, gives you unique prices for each country. We got so tired of that complex price structure.&lt;/p&gt;
+
+            &lt;p&gt;One price, all countries. No more rubbish.&lt;/p&gt;
+
+            &lt;p&gt;Send some letters now! :-)&lt;/p&gt;</value>
+  </data>
+  <data name="PricingHint" xml:space="preserve">
+    <value>Prices to send physical letters around the globe</value>
+  </data>
+  <data name="PricingHomepageContent" xml:space="preserve">
+    <value>&lt;p&gt;We have providers in all regions of the world, which means we get the cheapest prices.&lt;/p&gt;
+            &lt;p&gt;We constantly try to push the prices down, so we have the most competitive prices on the market.&lt;/p&gt;</value>
+  </data>
+  <data name="RegisterSuccessContent" xml:space="preserve">
+    <value>&lt;p class="frontpageLead"&gt;Fantastic!&lt;br/&gt;Your account is registered.&lt;/p&gt;           </value>
+  </data>
+  <data name="Subscribe" xml:space="preserve">
+    <value>Subscribe</value>
+  </data>
+  <data name="ViewDetails" xml:space="preserve">
+    <value>View details</value>
+  </data>
+</root>

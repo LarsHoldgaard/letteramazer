@@ -1,25 +1,68 @@
-﻿@model dynamic
+﻿@using LetterAmazer.Websites.Client.Resources.Views.Home
+@model LetterAmazer.Websites.Client.ViewModels.PriceViewModel
 
-@{
-    ViewBag.Title = "title";
-    Layout = "~/Views/Shared/ContentPageLayout.cshtml";
-    ViewBag.PageTitle = "Pricing is awesome";
-}
+<h1>Prices to send physical letters around the globe</h1>
+<p>So, when we started LetterAmazer, we found out sending letters isn't free. But! We have done anything in our power to find the cheapest prices, so you can send letters world-wide cheaply.</p>
+<p>We have a wide range of subcontractors who help us deliver letters. Depending on your requirements, we provide the cheapest prices we have.</p>
 
- <p>We are currently developing an API, so our system can be integrated into any software application or website. That means if you need automated physical letters, we are there to provide it.</p>
+<div style="max-width:300px;">
+    <h3>Calculate price</h3>
 
-<p>We promise it will be an extremely simple REST API, and we expect it to be up in December 2013 or January 2014.</p>
+    <b>Select country</b><br />
+    @Html.DropDownListFor(model => model.SelectedItem, Model.Countries, new { @class = "form-control" })
+    <br /><b>Select country</b><br />
+    @Html.DropDownListFor(model => model.SelectedLetterSize, Model.SelectedLetterSizes, new { @class = "form-control" })
+    <br /><b>How many pages?</b><br />
+    <input type="number" id="getPricePageCount" value="1" class="form-control" />
+    <br />
+    <input type="button" id="getPriceBtn" value="Get price" class="btn btn-primary btn-lg" />
+    <br /><br />
 
-<p>Frankly, we hate FAQ's, where business owners invent their own questions and answer them by a sales speech. However, we will try to answer some of the obvious questions, we've met when we discuss our business with others.</p>
+    The price for this delivery is 
+    <label id="getPriceLbl"></label> .
+</div>
 
-<h3>Can I integrate it into my intranet / portal / website?</h3>
-<p>Yes, that's the idea!</p>
 
-<p>Unfortunately, it will require some IT-guys to make it work. It probably won't take too long, as we've made it as simple as possible for you to integrate.</p>
+<script>
+    $(document).ready(function () {
+        updatePrice();
 
-<h3>Can you help with our integration?</h3>
-<p>Yes, and yes. Why yes, twice? </p>
+        $('#getPriceBtn').click(function () {
+            updatePrice();
+        });
 
-<p>First of all, we will of course the help IT-guys. If they have questions or problems, we help... For free. Unlike those 150 USD pr. hour bastards ;-)</p>
+        $('#getPricePageCount').change(function () {
+            updatePrice();
+        });
 
-<p>If you don't have the IT resources inside your company, it gets more complex. We will help make the integration, depending on the system. Please make contact and we will figure something out.</p>
+        $('#SelectedItem').change(function () {
+            updatePrice();
+        });
+
+        $('#SelectedLetterSize').change(function () {
+            updatePrice();
+        });
+
+
+    });
+
+    function updatePrice() {
+        var countryId = $('#SelectedItem').val();
+        var letterSize = $('#SelectedLetterSize').val();
+        var pageCount = $('#getPricePageCount').val();
+
+        var url = '/GetPrice?countryId=' + countryId + '&lettersize=' +letterSize+  '&pages=' + pageCount;
+        $.ajax({
+            type: "GET",
+            url: url,
+            datatype: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                $('#getPriceLbl').text(parseFloat(data).toFixed(2) + ' $ (ex. local VAT)');
+            },
+            error: function () {
+                $('#getPriceLbl').text('No prices for this delivery');
+            }
+        });
+    }
+</script>

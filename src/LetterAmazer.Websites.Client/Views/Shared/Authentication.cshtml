@@ -1,0 +1,98 @@
+﻿@using LetterAmazer.Business.Utils.Helpers
+@using LetterAmazer.Websites.Client.Resources.Views.Shared
+
+@if (SessionHelper.Customer == null)
+{
+    <ul class="nav navbar-nav navbar-right">
+        <li><a href="@Url.Action("Login", "Home")">@ViewRes.Login</a></li>
+        <li><a href="#" style="padding-left:0px;padding-right:0px;">|</a></li>
+        <li><a href="@Url.Action("Register", "Home")">@ViewRes.Register</a></li>
+    </ul>
+}
+else
+{
+    <div class="visible-xs">
+        <ul class="nav navbar-nav navbar-right">
+            <li><a href="@Url.Action("Index", "User")">Dashboard</a></li>
+            <li><a href="@Url.Action("SendALetter", "User")">Send a letter</a></li>
+
+
+            <li>@Html.ActionLink("Invoices", "InvoiceOverview", "User")</li>
+
+            @if (SessionHelper.Customer.Organisation != null && !SessionHelper.Customer.Organisation.IsPrivate)
+            {
+                <li>@Html.ActionLink("Edit organisation", "EditOrganisation", "User")</li>
+            }
+            else
+            {
+                <li>@Html.ActionLink("Create organisation", "CreateOrganisation", "User")</li>
+            }
+
+            <li>@Html.ActionLink("Settings", "EditOrganisationSettings", "User")</li>
+
+
+            @if (SessionHelper.Customer.HasOrganisation)
+            {
+                <li>@Html.ActionLink("Address book", "EditContacts", "User")</li>
+            }
+
+
+
+
+            <li>@Html.ActionLink("Settings", "EditOrganisationSettings", "User")</li>
+
+            <li><a href="@Url.Action("Logout", "Home")">@ViewRes.Logout</a></li>
+        </ul>
+    </div>
+    <div class="hidden-xs">
+        <div class="nav navbar-nav navbar-right dropdown">
+            <label id="dLabel" role="button" data-toggle="dropdown" data-target="#" style="cursor: pointer;">
+                Profile <span class="caret"></span>
+            </label>
+
+
+            <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                <li>
+                    <a href="@Url.Action("Index", "User")">Dashboard</a>
+
+                </li>
+                <li><a href="@Url.Action("SendALetter", "User")">Send a letter</a></li>
+                <li>
+                    @Html.ActionLink("Invoices", "InvoiceOverview", "User")
+
+                </li>
+
+                @if (SessionHelper.Customer.HasOrganisation)
+                {
+                    <li> @Html.ActionLink("Edit organisation", "EditOrganisation", "User")</li>
+                }
+                else
+                {
+                    <li>@Html.ActionLink("Create organisation", "CreateOrganisation", "User")</li>
+                }
+
+                @if (SessionHelper.Customer.HasOrganisation)
+                {
+                    <li>@Html.ActionLink("Address book", "EditContacts", "User")</li>
+                }
+
+
+                <li>@Html.ActionLink("Settings", "EditOrganisationSettings", "User")</li>
+                <li role="presentation" class="divider"></li>
+                <li><a href="@Url.Action("Logout", "Home")">@ViewRes.Logout</a></li>
+
+            </ul>
+
+        </div>
+    </div>
+    <script>
+        $('.dropdown-toggle').dropdown()
+    </script>
+
+
+}
+
+
+<script>
+    $('.dropdown-toggle').dropdown()
+</script>

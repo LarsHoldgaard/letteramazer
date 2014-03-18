@@ -1,0 +1,1872 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="LetterAmazer.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="DbApiAccess">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OrganisationId" Type="int" Nullable="false" />
+          <Property Name="ApiKey" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="ApiSecret" Type="varchar" MaxLength="500" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DbContinents">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DbCountries">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CountryName" Type="varchar" MaxLength="250" />
+          <Property Name="CurrencyCode" Type="varchar" MaxLength="50" />
+          <Property Name="FipsCode" Type="varchar" MaxLength="50" />
+          <Property Name="CountryCode" Type="varchar" MaxLength="50" />
+          <Property Name="IsoNumeric" Type="varchar" MaxLength="50" />
+          <Property Name="North" Type="float" />
+          <Property Name="Capital" Type="varchar" MaxLength="250" />
+          <Property Name="ContinentName" Type="varchar" MaxLength="250" />
+          <Property Name="AreaInSqKm" Type="varchar" MaxLength="50" />
+          <Property Name="Languages" Type="varchar" MaxLength="250" />
+          <Property Name="IsoAlpha3" Type="varchar" MaxLength="50" />
+          <Property Name="Continent" Type="varchar" MaxLength="250" />
+          <Property Name="South" Type="float" />
+          <Property Name="East" Type="float" />
+          <Property Name="GeonameId" Type="int" />
+          <Property Name="West" Type="float" />
+          <Property Name="Population" Type="varchar" MaxLength="250" />
+          <Property Name="InsideEu" Type="bit" />
+          <Property Name="ContinentId" Type="int" />
+          <Property Name="VatPercentage" Type="decimal" Precision="18" Scale="2" />
+        </EntityType>
+        <EntityType Name="DbCountryNames">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="CountryId" Type="int" Nullable="false" />
+          <Property Name="Language" Type="varchar" MaxLength="250" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DbCoupons">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CouponValue" Type="decimal" Precision="18" Scale="5" Nullable="false" />
+          <Property Name="DateGiven" Type="datetime" Nullable="false" />
+          <Property Name="EarlierCouponRef" Type="int" />
+          <Property Name="RefSource" Type="nvarchar" MaxLength="150" />
+          <Property Name="RefUserValue" Type="nvarchar" MaxLength="150" />
+          <Property Name="CouponExpire" Type="datetime" Nullable="false" />
+          <Property Name="Code" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="CouponValueLeft" Type="decimal" Precision="18" Scale="5" Nullable="false" />
+          <Property Name="CouponStatus" Type="int" Nullable="false" />
+          <Property Name="DateModified" Type="datetime" />
+        </EntityType>
+        <EntityType Name="DbCustomers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CustomerInfo_Address" Type="nvarchar" MaxLength="150" />
+          <Property Name="CustomerInfo_Address2" Type="nvarchar" MaxLength="150" />
+          <Property Name="CustomerInfo_AttPerson" Type="nvarchar" MaxLength="150" />
+          <Property Name="CustomerInfo_City" Type="nvarchar" MaxLength="150" />
+          <Property Name="CustomerInfo_Country" Type="int" />
+          <Property Name="CustomerInfo_FirstName" Type="nvarchar" MaxLength="150" />
+          <Property Name="CustomerInfo_LastName" Type="nvarchar" MaxLength="150" />
+          <Property Name="CustomerInfo_Zipcode" Type="nvarchar" MaxLength="150" />
+          <Property Name="CustomerInfo_VatNr" Type="nvarchar" MaxLength="159" />
+          <Property Name="Email" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="DateCreated" Type="datetime" Nullable="false" />
+          <Property Name="DateUpdated" Type="datetime" />
+          <Property Name="Credits" Type="decimal" Precision="18" Scale="5" />
+          <Property Name="CreditLimit" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="ResetPasswordKey" Type="nvarchar" MaxLength="50" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="100" />
+          <Property Name="CustomerInfo_State" Type="nvarchar" MaxLength="150" />
+          <Property Name="CustomerInfo_Co" Type="nvarchar" MaxLength="150" />
+          <Property Name="DateActivated" Type="datetime" />
+          <Property Name="RegistrationKey" Type="varchar" MaxLength="250" />
+          <Property Name="OrganisationId" Type="int" />
+          <Property Name="OrganisationRole" Type="int" />
+          <Property Name="AccountStatus" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DbFulfillmentPartners">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="ShopId" Type="int" Nullable="false" />
+          <Property Name="PartnerJob" Type="int" Nullable="false" />
+          <Property Name="CronInterval" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DbInvoiceLines">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="InvoiceId" Type="int" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="Quantity" Type="int" Nullable="false" />
+          <Property Name="PriceExVat" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DbInvoices">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Guid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="OrderId" Type="int" Nullable="false" />
+          <Property Name="DateCreated" Type="datetime" Nullable="false" />
+          <Property Name="DateDue" Type="datetime" Nullable="false" />
+          <Property Name="InvoiceStatus" Type="int" Nullable="false" />
+          <Property Name="InvoiceNumber" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="OrganisationId" Type="int" Nullable="false" />
+          <Property Name="PriceExVat" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="PriceVatPercentage" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="PriceTotal" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Receiver_Organisation" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="Receiver_AttPerson" Type="varchar" MaxLength="250" />
+          <Property Name="Receiver_Address1" Type="varchar" MaxLength="250" />
+          <Property Name="Receiver_Address2" Type="varchar" MaxLength="250" />
+          <Property Name="Receiver_City" Type="varchar" MaxLength="250" />
+          <Property Name="Receiver_Zipcode" Type="varchar" MaxLength="250" />
+          <Property Name="Receiver_State" Type="varchar" MaxLength="250" />
+          <Property Name="Receiver_CountryId" Type="int" Nullable="false" />
+          <Property Name="Invoice_Organisation" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="Invoice_AttPerson" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="Invoice_Address1" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="Invoice_Address2" Type="varchar" MaxLength="250" />
+          <Property Name="Invoice_City" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="Invoice_Zipcode" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="Invoice_State" Type="varchar" MaxLength="250" />
+          <Property Name="Invoice_CountryId" Type="int" Nullable="false" />
+          <Property Name="Invoice_Vatnumber" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="Receiver_Vatnumber" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="PriceVat" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="InvoicePaymentMessage" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DbLetters">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CustomerId" Type="int" />
+          <Property Name="FromAddress_Address" Type="nvarchar" MaxLength="150" />
+          <Property Name="FromAddress_Address2" Type="nvarchar" MaxLength="150" />
+          <Property Name="FromAddress_AttPerson" Type="nvarchar" MaxLength="150" />
+          <Property Name="FromAddress_City" Type="nvarchar" MaxLength="150" />
+          <Property Name="FromAddress_CompanyName" Type="nvarchar" MaxLength="150" />
+          <Property Name="FromAddress_Country" Type="int" />
+          <Property Name="FromAddress_FirstName" Type="nvarchar" MaxLength="150" />
+          <Property Name="FromAddress_LastName" Type="nvarchar" MaxLength="150" />
+          <Property Name="FromAddress_Zipcode" Type="nvarchar" MaxLength="150" />
+          <Property Name="FromAddress_VatNr" Type="nvarchar" MaxLength="159" />
+          <Property Name="ToAddress_Address" Type="nvarchar" MaxLength="150" />
+          <Property Name="ToAddress_Address2" Type="nvarchar" MaxLength="150" />
+          <Property Name="ToAddress_AttPerson" Type="nvarchar" MaxLength="150" />
+          <Property Name="ToAddress_City" Type="nvarchar" MaxLength="150" />
+          <Property Name="ToAddress_CompanyName" Type="nvarchar" MaxLength="150" />
+          <Property Name="ToAddress_Country" Type="int" Nullable="false" />
+          <Property Name="ToAddress_FirstName" Type="nvarchar" MaxLength="150" />
+          <Property Name="ToAddress_LastName" Type="nvarchar" MaxLength="150" />
+          <Property Name="ToAddress_Zipcode" Type="nvarchar" MaxLength="150" />
+          <Property Name="ToAddress_VatNr" Type="nvarchar" MaxLength="159" />
+          <Property Name="LetterContent_Path" Type="nvarchar" MaxLength="250" />
+          <Property Name="LetterContent_WrittenContent" Type="nvarchar" MaxLength="4000" />
+          <Property Name="LetterContent_Content" Type="varbinary(max)" />
+          <Property Name="LetterStatus" Type="int" Nullable="false" />
+          <Property Name="ToAddress_State" Type="nvarchar" MaxLength="150" />
+          <Property Name="ToAddress_Co" Type="nvarchar" MaxLength="150" />
+          <Property Name="FromAddress_State" Type="nvarchar" MaxLength="150" />
+          <Property Name="FromAddress_Co" Type="nvarchar" MaxLength="150" />
+          <Property Name="OrderId" Type="int" Nullable="false" />
+          <Property Name="LetterColor" Type="int" Nullable="false" />
+          <Property Name="LetterPaperWeight" Type="int" Nullable="false" />
+          <Property Name="LetterProcessing" Type="int" Nullable="false" />
+          <Property Name="LetterSize" Type="int" Nullable="false" />
+          <Property Name="LetterType" Type="int" Nullable="false" />
+          <Property Name="OfficeId" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'LetterAmazer.dbo.DbLog' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="DbLog">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Date" />
+            <PropertyRef Name="Thread" />
+            <PropertyRef Name="Level" />
+            <PropertyRef Name="Logger" />
+            <PropertyRef Name="Message" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Date" Type="datetime" Nullable="false" />
+          <Property Name="Thread" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Level" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Logger" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Message" Type="varchar" MaxLength="4000" Nullable="false" />
+          <Property Name="Exception" Type="varchar" MaxLength="2000" />
+        </EntityType>
+        <EntityType Name="DbOfficeProducts">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OfficeId" Type="int" Nullable="false" />
+          <Property Name="ScopeType" Type="int" Nullable="false" />
+          <Property Name="CountryId" Type="int" />
+          <Property Name="ContinentId" Type="int" />
+          <Property Name="ZipId" Type="int" />
+          <Property Name="ReferenceType" Type="int" Nullable="false" />
+          <Property Name="LetterColor" Type="int" Nullable="false" />
+          <Property Name="LetterPaperWeight" Type="int" Nullable="false" />
+          <Property Name="LetterProcessing" Type="int" Nullable="false" />
+          <Property Name="LetterSize" Type="int" Nullable="false" />
+          <Property Name="LetterType" Type="int" Nullable="false" />
+          <Property Name="OfficeProductReferenceId" Type="int" />
+        </EntityType>
+        <EntityType Name="DbOffices">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="CountryId" Type="int" Nullable="false" />
+          <Property Name="PartnerId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DbOrderlines">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OrderId" Type="int" />
+          <Property Name="LetterId" Type="int" />
+          <Property Name="ItemType" Type="int" Nullable="false" />
+          <Property Name="Quantity" Type="int" Nullable="false" />
+          <Property Name="PriceExVat" Type="decimal" Precision="18" Scale="5" Nullable="false" />
+          <Property Name="PaymentMethodId" Type="int" />
+          <Property Name="CouponId" Type="int" />
+          <Property Name="VatPercentage" Type="decimal" Precision="18" Scale="5" Nullable="false" />
+          <Property Name="Total" Type="decimal" Precision="18" Scale="5" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DbOrders">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OrderStatus" Type="int" Nullable="false" />
+          <Property Name="CustomerId" Type="int" />
+          <Property Name="DateCreated" Type="datetime" Nullable="false" />
+          <Property Name="DateUpdated" Type="datetime" Nullable="false" />
+          <Property Name="Guid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="OrderCode" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="TransactionCode" Type="nvarchar" MaxLength="20" />
+          <Property Name="PriceExVat" Type="decimal" Precision="18" Scale="5" Nullable="false" />
+          <Property Name="CouponCode" Type="nvarchar" MaxLength="20" />
+          <Property Name="PaymentMethod" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="DatePaid" Type="datetime" />
+          <Property Name="DateSent" Type="datetime" />
+          <Property Name="VatPercentage" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Total" Type="decimal" Precision="18" Scale="5" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DbOrganisation">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="DateCreated" Type="datetime" Nullable="false" />
+          <Property Name="DateModified" Type="datetime" />
+          <Property Name="DateDeleted" Type="datetime" />
+          <Property Name="CountryId" Type="int" />
+          <Property Name="Address1" Type="varchar" MaxLength="250" />
+          <Property Name="Zipcode" Type="varchar" MaxLength="250" />
+          <Property Name="City" Type="varchar" MaxLength="250" />
+          <Property Name="Address2" Type="varchar" MaxLength="250" />
+          <Property Name="AttPerson" Type="varchar" MaxLength="250" />
+          <Property Name="State" Type="varchar" MaxLength="250" />
+          <Property Name="Guid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="IsPrivate" Type="bit" Nullable="false" />
+          <Property Name="RequiredFulfillmentPartnerId" Type="int" />
+          <Property Name="RequiredOfficeId" Type="int" />
+        </EntityType>
+        <EntityType Name="DbOrganisationAddressList">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Address1" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="Address2" Type="varchar" MaxLength="250" />
+          <Property Name="State" Type="varchar" MaxLength="250" />
+          <Property Name="Zipcode" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="City" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="CountryId" Type="int" Nullable="false" />
+          <Property Name="OrganisationId" Type="int" Nullable="false" />
+          <Property Name="OrderIndex" Type="int" Nullable="false" />
+          <Property Name="OrganisationName" Type="varchar" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="DbOrganisationProfileSettings">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OrganisationId" Type="int" Nullable="false" />
+          <Property Name="LetterColor" Type="int" />
+          <Property Name="LetterProcessing" Type="int" />
+          <Property Name="LetterPaperWeight" Type="int" />
+          <Property Name="LetterType" Type="int" />
+          <Property Name="LetterSize" Type="int" />
+          <Property Name="PreferedCountryId" Type="int" />
+        </EntityType>
+        <EntityType Name="DbPaymentMethods">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="DateCreated" Type="datetime" Nullable="false" />
+          <Property Name="DateDeleted" Type="datetime" />
+          <Property Name="MinimumAmount" Type="int" Nullable="false" />
+          <Property Name="MaximumAmount" Type="int" Nullable="false" />
+          <Property Name="Price" Type="decimal" Precision="18" Scale="5" Nullable="false" />
+          <Property Name="SortOrder" Type="int" Nullable="false" />
+          <Property Name="IsVisible" Type="bit" Nullable="false" />
+          <Property Name="RequiresLogin" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DbProductMatrixLines">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="LineType" Type="int" Nullable="false" />
+          <Property Name="BaseCost" Type="decimal" Precision="18" Scale="5" Nullable="false" />
+          <Property Name="PriceType" Type="int" Nullable="false" />
+          <Property Name="Span_lower" Type="int" Nullable="false" />
+          <Property Name="Span_upper" Type="int" Nullable="false" />
+          <Property Name="OfficeProductId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DbShops">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="CountryId" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Customers_Countries">
+          <End Role="DbCountries" Type="Self.DbCountries" Multiplicity="0..1" />
+          <End Role="DbCustomers" Type="Self.DbCustomers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DbCountries">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DbCustomers">
+              <PropertyRef Name="CustomerInfo_Country" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DbApiAccess_DbApiAccess">
+          <End Role="DbOrganisation" Type="Self.DbOrganisation" Multiplicity="1" />
+          <End Role="DbApiAccess" Type="Self.DbApiAccess" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DbOrganisation">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DbApiAccess">
+              <PropertyRef Name="OrganisationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DbInvoiceLines_DbInvoices">
+          <End Role="DbInvoices" Type="Self.DbInvoices" Multiplicity="1" />
+          <End Role="DbInvoiceLines" Type="Self.DbInvoiceLines" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DbInvoices">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DbInvoiceLines">
+              <PropertyRef Name="InvoiceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DbInvoices_DbOrders">
+          <End Role="DbOrders" Type="Self.DbOrders" Multiplicity="1" />
+          <End Role="DbInvoices" Type="Self.DbInvoices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DbOrders">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DbInvoices">
+              <PropertyRef Name="OrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DbLetters_DbOrders">
+          <End Role="DbOrders" Type="Self.DbOrders" Multiplicity="1" />
+          <End Role="DbLetters" Type="Self.DbLetters" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DbOrders">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DbLetters">
+              <PropertyRef Name="OrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DbOrganisationAddressList_DbCountries">
+          <End Role="DbCountries" Type="Self.DbCountries" Multiplicity="1" />
+          <End Role="DbOrganisationAddressList" Type="Self.DbOrganisationAddressList" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DbCountries">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DbOrganisationAddressList">
+              <PropertyRef Name="CountryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DbOrganisationAddressList_DbOrganisation">
+          <End Role="DbOrganisation" Type="Self.DbOrganisation" Multiplicity="1" />
+          <End Role="DbOrganisationAddressList" Type="Self.DbOrganisationAddressList" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DbOrganisation">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DbOrganisationAddressList">
+              <PropertyRef Name="OrganisationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DbOrganisationProfileSettings_DbOrganisation">
+          <End Role="DbOrganisation" Type="Self.DbOrganisation" Multiplicity="1" />
+          <End Role="DbOrganisationProfileSettings" Type="Self.DbOrganisationProfileSettings" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DbOrganisation">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DbOrganisationProfileSettings">
+              <PropertyRef Name="OrganisationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DbProductMatrixLines_DbOfficeProducts">
+          <End Role="DbOfficeProducts" Type="Self.DbOfficeProducts" Multiplicity="1" />
+          <End Role="DbProductMatrixLines" Type="Self.DbProductMatrixLines" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DbOfficeProducts">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DbProductMatrixLines">
+              <PropertyRef Name="OfficeProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FulfillmentPartners_Shops">
+          <End Role="DbShops" Type="Self.DbShops" Multiplicity="1" />
+          <End Role="DbFulfillmentPartners" Type="Self.DbFulfillmentPartners" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DbShops">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DbFulfillmentPartners">
+              <PropertyRef Name="ShopId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Letter_Customer">
+          <End Role="DbCustomers" Type="Self.DbCustomers" Multiplicity="0..1" />
+          <End Role="DbLetters" Type="Self.DbLetters" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DbCustomers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DbLetters">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Letters_FromCountry">
+          <End Role="DbCountries" Type="Self.DbCountries" Multiplicity="0..1" />
+          <End Role="DbLetters" Type="Self.DbLetters" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DbCountries">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DbLetters">
+              <PropertyRef Name="FromAddress_Country" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Letters_ToCountry">
+          <End Role="DbCountries" Type="Self.DbCountries" Multiplicity="1" />
+          <End Role="DbLetters" Type="Self.DbLetters" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DbCountries">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DbLetters">
+              <PropertyRef Name="ToAddress_Country" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OfficeProducts_Offices">
+          <End Role="DbOffices" Type="Self.DbOffices" Multiplicity="1" />
+          <End Role="DbOfficeProducts" Type="Self.DbOfficeProducts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DbOffices">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DbOfficeProducts">
+              <PropertyRef Name="OfficeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Offices_Countries">
+          <End Role="DbCountries" Type="Self.DbCountries" Multiplicity="1" />
+          <End Role="DbOffices" Type="Self.DbOffices" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="DbCountries">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DbOffices">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Offices_FulfillmentPartners">
+          <End Role="DbFulfillmentPartners" Type="Self.DbFulfillmentPartners" Multiplicity="1" />
+          <End Role="DbOffices" Type="Self.DbOffices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DbFulfillmentPartners">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DbOffices">
+              <PropertyRef Name="PartnerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Order_Customer">
+          <End Role="DbCustomers" Type="Self.DbCustomers" Multiplicity="0..1" />
+          <End Role="DbOrders" Type="Self.DbOrders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DbCustomers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DbOrders">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderItem_Letter">
+          <End Role="DbLetters" Type="Self.DbLetters" Multiplicity="0..1" />
+          <End Role="DbOrderlines" Type="Self.DbOrderlines" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DbLetters">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DbOrderlines">
+              <PropertyRef Name="LetterId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderItem_Order">
+          <End Role="DbOrders" Type="Self.DbOrders" Multiplicity="0..1" />
+          <End Role="DbOrderlines" Type="Self.DbOrderlines" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DbOrders">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DbOrderlines">
+              <PropertyRef Name="OrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Shops_Countries">
+          <End Role="DbCountries" Type="Self.DbCountries" Multiplicity="1" />
+          <End Role="DbShops" Type="Self.DbShops" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="DbCountries">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DbShops">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="LetterAmazerStoreContainer">
+          <EntitySet Name="DbApiAccess" EntityType="Self.DbApiAccess" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DbContinents" EntityType="Self.DbContinents" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DbCountries" EntityType="Self.DbCountries" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DbCountryNames" EntityType="Self.DbCountryNames" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DbCoupons" EntityType="Self.DbCoupons" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DbCustomers" EntityType="Self.DbCustomers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DbFulfillmentPartners" EntityType="Self.DbFulfillmentPartners" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DbInvoiceLines" EntityType="Self.DbInvoiceLines" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DbInvoices" EntityType="Self.DbInvoices" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DbLetters" EntityType="Self.DbLetters" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DbOfficeProducts" EntityType="Self.DbOfficeProducts" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DbOffices" EntityType="Self.DbOffices" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DbOrderlines" EntityType="Self.DbOrderlines" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DbOrders" EntityType="Self.DbOrders" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DbOrganisation" EntityType="Self.DbOrganisation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DbOrganisationAddressList" EntityType="Self.DbOrganisationAddressList" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DbOrganisationProfileSettings" EntityType="Self.DbOrganisationProfileSettings" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DbPaymentMethods" EntityType="Self.DbPaymentMethods" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DbProductMatrixLines" EntityType="Self.DbProductMatrixLines" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DbShops" EntityType="Self.DbShops" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DbLog" EntityType="Self.DbLog" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+[DbLog].[Id] AS [Id], 
+[DbLog].[Date] AS [Date], 
+[DbLog].[Thread] AS [Thread], 
+[DbLog].[Level] AS [Level], 
+[DbLog].[Logger] AS [Logger], 
+[DbLog].[Message] AS [Message], 
+[DbLog].[Exception] AS [Exception]
+FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_Customers_Countries" Association="Self.FK_Customers_Countries">
+            <End Role="DbCountries" EntitySet="DbCountries" />
+            <End Role="DbCustomers" EntitySet="DbCustomers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DbApiAccess_DbApiAccess" Association="Self.FK_DbApiAccess_DbApiAccess">
+            <End Role="DbOrganisation" EntitySet="DbOrganisation" />
+            <End Role="DbApiAccess" EntitySet="DbApiAccess" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DbInvoiceLines_DbInvoices" Association="Self.FK_DbInvoiceLines_DbInvoices">
+            <End Role="DbInvoices" EntitySet="DbInvoices" />
+            <End Role="DbInvoiceLines" EntitySet="DbInvoiceLines" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DbInvoices_DbOrders" Association="Self.FK_DbInvoices_DbOrders">
+            <End Role="DbOrders" EntitySet="DbOrders" />
+            <End Role="DbInvoices" EntitySet="DbInvoices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DbLetters_DbOrders" Association="Self.FK_DbLetters_DbOrders">
+            <End Role="DbOrders" EntitySet="DbOrders" />
+            <End Role="DbLetters" EntitySet="DbLetters" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DbOrganisationAddressList_DbCountries" Association="Self.FK_DbOrganisationAddressList_DbCountries">
+            <End Role="DbCountries" EntitySet="DbCountries" />
+            <End Role="DbOrganisationAddressList" EntitySet="DbOrganisationAddressList" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DbOrganisationAddressList_DbOrganisation" Association="Self.FK_DbOrganisationAddressList_DbOrganisation">
+            <End Role="DbOrganisation" EntitySet="DbOrganisation" />
+            <End Role="DbOrganisationAddressList" EntitySet="DbOrganisationAddressList" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DbOrganisationProfileSettings_DbOrganisation" Association="Self.FK_DbOrganisationProfileSettings_DbOrganisation">
+            <End Role="DbOrganisation" EntitySet="DbOrganisation" />
+            <End Role="DbOrganisationProfileSettings" EntitySet="DbOrganisationProfileSettings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DbProductMatrixLines_DbOfficeProducts" Association="Self.FK_DbProductMatrixLines_DbOfficeProducts">
+            <End Role="DbOfficeProducts" EntitySet="DbOfficeProducts" />
+            <End Role="DbProductMatrixLines" EntitySet="DbProductMatrixLines" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FulfillmentPartners_Shops" Association="Self.FK_FulfillmentPartners_Shops">
+            <End Role="DbShops" EntitySet="DbShops" />
+            <End Role="DbFulfillmentPartners" EntitySet="DbFulfillmentPartners" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Letter_Customer" Association="Self.FK_Letter_Customer">
+            <End Role="DbCustomers" EntitySet="DbCustomers" />
+            <End Role="DbLetters" EntitySet="DbLetters" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Letters_FromCountry" Association="Self.FK_Letters_FromCountry">
+            <End Role="DbCountries" EntitySet="DbCountries" />
+            <End Role="DbLetters" EntitySet="DbLetters" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Letters_ToCountry" Association="Self.FK_Letters_ToCountry">
+            <End Role="DbCountries" EntitySet="DbCountries" />
+            <End Role="DbLetters" EntitySet="DbLetters" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OfficeProducts_Offices" Association="Self.FK_OfficeProducts_Offices">
+            <End Role="DbOffices" EntitySet="DbOffices" />
+            <End Role="DbOfficeProducts" EntitySet="DbOfficeProducts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Offices_Countries" Association="Self.FK_Offices_Countries">
+            <End Role="DbCountries" EntitySet="DbCountries" />
+            <End Role="DbOffices" EntitySet="DbOffices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Offices_FulfillmentPartners" Association="Self.FK_Offices_FulfillmentPartners">
+            <End Role="DbFulfillmentPartners" EntitySet="DbFulfillmentPartners" />
+            <End Role="DbOffices" EntitySet="DbOffices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Order_Customer" Association="Self.FK_Order_Customer">
+            <End Role="DbCustomers" EntitySet="DbCustomers" />
+            <End Role="DbOrders" EntitySet="DbOrders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderItem_Letter" Association="Self.FK_OrderItem_Letter">
+            <End Role="DbLetters" EntitySet="DbLetters" />
+            <End Role="DbOrderlines" EntitySet="DbOrderlines" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderItem_Order" Association="Self.FK_OrderItem_Order">
+            <End Role="DbOrders" EntitySet="DbOrders" />
+            <End Role="DbOrderlines" EntitySet="DbOrderlines" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Shops_Countries" Association="Self.FK_Shops_Countries">
+            <End Role="DbCountries" EntitySet="DbCountries" />
+            <End Role="DbShops" EntitySet="DbShops" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="LetterAmazer" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="DbContinents">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DbCountries">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CountryName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="CurrencyCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FipsCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CountryCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="IsoNumeric" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="North" Type="Double" />
+          <Property Name="Capital" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="ContinentName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="AreaInSqKm" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Languages" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="IsoAlpha3" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Continent" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="South" Type="Double" />
+          <Property Name="East" Type="Double" />
+          <Property Name="GeonameId" Type="Int32" />
+          <Property Name="West" Type="Double" />
+          <Property Name="Population" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="InsideEu" Type="Boolean" />
+          <Property Name="ContinentId" Type="Int32" />
+          <Property Name="VatPercentage" Type="Decimal" Precision="18" Scale="2" />
+          <NavigationProperty Name="DbCustomers" Relationship="Self.FK_Customers_Countries" FromRole="DbCountries" ToRole="DbCustomers" />
+          <NavigationProperty Name="DbOrganisationAddressList" Relationship="Self.FK_DbOrganisationAddressList_DbCountries" FromRole="DbCountries" ToRole="DbOrganisationAddressList" />
+          <NavigationProperty Name="DbLetters" Relationship="Self.FK_Letters_FromCountry" FromRole="DbCountries" ToRole="DbLetters" />
+          <NavigationProperty Name="DbLetters1" Relationship="Self.FK_Letters_ToCountry" FromRole="DbCountries" ToRole="DbLetters" />
+          <NavigationProperty Name="DbOffices" Relationship="Self.FK_Offices_Countries" FromRole="DbCountries" ToRole="DbOffices" />
+          <NavigationProperty Name="DbShops" Relationship="Self.FK_Shops_Countries" FromRole="DbCountries" ToRole="DbShops" />
+        </EntityType>
+        <EntityType Name="DbCountryNames">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CountryId" Type="Int32" Nullable="false" />
+          <Property Name="Language" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DbCoupons">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CouponValue" Type="Decimal" Precision="18" Scale="5" Nullable="false" />
+          <Property Name="DateGiven" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="EarlierCouponRef" Type="Int32" />
+          <Property Name="RefSource" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="RefUserValue" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="CouponExpire" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CouponValueLeft" Type="Decimal" Precision="18" Scale="5" Nullable="false" />
+          <Property Name="CouponStatus" Type="Int32" Nullable="false" />
+          <Property Name="DateModified" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="DbCustomers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CustomerInfo_Address" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerInfo_Address2" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerInfo_AttPerson" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerInfo_City" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerInfo_Country" Type="Int32" />
+          <Property Name="CustomerInfo_FirstName" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerInfo_LastName" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerInfo_Zipcode" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerInfo_VatNr" Type="String" MaxLength="159" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DateUpdated" Type="DateTime" Precision="3" />
+          <Property Name="Credits" Type="Decimal" Precision="18" Scale="5" />
+          <Property Name="CreditLimit" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="ResetPasswordKey" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerInfo_State" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerInfo_Co" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="DateActivated" Type="DateTime" Precision="3" />
+          <Property Name="RegistrationKey" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="OrganisationId" Type="Int32" />
+          <Property Name="OrganisationRole" Type="Int32" />
+          <Property Name="AccountStatus" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="DbCountries" Relationship="Self.FK_Customers_Countries" FromRole="DbCustomers" ToRole="DbCountries" />
+          <NavigationProperty Name="DbLetters" Relationship="Self.FK_Letter_Customer" FromRole="DbCustomers" ToRole="DbLetters" />
+          <NavigationProperty Name="DbOrders" Relationship="Self.FK_Order_Customer" FromRole="DbCustomers" ToRole="DbOrders" />
+        </EntityType>
+        <EntityType Name="DbFulfillmentPartners">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ShopId" Type="Int32" Nullable="false" />
+          <Property Name="PartnerJob" Type="Int32" Nullable="false" />
+          <Property Name="CronInterval" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="DbShops" Relationship="Self.FK_FulfillmentPartners_Shops" FromRole="DbFulfillmentPartners" ToRole="DbShops" />
+          <NavigationProperty Name="DbOffices" Relationship="Self.FK_Offices_FulfillmentPartners" FromRole="DbFulfillmentPartners" ToRole="DbOffices" />
+        </EntityType>
+        <EntityType Name="DbInvoiceLines">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="InvoiceId" Type="Int32" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <Property Name="PriceExVat" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <NavigationProperty Name="DbInvoices" Relationship="Self.FK_DbInvoiceLines_DbInvoices" FromRole="DbInvoiceLines" ToRole="DbInvoices" />
+        </EntityType>
+        <EntityType Name="DbInvoices">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Guid" Type="Guid" Nullable="false" />
+          <Property Name="OrderId" Type="Int32" Nullable="false" />
+          <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DateDue" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="InvoiceStatus" Type="Int32" Nullable="false" />
+          <Property Name="InvoiceNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="OrganisationId" Type="Int32" Nullable="false" />
+          <Property Name="PriceExVat" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="PriceVatPercentage" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="PriceTotal" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Receiver_Organisation" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Receiver_AttPerson" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Receiver_Address1" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Receiver_Address2" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Receiver_City" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Receiver_Zipcode" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Receiver_State" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Receiver_CountryId" Type="Int32" Nullable="false" />
+          <Property Name="Invoice_Organisation" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Invoice_AttPerson" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Invoice_Address1" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Invoice_Address2" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Invoice_City" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Invoice_Zipcode" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Invoice_State" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Invoice_CountryId" Type="Int32" Nullable="false" />
+          <Property Name="Invoice_Vatnumber" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Receiver_Vatnumber" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PriceVat" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="InvoicePaymentMessage" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="DbInvoiceLines" Relationship="Self.FK_DbInvoiceLines_DbInvoices" FromRole="DbInvoices" ToRole="DbInvoiceLines" />
+          <NavigationProperty Name="DbOrders" Relationship="Self.FK_DbInvoices_DbOrders" FromRole="DbInvoices" ToRole="DbOrders" />
+        </EntityType>
+        <EntityType Name="DbLetters">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CustomerId" Type="Int32" />
+          <Property Name="FromAddress_Address" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="FromAddress_Address2" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="FromAddress_AttPerson" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="FromAddress_City" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="FromAddress_CompanyName" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="FromAddress_Country" Type="Int32" />
+          <Property Name="FromAddress_FirstName" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="FromAddress_LastName" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="FromAddress_Zipcode" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="FromAddress_VatNr" Type="String" MaxLength="159" FixedLength="false" Unicode="true" />
+          <Property Name="ToAddress_Address" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="ToAddress_Address2" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="ToAddress_AttPerson" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="ToAddress_City" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="ToAddress_CompanyName" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="ToAddress_Country" Type="Int32" Nullable="false" />
+          <Property Name="ToAddress_FirstName" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="ToAddress_LastName" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="ToAddress_Zipcode" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="ToAddress_VatNr" Type="String" MaxLength="159" FixedLength="false" Unicode="true" />
+          <Property Name="LetterContent_Path" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="LetterContent_WrittenContent" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="LetterContent_Content" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="LetterStatus" Type="Int32" Nullable="false" />
+          <Property Name="ToAddress_State" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="ToAddress_Co" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="FromAddress_State" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="FromAddress_Co" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="OrderId" Type="Int32" Nullable="false" />
+          <Property Name="LetterColor" Type="Int32" Nullable="false" />
+          <Property Name="LetterPaperWeight" Type="Int32" Nullable="false" />
+          <Property Name="LetterProcessing" Type="Int32" Nullable="false" />
+          <Property Name="LetterSize" Type="Int32" Nullable="false" />
+          <Property Name="LetterType" Type="Int32" Nullable="false" />
+          <Property Name="OfficeId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="DbCountries" Relationship="Self.FK_Letters_FromCountry" FromRole="DbLetters" ToRole="DbCountries" />
+          <NavigationProperty Name="DbCountries1" Relationship="Self.FK_Letters_ToCountry" FromRole="DbLetters" ToRole="DbCountries" />
+          <NavigationProperty Name="DbCustomers" Relationship="Self.FK_Letter_Customer" FromRole="DbLetters" ToRole="DbCustomers" />
+          <NavigationProperty Name="DbOrderlines" Relationship="Self.FK_OrderItem_Letter" FromRole="DbLetters" ToRole="DbOrderlines" />
+          <NavigationProperty Name="DbOrders" Relationship="LetterAmazer.FK_DbLetters_DbOrders" FromRole="DbLetters" ToRole="DbOrders" />
+        </EntityType>
+        <EntityType Name="DbOfficeProducts">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OfficeId" Type="Int32" Nullable="false" />
+          <Property Name="ScopeType" Type="Int32" Nullable="false" />
+          <Property Name="CountryId" Type="Int32" />
+          <Property Name="ContinentId" Type="Int32" />
+          <Property Name="ZipId" Type="Int32" />
+          <Property Name="ReferenceType" Type="Int32" Nullable="false" />
+          <Property Name="LetterColor" Type="Int32" Nullable="false" />
+          <Property Name="LetterPaperWeight" Type="Int32" Nullable="false" />
+          <Property Name="LetterProcessing" Type="Int32" Nullable="false" />
+          <Property Name="LetterSize" Type="Int32" Nullable="false" />
+          <Property Name="LetterType" Type="Int32" Nullable="false" />
+          <Property Name="OfficeProductReferenceId" Type="Int32" />
+          <NavigationProperty Name="DbProductMatrixLines" Relationship="Self.FK_DbProductMatrixLines_DbOfficeProducts" FromRole="DbOfficeProducts" ToRole="DbProductMatrixLines" />
+          <NavigationProperty Name="DbOffices" Relationship="Self.FK_OfficeProducts_Offices" FromRole="DbOfficeProducts" ToRole="DbOffices" />
+        </EntityType>
+        <EntityType Name="DbOffices">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CountryId" Type="Int32" Nullable="false" />
+          <Property Name="PartnerId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="DbCountries" Relationship="Self.FK_Offices_Countries" FromRole="DbOffices" ToRole="DbCountries" />
+          <NavigationProperty Name="DbFulfillmentPartners" Relationship="Self.FK_Offices_FulfillmentPartners" FromRole="DbOffices" ToRole="DbFulfillmentPartners" />
+          <NavigationProperty Name="DbOfficeProducts" Relationship="Self.FK_OfficeProducts_Offices" FromRole="DbOffices" ToRole="DbOfficeProducts" />
+        </EntityType>
+        <EntityType Name="DbOrderlines">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OrderId" Type="Int32" />
+          <Property Name="LetterId" Type="Int32" />
+          <Property Name="ItemType" Type="Int32" Nullable="false" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <Property Name="PriceExVat" Type="Decimal" Precision="18" Scale="5" Nullable="false" />
+          <Property Name="PaymentMethodId" Type="Int32" />
+          <Property Name="CouponId" Type="Int32" />
+          <Property Name="VatPercentage" Type="Decimal" Precision="18" Scale="5" Nullable="false" />
+          <Property Name="Total" Type="Decimal" Precision="18" Scale="5" Nullable="false" />
+          <NavigationProperty Name="DbLetters" Relationship="Self.FK_OrderItem_Letter" FromRole="DbOrderlines" ToRole="DbLetters" />
+          <NavigationProperty Name="DbOrders" Relationship="Self.FK_OrderItem_Order" FromRole="DbOrderlines" ToRole="DbOrders" />
+        </EntityType>
+        <EntityType Name="DbOrders">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OrderStatus" Type="Int32" Nullable="false" />
+          <Property Name="CustomerId" Type="Int32" />
+          <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DateUpdated" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Guid" Type="Guid" Nullable="false" />
+          <Property Name="OrderCode" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="TransactionCode" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="PriceExVat" Type="Decimal" Precision="18" Scale="5" Nullable="false" />
+          <Property Name="CouponCode" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="PaymentMethod" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DatePaid" Type="DateTime" Precision="3" />
+          <Property Name="DateSent" Type="DateTime" Precision="3" />
+          <Property Name="VatPercentage" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Total" Type="Decimal" Precision="18" Scale="5" Nullable="false" />
+          <NavigationProperty Name="DbCustomers" Relationship="Self.FK_Order_Customer" FromRole="DbOrders" ToRole="DbCustomers" />
+          <NavigationProperty Name="DbInvoices" Relationship="Self.FK_DbInvoices_DbOrders" FromRole="DbOrders" ToRole="DbInvoices" />
+          <NavigationProperty Name="DbOrderlines" Relationship="Self.FK_OrderItem_Order" FromRole="DbOrders" ToRole="DbOrderlines" />
+          <NavigationProperty Name="DbLetters" Relationship="LetterAmazer.FK_DbLetters_DbOrders" FromRole="DbOrders" ToRole="DbLetters" />
+        </EntityType>
+        <EntityType Name="DbOrganisation">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DateModified" Type="DateTime" Precision="3" />
+          <Property Name="DateDeleted" Type="DateTime" Precision="3" />
+          <Property Name="CountryId" Type="Int32" />
+          <Property Name="Address1" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Zipcode" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="City" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Address2" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="AttPerson" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="State" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Guid" Type="Guid" Nullable="false" />
+          <Property Name="IsPrivate" Type="Boolean" Nullable="false" />
+          <Property Name="RequiredFulfillmentPartnerId" Type="Int32" />
+          <Property Name="RequiredOfficeId" Type="Int32" />
+          <NavigationProperty Name="DbOrganisationAddressList" Relationship="Self.FK_DbOrganisationAddressList_DbOrganisation" FromRole="DbOrganisation" ToRole="DbOrganisationAddressList" />
+          <NavigationProperty Name="DbOrganisationProfileSettings" Relationship="Self.FK_DbOrganisationProfileSettings_DbOrganisation" FromRole="DbOrganisation" ToRole="DbOrganisationProfileSettings" />
+          <NavigationProperty Name="DbApiAccess" Relationship="LetterAmazer.FK_DbApiAccess_DbApiAccess" FromRole="DbOrganisation" ToRole="DbApiAccess" />
+        </EntityType>
+        <EntityType Name="DbOrganisationAddressList">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Address1" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Address2" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="State" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Zipcode" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="City" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CountryId" Type="Int32" Nullable="false" />
+          <Property Name="OrganisationId" Type="Int32" Nullable="false" />
+          <Property Name="OrderIndex" Type="Int32" Nullable="false" />
+          <Property Name="OrganisationName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="DbCountries" Relationship="Self.FK_DbOrganisationAddressList_DbCountries" FromRole="DbOrganisationAddressList" ToRole="DbCountries" />
+          <NavigationProperty Name="DbOrganisation" Relationship="Self.FK_DbOrganisationAddressList_DbOrganisation" FromRole="DbOrganisationAddressList" ToRole="DbOrganisation" />
+        </EntityType>
+        <EntityType Name="DbOrganisationProfileSettings">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OrganisationId" Type="Int32" Nullable="false" />
+          <Property Name="LetterColor" Type="Int32" />
+          <Property Name="LetterProcessing" Type="Int32" />
+          <Property Name="LetterPaperWeight" Type="Int32" />
+          <Property Name="LetterType" Type="Int32" />
+          <Property Name="LetterSize" Type="Int32" />
+          <Property Name="PreferedCountryId" Type="Int32" />
+          <NavigationProperty Name="DbOrganisation" Relationship="Self.FK_DbOrganisationProfileSettings_DbOrganisation" FromRole="DbOrganisationProfileSettings" ToRole="DbOrganisation" />
+        </EntityType>
+        <EntityType Name="DbPaymentMethods">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DateDeleted" Type="DateTime" Precision="3" />
+          <Property Name="MinimumAmount" Type="Int32" Nullable="false" />
+          <Property Name="MaximumAmount" Type="Int32" Nullable="false" />
+          <Property Name="Price" Type="Decimal" Precision="18" Scale="5" Nullable="false" />
+          <Property Name="SortOrder" Type="Int32" Nullable="false" />
+          <Property Name="IsVisible" Type="Boolean" Nullable="false" />
+          <Property Name="RequiresLogin" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DbProductMatrixLines">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="LineType" Type="Int32" Nullable="false" />
+          <Property Name="BaseCost" Type="Decimal" Precision="18" Scale="5" Nullable="false" />
+          <Property Name="PriceType" Type="Int32" Nullable="false" />
+          <Property Name="Span_lower" Type="Int32" Nullable="false" />
+          <Property Name="Span_upper" Type="Int32" Nullable="false" />
+          <Property Name="OfficeProductId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="DbOfficeProducts" Relationship="Self.FK_DbProductMatrixLines_DbOfficeProducts" FromRole="DbProductMatrixLines" ToRole="DbOfficeProducts" />
+        </EntityType>
+        <EntityType Name="DbShops">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CountryId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="DbCountries" Relationship="Self.FK_Shops_Countries" FromRole="DbShops" ToRole="DbCountries" />
+          <NavigationProperty Name="DbFulfillmentPartners" Relationship="Self.FK_FulfillmentPartners_Shops" FromRole="DbShops" ToRole="DbFulfillmentPartners" />
+        </EntityType>
+        <EntityType Name="DbLog">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Date" />
+            <PropertyRef Name="Thread" />
+            <PropertyRef Name="Level" />
+            <PropertyRef Name="Logger" />
+            <PropertyRef Name="Message" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Thread" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Level" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Logger" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Message" Type="String" MaxLength="4000" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Exception" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <Association Name="FK_Customers_Countries">
+          <End Role="DbCountries" Type="Self.DbCountries" Multiplicity="0..1" />
+          <End Role="DbCustomers" Type="Self.DbCustomers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DbCountries">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DbCustomers">
+              <PropertyRef Name="CustomerInfo_Country" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DbOrganisationAddressList_DbCountries">
+          <End Role="DbCountries" Type="Self.DbCountries" Multiplicity="1" />
+          <End Role="DbOrganisationAddressList" Type="Self.DbOrganisationAddressList" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DbCountries">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DbOrganisationAddressList">
+              <PropertyRef Name="CountryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Letters_FromCountry">
+          <End Role="DbCountries" Type="Self.DbCountries" Multiplicity="0..1" />
+          <End Role="DbLetters" Type="Self.DbLetters" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DbCountries">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DbLetters">
+              <PropertyRef Name="FromAddress_Country" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Letters_ToCountry">
+          <End Role="DbCountries" Type="Self.DbCountries" Multiplicity="1" />
+          <End Role="DbLetters" Type="Self.DbLetters" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DbCountries">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DbLetters">
+              <PropertyRef Name="ToAddress_Country" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Offices_Countries">
+          <End Role="DbCountries" Type="Self.DbCountries" Multiplicity="1" />
+          <End Role="DbOffices" Type="Self.DbOffices" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="DbCountries">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DbOffices">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Shops_Countries">
+          <End Role="DbCountries" Type="Self.DbCountries" Multiplicity="1" />
+          <End Role="DbShops" Type="Self.DbShops" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="DbCountries">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DbShops">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Letter_Customer">
+          <End Role="DbCustomers" Type="Self.DbCustomers" Multiplicity="0..1" />
+          <End Role="DbLetters" Type="Self.DbLetters" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DbCustomers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DbLetters">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Order_Customer">
+          <End Role="DbCustomers" Type="Self.DbCustomers" Multiplicity="0..1" />
+          <End Role="DbOrders" Type="Self.DbOrders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DbCustomers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DbOrders">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FulfillmentPartners_Shops">
+          <End Role="DbShops" Type="Self.DbShops" Multiplicity="1" />
+          <End Role="DbFulfillmentPartners" Type="Self.DbFulfillmentPartners" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DbShops">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DbFulfillmentPartners">
+              <PropertyRef Name="ShopId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Offices_FulfillmentPartners">
+          <End Role="DbFulfillmentPartners" Type="Self.DbFulfillmentPartners" Multiplicity="1" />
+          <End Role="DbOffices" Type="Self.DbOffices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DbFulfillmentPartners">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DbOffices">
+              <PropertyRef Name="PartnerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DbInvoiceLines_DbInvoices">
+          <End Role="DbInvoices" Type="Self.DbInvoices" Multiplicity="1" />
+          <End Role="DbInvoiceLines" Type="Self.DbInvoiceLines" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DbInvoices">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DbInvoiceLines">
+              <PropertyRef Name="InvoiceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DbInvoices_DbOrders">
+          <End Role="DbOrders" Type="Self.DbOrders" Multiplicity="1" />
+          <End Role="DbInvoices" Type="Self.DbInvoices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DbOrders">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DbInvoices">
+              <PropertyRef Name="OrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderItem_Letter">
+          <End Role="DbLetters" Type="Self.DbLetters" Multiplicity="0..1" />
+          <End Role="DbOrderlines" Type="Self.DbOrderlines" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DbLetters">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DbOrderlines">
+              <PropertyRef Name="LetterId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DbProductMatrixLines_DbOfficeProducts">
+          <End Role="DbOfficeProducts" Type="Self.DbOfficeProducts" Multiplicity="1" />
+          <End Role="DbProductMatrixLines" Type="Self.DbProductMatrixLines" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DbOfficeProducts">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DbProductMatrixLines">
+              <PropertyRef Name="OfficeProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OfficeProducts_Offices">
+          <End Role="DbOffices" Type="Self.DbOffices" Multiplicity="1" />
+          <End Role="DbOfficeProducts" Type="Self.DbOfficeProducts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DbOffices">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DbOfficeProducts">
+              <PropertyRef Name="OfficeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderItem_Order">
+          <End Role="DbOrders" Type="Self.DbOrders" Multiplicity="0..1" />
+          <End Role="DbOrderlines" Type="Self.DbOrderlines" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DbOrders">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DbOrderlines">
+              <PropertyRef Name="OrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DbOrganisationAddressList_DbOrganisation">
+          <End Role="DbOrganisation" Type="Self.DbOrganisation" Multiplicity="1" />
+          <End Role="DbOrganisationAddressList" Type="Self.DbOrganisationAddressList" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DbOrganisation">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DbOrganisationAddressList">
+              <PropertyRef Name="OrganisationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DbOrganisationProfileSettings_DbOrganisation">
+          <End Role="DbOrganisation" Type="Self.DbOrganisation" Multiplicity="1" />
+          <End Role="DbOrganisationProfileSettings" Type="Self.DbOrganisationProfileSettings" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DbOrganisation">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DbOrganisationProfileSettings">
+              <PropertyRef Name="OrganisationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="LetterAmazerEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="DbContinents" EntityType="Self.DbContinents" />
+          <EntitySet Name="DbCountries" EntityType="Self.DbCountries" />
+          <EntitySet Name="DbCountryNames" EntityType="Self.DbCountryNames" />
+          <EntitySet Name="DbCoupons" EntityType="Self.DbCoupons" />
+          <EntitySet Name="DbCustomers" EntityType="Self.DbCustomers" />
+          <EntitySet Name="DbFulfillmentPartners" EntityType="Self.DbFulfillmentPartners" />
+          <EntitySet Name="DbInvoiceLines" EntityType="Self.DbInvoiceLines" />
+          <EntitySet Name="DbInvoices" EntityType="Self.DbInvoices" />
+          <EntitySet Name="DbLetters" EntityType="Self.DbLetters" />
+          <EntitySet Name="DbOfficeProducts" EntityType="Self.DbOfficeProducts" />
+          <EntitySet Name="DbOffices" EntityType="Self.DbOffices" />
+          <EntitySet Name="DbOrderlines" EntityType="Self.DbOrderlines" />
+          <EntitySet Name="DbOrders" EntityType="Self.DbOrders" />
+          <EntitySet Name="DbOrganisation" EntityType="Self.DbOrganisation" />
+          <EntitySet Name="DbOrganisationAddressList" EntityType="Self.DbOrganisationAddressList" />
+          <EntitySet Name="DbOrganisationProfileSettings" EntityType="Self.DbOrganisationProfileSettings" />
+          <EntitySet Name="DbPaymentMethods" EntityType="Self.DbPaymentMethods" />
+          <EntitySet Name="DbProductMatrixLines" EntityType="Self.DbProductMatrixLines" />
+          <EntitySet Name="DbShops" EntityType="Self.DbShops" />
+          <EntitySet Name="DbLog" EntityType="Self.DbLog" />
+          <AssociationSet Name="FK_Customers_Countries" Association="Self.FK_Customers_Countries">
+            <End Role="DbCountries" EntitySet="DbCountries" />
+            <End Role="DbCustomers" EntitySet="DbCustomers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DbOrganisationAddressList_DbCountries" Association="Self.FK_DbOrganisationAddressList_DbCountries">
+            <End Role="DbCountries" EntitySet="DbCountries" />
+            <End Role="DbOrganisationAddressList" EntitySet="DbOrganisationAddressList" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Letters_FromCountry" Association="Self.FK_Letters_FromCountry">
+            <End Role="DbCountries" EntitySet="DbCountries" />
+            <End Role="DbLetters" EntitySet="DbLetters" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Letters_ToCountry" Association="Self.FK_Letters_ToCountry">
+            <End Role="DbCountries" EntitySet="DbCountries" />
+            <End Role="DbLetters" EntitySet="DbLetters" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Offices_Countries" Association="Self.FK_Offices_Countries">
+            <End Role="DbCountries" EntitySet="DbCountries" />
+            <End Role="DbOffices" EntitySet="DbOffices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Shops_Countries" Association="Self.FK_Shops_Countries">
+            <End Role="DbCountries" EntitySet="DbCountries" />
+            <End Role="DbShops" EntitySet="DbShops" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Letter_Customer" Association="Self.FK_Letter_Customer">
+            <End Role="DbCustomers" EntitySet="DbCustomers" />
+            <End Role="DbLetters" EntitySet="DbLetters" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Order_Customer" Association="Self.FK_Order_Customer">
+            <End Role="DbCustomers" EntitySet="DbCustomers" />
+            <End Role="DbOrders" EntitySet="DbOrders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FulfillmentPartners_Shops" Association="Self.FK_FulfillmentPartners_Shops">
+            <End Role="DbShops" EntitySet="DbShops" />
+            <End Role="DbFulfillmentPartners" EntitySet="DbFulfillmentPartners" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Offices_FulfillmentPartners" Association="Self.FK_Offices_FulfillmentPartners">
+            <End Role="DbFulfillmentPartners" EntitySet="DbFulfillmentPartners" />
+            <End Role="DbOffices" EntitySet="DbOffices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DbInvoiceLines_DbInvoices" Association="Self.FK_DbInvoiceLines_DbInvoices">
+            <End Role="DbInvoices" EntitySet="DbInvoices" />
+            <End Role="DbInvoiceLines" EntitySet="DbInvoiceLines" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DbInvoices_DbOrders" Association="Self.FK_DbInvoices_DbOrders">
+            <End Role="DbOrders" EntitySet="DbOrders" />
+            <End Role="DbInvoices" EntitySet="DbInvoices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderItem_Letter" Association="Self.FK_OrderItem_Letter">
+            <End Role="DbLetters" EntitySet="DbLetters" />
+            <End Role="DbOrderlines" EntitySet="DbOrderlines" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DbProductMatrixLines_DbOfficeProducts" Association="Self.FK_DbProductMatrixLines_DbOfficeProducts">
+            <End Role="DbOfficeProducts" EntitySet="DbOfficeProducts" />
+            <End Role="DbProductMatrixLines" EntitySet="DbProductMatrixLines" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OfficeProducts_Offices" Association="Self.FK_OfficeProducts_Offices">
+            <End Role="DbOffices" EntitySet="DbOffices" />
+            <End Role="DbOfficeProducts" EntitySet="DbOfficeProducts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderItem_Order" Association="Self.FK_OrderItem_Order">
+            <End Role="DbOrders" EntitySet="DbOrders" />
+            <End Role="DbOrderlines" EntitySet="DbOrderlines" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DbOrganisationAddressList_DbOrganisation" Association="Self.FK_DbOrganisationAddressList_DbOrganisation">
+            <End Role="DbOrganisation" EntitySet="DbOrganisation" />
+            <End Role="DbOrganisationAddressList" EntitySet="DbOrganisationAddressList" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DbOrganisationProfileSettings_DbOrganisation" Association="Self.FK_DbOrganisationProfileSettings_DbOrganisation">
+            <End Role="DbOrganisation" EntitySet="DbOrganisation" />
+            <End Role="DbOrganisationProfileSettings" EntitySet="DbOrganisationProfileSettings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DbLetters_DbOrders" Association="LetterAmazer.FK_DbLetters_DbOrders">
+            <End Role="DbOrders" EntitySet="DbOrders" />
+            <End Role="DbLetters" EntitySet="DbLetters" />
+          </AssociationSet>
+          <EntitySet Name="DbApiAccess" EntityType="LetterAmazer.DbApiAccess" />
+          <AssociationSet Name="FK_DbApiAccess_DbApiAccess" Association="LetterAmazer.FK_DbApiAccess_DbApiAccess">
+            <End Role="DbOrganisation" EntitySet="DbOrganisation" />
+            <End Role="DbApiAccess" EntitySet="DbApiAccess" />
+          </AssociationSet>
+        </EntityContainer>
+        <Association Name="FK_DbLetters_DbOrders">
+          <End Type="LetterAmazer.DbOrders" Role="DbOrders" Multiplicity="1" />
+          <End Type="LetterAmazer.DbLetters" Role="DbLetters" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DbOrders">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DbLetters">
+              <PropertyRef Name="OrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="DbApiAccess">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OrganisationId" Type="Int32" Nullable="false" />
+          <Property Name="ApiKey" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="ApiSecret" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="DbOrganisation" Relationship="LetterAmazer.FK_DbApiAccess_DbApiAccess" FromRole="DbApiAccess" ToRole="DbOrganisation" />
+        </EntityType>
+        <Association Name="FK_DbApiAccess_DbApiAccess">
+          <End Type="LetterAmazer.DbOrganisation" Role="DbOrganisation" Multiplicity="1" />
+          <End Type="LetterAmazer.DbApiAccess" Role="DbApiAccess" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DbOrganisation">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DbApiAccess">
+              <PropertyRef Name="OrganisationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="LetterAmazerStoreContainer" CdmEntityContainer="LetterAmazerEntities">
+          <EntitySetMapping Name="DbContinents">
+            <EntityTypeMapping TypeName="LetterAmazer.DbContinents">
+              <MappingFragment StoreEntitySet="DbContinents">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DbCountries">
+            <EntityTypeMapping TypeName="LetterAmazer.DbCountries">
+              <MappingFragment StoreEntitySet="DbCountries">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="CountryName" ColumnName="CountryName" />
+                <ScalarProperty Name="CurrencyCode" ColumnName="CurrencyCode" />
+                <ScalarProperty Name="FipsCode" ColumnName="FipsCode" />
+                <ScalarProperty Name="CountryCode" ColumnName="CountryCode" />
+                <ScalarProperty Name="IsoNumeric" ColumnName="IsoNumeric" />
+                <ScalarProperty Name="North" ColumnName="North" />
+                <ScalarProperty Name="Capital" ColumnName="Capital" />
+                <ScalarProperty Name="ContinentName" ColumnName="ContinentName" />
+                <ScalarProperty Name="AreaInSqKm" ColumnName="AreaInSqKm" />
+                <ScalarProperty Name="Languages" ColumnName="Languages" />
+                <ScalarProperty Name="IsoAlpha3" ColumnName="IsoAlpha3" />
+                <ScalarProperty Name="Continent" ColumnName="Continent" />
+                <ScalarProperty Name="South" ColumnName="South" />
+                <ScalarProperty Name="East" ColumnName="East" />
+                <ScalarProperty Name="GeonameId" ColumnName="GeonameId" />
+                <ScalarProperty Name="West" ColumnName="West" />
+                <ScalarProperty Name="Population" ColumnName="Population" />
+                <ScalarProperty Name="InsideEu" ColumnName="InsideEu" />
+                <ScalarProperty Name="ContinentId" ColumnName="ContinentId" />
+                <ScalarProperty Name="VatPercentage" ColumnName="VatPercentage" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DbCountryNames">
+            <EntityTypeMapping TypeName="LetterAmazer.DbCountryNames">
+              <MappingFragment StoreEntitySet="DbCountryNames">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="CountryId" ColumnName="CountryId" />
+                <ScalarProperty Name="Language" ColumnName="Language" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DbCoupons">
+            <EntityTypeMapping TypeName="LetterAmazer.DbCoupons">
+              <MappingFragment StoreEntitySet="DbCoupons">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="CouponValue" ColumnName="CouponValue" />
+                <ScalarProperty Name="DateGiven" ColumnName="DateGiven" />
+                <ScalarProperty Name="EarlierCouponRef" ColumnName="EarlierCouponRef" />
+                <ScalarProperty Name="RefSource" ColumnName="RefSource" />
+                <ScalarProperty Name="RefUserValue" ColumnName="RefUserValue" />
+                <ScalarProperty Name="CouponExpire" ColumnName="CouponExpire" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="CouponValueLeft" ColumnName="CouponValueLeft" />
+                <ScalarProperty Name="CouponStatus" ColumnName="CouponStatus" />
+                <ScalarProperty Name="DateModified" ColumnName="DateModified" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DbCustomers">
+            <EntityTypeMapping TypeName="LetterAmazer.DbCustomers">
+              <MappingFragment StoreEntitySet="DbCustomers">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="CustomerInfo_Address" ColumnName="CustomerInfo_Address" />
+                <ScalarProperty Name="CustomerInfo_Address2" ColumnName="CustomerInfo_Address2" />
+                <ScalarProperty Name="CustomerInfo_AttPerson" ColumnName="CustomerInfo_AttPerson" />
+                <ScalarProperty Name="CustomerInfo_City" ColumnName="CustomerInfo_City" />
+                <ScalarProperty Name="CustomerInfo_Country" ColumnName="CustomerInfo_Country" />
+                <ScalarProperty Name="CustomerInfo_FirstName" ColumnName="CustomerInfo_FirstName" />
+                <ScalarProperty Name="CustomerInfo_LastName" ColumnName="CustomerInfo_LastName" />
+                <ScalarProperty Name="CustomerInfo_Zipcode" ColumnName="CustomerInfo_Zipcode" />
+                <ScalarProperty Name="CustomerInfo_VatNr" ColumnName="CustomerInfo_VatNr" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="DateUpdated" ColumnName="DateUpdated" />
+                <ScalarProperty Name="Credits" ColumnName="Credits" />
+                <ScalarProperty Name="CreditLimit" ColumnName="CreditLimit" />
+                <ScalarProperty Name="ResetPasswordKey" ColumnName="ResetPasswordKey" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="CustomerInfo_State" ColumnName="CustomerInfo_State" />
+                <ScalarProperty Name="CustomerInfo_Co" ColumnName="CustomerInfo_Co" />
+                <ScalarProperty Name="DateActivated" ColumnName="DateActivated" />
+                <ScalarProperty Name="RegistrationKey" ColumnName="RegistrationKey" />
+                <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
+                <ScalarProperty Name="OrganisationRole" ColumnName="OrganisationRole" />
+                <ScalarProperty Name="AccountStatus" ColumnName="AccountStatus" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DbFulfillmentPartners">
+            <EntityTypeMapping TypeName="LetterAmazer.DbFulfillmentPartners">
+              <MappingFragment StoreEntitySet="DbFulfillmentPartners">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ShopId" ColumnName="ShopId" />
+                <ScalarProperty Name="PartnerJob" ColumnName="PartnerJob" />
+                <ScalarProperty Name="CronInterval" ColumnName="CronInterval" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DbInvoiceLines">
+            <EntityTypeMapping TypeName="LetterAmazer.DbInvoiceLines">
+              <MappingFragment StoreEntitySet="DbInvoiceLines">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="InvoiceId" ColumnName="InvoiceId" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="PriceExVat" ColumnName="PriceExVat" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DbInvoices">
+            <EntityTypeMapping TypeName="LetterAmazer.DbInvoices">
+              <MappingFragment StoreEntitySet="DbInvoices">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Guid" ColumnName="Guid" />
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="DateDue" ColumnName="DateDue" />
+                <ScalarProperty Name="InvoiceStatus" ColumnName="InvoiceStatus" />
+                <ScalarProperty Name="InvoiceNumber" ColumnName="InvoiceNumber" />
+                <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
+                <ScalarProperty Name="PriceExVat" ColumnName="PriceExVat" />
+                <ScalarProperty Name="PriceVatPercentage" ColumnName="PriceVatPercentage" />
+                <ScalarProperty Name="PriceTotal" ColumnName="PriceTotal" />
+                <ScalarProperty Name="Receiver_Organisation" ColumnName="Receiver_Organisation" />
+                <ScalarProperty Name="Receiver_AttPerson" ColumnName="Receiver_AttPerson" />
+                <ScalarProperty Name="Receiver_Address1" ColumnName="Receiver_Address1" />
+                <ScalarProperty Name="Receiver_Address2" ColumnName="Receiver_Address2" />
+                <ScalarProperty Name="Receiver_City" ColumnName="Receiver_City" />
+                <ScalarProperty Name="Receiver_Zipcode" ColumnName="Receiver_Zipcode" />
+                <ScalarProperty Name="Receiver_State" ColumnName="Receiver_State" />
+                <ScalarProperty Name="Receiver_CountryId" ColumnName="Receiver_CountryId" />
+                <ScalarProperty Name="Invoice_Organisation" ColumnName="Invoice_Organisation" />
+                <ScalarProperty Name="Invoice_AttPerson" ColumnName="Invoice_AttPerson" />
+                <ScalarProperty Name="Invoice_Address1" ColumnName="Invoice_Address1" />
+                <ScalarProperty Name="Invoice_Address2" ColumnName="Invoice_Address2" />
+                <ScalarProperty Name="Invoice_City" ColumnName="Invoice_City" />
+                <ScalarProperty Name="Invoice_Zipcode" ColumnName="Invoice_Zipcode" />
+                <ScalarProperty Name="Invoice_State" ColumnName="Invoice_State" />
+                <ScalarProperty Name="Invoice_CountryId" ColumnName="Invoice_CountryId" />
+                <ScalarProperty Name="Invoice_Vatnumber" ColumnName="Invoice_Vatnumber" />
+                <ScalarProperty Name="Receiver_Vatnumber" ColumnName="Receiver_Vatnumber" />
+                <ScalarProperty Name="PriceVat" ColumnName="PriceVat" />
+                <ScalarProperty Name="InvoicePaymentMessage" ColumnName="InvoicePaymentMessage" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DbLetters">
+            <EntityTypeMapping TypeName="LetterAmazer.DbLetters">
+              <MappingFragment StoreEntitySet="DbLetters">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+                <ScalarProperty Name="FromAddress_Address" ColumnName="FromAddress_Address" />
+                <ScalarProperty Name="FromAddress_Address2" ColumnName="FromAddress_Address2" />
+                <ScalarProperty Name="FromAddress_AttPerson" ColumnName="FromAddress_AttPerson" />
+                <ScalarProperty Name="FromAddress_City" ColumnName="FromAddress_City" />
+                <ScalarProperty Name="FromAddress_CompanyName" ColumnName="FromAddress_CompanyName" />
+                <ScalarProperty Name="FromAddress_Country" ColumnName="FromAddress_Country" />
+                <ScalarProperty Name="FromAddress_FirstName" ColumnName="FromAddress_FirstName" />
+                <ScalarProperty Name="FromAddress_LastName" ColumnName="FromAddress_LastName" />
+                <ScalarProperty Name="FromAddress_Zipcode" ColumnName="FromAddress_Zipcode" />
+                <ScalarProperty Name="FromAddress_VatNr" ColumnName="FromAddress_VatNr" />
+                <ScalarProperty Name="ToAddress_Address" ColumnName="ToAddress_Address" />
+                <ScalarProperty Name="ToAddress_Address2" ColumnName="ToAddress_Address2" />
+                <ScalarProperty Name="ToAddress_AttPerson" ColumnName="ToAddress_AttPerson" />
+                <ScalarProperty Name="ToAddress_City" ColumnName="ToAddress_City" />
+                <ScalarProperty Name="ToAddress_CompanyName" ColumnName="ToAddress_CompanyName" />
+                <ScalarProperty Name="ToAddress_Country" ColumnName="ToAddress_Country" />
+                <ScalarProperty Name="ToAddress_FirstName" ColumnName="ToAddress_FirstName" />
+                <ScalarProperty Name="ToAddress_LastName" ColumnName="ToAddress_LastName" />
+                <ScalarProperty Name="ToAddress_Zipcode" ColumnName="ToAddress_Zipcode" />
+                <ScalarProperty Name="ToAddress_VatNr" ColumnName="ToAddress_VatNr" />
+                <ScalarProperty Name="LetterContent_Path" ColumnName="LetterContent_Path" />
+                <ScalarProperty Name="LetterContent_WrittenContent" ColumnName="LetterContent_WrittenContent" />
+                <ScalarProperty Name="LetterContent_Content" ColumnName="LetterContent_Content" />
+                <ScalarProperty Name="LetterStatus" ColumnName="LetterStatus" />
+                <ScalarProperty Name="ToAddress_State" ColumnName="ToAddress_State" />
+                <ScalarProperty Name="ToAddress_Co" ColumnName="ToAddress_Co" />
+                <ScalarProperty Name="FromAddress_State" ColumnName="FromAddress_State" />
+                <ScalarProperty Name="FromAddress_Co" ColumnName="FromAddress_Co" />
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+                <ScalarProperty Name="LetterColor" ColumnName="LetterColor" />
+                <ScalarProperty Name="LetterPaperWeight" ColumnName="LetterPaperWeight" />
+                <ScalarProperty Name="LetterProcessing" ColumnName="LetterProcessing" />
+                <ScalarProperty Name="LetterSize" ColumnName="LetterSize" />
+                <ScalarProperty Name="LetterType" ColumnName="LetterType" />
+                <ScalarProperty Name="OfficeId" ColumnName="OfficeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DbOfficeProducts">
+            <EntityTypeMapping TypeName="LetterAmazer.DbOfficeProducts">
+              <MappingFragment StoreEntitySet="DbOfficeProducts">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="OfficeId" ColumnName="OfficeId" />
+                <ScalarProperty Name="ScopeType" ColumnName="ScopeType" />
+                <ScalarProperty Name="CountryId" ColumnName="CountryId" />
+                <ScalarProperty Name="ContinentId" ColumnName="ContinentId" />
+                <ScalarProperty Name="ZipId" ColumnName="ZipId" />
+                <ScalarProperty Name="ReferenceType" ColumnName="ReferenceType" />
+                <ScalarProperty Name="LetterColor" ColumnName="LetterColor" />
+                <ScalarProperty Name="LetterPaperWeight" ColumnName="LetterPaperWeight" />
+                <ScalarProperty Name="LetterProcessing" ColumnName="LetterProcessing" />
+                <ScalarProperty Name="LetterSize" ColumnName="LetterSize" />
+                <ScalarProperty Name="LetterType" ColumnName="LetterType" />
+                <ScalarProperty Name="OfficeProductReferenceId" ColumnName="OfficeProductReferenceId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DbOffices">
+            <EntityTypeMapping TypeName="LetterAmazer.DbOffices">
+              <MappingFragment StoreEntitySet="DbOffices">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="CountryId" ColumnName="CountryId" />
+                <ScalarProperty Name="PartnerId" ColumnName="PartnerId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DbOrderlines">
+            <EntityTypeMapping TypeName="LetterAmazer.DbOrderlines">
+              <MappingFragment StoreEntitySet="DbOrderlines">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+                <ScalarProperty Name="LetterId" ColumnName="LetterId" />
+                <ScalarProperty Name="ItemType" ColumnName="ItemType" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="PriceExVat" ColumnName="PriceExVat" />
+                <ScalarProperty Name="PaymentMethodId" ColumnName="PaymentMethodId" />
+                <ScalarProperty Name="CouponId" ColumnName="CouponId" />
+                <ScalarProperty Name="VatPercentage" ColumnName="VatPercentage" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DbOrders">
+            <EntityTypeMapping TypeName="LetterAmazer.DbOrders">
+              <MappingFragment StoreEntitySet="DbOrders">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="OrderStatus" ColumnName="OrderStatus" />
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="DateUpdated" ColumnName="DateUpdated" />
+                <ScalarProperty Name="Guid" ColumnName="Guid" />
+                <ScalarProperty Name="OrderCode" ColumnName="OrderCode" />
+                <ScalarProperty Name="TransactionCode" ColumnName="TransactionCode" />
+                <ScalarProperty Name="PriceExVat" ColumnName="PriceExVat" />
+                <ScalarProperty Name="CouponCode" ColumnName="CouponCode" />
+                <ScalarProperty Name="PaymentMethod" ColumnName="PaymentMethod" />
+                <ScalarProperty Name="DatePaid" ColumnName="DatePaid" />
+                <ScalarProperty Name="DateSent" ColumnName="DateSent" />
+                <ScalarProperty Name="VatPercentage" ColumnName="VatPercentage" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DbOrganisation">
+            <EntityTypeMapping TypeName="LetterAmazer.DbOrganisation">
+              <MappingFragment StoreEntitySet="DbOrganisation">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="DateModified" ColumnName="DateModified" />
+                <ScalarProperty Name="DateDeleted" ColumnName="DateDeleted" />
+                <ScalarProperty Name="CountryId" ColumnName="CountryId" />
+                <ScalarProperty Name="Address1" ColumnName="Address1" />
+                <ScalarProperty Name="Zipcode" ColumnName="Zipcode" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="Address2" ColumnName="Address2" />
+                <ScalarProperty Name="AttPerson" ColumnName="AttPerson" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="Guid" ColumnName="Guid" />
+                <ScalarProperty Name="IsPrivate" ColumnName="IsPrivate" />
+                <ScalarProperty Name="RequiredFulfillmentPartnerId" ColumnName="RequiredFulfillmentPartnerId" />
+                <ScalarProperty Name="RequiredOfficeId" ColumnName="RequiredOfficeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DbOrganisationAddressList">
+            <EntityTypeMapping TypeName="LetterAmazer.DbOrganisationAddressList">
+              <MappingFragment StoreEntitySet="DbOrganisationAddressList">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Address1" ColumnName="Address1" />
+                <ScalarProperty Name="Address2" ColumnName="Address2" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="Zipcode" ColumnName="Zipcode" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="CountryId" ColumnName="CountryId" />
+                <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
+                <ScalarProperty Name="OrderIndex" ColumnName="OrderIndex" />
+                <ScalarProperty Name="OrganisationName" ColumnName="OrganisationName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DbOrganisationProfileSettings">
+            <EntityTypeMapping TypeName="LetterAmazer.DbOrganisationProfileSettings">
+              <MappingFragment StoreEntitySet="DbOrganisationProfileSettings">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
+                <ScalarProperty Name="LetterColor" ColumnName="LetterColor" />
+                <ScalarProperty Name="LetterProcessing" ColumnName="LetterProcessing" />
+                <ScalarProperty Name="LetterPaperWeight" ColumnName="LetterPaperWeight" />
+                <ScalarProperty Name="LetterType" ColumnName="LetterType" />
+                <ScalarProperty Name="LetterSize" ColumnName="LetterSize" />
+                <ScalarProperty Name="PreferedCountryId" ColumnName="PreferedCountryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DbPaymentMethods">
+            <EntityTypeMapping TypeName="LetterAmazer.DbPaymentMethods">
+              <MappingFragment StoreEntitySet="DbPaymentMethods">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="DateDeleted" ColumnName="DateDeleted" />
+                <ScalarProperty Name="MinimumAmount" ColumnName="MinimumAmount" />
+                <ScalarProperty Name="MaximumAmount" ColumnName="MaximumAmount" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
+                <ScalarProperty Name="IsVisible" ColumnName="IsVisible" />
+                <ScalarProperty Name="RequiresLogin" ColumnName="RequiresLogin" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DbProductMatrixLines">
+            <EntityTypeMapping TypeName="LetterAmazer.DbProductMatrixLines">
+              <MappingFragment StoreEntitySet="DbProductMatrixLines">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="LineType" ColumnName="LineType" />
+                <ScalarProperty Name="BaseCost" ColumnName="BaseCost" />
+                <ScalarProperty Name="PriceType" ColumnName="PriceType" />
+                <ScalarProperty Name="Span_lower" ColumnName="Span_lower" />
+                <ScalarProperty Name="Span_upper" ColumnName="Span_upper" />
+                <ScalarProperty Name="OfficeProductId" ColumnName="OfficeProductId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DbShops">
+            <EntityTypeMapping TypeName="LetterAmazer.DbShops">
+              <MappingFragment StoreEntitySet="DbShops">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="CountryId" ColumnName="CountryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DbLog">
+            <EntityTypeMapping TypeName="LetterAmazer.DbLog">
+              <MappingFragment StoreEntitySet="DbLog">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Thread" ColumnName="Thread" />
+                <ScalarProperty Name="Level" ColumnName="Level" />
+                <ScalarProperty Name="Logger" ColumnName="Logger" />
+                <ScalarProperty Name="Message" ColumnName="Message" />
+                <ScalarProperty Name="Exception" ColumnName="Exception" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DbApiAccess">
+            <EntityTypeMapping TypeName="LetterAmazer.DbApiAccess">
+              <MappingFragment StoreEntitySet="DbApiAccess">
+                <ScalarProperty Name="ApiSecret" ColumnName="ApiSecret" />
+                <ScalarProperty Name="ApiKey" ColumnName="ApiKey" />
+                <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -11,8 +11,7 @@ namespace LetterAmazer.Business.Utils.Helpers
         public const string Sitename = "letteramazer.com";
 
         public const string GAnlyticsId = "UA-17514238-1";
-        public const string GoogleMapsApiCall =
-            "https://maps.googleapis.com/maps/api/js?key=AIzaSyBulh9LO7V3Eb80BF0-h6BW6MyiO-qNTC0&sensor=false";
+        public const string GoogleMapsApiCall ="https://maps.googleapis.com/maps/api/js?key=AIzaSyBulh9LO7V3Eb80BF0-h6BW6MyiO-qNTC0&sensor=false";
 
         public class Path
         {
@@ -55,15 +54,21 @@ namespace LetterAmazer.Business.Utils.Helpers
             public class PracticalInformation
             {
                 public const string PhoneNr = "(+45) 6179 3650";
-                public const string Street = "Måløv Hovedgade 58C st. th.";
+                public const string Address1 = "Måløv Hovedgade 58C st. th.";
                 public const string City = "Måløv";
-                public const string PostalNr = "2760";
-                public const string Cvr = "33113544";
-                public const string BankName = "Nordea";
-                public const string BankReg = "2279";
-                public const string BankAccount = "8971983559";
-                public const string CompanyName = "GodeKarakterer v. Lars Holdgaard";
+                public const string Zipcode = "2760";
+                public const string VatNumber = "35636307";
+                public const string BankName = "Norresundby Bank";
+                public const string BankReg = "7450";
+                public const string BankAccount = "0001315761";
+                public const string Iban = "DK5674500001315761";
+                public const string Swift = "NRSBDK24";
 
+                public const string CompanyName = "LetterAmazer IvS";
+                public const string Country = "Denmark";
+                public const int CountryId = 59;
+                public const string AttPerson = "Lars Holdgaard";
+                public const string PaypalEmail = "info@letteramazer.com";
             }
 
             public class InfoTexts
