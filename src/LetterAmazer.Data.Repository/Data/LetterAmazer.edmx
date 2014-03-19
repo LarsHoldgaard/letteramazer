@@ -72,6 +72,14 @@
           <Property Name="CouponStatus" Type="int" Nullable="false" />
           <Property Name="DateModified" Type="datetime" />
         </EntityType>
+        <EntityType Name="DbCurrencies">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="CurrencyCode" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
         <EntityType Name="DbCustomers">
           <Key>
             <PropertyRef Name="Id" />
@@ -101,6 +109,15 @@
           <Property Name="OrganisationId" Type="int" />
           <Property Name="OrganisationRole" Type="int" />
           <Property Name="AccountStatus" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DbExchangeRates">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DateFetched" Type="datetime" Nullable="false" />
+          <Property Name="CurrencyId" Type="int" Nullable="false" />
+          <Property Name="ExchangeRate" Type="decimal" Precision="18" Scale="4" Nullable="false" />
         </EntityType>
         <EntityType Name="DbFulfillmentPartners">
           <Key>
@@ -357,6 +374,7 @@ warning 6002: The table/view 'LetterAmazer.dbo.DbLog' does not have a primary ke
           <Property Name="Span_lower" Type="int" Nullable="false" />
           <Property Name="Span_upper" Type="int" Nullable="false" />
           <Property Name="OfficeProductId" Type="int" Nullable="false" />
+          <Property Name="CurrencyId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="DbShops">
           <Key>
@@ -612,7 +630,9 @@ warning 6002: The table/view 'LetterAmazer.dbo.DbLog' does not have a primary ke
           <EntitySet Name="DbCountries" EntityType="Self.DbCountries" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DbCountryNames" EntityType="Self.DbCountryNames" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DbCoupons" EntityType="Self.DbCoupons" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DbCurrencies" EntityType="Self.DbCurrencies" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DbCustomers" EntityType="Self.DbCustomers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DbExchangeRates" EntityType="Self.DbExchangeRates" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DbFulfillmentPartners" EntityType="Self.DbFulfillmentPartners" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DbInvoiceLines" EntityType="Self.DbInvoiceLines" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DbInvoices" EntityType="Self.DbInvoices" Schema="dbo" store:Type="Tables" />
@@ -1084,6 +1104,7 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
           <Property Name="Span_upper" Type="Int32" Nullable="false" />
           <Property Name="OfficeProductId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="DbOfficeProducts" Relationship="Self.FK_DbProductMatrixLines_DbOfficeProducts" FromRole="DbProductMatrixLines" ToRole="DbOfficeProducts" />
+          <Property Name="CurrencyId" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="DbShops">
           <Key>
@@ -1430,6 +1451,8 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
             <End Role="DbOrganisation" EntitySet="DbOrganisation" />
             <End Role="DbApiAccess" EntitySet="DbApiAccess" />
           </AssociationSet>
+          <EntitySet Name="DbCurrencies" EntityType="LetterAmazer.DbCurrencies" />
+          <EntitySet Name="DbExchangeRates" EntityType="LetterAmazer.DbExchangeRates" />
         </EntityContainer>
         <Association Name="FK_DbLetters_DbOrders">
           <End Type="LetterAmazer.DbOrders" Role="DbOrders" Multiplicity="1" />
@@ -1465,6 +1488,23 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="DbCurrencies">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="CurrencyCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="DbExchangeRates">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DateFetched" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CurrencyId" Type="Int32" Nullable="false" />
+          <Property Name="ExchangeRate" Type="Decimal" Nullable="false" Precision="18" Scale="4" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1803,6 +1843,7 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
           <EntitySetMapping Name="DbProductMatrixLines">
             <EntityTypeMapping TypeName="LetterAmazer.DbProductMatrixLines">
               <MappingFragment StoreEntitySet="DbProductMatrixLines">
+                <ScalarProperty Name="CurrencyId" ColumnName="CurrencyId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="LineType" ColumnName="LineType" />
@@ -1842,6 +1883,25 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
                 <ScalarProperty Name="ApiSecret" ColumnName="ApiSecret" />
                 <ScalarProperty Name="ApiKey" ColumnName="ApiKey" />
                 <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DbCurrencies">
+            <EntityTypeMapping TypeName="LetterAmazer.DbCurrencies">
+              <MappingFragment StoreEntitySet="DbCurrencies">
+                <ScalarProperty Name="CurrencyCode" ColumnName="CurrencyCode" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DbExchangeRates">
+            <EntityTypeMapping TypeName="LetterAmazer.DbExchangeRates">
+              <MappingFragment StoreEntitySet="DbExchangeRates">
+                <ScalarProperty Name="ExchangeRate" ColumnName="ExchangeRate" />
+                <ScalarProperty Name="CurrencyId" ColumnName="CurrencyId" />
+                <ScalarProperty Name="DateFetched" ColumnName="DateFetched" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

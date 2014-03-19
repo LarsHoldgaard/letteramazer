@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Amazon.EC2.Model;
+using LetterAmazer.Business.Services.Domain.Currencies;
 
 namespace LetterAmazer.Business.Services.Domain.Pricing
 {
@@ -16,6 +17,10 @@ namespace LetterAmazer.Business.Services.Domain.Pricing
         /// </summary>
         public decimal VatPercentage { get; set; }
 
+        /// <summary>
+        /// The currencycode this price is presented in
+        /// </summary>
+        public CurrencyCode CurrencyCode { get; set; }
         
         public int OfficeProductId { get; set; }
 

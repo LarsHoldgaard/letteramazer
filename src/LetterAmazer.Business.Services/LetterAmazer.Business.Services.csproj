@@ -95,6 +95,8 @@
     <Compile Include="Domain\Countries\Continent.cs" />
     <Compile Include="Domain\Countries\CountryName.cs" />
     <Compile Include="Domain\Countries\CountryNameSpecification.cs" />
+    <Compile Include="Domain\Currencies\CurrencyCode.cs" />
+    <Compile Include="Domain\Currencies\ICurrencyService.cs" />
     <Compile Include="Domain\Customers\AccountStatus.cs" />
     <Compile Include="Domain\Customers\OrganisationRole.cs" />
     <Compile Include="Domain\Invoice\IInvoiceService.cs" />
@@ -129,6 +131,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="Services\CurrencyService.cs" />
     <Compile Include="Services\FulfillmentJobs\IntermailService.cs" />
     <Compile Include="Services\FulfillmentJobs\PostalMethodsService.cs" />
     <Compile Include="Services\InvoiceService.cs" />

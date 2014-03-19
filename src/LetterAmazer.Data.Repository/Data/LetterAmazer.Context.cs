@@ -46,5 +46,7 @@ namespace LetterAmazer.Data.Repository.Data
         public DbSet<DbShops> DbShops { get; set; }
         public DbSet<DbLog> DbLog { get; set; }
         public DbSet<DbApiAccess> DbApiAccess { get; set; }
+        public DbSet<DbCurrencies> DbCurrencies { get; set; }
+        public DbSet<DbExchangeRates> DbExchangeRates { get; set; }
     }
 }

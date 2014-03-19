@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LetterAmazer.Business.Services.Domain.Currencies;
 using LetterAmazer.Business.Services.Domain.ProductMatrix;
 using LetterAmazer.Business.Services.Factory.Interfaces;
 using LetterAmazer.Data.Repository.Data;
@@ -24,7 +25,8 @@ namespace LetterAmazer.Business.Services.Factory
                 OfficeProductId = productMatrixLine.OfficeProductId,
                 PriceType = (ProductMatrixPriceType)productMatrixLine.PriceType,
                 SpanLower = productMatrixLine.Span_lower,
-                SpanUpper = productMatrixLine.Span_upper
+                SpanUpper = productMatrixLine.Span_upper,
+                CurrencyCode = (CurrencyCode)productMatrixLine.CurrencyId
             };
         }
 

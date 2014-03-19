@@ -46,6 +46,8 @@
         <AssociationConnector Association="LetterAmazer.FK_DbLetters_DbOrders" />
         <EntityTypeShape EntityType="LetterAmazer.DbApiAccess" Width="1.5" PointX="3" PointY="31.875" />
         <AssociationConnector Association="LetterAmazer.FK_DbApiAccess_DbApiAccess" />
+        <EntityTypeShape EntityType="LetterAmazer.DbCurrencies" Width="1.5" PointX="5.375" PointY="4.75" />
+        <EntityTypeShape EntityType="LetterAmazer.DbExchangeRates" Width="1.5" PointX="7.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
