@@ -88,6 +88,7 @@
     <Compile Include="Configurations.cs" />
     <Compile Include="Jobs\AbstractInterruptableJob.cs" />
     <Compile Include="Jobs\DeliveryLetterJob.cs" />
+    <Compile Include="Jobs\PriceUpdaterJob.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

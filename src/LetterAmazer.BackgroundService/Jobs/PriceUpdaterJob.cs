@@ -1,34 +1,30 @@
-﻿using System.Collections.Generic;
-using System.Configuration;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using Castle.MicroKernel.Registration;
+using System.Text;
+using System.Threading.Tasks;
 using Castle.Windsor;
 using LetterAmazer.Business.Services;
 using LetterAmazer.Business.Services.Domain.DeliveryJobs;
-using LetterAmazer.Business.Services.Domain.Fulfillments;
-using LetterAmazer.Business.Services.Domain.Letters;
-using LetterAmazer.Business.Services.Domain.Orders;
-using LetterAmazer.Business.Services.Domain.Products;
+using LetterAmazer.Business.Services.Domain.PriceUpdater;
 using log4net;
 using Quartz;
-using System;
 
 namespace LetterAmazer.BackgroundService.Jobs
 {
-    public class DeliveryLetterJob
+    public class PriceUpdaterJob
     {
-        private static readonly ILog logger = LogManager.GetLogger(typeof(DeliveryLetterJob));
+        private static readonly ILog logger = LogManager.GetLogger(typeof(PriceUpdaterJob));
 
         public void ExecuteJob()
         {
             logger.DebugFormat("start delivery letter job at: {0}", DateTime.Now);
 
-            IDeliveryJobService deliveryJobService;
+            IPriceUpdater priceUpdater;
             try
             {
-                deliveryJobService = ServiceFactory.Get<IDeliveryJobService>();
-                deliveryJobService.Execute();
+                priceUpdater = ServiceFactory.Get<IPriceUpdater>();
+                priceUpdater.Execute();
             }
             catch (Exception ex)
             {

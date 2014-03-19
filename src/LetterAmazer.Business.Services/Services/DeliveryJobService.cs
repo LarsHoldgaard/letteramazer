@@ -23,19 +23,15 @@ namespace LetterAmazer.Business.Services.Services
         private static readonly ILog logger = LogManager.GetLogger(typeof(DeliveryJobService));
 
         private IOrderService orderService;
-        private IFulfillmentService fulfillmentService;
-        private IOfficeProductService officeProductService;
         private IOfficeService officeService;
         private IFulfillmentPartnerService fulfillmentPartnerService;
         private ILetterService letterService;
 
 
-        public DeliveryJobService(IOrderService orderService,IFulfillmentService fulfillmentService, IOfficeProductService officeProductService, 
+        public DeliveryJobService(IOrderService orderService,
             IOfficeService officeService, IFulfillmentPartnerService fulfillmentPartnerService,ILetterService letterService)
         {
             this.orderService = orderService;
-            this.fulfillmentService = fulfillmentService;
-            this.officeProductService = officeProductService;
             this.officeService = officeService;
             this.fulfillmentPartnerService = fulfillmentPartnerService;
             this.letterService = letterService;
