@@ -32,6 +32,7 @@ namespace LetterAmazer.Data.Repository.Data
         public int LetterSize { get; set; }
         public int LetterType { get; set; }
         public Nullable<int> OfficeProductReferenceId { get; set; }
+        public int ShippingWeekdays { get; set; }
     
         public virtual ICollection<DbProductMatrixLines> DbProductMatrixLines { get; set; }
         public virtual DbOffices DbOffices { get; set; }

@@ -92,6 +92,17 @@ namespace LetterAmazer.Business.Services.Services
             IQueryable<DbOfficeProducts> officeProducts =
                 repository.DbOfficeProducts.Where(c => c.ReferenceType == (int) ProductMatrixReferenceType.Sales);
 
+            if (specification.CountryId > 0)
+            {
+                var country = countryService.GetCountryById(specification.CountryId);
+                officeProducts = officeProducts.Where(c => c.CountryId == specification.CountryId || c.ContinentId == country.ContinentId || c.ScopeType == (int)ProductScope.RestOfWorld);
+
+                // TODO: remove denmark hack 
+                if (specification.CountryId == 59)
+                {
+                    specification.ShippingDays = 1;
+                }
+            }
             if (specification.OfficeProductId > 0)
             {
                 officeProducts = officeProducts.Where(c => c.Id == specification.OfficeProductId);
@@ -116,11 +127,6 @@ namespace LetterAmazer.Business.Services.Services
             {
                 officeProducts = officeProducts.Where(c => c.LetterType == (int)specification.LetterType.Value);
             }
-            if (specification.CountryId > 0)
-            {
-                var country = countryService.GetCountryById(specification.CountryId);
-                officeProducts = officeProducts.Where(c => c.CountryId == specification.CountryId || c.ContinentId == country.ContinentId || c.ScopeType == (int)ProductScope.RestOfWorld);
-            }
             if (specification.ContinentId > 0)
             {
                 officeProducts = officeProducts.Where(c => c.ContinentId == specification.ContinentId || c.ScopeType == (int)ProductScope.RestOfWorld);
@@ -128,6 +134,10 @@ namespace LetterAmazer.Business.Services.Services
             if (specification.OfficeId > 0)
             {
                 officeProducts = officeProducts.Where(c => c.OfficeId == specification.OfficeId);
+            }
+            if (specification.ShippingDays > 0)
+            {
+                officeProducts = officeProducts.Where(c => c.ShippingWeekdays == specification.ShippingDays);
             }
 
             // TODO: ZIP?
@@ -162,7 +172,7 @@ namespace LetterAmazer.Business.Services.Services
             return new Price()
             {
                 OfficeProductId = officeProductId,
-                PriceExVat =minCost,
+                PriceExVat = minCost,
                 VatPercentage = addVat ? 0.25m : 0.0m
             };
         }

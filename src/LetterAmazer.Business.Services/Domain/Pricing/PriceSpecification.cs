@@ -26,7 +26,7 @@ namespace LetterAmazer.Business.Services.Domain.Pricing
         public int PageCount { get; set; }
         public int DeliveryDays { get; set; }
 
-        
+        public int ShippingDays { get; set; }
 
         public int OrganisationId { get; set; }
 

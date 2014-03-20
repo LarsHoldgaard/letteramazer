@@ -43,7 +43,8 @@ namespace LetterAmazer.Business.Services.Factory
                 ZipId = dbproducts.ZipId.HasValue ? dbproducts.ZipId.Value : 0,
                 OfficeId = dbproducts.OfficeId,
                 ReferenceType = (ProductMatrixReferenceType)dbproducts.ReferenceType,
-                OfficeProductReferenceId = dbproducts.OfficeProductReferenceId.HasValue ? dbproducts.OfficeProductReferenceId.Value : 0
+                OfficeProductReferenceId = dbproducts.OfficeProductReferenceId.HasValue ? dbproducts.OfficeProductReferenceId.Value : 0,
+                ShippingDays = dbproducts.ShippingWeekdays
             };
 
             officeProduct.ProductMatrixLines = productMatrixService.GetProductMatrixBySpecification(

@@ -129,7 +129,8 @@ namespace LetterAmazer.Business.Services.Services
                     LetterType = cheapest_officeProduct.LetterDetails.LetterType,
                     ProductScope = cheapest_officeProduct.ProductScope,
                     ZipId = cheapest_officeProduct.ContinentId,
-                    ProductMatrixReferenceType = ProductMatrixReferenceType.Sales
+                    ProductMatrixReferenceType = ProductMatrixReferenceType.Sales,
+                    ShippingDays = cheapest_officeProduct.ShippingDays
                 }).FirstOrDefault();
 
             // If product doesn't exist, we will just create it
