@@ -28,6 +28,8 @@ namespace LetterAmazer.Business.Services.Domain.OfficeProducts
         public int OfficeProductReferenceId { get; set; }
         public int ShippingDays { get; set; }
 
+        public bool Enabled { get; set; }
+
         public OfficeProduct()
         {
             this.ProductMatrixLines = new List<ProductMatrixLine>();

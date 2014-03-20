@@ -19,6 +19,8 @@ namespace LetterAmazer.Business.Services.Domain.Countries
         public string Fipscode { get; set; }
         public int ContinentId { get; set; }
 
+        public bool Enabled { get; set; }
+
         public decimal? VatPercentage { get; set; }
     }
 }

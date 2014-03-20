@@ -81,7 +81,7 @@ namespace LetterAmazer.Business.Services.Services
             {
                 dbcountries = repository.DbCountries.Where(c => c.ContinentId == specification.ContinentId);
             }
-            return countryFactory.Create(dbcountries.OrderBy(c=>c.CountryName).Skip(specification.Skip).Take(specification.Take).ToList());
+            return countryFactory.Create(dbcountries.Where(c=>c.Enabled).OrderBy(c=>c.CountryName).Skip(specification.Skip).Take(specification.Take).ToList());
         }
 
         public List<Continent> GetContinents()

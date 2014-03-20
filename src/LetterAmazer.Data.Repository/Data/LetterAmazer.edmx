@@ -46,6 +46,7 @@
           <Property Name="InsideEu" Type="bit" />
           <Property Name="ContinentId" Type="int" />
           <Property Name="VatPercentage" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Enabled" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="DbCountryNames">
           <Key>
@@ -254,6 +255,7 @@ warning 6002: The table/view 'LetterAmazer.dbo.DbLog' does not have a primary ke
           <Property Name="LetterType" Type="int" Nullable="false" />
           <Property Name="OfficeProductReferenceId" Type="int" />
           <Property Name="ShippingWeekdays" Type="int" Nullable="false" />
+          <Property Name="Enabled" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="DbOffices">
           <Key>
@@ -782,6 +784,7 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
           <NavigationProperty Name="DbLetters1" Relationship="Self.FK_Letters_ToCountry" FromRole="DbCountries" ToRole="DbLetters" />
           <NavigationProperty Name="DbOffices" Relationship="Self.FK_Offices_Countries" FromRole="DbCountries" ToRole="DbOffices" />
           <NavigationProperty Name="DbShops" Relationship="Self.FK_Shops_Countries" FromRole="DbCountries" ToRole="DbShops" />
+          <Property Name="Enabled" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="DbCountryNames">
           <Key>
@@ -969,6 +972,7 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
           <NavigationProperty Name="DbProductMatrixLines" Relationship="Self.FK_DbProductMatrixLines_DbOfficeProducts" FromRole="DbOfficeProducts" ToRole="DbProductMatrixLines" />
           <NavigationProperty Name="DbOffices" Relationship="Self.FK_OfficeProducts_Offices" FromRole="DbOfficeProducts" ToRole="DbOffices" />
           <Property Name="ShippingWeekdays" Type="Int32" Nullable="false" />
+          <Property Name="Enabled" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="DbOffices">
           <Key>
@@ -1524,6 +1528,7 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
           <EntitySetMapping Name="DbCountries">
             <EntityTypeMapping TypeName="LetterAmazer.DbCountries">
               <MappingFragment StoreEntitySet="DbCountries">
+                <ScalarProperty Name="Enabled" ColumnName="Enabled" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="CountryName" ColumnName="CountryName" />
                 <ScalarProperty Name="CurrencyCode" ColumnName="CurrencyCode" />
@@ -1711,6 +1716,7 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
           <EntitySetMapping Name="DbOfficeProducts">
             <EntityTypeMapping TypeName="LetterAmazer.DbOfficeProducts">
               <MappingFragment StoreEntitySet="DbOfficeProducts">
+                <ScalarProperty Name="Enabled" ColumnName="Enabled" />
                 <ScalarProperty Name="ShippingWeekdays" ColumnName="ShippingWeekdays" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="OfficeId" ColumnName="OfficeId" />

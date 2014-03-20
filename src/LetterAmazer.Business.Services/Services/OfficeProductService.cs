@@ -92,7 +92,7 @@ namespace LetterAmazer.Business.Services.Services
 
             return
                 officeProductFactory.Create(
-                    dbProducts.OrderBy(c => c.Id).Skip(specification.Skip).Take(specification.Take).ToList());
+                    dbProducts.Where(c=>c.Enabled).OrderBy(c => c.Id).Skip(specification.Skip).Take(specification.Take).ToList());
         }
 
         public OfficeProduct Create(OfficeProduct officeProduct)
