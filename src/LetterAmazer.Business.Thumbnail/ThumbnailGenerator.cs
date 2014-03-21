@@ -57,7 +57,7 @@ namespace LetterAmazer.Business.Thumbnail
             GhostscriptWrapper.GeneratePageThumb(tempInputFilePath, tempOutputFilePatah, 1, 100, 100);
 
             byte[] data = null;
-            using (FileStream fs = new FileStream(tempInputFilePath, FileMode.Open))
+            using (FileStream fs = new FileStream(tempOutputFilePatah, FileMode.Open))
             {
                 using (Bitmap bmp = new Bitmap(fs))
                 {
@@ -70,6 +70,7 @@ namespace LetterAmazer.Business.Thumbnail
                         gra.FillRectangle(brush, 30, 170, 300, 150);
                         bmp.Save(ms,ImageFormat.Jpeg);
 
+                        ms.Position = 0;
                         data = ReadFully(ms);
                     }
                 }

@@ -155,7 +155,6 @@
     <Compile Include="App_Start\CultureConstraint.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\MultiCultureMvcRouteHandler.cs" />
-    <Compile Include="App_Start\RegisterClientValidationExtensions.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\SingleCultureMvcRouteHandler.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
@@ -746,8 +745,9 @@
     </PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
+    <PostBuildEvent>if exist "$(TargetDir)gsdll32.dll" goto :exit
+   copy "$(ProjectDir)\..\Packages\GhostscriptSharp\gsdll32.dll" "$(TargetDir)"
+:exit</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

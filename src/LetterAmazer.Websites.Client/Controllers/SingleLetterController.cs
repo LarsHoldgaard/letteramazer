@@ -105,13 +105,16 @@ namespace LetterAmazer.Websites.Client.Controllers
         [HttpGet]
         public FileResult GetThumbnail(string uploadFileKey)
         {
-            //var basePath = Server.MapPath(ConfigurationManager.AppSettings["LetterAmazer.Settings.StoreThumbnail"]);
-            //uploadFileKey = PathHelper.GetAbsoluteFile(uploadFileKey);
-            //var thumbnailService = new ThumbnailGenerator(basePath);
-            //var byteData = System.IO.File.ReadAllBytes(uploadFileKey);
-            //var data = thumbnailService.GetThumbnailFromA4(byteData);
+            if (string.IsNullOrEmpty(uploadFileKey))
+            {
+                return new FileStreamResult(new MemoryStream(), "image/jpeg");
+            }
 
-            var data = System.IO.File.ReadAllBytes(Server.MapPath("~/Content/images/output_modified.jpg"));
+            var basePath = Server.MapPath(ConfigurationManager.AppSettings["LetterAmazer.Settings.StoreThumbnail"]);
+            uploadFileKey = PathHelper.GetAbsoluteFile(uploadFileKey);
+            var thumbnailService = new ThumbnailGenerator(basePath);
+            var byteData = System.IO.File.ReadAllBytes(uploadFileKey);
+            var data = thumbnailService.GetThumbnailFromA4(byteData);
 
             return new FileStreamResult(new MemoryStream(data), "image/jpeg");
         }
