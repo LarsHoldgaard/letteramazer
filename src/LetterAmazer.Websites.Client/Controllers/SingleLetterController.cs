@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Configuration;
+using System.Linq;
 using LetterAmazer.Business.Services.Domain.AddressInfos;
 using LetterAmazer.Business.Services.Domain.Countries;
 using LetterAmazer.Business.Services.Domain.Coupons;
@@ -103,7 +104,9 @@ namespace LetterAmazer.Websites.Client.Controllers
         [HttpGet]
         public FileResult GetThumbnail(string uploadFileKey)
         {
-            var thumbnailService = new ThumbnailGenerator();
+            var basePath = Server.MapPath(ConfigurationManager.AppSettings["LetterAmazer.Settings.StoreThumbnail"]);
+            uploadFileKey = PathHelper.GetAbsoluteFile(uploadFileKey);
+            var thumbnailService = new ThumbnailGenerator(basePath);
             var byteData = System.IO.File.ReadAllBytes(uploadFileKey);
             var data = thumbnailService.GetThumbnailFromA4(byteData);
 

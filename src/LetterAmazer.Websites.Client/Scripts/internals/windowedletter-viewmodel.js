@@ -32,7 +32,9 @@
             }
         });
 
-        self.thumbnailImagePath = self.thumbnailUrl + '?uploadFileKey=' + self.uploadFileKey();
+        console.log('setting thumlnail:');
+        self.thumbnailImagePath(self.thumbnailUrl + '?uploadFileKey=' + self.uploadFileKey());
+        console.log(' thumlnail set:' + self.thumbnailImagePath());
     };
 
     //public JsonResult GetPrice(bool usePdf, string uploadFileKey, string content, string address, string postal, string city, string state,string country)

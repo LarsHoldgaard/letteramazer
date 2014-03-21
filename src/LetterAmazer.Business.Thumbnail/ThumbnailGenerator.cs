@@ -15,9 +15,10 @@ namespace LetterAmazer.Business.Thumbnail
     {
         private string baseStorePath;
 
-        public ThumbnailGenerator()
+        public ThumbnailGenerator(string basePath)
         {
-            baseStorePath = ConfigurationManager.AppSettings.Get("LetterAmazer.Settings.StoreThumbnail");
+            //baseStorePath = ConfigurationManager.AppSettings.Get("LetterAmazer.Settings.StoreThumbnail");
+            baseStorePath = basePath;
         }
 
         public byte[] GetThumbnailFromLetter(byte[] inputfile)
@@ -52,8 +53,8 @@ namespace LetterAmazer.Business.Thumbnail
 
         public byte[] GetThumbnailFromA4(byte[] inputfile)
         {
-            string tempInputFilePath = Guid.NewGuid().ToString() + ".pdf";
-            string tempOutputFilePatah = Guid.NewGuid().ToString() + ".jpg";
+            string tempInputFilePath = baseStorePath + "\\" +Guid.NewGuid().ToString() + ".pdf";
+            string tempOutputFilePatah = baseStorePath + "\\" + Guid.NewGuid().ToString() + ".jpg";
             
             StorePdfFile(inputfile,tempInputFilePath);
 
