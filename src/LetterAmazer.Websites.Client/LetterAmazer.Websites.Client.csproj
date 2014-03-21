@@ -669,6 +669,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Content\sql\" />
     <Folder Include="UserData\PdfLetters\" />
+    <Folder Include="UserData\Thumbnail\" />
     <Folder Include="UserData\Zip\" />
   </ItemGroup>
   <ItemGroup>
