@@ -245,6 +245,7 @@
     <Content Include="Content\images\letteramazer.png" />
     <Content Include="Content\images\letteramazer_small.png" />
     <Content Include="Content\images\letteramazer_small_white.png" />
+    <Content Include="Content\images\output_modified.jpg" />
     <Content Include="Content\images\pdf-icon.png" />
     <Content Include="Content\images\printer_cartoon.gif" />
     <Content Include="Content\images\stamp.png" />
@@ -745,9 +746,8 @@
     </PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PostBuildEvent>if exist "$(TargetDir)gsdll32.dll" goto :exit
-   copy "$(ProjectDir)\..\Packages\GhostscriptSharp\gsdll32.dll" "$(TargetDir)"
-:exit</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

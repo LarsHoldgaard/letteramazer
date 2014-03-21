@@ -16,9 +16,6 @@
 
 @Html.ActionLink("Go back to your dashboard", "Index")<br /><br />
 
-<div class="alert alert-warning">
-    <b>This is in beta, and will have problems</b>. It only works for letters to Denmark, and even for Denmark, we cannot promise you anything as of right now.
-</div>
 
 
 @using (Html.BeginForm("SendWindowedLetter", "User", FormMethod.Post, new { id = "sendLetterForm" }))
@@ -84,15 +81,21 @@
                     <dt>Shipping time</dt>
                     <dd>1-3 Week days</dd>
                 </dl>
-
+                <input type="submit" value="Send letter" class="btn btn-success btn-lg" />
             </div>
             <div class="col-md-9">
-                <img data-bind="attr:{src: thumbnailImagePath}" width="400px" />  
+                <br/><b>Your letter</b><br/>
+                The grey box is where the address has to be:
+                
+                <div style="border:1px solid #d9d9d9; max-width: 700px;">
+                    <img data-bind="attr:{src: thumbnailImagePath}" style="width:100%;" />      
+                </div>
+                
             </div>
         </div>
 
        
-        <input type="submit" value="Send letter" class="btn btn-success btn-lg" />
+        
     </div>
 
     @Html.HiddenFor(model => model.PaymentMethodId)
