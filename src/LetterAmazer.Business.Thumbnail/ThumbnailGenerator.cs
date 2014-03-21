@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using GhostscriptSharp;
 
 namespace LetterAmazer.Business.Thumbnail
@@ -28,6 +23,7 @@ namespace LetterAmazer.Business.Thumbnail
 
             StorePdfFile(inputfile, tempInputFilePath);
 
+            
             GhostscriptWrapper.GeneratePageThumb(tempInputFilePath, tempOutputFilePatah, 1, 100, 100);
 
             byte[] data = null;
