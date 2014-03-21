@@ -13,6 +13,7 @@ using LetterAmazer.Business.Services.Domain.PriceUpdater;
 using LetterAmazer.Business.Services.Domain.Pricing;
 using LetterAmazer.Business.Services.Domain.Products.ProductDetails;
 using LetterAmazer.Business.Services.Exceptions;
+using LetterAmazer.Business.Thumbnail;
 using LetterAmazer.Websites.Client.ViewModels.User;
 using log4net;
 using System;
@@ -97,6 +98,16 @@ namespace LetterAmazer.Websites.Client.Controllers
             }
 
             return View(model);
+        }
+
+        [HttpGet]
+        public FileResult GetThumbnail(string uploadFileKey)
+        {
+            var thumbnailService = new ThumbnailGenerator();
+            var byteData = System.IO.File.ReadAllBytes(uploadFileKey);
+            var data = thumbnailService.GetThumbnailFromA4(byteData);
+
+            return new FileStreamResult(new MemoryStream(data), "image/jpeg");
         }
 
         [HttpPost, ValidateInput(false)]

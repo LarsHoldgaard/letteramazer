@@ -1,12 +1,14 @@
 ﻿var SendWindowedLetterViewModel = function (formSelector, data) {
     var self = this;
     self.getPriceUrl = data.getPriceUrl;
+    self.thumbnailUrl = data.thumbnailUrl;
+
     self.countryId = ko.observable(0);
     self.uploadFileKey = ko.observable('');
     self.cost = ko.observable(0);
     self.numberOfPages = ko.observable(0);
     self.shippingtime = ko.observable('');
-
+    self.thumbnailImagePath = ko.observable('');
 
     self.downloadPrices = function () {
         var thiz = self;
@@ -29,6 +31,8 @@
                 thiz.numberOfPages(data.numberOfPages);
             }
         });
+
+        self.thumbnailImagePath = self.thumbnailUrl + '?uploadFileKey=' + self.uploadFileKey();
     };
 
     //public JsonResult GetPrice(bool usePdf, string uploadFileKey, string content, string address, string postal, string city, string state,string country)

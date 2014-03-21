@@ -59,33 +59,39 @@
         <div class="alert alert-warning">
 
             <p>Please upload a letter, before you can send it.</p>
-            @*<p>It can take up to 3 seconds after you uploaded a letter before this form updates...</p>
-                <br/>
-                <img src="@Url.Content("/Content/images/ajax-loader.gif")"/>*@
         </div>
     </div>
     <div data-bind="visible: getPriceExVat() > 0.0">
 
         <h2>3. Send this letter</h2>
-        <dl>
-            <dt>Payment method</dt>
-            <dd>Credits</dd>
-            <dt>Price</dt>
-            <dd>
+        <div class="row">
+            <div class="col-md-6">
+                <dl>
+                    <dt>Payment method</dt>
+                    <dd>Credits</dd>
+                    <dt>Price</dt>
+                    <dd>
 
-                <label id="priceOfLetterLbl" data-bind="text: getPriceExVat"></label> $
+                        <label id="priceOfLetterLbl" data-bind="text: getPriceExVat"></label> $
 
-                @if (SessionHelper.Customer.VatPercentage() > 0.0m)
-                {
-                    <text>(<label id="priceOfLetterLbl" data-bind="text: getPriceTotal"></label> $ inc. local VAT)</text>
-                }
-            </dd>
-            <dt>Pages</dt>
-            <dd data-bind="text: numberOfPages"></dd>
-            <dt>Shipping time</dt>
-            <dd>1-3 Week days</dd>
-        </dl>
+                        @if (SessionHelper.Customer.VatPercentage() > 0.0m)
+                        {
+                            <text>(<label id="priceOfLetterLbl" data-bind="text: getPriceTotal"></label> $ inc. local VAT)</text>
+                        }
+                    </dd>
+                    <dt>Pages</dt>
+                    <dd data-bind="text: numberOfPages"></dd>
+                    <dt>Shipping time</dt>
+                    <dd>1-3 Week days</dd>
+                </dl>
 
+            </div>
+            <div class="col-md-6">
+                <img data-bind="attr:{src: thumbnailImagePath}" />  
+            </div>
+        </div>
+
+       
         <input type="submit" value="Send letter" class="btn btn-success btn-lg" />
     </div>
 
@@ -99,6 +105,7 @@
 
     var createLetterData = {
         getPriceUrl: '@Url.Action("GetPrice", "SingleLetter")',
+        thumbnailUrl: '@Url.Action("GetThumbnail", "SingleLetter")',
     };
 
     var viewModel = new SendWindowedLetterViewModel('#sendLetterForm', createLetterData);
