@@ -1,6 +1,7 @@
-﻿@model LetterAmazer.Websites.Client.ViewModels.User.SendWindowedLetterViewModel
+﻿@using LetterAmazer.Business.Utils.Helpers
+@model LetterAmazer.Websites.Client.ViewModels.User.SendWindowedLetterViewModel
 
-@using (Html.BeginForm("SendWindowedLetter", "User", FormMethod.Post, new { id = "sendLetterForm" }))
+@using (Html.BeginForm("SendWindowedLetter", "SingleLetter", FormMethod.Post, new { id = "sendLetterForm" }))
 {
     <h2>1. Upload your file</h2>
     <p>You can upload a PDF file below, by clicking the gray zone. It is important you follow a normal letter template, as this is directly printed into a windowed envelope.</p>
@@ -60,10 +61,10 @@
 
                         <label id="priceOfLetterLbl" data-bind="text: getPriceExVat"></label> $
 
-                        @*@if (SessionHelper.Customer.VatPercentage() > 0.0m)
+                        @if (SessionHelper.Customer != null && SessionHelper.Customer.VatPercentage() > 0.0m)
                             {
                                 <text>(<label id="priceOfLetterLbl" data-bind="text: getPriceTotal"></label> $ inc. local VAT)</text>
-                            }*@
+                            }
                     </dd>
                     <dt>Pages</dt>
                     <dd data-bind="text: numberOfPages"></dd>

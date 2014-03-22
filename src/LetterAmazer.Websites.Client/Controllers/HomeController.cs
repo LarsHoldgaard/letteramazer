@@ -54,9 +54,10 @@ namespace LetterAmazer.Websites.Client.Controllers
         {
             var windowedModel = new SendWindowedLetterViewModel()
             {
-                PaymentMethodId = 2,
+                PaymentMethodId = SessionHelper.Customer != null ? 2 : 1,
                 LetterType = (int)LetterType.Windowed,
-                UseUploadFile = true
+                UseUploadFile = true,
+                IsLoggedIn = SessionHelper.Customer != null 
             };
 
             var countries = countryService.GetCountryBySpecificaiton(new CountrySpecification()
@@ -97,6 +98,24 @@ namespace LetterAmazer.Websites.Client.Controllers
         }
 
         public ActionResult ApiInfo()
+        {
+            return View(new ApiViewModel());
+        }
+
+        [HttpPost]
+        public ActionResult ApiInfo(ApiViewModel apiModel)
+        {
+            mailService.NotificationApiWish(apiModel.Email,apiModel.Organistion,apiModel.Comment);
+
+            apiModel = new ApiViewModel();
+            apiModel.Comment = string.Empty;
+            apiModel.Organistion = string.Empty;
+            apiModel.Email = string.Empty;
+            apiModel.Status = "Thanks. We have received the e-mail and will get back to you soon";
+            return View(apiModel);
+        }
+
+        public ActionResult Reseller()
         {
             return View();
         }

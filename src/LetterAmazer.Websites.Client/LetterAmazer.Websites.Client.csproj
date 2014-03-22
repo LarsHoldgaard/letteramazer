@@ -207,6 +207,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ViewRes.resx</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\ApiViewModel.cs" />
     <Compile Include="ViewModels\Api\OfficeProductViewModel.cs" />
     <Compile Include="ViewModels\CreateSingleLetterModel.cs" />
     <Compile Include="ViewModels\CreditsViewModel.cs" />
@@ -243,6 +244,10 @@
     <Content Include="Content\images\ajax-loader.gif" />
     <Content Include="Content\images\icons\1395498076_130.png" />
     <Content Include="Content\images\icons\1395498087_cloud-upload.png" />
+    <Content Include="Content\images\icons\1395514602_circle-add.png" />
+    <Content Include="Content\images\icons\1395514603_Account.png" />
+    <Content Include="Content\images\icons\1395523082_document_text_accept.png" />
+    <Content Include="Content\images\icons\1395523084_icon-ios7-gear.png" />
     <Content Include="Content\images\icons\automation.png" />
     <Content Include="Content\images\icons\pressed.jpg" />
     <Content Include="Content\images\icons\print-256.png" />
@@ -688,6 +693,7 @@
     <Content Include="Views\Shared\_invoiceOverview.cshtml" />
     <Content Include="Views\User\ApiKeys.cshtml" />
     <Content Include="Views\Shared\_sendWindowedEnvelope.cshtml" />
+    <Content Include="Views\Home\Reseller.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -754,7 +760,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>55715</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:1050/</IISUrl>
+          <IISUrl>http://localhost:1051/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

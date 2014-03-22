@@ -381,12 +381,44 @@ namespace LetterAmazer.Websites.Client.Controllers
                 UploadFile = model.UploadFile,
                 PaymentMethodId = model.PaymentMethodId,
                 LetterSize = model.LetterSize,
-                LetterType = model.LetterType
+                LetterType = model.LetterType,
+                Email = model.Email
             });
         }
 
+        #region Windowed envelope
+
+
+
+        [HttpPost]
+        public ActionResult SendWindowedLetter(SendWindowedLetterViewModel model)
+        {
+            var order = new SingleLetterController(orderService, paymentService, couponService, countryService, priceService, customerService, null, null, officeService, officeProductService).
+                CreateOrderFromViewModel(model);
+
+            var updated_order = orderService.Create(order);
+
+            string redirectUrl = paymentService.Process(updated_order);
+
+            if (string.IsNullOrEmpty(redirectUrl))
+            {
+                DashboardViewModel dashboardViewModel = new DashboardViewModel();
+                return RedirectToAction("Index", "User", dashboardViewModel);
+            }
+
+            return Redirect(redirectUrl);
+        }
+
+        #endregion
+
+
         public Order CreateOrderFromViewModel(CreateSingleLetterModel model)
         {
+            if (string.IsNullOrEmpty(model.Email) && (SessionHelper.Customer == null || string.IsNullOrEmpty(SessionHelper.Customer.Email)))
+            {
+                throw new Exception("Cannot make an order without an e-mail");
+            }
+
             AddressInfo addressInfo = new AddressInfo();
             addressInfo.Country = countryService.GetCountryById(int.Parse(model.SelectedCountry));
             addressInfo.Address1 = model.DestinationAddress;
