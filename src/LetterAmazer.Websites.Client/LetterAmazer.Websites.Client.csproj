@@ -226,20 +226,27 @@
     <Compile Include="ViewModels\User\SendWindowedLetterViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\css\General\Sidewide.css" />
-    <Content Include="Content\css\General\Sidewide.min.css" />
     <Content Include="Content\css\Main.css">
       <DependentUpon>Main.less</DependentUpon>
     </Content>
     <Content Include="Content\css\Main.min.css" />
-    <Content Include="Content\css\Utils\FrontPage.css" />
-    <Content Include="Content\css\Utils\FrontPage.min.css" />
-    <Content Include="Content\css\Utils\SendALetter.css" />
-    <Content Include="Content\css\Utils\SendALetter.min.css" />
-    <Content Include="Content\css\Utils\Variables.css" />
-    <Content Include="Content\css\Utils\Variables.min.css" />
+    <Content Include="Content\css\sections\frontpage\Frontpage.css">
+      <DependentUpon>Frontpage.less</DependentUpon>
+    </Content>
+    <Content Include="Content\css\sections\site\Shame.css">
+      <DependentUpon>Shame.less</DependentUpon>
+    </Content>
+    <Content Include="Content\css\sections\site\Sidewide.css">
+      <DependentUpon>Sidewide.less</DependentUpon>
+    </Content>
     <Content Include="Content\images\1383510546_Forward.png" />
     <Content Include="Content\images\ajax-loader.gif" />
+    <Content Include="Content\images\icons\1395498076_130.png" />
+    <Content Include="Content\images\icons\1395498087_cloud-upload.png" />
+    <Content Include="Content\images\icons\automation.png" />
+    <Content Include="Content\images\icons\pressed.jpg" />
+    <Content Include="Content\images\icons\print-256.png" />
+    <Content Include="Content\images\icons\windowed_envelope.jpg" />
     <Content Include="Content\images\letter.png" />
     <Content Include="Content\images\letteramazer.png" />
     <Content Include="Content\images\letteramazer_small.png" />
@@ -325,6 +332,19 @@
     <Content Include="Resources\countryInfoJSON.json" />
     <Content Include="Content\css\Main.css.map">
       <DependentUpon>Main.css</DependentUpon>
+    </Content>
+    <Content Include="Content\css\sections\frontpage\Frontpage.less" />
+    <Content Include="Content\css\sections\frontpage\Frontpage.css.map">
+      <DependentUpon>Frontpage.css</DependentUpon>
+    </Content>
+    <Content Include="Content\css\sections\site\Sidewide.less" />
+    <Content Include="Content\css\sections\site\Variables.less" />
+    <Content Include="Content\css\sections\site\Shame.less" />
+    <Content Include="Content\css\sections\site\Shame.css.map">
+      <DependentUpon>Shame.css</DependentUpon>
+    </Content>
+    <Content Include="Content\css\sections\site\Sidewide.css.map">
+      <DependentUpon>Sidewide.css</DependentUpon>
     </Content>
     <None Include="Properties\PublishProfiles\FileDEploy.pubxml" />
     <None Include="Properties\PublishProfiles\Stat.pubxml" />
@@ -611,11 +631,7 @@
     <Content Include="Scripts\uploadify\uploadify-cancel.png" />
     <Content Include="Scripts\uploadify\uploadify.css" />
     <Content Include="Scripts\uploadify\uploadify.swf" />
-    <Content Include="Content\css\General\Sidewide.less" />
     <Content Include="Content\css\Main.less" />
-    <Content Include="Content\css\Utils\FrontPage.less" />
-    <Content Include="Content\css\Utils\SendALetter.less" />
-    <Content Include="Content\css\Utils\Variables.less" />
     <Content Include="Scripts\jquery-2.0.3.min.map" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
@@ -663,6 +679,7 @@
     <Content Include="Views\User\SendWindowedLetter.cshtml" />
     <Content Include="Views\Shared\_invoiceOverview.cshtml" />
     <Content Include="Views\User\ApiKeys.cshtml" />
+    <Content Include="Views\Shared\_sendWindowedEnvelope.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
