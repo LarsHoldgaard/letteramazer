@@ -1,30 +1,7 @@
-﻿@using LetterAmazer.Business.Utils.Helpers
-@model LetterAmazer.Websites.Client.ViewModels.User.SendWindowedLetterViewModel
-
-@section header {
-    <link href="@Url.Content("~/Scripts/uploadify/uploadify.css")" rel="stylesheet" type="text/css" />
-    <script type="text/javascript" src="@Url.Content("~/Scripts/uploadify/jquery.uploadify.min.js")"></script>
-
-    <link type="text/css" rel="stylesheet" href="@Url.Content("~/Scripts/dropzone/css/dropzone.css")" />
-    <script type="text/javascript" src="@Url.Content("~/Scripts/dropzone/dropzone.min.js")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Scripts/knockout-3.0.0.js")"></script>
-
-    <script type="text/javascript" src="@Url.Content("~/Scripts/internals/windowedletter-viewmodel.js")"></script>
-}
-
-
-
+﻿@model LetterAmazer.Websites.Client.ViewModels.User.SendWindowedLetterViewModel
 
 @using (Html.BeginForm("SendWindowedLetter", "User", FormMethod.Post, new { id = "sendLetterForm" }))
 {
-
-
-
-    @*<h2>What country are you sending this letter to?</h2>
-
-        @Html.DropDownListFor(model => model.SelectedCountry, Model.Countries, new { @class = "form-control" })*@
-
-
     <h2>1. Upload your file</h2>
     <p>You can upload a PDF file below, by clicking the gray zone. It is important you follow a normal letter template, as this is directly printed into a windowed envelope.</p>
 
@@ -58,6 +35,21 @@
     <div data-bind="visible: getPriceExVat() > 0.0">
 
         <h2>3. Send this letter</h2>
+
+        @if (!Model.IsLoggedIn)
+        {
+            <p>
+                Enter your e-mail:<br />
+                @Html.TextBoxFor(model => model.Email)
+            </p>
+
+            <p>Where are you from?<br/>
+                @Html.DropDownListFor(model => model.SelectedOriginCountry, Model.Countries, new Dictionary<string, object> { { "class", "form-control sendaletter_countrylist" }, { "data-bind", "value:originCountryId" } })
+                @Html.HiddenFor(m => m.SelectedOriginCountry, new Dictionary<string, object> { { "data-bind", "value:originCountryId" } })
+        </p>
+        
+        }
+
         <div class="row">
             <div class="col-md-3">
                 <dl>
@@ -68,10 +60,10 @@
 
                         <label id="priceOfLetterLbl" data-bind="text: getPriceExVat"></label> $
 
-                        @if (SessionHelper.Customer.VatPercentage() > 0.0m)
-                        {
-                            <text>(<label id="priceOfLetterLbl" data-bind="text: getPriceTotal"></label> $ inc. local VAT)</text>
-                        }
+                        @*@if (SessionHelper.Customer.VatPercentage() > 0.0m)
+                            {
+                                <text>(<label id="priceOfLetterLbl" data-bind="text: getPriceTotal"></label> $ inc. local VAT)</text>
+                            }*@
                     </dd>
                     <dt>Pages</dt>
                     <dd data-bind="text: numberOfPages"></dd>

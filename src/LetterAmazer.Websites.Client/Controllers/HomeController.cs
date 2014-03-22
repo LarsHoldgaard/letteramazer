@@ -17,6 +17,7 @@ using System;
 using System.Web.Mvc;
 using LetterAmazer.Websites.Client.Extensions;
 using LetterAmazer.Websites.Client.ViewModels.Shared.Utils;
+using LetterAmazer.Websites.Client.ViewModels.User;
 using log4net;
 using System.Web.Security;
 
@@ -51,8 +52,35 @@ namespace LetterAmazer.Websites.Client.Controllers
 
         public ActionResult Index()
         {
-            logger.Info("HomeController -> Index");
-            return View();
+            var windowedModel = new SendWindowedLetterViewModel()
+            {
+                PaymentMethodId = 2,
+                LetterType = (int)LetterType.Windowed,
+                UseUploadFile = true
+            };
+
+            var countries = countryService.GetCountryBySpecificaiton(new CountrySpecification()
+            {
+                Take = 999
+            });
+
+            foreach (var country in countries)
+            {
+                var selectedItem = new SelectListItem()
+                {
+                    Text = country.Name,
+                    Value = country.Id.ToString()
+                };
+
+                if (country.Id == 59)
+                {
+                    selectedItem.Selected = true;
+                }
+
+                windowedModel.Countries.Add(selectedItem);
+            }
+
+            return View(windowedModel);
         }
 
         public ActionResult Faq()

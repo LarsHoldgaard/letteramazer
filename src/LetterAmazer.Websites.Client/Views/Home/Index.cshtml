@@ -1,6 +1,17 @@
 ﻿@using LetterAmazer.Websites.Client.Resources.Views.Home
 
-@model dynamic
+@model LetterAmazer.Websites.Client.ViewModels.User.SendWindowedLetterViewModel
+
+@section header {
+    <link href="@Url.Content("~/Scripts/uploadify/uploadify.css")" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="@Url.Content("~/Scripts/uploadify/jquery.uploadify.min.js")"></script>
+
+    <link type="text/css" rel="stylesheet" href="@Url.Content("~/Scripts/dropzone/css/dropzone.css")" />
+    <script type="text/javascript" src="@Url.Content("~/Scripts/dropzone/dropzone.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/knockout-3.0.0.js")"></script>
+
+    <script type="text/javascript" src="@Url.Content("~/Scripts/internals/windowedletter-viewmodel.js")"></script>
+}
 
 <div class="frontpage">
     <h1>We send letters, worldwide</h1>
@@ -134,9 +145,10 @@
 <hr />
 <br />
 
-<div>
+<div class="frontpage-send-letters">
     <span id="step_three_shipping" class="frontpage-top-description-header">Try to send a windowed envelope now</span>
-
+    <p class="frontpage-top-usptext" style="text-align:left;">Important: if you register a user, we won't ask for your e-mail or country, and you can insert money on you account.</p>
+    @Html.Partial("_sendWindowedEnvelope", Model)
 </div>
 <br />
 <hr />

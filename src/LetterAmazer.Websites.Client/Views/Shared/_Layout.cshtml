@@ -10,13 +10,15 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
     <title>@ViewRes.PageTitle</title>
-    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet" />
+    
+    <link href="@Url.Content("~/Content/plugins/bootstrap/bootstrap.min.css")" rel="stylesheet" type="text/css" />
+
     <link type="text/css" rel="stylesheet" href="http://fonts.googleapis.com/css?family=Kite+One" />
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
     @Styles.Render("~/Content/css")
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/bootstrap/bootstrap.min.js")"></script>
 
     @RenderSection("header", false)
 </head>

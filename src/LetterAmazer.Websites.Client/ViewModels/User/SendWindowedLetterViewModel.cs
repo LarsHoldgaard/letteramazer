@@ -8,6 +8,10 @@ namespace LetterAmazer.Websites.Client.ViewModels.User
         public string SelectedCountry { get; set; }
         public List<SelectListItem> Countries { get; set; }
 
+        public bool IsLoggedIn { get; set; }
+        public string Email { get; set; }
+        public string SelectedOriginCountry { get; set; }
+
         public int DestinationCountryId { get; set; }
 
         public int? LetterSize { get; set; }

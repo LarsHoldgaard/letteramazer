@@ -4,6 +4,8 @@
     self.thumbnailUrl = data.thumbnailUrl;
 
     self.countryId = ko.observable(0);
+    self.originCountryId = ko.observable(0);
+
     self.uploadFileKey = ko.observable('');
     self.cost = ko.observable(0);
     self.numberOfPages = ko.observable(0);
