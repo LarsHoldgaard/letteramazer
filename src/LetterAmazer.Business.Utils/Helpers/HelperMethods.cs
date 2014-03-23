@@ -276,5 +276,12 @@ namespace LetterAmazer.Business.Utils.Helpers
         {
             return Regex.Replace(str, "[^a-zA-Zæøå0-9_.]+", "", RegexOptions.Compiled);
         }
+
+        public static string ConvertStringToAlias(string s)
+        {
+            var illegalChars = ("+^:;,?½<>´'!$€\"*~%&/\\().µ").ToCharArray();
+            var input = s.Replace(" ", "-").Replace("ø", "o").Replace("å", "a").Replace("æ", "ae");
+            return CleanString(input, illegalChars).Replace("--", "-").Replace("--", "-").Replace("--", "-").Replace("--", "-").ToLower().Trim();
+        }
     }
 }

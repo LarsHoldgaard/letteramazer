@@ -17,8 +17,8 @@ namespace LetterAmazer.Data.Repository.Data
         public DbOrders()
         {
             this.DbInvoices = new HashSet<DbInvoices>();
-            this.DbOrderlines = new HashSet<DbOrderlines>();
             this.DbLetters = new HashSet<DbLetters>();
+            this.DbOrderlines = new HashSet<DbOrderlines>();
         }
     
         public int Id { get; set; }
@@ -39,7 +39,7 @@ namespace LetterAmazer.Data.Repository.Data
     
         public virtual DbCustomers DbCustomers { get; set; }
         public virtual ICollection<DbInvoices> DbInvoices { get; set; }
-        public virtual ICollection<DbOrderlines> DbOrderlines { get; set; }
         public virtual ICollection<DbLetters> DbLetters { get; set; }
+        public virtual ICollection<DbOrderlines> DbOrderlines { get; set; }
     }
 }

@@ -1,0 +1,14 @@
+﻿@model LetterAmazer.Websites.Client.ViewModels.Home.PriceDescriptionViewModel
+
+@{
+    ViewBag.PageTitle = Model.SeoTitle;
+}
+
+
+<h1>@Model.Headline</h1>
+
+@Html.Partial("_priceCalculator", Model.PriceViewModel)
+<br />
+@Html.Partial("_countryPricesOverview", Model.CountryPriceList)
+<br/>
+@Model.Content

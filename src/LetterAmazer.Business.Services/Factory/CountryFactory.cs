@@ -22,11 +22,12 @@ namespace LetterAmazer.Business.Services.Factory
                 ArealInSqKm = country.AreaInSqKm,
                 CountryCode = country.CountryCode,
                 CurrencyCode = country.CurrencyCode,
-                Population = country.Population,
+                Population = country.Population.HasValue ? country.Population.Value : 0,
                 Fipscode = country.FipsCode,
                 Id = country.Id,
                 VatPercentage = country.VatPercentage,
-                Enabled = country.Enabled
+                Enabled = country.Enabled,
+                Alias=country.Alias
             };
         }
 

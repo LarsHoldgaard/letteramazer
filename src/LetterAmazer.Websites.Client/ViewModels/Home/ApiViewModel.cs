@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace LetterAmazer.Websites.Client.ViewModels
+﻿namespace LetterAmazer.Websites.Client.ViewModels.Home
 {
     public class ApiViewModel
     {

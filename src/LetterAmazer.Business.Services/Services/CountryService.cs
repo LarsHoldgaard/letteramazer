@@ -20,6 +20,30 @@ namespace LetterAmazer.Business.Services.Services
             this.countryFactory = countryFactory;
         }
 
+        public Country Update(Country country)
+        {
+            var dbcountry = repository.DbCountries.FirstOrDefault(c => c.Id == country.Id);
+
+            if (dbcountry == null)
+            {
+                throw new ArgumentException("Country is null");
+            }
+
+            dbcountry.Alias = country.Alias;
+            dbcountry.Population = country.Population;
+            dbcountry.Capital = country.Capital;
+            dbcountry.CountryName = country.Name;
+            dbcountry.CurrencyCode = country.CurrencyCode;
+            dbcountry.AreaInSqKm = country.ArealInSqKm;
+            dbcountry.InsideEu = country.InsideEu;
+            dbcountry.Enabled = country.Enabled;
+            dbcountry.FipsCode = country.Fipscode;
+
+            repository.SaveChanges();
+
+            return GetCountryById(country.Id);
+        }
+
         public Country Create(Country country)
         {
             if (country == null)
@@ -35,6 +59,8 @@ namespace LetterAmazer.Business.Services.Services
                 InsideEu = country.InsideEu,
                 AreaInSqKm = country.ArealInSqKm,
                 ContinentId = country.ContinentId,
+                Enabled = country.Enabled,
+                Alias = country.Alias
             });
             repository.SaveChanges();
 
@@ -81,6 +107,12 @@ namespace LetterAmazer.Business.Services.Services
             {
                 dbcountries = repository.DbCountries.Where(c => c.ContinentId == specification.ContinentId);
             }
+            if (!string.IsNullOrEmpty(specification.Alias))
+            {
+                specification.Alias = specification.Alias.ToLower();
+                dbcountries = repository.DbCountries.Where(c => c.Alias == specification.Alias);
+            }
+
             return countryFactory.Create(dbcountries.Where(c=>c.Enabled).OrderBy(c=>c.CountryName).Skip(specification.Skip).Take(specification.Take).ToList());
         }
 

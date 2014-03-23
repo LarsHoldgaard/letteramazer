@@ -3,11 +3,14 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using GhostscriptSharp;
+using log4net;
 
 namespace LetterAmazer.Business.Thumbnail
 {
     public class ThumbnailGenerator
     {
+        private static readonly ILog logger = LogManager.GetLogger(typeof(ThumbnailGenerator));
+
         private string baseStorePath;
 
         public ThumbnailGenerator(string basePath)
@@ -49,32 +52,48 @@ namespace LetterAmazer.Business.Thumbnail
 
         public byte[] GetThumbnailFromA4(byte[] inputfile)
         {
+            logger.Info("GetThumbnailFromA4");
             string tempInputFilePath = baseStorePath + "\\" +Guid.NewGuid().ToString() + ".pdf";
             string tempOutputFilePatah = baseStorePath + "\\" + Guid.NewGuid().ToString() + ".jpg";
-            
-            StorePdfFile(inputfile,tempInputFilePath);
 
-            GhostscriptWrapper.GeneratePageThumb(tempInputFilePath, tempOutputFilePatah, 1, 100, 100);
+            logger.Info("Temp input path: " + tempInputFilePath);
+            logger.Info("Temp output path: " + tempOutputFilePatah);
 
             byte[] data = null;
-            using (FileStream fs = new FileStream(tempOutputFilePatah, FileMode.Open))
+            try
             {
-                using (Bitmap bmp = new Bitmap(fs))
+                StorePdfFile(inputfile, tempInputFilePath);
+                logger.Info("Pdf file stored");
+
+                GhostscriptWrapper.GeneratePageThumb(tempInputFilePath, tempOutputFilePatah, 1, 100, 100);
+
+                logger.Info("Ghostscript run perfectly :)");
+
+                using (FileStream fs = new FileStream(tempOutputFilePatah, FileMode.Open))
                 {
-                    using (var ms = new MemoryStream())
+                    using (Bitmap bmp = new Bitmap(fs))
                     {
-                        Brush brush = new SolidBrush(Color.FromArgb(128, 230, 230, 230));
+                        using (var ms = new MemoryStream())
+                        {
+                            Brush brush = new SolidBrush(Color.FromArgb(128, 230, 230, 230));
 
-                        Graphics gra = Graphics.FromImage(bmp);
+                            Graphics gra = Graphics.FromImage(bmp);
 
-                        gra.FillRectangle(brush, 30, 170, 300, 150);
-                        bmp.Save(ms,ImageFormat.Jpeg);
+                            gra.FillRectangle(brush, 30, 170, 300, 150);
+                            bmp.Save(ms, ImageFormat.Jpeg);
 
-                        ms.Position = 0;
-                        data = ReadFully(ms);
+                            ms.Position = 0;
+                            data = ReadFully(ms);
+                        }
                     }
                 }
+                return data;
             }
+            catch (Exception ex)
+            {
+                logger.Error("Get thumbnail: " + ex + " ||| " + ex.Message);
+            }
+
             return data;
         }
 

@@ -1,7 +1,6 @@
 ﻿@using LetterAmazer.Websites.Client.Resources.Views.Home
 
 @model LetterAmazer.Websites.Client.ViewModels.User.SendWindowedLetterViewModel
-
 @section header {
     <link href="@Url.Content("~/Scripts/uploadify/uploadify.css")" rel="stylesheet" type="text/css" />
     <script type="text/javascript" src="@Url.Content("~/Scripts/uploadify/jquery.uploadify.min.js")"></script>
@@ -13,9 +12,13 @@
     <script type="text/javascript" src="@Url.Content("~/Scripts/internals/windowedletter-viewmodel.js")"></script>
 }
 
+@{
+    ViewBag.PageTitle = "Send a letter online - sending snail mail internationally";
+}
+
 <div class="frontpage">
     <h1>We send letters, worldwide</h1>
-
+    
     <div class="row margintop">
         <div class="col-md-4">
             <div class="frontpage-top-uspmargin">
@@ -33,7 +36,7 @@
 
         <div class="col-md-4">
             <div class="frontpage-top-uspmargin">
-                <img src="@Url.Content("~/Content/images/icons/print-256.png")" class="frontpage-top-image-usp" />
+                <img src="@Url.Content("~/Content/images/icons/1395600604_print.png")" class="frontpage-top-image-usp" />
                 <span class="frontpage-top-usp">
                     2. Printing
                 </span>
@@ -155,9 +158,9 @@
 <br />
 
 <div style="font-size:12pt;">
-    <span class="frontpage-top-description-header">
-        About LetterAmazer.com
-    </span>
+    
+        <h2 class="frontpage-top-description-header">Send a letter online - sending snail mail internationally</h2>
+    
 
     <p>15 Years ago we were blessed with the invention of e-mail, and communication has been extremely easy since. However, we all send physical letters from time to time. </p>
 

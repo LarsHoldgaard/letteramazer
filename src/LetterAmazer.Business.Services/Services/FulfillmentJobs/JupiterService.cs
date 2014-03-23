@@ -43,11 +43,11 @@ namespace LetterAmazer.Business.Services.Services.FulfillmentJobs
 
             if (this.zipStoragePath.StartsWith("~")) // relative path
             {
-                this.zipStoragePath = HttpContext.Current.Server.MapPath(this.zipStoragePath);
+                this.zipStoragePath = Path.GetFullPath(this.zipStoragePath.Replace("~/",""));
             }
             if (this.pdfStoragePath.StartsWith("~")) // relative path
             {
-                this.pdfStoragePath = HttpContext.Current.Server.MapPath(this.pdfStoragePath);
+                this.pdfStoragePath = Path.GetFullPath((this.pdfStoragePath.Replace("~/", "")));
             }
         }
 

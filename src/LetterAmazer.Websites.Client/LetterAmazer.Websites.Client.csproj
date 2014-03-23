@@ -207,16 +207,19 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ViewRes.resx</DependentUpon>
     </Compile>
-    <Compile Include="ViewModels\ApiViewModel.cs" />
+    <Compile Include="ViewModels\Home\ApiViewModel.cs" />
     <Compile Include="ViewModels\Api\OfficeProductViewModel.cs" />
     <Compile Include="ViewModels\CreateSingleLetterModel.cs" />
     <Compile Include="ViewModels\CreditsViewModel.cs" />
+    <Compile Include="ViewModels\Home\PriceDescriptionViewModel.cs" />
+    <Compile Include="ViewModels\Home\PriceOverviewViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\OrderDetailViewModel.cs" />
     <Compile Include="ViewModels\Payment\InvoiceViewModel.cs" />
-    <Compile Include="ViewModels\PriceViewModel.cs" />
+    <Compile Include="ViewModels\Home\PriceViewModel.cs" />
     <Compile Include="ViewModels\DashboardViewModel.cs" />
     <Compile Include="ViewModels\RegisterViewModel.cs" />
+    <Compile Include="ViewModels\Home\ResellerViewModel.cs" />
     <Compile Include="ViewModels\Shared\Utils\ControllerHelpers.cs" />
     <Compile Include="ViewModels\User\ApiKeysViewModel.cs" />
     <Compile Include="ViewModels\User\CreateOrganisationViewModel.cs" />
@@ -241,6 +244,8 @@
       <DependentUpon>Sidewide.less</DependentUpon>
     </Content>
     <Content Include="Content\images\1383510546_Forward.png" />
+    <Content Include="Content\images\1455878_10152199113254113_90765289_n.jpg" />
+    <Content Include="Content\images\1623763_10151813235096886_1787855136_n.jpg" />
     <Content Include="Content\images\ajax-loader.gif" />
     <Content Include="Content\images\icons\1395498076_130.png" />
     <Content Include="Content\images\icons\1395498087_cloud-upload.png" />
@@ -248,9 +253,9 @@
     <Content Include="Content\images\icons\1395514603_Account.png" />
     <Content Include="Content\images\icons\1395523082_document_text_accept.png" />
     <Content Include="Content\images\icons\1395523084_icon-ios7-gear.png" />
+    <Content Include="Content\images\icons\1395600604_print.png" />
     <Content Include="Content\images\icons\automation.png" />
     <Content Include="Content\images\icons\pressed.jpg" />
-    <Content Include="Content\images\icons\print-256.png" />
     <Content Include="Content\images\icons\windowed_envelope.jpg" />
     <Content Include="Content\images\letter.png" />
     <Content Include="Content\images\letteramazer.png" />
@@ -328,6 +333,7 @@
     <Content Include="Content\themes\base\minified\jquery.ui.tabs.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.tooltip.min.css" />
+    <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\bootstrap\bootstrap.js" />
     <Content Include="Scripts\bootstrap\bootstrap.min.js" />
@@ -694,6 +700,9 @@
     <Content Include="Views\User\ApiKeys.cshtml" />
     <Content Include="Views\Shared\_sendWindowedEnvelope.cshtml" />
     <Content Include="Views\Home\Reseller.cshtml" />
+    <Content Include="Views\Home\GetPricing.cshtml" />
+    <Content Include="Views\Shared\_priceCalculator.cshtml" />
+    <Content Include="Views\Shared\_countryPricesOverview.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

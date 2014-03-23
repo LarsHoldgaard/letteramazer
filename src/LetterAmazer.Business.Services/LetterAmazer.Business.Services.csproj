@@ -92,6 +92,9 @@
   <ItemGroup>
     <Compile Include="Domain\Api\ApiKeys.cs" />
     <Compile Include="Domain\Common\S3Access.cs" />
+    <Compile Include="Domain\Content\CmsContent.cs" />
+    <Compile Include="Domain\Content\ContentSpecification.cs" />
+    <Compile Include="Domain\Content\IContentService.cs" />
     <Compile Include="Domain\Countries\Continent.cs" />
     <Compile Include="Domain\Countries\CountryName.cs" />
     <Compile Include="Domain\Countries\CountryNameSpecification.cs" />
@@ -121,6 +124,8 @@
     <Compile Include="Domain\ProductMatrix\IProductMatrixService.cs" />
     <Compile Include="Domain\ProductMatrix\ProductMatrixLineSpecification.cs" />
     <Compile Include="Domain\Products\Credit.cs" />
+    <Compile Include="Factory\ContentFactory.cs" />
+    <Compile Include="Factory\Interfaces\IContentFactory.cs" />
     <Compile Include="Factory\Interfaces\IInvoiceFactory.cs" />
     <Compile Include="Factory\Interfaces\IOfficeProductFactory.cs" />
     <Compile Include="Factory\Interfaces\IOrganisationFactory.cs" />
@@ -131,6 +136,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="Services\ContentService.cs" />
     <Compile Include="Services\CurrencyService.cs" />
     <Compile Include="Services\FulfillmentJobs\IntermailService.cs" />
     <Compile Include="Services\FulfillmentJobs\PostalMethodsService.cs" />

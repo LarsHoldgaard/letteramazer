@@ -1,14 +1,12 @@
 ﻿.frontpage {
   font-size: 14pt;
-}
-.frontpage-top-usp,
-.frontpage-top-usptext {
   font-family: 'Open Sans', sans-serif;
 }
 .frontpage-top-usptext {
-  font-size: 14pt;
   text-align: center;
   display: block;
+  font-size: 14pt;
+  font-family: 'Open Sans', sans-serif;
 }
 .frontpage-top-usp {
   font-size: 24pt;

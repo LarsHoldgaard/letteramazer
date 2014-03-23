@@ -15,5 +15,7 @@ namespace LetterAmazer.Business.Services.Domain.Countries
         public string CountryCode { get; set; }
         public string CountryName { get; set; }
         public int ContinentId { get; set; }
+
+        public string Alias { get; set; }
     }
 }

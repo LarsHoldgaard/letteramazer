@@ -1,3 +1,101 @@
-﻿@model dynamic
+﻿@model LetterAmazer.Websites.Client.ViewModels.Home.ResellerViewModel
 
-<h2>title</h2>
+@{
+
+    ViewBag.PageTitle = "Become a letter fulfillment reseller of partner";
+}           
+
+<div class="frontpage">
+    <h1>
+        LetterAmazer partner - sell an implementation or become a reseller
+    </h1>
+
+    @if (!string.IsNullOrEmpty(Model.Status))
+    {
+        <div class="alert alert-success">
+            @Model.Status
+        </div>
+    }
+    <div class="frontpage-top-usptext" style="text-align:left">
+        <p>
+            Our software is very flexible, which provides two very interesting opportunities:
+            <ul>
+                <li>
+                    Software consultant companies can integrate LetterAmazer into their customers solutions
+                </li>
+                <li>
+                    You can become an official LetterAmazer reseller
+                </li>
+            </ul>
+        </p>
+        </div>
+
+        <br />
+        <hr />
+        <br />
+
+        <div class="frontpage-top-usptext" style="text-align:left">
+            <span class="frontpage-top-description-header">Become a LetterAmazer partner</span>
+
+
+            <p>The actual implementation of LetterAmazer is a relatively simple task, and it is a value proposition the customers love.</p>
+
+            <p>
+                LetterAmazer brings an easy to implement software, using standard API’s and the customers will love saving a lot of hour spent on sending letters.
+            </p>
+
+            <p>
+                If you become a LetterAmazer partner, you will have an interesting product, you can offer to your customers. That brings you additional work, you can invoice.
+            </p>
+
+            <p>We always listen to partners, and if you have any unique requirements, we are always flexible within reasonable limits.</p>
+
+
+        </div>
+
+        <br />
+        <hr />
+        <br />
+
+        <div class="frontpage-top-usptext" style="text-align:left">
+            <span class="frontpage-top-description-header">Become a LetterAmazer reseller</span>
+            <p>If you want to send letters yourself, you can use us as a backend. By using us as a backend, you don’t have to worry about the fulfilment side of the business, which is very time-consuming and difficult.</p>
+
+            <p>As with partners, we are also very open to suggestions from resellers.</p>
+
+        </div>
+
+
+        <br />
+        <hr />
+        <br />
+
+
+
+
+        <div class="frontpage-top-usptext" style="text-align:left">
+            <span class="frontpage-top-description-header">
+                Interested in either becoming a partner or reseller?
+            </span>
+            <p>Let’s get in touch. Fill the formula below, or contact us.</p>
+
+            @using (Html.BeginForm("Reseller", "Home", FormMethod.Post))
+            {
+                <p>
+                    E-mail:<br />
+                    @Html.TextBoxFor(model => model.Email, new { @class = "form-control", placeholder = "E-mail" })
+                </p>
+                <p>
+                    Reseller / partner:<br />
+                    @Html.TextBoxFor(model => model.Interest, new { @class = "form-control", placeholder = "Reseller / partner?" })
+                </p>
+                <p>
+                    Describe how we can help you:<br />
+                    @Html.TextAreaFor(model => model.Message, new { @class = "form-control", placeholder = "Describe how we can help you" })
+                </p>
+
+
+                <input type="submit" class="btn btn-primary btn-lg" value="Send message" />
+            }
+        </div>
+    </div>

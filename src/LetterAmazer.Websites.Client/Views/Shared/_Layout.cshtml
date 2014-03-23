@@ -9,7 +9,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
-    <title>@ViewRes.PageTitle</title>
+    <title>@ViewBag.PageTitle</title>
     
     <link href="@Url.Content("~/Content/plugins/bootstrap/bootstrap.min.css")" rel="stylesheet" type="text/css" />
 
@@ -35,11 +35,12 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li class="@(action == "index" && controller == "home" ? "active" : "")"><a href="@Url.Action("Index", "Home")">@ViewRes.Home</a></li>
-                    <li class="@(action == "index" && controller == "singleletter" ? "active" : "")"><a href="@Url.Action("Index", "SingleLetter")">@ViewRes.SendALetter</a></li>
-                    <li class="@(action == "business" && controller == "home" ? "active" : "")"><a href="@Url.Action("Business", "Home")">@ViewRes.Business</a></li>
-                    <li class="@(action == "api" && controller == "home" ? "active" : "")"><a href="@Url.Action("ApiInfo", "Home")">@ViewRes.Api</a></li>
-                    <li class="@(action == "pricing" && controller == "home" ? "active" : "")"><a href="@Url.Action("Pricing", "Home")">@ViewRes.Pricing</a></li>
+                    <li class="@(action == "index" && controller == "home" ? "active" : "")"><a href="@Url.Action("Index", "Home")">Send letters</a></li>
+                    <li class="@(action == "business" && controller == "home" ? "active" : "")"><a href="@Url.Action("Business", "Home")">Business</a></li>
+                    <li class="@(action == "api" && controller == "home" ? "active" : "")"><a href="@Url.Action("ApiInfo", "Home")">Api</a></li>
+                    <li class="@(action == "reseller" && controller == "home" ? "active" : "")"><a href="@Url.Action("Reseller", "Home")">Reseller</a></li>
+
+                    <li class="@(action == "pricing" && controller == "home" ? "active" : "")"><a href="@Url.Action("Pricing", "Home")">Pricing</a></li>
                     
                 </ul>
                 @Html.Partial("Authentication")

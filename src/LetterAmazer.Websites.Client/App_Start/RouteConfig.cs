@@ -41,10 +41,18 @@ namespace LetterAmazer.Websites.Client
             );
 
             routes.MapRoute(
+                          name: "Pricing",
+                          url: "pricing/{alias}",
+                          defaults: new { controller = "Home", action = "GetPricing" }
+                      );
+
+            routes.MapRoute(
                 name: "Default",
                 url: "{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
+
+            
         }
     }
 }

@@ -226,6 +226,44 @@ namespace LetterAmazer.Business.Services.Services
             });
             SendTemplate(model);
         }
+
+        public void NotificationResellerWish(string email, string wish, string comment)
+        {
+            var template_name = "letteramazer.notification.reseller_wish";
+
+            var model = new MandrillTemplateSend();
+            model.template_name = template_name;
+            model.message.merge = true;
+            model.message.to.Add(new To()
+            {
+                email = notificationEmail
+            });
+
+            List<Var> variables = new List<Var>();
+            variables.Add(new Var()
+            {
+                name = "EMAIL",
+                content = email
+            });
+            variables.Add(new Var()
+            {
+                name = "WISH",
+                content = wish
+            });
+            variables.Add(new Var()
+            {
+                name = "COMMENT",
+                content = comment
+            });
+
+
+            model.message.merge_vars.Add(new Merge_Vars()
+            {
+                rcpt = notificationEmail,
+                vars = variables
+            });
+            SendTemplate(model);
+        }
     }
 
 }

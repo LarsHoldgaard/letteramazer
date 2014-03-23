@@ -19,5 +19,6 @@ namespace LetterAmazer.Business.Services.Domain.Mails
         void NotificationInvoiceCreated();
 
         void NotificationApiWish(string email, string organisation, string comment);
+        void NotificationResellerWish(string email, string wish, string comment);
     }
 }

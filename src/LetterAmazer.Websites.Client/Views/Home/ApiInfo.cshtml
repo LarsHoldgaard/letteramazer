@@ -1,10 +1,13 @@
-﻿@model LetterAmazer.Websites.Client.ViewModels.ApiViewModel
+﻿@model LetterAmazer.Websites.Client.ViewModels.Home.ApiViewModel
 
+@{
+    ViewBag.PageTitle = "Send a letter API - REST api for snail mail";
+}
 
 
 <div class="frontpage">
     <h1>
-        API to send physical letters automatically
+        Send a letter API - REST api for snail mail
     </h1>
 
     @if (!string.IsNullOrEmpty(Model.Status))
