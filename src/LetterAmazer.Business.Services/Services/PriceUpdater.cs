@@ -35,7 +35,7 @@ namespace LetterAmazer.Business.Services.Services
             {
                 Take = int.MaxValue,
                 ProductMatrixReferenceType = ProductMatrixReferenceType.Contractor
-            });
+            }).Where(c=>c.Automatic).ToList();
             var groupedProducts = officeProductService.GroupByUnique(total_products);
 
             var total_matrices = productMatrixService.GetProductMatrixBySpecification(new ProductMatrixLineSpecification()
@@ -59,7 +59,7 @@ namespace LetterAmazer.Business.Services.Services
             {
                 Take = int.MaxValue,
                 ProductMatrixReferenceType = ProductMatrixReferenceType.Sales
-            }).ToList();
+            }).Where(c=>c.Automatic).ToList();
 
 
             for (int j = 0; j < total_products.Count; j++)
@@ -130,7 +130,7 @@ namespace LetterAmazer.Business.Services.Services
                     ProductScope = cheapest_officeProduct.ProductScope,
                     ZipId = cheapest_officeProduct.ContinentId,
                     ProductMatrixReferenceType = ProductMatrixReferenceType.Sales,
-                    ShippingDays = cheapest_officeProduct.ShippingDays
+                    ShippingDays = cheapest_officeProduct.ShippingDays,
                 }).FirstOrDefault();
 
             // If product doesn't exist, we will just create it

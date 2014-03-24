@@ -1,0 +1,17 @@
+﻿@model LetterAmazer.Websites.Client.ViewModels.Home.SendALetterToViewModel
+
+@{
+    ViewBag.PageTitle = Model.SeoTitle;
+}
+
+
+<h1>@Model.Headline</h1>
+
+<br/>
+@Html.Partial("_sendWindowedEnvelope", Model.SendWindowedLetterViewModel)
+
+<br />
+@Html.Partial("_sendLettersToOverview", Model.CountryPriceList)
+
+<br/>
+@Model.Content

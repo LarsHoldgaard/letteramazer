@@ -202,6 +202,43 @@ namespace LetterAmazer.Websites.Client.Controllers
         }
 
 
+        public ActionResult GetSendALetterTo(string alias)
+        {
+            var countries = countryService.GetCountryBySpecificaiton(new CountrySpecification()
+            {
+                Take = 999
+            });
+
+            var content = contentService.GetContentBySpecifications(new ContentSpecification()
+            {
+                Alias = alias,
+                Section = "sendletter",
+            }).FirstOrDefault();
+
+            var country = countryService.GetCountryBySpecificaiton(new CountrySpecification()
+            {
+                Alias = alias
+            }).FirstOrDefault();
+
+            var sendaletterto = new SendALetterToViewModel()
+            {
+                Content = content.Content,
+                Headline = content.Headline,
+                SeoTitle = string.IsNullOrEmpty(content.SeoTitle) ? content.Headline : content.SeoTitle
+            };
+
+            foreach (var acountry in countries)
+            {
+                sendaletterto.CountryPriceList.CountryPriceViewModel.Add(new CountryPriceViewModel()
+                {
+                    Alias = acountry.Alias,
+                    Name = acountry.Name
+                });
+            }
+
+            return View(sendaletterto);
+        }
+
         public ActionResult GetPricing(string alias)
         {
             var countries = countryService.GetCountryBySpecificaiton(new CountrySpecification()

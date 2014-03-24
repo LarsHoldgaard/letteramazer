@@ -30,6 +30,8 @@ namespace LetterAmazer.Business.Services.Domain.OfficeProducts
 
         public bool Enabled { get; set; }
 
+        public bool Automatic { get; set; }
+
         public OfficeProduct()
         {
             this.ProductMatrixLines = new List<ProductMatrixLine>();

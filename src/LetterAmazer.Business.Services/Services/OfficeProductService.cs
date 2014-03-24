@@ -111,7 +111,9 @@ namespace LetterAmazer.Business.Services.Services
                 LetterProcessing = (int)officeProduct.LetterDetails.LetterProcessing,
                 ReferenceType = (int)officeProduct.ReferenceType,
                 OfficeProductReferenceId = officeProduct.OfficeProductReferenceId,
-                ShippingWeekdays = officeProduct.ShippingDays
+                ShippingWeekdays = officeProduct.ShippingDays,
+                Enabled = officeProduct.Enabled,
+                Automatic =officeProduct.Automatic
             };
 
             repository.DbOfficeProducts.Add(dbOfficeProduct);
@@ -144,6 +146,9 @@ namespace LetterAmazer.Business.Services.Services
             dbOfficeProduct.ReferenceType = (int) officeProduct.ReferenceType;
             dbOfficeProduct.OfficeProductReferenceId = officeProduct.OfficeProductReferenceId;
             dbOfficeProduct.ShippingWeekdays = officeProduct.ShippingDays;
+            dbOfficeProduct.Enabled = officeProduct.Enabled;
+            dbOfficeProduct.Automatic = officeProduct.Automatic;
+
 
             return GetOfficeProductById(officeProduct.Id);
         }

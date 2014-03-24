@@ -34,6 +34,7 @@ namespace LetterAmazer.Data.Repository.Data
         public Nullable<int> OfficeProductReferenceId { get; set; }
         public int ShippingWeekdays { get; set; }
         public bool Enabled { get; set; }
+        public bool Automatic { get; set; }
     
         public virtual ICollection<DbProductMatrixLines> DbProductMatrixLines { get; set; }
         public virtual DbOffices DbOffices { get; set; }

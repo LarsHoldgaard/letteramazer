@@ -213,6 +213,7 @@
     <Compile Include="ViewModels\CreditsViewModel.cs" />
     <Compile Include="ViewModels\Home\PriceDescriptionViewModel.cs" />
     <Compile Include="ViewModels\Home\PriceOverviewViewModel.cs" />
+    <Compile Include="ViewModels\Home\SendALetterToViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\OrderDetailViewModel.cs" />
     <Compile Include="ViewModels\Payment\InvoiceViewModel.cs" />
@@ -703,6 +704,8 @@
     <Content Include="Views\Home\GetPricing.cshtml" />
     <Content Include="Views\Shared\_priceCalculator.cshtml" />
     <Content Include="Views\Shared\_countryPricesOverview.cshtml" />
+    <Content Include="Views\Home\GetSendALetterTo.cshtml" />
+    <Content Include="Views\Shared\_sendLettersToOverview.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -36,7 +36,7 @@ namespace LetterAmazer.Business.Thumbnail
                 {
                     using (var ms = new MemoryStream())
                     {
-                        Brush brush = new SolidBrush(Color.FromArgb(128, 230, 230, 230));
+                        Brush brush = new SolidBrush(Color.FromArgb(128, 170, 170, 170));
 
                         Graphics gra = Graphics.FromImage(bmp);
 

@@ -45,7 +45,8 @@ namespace LetterAmazer.Business.Services.Factory
                 ReferenceType = (ProductMatrixReferenceType)dbproducts.ReferenceType,
                 OfficeProductReferenceId = dbproducts.OfficeProductReferenceId.HasValue ? dbproducts.OfficeProductReferenceId.Value : 0,
                 ShippingDays = dbproducts.ShippingWeekdays,
-                Enabled =dbproducts.Enabled
+                Enabled =dbproducts.Enabled,
+                Automatic = dbproducts.Automatic
             };
 
             officeProduct.ProductMatrixLines = productMatrixService.GetProductMatrixBySpecification(

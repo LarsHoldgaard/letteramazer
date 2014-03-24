@@ -273,6 +273,7 @@ warning 6002: The table/view 'LetterAmazer.dbo.DbLog' does not have a primary ke
           <Property Name="OfficeProductReferenceId" Type="int" />
           <Property Name="ShippingWeekdays" Type="int" Nullable="false" />
           <Property Name="Enabled" Type="bit" Nullable="false" />
+          <Property Name="Automatic" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="DbOffices">
           <Key>
@@ -1035,6 +1036,7 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
           <Property Name="Enabled" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="DbProductMatrixLines" Relationship="Self.FK_DbProductMatrixLines_DbOfficeProducts" FromRole="DbOfficeProducts" ToRole="DbProductMatrixLines" />
           <NavigationProperty Name="DbOffices" Relationship="Self.FK_OfficeProducts_Offices" FromRole="DbOfficeProducts" ToRole="DbOffices" />
+          <Property Name="Automatic" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="DbOffices">
           <Key>
@@ -1799,6 +1801,7 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
           <EntitySetMapping Name="DbOfficeProducts">
             <EntityTypeMapping TypeName="LetterAmazer.DbOfficeProducts">
               <MappingFragment StoreEntitySet="DbOfficeProducts">
+                <ScalarProperty Name="Automatic" ColumnName="Automatic" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="OfficeId" ColumnName="OfficeId" />
                 <ScalarProperty Name="ScopeType" ColumnName="ScopeType" />

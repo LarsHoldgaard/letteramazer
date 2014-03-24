@@ -1,4 +1,49 @@
 ﻿@model LetterAmazer.Websites.Client.ViewModels.User.ApiKeysViewModel
 
 
-<h2>title</h2>
+<h1>Api keys</h1>
+
+<h2>New API key</h2>
+<p>Here you can generate new API keys, or see your existing ones.</p>
+
+@using (Html.BeginForm("ApiKeys", "User", FormMethod.Post))
+{
+    <p>
+        Give your API key a name:<br />
+        @Html.TextAreaFor(model => model.NewApiKey.Label)
+    </p>
+
+    <input type="submit" class="btn btn-primary btn-lg" value="Create new API key" />
+}
+
+<h2>Existing API keys</h2>
+@if (Model.ApiKeys != null && Model.ApiKeys.Any())
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>
+                    Label
+                </th>
+                <th>
+                    Api key
+                </th>
+                <th>
+                    Api secret
+                </th>
+                <th>
+                    Delete
+                </th>
+            </tr>
+        </thead>
+        @foreach (var item in Model.ApiKeys)
+        {
+            <tr>
+                <td>@item.Label</td>
+                <td>@item.ApiKey</td>
+            <td>@item.ApiSecret</td>
+            <td><a href="#">Delete</a></td>
+        </tr>
+        }
+    </table>
+}
