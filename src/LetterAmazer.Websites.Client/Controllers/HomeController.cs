@@ -147,7 +147,7 @@ namespace LetterAmazer.Websites.Client.Controllers
             //});
 
             //var path =
-            //        "D:\\output";
+            //        "C:\\Users\\larsholdgaard\\Documents\\Work\\output";
             //var files = Directory.GetFiles(path).ToList();
 
             //int i = 0;
@@ -161,8 +161,8 @@ namespace LetterAmazer.Websites.Client.Controllers
             //    CmsContent content = new CmsContent()
             //    {
             //        Alias = country.Alias,
-            //        Section = "price",
-            //        Headline = "Price for sending a letter to "+country.Name+" (ie. "+country.Capital+")",
+            //        Section = "sendletter",
+            //        Headline = "Send a letter to " + country.Name + " online (ie. " + country.Capital + ")",
             //        Content = data
             //    };
             //    contentService.Create(content);
@@ -209,6 +209,14 @@ namespace LetterAmazer.Websites.Client.Controllers
                 Take = 999
             });
 
+            var windowedModel = new SendWindowedLetterViewModel()
+            {
+                PaymentMethodId = SessionHelper.Customer != null ? 2 : 1,
+                LetterType = (int)LetterType.Windowed,
+                UseUploadFile = true,
+                IsLoggedIn = SessionHelper.Customer != null
+            };
+
             var content = contentService.GetContentBySpecifications(new ContentSpecification()
             {
                 Alias = alias,
@@ -224,11 +232,18 @@ namespace LetterAmazer.Websites.Client.Controllers
             {
                 Content = content.Content,
                 Headline = content.Headline,
-                SeoTitle = string.IsNullOrEmpty(content.SeoTitle) ? content.Headline : content.SeoTitle
+                SeoTitle = string.IsNullOrEmpty(content.SeoTitle) ? content.Headline : content.SeoTitle,
+                SendWindowedLetterViewModel = windowedModel
             };
 
             foreach (var acountry in countries)
             {
+                sendaletterto.SendWindowedLetterViewModel.Countries.Add(new SelectListItem()
+                {
+                    Text = acountry.Name,
+                    Value = acountry.Id.ToString()
+                });
+
                 sendaletterto.CountryPriceList.CountryPriceViewModel.Add(new CountryPriceViewModel()
                 {
                     Alias = acountry.Alias,

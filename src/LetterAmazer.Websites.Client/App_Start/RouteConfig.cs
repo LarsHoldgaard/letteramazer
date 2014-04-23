@@ -47,6 +47,14 @@ namespace LetterAmazer.Websites.Client
                       );
 
             routes.MapRoute(
+                        name: "SendLetters",
+                        url: "sendletters/{alias}",
+                        defaults: new { controller = "Home", action = "GetSendALetterTo" }
+                    );
+
+
+
+            routes.MapRoute(
                 name: "Default",
                 url: "{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }

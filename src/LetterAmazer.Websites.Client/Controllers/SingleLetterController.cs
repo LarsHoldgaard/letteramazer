@@ -16,6 +16,7 @@ using LetterAmazer.Business.Services.Domain.Pricing;
 using LetterAmazer.Business.Services.Domain.Products.ProductDetails;
 using LetterAmazer.Business.Services.Exceptions;
 using LetterAmazer.Business.Thumbnail;
+using LetterAmazer.Websites.Client.ViewModels.Home;
 using LetterAmazer.Websites.Client.ViewModels.User;
 using log4net;
 using System;
@@ -90,6 +91,12 @@ namespace LetterAmazer.Websites.Client.Controllers
 
             foreach (var country in countries)
             {
+                model.CountryPriceList.CountryPriceViewModel.Add(new CountryPriceViewModel()
+                {
+                    Alias = country.Alias,
+                    Name = country.Name
+                });
+
                 var selectedItem = new SelectListItem()
                 {
                     Text = country.Name,

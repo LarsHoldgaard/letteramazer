@@ -1,5 +1,17 @@
 ﻿@model LetterAmazer.Websites.Client.ViewModels.Home.SendALetterToViewModel
 
+@section header {
+    <link href="@Url.Content("~/Scripts/uploadify/uploadify.css")" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="@Url.Content("~/Scripts/uploadify/jquery.uploadify.min.js")"></script>
+
+    <link type="text/css" rel="stylesheet" href="@Url.Content("~/Scripts/dropzone/css/dropzone.css")" />
+    <script type="text/javascript" src="@Url.Content("~/Scripts/dropzone/dropzone.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/knockout-3.0.0.js")"></script>
+
+    <script type="text/javascript" src="@Url.Content("~/Scripts/internals/windowedletter-viewmodel.js")"></script>
+}
+}
+
 @{
     ViewBag.PageTitle = Model.SeoTitle;
 }
@@ -7,11 +19,11 @@
 
 <h1>@Model.Headline</h1>
 
-<br/>
+<br />
 @Html.Partial("_sendWindowedEnvelope", Model.SendWindowedLetterViewModel)
 
 <br />
 @Html.Partial("_sendLettersToOverview", Model.CountryPriceList)
 
-<br/>
+<br />
 @Model.Content
