@@ -234,6 +234,7 @@
           <Property Name="LetterSize" Type="int" Nullable="false" />
           <Property Name="LetterType" Type="int" Nullable="false" />
           <Property Name="OfficeId" Type="int" Nullable="false" />
+          <Property Name="Guid" Type="uniqueidentifier" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'LetterAmazer.dbo.DbLog' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -1014,6 +1015,7 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
           <NavigationProperty Name="DbCustomers" Relationship="Self.FK_Letter_Customer" FromRole="DbLetters" ToRole="DbCustomers" />
           <NavigationProperty Name="DbOrders" Relationship="Self.FK_DbLetters_DbOrders" FromRole="DbLetters" ToRole="DbOrders" />
           <NavigationProperty Name="DbOrderlines" Relationship="Self.FK_OrderItem_Letter" FromRole="DbLetters" ToRole="DbOrderlines" />
+          <Property Name="Guid" Type="Guid" Nullable="false" />
         </EntityType>
         <EntityType Name="DbOfficeProducts">
           <Key>
@@ -1758,6 +1760,7 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
           <EntitySetMapping Name="DbLetters">
             <EntityTypeMapping TypeName="LetterAmazer.DbLetters">
               <MappingFragment StoreEntitySet="DbLetters">
+                <ScalarProperty Name="Guid" ColumnName="Guid" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
                 <ScalarProperty Name="FromAddress_Address" ColumnName="FromAddress_Address" />

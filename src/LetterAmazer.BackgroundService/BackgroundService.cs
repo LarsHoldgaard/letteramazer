@@ -53,10 +53,15 @@ namespace LetterAmazer.BackgroundService
             if (args.Length == 0)
             {
                 var delivery = new DeliveryLetterJob();
-                delivery.ExecuteJob();
+                delivery.ExecuteJob(true);
+            }
+            else if (args.Contains("force-schedule"))
+            {
+                var delivery = new DeliveryLetterJob();
+                delivery.ExecuteJob(false);
 
             }
-            else if(args.Contains("getprices"))
+            else if (args.Contains("getprices"))
             {
                 var price = new PriceUpdaterJob();
                 price.ExecuteJob();

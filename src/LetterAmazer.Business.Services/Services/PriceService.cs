@@ -90,7 +90,7 @@ namespace LetterAmazer.Business.Services.Services
         public Price GetPriceBySpecification(PriceSpecification specification)
         {
             IQueryable<DbOfficeProducts> officeProducts =
-                repository.DbOfficeProducts.Where(c => c.ReferenceType == (int) ProductMatrixReferenceType.Sales);
+                repository.DbOfficeProducts.Where(c => c.ReferenceType == (int) ProductMatrixReferenceType.Sales && c.Enabled);
 
             if (specification.CountryId > 0)
             {

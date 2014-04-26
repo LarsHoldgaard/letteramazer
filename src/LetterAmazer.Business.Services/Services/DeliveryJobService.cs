@@ -26,7 +26,7 @@ namespace LetterAmazer.Business.Services.Services
         private IOfficeService officeService;
         private IFulfillmentPartnerService fulfillmentPartnerService;
         private ILetterService letterService;
-
+        
 
         public DeliveryJobService(IOrderService orderService,
             IOfficeService officeService, IFulfillmentPartnerService fulfillmentPartnerService,ILetterService letterService)
@@ -37,7 +37,7 @@ namespace LetterAmazer.Business.Services.Services
             this.letterService = letterService;
         }
 
-        public void Execute()
+        public void Execute(bool runSchedule)
         {
             var relevantOrders = orderService.GetOrderBySpecification(new OrderSpecification()
             {
@@ -63,7 +63,7 @@ namespace LetterAmazer.Business.Services.Services
 
                 foreach (var entity in lettersByPartnerJob)
                 {
-                    processDelivery(entity);
+                    processDelivery(entity,runSchedule);
                 }
             }
             catch (Exception ex)
@@ -72,7 +72,7 @@ namespace LetterAmazer.Business.Services.Services
             }
         }
 
-        private void processDelivery(KeyValuePair<int, List<Letter>> entity)
+        private void processDelivery(KeyValuePair<int, List<Letter>> entity, bool runSchedule)
         {
             var fulfillmentPartner = fulfillmentPartnerService.GetFulfillmentPartnerById(entity.Key);
        
@@ -95,7 +95,7 @@ namespace LetterAmazer.Business.Services.Services
                 var schedule = CrontabSchedule.Parse(fulfillmentPartner.CronInterval);
                 var exDate = schedule.GetNextOccurrence(DateTime.Now.AddHours(-1));
 
-                if (exDate < DateTime.Now)
+                if (exDate < DateTime.Now && runSchedule || (!runSchedule))
                 {
                     fulfillmentService.Process(entity.Value);
                 }

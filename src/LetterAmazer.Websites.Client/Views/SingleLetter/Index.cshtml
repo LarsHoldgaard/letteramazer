@@ -41,40 +41,235 @@
                             <div id="sendaletter-step1" data-bind="visible: showStepOne()">
                                 <div class="row">
                                     <div class="col-lg-11 col-lg-offset-1">
-                                        <p class="frontpageLeadExplanation">@ViewRes.StepOne</p>
-                                        <p>
-                                            @ViewRes.YourEmail<span class="input-required">*</span><br />
-                                            @Html.TextBoxFor(m => m.Email, new { @class = "input-lg", placeholder = "Enter your e-mail" })
+                                        <p class="frontpageLeadExplanation">1. Tell us where we should send your letter</p>
+                                        <p class="">
+                                            Your e-mail<span class="input-required">*</span><br>
+                                            <input class="input-lg valid" id="Email" name="Email" placeholder="Enter your e-mail" type="text" value="">
                                         </p>
-                                        <p>
-                                            @ViewRes.RecipientName<span class="input-required">*</span><br />
-                                            @Html.TextBoxFor(m => m.RecipientName, new Dictionary<string, object> { { "class", "input-lg" }, { "placeholder", "Enter recipient" }, { "data-bind", "value: receiver" } })
+                                        <p class="">
+                                            Recipient name<span class="input-required">*</span><br>
+                                            <input class="input-lg valid" data-bind="value: receiver" id="RecipientName" name="RecipientName" placeholder="Enter recipient" type="text" value="">
                                         </p>
-                                        <p>
-                                            @ViewRes.DestinationCountry<span class="input-required">*</span><br />
-                                            @Html.DropDownListFor(model => model.SelectedCountry, Model.Countries, new Dictionary<string, object> { { "class", "form-control sendaletter_countrylist" }, { "data-bind", "value:countryId" }})
+                                        <p class="">
+                                            Destination country<span class="input-required">*</span><br>
+                                            <select class="form-control sendaletter_countrylist valid" data-bind="value:countryId" id="SelectedCountry" name="SelectedCountry"><option value="3">Afghanistan</option>
+<option value="6">Albania</option>
+<option value="62">Algeria</option>
+<option value="11">American Samoa</option>
+<option value="1">Andorra</option>
+<option value="8">Angola</option>
+<option value="4">Antigua and Barbuda</option>
+<option value="10">Argentina</option>
+<option value="7">Armenia</option>
+<option value="13">Australia</option>
+<option value="12">Austria</option>
+<option value="16">Azerbaijan</option>
+<option value="32">Bahamas</option>
+<option value="23">Bahrain</option>
+<option value="19">Bangladesh</option>
+<option value="18">Barbados</option>
+<option value="36">Belarus</option>
+<option value="20">Belgium</option>
+<option value="37">Belize</option>
+<option value="25">Benin</option>
+<option value="33">Bhutan</option>
+<option value="29">Bolivia</option>
+<option value="17">Bosnia and Herzegovina</option>
+<option value="35">Botswana</option>
+<option value="31">Brazil</option>
+<option value="28">Brunei</option>
+<option value="22">Bulgaria</option>
+<option value="21">Burkina Faso</option>
+<option value="24">Burundi</option>
+<option value="117">Cambodia</option>
+<option value="47">Cameroon</option>
+<option value="38">Canada</option>
+<option value="52">Cape Verde</option>
+<option value="124">Cayman Islands</option>
+<option value="41">Central African Republic</option>
+<option value="215">Chad</option>
+<option value="46">Chile</option>
+<option value="48">China</option>
+<option value="49">Colombia</option>
+<option value="119">Comoros</option>
+<option value="50">Costa Rica</option>
+<option value="98">Croatia</option>
+<option value="51">Cuba</option>
+<option value="55">Cyprus</option>
+<option value="56">Czech Republic</option>
+<option value="40">Democratic Republic of the Congo</option>
+<option value="59">Denmark</option>
+<option value="58">Djibouti</option>
+<option value="61">Dominican Republic</option>
+<option value="221">East Timor</option>
+<option value="63">Ecuador</option>
+<option value="65">Egypt</option>
+<option value="210">El Salvador</option>
+<option value="88">Equatorial Guinea</option>
+<option value="67">Eritrea</option>
+<option value="64">Estonia</option>
+<option value="69">Ethiopia</option>
+<option value="74">Faroe Islands</option>
+<option value="71">Fiji</option>
+<option value="70">Finland</option>
+<option value="75">France</option>
+<option value="76">Gabon</option>
+<option value="85">Gambia</option>
+<option value="79">Georgia</option>
+<option value="57">Germany</option>
+<option value="82">Ghana</option>
+<option value="83">Gibraltar</option>
+<option value="89">Greece</option>
+<option value="84">Greenland</option>
+<option value="78">Grenada</option>
+<option value="92">Guam</option>
+<option value="91">Guatemala</option>
+<option value="86">Guinea</option>
+<option value="93">Guinea-Bissau</option>
+<option value="94">Guyana</option>
+<option value="99">Haiti</option>
+<option value="97">Honduras</option>
+<option value="95">Hong Kong</option>
+<option value="100">Hungary</option>
+<option value="109">Iceland</option>
+<option value="105">India</option>
+<option value="101">Indonesia</option>
+<option value="108">Iran</option>
+<option value="107">Iraq</option>
+<option value="102">Ireland</option>
+<option value="104">Isle of Man</option>
+<option value="103">Israel</option>
+<option value="110">Italy</option>
+<option value="44">Ivory Coast</option>
+<option value="112">Jamaica</option>
+<option value="114">Japan</option>
+<option value="113">Jordan</option>
+<option value="125">Kazakhstan</option>
+<option value="115">Kenya</option>
+<option value="245">Kosovo</option>
+<option value="123">Kuwait</option>
+<option value="116">Kyrgyzstan</option>
+<option value="126">Laos</option>
+<option value="135">Latvia</option>
+<option value="127">Lebanon</option>
+<option value="132">Lesotho</option>
+<option value="131">Liberia</option>
+<option value="136">Libya</option>
+<option value="129">Liechtenstein</option>
+<option value="133">Lithuania</option>
+<option value="134">Luxembourg</option>
+<option value="148">Macao</option>
+<option value="144">Macedonia</option>
+<option value="142">Madagascar</option>
+<option value="156">Malawi</option>
+<option value="158">Malaysia</option>
+<option value="155">Maldives</option>
+<option value="145">Mali</option>
+<option value="153">Malta</option>
+<option value="150">Martinique</option>
+<option value="151">Mauritania</option>
+<option value="154">Mauritius</option>
+<option value="157">Mexico</option>
+<option value="139">Moldova</option>
+<option value="138">Monaco</option>
+<option value="147">Mongolia</option>
+<option value="140">Montenegro</option>
+<option value="137">Morocco</option>
+<option value="159">Mozambique</option>
+<option value="146">Myanmar [Burma]</option>
+<option value="160">Namibia</option>
+<option value="168">Nepal</option>
+<option value="166">Netherlands</option>
+<option value="171">New Zealand</option>
+<option value="165">Nicaragua</option>
+<option value="162">Niger</option>
+<option value="164">Nigeria</option>
+<option value="121">North Korea</option>
+<option value="167">Norway</option>
+<option value="172">Oman</option>
+<option value="178">Pakistan</option>
+<option value="183">Palestine</option>
+<option value="173">Panama</option>
+<option value="176">Papua New Guinea</option>
+<option value="186">Paraguay</option>
+<option value="174">Peru</option>
+<option value="177">Philippines</option>
+<option value="179">Poland</option>
+<option value="184">Portugal</option>
+<option value="182">Puerto Rico</option>
+<option value="187">Qatar</option>
+<option value="42">Republic of the Congo</option>
+<option value="189">Romania</option>
+<option value="191">Russia</option>
+<option value="192">Rwanda</option>
+<option value="204">San Marino</option>
+<option value="193">Saudi Arabia</option>
+<option value="205">Senegal</option>
+<option value="190">Serbia</option>
+<option value="195">Seychelles</option>
+<option value="203">Sierra Leone</option>
+<option value="198">Singapore</option>
+<option value="202">Slovakia</option>
+<option value="200">Slovenia</option>
+<option value="194">Solomon Islands</option>
+<option value="206">Somalia</option>
+<option value="248">South Africa</option>
+<option value="122">South Korea</option>
+<option value="208">South Sudan</option>
+<option value="68">Spain</option>
+<option value="130">Sri Lanka</option>
+<option value="196">Sudan</option>
+<option value="207">Suriname</option>
+<option value="213">Swaziland</option>
+<option value="197">Sweden</option>
+<option value="43">Switzerland</option>
+<option value="212">Syria</option>
+<option value="228">Taiwan</option>
+<option value="219">Tajikistan</option>
+<option value="229">Tanzania</option>
+<option value="218">Thailand</option>
+<option value="217">Togo</option>
+<option value="224">Tonga</option>
+<option value="226">Trinidad and Tobago</option>
+<option value="223">Tunisia</option>
+<option value="225">Turkey</option>
+<option value="222">Turkmenistan</option>
+<option value="240">U.S. Virgin Islands</option>
+<option value="231">Uganda</option>
+<option value="230">Ukraine</option>
+<option value="2">United Arab Emirates</option>
+<option value="77">United Kingdom</option>
+<option value="233">United States</option>
+<option value="234">Uruguay</option>
+<option value="235">Uzbekistan</option>
+<option value="238">Venezuela</option>
+<option value="241">Vietnam</option>
+<option value="246">Yemen</option>
+<option value="249">Zambia</option>
+<option value="250">Zimbabwe</option>
+</select>
                                             
-                                            @Html.HiddenFor(m => m.DestinationCountry, new Dictionary<string, object> { { "data-bind", "value:countryId" } })
-                                            <br />
+                                            <input data-bind="value:countryId" data-val="true" data-val-number="The field DestinationCountry must be a number." data-val-required="Feltet DestinationCountry skal udfyldes." id="DestinationCountry" name="DestinationCountry" type="hidden" value="59">
+                                            <br>
+                                        </p>
+                                        <p class="">
+                                            Destination ZIP code (and state if relevant)<span class="input-required">*</span><br>
+                                            <input class="input-lg address valid" data-bind="value:postal" id="ZipCode" name="ZipCode" placeholder="Enter destination ZIP code" type="text" value="">
+                                        </p>
+                                        <p class="">
+                                            Destination city<span class="input-required">*</span><br>
+                                            <input class="input-lg address valid" data-bind="value:city" id="DestinationCity" name="DestinationCity" placeholder="Enter destination city" type="text" value="">
                                         </p>
                                         <p>
-                                            @ViewRes.DestinationZipCode<span class="input-required">*</span><br />
-                                            @Html.TextBoxFor(m => m.ZipCode, new Dictionary<string, object> { { "class", "input-lg address" }, { "placeholder", "Enter destination ZIP code" }, { "data-bind", "value:postal" } })
-                                        </p>
-                                        <p>
-                                            @ViewRes.DestinationCity<span class="input-required">*</span><br />
-                                            @Html.TextBoxFor(m => m.DestinationCity, new Dictionary<string, object> { { "class", "input-lg address" }, { "placeholder", "Enter destination city" }, { "data-bind", "value:city" } })
-                                        </p>
-                                        <p>
-                                            State (optional)<br />
-                                            @Html.TextBoxFor(m => m.DestinationState, new Dictionary<string, object> { { "class", "input-lg address" }, { "placeholder", "Enter destination state" }, { "data-bind", "value:state" } })
+                                            State (optional)<br>
+                                            <input class="input-lg address valid" data-bind="value:state" id="DestinationState" name="DestinationState" placeholder="Enter destination state" type="text" value="">
                                         </p>
 
                                         <p>
-                                            @ViewRes.DestinationAddress<span class="input-required">*</span><br />
-                                            @Html.TextBoxFor(m => m.DestinationAddress, new Dictionary<string, object> { { "class", "input-lg address" }, { "placeholder", "Enter destination address" }, { "data-bind", "value:address" } })
+                                            Destination address<span class="input-required">*</span><br>
+                                            <input class="input-lg address" data-bind="value:address" id="DestinationAddress" name="DestinationAddress" placeholder="Enter destination address" type="text" value="">
                                         </p>
-                                        <input id="btn-proceed-12" type="button" class="btn btn-primary btn-lg" value="@ViewRes.Proceed &raquo;" data-bind="click: goToStepTwo" />
+                                        <input id="btn-proceed-12" type="button" class="btn btn-primary btn-lg" value="Proceed »" data-bind="click: goToStepTwo">
                                     </div>
                                 </div>
                             </div>

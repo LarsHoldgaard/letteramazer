@@ -8,6 +8,6 @@ namespace LetterAmazer.Business.Services.Domain.DeliveryJobs
 {
     public interface IDeliveryJobService
     {
-        void Execute();
+        void Execute(bool runSchedule);
     }
 }

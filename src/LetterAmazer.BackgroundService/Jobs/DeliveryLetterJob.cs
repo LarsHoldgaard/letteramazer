@@ -20,7 +20,7 @@ namespace LetterAmazer.BackgroundService.Jobs
     {
         private static readonly ILog logger = LogManager.GetLogger(typeof(DeliveryLetterJob));
 
-        public void ExecuteJob()
+        public void ExecuteJob(bool runSchedule)
         {
             logger.DebugFormat("start delivery letter job at: {0}", DateTime.Now);
 
@@ -28,7 +28,7 @@ namespace LetterAmazer.BackgroundService.Jobs
             try
             {
                 deliveryJobService = ServiceFactory.Get<IDeliveryJobService>();
-                deliveryJobService.Execute();
+                deliveryJobService.Execute(runSchedule);
             }
             catch (Exception ex)
             {

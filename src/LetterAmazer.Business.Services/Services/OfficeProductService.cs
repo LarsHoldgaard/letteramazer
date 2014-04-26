@@ -89,10 +89,17 @@ namespace LetterAmazer.Business.Services.Services
             {
                 dbProducts = dbProducts.Where(c => c.ShippingWeekdays <= specification.ShippingDays);
             }
+            if (specification.Automatic != null)
+            {
+                dbProducts = dbProducts.Where(c => c.Automatic == specification.Automatic);
+            }
+            if (specification.ForceDisabled == null || !specification.ForceDisabled.Value)
+            {
+                dbProducts = dbProducts.Where(c => c.Enabled);
+            }
 
             return
-                officeProductFactory.Create(
-                    dbProducts.Where(c=>c.Enabled).OrderBy(c => c.Id).Skip(specification.Skip).Take(specification.Take).ToList());
+                officeProductFactory.Create(dbProducts.OrderBy(c => c.Id).Skip(specification.Skip).Take(specification.Take).ToList());
         }
 
         public OfficeProduct Create(OfficeProduct officeProduct)

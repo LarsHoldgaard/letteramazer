@@ -1,0 +1,2 @@
+ALTER TABLE DbLetters
+ADD Guid UNIQUEIDENTIFIER DEFAULT newsequentialid() not null

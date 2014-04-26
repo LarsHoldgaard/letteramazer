@@ -25,7 +25,8 @@
                 address: '',
                 postal: '',
                 city: '',
-                state: ''
+                state: '',
+                letterType: 0
             },
             dataType: 'json',
             success: function (data) {
@@ -38,8 +39,6 @@
         self.thumbnailImagePath(self.thumbnailUrl + '?uploadFileKey=' + self.uploadFileKey());
         console.log(' thumlnail set:' + self.thumbnailImagePath());
     };
-
-    //public JsonResult GetPrice(bool usePdf, string uploadFileKey, string content, string address, string postal, string city, string state,string country)
 
     self.getPriceTotal = ko.computed(function () {
         try {

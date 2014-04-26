@@ -222,7 +222,15 @@ namespace LetterAmazer.Websites.Client.Controllers
         }
 
         [HttpPost]
-        public JsonResult GetPrice(bool usePdf, string uploadFileKey, string content, string address, string postal, string city, string state,int country)
+        public JsonResult GetPrice(bool usePdf, 
+            string uploadFileKey, 
+            string content, 
+            string address, 
+            string postal, 
+            string city, 
+            string state,
+            int country, 
+            int letterType)
         {
             try
             {
@@ -260,6 +268,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                     LetterColor = LetterColor.Color,
                     LetterProcessing = LetterProcessing.Dull,
                     LetterPaperWeight = LetterPaperWeight.Eight,
+                    LetterType = (LetterType)letterType
                 };
 
                 if (SessionHelper.Customer != null)

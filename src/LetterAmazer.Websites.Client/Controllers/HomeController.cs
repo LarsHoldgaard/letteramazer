@@ -93,7 +93,7 @@ namespace LetterAmazer.Websites.Client.Controllers
         {
             
             priceUpdater.Execute();
-            deliveryJobService.Execute();
+            //deliveryJobService.Execute(false);
             return View();
         }
 

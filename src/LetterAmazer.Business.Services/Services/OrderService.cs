@@ -301,7 +301,7 @@ namespace LetterAmazer.Business.Services.Services
                     LetterProcessing = (int)letter.LetterDetails.LetterProcessing,
                     LetterSize = (int)letter.LetterDetails.LetterSize,
                     LetterType = (int)letter.LetterDetails.LetterType,
-                    
+                  Guid = Guid.NewGuid()
                 };
 
                 if (letter.FromAddress != null)

@@ -10,6 +10,7 @@ using Amazon.IdentityManagement.Model;
 using LetterAmazer.Business.Services.Domain.Fulfillments;
 using LetterAmazer.Business.Services.Domain.Letters;
 using LetterAmazer.Business.Services.Domain.Orders;
+using LetterAmazer.Business.Services.Domain.Products.ProductDetails;
 using log4net;
 
 namespace LetterAmazer.Business.Services.Services.FulfillmentJobs
@@ -44,7 +45,14 @@ namespace LetterAmazer.Business.Services.Services.FulfillmentJobs
             {
                 try
                 {
-                    FtpWebRequest ftp = (FtpWebRequest)FtpWebRequest.Create(FtpServer);
+                    string colorPath = "FARVE";
+                    if (letter.LetterDetails.LetterColor == LetterColor.BlackWhite)
+                    {
+                        colorPath = "SORTHVID";
+                    }
+
+                    string servePath = FtpServer + "/" + colorPath + "/" + letter.Guid + ".pdf";
+                    FtpWebRequest ftp = (FtpWebRequest)FtpWebRequest.Create(servePath);
                     ftp.Credentials = new NetworkCredential(Username, Password);
 
                     ftp.KeepAlive = true;

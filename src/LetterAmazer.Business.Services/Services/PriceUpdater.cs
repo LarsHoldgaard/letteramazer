@@ -34,7 +34,8 @@ namespace LetterAmazer.Business.Services.Services
             var total_products = officeProductService.GetOfficeProductBySpecification(new OfficeProductSpecification()
             {
                 Take = int.MaxValue,
-                ProductMatrixReferenceType = ProductMatrixReferenceType.Contractor
+                ProductMatrixReferenceType = ProductMatrixReferenceType.Contractor,
+                Automatic = true
             }).Where(c=>c.Automatic).ToList();
             var groupedProducts = officeProductService.GroupByUnique(total_products);
 
@@ -58,7 +59,9 @@ namespace LetterAmazer.Business.Services.Services
             var total_products = officeProductService.GetOfficeProductBySpecification(new OfficeProductSpecification()
             {
                 Take = int.MaxValue,
-                ProductMatrixReferenceType = ProductMatrixReferenceType.Sales
+                ProductMatrixReferenceType = ProductMatrixReferenceType.Sales,
+                ForceDisabled = true,
+                Automatic = true
             }).Where(c=>c.Automatic).ToList();
 
 
