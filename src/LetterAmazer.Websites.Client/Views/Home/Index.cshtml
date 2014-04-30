@@ -65,13 +65,13 @@
     <div class="row">
         <div class="col-md-4">
             <div class="frontpage-top-uspmargin">
-                <a href="#sendwindowed"><img src="@Url.Content("~/Content/images/icons/windowed_envelope.jpg")" class="frontpage-top-image-usp" /></a>
+                @*<a href="#sendwindowed">*@<img src="@Url.Content("~/Content/images/icons/windowed_envelope.jpg")" class="frontpage-top-image-usp" />@*</a>*@
                 <span class="frontpage-top-usp">
                     Send a windowed envelope
                 </span>
                 <span class="frontpage-top-usptext">
                     Upload a windowed envelope, and we will make sure it arrives in the right place<br />
-                    <a href="#sendwindowed" class="btn btn-lg btn-primary buttonmargintop">Try it now</a>
+                    @*<a href="#sendwindowed" class="btn btn-lg btn-primary buttonmargintop">Try it now</a>*@
                 </span>
 
             </div>
@@ -79,13 +79,13 @@
 
         <div class="col-md-4">
             <div class="frontpage-top-uspmargin">
-                <a href="@Url.Action("Index","SingleLetter")"><img src="@Url.Content("~/Content/images/icons/pressed.jpg")" class="frontpage-top-image-usp" /></a>
+                @*<a href="@Url.Action("Index","SingleLetter")">*@<img src="@Url.Content("~/Content/images/icons/pressed.jpg")" class="frontpage-top-image-usp" />@*</a>*@
                 <span class="frontpage-top-usp">
                     Send a normal envelope
                 </span>
                 <span class="frontpage-top-usptext">
                     You write the destination address, which will be printed on the envelope<br />
-                    <a href="@Url.Action("Index","SingleLetter")" class="btn btn-lg btn-primary buttonmargintop">Try it now</a>
+                    @*<a href="@Url.Action("Index","SingleLetter")" class="btn btn-lg btn-primary buttonmargintop">Try it now</a>*@
                 </span>
 
             </div>
@@ -148,14 +148,14 @@
 <hr />
 <br />
 
-<div class="frontpage-send-letters">
+@*<div class="frontpage-send-letters">
     <span id="sendwindowed" class="frontpage-top-description-header">Try to send a windowed envelope now</span>
     <p class="frontpage-top-usptext" style="text-align:left;">Important: if you register a user, we won't ask for your e-mail or country, and you can insert money on you account.</p>
     @Html.Partial("_sendWindowedEnvelope", Model)
 </div>
 <br />
 <hr />
-<br />
+<br />*@
 
 <div style="font-size:12pt;">
     
@@ -175,5 +175,6 @@
     <p>Good. It's time to stop the madness. Enough time has been spent licking those damn envelopes and stamps. Let's save time and money, and make everyone happier.</p>
 
     <p>Welcome to LetterAmazer.</p>
-
+    
+    <a href="@Url.Action("Index","SingleLetter")" >Try sending a letter now</a>
 </div>
