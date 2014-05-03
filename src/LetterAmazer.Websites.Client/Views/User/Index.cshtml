@@ -42,10 +42,10 @@ else
 }
 
 <h2>Account status</h2>
-Money available: <b>@Model.Customer.Credit.ToFriendlyMoney() $</b>
+Money available: <b>@Model.Customer.Credit.ToFriendlyMoney() EUR</b>
 @if (SessionHelper.Customer.CreditLimit != 0)
 {
-    <p>Your account has a limit of @SessionHelper.Customer.CreditLimit $</p>
+    <p>Your account has a limit of @SessionHelper.Customer.CreditLimit EUR</p>
 }
 
 

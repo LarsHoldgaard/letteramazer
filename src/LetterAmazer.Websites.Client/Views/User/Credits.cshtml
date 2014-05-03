@@ -7,7 +7,7 @@
 
 @Html.ActionLink("Go back to your dashboard", "Index")<br /><br />
 
-You currently have @Model.Credit.ToFriendlyMoney() $ on your account.
+You currently have @Model.Credit.ToFriendlyMoney() EUR on your account.
 
 
 <h3>How many dollars do you want to insert?</h3>
@@ -44,14 +44,14 @@ You currently have @Model.Credit.ToFriendlyMoney() $ on your account.
                 Credits
             </td>
             <td><span id="table_credit_quantity"></span></td>
-            <td><span id="table_credit_total"></span> $</td>
+            <td><span id="table_credit_total"></span> EUR</td>
         </tr>
     </table>
     <div class="row">
         <div class="col-md-6">
-            <b>Total ex. VAT</b>: <span id="summary_total_ex"></span> $<br />
-            <b>VAT</b>: <span id="summary_vatprice"></span> $ (<span id="summary_vatpercentage"></span> %)<br />
-            <b>Total</b>: <span id="summary_total"></span> $<br />
+            <b>Total ex. VAT</b>: <span id="summary_total_ex"></span> EUR<br />
+            <b>VAT</b>: <span id="summary_vatprice"></span> EUR (<span id="summary_vatpercentage"></span> %)<br />
+            <b>Total</b>: <span id="summary_total"></span> EUR<br />
         </div>
     </div><br/><br/>
     

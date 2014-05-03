@@ -12,7 +12,7 @@ namespace LetterAmazer.Business.Services.Services
 {
     public class CustomerService : ICustomerService
     {
-        private const decimal StartCreditAmount = 5;
+        private const decimal StartCreditAmount = 3;
         private ICustomerFactory customerFactory;
         private LetterAmazerEntities repository;
         private IMailService mailService;
