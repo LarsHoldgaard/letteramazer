@@ -51,7 +51,7 @@ namespace LetterAmazer.Business.Services.Services.PaymentMethods.Implementations
                 addressInfo = order.Customer.CustomerInfo;
             }
 
-            var totalPrice = orderlinePayment.Price.Total;
+            var totalPrice = orderlinePayment.Price.Total*orderlinePayment.Quantity;
 
             decimal volume = totalPrice;
             string firstName = addressInfo.FirstName;

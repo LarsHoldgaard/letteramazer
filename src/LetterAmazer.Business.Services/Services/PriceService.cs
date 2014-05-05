@@ -96,12 +96,6 @@ namespace LetterAmazer.Business.Services.Services
             {
                 var country = countryService.GetCountryById(specification.CountryId);
                 officeProducts = officeProducts.Where(c => c.CountryId == specification.CountryId || c.ContinentId == country.ContinentId || c.ScopeType == (int)ProductScope.RestOfWorld);
-
-                // TODO: remove denmark hack ... wait, reintroduce it? :D
-                //if (specification.CountryId == 59)
-                //{
-                //    specification.ShippingDays = 1;
-                //}
             }
             if (specification.OfficeProductId > 0)
             {
@@ -139,9 +133,6 @@ namespace LetterAmazer.Business.Services.Services
             {
                 officeProducts = officeProducts.Where(c => c.ShippingWeekdays == specification.ShippingDays);
             }
-
-            // TODO: ZIP?
-
 
             // find cheapest prices from the provided list of officeProducts
             decimal minCost = decimal.MaxValue;
