@@ -35,9 +35,6 @@ namespace LetterAmazer.Business.Services.Services.PaymentMethods.Implementations
             }
             
             var customer = customerService.GetCustomerById(order.Customer.Id);
-<<<<<<< HEAD
-            customer.Credit -= orderLine.Price.PriceExVat*orderLine.Quantity;
-=======
 
             if (order.Customer.CreditsLeft < order.Price.Total)
             {
@@ -46,7 +43,6 @@ namespace LetterAmazer.Business.Services.Services.PaymentMethods.Implementations
 
             customer.Credit -= orderLine.Price.Total*orderLine.Quantity;
 
->>>>>>> a27392696572c8237a6224d1443cafc665b2eaf0
             var updated_customer = customerService.Update(customer);
 
             order.OrderStatus =OrderStatus.Paid;
