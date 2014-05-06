@@ -5,7 +5,7 @@
         Country=0,
         Continent=1,
         ZipCode=2,
-        RestOfWorld=3
-
+        RestOfWorld=3,
+        Company=4
     }
 }

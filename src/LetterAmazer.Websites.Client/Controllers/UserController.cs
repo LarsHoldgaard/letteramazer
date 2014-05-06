@@ -77,6 +77,12 @@ namespace LetterAmazer.Websites.Client.Controllers
 
         public ActionResult SendWindowedLetter()
         {
+            if (SessionHelper.Customer.CreditsLeft <= 0.0m)
+            {
+                DashboardViewModel dashboardViewModel = new DashboardViewModel();
+                return RedirectToAction("Index", "User", dashboardViewModel);
+            }
+
             var windowedModel = new SendWindowedLetterViewModel()
             {
                 PaymentMethodId = SessionHelper.Customer != null ? 2 : 1, // if logged in, credits, otherwise PayPal
