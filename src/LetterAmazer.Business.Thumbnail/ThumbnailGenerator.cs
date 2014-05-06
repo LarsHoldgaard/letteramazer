@@ -21,6 +21,11 @@ namespace LetterAmazer.Business.Thumbnail
 
         public byte[] GetThumbnailFromLetter(byte[] inputfile)
         {
+            int rectangleX = 120;
+            int rectangleY = 50;
+            int width = 310;
+            int height = 200;
+
             string tempInputFilePath = Guid.NewGuid().ToString() + ".pdf";
             string tempOutputFilePatah = Guid.NewGuid().ToString() + ".jpg";
 
@@ -40,7 +45,7 @@ namespace LetterAmazer.Business.Thumbnail
 
                         Graphics gra = Graphics.FromImage(bmp);
 
-                        gra.FillRectangle(brush, 60, 170, 300, 150);
+                        gra.FillRectangle(brush, rectangleX, rectangleY, width, height);
                         bmp.Save(ms, ImageFormat.Jpeg);
 
                         data = ReadFully(ms);
@@ -52,6 +57,11 @@ namespace LetterAmazer.Business.Thumbnail
 
         public byte[] GetThumbnailFromA4(byte[] inputfile)
         {
+            int rectangleX = 80;
+            int rectangleY = 54;
+            int width = 320;
+            int height = 192;
+
             logger.Info("GetThumbnailFromA4");
             string tempInputFilePath = baseStorePath + "\\" +Guid.NewGuid().ToString() + ".pdf";
             string tempOutputFilePatah = baseStorePath + "\\" + Guid.NewGuid().ToString() + ".jpg";
@@ -79,7 +89,7 @@ namespace LetterAmazer.Business.Thumbnail
 
                             Graphics gra = Graphics.FromImage(bmp);
 
-                            gra.FillRectangle(brush, 30, 170, 300, 150);
+                            gra.FillRectangle(brush, rectangleX, rectangleY, width, height);
                             bmp.Save(ms, ImageFormat.Jpeg);
 
                             ms.Position = 0;
