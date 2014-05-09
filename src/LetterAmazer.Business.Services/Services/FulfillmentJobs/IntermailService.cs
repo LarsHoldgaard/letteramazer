@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Amazon.IdentityManagement.Model;
 using LetterAmazer.Business.Services.Domain.Fulfillments;
 using LetterAmazer.Business.Services.Domain.Letters;
+using LetterAmazer.Business.Services.Domain.Mails;
 using LetterAmazer.Business.Services.Domain.Orders;
 using LetterAmazer.Business.Services.Domain.Products.ProductDetails;
 using log4net;
@@ -19,6 +20,7 @@ namespace LetterAmazer.Business.Services.Services.FulfillmentJobs
     {
         private static readonly ILog logger = LogManager.GetLogger(typeof(IntermailService));
 
+        private IMailService mailService;
         private ILetterService letterService;
         private IOrderService orderService;
         private bool isactivated;
@@ -27,10 +29,11 @@ namespace LetterAmazer.Business.Services.Services.FulfillmentJobs
         public string Username { get; set; }
         public string Password { get; set; }
 
-        public IntermailService(ILetterService letterService, IOrderService orderService)
+        public IntermailService(ILetterService letterService, IOrderService orderService, IMailService mailService)
         {
             this.isactivated = bool.Parse(ConfigurationManager.AppSettings.Get("LetterAmazer.Settings.SendLetters"));
 
+            this.mailService = mailService;
             this.letterService = letterService;
             this.orderService = orderService;
 
@@ -41,6 +44,7 @@ namespace LetterAmazer.Business.Services.Services.FulfillmentJobs
 
         public void Process(IEnumerable<Letter> letters)
         {
+            StringBuilder status = new StringBuilder();
             foreach (var letter in letters)
             {
                 try
@@ -67,15 +71,18 @@ namespace LetterAmazer.Business.Services.Services.FulfillmentJobs
                     Stream ftpstream = ftp.GetRequestStream();
                     ftpstream.Write(buffer, 0, buffer.Length);
                     ftpstream.Close();
+
+                    status.AppendLine("Success on: " + letter.Guid + " <br/>");
                 }
                 catch (Exception ex)
                 {
                     logger.Fatal("Intermail job error in delivery: " + ex + " || " + ex.InnerException);
+                    status.AppendLine("Error  on: " + letter.Guid + " <br/>");
                 }
             }
 
             orderService.UpdateByLetters(letters);
-
+            mailService.SendIntermailStatus(status.ToString(),letters.Count());
         }
     }
 }

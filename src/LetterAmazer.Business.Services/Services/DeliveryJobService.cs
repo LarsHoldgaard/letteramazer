@@ -8,6 +8,7 @@ using LetterAmazer.Business.Services.Domain.DeliveryJobs;
 using LetterAmazer.Business.Services.Domain.FulfillmentPartners;
 using LetterAmazer.Business.Services.Domain.Fulfillments;
 using LetterAmazer.Business.Services.Domain.Letters;
+using LetterAmazer.Business.Services.Domain.Mails;
 using LetterAmazer.Business.Services.Domain.OfficeProducts;
 using LetterAmazer.Business.Services.Domain.Offices;
 using LetterAmazer.Business.Services.Domain.Orders;
@@ -26,15 +27,16 @@ namespace LetterAmazer.Business.Services.Services
         private IOfficeService officeService;
         private IFulfillmentPartnerService fulfillmentPartnerService;
         private ILetterService letterService;
-        
+        private IMailService mailService;
 
         public DeliveryJobService(IOrderService orderService,
-            IOfficeService officeService, IFulfillmentPartnerService fulfillmentPartnerService,ILetterService letterService)
+            IOfficeService officeService, IFulfillmentPartnerService fulfillmentPartnerService, ILetterService letterService, IMailService mailService)
         {
             this.orderService = orderService;
             this.officeService = officeService;
             this.fulfillmentPartnerService = fulfillmentPartnerService;
             this.letterService = letterService;
+            this.mailService = mailService;
         }
 
         public void Execute(bool runSchedule)
@@ -87,7 +89,7 @@ namespace LetterAmazer.Business.Services.Services
             }
             else if (fulfillmentPartner.PartnerJob == PartnerJob.Intermail)
             {
-                fulfillmentService = new IntermailService(letterService,orderService);
+                fulfillmentService = new IntermailService(letterService,orderService,mailService);
             }
 
             if (fulfillmentService != null)
