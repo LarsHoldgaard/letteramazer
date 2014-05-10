@@ -1,8 +1,5 @@
-﻿@using iTextSharp.text.pdf.qrcode
-@using LetterAmazer.Business.Services.Domain.Products.ProductDetails
-@using LetterAmazer.Business.Utils.Helpers
+﻿@using LetterAmazer.Business.Utils.Helpers
 @using LetterAmazer.Websites.Client.Extensions
-@using LetterAmazer.Websites.Client.Resources.Views.User
 
 @model LetterAmazer.Websites.Client.ViewModels.DashboardViewModel
 
@@ -60,27 +57,17 @@ Money available: <b>@Model.Customer.Credit.ToFriendlyMoney() EUR</b>
 
 @if (Model.Orders != null && Model.Orders.Any())
 {
-    <h2>@ViewRes.OrderOverview</h2>
-    @*<form class="form-inline" role="form" method="get" action="@Url.Action("Index")">
-        <div class="form-group">
-            <label class="sr-only" for="fromDate">From</label>
-            <input type="text" class="form-control" id="fromDate" placeholder="From" name="fromDate" value="@(Model.FromDate.HasValue ? Model.FromDate.Value.ToString("yyyy-MM-dd") : "")" />
-        </div>
-        <div class="form-group">
-            <label class="sr-only" for="toDate">To</label>
-            <input type="text" class="form-control" id="toDate" placeholder="To" name="toDate" value="@(Model.ToDate.HasValue ? Model.ToDate.Value.ToString("yyyy-MM-dd") : "")" />
-        </div>
-        <button type="submit" class="btn btn-primary">@ViewRes.Search</button>
-    </form>*@
+    <h2>Overview of orders</h2>
+    
     <table class="table table-striped">
         <thead>
             <tr>
-                <td>@ViewRes.Order#</td>
-                <td>@ViewRes.Date</td>
-                <td>@ViewRes.OrderState</td>
-                <td>@ViewRes.LetterCount</td>
-                <td>@ViewRes.Price</td>
-                <td>@ViewRes.Details</td>
+                <td>Order#</td>
+                <td>Date</td>
+                <td>Order state</td>
+                <td>Letter count</td>
+                <td>Price </td>
+                <td>See details </td>
             </tr>
         </thead>
         <tbody>

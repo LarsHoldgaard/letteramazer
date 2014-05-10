@@ -30,7 +30,6 @@ namespace LetterAmazer.Data.Repository.Data
         public DbSet<DbContinents> DbContinents { get; set; }
         public DbSet<DbCountries> DbCountries { get; set; }
         public DbSet<DbCountryNames> DbCountryNames { get; set; }
-        public DbSet<DbCoupons> DbCoupons { get; set; }
         public DbSet<DbCurrencies> DbCurrencies { get; set; }
         public DbSet<DbCustomers> DbCustomers { get; set; }
         public DbSet<DbExchangeRates> DbExchangeRates { get; set; }

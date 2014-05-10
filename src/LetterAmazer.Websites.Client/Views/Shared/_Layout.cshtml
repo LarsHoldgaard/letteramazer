@@ -1,10 +1,9 @@
-﻿@using LetterAmazer.Business.Utils.Helpers
-@using LetterAmazer.Websites.Client.Resources.Views.Shared
+﻿
 @{
     var controller = ViewContext.RouteData.Values["controller"].ToString().ToLower();
     var action = ViewContext.RouteData.Values["action"].ToString().ToLower();
 }
-<!DOCTYPE HML>
+<!DOCTYPE HTML>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -65,8 +64,8 @@
         <footer class="footer">
             <a href="/"><img src="/Content/images/letteramazer_small.png" height="25" class="navbar-left" /></a>
             <ul>
-                <li>@Html.ActionLink(ViewRes.AboutUs, "About", "Home")</li>
-                <li>@Html.ActionLink(ViewRes.ContactUs, "Contact", "Home")</li>
+                <li>@Html.ActionLink("About us", "About", "Home")</li>
+                <li>@Html.ActionLink("Contact us", "Contact", "Home")</li>
             </ul>
         </footer>
     </div>

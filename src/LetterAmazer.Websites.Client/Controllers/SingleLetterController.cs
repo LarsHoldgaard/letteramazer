@@ -5,7 +5,6 @@ using System.Net;
 using iTextSharp.text;
 using LetterAmazer.Business.Services.Domain.AddressInfos;
 using LetterAmazer.Business.Services.Domain.Countries;
-using LetterAmazer.Business.Services.Domain.Coupons;
 using LetterAmazer.Business.Services.Domain.Customers;
 using LetterAmazer.Business.Services.Domain.DeliveryJobs;
 using LetterAmazer.Business.Services.Domain.Letters;
@@ -38,7 +37,6 @@ namespace LetterAmazer.Websites.Client.Controllers
         private IOrderService orderService;
 
         private IPaymentService paymentService;
-        private ICouponService couponService;
         private ICountryService countryService;
         private IPriceService priceService;
         private ICustomerService customerService;
@@ -48,13 +46,12 @@ namespace LetterAmazer.Websites.Client.Controllers
         private IOfficeService officeService;
         private IOfficeProductService officeProductService;
         public SingleLetterController(IOrderService orderService, IPaymentService paymentService,
-            ICouponService couponService, ICountryService countryService, IPriceService priceService,
+            ICountryService countryService, IPriceService priceService,
             ICustomerService customerService,IPriceUpdater priceUpdater, IDeliveryJobService deliveryJobService,
             IOfficeService officeService, IOfficeProductService officeProductService)
         {
             this.orderService = orderService;
             this.paymentService = paymentService;
-            this.couponService = couponService;
             this.countryService = countryService;
             this.priceService = priceService;
             this.customerService = customerService;
@@ -157,44 +154,6 @@ namespace LetterAmazer.Websites.Client.Controllers
             }
 
             return RedirectToActionWithError("Index", model);
-        }
-
-        private Price addCouponlines(Price price, Coupon coupon, Order order)
-        {
-            return price;
-            //Price rest = new Price();
-            //rest.VatPercentage = price.VatPercentage;
-            //rest.PriceExVat = price.PriceExVat;
-
-            //if (coupon != null)
-            //{
-            //    decimal chargeCoupon = 0.0m;
-
-            //    // if the price is higher than what is left on the coupon, the
-            //    if (rest.Total > coupon.CouponValueLeft)
-            //    {
-            //        chargeCoupon = coupon.CouponValueLeft;
-            //    }
-            //    else
-            //    {
-            //        chargeCoupon = rest.Total;
-            //    }
-
-            //    order.OrderLines.Add(new OrderLine()
-            //    {
-            //        ProductType = ProductType.Payment,
-            //        PaymentMethodId = 3, // coupon                        
-            //        CouponId = coupon.Id,
-            //        Price = new Price()
-            //        {
-            //            PriceExVat = chargeCoupon,
-            //            VatPercentage = price.VatPercentage
-            //        }
-            //    });
-
-            //    rest.Total -= coupon.CouponValueLeft;
-            //}
-            //return rest;
         }
 
         [HttpPost]
@@ -355,27 +314,7 @@ namespace LetterAmazer.Websites.Client.Controllers
             });
         }
 
-        [HttpPost]
-        public JsonResult ApplyVoucher(string code)
-        {
-            try
-            {
-                decimal couponValueLeft = 0.0m;
-                var coupon = couponService.GetCouponBySpecification(new CouponSpecification() {Code = code}).FirstOrDefault();
-                if (coupon != null)
-                {
-                    couponValueLeft = coupon.CouponValueLeft;
-                }
-                return Json(new { couponValueLeft = couponValueLeft });
-            }
-            catch (Exception ex)
-            {
-                logger.Error(ex);
-            }
-            return Json(new { couponValueLeft = 0.0m });
-        }
-
-        public FileResult GeneratePDF(string content)
+     public FileResult GeneratePDF(string content)
         {
             if (string.IsNullOrEmpty(content)) return File(new byte[0], "text/plain");
 
@@ -429,7 +368,7 @@ namespace LetterAmazer.Websites.Client.Controllers
             string[] uploadedFiles = model.UploadFile[0].Split(',');
             model.UploadFile = uploadedFiles;
 
-            var order = new SingleLetterController(orderService, paymentService, couponService, countryService, priceService, customerService, null, null, officeService, officeProductService).
+            var order = new SingleLetterController(orderService, paymentService,countryService, priceService, customerService, null, null, officeService, officeProductService).
                 CreateOrderFromViewModel(model);
 
             var updated_order = orderService.Create(order);
@@ -455,15 +394,9 @@ namespace LetterAmazer.Websites.Client.Controllers
                 throw new Exception("Cannot make an order without an e-mail");
             }
 
-            
             AddressInfo addressInfo = new AddressInfo();
             addressInfo.Country = countryService.GetCountryById(int.Parse(model.SelectedCountry));
-            addressInfo.Address1 = model.DestinationAddress;
-            addressInfo.FirstName = model.RecipientName;
-            addressInfo.State = model.DestinationState;
-            addressInfo.City = model.DestinationCity;
-            addressInfo.Zipcode = model.ZipCode;
-
+            
             var priceSpec = new PriceSpecification()
             {
                 CountryId = addressInfo.Country.Id,
@@ -485,9 +418,6 @@ namespace LetterAmazer.Websites.Client.Controllers
 
             LetterDetails letterDetail = new LetterDetails()
             {
-                LetterColor = LetterColor.Color,
-                LetterPaperWeight = LetterPaperWeight.Eight,
-                LetterProcessing = LetterProcessing.Dull,
                 LetterSize = selectedOfficeProduct.LetterDetails.LetterSize,
                 LetterType = selectedOfficeProduct.LetterDetails.LetterType
             };
@@ -521,19 +451,6 @@ namespace LetterAmazer.Websites.Client.Controllers
                 order.Customer = customer;
             }
 
-          
-            Coupon coupon = null;
-            if (!string.IsNullOrEmpty(model.VoucherCode))
-            {
-                var voucher = couponService.GetCouponBySpecification(new CouponSpecification()
-                {
-                    Code = model.VoucherCode
-                });
-                if (voucher != null && voucher.Any())
-                {
-                    coupon = (Coupon)voucher.FirstOrDefault();
-                }
-            }
 
             foreach (var uploadFile in model.UploadFile)
             {
@@ -612,9 +529,8 @@ namespace LetterAmazer.Websites.Client.Controllers
                 finalPrice.VatPercentage = orderLine.Price.VatPercentage;
             }
 
-            var rest = addCouponlines(finalPrice, coupon, order);
 
-            if (rest.Total > 0)
+            if (finalPrice.Total > 0)
             {
                 order.OrderLines.Add(new OrderLine()
                 {
@@ -622,7 +538,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                     PaymentMethodId =model.PaymentMethodId,
                     Price = new Price()
                     {
-                        PriceExVat = rest.PriceExVat,
+                        PriceExVat = finalPrice.PriceExVat,
                         VatPercentage = finalPrice.VatPercentage
                     }
                 });

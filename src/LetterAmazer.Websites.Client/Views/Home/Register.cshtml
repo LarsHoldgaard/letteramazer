@@ -1,4 +1,4 @@
-﻿@using LetterAmazer.Websites.Client.Resources.Views.Home
+﻿
 @using LetterAmazer.Websites.Client.Extensions
 
 @model LetterAmazer.Websites.Client.ViewModels.RegisterViewModel
@@ -37,15 +37,15 @@
 
             <div class="row login">
                 <div class="col-lg-6">
-                    <label class="sr-only" for="Email">@ViewRes.Email<span class="input-required">*</span></label>
-                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = ViewRes.Email })
+                    <label class="sr-only" for="Email">Email<span class="input-required">*</span></label>
+                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "Email" })
                     @Html.ValidationMessageFor(m => m.Email)
                 </div>
             </div>
             <div class="row login">
                 <div class="col-lg-6">
-                    <label class="sr-only" for="Password">@ViewRes.Password<span class="input-required">*</span></label>
-                    @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = ViewRes.Password })
+                    <label class="sr-only" for="Password">Password<span class="input-required">*</span></label>
+                    @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Password" })
                     @Html.ValidationMessageFor(m => m.Password)
                 </div>
             </div>

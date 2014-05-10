@@ -2,14 +2,13 @@
     var self = this;
     self.generatePDFUrl = data.generatePDFUrl;
     self.previewPDFUrl = data.previewPDFUrl;
-    self.applyVoucherUrl = data.applyVoucherUrl;
+    
     self.getPriceUrl = data.getPriceUrl;
     self.writeContentEditor = data.writeContentEditor;
     self.geocoder = data.geocoder;
     self.map = null;
     self.marker = null;
     self.geocodeInterval = null;
-    self.voucherInterval = null;
 
     self.initMap = ko.observable(false);
 
@@ -19,7 +18,6 @@
 
     self.currentStep = ko.observable(1);
     self.uploadPdf = ko.observable(0);
-    self.useVoucher = ko.observable(0);
     self.showVatInclusive = ko.observable(true);
 
     self.orderid = ko.observable('');
@@ -33,9 +31,6 @@
     self.countryId = ko.observable(0);
 
     self.lettersize = ko.observable(0);
-    self.voucherCode = ko.observable('');
-    self.voucherStatus = ko.observable('');
-    self.voucherColor = ko.observable('color:green');
     self.cost = ko.observable(0);
     self.numberOfPages = ko.observable(0);
     self.countries = ko.observableArray(data.countryList);
@@ -184,13 +179,6 @@
         self.uploadPdf(0);
     };
 
-    self.toggleVoucherPanel = function () {
-        self.useVoucher(!self.useVoucher());
-    };
-    self.showVoucher = ko.computed(function () {
-        return self.useVoucher();
-    });
-
     self.showMap = ko.computed(function () {
         return self.currentStep() == 1 || self.currentStep() == 2;
     });
@@ -272,34 +260,6 @@
         });
     };
 
-    self.applyVoucher = function () {
-        var thiz = self;
-        $.ajax({
-            url: self.applyVoucherUrl,
-            type: 'POST',
-            data: { code: self.voucherCode() },
-            dataType: 'json',
-            success: function (data) {
-                if (data.couponValueLeft > 0) {
-                    thiz.voucherColor('color:green');
-                    var price = thiz.cost() - data.couponValueLeft;
-                    if (price < 0) {
-                        self.cost(0);
-                    } else {
-                        self.cost(price);
-                    }
-                    thiz.voucherStatus(data.couponValueLeft + ' $ left on voucher');
-                } else {
-                    thiz.voucherColor('color:red');
-                    thiz.voucherStatus('No code');
-                }
-            },
-            error: function () {
-                thiz.voucherColor('color:red');
-                thiz.voucherStatus('No code');
-            }
-        });
-    };
 
     self.save = function (data, event) {
         $(event.target).prop("disabled", "disabled");
@@ -325,10 +285,4 @@
         self.geocodeInterval = setTimeout(function () { thiz.loadMap(); }, 300);
     });
 
-    $('#voucherBox').bind('keyup', function () {
-        var thiz = self;
-        self.voucherCode(this.value);
-        if (self.voucherInterval) clearTimeout(self.voucherInterval);
-        self.voucherInterval = setTimeout(function () { thiz.applyVoucher(); }, 300);
-    });
 }

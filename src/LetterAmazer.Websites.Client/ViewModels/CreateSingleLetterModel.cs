@@ -1,5 +1,4 @@
 ﻿using System.Web.Mvc;
-using LetterAmazer.Websites.Client.Resources.Views.SingleLetter;
 using System.Collections.Generic;
 using LetterAmazer.Websites.Client.ViewModels.Home;
 
@@ -12,7 +11,7 @@ namespace LetterAmazer.Websites.Client.ViewModels
         public CreateSingleLetterModel()
         {
             this.CountryPriceList = new CountryPriceList();
-            this.WriteContent = ViewRes.WriteYourLetterHere;
+            this.WriteContent = "Write your letter here"; // TODO: why this here? should be in view
             this.Countries = new List<SelectListItem>();
         }
 
@@ -33,7 +32,6 @@ namespace LetterAmazer.Websites.Client.ViewModels
         public int? LetterSize { get; set; }
         public int? LetterType { get; set; }
 
-        public string VoucherCode { get; set; }
         public bool SignUpNewsletter { get; set; }
 
         public bool UseUploadFile { get; set; }

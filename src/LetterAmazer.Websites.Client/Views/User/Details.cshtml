@@ -1,5 +1,4 @@
 ﻿@using LetterAmazer.Websites.Client.Extensions
-@using LetterAmazer.Websites.Client.Resources.Views.User
 @model LetterAmazer.Websites.Client.ViewModels.OrderDetailViewModel
 
 @section header {
@@ -9,25 +8,25 @@
 
 <div class="jumbotron-white">
     <div class="container">
-        <h2>@ViewRes.DetailsForOrder @Model.Id</h2>
-        <p><a href="@Url.Action("Index")">@ViewRes.GoBackToOrderOverview</a></p>
-        <h3>@ViewRes.OrderDetails</h3>
+        <h2>Details for the  @Model.Id</h2>
+        <p><a href="@Url.Action("Index")">Go back to the dashboard</a></p>
+        <h3>Details of the order</h3>
         <dl>
-            <dt>@ViewRes.Status:</dt>
-            <dd>@ViewRes.ResourceManager.GetString(Model.OrderStatus.ToString())</dd>
-            <dt>@ViewRes.Created:</dt>
+            <dt>Status:</dt>
+            <dd>Model.OrderStatus.ToString()</dd>
+            <dt>Created:</dt>
             <dd>@Model.DateCreated.ToFriendlyDateTime()</dd>
-            <dt>@ViewRes.LastUpdated</dt>
+            <dt>Last updated:</dt>
             <dd>@Model.DateModified.ToFriendlyDateTime()</dd>
         </dl>
 
-        <h3>@ViewRes.DetailsOfLetters</h3>
+        <h3>Details of the letter</h3>
 
-        <h4>@ViewRes.Letter</h4>
-        <p><a href="@Url.Action("Download", new { id = Model.Id })">@ViewRes.DownloadLetterContent</a></p>
+        <h4>Letter</h4>
+        <p><a href="@Url.Action("Download", new { id = Model.Id })">Download content</a></p>
         <div class="row">
             <div class="col-lg-6">
-                <h4>@ViewRes.ReceipientDetails</h4>
+                <h4>Details of recepient</h4>
                 <p>
                     <b>Att</b>
                     @if (!string.IsNullOrEmpty(Model.AddressInfo.AttPerson))
@@ -45,32 +44,32 @@
                     <br />
                     @Model.AddressInfo.Country.Name
                 </p>
-                <h4>@ViewRes.PrintingDetails</h4>
+                <h4>Details of printing</h4>
                 <dl>
-                    <dt>@ViewRes.Color:</dt>
+                    <dt>Color:</dt>
                     <dd>@Model.LetterDetails.LetterColor.ToString()</dd>
-                    <dt>@ViewRes.PaperType:</dt>
+                    <dt>Paper type:</dt>
                     <dd>@Model.LetterDetails.LetterProcessing.ToString()</dd>
-                    <dt>@ViewRes.PrintingQuality:</dt>
+                    <dt>Printing quality:</dt>
                     <dd>@Model.LetterDetails.LetterSize.ToString()</dd>
-                    <dt>@ViewRes.PrintingQuality:</dt>
+                    <dt>Letter paper weight:</dt>
                     <dd>@Model.LetterDetails.LetterPaperWeight.ToString()</dd>
-                    <dt>@ViewRes.PrintingQuality:</dt>
+                    <dt>Letter type:</dt>
                     <dd>@Model.LetterDetails.LetterType.ToString()</dd>
 
                 </dl>
             </div>
             <div class="col-lg-6">
-                <h4>@ViewRes.LetterStatus</h4>
+                <h4>Status of letter</h4>
                 <dl>
                     <dt>@Model.DateCreated.ToFriendlyDateTime():</dt>
-                    <dd>@ViewRes.OrderWasCreated</dd>
+                    <dd>Order was created</dd>
 
 
                     @if (Model.DateSent.HasValue)
                     {
                         <dt>@Model.DateSent.Value.ToFriendlyDateTime():</dt>
-                        <dd>@ViewRes.OrderWasSent</dd>
+                        <dd>Order was sent</dd>
                             
                     }
 

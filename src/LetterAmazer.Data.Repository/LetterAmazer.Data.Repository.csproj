@@ -63,9 +63,6 @@
     <Compile Include="Data\DbCountryNames.cs">
       <DependentUpon>LetterAmazer.tt</DependentUpon>
     </Compile>
-    <Compile Include="Data\DbCoupons.cs">
-      <DependentUpon>LetterAmazer.tt</DependentUpon>
-    </Compile>
     <Compile Include="Data\DbCurrencies.cs">
       <DependentUpon>LetterAmazer.tt</DependentUpon>
     </Compile>

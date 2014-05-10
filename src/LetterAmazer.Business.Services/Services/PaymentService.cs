@@ -1,6 +1,4 @@
-﻿using Amazon.EC2.Model;
-using LetterAmazer.Business.Services.Domain.Countries;
-using LetterAmazer.Business.Services.Domain.Coupons;
+﻿using LetterAmazer.Business.Services.Domain.Countries;
 using LetterAmazer.Business.Services.Domain.Customers;
 using LetterAmazer.Business.Services.Domain.Invoice;
 using LetterAmazer.Business.Services.Domain.Mails;
@@ -12,9 +10,6 @@ using LetterAmazer.Business.Services.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using LetterAmazer.Business.Services.Factory;
 using LetterAmazer.Business.Services.Factory.Interfaces;
 using LetterAmazer.Business.Services.Services.PaymentMethods.Implementations;
 using LetterAmazer.Data.Repository.Data;
@@ -26,22 +21,19 @@ namespace LetterAmazer.Business.Services.Services
         private IPaymentFactory paymentFactory;
         private LetterAmazerEntities repository;
         private IPriceService priceService;
-        private ICouponService couponService;
         private ICustomerService customerService;
         private IOrderService orderService;
         private ICountryService countryService;
         private IInvoiceService invoiceService;
         private IMailService mailService;
 
-        public PaymentService(LetterAmazerEntities repository,IPriceService priceService,IPaymentFactory paymentFactory, 
-            ICouponService couponService, ICustomerService customerService, 
+        public PaymentService(LetterAmazerEntities repository,IPriceService priceService,IPaymentFactory paymentFactory,  ICustomerService customerService, 
             IOrderService orderService, ICountryService countryService, IInvoiceService invoiceService,
             IMailService mailService)
         {
             this.priceService = priceService;
             this.repository = repository;
             this.paymentFactory = paymentFactory;
-            this.couponService = couponService;
             this.customerService = customerService;
             this.orderService = orderService;
             this.countryService = countryService;
@@ -106,10 +98,6 @@ namespace LetterAmazer.Business.Services.Services
             if (name == "Credit")
             {
                 return new CreditsMethod(customerService,orderService);
-            }
-            else if (name == "Coupon")
-            {
-                return new CouponMethod(couponService);
             }
             else if (name == "Invoice")
             {
