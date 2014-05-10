@@ -315,7 +315,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                 return Json(new
                 {
                     status ="error",
-                    message = "We cannot send this letter. Try a shorter letter.",
+                    message = "We cannot send this letter. Right now we only support Denmark and 1-7 pages pr letter",
                     price = 0,
                     numberOfPages = 0,
                     credits = 0,
