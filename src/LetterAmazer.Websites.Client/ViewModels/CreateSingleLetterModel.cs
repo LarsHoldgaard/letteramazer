@@ -37,7 +37,7 @@ namespace LetterAmazer.Websites.Client.ViewModels
         public bool SignUpNewsletter { get; set; }
 
         public bool UseUploadFile { get; set; }
-        public string UploadFile { get; set; }
+        public string[] UploadFile { get; set; }
         public string WriteContent { get; set; }
 
         public bool HasCredits { get; set; }

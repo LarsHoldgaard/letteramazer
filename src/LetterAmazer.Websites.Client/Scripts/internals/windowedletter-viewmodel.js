@@ -1,13 +1,15 @@
 ﻿var SendWindowedLetterViewModel = function (formSelector, data) {
     var self = this;
-    self.uploadstatus = ko.observable('');
+
+    self.uploadstatus = ko.observable(''); // pending, success or failure depending on the current status of the fileupload
+    self.uploadmode = data.uploadMode; // merge og multiple, depending on if we should allow multiple uploads and send separate or merge the files into a single pdf
     self.getPriceUrl = data.getPriceUrl;
     self.thumbnailUrl = data.thumbnailUrl;
 
     self.countryId = ko.observable(0);
     self.originCountryId = ko.observable(0);
 
-    self.uploadFileKey = ko.observable('');
+    self.uploadFileKey = ko.observableArray();
     self.cost = ko.observable(0);
     self.numberOfPages = ko.observable(0);
     self.shippingtime = ko.observable('');
@@ -23,7 +25,7 @@
             type: 'POST',
             data: {
                 usePdf: true,
-                uploadFileKey: self.uploadFileKey(),
+                uploadFileKey: JSON.stringify(self.uploadFileKey()),
                 country: self.countryId(),
                 content: '',
                 address: '',
@@ -36,6 +38,7 @@
             success: function (data) {
                 thiz.cost(data.price);
                 thiz.numberOfPages(data.numberOfPages);
+
                 if (data.price.Total > 0) {
                     console.log('Setting uploadstatus to success');
                     self.uploadstatus('success');
@@ -51,10 +54,8 @@
             }
         });
 
-        console.log('setting thumlnail:');
         self.thumbnailImagePath(self.thumbnailUrl + '?uploadFileKey=' + self.uploadFileKey());
-        console.log(' thumlnail set:' + self.thumbnailImagePath());
-
+        
         console.log('Upload status: ' + self.uploadstatus());
     };
 

@@ -110,17 +110,18 @@ namespace LetterAmazer.Websites.Client.Controllers
         }
 
         [HttpGet]
-        public FileResult GetThumbnail(string uploadFileKey)
+        public FileResult GetThumbnail(string[] uploadFileKey)
         {
-            if (string.IsNullOrEmpty(uploadFileKey))
+            var stringPath = uploadFileKey[0];
+            if (string.IsNullOrEmpty(stringPath))
             {
                 return new FileStreamResult(new MemoryStream(), "image/jpeg");
             }
 
             var basePath = Server.MapPath(ConfigurationManager.AppSettings["LetterAmazer.Settings.StoreThumbnail"]);
-            uploadFileKey = PathHelper.GetAbsoluteFile(uploadFileKey);
+            uploadFileKey[0] = PathHelper.GetAbsoluteFile(uploadFileKey[0]);
             var thumbnailService = new ThumbnailGenerator(basePath);
-            var byteData = System.IO.File.ReadAllBytes(uploadFileKey);
+            var byteData = System.IO.File.ReadAllBytes(uploadFileKey[0]);
             var data = thumbnailService.GetThumbnailFromA4(byteData);
 
             return new FileStreamResult(new MemoryStream(data), "image/jpeg");
@@ -234,6 +235,10 @@ namespace LetterAmazer.Websites.Client.Controllers
         {
             try
             {
+                //// TODO: stop being a fuck-tard
+
+                string[] uploadFileKey2 = HelperMethods.RemoveJsonFromEntries(uploadFileKey);
+
                 Letter letter = new Letter();
                 var dl_country = countryService.GetCountryById(country);
 
@@ -249,7 +254,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                 letter.LetterContent = new LetterContent();
                 if (usePdf)
                 {
-                    letter.LetterContent.Path = uploadFileKey;
+                    letter.LetterContent.Path = uploadFileKey2[0];
                 }
                 else
                 {
@@ -509,8 +514,8 @@ namespace LetterAmazer.Websites.Client.Controllers
 
             if (model.UseUploadFile)
             {
-                logger.DebugFormat("upload file key: {0}", model.UploadFile);
-                letter.LetterContent.Path = model.UploadFile;
+                logger.DebugFormat("upload file key: {0}", model.UploadFile[0]);
+                letter.LetterContent.Path = model.UploadFile[0];
             }
             else
             {
