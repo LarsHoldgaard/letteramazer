@@ -30,7 +30,6 @@ namespace LetterAmazer.Data.Repository.Data
         public string OrderCode { get; set; }
         public string TransactionCode { get; set; }
         public decimal PriceExVat { get; set; }
-        public string CouponCode { get; set; }
         public string PaymentMethod { get; set; }
         public Nullable<System.DateTime> DatePaid { get; set; }
         public Nullable<System.DateTime> DateSent { get; set; }

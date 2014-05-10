@@ -1,12 +1,11 @@
 ﻿@using LetterAmazer.Business.Utils.Helpers
-@using LetterAmazer.Websites.Client.Resources.Views.Shared
 
 @if (SessionHelper.Customer == null)
 {
     <ul class="nav navbar-nav navbar-right">
-        <li><a href="@Url.Action("Login", "Home")">@ViewRes.Login</a></li>
+        <li><a href="@Url.Action("Login", "Home")">Login</a></li>
         <li><a href="#" style="padding-left:0px;padding-right:0px;">|</a></li>
-        <li><a href="@Url.Action("Register", "Home")">@ViewRes.Register</a></li>
+        <li><a href="@Url.Action("Register", "Home")">Register</a></li>
     </ul>
 }
 else
@@ -41,7 +40,7 @@ else
 
             <li>@Html.ActionLink("Settings", "EditOrganisationSettings", "User")</li>
 
-            <li><a href="@Url.Action("Logout", "Home")">@ViewRes.Logout</a></li>
+            <li><a href="@Url.Action("Logout", "Home")">Logout</a></li>
         </ul>
     </div>
     <div class="hidden-xs">
@@ -79,7 +78,7 @@ else
 
                 <li>@Html.ActionLink("Settings", "EditOrganisationSettings", "User")</li>
                 <li role="presentation" class="divider"></li>
-                <li><a href="@Url.Action("Logout", "Home")">@ViewRes.Logout</a></li>
+                <li><a href="@Url.Action("Logout", "Home")">Logout</a></li>
 
             </ul>
 

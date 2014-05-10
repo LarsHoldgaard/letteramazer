@@ -1,9 +1,6 @@
-﻿using System.Data.Entity.Validation;
-using LetterAmazer.Business.Services.Domain.Coupons;
-using LetterAmazer.Business.Services.Domain.Customers;
+﻿using LetterAmazer.Business.Services.Domain.Customers;
 using LetterAmazer.Business.Services.Domain.Letters;
 using LetterAmazer.Business.Services.Domain.Orders;
-using LetterAmazer.Business.Services.Domain.Payments;
 using LetterAmazer.Business.Services.Domain.Pricing;
 using LetterAmazer.Business.Services.Domain.Products;
 using LetterAmazer.Business.Services.Factory.Interfaces;
@@ -270,7 +267,6 @@ namespace LetterAmazer.Business.Services.Services
             if (orderLine.ProductType == ProductType.Payment && orderLine.PaymentMethodId >0)
             {
                 dbOrderLine.PaymentMethodId = orderLine.PaymentMethodId;
-                dbOrderLine.CouponId = orderLine.CouponId;
             }
             if (orderLine.ProductType == ProductType.Letter)
             {

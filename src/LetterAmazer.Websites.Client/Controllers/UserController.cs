@@ -3,7 +3,6 @@ using System.Linq;
 using System.Web.Security;
 using LetterAmazer.Business.Services.Domain.AddressInfos;
 using LetterAmazer.Business.Services.Domain.Countries;
-using LetterAmazer.Business.Services.Domain.Coupons;
 using LetterAmazer.Business.Services.Domain.Customers;
 using LetterAmazer.Business.Services.Domain.Invoice;
 using LetterAmazer.Business.Services.Domain.Letters;
@@ -23,7 +22,6 @@ using LetterAmazer.Websites.Client.ViewModels.Shared.Utils;
 using log4net;
 using System;
 using System.Web.Mvc;
-using ProductType = LetterAmazer.Business.Services.Domain.Products.ProductType;
 using LetterAmazer.Websites.Client.ViewModels.User;
 using LetterAmazer.Business.Services.Domain.Organisation;
 
@@ -36,7 +34,6 @@ namespace LetterAmazer.Websites.Client.Controllers
         private IOrderService orderService;
         private IPaymentService paymentService;
         private ILetterService letterService;
-        private ICouponService couponService;
         private ICountryService countryService;
         private IPriceService priceService;
         private IOrganisationService organisationService;
@@ -47,7 +44,7 @@ namespace LetterAmazer.Websites.Client.Controllers
         private IOfficeProductService officeProductService;
 
         public UserController(IOrderService orderService, IPaymentService paymentService,
-            ILetterService letterService, ICouponService couponService, ICountryService countryService,
+            ILetterService letterService, ICountryService countryService,
             IPriceService priceService,
             IOrganisationService organisationService, IMailService mailService, IInvoiceService invoiceService,
             ICustomerService customerService,IOfficeService officeService, IOfficeProductService officeProductService)
@@ -55,7 +52,6 @@ namespace LetterAmazer.Websites.Client.Controllers
             this.orderService = orderService;
             this.paymentService = paymentService;
             this.letterService = letterService;
-            this.couponService = couponService;
             this.countryService = countryService;
             this.priceService = priceService;
             this.organisationService = organisationService;
@@ -167,7 +163,7 @@ namespace LetterAmazer.Websites.Client.Controllers
             {
                 ValidateInput();
 
-                var order = new SingleLetterController(orderService, paymentService, couponService, countryService, priceService, customerService, null, null, officeService, officeProductService).CreateOrderFromViewModel(model);
+                var order = new SingleLetterController(orderService, paymentService, countryService, priceService, customerService, null, null, officeService, officeProductService).CreateOrderFromViewModel(model);
 
                 var storedOrder = orderService.Create(order);
 
@@ -585,7 +581,7 @@ namespace LetterAmazer.Websites.Client.Controllers
             var creditLine = new OrderLine()
             {
                 Quantity = model.PurchaseAmount,
-                ProductType = ProductType.Credit,
+                ProductType = LetterAmazer.Business.Services.Domain.Products.ProductType.Credit,
                 BaseProduct = credit,
                 Price = new Price()
                 {
@@ -597,7 +593,7 @@ namespace LetterAmazer.Websites.Client.Controllers
             var paymentLine = new OrderLine()
             {
                 PaymentMethodId = selectedPaymentMethod.Id,
-                ProductType = ProductType.Payment,
+                ProductType = LetterAmazer.Business.Services.Domain.Products.ProductType.Payment,
                 Price = new Price()
                 {
                     PriceExVat = model.PurchaseAmount,
@@ -701,7 +697,7 @@ namespace LetterAmazer.Websites.Client.Controllers
 
         private OrderDetailViewModel getOrderDetailViewModel(Order order)
         {
-            var letter = (Letter)order.OrderLines.FirstOrDefault(c => c.ProductType == ProductType.Letter).BaseProduct;
+            var letter = (Letter)order.OrderLines.FirstOrDefault(c => c.ProductType == LetterAmazer.Business.Services.Domain.Products.ProductType.Letter).BaseProduct;
 
 
             OrderDetailViewModel viewModel = new OrderDetailViewModel()
@@ -726,7 +722,7 @@ namespace LetterAmazer.Websites.Client.Controllers
             List<OrderViewModel> ordersViewModels = new List<OrderViewModel>();
             foreach (var order in orders)
             {
-                var letterLine = order.OrderLines.FirstOrDefault(c => c.ProductType == ProductType.Letter);
+                var letterLine = order.OrderLines.FirstOrDefault(c => c.ProductType == LetterAmazer.Business.Services.Domain.Products.ProductType.Letter);
 
                 // only if the line is a letter - it might be something like credits
                 if (letterLine != null)
@@ -752,7 +748,7 @@ namespace LetterAmazer.Websites.Client.Controllers
         private List<OrderLineViewModel> getOrderLineViewModel(IEnumerable<OrderLine> orderLines)
         {
             List<OrderLineViewModel> lines = new List<OrderLineViewModel>();
-            foreach (var orderline in orderLines.Where(c => c.ProductType == ProductType.Letter))
+            foreach (var orderline in orderLines.Where(c => c.ProductType == LetterAmazer.Business.Services.Domain.Products.ProductType.Letter))
             {
                 lines.Add(new OrderLineViewModel()
                 {
@@ -771,36 +767,6 @@ namespace LetterAmazer.Websites.Client.Controllers
             };
         }
 
-        private decimal addCouponlines(Price price, Coupon coupon, Order order)
-        {
-            decimal rest = price.Total;
-            if (coupon != null)
-            {
-                decimal chargeCoupon = 0.0m;
-                if (rest > coupon.CouponValueLeft)
-                {
-                    chargeCoupon = coupon.CouponValueLeft;
-                }
-                else
-                {
-                    chargeCoupon = rest;
-                }
-
-                order.OrderLines.Add(new OrderLine()
-                {
-                    ProductType = ProductType.Payment,
-                    PaymentMethodId = 3, // coupon                        
-                    CouponId = coupon.Id,
-                    Price = new Price()
-                    {
-                        PriceExVat = chargeCoupon
-                    }
-                });
-
-                rest -= coupon.CouponValueLeft;
-            }
-            return rest;
-        }
 
         private List<InvoiceSnippetViewModel> getInvoiceSnippets(DateTime from, DateTime to, int organisationId)
         {

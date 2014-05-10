@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Linq;
 using System.Web.Security;
-using LetterAmazer.Business.Services.Domain.Coupons;
 using LetterAmazer.Business.Services.Domain.Customers;
-using LetterAmazer.Business.Services.Domain.Letters;
 using LetterAmazer.Business.Services.Domain.Orders;
 using LetterAmazer.Business.Services.Domain.Payments;
 using LetterAmazer.Business.Services.Domain.Products;
 using LetterAmazer.Business.Services.Exceptions;
-using LetterAmazer.Business.Services.Factory.Interfaces;
 using LetterAmazer.Business.Utils.Helpers;
 
 namespace LetterAmazer.Business.Services.Services.PaymentMethods.Implementations

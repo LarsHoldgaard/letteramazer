@@ -17,6 +17,15 @@ namespace LetterAmazer.Business.Services.Domain.Letters
         public LetterSize LetterSize { get; set; }
         public LetterType LetterType { get; set; }
 
+        public LetterDetails()
+        {
+            this.LetterColor = LetterColor.Color;
+            this.LetterPaperWeight =LetterPaperWeight.Eight;
+            this.LetterProcessing = LetterProcessing.Dull;
+            this.LetterSize =LetterSize.A4;
+            this.LetterType = LetterType.Windowed;
+        }
+
         public object Clone()
         {
             return new LetterDetails()

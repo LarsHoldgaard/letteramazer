@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="LetterAmazer.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="LetterAmazer.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="DbApiAccess">
           <Key>
             <PropertyRef Name="Id" />
@@ -73,22 +73,6 @@
           <Property Name="Name" Type="varchar" MaxLength="250" Nullable="false" />
           <Property Name="CountryId" Type="int" Nullable="false" />
           <Property Name="Language" Type="varchar" MaxLength="250" Nullable="false" />
-        </EntityType>
-        <EntityType Name="DbCoupons">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="CouponValue" Type="decimal" Precision="18" Scale="5" Nullable="false" />
-          <Property Name="DateGiven" Type="datetime" Nullable="false" />
-          <Property Name="EarlierCouponRef" Type="int" />
-          <Property Name="RefSource" Type="nvarchar" MaxLength="150" />
-          <Property Name="RefUserValue" Type="nvarchar" MaxLength="150" />
-          <Property Name="CouponExpire" Type="datetime" Nullable="false" />
-          <Property Name="Code" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="CouponValueLeft" Type="decimal" Precision="18" Scale="5" Nullable="false" />
-          <Property Name="CouponStatus" Type="int" Nullable="false" />
-          <Property Name="DateModified" Type="datetime" />
         </EntityType>
         <EntityType Name="DbCurrencies">
           <Key>
@@ -296,7 +280,6 @@ warning 6002: The table/view 'LetterAmazer.dbo.DbLog' does not have a primary ke
           <Property Name="Quantity" Type="int" Nullable="false" />
           <Property Name="PriceExVat" Type="decimal" Precision="18" Scale="5" Nullable="false" />
           <Property Name="PaymentMethodId" Type="int" />
-          <Property Name="CouponId" Type="int" />
           <Property Name="VatPercentage" Type="decimal" Precision="18" Scale="5" Nullable="false" />
           <Property Name="Total" Type="decimal" Precision="18" Scale="5" Nullable="false" />
         </EntityType>
@@ -313,7 +296,6 @@ warning 6002: The table/view 'LetterAmazer.dbo.DbLog' does not have a primary ke
           <Property Name="OrderCode" Type="nvarchar" MaxLength="20" Nullable="false" />
           <Property Name="TransactionCode" Type="nvarchar" MaxLength="20" />
           <Property Name="PriceExVat" Type="decimal" Precision="18" Scale="5" Nullable="false" />
-          <Property Name="CouponCode" Type="nvarchar" MaxLength="20" />
           <Property Name="PaymentMethod" Type="nvarchar" MaxLength="20" Nullable="false" />
           <Property Name="DatePaid" Type="datetime" />
           <Property Name="DateSent" Type="datetime" />
@@ -652,7 +634,6 @@ warning 6002: The table/view 'LetterAmazer.dbo.DbLog' does not have a primary ke
           <EntitySet Name="DbContinents" EntityType="Self.DbContinents" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DbCountries" EntityType="Self.DbCountries" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DbCountryNames" EntityType="Self.DbCountryNames" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="DbCoupons" EntityType="Self.DbCoupons" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DbCurrencies" EntityType="Self.DbCurrencies" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DbCustomers" EntityType="Self.DbCustomers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DbExchangeRates" EntityType="Self.DbExchangeRates" Schema="dbo" store:Type="Tables" />
@@ -762,7 +743,8 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
             <End Role="DbShops" EntitySet="DbShops" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="LetterAmazer" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -790,7 +772,7 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
           <Property Name="DateModified" Type="DateTime" Precision="3" />
           <Property Name="Enabled" Type="Boolean" Nullable="false" />
           <Property Name="CmsKey" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="Alias" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Alias" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
         </EntityType>
         <EntityType Name="DbContinents">
           <Key>
@@ -825,13 +807,13 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
           <Property Name="ContinentId" Type="Int32" />
           <Property Name="VatPercentage" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="Enabled" Type="Boolean" Nullable="false" />
+          <Property Name="Alias" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="DbCustomers" Relationship="Self.FK_Customers_Countries" FromRole="DbCountries" ToRole="DbCustomers" />
           <NavigationProperty Name="DbOrganisationAddressList" Relationship="Self.FK_DbOrganisationAddressList_DbCountries" FromRole="DbCountries" ToRole="DbOrganisationAddressList" />
           <NavigationProperty Name="DbLetters" Relationship="Self.FK_Letters_FromCountry" FromRole="DbCountries" ToRole="DbLetters" />
           <NavigationProperty Name="DbLetters1" Relationship="Self.FK_Letters_ToCountry" FromRole="DbCountries" ToRole="DbLetters" />
           <NavigationProperty Name="DbOffices" Relationship="Self.FK_Offices_Countries" FromRole="DbCountries" ToRole="DbOffices" />
           <NavigationProperty Name="DbShops" Relationship="Self.FK_Shops_Countries" FromRole="DbCountries" ToRole="DbShops" />
-          <Property Name="Alias" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
         </EntityType>
         <EntityType Name="DbCountryNames">
           <Key>
@@ -841,22 +823,6 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
           <Property Name="Name" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="CountryId" Type="Int32" Nullable="false" />
           <Property Name="Language" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
-        </EntityType>
-        <EntityType Name="DbCoupons">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="CouponValue" Type="Decimal" Precision="18" Scale="5" Nullable="false" />
-          <Property Name="DateGiven" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="EarlierCouponRef" Type="Int32" />
-          <Property Name="RefSource" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Name="RefUserValue" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Name="CouponExpire" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="CouponValueLeft" Type="Decimal" Precision="18" Scale="5" Nullable="false" />
-          <Property Name="CouponStatus" Type="Int32" Nullable="false" />
-          <Property Name="DateModified" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="DbCurrencies">
           <Key>
@@ -1010,12 +976,12 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
           <Property Name="LetterSize" Type="Int32" Nullable="false" />
           <Property Name="LetterType" Type="Int32" Nullable="false" />
           <Property Name="OfficeId" Type="Int32" Nullable="false" />
+          <Property Name="Guid" Type="Guid" Nullable="false" />
           <NavigationProperty Name="DbCountries" Relationship="Self.FK_Letters_FromCountry" FromRole="DbLetters" ToRole="DbCountries" />
           <NavigationProperty Name="DbCountries1" Relationship="Self.FK_Letters_ToCountry" FromRole="DbLetters" ToRole="DbCountries" />
           <NavigationProperty Name="DbCustomers" Relationship="Self.FK_Letter_Customer" FromRole="DbLetters" ToRole="DbCustomers" />
           <NavigationProperty Name="DbOrders" Relationship="Self.FK_DbLetters_DbOrders" FromRole="DbLetters" ToRole="DbOrders" />
           <NavigationProperty Name="DbOrderlines" Relationship="Self.FK_OrderItem_Letter" FromRole="DbLetters" ToRole="DbOrderlines" />
-          <Property Name="Guid" Type="Guid" Nullable="false" />
         </EntityType>
         <EntityType Name="DbOfficeProducts">
           <Key>
@@ -1036,9 +1002,9 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
           <Property Name="OfficeProductReferenceId" Type="Int32" />
           <Property Name="ShippingWeekdays" Type="Int32" Nullable="false" />
           <Property Name="Enabled" Type="Boolean" Nullable="false" />
+          <Property Name="Automatic" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="DbProductMatrixLines" Relationship="Self.FK_DbProductMatrixLines_DbOfficeProducts" FromRole="DbOfficeProducts" ToRole="DbProductMatrixLines" />
           <NavigationProperty Name="DbOffices" Relationship="Self.FK_OfficeProducts_Offices" FromRole="DbOfficeProducts" ToRole="DbOffices" />
-          <Property Name="Automatic" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="DbOffices">
           <Key>
@@ -1063,7 +1029,6 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
           <Property Name="Quantity" Type="Int32" Nullable="false" />
           <Property Name="PriceExVat" Type="Decimal" Precision="18" Scale="5" Nullable="false" />
           <Property Name="PaymentMethodId" Type="Int32" />
-          <Property Name="CouponId" Type="Int32" />
           <Property Name="VatPercentage" Type="Decimal" Precision="18" Scale="5" Nullable="false" />
           <Property Name="Total" Type="Decimal" Precision="18" Scale="5" Nullable="false" />
           <NavigationProperty Name="DbLetters" Relationship="Self.FK_OrderItem_Letter" FromRole="DbOrderlines" ToRole="DbLetters" />
@@ -1082,7 +1047,6 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
           <Property Name="OrderCode" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="TransactionCode" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="PriceExVat" Type="Decimal" Precision="18" Scale="5" Nullable="false" />
-          <Property Name="CouponCode" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="PaymentMethod" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="DatePaid" Type="DateTime" Precision="3" />
           <Property Name="DateSent" Type="DateTime" Precision="3" />
@@ -1451,7 +1415,6 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
           <EntitySet Name="DbContinents" EntityType="Self.DbContinents" />
           <EntitySet Name="DbCountries" EntityType="Self.DbCountries" />
           <EntitySet Name="DbCountryNames" EntityType="Self.DbCountryNames" />
-          <EntitySet Name="DbCoupons" EntityType="Self.DbCoupons" />
           <EntitySet Name="DbCurrencies" EntityType="Self.DbCurrencies" />
           <EntitySet Name="DbCustomers" EntityType="Self.DbCustomers" />
           <EntitySet Name="DbExchangeRates" EntityType="Self.DbExchangeRates" />
@@ -1570,7 +1533,6 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
           <EntitySetMapping Name="DbCmsContent">
             <EntityTypeMapping TypeName="LetterAmazer.DbCmsContent">
               <MappingFragment StoreEntitySet="DbCmsContent">
-                <ScalarProperty Name="Alias" ColumnName="Alias" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Headline" ColumnName="Headline" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
@@ -1581,6 +1543,7 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
                 <ScalarProperty Name="DateModified" ColumnName="DateModified" />
                 <ScalarProperty Name="Enabled" ColumnName="Enabled" />
                 <ScalarProperty Name="CmsKey" ColumnName="CmsKey" />
+                <ScalarProperty Name="Alias" ColumnName="Alias" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1595,7 +1558,6 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
           <EntitySetMapping Name="DbCountries">
             <EntityTypeMapping TypeName="LetterAmazer.DbCountries">
               <MappingFragment StoreEntitySet="DbCountries">
-                <ScalarProperty Name="Alias" ColumnName="Alias" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="CountryName" ColumnName="CountryName" />
                 <ScalarProperty Name="CurrencyCode" ColumnName="CurrencyCode" />
@@ -1618,6 +1580,7 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
                 <ScalarProperty Name="ContinentId" ColumnName="ContinentId" />
                 <ScalarProperty Name="VatPercentage" ColumnName="VatPercentage" />
                 <ScalarProperty Name="Enabled" ColumnName="Enabled" />
+                <ScalarProperty Name="Alias" ColumnName="Alias" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1628,23 +1591,6 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="CountryId" ColumnName="CountryId" />
                 <ScalarProperty Name="Language" ColumnName="Language" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="DbCoupons">
-            <EntityTypeMapping TypeName="LetterAmazer.DbCoupons">
-              <MappingFragment StoreEntitySet="DbCoupons">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="CouponValue" ColumnName="CouponValue" />
-                <ScalarProperty Name="DateGiven" ColumnName="DateGiven" />
-                <ScalarProperty Name="EarlierCouponRef" ColumnName="EarlierCouponRef" />
-                <ScalarProperty Name="RefSource" ColumnName="RefSource" />
-                <ScalarProperty Name="RefUserValue" ColumnName="RefUserValue" />
-                <ScalarProperty Name="CouponExpire" ColumnName="CouponExpire" />
-                <ScalarProperty Name="Code" ColumnName="Code" />
-                <ScalarProperty Name="CouponValueLeft" ColumnName="CouponValueLeft" />
-                <ScalarProperty Name="CouponStatus" ColumnName="CouponStatus" />
-                <ScalarProperty Name="DateModified" ColumnName="DateModified" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1760,7 +1706,6 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
           <EntitySetMapping Name="DbLetters">
             <EntityTypeMapping TypeName="LetterAmazer.DbLetters">
               <MappingFragment StoreEntitySet="DbLetters">
-                <ScalarProperty Name="Guid" ColumnName="Guid" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
                 <ScalarProperty Name="FromAddress_Address" ColumnName="FromAddress_Address" />
@@ -1798,13 +1743,13 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
                 <ScalarProperty Name="LetterSize" ColumnName="LetterSize" />
                 <ScalarProperty Name="LetterType" ColumnName="LetterType" />
                 <ScalarProperty Name="OfficeId" ColumnName="OfficeId" />
+                <ScalarProperty Name="Guid" ColumnName="Guid" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="DbOfficeProducts">
             <EntityTypeMapping TypeName="LetterAmazer.DbOfficeProducts">
               <MappingFragment StoreEntitySet="DbOfficeProducts">
-                <ScalarProperty Name="Automatic" ColumnName="Automatic" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="OfficeId" ColumnName="OfficeId" />
                 <ScalarProperty Name="ScopeType" ColumnName="ScopeType" />
@@ -1820,6 +1765,7 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
                 <ScalarProperty Name="OfficeProductReferenceId" ColumnName="OfficeProductReferenceId" />
                 <ScalarProperty Name="ShippingWeekdays" ColumnName="ShippingWeekdays" />
                 <ScalarProperty Name="Enabled" ColumnName="Enabled" />
+                <ScalarProperty Name="Automatic" ColumnName="Automatic" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1843,7 +1789,6 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
                 <ScalarProperty Name="Quantity" ColumnName="Quantity" />
                 <ScalarProperty Name="PriceExVat" ColumnName="PriceExVat" />
                 <ScalarProperty Name="PaymentMethodId" ColumnName="PaymentMethodId" />
-                <ScalarProperty Name="CouponId" ColumnName="CouponId" />
                 <ScalarProperty Name="VatPercentage" ColumnName="VatPercentage" />
                 <ScalarProperty Name="Total" ColumnName="Total" />
               </MappingFragment>
@@ -1861,7 +1806,6 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
                 <ScalarProperty Name="OrderCode" ColumnName="OrderCode" />
                 <ScalarProperty Name="TransactionCode" ColumnName="TransactionCode" />
                 <ScalarProperty Name="PriceExVat" ColumnName="PriceExVat" />
-                <ScalarProperty Name="CouponCode" ColumnName="CouponCode" />
                 <ScalarProperty Name="PaymentMethod" ColumnName="PaymentMethod" />
                 <ScalarProperty Name="DatePaid" ColumnName="DatePaid" />
                 <ScalarProperty Name="DateSent" ColumnName="DateSent" />

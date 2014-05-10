@@ -334,7 +334,7 @@ namespace LetterAmazer.Websites.Client.Controllers
             catch (Exception ex)
             {
                 logger.Error(ex);
-                ModelState.AddBusinessError(LetterAmazer.Websites.Client.Resources.Views.Shared.ViewRes.EmailOrPasswordInvalid);
+                ModelState.AddBusinessError("Email or password is invalid");
             }
 
             FormsAuthentication.SignOut();
@@ -441,7 +441,7 @@ namespace LetterAmazer.Websites.Client.Controllers
             }
             catch (Exception)
             {
-                ModelState.AddBusinessError(LetterAmazer.Websites.Client.Resources.Views.Shared.ViewRes.EmailInvalid);
+                ModelState.AddBusinessError("Email is invalid");
             }
 
             return RedirectToActionWithError("ForgotPassword", model);

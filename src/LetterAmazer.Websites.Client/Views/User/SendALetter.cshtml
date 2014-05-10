@@ -1,5 +1,4 @@
 ﻿@using LetterAmazer.Business.Utils.Helpers
-@using LetterAmazer.Websites.Client.Resources.Views.User
 @model LetterAmazer.Websites.Client.ViewModels.CreateSingleLetterModel
 
 @section header {
@@ -187,14 +186,7 @@
                                 @Html.HiddenFor(m => m.UploadFile, new Dictionary<string, object> { { "data-bind", "value:uploadFileKey" } })
                                 <br />
                                 <br />
-                                @*<a href="javascript:void(0)" id="toggleVoucherLnk" data-bind="click: toggleVoucherPanel">(@ViewRes.AddVoucher)</a>*@
-                                <div id="voucherDiv" data-bind="visible: showVoucher()">
-                                    <p>
-                                        @ViewRes.Voucher:<br />
-                                        @Html.TextBoxFor(m => m.VoucherCode, new Dictionary<string, object> { { "id", "voucherBox" }, { "class", "input-lg" }, { "placeholder", ViewRes.EnterVoucherCode }, { "data-bind", "value:voucherCode" } })
-                                        <label id="voucherStatus" data-bind="text: voucherStatus, attr: {'style': voucherColor}"></label>
-                                    </p>
-                                </div>
+                                
                             </div>
 
                         </div>
@@ -224,7 +216,6 @@
         currentFile: null,
         generatePDFUrl: '@Url.Action("GeneratePDF", "SingleLetter")',
         getPriceUrl: '@Url.Action("GetPrice", "SingleLetter")',
-        applyVoucherUrl: '@Url.Action("ApplyVoucher", "SingleLetter")',
         previewPDFUrl: '@Url.Action("PreviewPDF", "SingleLetter")',
         geocoder: new google.maps.Geocoder(),
         isAutheticated: true

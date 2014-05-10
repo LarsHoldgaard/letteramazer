@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using LetterAmazer.Websites.Client.Resources.Views.Shared;
 using System.Text;
 
 namespace LetterAmazer.Websites.Client.Extensions
@@ -20,7 +19,7 @@ namespace LetterAmazer.Websites.Client.Extensions
             if (htmlHelper.ViewData.ModelState.ContainsKey("Business"))
             {
                 ModelState modelState = htmlHelper.ViewData.ModelState["Business"];
-                return MessageBox(htmlHelper, MessageBoxType.Error, ViewRes.ResourceManager.GetString(MessageBoxType.Error.ToString()),
+                return MessageBox(htmlHelper, MessageBoxType.Error, "An error occured",
                     string.Format("<p>{0}</p>", htmlHelper.Encode(modelState.Errors[0].ErrorMessage)), false);
             }
             return null;
