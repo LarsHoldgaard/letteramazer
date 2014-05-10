@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using LetterAmazer.Business.Services.Domain.AddressInfos;
+using LetterAmazer.Business.Services.Domain.Content;
 using LetterAmazer.Business.Services.Domain.Countries;
 using LetterAmazer.Business.Services.Domain.Customers;
 using LetterAmazer.Business.Services.Domain.DeliveryJobs;
@@ -16,7 +18,9 @@ using LetterAmazer.Websites.Client.ViewModels;
 using System;
 using System.Web.Mvc;
 using LetterAmazer.Websites.Client.Extensions;
+using LetterAmazer.Websites.Client.ViewModels.Home;
 using LetterAmazer.Websites.Client.ViewModels.Shared.Utils;
+using LetterAmazer.Websites.Client.ViewModels.User;
 using log4net;
 using System.Web.Security;
 
@@ -35,9 +39,10 @@ namespace LetterAmazer.Websites.Client.Controllers
         private IOrganisationService organisationService;
         private IPriceUpdater priceUpdater;
         private IDeliveryJobService deliveryJobService;
+        private IContentService contentService;
         public HomeController(ICustomerService customerService,IOfficeService officeService,IPriceUpdater priceUpdater,
             IMailService mailService, ICountryService countryService, IPriceService priceService, IOrganisationService organisationService,
-            IDeliveryJobService deliveryJobService)
+            IDeliveryJobService deliveryJobService,IContentService contentService)
         {
             this.customerService = customerService;
             this.officeService = officeService;
@@ -47,19 +52,48 @@ namespace LetterAmazer.Websites.Client.Controllers
             this.organisationService = organisationService;
             this.priceUpdater = priceUpdater;
             this.deliveryJobService = deliveryJobService;
+            this.contentService = contentService;
         }
 
         public ActionResult Index()
         {
-            logger.Info("HomeController -> Index");
-            return View();
+            var windowedModel = new SendWindowedLetterViewModel()
+            {
+                PaymentMethodId = SessionHelper.Customer != null ? 2 : 1,
+                LetterType = (int)LetterType.Windowed,
+                UseUploadFile = true,
+                IsLoggedIn = SessionHelper.Customer != null 
+            };
+
+            var countries = countryService.GetCountryBySpecificaiton(new CountrySpecification()
+            {
+                Take = 999
+            });
+
+            foreach (var country in countries)
+            {
+                var selectedItem = new SelectListItem()
+                {
+                    Text = country.Name,
+                    Value = country.Id.ToString()
+                };
+
+                if (country.Id == 59)
+                {
+                    selectedItem.Selected = true;
+                }
+
+                windowedModel.Countries.Add(selectedItem);
+            }
+
+            return View(windowedModel);
         }
 
         public ActionResult Faq()
         {
             
             priceUpdater.Execute();
-            deliveryJobService.Execute();
+            //deliveryJobService.Execute(false);
             return View();
         }
 
@@ -70,11 +104,71 @@ namespace LetterAmazer.Websites.Client.Controllers
 
         public ActionResult ApiInfo()
         {
-            return View();
+            return View(new ApiViewModel());
+        }
+
+        [HttpPost]
+        public ActionResult ApiInfo(ApiViewModel apiModel)
+        {
+            mailService.NotificationApiWish(apiModel.Email,apiModel.Organistion,apiModel.Comment);
+
+            apiModel = new ApiViewModel();
+            apiModel.Comment = string.Empty;
+            apiModel.Organistion = string.Empty;
+            apiModel.Email = string.Empty;
+            apiModel.Status = "Thanks. We have received the e-mail and will get back to you soon";
+            return View(apiModel);
+        }
+
+        public ActionResult Reseller()
+        {
+            ResellerViewModel model = new ResellerViewModel();
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult Reseller(ResellerViewModel model)
+        {
+            mailService.NotificationResellerWish(model.Email, model.Interest, model.Message);
+
+            model = new ResellerViewModel();
+            model.Interest = string.Empty;
+            model.Message = string.Empty;
+            model.Email = string.Empty;
+            model.Status = "Thanks. We have received the e-mail and will get back to you soon";
+            return View(model);
         }
 
         public ActionResult About()
         {
+            //var countries = countryService.GetCountryBySpecificaiton(new CountrySpecification()
+            //{
+            //    Take = 999
+            //});
+
+            //var path =
+            //        "C:\\Users\\larsholdgaard\\Documents\\Work\\output";
+            //var files = Directory.GetFiles(path).ToList();
+
+            //int i = 0;
+            //foreach (var country in countries)
+            //{
+            //    var currentpath = files[i];
+            //    StreamReader rdr = new StreamReader(currentpath);
+            //    var data = rdr.ReadToEnd();
+
+            //    //
+            //    CmsContent content = new CmsContent()
+            //    {
+            //        Alias = country.Alias,
+            //        Section = "sendletter",
+            //        Headline = "Send a letter to " + country.Name + " online (ie. " + country.Capital + ")",
+            //        Content = data
+            //    };
+            //    contentService.Create(content);
+            //    i++;
+            //}
+
             return View();
         }
 
@@ -85,31 +179,118 @@ namespace LetterAmazer.Websites.Client.Controllers
 
         public ActionResult Pricing()
         {
+            var prices = buildPriceViewModel(59); // ID of Denmark. TODO: some IP to countryID?
+
+            PriceOverviewViewModel priceOverviewViewModel = new PriceOverviewViewModel();
+            priceOverviewViewModel.PriceViewModel = prices;
+
             var countries = countryService.GetCountryBySpecificaiton(new CountrySpecification()
             {
                 Take = 999
             });
 
-            PriceViewModel prices = new PriceViewModel();
             foreach (var country in countries)
             {
-                var selectedItem = new SelectListItem()
+                priceOverviewViewModel.CountryPriceList.CountryPriceViewModel.Add(new CountryPriceViewModel()
                 {
-                    Text = country.Name,
-                    Value = country.Id.ToString(),
-                };
-
-                if (country.Id == 59)
-                {
-                    selectedItem.Selected = true;
-                }
-
-                prices.Countries.Add(selectedItem);
+                    Alias = country.Alias,
+                    Name = country.Name
+                });
             }
 
-            prices.SelectedLetterSizes = ControllerHelpers.GetEnumSelectList<LetterSize>().ToList();
+            return View(priceOverviewViewModel);
+        }
 
-            return View(prices);
+
+        public ActionResult GetSendALetterTo(string alias)
+        {
+            var countries = countryService.GetCountryBySpecificaiton(new CountrySpecification()
+            {
+                Take = 999
+            });
+
+            var windowedModel = new SendWindowedLetterViewModel()
+            {
+                PaymentMethodId = SessionHelper.Customer != null ? 2 : 1,
+                LetterType = (int)LetterType.Windowed,
+                UseUploadFile = true,
+                IsLoggedIn = SessionHelper.Customer != null
+            };
+
+            var content = contentService.GetContentBySpecifications(new ContentSpecification()
+            {
+                Alias = alias,
+                Section = "sendletter",
+            }).FirstOrDefault();
+
+            var country = countryService.GetCountryBySpecificaiton(new CountrySpecification()
+            {
+                Alias = alias
+            }).FirstOrDefault();
+
+            var sendaletterto = new SendALetterToViewModel()
+            {
+                Content = content.Content,
+                Headline = content.Headline,
+                SeoTitle = string.IsNullOrEmpty(content.SeoTitle) ? content.Headline : content.SeoTitle,
+                SendWindowedLetterViewModel = windowedModel
+            };
+
+            foreach (var acountry in countries)
+            {
+                sendaletterto.SendWindowedLetterViewModel.Countries.Add(new SelectListItem()
+                {
+                    Text = acountry.Name,
+                    Value = acountry.Id.ToString()
+                });
+
+                sendaletterto.CountryPriceList.CountryPriceViewModel.Add(new CountryPriceViewModel()
+                {
+                    Alias = acountry.Alias,
+                    Name = acountry.Name
+                });
+            }
+
+            return View(sendaletterto);
+        }
+
+        public ActionResult GetPricing(string alias)
+        {
+            var countries = countryService.GetCountryBySpecificaiton(new CountrySpecification()
+            {
+                Take = 999
+            });
+
+
+            var content = contentService.GetContentBySpecifications(new ContentSpecification()
+            {
+                Alias = alias,
+                Section = "price",
+            }).FirstOrDefault();
+
+            var country = countryService.GetCountryBySpecificaiton(new CountrySpecification()
+            {
+                Alias = alias
+            }).FirstOrDefault();
+
+            var priceDescriptionViewModel = new PriceDescriptionViewModel()
+            {
+                Content = content.Content,
+                Headline = content.Headline,
+                PriceViewModel = buildPriceViewModel(country.Id),
+                SeoTitle = string.IsNullOrEmpty(content.SeoTitle) ? content.Headline : content.SeoTitle
+            };
+
+            foreach (var acountry in countries)
+            {
+                priceDescriptionViewModel.CountryPriceList.CountryPriceViewModel.Add(new CountryPriceViewModel()
+                {
+                    Alias = acountry.Alias,
+                    Name = acountry.Name
+                });
+            }
+
+            return View(priceDescriptionViewModel);
         }
 
         [HttpGet]
@@ -341,5 +522,38 @@ namespace LetterAmazer.Websites.Client.Controllers
 
             return new HttpStatusCodeResult(404);
         }
+
+        #region Private helpers
+
+        private PriceViewModel buildPriceViewModel(int standardCountryId)
+        {
+            var countries = countryService.GetCountryBySpecificaiton(new CountrySpecification()
+            {
+                Take = 999
+            });
+
+            PriceViewModel prices = new PriceViewModel();
+            foreach (var country in countries)
+            {
+                var selectedItem = new SelectListItem()
+                {
+                    Text = country.Name,
+                    Value = country.Id.ToString(),
+                };
+
+                if (country.Id == standardCountryId)
+                {
+                    selectedItem.Selected = true;
+                }
+
+                prices.Countries.Add(selectedItem);
+            }
+
+            prices.SelectedLetterSizes = ControllerHelpers.GetEnumSelectList<LetterSize>().ToList();
+            return prices;
+        }
+
+
+        #endregion
     }
 }

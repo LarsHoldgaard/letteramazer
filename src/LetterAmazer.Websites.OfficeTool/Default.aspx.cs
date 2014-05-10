@@ -8,6 +8,7 @@ using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using HtmlAgilityPack;
 using LetterAmazer.Business.Services.Domain.Countries;
+using LetterAmazer.Business.Services.Domain.Currencies;
 using LetterAmazer.Business.Services.Domain.FulfillmentPartners;
 using LetterAmazer.Business.Services.Domain.Letters;
 using LetterAmazer.Business.Services.Domain.OfficeProducts;
@@ -199,6 +200,7 @@ namespace LetterAmazer.Websites.OfficeTool
                     PriceType = ProductMatrixPriceType.PrPage,
                     SpanLower = 1,
                     SpanUpper = 1,
+                    CurrencyCode = CurrencyCode.USD
                 };
                 productMatrixService.Create(matrix);
             }

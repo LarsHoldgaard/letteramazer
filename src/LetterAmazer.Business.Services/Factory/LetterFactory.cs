@@ -62,7 +62,8 @@ namespace LetterAmazer.Business.Services.Factory
                     LetterProcessing = (LetterProcessing)dbLetter.LetterProcessing,
                     LetterType = (LetterType)dbLetter.LetterType,
 
-                }
+                },
+                Guid = dbLetter.Guid
             };
 
             return letter;

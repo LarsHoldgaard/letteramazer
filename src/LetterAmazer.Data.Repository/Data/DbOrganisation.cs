@@ -16,9 +16,9 @@ namespace LetterAmazer.Data.Repository.Data
     {
         public DbOrganisation()
         {
+            this.DbApiAccess = new HashSet<DbApiAccess>();
             this.DbOrganisationAddressList = new HashSet<DbOrganisationAddressList>();
             this.DbOrganisationProfileSettings = new HashSet<DbOrganisationProfileSettings>();
-            this.DbApiAccess = new HashSet<DbApiAccess>();
         }
     
         public int Id { get; set; }
@@ -38,8 +38,8 @@ namespace LetterAmazer.Data.Repository.Data
         public Nullable<int> RequiredFulfillmentPartnerId { get; set; }
         public Nullable<int> RequiredOfficeId { get; set; }
     
+        public virtual ICollection<DbApiAccess> DbApiAccess { get; set; }
         public virtual ICollection<DbOrganisationAddressList> DbOrganisationAddressList { get; set; }
         public virtual ICollection<DbOrganisationProfileSettings> DbOrganisationProfileSettings { get; set; }
-        public virtual ICollection<DbApiAccess> DbApiAccess { get; set; }
     }
 }

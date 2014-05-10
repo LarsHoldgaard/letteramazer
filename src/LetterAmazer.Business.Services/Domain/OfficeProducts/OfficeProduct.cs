@@ -26,6 +26,11 @@ namespace LetterAmazer.Business.Services.Domain.OfficeProducts
         public ProductMatrixReferenceType ReferenceType { get; set; }
 
         public int OfficeProductReferenceId { get; set; }
+        public int ShippingDays { get; set; }
+
+        public bool Enabled { get; set; }
+
+        public bool Automatic { get; set; }
 
         public OfficeProduct()
         {

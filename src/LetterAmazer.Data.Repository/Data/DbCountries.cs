@@ -39,10 +39,12 @@ namespace LetterAmazer.Data.Repository.Data
         public Nullable<double> East { get; set; }
         public Nullable<int> GeonameId { get; set; }
         public Nullable<double> West { get; set; }
-        public string Population { get; set; }
+        public Nullable<int> Population { get; set; }
         public Nullable<bool> InsideEu { get; set; }
         public Nullable<int> ContinentId { get; set; }
         public Nullable<decimal> VatPercentage { get; set; }
+        public bool Enabled { get; set; }
+        public string Alias { get; set; }
     
         public virtual ICollection<DbCustomers> DbCustomers { get; set; }
         public virtual ICollection<DbOrganisationAddressList> DbOrganisationAddressList { get; set; }

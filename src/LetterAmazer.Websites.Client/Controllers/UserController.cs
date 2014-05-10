@@ -77,11 +77,18 @@ namespace LetterAmazer.Websites.Client.Controllers
 
         public ActionResult SendWindowedLetter()
         {
+            if (SessionHelper.Customer.CreditsLeft <= 0.0m)
+            {
+                DashboardViewModel dashboardViewModel = new DashboardViewModel();
+                return RedirectToAction("Index", "User", dashboardViewModel);
+            }
+
             var windowedModel = new SendWindowedLetterViewModel()
             {
-                PaymentMethodId = 2,
+                PaymentMethodId = SessionHelper.Customer != null ? 2 : 1, // if logged in, credits, otherwise PayPal
                 LetterType = (int)LetterType.Windowed,
-                UseUploadFile = true
+                UseUploadFile = true,
+                IsLoggedIn = SessionHelper.Customer != null
             };
 
             var countries = countryService.GetCountryBySpecificaiton(new CountrySpecification()
@@ -108,24 +115,6 @@ namespace LetterAmazer.Websites.Client.Controllers
             return View(windowedModel);
         }
 
-    
-        [HttpPost]
-        public ActionResult SendWindowedLetter(SendWindowedLetterViewModel model)
-        {
-            var order = new SingleLetterController(orderService,paymentService,couponService,countryService,priceService,customerService,null,null,officeService,officeProductService).CreateOrderFromViewModel(model);
-
-            var updated_order = orderService.Create(order);
-
-            string redirectUrl = paymentService.Process(updated_order);
-
-            if (string.IsNullOrEmpty(redirectUrl))
-            {
-                DashboardViewModel dashboardViewModel = new DashboardViewModel();
-                return RedirectToAction("Index", "User", dashboardViewModel);
-            }
-
-            return Redirect(redirectUrl);
-        }
 
         #endregion
 

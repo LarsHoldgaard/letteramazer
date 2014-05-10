@@ -56,11 +56,12 @@ namespace LetterAmazer.Data.Repository.Data
         public int LetterSize { get; set; }
         public int LetterType { get; set; }
         public int OfficeId { get; set; }
+        public System.Guid Guid { get; set; }
     
         public virtual DbCountries DbCountries { get; set; }
         public virtual DbCountries DbCountries1 { get; set; }
         public virtual DbCustomers DbCustomers { get; set; }
-        public virtual ICollection<DbOrderlines> DbOrderlines { get; set; }
         public virtual DbOrders DbOrders { get; set; }
+        public virtual ICollection<DbOrderlines> DbOrderlines { get; set; }
     }
 }

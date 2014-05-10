@@ -85,11 +85,21 @@ namespace LetterAmazer.Business.Services.Services
             {
                 dbProducts = dbProducts.Where(c => c.ZipId == specification.ZipId);
             }
-
+            if (specification.ShippingDays > 0)
+            {
+                dbProducts = dbProducts.Where(c => c.ShippingWeekdays <= specification.ShippingDays);
+            }
+            if (specification.Automatic != null)
+            {
+                dbProducts = dbProducts.Where(c => c.Automatic == specification.Automatic);
+            }
+            if (specification.ForceDisabled == null || !specification.ForceDisabled.Value)
+            {
+                dbProducts = dbProducts.Where(c => c.Enabled);
+            }
 
             return
-                officeProductFactory.Create(
-                    dbProducts.OrderBy(c => c.Id).Skip(specification.Skip).Take(specification.Take).ToList());
+                officeProductFactory.Create(dbProducts.OrderBy(c => c.Id).Skip(specification.Skip).Take(specification.Take).ToList());
         }
 
         public OfficeProduct Create(OfficeProduct officeProduct)
@@ -107,7 +117,10 @@ namespace LetterAmazer.Business.Services.Services
                 LetterSize = (int)officeProduct.LetterDetails.LetterSize,
                 LetterProcessing = (int)officeProduct.LetterDetails.LetterProcessing,
                 ReferenceType = (int)officeProduct.ReferenceType,
-                OfficeProductReferenceId = officeProduct.OfficeProductReferenceId
+                OfficeProductReferenceId = officeProduct.OfficeProductReferenceId,
+                ShippingWeekdays = officeProduct.ShippingDays,
+                Enabled = officeProduct.Enabled,
+                Automatic =officeProduct.Automatic
             };
 
             repository.DbOfficeProducts.Add(dbOfficeProduct);
@@ -139,6 +152,10 @@ namespace LetterAmazer.Business.Services.Services
             dbOfficeProduct.LetterType = (int)officeProduct.LetterDetails.LetterType;
             dbOfficeProduct.ReferenceType = (int) officeProduct.ReferenceType;
             dbOfficeProduct.OfficeProductReferenceId = officeProduct.OfficeProductReferenceId;
+            dbOfficeProduct.ShippingWeekdays = officeProduct.ShippingDays;
+            dbOfficeProduct.Enabled = officeProduct.Enabled;
+            dbOfficeProduct.Automatic = officeProduct.Automatic;
+
 
             return GetOfficeProductById(officeProduct.Id);
         }

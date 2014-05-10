@@ -22,6 +22,7 @@ namespace LetterAmazer.Data.Repository.Data
         public int Span_lower { get; set; }
         public int Span_upper { get; set; }
         public int OfficeProductId { get; set; }
+        public int CurrencyId { get; set; }
     
         public virtual DbOfficeProducts DbOfficeProducts { get; set; }
     }

@@ -14,8 +14,12 @@ namespace LetterAmazer.Business.Services.Domain.Mails
         void ConfirmUser(Customer customer);
         void SendLetter(Order order);
 
-        void SendInvoice(Order order, Domain.Invoice.Invoice invoice);
+        void SendInvoice(Order order, Invoice.Invoice invoice);
 
         void NotificationInvoiceCreated();
+        void SendIntermailStatus(string status, int letters);
+
+        void NotificationApiWish(string email, string organisation, string comment);
+        void NotificationResellerWish(string email, string wish, string comment);
     }
 }

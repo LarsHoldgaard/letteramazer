@@ -1,22 +1,100 @@
-﻿@using LetterAmazer.Websites.Client.Resources.Views.Home
+﻿@model LetterAmazer.Websites.Client.ViewModels.Home.ApiViewModel
+
+@{
+    ViewBag.PageTitle = "Send a letter API - REST api for snail mail";
+}
 
 
-<h1>@Html.Raw(ViewRes.ApiHint)</h1>
+<div class="frontpage">
+    <h1>
+        Send a letter API - REST api for snail mail
+    </h1>
 
-<p>We are currently developing an API, so our system can be integrated into any software application or website. That means if you need automated physical letters, we are there to provide it.</p>
+    @if (!string.IsNullOrEmpty(Model.Status))
+    {
+        <div class="alert alert-success">
+            @Model.Status
+        </div>
+    }
 
-<p>We promise it will be an extremely simple REST API, and we expect it to be up and running in Q2 2014.</p>
+    <p>If you send a lot of letters, or want to start sending letters inside your app or website, LetterAmazer is a good choice.</p>
+    <p>
+        <b>We want to have the easiest letter API in the world</b>. Therefore, we always strive for the following:<br />
+        <ul>
+            <li>Provide an extremely simple REST API, with good documentation and code samples</li>
+            <li>Require as few parameters for calls as possible</li>
+            <li>100% Uptime. This is of course never possible, but this is one of our most important KPI's, which means it is our goal</li>
+            <li>Always answer questions within 24 hours</li>
+        </ul>
+    </p>
 
-<p>Frankly, we hate FAQ's, where business owners invent their own questions and answer them by a sales speech. However, we will try to answer some of the obvious questions, we've met when we discuss our business with others.</p>
+    <p><b>Getting started is easy:</b></p>
+    <div class="row margintop">
+        <div class="col-md-4">
+            <div class="frontpage-top-uspmargin">
+                <img src="@Url.Content("~/Content/images/icons/1395514603_Account.png")" class="frontpage-top-image-usp" />
+                <span class="frontpage-top-usp">
+                    1. Create account
+                </span>
+                <span class="frontpage-top-usptext">
+                    Create a free account and you will be ready within 2 minutes
+                    <br /><a class="btn btn-lg btn-primary buttonmargintop" href="@Url.Action("Register")">Create an account now</a>
+                </span>
 
-<h3>Can I integrate it into my intranet / portal / website?</h3>
-<p>Yes, that's the idea!</p>
+            </div>
+        </div>
 
-<p>Unfortunately, it will require some IT-guys to make it work. It probably won't take too long, as we've made it as simple as possible for you to integrate.</p>
+        <div class="col-md-4">
+            <div class="frontpage-top-uspmargin">
+                <img src="@Url.Content("~/Content/images/icons/1395523084_icon-ios7-gear.png")" class="frontpage-top-image-usp" />
+                <span class="frontpage-top-usp">
+                    2. Add a new API key and secret
+                </span>
+                <span class="frontpage-top-usptext">
+                    Create an API key and secret, which is your authentication to the API.
+                </span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="frontpage-top-uspmargin">
+                <img src="@Url.Content("~/Content/images/icons/1395523082_document_text_accept.png")" class="frontpage-top-image-usp" />
+                <span class="frontpage-top-usp">
+                    3. Make the integration
+                </span>
+                <span class="frontpage-top-usptext">
+                    Use our API documentation or see our code samples, to make your integration work.
+                </span>
+            </div>
+        </div>
+    </div>
 
-<h3>Can you help with our integration?</h3>
-<p>Yes, and yes. Why yes, twice? </p>
+    <br />
+    <hr />
+    <br />
 
-<p>First of all, we will of course the help IT-guys. If they have questions or problems, we help... For free. Unlike those 150 USD pr. hour bastards ;-)</p>
+    <div class="frontpage-top-usptext" style="text-align:left">
+        <span class="frontpage-top-description-header">
+            Start using our API
+        </span>
+        <p>Our API is currently in beta, which means we haven't opened it on the website yet. If you want to use it within the next month, please send us a message below:</p>
 
-<p>If you don't have the IT resources inside your company, it gets more complex. We will help make the integration, depending on the system. Please make contact and we will figure something out.</p>
+        @using (Html.BeginForm("ApiInfo", "Home", FormMethod.Post))
+        {
+            <p>
+                E-mail:<br />
+                @Html.TextBoxFor(model => model.Email, new { @class = "form-control", placeholder = "E-mail" })
+            </p>
+<p>
+                Organisation:<br />
+                @Html.TextBoxFor(model => model.Organistion, new { @class = "form-control", placeholder = "Organistaion" })
+            </p>
+<p>
+                How do you want to use the API:<br />
+                @Html.TextAreaFor(model => model.Comment, new { @class = "form-control", placeholder = "How do you want to use the API?" })
+            </p>
+
+
+            <input type="submit" class="btn btn-primary btn-lg" value="Send message" />
+        }
+    </div>
+</div>

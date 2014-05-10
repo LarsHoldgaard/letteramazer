@@ -26,26 +26,26 @@
 <h2>Actions</h2>
 @if (Model.Customer.CreditsLeft > 0)
 {
-    if (Model.LetterType == LetterType.Pres)
+    @*if (Model.LetterType == LetterType.Pres)
     {
         <p><a class="btn btn-success btn-lg" href="@Url.Action("SendALetter")">Send a letter</a></p>
     }
     else
-    {
+    {*@
         <p><a href="@Url.Action("SendWindowedLetter")" class="btn-success btn btn-lg">Send a windowed letter</a></p>
-    }
+    //}
 }
 else
 {
-    <p>You to insert more money, to send letters.</p>
+    <p><b>No money left</b>. Insert more money to send a letter.</p>
     <p><a href="#" class="btn-default btn btn-lg" disabled="disabled">Send a letter</a></p>
 }
 
 <h2>Account status</h2>
-Money available: <b>@Model.Customer.Credit.ToFriendlyMoney() $</b>
+Money available: <b>@Model.Customer.Credit.ToFriendlyMoney() EUR</b>
 @if (SessionHelper.Customer.CreditLimit != 0)
 {
-    <p>Your account has a limit of @SessionHelper.Customer.CreditLimit $</p>
+    <p>Your account has a limit of @SessionHelper.Customer.CreditLimit EUR</p>
 }
 
 

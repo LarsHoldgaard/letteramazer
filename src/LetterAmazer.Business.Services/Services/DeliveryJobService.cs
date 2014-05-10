@@ -8,6 +8,7 @@ using LetterAmazer.Business.Services.Domain.DeliveryJobs;
 using LetterAmazer.Business.Services.Domain.FulfillmentPartners;
 using LetterAmazer.Business.Services.Domain.Fulfillments;
 using LetterAmazer.Business.Services.Domain.Letters;
+using LetterAmazer.Business.Services.Domain.Mails;
 using LetterAmazer.Business.Services.Domain.OfficeProducts;
 using LetterAmazer.Business.Services.Domain.Offices;
 using LetterAmazer.Business.Services.Domain.Orders;
@@ -23,25 +24,22 @@ namespace LetterAmazer.Business.Services.Services
         private static readonly ILog logger = LogManager.GetLogger(typeof(DeliveryJobService));
 
         private IOrderService orderService;
-        private IFulfillmentService fulfillmentService;
-        private IOfficeProductService officeProductService;
         private IOfficeService officeService;
         private IFulfillmentPartnerService fulfillmentPartnerService;
         private ILetterService letterService;
+        private IMailService mailService;
 
-
-        public DeliveryJobService(IOrderService orderService,IFulfillmentService fulfillmentService, IOfficeProductService officeProductService, 
-            IOfficeService officeService, IFulfillmentPartnerService fulfillmentPartnerService,ILetterService letterService)
+        public DeliveryJobService(IOrderService orderService,
+            IOfficeService officeService, IFulfillmentPartnerService fulfillmentPartnerService, ILetterService letterService, IMailService mailService)
         {
             this.orderService = orderService;
-            this.fulfillmentService = fulfillmentService;
-            this.officeProductService = officeProductService;
             this.officeService = officeService;
             this.fulfillmentPartnerService = fulfillmentPartnerService;
             this.letterService = letterService;
+            this.mailService = mailService;
         }
 
-        public void Execute()
+        public void Execute(bool runSchedule)
         {
             var relevantOrders = orderService.GetOrderBySpecification(new OrderSpecification()
             {
@@ -67,7 +65,7 @@ namespace LetterAmazer.Business.Services.Services
 
                 foreach (var entity in lettersByPartnerJob)
                 {
-                    processDelivery(entity);
+                    processDelivery(entity,runSchedule);
                 }
             }
             catch (Exception ex)
@@ -76,7 +74,7 @@ namespace LetterAmazer.Business.Services.Services
             }
         }
 
-        private void processDelivery(KeyValuePair<int, List<Letter>> entity)
+        private void processDelivery(KeyValuePair<int, List<Letter>> entity, bool runSchedule)
         {
             var fulfillmentPartner = fulfillmentPartnerService.GetFulfillmentPartnerById(entity.Key);
        
@@ -91,7 +89,7 @@ namespace LetterAmazer.Business.Services.Services
             }
             else if (fulfillmentPartner.PartnerJob == PartnerJob.Intermail)
             {
-                fulfillmentService = new IntermailService(letterService,orderService);
+                fulfillmentService = new IntermailService(letterService,orderService,mailService);
             }
 
             if (fulfillmentService != null)
@@ -99,7 +97,7 @@ namespace LetterAmazer.Business.Services.Services
                 var schedule = CrontabSchedule.Parse(fulfillmentPartner.CronInterval);
                 var exDate = schedule.GetNextOccurrence(DateTime.Now.AddHours(-1));
 
-                if (exDate < DateTime.Now)
+                if (exDate < DateTime.Now && runSchedule || (!runSchedule))
                 {
                     fulfillmentService.Process(entity.Value);
                 }

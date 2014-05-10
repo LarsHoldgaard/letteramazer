@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LetterAmazer.Business.Services.Domain.Currencies;
 using LetterAmazer.Business.Services.Domain.OfficeProducts;
 using LetterAmazer.Business.Services.Domain.PriceUpdater;
 using LetterAmazer.Business.Services.Domain.Pricing;
@@ -17,13 +19,17 @@ namespace LetterAmazer.Business.Services.Services
         private IPriceService priceService;
         private IOfficeProductService officeProductService;
         private IProductMatrixService productMatrixService;
+        private ICurrencyService currencyService;
+        private CurrencyCode defaultCurrency;
 
         public PriceUpdater(IPriceService priceService, IProductMatrixService productMatrixService,
-            IOfficeProductService officeProductService)
+            IOfficeProductService officeProductService, ICurrencyService currencyService)
         {
             this.priceService = priceService;
             this.productMatrixService = productMatrixService;
             this.officeProductService = officeProductService;
+            this.currencyService = currencyService;
+            this.defaultCurrency = (CurrencyCode)(Enum.Parse(typeof(CurrencyCode), ConfigurationManager.AppSettings["LetterAmazer.Settings.DefaultCurrency"]));
         }
 
         public void Execute()
@@ -31,8 +37,9 @@ namespace LetterAmazer.Business.Services.Services
             var total_products = officeProductService.GetOfficeProductBySpecification(new OfficeProductSpecification()
             {
                 Take = int.MaxValue,
-                ProductMatrixReferenceType = ProductMatrixReferenceType.Contractor
-            });
+                ProductMatrixReferenceType = ProductMatrixReferenceType.Contractor,
+                Automatic = true
+            }).Where(c=>c.Automatic).ToList();
             var groupedProducts = officeProductService.GroupByUnique(total_products);
 
             var total_matrices = productMatrixService.GetProductMatrixBySpecification(new ProductMatrixLineSpecification()
@@ -55,8 +62,10 @@ namespace LetterAmazer.Business.Services.Services
             var total_products = officeProductService.GetOfficeProductBySpecification(new OfficeProductSpecification()
             {
                 Take = int.MaxValue,
-                ProductMatrixReferenceType = ProductMatrixReferenceType.Sales
-            }).ToList();
+                ProductMatrixReferenceType = ProductMatrixReferenceType.Sales,
+                ForceDisabled = true,
+                Automatic = true
+            }).Where(c=>c.Automatic).ToList();
 
 
             for (int j = 0; j < total_products.Count; j++)
@@ -87,12 +96,12 @@ namespace LetterAmazer.Business.Services.Services
                 // TODO: Must fix more than 1
                 var price = priceService.GetPriceByMatrixLines(matrices, 1);
 
-                if (cheapest > price.PriceExVat)
+                var convertedPrice = currencyService.Convert(price.PriceExVat, price.CurrencyCode, defaultCurrency);
+                if (cheapest > convertedPrice)
                 {
                     lowestOfficeProductId = officeProduct.Id;
-                    cheapest = price.PriceExVat;
+                    cheapest = convertedPrice;
                 }
-
             }
 
             SaveOfficeProduct(lowestOfficeProductId);
@@ -107,7 +116,9 @@ namespace LetterAmazer.Business.Services.Services
             // Update price of the office product matrix lines
             foreach (var productMatrixLine in cheapest_officeProduct.ProductMatrixLines)
             {
-                productMatrixLine.BaseCost = CalculateSalesPrice(productMatrixLine.BaseCost,
+                var converted = currencyService.Convert(productMatrixLine.BaseCost, productMatrixLine.CurrencyCode,
+                    defaultCurrency);
+                productMatrixLine.BaseCost = CalculateSalesPrice(converted,
                     productMatrixLine.LineType);
             }
 
@@ -124,7 +135,8 @@ namespace LetterAmazer.Business.Services.Services
                     LetterType = cheapest_officeProduct.LetterDetails.LetterType,
                     ProductScope = cheapest_officeProduct.ProductScope,
                     ZipId = cheapest_officeProduct.ContinentId,
-                    ProductMatrixReferenceType = ProductMatrixReferenceType.Sales
+                    ProductMatrixReferenceType = ProductMatrixReferenceType.Sales,
+                    ShippingDays = cheapest_officeProduct.ShippingDays,
                 }).FirstOrDefault();
 
             // If product doesn't exist, we will just create it
@@ -136,6 +148,7 @@ namespace LetterAmazer.Business.Services.Services
                 foreach (var productMatrixLine in cheapest_officeProduct.ProductMatrixLines)
                 {
                     productMatrixLine.OfficeProductId = existing_officeProduct.Id;
+                    productMatrixLine.CurrencyCode = defaultCurrency;
                     productMatrixService.Create(productMatrixLine);
                 }
             }
@@ -144,7 +157,7 @@ namespace LetterAmazer.Business.Services.Services
                 // update lines
                 var lines = productMatrixService.GetProductMatrixBySpecification(new ProductMatrixLineSpecification()
                 {
-                    OfficeProductId = existing_officeProduct.Id
+                    OfficeProductId = existing_officeProduct.Id,
                 });
 
                 foreach (var productMatrixLine in lines)
@@ -155,6 +168,8 @@ namespace LetterAmazer.Business.Services.Services
                 foreach (var productMatrixLine in cheapest_officeProduct.ProductMatrixLines)
                 {
                     productMatrixLine.OfficeProductId = existing_officeProduct.Id;
+                    productMatrixLine.CurrencyCode = defaultCurrency;
+
                     productMatrixService.Create(productMatrixLine);
                 }
             }

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Castle.Components.DictionaryAdapter.Xml;
 using LetterAmazer.Business.Services.Domain.AddressInfos;
 using LetterAmazer.Business.Services.Domain.Countries;
+using LetterAmazer.Business.Services.Domain.Currencies;
 using LetterAmazer.Business.Services.Domain.Letters;
 using LetterAmazer.Business.Services.Domain.OfficeProducts;
 using LetterAmazer.Business.Services.Domain.Orders;
@@ -28,17 +29,18 @@ namespace LetterAmazer.Business.Services.Services
         private IProductMatrixService productMatrixService;
         private IOfficeProductService offerProductService;
         private IOrganisationService organisationService;
-
+        private ICurrencyService currencyService;
         public PriceService(ICountryService countryService,
             LetterAmazerEntities repository, IProductMatrixService productMatrixService, 
-            IOfficeProductService offerProductService, IOrganisationService organisationService
-            )
+            IOfficeProductService offerProductService, IOrganisationService organisationService,
+            ICurrencyService currencyService)
         {
             this.countryService = countryService;
             this.repository = repository;
             this.productMatrixService = productMatrixService;
             this.offerProductService = offerProductService;
             this.organisationService = organisationService;
+            this.currencyService = currencyService;
         }
 
         public Price GetPriceByOrder(Order order)
@@ -88,8 +90,13 @@ namespace LetterAmazer.Business.Services.Services
         public Price GetPriceBySpecification(PriceSpecification specification)
         {
             IQueryable<DbOfficeProducts> officeProducts =
-                repository.DbOfficeProducts.Where(c => c.ReferenceType == (int) ProductMatrixReferenceType.Sales);
+                repository.DbOfficeProducts.Where(c => c.ReferenceType == (int) ProductMatrixReferenceType.Sales && c.Enabled);
 
+            if (specification.CountryId > 0)
+            {
+                var country = countryService.GetCountryById(specification.CountryId);
+                officeProducts = officeProducts.Where(c => c.CountryId == specification.CountryId || c.ContinentId == country.ContinentId || c.ScopeType == (int)ProductScope.RestOfWorld);
+            }
             if (specification.OfficeProductId > 0)
             {
                 officeProducts = officeProducts.Where(c => c.Id == specification.OfficeProductId);
@@ -114,11 +121,6 @@ namespace LetterAmazer.Business.Services.Services
             {
                 officeProducts = officeProducts.Where(c => c.LetterType == (int)specification.LetterType.Value);
             }
-            if (specification.CountryId > 0)
-            {
-                var country = countryService.GetCountryById(specification.CountryId);
-                officeProducts = officeProducts.Where(c => c.CountryId == specification.CountryId || c.ContinentId == country.ContinentId || c.ScopeType == (int)ProductScope.RestOfWorld);
-            }
             if (specification.ContinentId > 0)
             {
                 officeProducts = officeProducts.Where(c => c.ContinentId == specification.ContinentId || c.ScopeType == (int)ProductScope.RestOfWorld);
@@ -127,9 +129,10 @@ namespace LetterAmazer.Business.Services.Services
             {
                 officeProducts = officeProducts.Where(c => c.OfficeId == specification.OfficeId);
             }
-
-            // TODO: ZIP?
-
+            if (specification.ShippingDays > 0)
+            {
+                officeProducts = officeProducts.Where(c => c.ShippingWeekdays == specification.ShippingDays);
+            }
 
             // find cheapest prices from the provided list of officeProducts
             decimal minCost = decimal.MaxValue;
@@ -160,7 +163,7 @@ namespace LetterAmazer.Business.Services.Services
             return new Price()
             {
                 OfficeProductId = officeProductId,
-                PriceExVat =minCost,
+                PriceExVat = minCost,
                 VatPercentage = addVat ? 0.25m : 0.0m
             };
         }
@@ -189,11 +192,12 @@ namespace LetterAmazer.Business.Services.Services
 
         public Price GetPriceByMatrixLines(IEnumerable<ProductMatrixLine> matrix, int pageCount)
         {
+            CurrencyCode currencyCode = CurrencyCode.USD; 
             decimal productCost = 0.0m;
             for (int page = 1; page <= pageCount; page++)
             {
                 var lines = matrix.Where(c => c.SpanLower <= page && c.SpanUpper >= page);
-
+               
                 if (!lines.Any())
                 {
                     throw new BusinessException("No price for this page");
@@ -210,13 +214,16 @@ namespace LetterAmazer.Business.Services.Services
                     {
                         productCost += productMatrixLine.BaseCost;
                     }
+
+                    currencyCode = productMatrixLine.CurrencyCode;
                 }
             }
             return new Price()
             {
                 PriceExVat = productCost,
                 VatPercentage = 0.0m,
-                OfficeProductId = 0
+                OfficeProductId = 0,
+                CurrencyCode = currencyCode
             }; 
         }
 

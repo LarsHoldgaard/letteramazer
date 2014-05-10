@@ -12,6 +12,7 @@ namespace LetterAmazer.Business.Services.Services
 {
     public class CustomerService : ICustomerService
     {
+        private const decimal StartCreditAmount = 3;
         private ICustomerFactory customerFactory;
         private LetterAmazerEntities repository;
         private IMailService mailService;
@@ -139,6 +140,7 @@ namespace LetterAmazer.Business.Services.Services
                 dbCustomer.DateCreated = DateTime.Now;
                 dbCustomer.RegistrationKey = Guid.NewGuid().ToString();
                 dbCustomer.AccountStatus = (int) (customer.AccountStatus);
+                dbCustomer.Credits = StartCreditAmount;
 
                 repository.DbCustomers.Add(dbCustomer);
                 repository.SaveChanges();

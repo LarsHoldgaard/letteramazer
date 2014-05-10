@@ -63,7 +63,8 @@ namespace LetterAmazer.Business.Services.Services
                 Span_upper = productMatrixLine.SpanUpper,
                 LineType = (int) productMatrixLine.LineType,
                 PriceType = (int) productMatrixLine.PriceType,
-                Title = productMatrixLine.Title
+                Title = productMatrixLine.Title,
+                CurrencyId = (int)productMatrixLine.CurrencyCode
             };
 
             repository.DbProductMatrixLines.Add(dbMatrixLine);
@@ -82,6 +83,7 @@ namespace LetterAmazer.Business.Services.Services
             dbMatrixLine.LineType = (int)productMatrixLine.LineType;
             dbMatrixLine.PriceType = (int)productMatrixLine.PriceType;
             dbMatrixLine.Title = productMatrixLine.Title;
+            dbMatrixLine.CurrencyId = (int) productMatrixLine.CurrencyCode;
 
             return GetProductMatrixById(dbMatrixLine.Id);
         }

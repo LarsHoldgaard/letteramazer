@@ -100,6 +100,7 @@ namespace LetterAmazer.Business.Services.Services.PaymentMethods.Implementations
         public void VerifyPayment(Order order)
         {
             order.OrderStatus = OrderStatus.Paid;
+            order.DatePaid = DateTime.Now;
             orderService.ReplenishOrderLines(order);
             orderService.Update(order);
         }

@@ -1,0 +1,63 @@
+﻿@model LetterAmazer.Websites.Client.ViewModels.PriceViewModel
+
+<div style="max-width:300px;">
+    <h3>Calculate price</h3>
+
+    <b>Select country</b><br />
+    @Html.DropDownListFor(model => model.SelectedItem, Model.Countries, new { @class = "form-control" })
+    <br /><b>Select country</b><br />
+    @Html.DropDownListFor(model => model.SelectedLetterSize, Model.SelectedLetterSizes, new { @class = "form-control" })
+    <br /><b>How many pages?</b><br />
+    <input type="number" id="getPricePageCount" value="1" class="form-control" />
+    <br />
+    <input type="button" id="getPriceBtn" value="Get price" class="btn btn-primary btn-lg" />
+    <br /><br />
+
+    The price for this delivery is
+    <label id="getPriceLbl"></label> .
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        updatePrice();
+
+        $('#getPriceBtn').click(function () {
+            updatePrice();
+        });
+
+        $('#getPricePageCount').change(function () {
+            updatePrice();
+        });
+
+        $('#SelectedItem').change(function () {
+            updatePrice();
+        });
+
+        $('#SelectedLetterSize').change(function () {
+            updatePrice();
+        });
+
+
+    });
+
+    function updatePrice() {
+        var countryId = $('#SelectedItem').val();
+        var letterSize = $('#SelectedLetterSize').val();
+        var pageCount = $('#getPricePageCount').val();
+
+        var url = '/GetPrice?countryId=' + countryId + '&lettersize=' + letterSize + '&pages=' + pageCount;
+        $.ajax({
+            type: "GET",
+            url: url,
+            datatype: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                $('#getPriceLbl').text(parseFloat(data).toFixed(2) + ' EUR (ex. local VAT)');
+            },
+            error: function () {
+                $('#getPriceLbl').text('No prices for this delivery');
+            }
+        });
+    }
+</script>

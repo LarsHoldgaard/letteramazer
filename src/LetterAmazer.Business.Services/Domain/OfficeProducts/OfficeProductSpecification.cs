@@ -26,5 +26,14 @@ namespace LetterAmazer.Business.Services.Domain.OfficeProducts
         public int CountryId { get; set; }
         public int ZipId { get; set; }
         public int ContinentId { get; set; }
+
+        public int ShippingDays { get; set; }
+
+        public bool? Automatic { get; set; }
+
+        /// <summary>
+        /// This bool can be set in order to force we also want to retrieve disabled office products
+        /// </summary>
+        public bool? ForceDisabled { get; set; }
     }
 }

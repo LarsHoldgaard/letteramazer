@@ -1,0 +1,12 @@
+﻿@model LetterAmazer.Websites.Client.ViewModels.Home.CountryPriceList
+
+<h3>See prices for other countries</h3>
+
+<ul>
+    @foreach (var item in Model.CountryPriceViewModel)
+    {
+        <li>
+            <a href="/pricing/@item.Alias">See prices for @item.Name</a>
+        </li>
+    }
+</ul>

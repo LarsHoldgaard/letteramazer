@@ -3,6 +3,10 @@
 
 @model LetterAmazer.Websites.Client.ViewModels.LoginViewModel
 
+@{
+    ViewBag.PageTitle = "Log in at LetterAmazer";
+}
+
 @section header {
     <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.validate.min.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")"></script>
@@ -10,7 +14,7 @@
 
 
 <h1>Log in</h1>
-<p>Please log in with your e-mail or password.<br/><br/>If you don't have an account, you @Html.ActionLink("can create a free account","Register"). If you cannot remember your password, @Html.ActionLink("you can recover it", "RecoverPassword").</p>
+<p>Please log in with your e-mail or password.<br/><br/>If you don't have an account, you @Html.ActionLink("can create a free account","Register"). If you cannot remember your password, @Html.ActionLink("you can recover it", "ForgotPassword").</p>
 
 <div class="row loginSection">
     <div class="col-lg-6">
@@ -20,14 +24,14 @@
             <div class="row login">
                 <div class="col-lg-6">
                     <label class="sr-only" for="Email">@ViewRes.Email</label>
-                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = ViewRes.Email })
+                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "E-mail" })
                     @Html.ValidationMessageFor(m => m.Email)
                 </div>
             </div>
             <div class="row login">
                 <div class="col-lg-6">
                     <label class="sr-only" for="Password">@ViewRes.Password</label>
-                    @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = ViewRes.Password })
+                    @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Password" })
                     @Html.ValidationMessageFor(m => m.Email)
                 </div>
             </div>

@@ -72,7 +72,7 @@
         <tr>
             <td>@line.Title</td>
             <td>@line.Quantity</td>
-            <td>@line.Price $</td>
+            <td>@line.Price EUR</td>
 
         </tr>
     }
@@ -82,9 +82,9 @@
 
 <div class="row">
     <div class="col-md-6">
-        <b>Total ex. VAT</b>: @Model.TotalExVat $<br />
-        <b>VAT</b>: @Model.VatTotal $ (@Model.VatPercentage %)<br />
-        <b>Total</b>: @Model.Total $<br />
+        <b>Total ex. VAT</b>: @Model.TotalExVat EUR<br />
+        <b>VAT</b>: @Model.VatTotal EUR (@Model.VatPercentage EUR)<br />
+        <b>Total</b>: @Model.Total EUR<br />
     </div>
 
 

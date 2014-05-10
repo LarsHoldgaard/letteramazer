@@ -4,24 +4,24 @@ using System.Linq;
 using System.ServiceProcess;
 using System.Text;
 using System.Threading.Tasks;
+using LetterAmazer.BackgroundService.Jobs;
+using log4net;
 
 namespace LetterAmazer.BackgroundService
 {
     class Program
     {
+        private static readonly ILog logger = LogManager.GetLogger(typeof(Program));
+
+
         static void Main(string[] args)
         {
-            log4net.Config.XmlConfigurator.Configure();
-            new BackgroundService().Start();
-            //if (args.Length == 1 && String.Compare("DEBUG", args[0], true) == 0)
-            //{
-            //    Console.WriteLine("Starting Background Service in DEBUG mode...");
-            //    new BackgroundService().Start();
-            //    return;
-            //}
+            logger.Info("Backgroundservice started");
 
-            //// To run more than one service you have to add them here
-            //ServiceBase.Run(new ServiceBase[] { new BackgroundService() });
+            log4net.Config.XmlConfigurator.Configure();
+            new BackgroundService().Start(args);
+
+            logger.Info("Backgroundservice stopped");
         }
     }
 }

@@ -74,7 +74,7 @@ namespace LetterAmazer.Business.Services.Services
             dbletter.LetterProcessing = (int)letter.LetterDetails.LetterProcessing;
             dbletter.LetterType = (int)letter.LetterDetails.LetterType;
             dbletter.LetterSize = (int)letter.LetterDetails.LetterSize;
-            
+            dbletter.Guid = Guid.NewGuid();
 
             dbletter.ToAddress_Address = letter.ToAddress.Address1;
             dbletter.ToAddress_Address2 = letter.ToAddress.Address2;
@@ -117,6 +117,7 @@ namespace LetterAmazer.Business.Services.Services
             dbletter.LetterContent_WrittenContent = letter.LetterContent.WrittenContent;
             dbletter.LetterStatus = (int)letter.LetterStatus;
             dbletter.OfficeId = letter.OfficeId;
+            dbletter.Guid = letter.Guid;
 
             dbletter.LetterColor = (int)letter.LetterDetails.LetterColor;
             dbletter.LetterPaperWeight = (int)letter.LetterDetails.LetterPaperWeight;

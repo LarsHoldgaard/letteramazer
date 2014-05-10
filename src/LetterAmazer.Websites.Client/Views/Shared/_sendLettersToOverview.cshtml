@@ -1,0 +1,12 @@
+﻿@model LetterAmazer.Websites.Client.ViewModels.Home.CountryPriceList
+
+<h3>Send letters to other countries</h3>
+
+<ul>
+    @foreach (var item in Model.CountryPriceViewModel)
+    {
+        <li>
+            <a href="/sendletters/@item.Alias">Send letter to @item.Name</a>
+        </li>
+    }
+</ul>

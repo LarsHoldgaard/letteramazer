@@ -3,6 +3,7 @@ using System.Linq;
 using System.Web.Security;
 using LetterAmazer.Business.Services.Domain.Coupons;
 using LetterAmazer.Business.Services.Domain.Customers;
+using LetterAmazer.Business.Services.Domain.Letters;
 using LetterAmazer.Business.Services.Domain.Orders;
 using LetterAmazer.Business.Services.Domain.Payments;
 using LetterAmazer.Business.Services.Domain.Products;
@@ -32,14 +33,21 @@ namespace LetterAmazer.Business.Services.Services.PaymentMethods.Implementations
             {
                 throw new BusinessException("Credits line wasn't found on order");
             }
-
+            
             var customer = customerService.GetCustomerById(order.Customer.Id);
 
-            customer.Credit -= orderLine.Price.PriceExVat*orderLine.Quantity;
+            if (order.Customer.CreditsLeft < order.Price.Total)
+            {
+                throw new BusinessException("User does not have enough credits to purchase this order");
+            }
+
+            customer.Credit -= orderLine.Price.Total*orderLine.Quantity;
 
             var updated_customer = customerService.Update(customer);
 
             order.OrderStatus =OrderStatus.Paid;
+            order.DatePaid = DateTime.Now;
+
             orderService.Update(order);
 
             SessionHelper.Customer = updated_customer;

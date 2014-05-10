@@ -1,13 +1,17 @@
 ﻿using System.Web.Mvc;
 using LetterAmazer.Websites.Client.Resources.Views.SingleLetter;
 using System.Collections.Generic;
+using LetterAmazer.Websites.Client.ViewModels.Home;
 
 namespace LetterAmazer.Websites.Client.ViewModels
 {
     public class CreateSingleLetterModel
     {
+        public CountryPriceList CountryPriceList { get; set; }
+
         public CreateSingleLetterModel()
         {
+            this.CountryPriceList = new CountryPriceList();
             this.WriteContent = ViewRes.WriteYourLetterHere;
             this.Countries = new List<SelectListItem>();
         }

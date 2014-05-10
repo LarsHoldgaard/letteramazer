@@ -1,4 +1,60 @@
-﻿body {
+﻿h1 {
+  font-size: 48pt;
+  font-family: 'Open Sans', sans-serif;
+}
+.margintop {
+  margin-top: 35px;
+}
+.buttonmargintop {
+  margin-top: 10px;
+}
+.center {
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+.block {
+  display: block;
+}
+.frontpage {
+  font-size: 14pt;
+  font-family: 'Open Sans', sans-serif;
+}
+.frontpage-top-usptext {
+  text-align: center;
+  display: block;
+  font-size: 14pt;
+  font-family: 'Open Sans', sans-serif;
+}
+.frontpage-top-usp {
+  font-size: 24pt;
+  display: block;
+  text-align: center;
+}
+.frontpage-top-description-header {
+  font-size: 24pt;
+}
+.frontpage h1 {
+  text-align: center;
+}
+.frontpage-top-image-usp {
+  max-width: 100px;
+  width: 100px;
+  height: 100px;
+  max-height: 100px;
+  display: block;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+.frontpage-top-uspmargin {
+  margin-left: 30px;
+  margin-right: 30px;
+}
+.frontpage-send-letters h2 {
+  font-size: 18pt;
+}
+body {
   padding-bottom: 20px;
   padding-top: 50px;
 }
@@ -28,34 +84,6 @@
 .promotionMargin {
   margin-bottom: 25px;
   margin-top: 45px;
-}
-.frontpageLead {
-  color: #81919B;
-  font-family: 'Kite One', sans-serif;
-  font-size: 30pt;
-  font-weight: bolder;
-}
-.frontpageLeadExplanation {
-  color: #81919B;
-  font-family: 'Kite One', sans-serif;
-  font-size: 20pt;
-}
-.frontpageSmallLeadExplanation {
-  color: #81919B;
-  font-family: 'Kite One', sans-serif;
-  font-size: 16pt;
-}
-.frontpageCaption {
-  font-family: 'Kite One', sans-serif;
-}
-.frontpage-bottom-usp h2 {
-  font-family: 'Kite One', sans-serif;
-}
-.frontpage-bottom-usp p {
-  letter-spacing: 0.15px;
-}
-.frontpageBottomText {
-  color: #808080;
 }
 .sendLettersForm {
   font-family: 'Kite One', sans-serif;
@@ -139,6 +167,7 @@ dl {
 #myDropzone,
 .la-dropzone {
   min-height: 240px !important;
+  border: 1px solid gray;
 }
 .form-control {
   max-width: 250px;

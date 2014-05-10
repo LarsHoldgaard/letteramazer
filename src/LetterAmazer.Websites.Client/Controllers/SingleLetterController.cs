@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System.Configuration;
+using System.Linq;
+using System.Net;
 using LetterAmazer.Business.Services.Domain.AddressInfos;
 using LetterAmazer.Business.Services.Domain.Countries;
 using LetterAmazer.Business.Services.Domain.Coupons;
@@ -13,6 +15,8 @@ using LetterAmazer.Business.Services.Domain.PriceUpdater;
 using LetterAmazer.Business.Services.Domain.Pricing;
 using LetterAmazer.Business.Services.Domain.Products.ProductDetails;
 using LetterAmazer.Business.Services.Exceptions;
+using LetterAmazer.Business.Thumbnail;
+using LetterAmazer.Websites.Client.ViewModels.Home;
 using LetterAmazer.Websites.Client.ViewModels.User;
 using log4net;
 using System;
@@ -87,6 +91,12 @@ namespace LetterAmazer.Websites.Client.Controllers
 
             foreach (var country in countries)
             {
+                model.CountryPriceList.CountryPriceViewModel.Add(new CountryPriceViewModel()
+                {
+                    Alias = country.Alias,
+                    Name = country.Name
+                });
+
                 var selectedItem = new SelectListItem()
                 {
                     Text = country.Name,
@@ -97,6 +107,23 @@ namespace LetterAmazer.Websites.Client.Controllers
             }
 
             return View(model);
+        }
+
+        [HttpGet]
+        public FileResult GetThumbnail(string uploadFileKey)
+        {
+            if (string.IsNullOrEmpty(uploadFileKey))
+            {
+                return new FileStreamResult(new MemoryStream(), "image/jpeg");
+            }
+
+            var basePath = Server.MapPath(ConfigurationManager.AppSettings["LetterAmazer.Settings.StoreThumbnail"]);
+            uploadFileKey = PathHelper.GetAbsoluteFile(uploadFileKey);
+            var thumbnailService = new ThumbnailGenerator(basePath);
+            var byteData = System.IO.File.ReadAllBytes(uploadFileKey);
+            var data = thumbnailService.GetThumbnailFromA4(byteData);
+
+            return new FileStreamResult(new MemoryStream(data), "image/jpeg");
         }
 
         [HttpPost, ValidateInput(false)]
@@ -195,7 +222,15 @@ namespace LetterAmazer.Websites.Client.Controllers
         }
 
         [HttpPost]
-        public JsonResult GetPrice(bool usePdf, string uploadFileKey, string content, string address, string postal, string city, string state,int country)
+        public JsonResult GetPrice(bool usePdf, 
+            string uploadFileKey, 
+            string content, 
+            string address, 
+            string postal, 
+            string city, 
+            string state,
+            int country, 
+            int letterType)
         {
             try
             {
@@ -233,6 +268,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                     LetterColor = LetterColor.Color,
                     LetterProcessing = LetterProcessing.Dull,
                     LetterPaperWeight = LetterPaperWeight.Eight,
+                    LetterType = (LetterType)letterType
                 };
 
                 if (SessionHelper.Customer != null)
@@ -279,7 +315,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                 return Json(new
                 {
                     status ="error",
-                    message = "We cannot send this letter. Try a shorter letter.",
+                    message = "We cannot send this letter. Right now we only support Denmark and 1-7 pages pr letter",
                     price = 0,
                     numberOfPages = 0,
                     credits = 0,
@@ -361,12 +397,44 @@ namespace LetterAmazer.Websites.Client.Controllers
                 UploadFile = model.UploadFile,
                 PaymentMethodId = model.PaymentMethodId,
                 LetterSize = model.LetterSize,
-                LetterType = model.LetterType
+                LetterType = model.LetterType,
+                Email = model.Email
             });
         }
 
+        #region Windowed envelope
+
+
+
+        [HttpPost]
+        public ActionResult SendWindowedLetter(SendWindowedLetterViewModel model)
+        {
+            var order = new SingleLetterController(orderService, paymentService, couponService, countryService, priceService, customerService, null, null, officeService, officeProductService).
+                CreateOrderFromViewModel(model);
+
+            var updated_order = orderService.Create(order);
+
+            string redirectUrl = paymentService.Process(updated_order);
+
+            if (string.IsNullOrEmpty(redirectUrl))
+            {
+                DashboardViewModel dashboardViewModel = new DashboardViewModel();
+                return RedirectToAction("Index", "User", dashboardViewModel);
+            }
+
+            return Redirect(redirectUrl);
+        }
+
+        #endregion
+
+
         public Order CreateOrderFromViewModel(CreateSingleLetterModel model)
         {
+            if (string.IsNullOrEmpty(model.Email) && (SessionHelper.Customer == null || string.IsNullOrEmpty(SessionHelper.Customer.Email)))
+            {
+                throw new Exception("Cannot make an order without an e-mail");
+            }
+
             AddressInfo addressInfo = new AddressInfo();
             addressInfo.Country = countryService.GetCountryById(int.Parse(model.SelectedCountry));
             addressInfo.Address1 = model.DestinationAddress;
@@ -499,7 +567,6 @@ namespace LetterAmazer.Websites.Client.Controllers
                     coupon = (Coupon)voucher.FirstOrDefault();
                 }
             }
-
 
             order.OrderLines.Add(new OrderLine()
             {

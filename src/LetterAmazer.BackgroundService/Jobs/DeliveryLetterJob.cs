@@ -5,6 +5,7 @@ using System.Reflection;
 using Castle.MicroKernel.Registration;
 using Castle.Windsor;
 using LetterAmazer.Business.Services;
+using LetterAmazer.Business.Services.Domain.DeliveryJobs;
 using LetterAmazer.Business.Services.Domain.Fulfillments;
 using LetterAmazer.Business.Services.Domain.Letters;
 using LetterAmazer.Business.Services.Domain.Orders;
@@ -15,63 +16,19 @@ using System;
 
 namespace LetterAmazer.BackgroundService.Jobs
 {
-    public class DeliveryLetterJob : AbstractInterruptableJob
+    public class DeliveryLetterJob
     {
         private static readonly ILog logger = LogManager.GetLogger(typeof(DeliveryLetterJob));
 
-        protected override void ExecuteJob(IJobExecutionContext context)
+        public void ExecuteJob(bool runSchedule)
         {
             logger.DebugFormat("start delivery letter job at: {0}", DateTime.Now);
 
-            IOrderService orderService;
-
-            IFulfillmentService fulfillmentService;
+            IDeliveryJobService deliveryJobService;
             try
             {
-
-                orderService = Container.Resolve<IOrderService>();
-                
-                fulfillmentService = ServiceFactory.Get<IFulfillmentService>();
-
-                var relevantOrders = orderService.GetOrderBySpecification(new OrderSpecification()
-                {
-                    OrderStatus = new List<OrderStatus>()
-                    {
-                        OrderStatus.Paid,
-                        OrderStatus.InProgress
-                    }
-                });
-
-                List<Letter> letters = new List<Letter>();
-                foreach (var relevantOrder in relevantOrders)
-                {
-                    foreach (var letter in relevantOrder.OrderLines)
-                    {
-                        if (letter.ProductType == ProductType.Letter)
-                        {
-                            var baseProduct = (Letter) letter.BaseProduct;
-                            if (baseProduct.LetterStatus == LetterStatus.Created)
-                            {
-                                letters.Add(baseProduct);    
-                            }
-                            
-                        }
-                    }
-                }
-
-                if (!letters.Any())
-                {
-                    return;
-                }
-
-                try
-                {
-                    fulfillmentService.Process(letters);
-                }
-                catch (Exception ex)
-                {
-                    logger.Error(ex);
-                }
+                deliveryJobService = ServiceFactory.Get<IDeliveryJobService>();
+                deliveryJobService.Execute(runSchedule);
             }
             catch (Exception ex)
             {

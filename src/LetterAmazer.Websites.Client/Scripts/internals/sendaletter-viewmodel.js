@@ -105,7 +105,8 @@
                 postal: self.postal(),
                 city: self.city(),
                 state: self.state(),
-                country: self.countryId()
+                country: self.countryId(),
+                letterType: 1
             },
             dataType: 'json',
             success: function (data) {

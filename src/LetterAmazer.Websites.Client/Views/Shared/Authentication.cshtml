@@ -14,7 +14,7 @@ else
     <div class="visible-xs">
         <ul class="nav navbar-nav navbar-right">
             <li><a href="@Url.Action("Index", "User")">Dashboard</a></li>
-            <li><a href="@Url.Action("SendALetter", "User")">Send a letter</a></li>
+            <li><a href="@Url.Action("SendWindowedLetter", "User")">Send a letter</a></li>
 
 
             <li>@Html.ActionLink("Invoices", "InvoiceOverview", "User")</li>
@@ -56,7 +56,7 @@ else
                     <a href="@Url.Action("Index", "User")">Dashboard</a>
 
                 </li>
-                <li><a href="@Url.Action("SendALetter", "User")">Send a letter</a></li>
+                <li><a href="@Url.Action("SendWindowedLetter", "User")">Send a letter</a></li>
                 <li>
                     @Html.ActionLink("Invoices", "InvoiceOverview", "User")
 

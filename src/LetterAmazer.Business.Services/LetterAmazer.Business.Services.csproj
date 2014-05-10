@@ -92,9 +92,14 @@
   <ItemGroup>
     <Compile Include="Domain\Api\ApiKeys.cs" />
     <Compile Include="Domain\Common\S3Access.cs" />
+    <Compile Include="Domain\Content\CmsContent.cs" />
+    <Compile Include="Domain\Content\ContentSpecification.cs" />
+    <Compile Include="Domain\Content\IContentService.cs" />
     <Compile Include="Domain\Countries\Continent.cs" />
     <Compile Include="Domain\Countries\CountryName.cs" />
     <Compile Include="Domain\Countries\CountryNameSpecification.cs" />
+    <Compile Include="Domain\Currencies\CurrencyCode.cs" />
+    <Compile Include="Domain\Currencies\ICurrencyService.cs" />
     <Compile Include="Domain\Customers\AccountStatus.cs" />
     <Compile Include="Domain\Customers\OrganisationRole.cs" />
     <Compile Include="Domain\Invoice\IInvoiceService.cs" />
@@ -119,6 +124,8 @@
     <Compile Include="Domain\ProductMatrix\IProductMatrixService.cs" />
     <Compile Include="Domain\ProductMatrix\ProductMatrixLineSpecification.cs" />
     <Compile Include="Domain\Products\Credit.cs" />
+    <Compile Include="Factory\ContentFactory.cs" />
+    <Compile Include="Factory\Interfaces\IContentFactory.cs" />
     <Compile Include="Factory\Interfaces\IInvoiceFactory.cs" />
     <Compile Include="Factory\Interfaces\IOfficeProductFactory.cs" />
     <Compile Include="Factory\Interfaces\IOrganisationFactory.cs" />
@@ -129,6 +136,8 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="Services\ContentService.cs" />
+    <Compile Include="Services\CurrencyService.cs" />
     <Compile Include="Services\FulfillmentJobs\IntermailService.cs" />
     <Compile Include="Services\FulfillmentJobs\PostalMethodsService.cs" />
     <Compile Include="Services\InvoiceService.cs" />
@@ -251,6 +260,10 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\LetterAmazer.Business.Thumbnail\LetterAmazer.Business.Thumbnail.csproj">
+      <Project>{9af338e2-a15a-4f9b-98d6-4ec5d70968ed}</Project>
+      <Name>LetterAmazer.Business.Thumbnail</Name>
+    </ProjectReference>
     <ProjectReference Include="..\LetterAmazer.Business.Utils\LetterAmazer.Business.Utils.csproj">
       <Project>{2a90535c-c0f2-4cbe-b0bf-8b70f5c4f635}</Project>
       <Name>LetterAmazer.Business.Utils</Name>

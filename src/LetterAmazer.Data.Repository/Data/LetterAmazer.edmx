@@ -14,6 +14,22 @@
           <Property Name="ApiKey" Type="varchar" MaxLength="250" Nullable="false" />
           <Property Name="ApiSecret" Type="varchar" MaxLength="500" Nullable="false" />
         </EntityType>
+        <EntityType Name="DbCmsContent">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Headline" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="Description" Type="varchar(max)" Nullable="false" />
+          <Property Name="SeoTitle" Type="varchar" MaxLength="250" />
+          <Property Name="MetaDescription" Type="varchar" MaxLength="500" />
+          <Property Name="Section" Type="varchar" MaxLength="250" />
+          <Property Name="DateCreated" Type="datetime" Nullable="false" />
+          <Property Name="DateModified" Type="datetime" />
+          <Property Name="Enabled" Type="bit" Nullable="false" />
+          <Property Name="CmsKey" Type="varchar" MaxLength="250" />
+          <Property Name="Alias" Type="varchar" MaxLength="250" Nullable="false" />
+        </EntityType>
         <EntityType Name="DbContinents">
           <Key>
             <PropertyRef Name="Id" />
@@ -42,10 +58,12 @@
           <Property Name="East" Type="float" />
           <Property Name="GeonameId" Type="int" />
           <Property Name="West" Type="float" />
-          <Property Name="Population" Type="varchar" MaxLength="250" />
+          <Property Name="Population" Type="int" />
           <Property Name="InsideEu" Type="bit" />
           <Property Name="ContinentId" Type="int" />
           <Property Name="VatPercentage" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Enabled" Type="bit" Nullable="false" />
+          <Property Name="Alias" Type="varchar" MaxLength="250" Nullable="false" />
         </EntityType>
         <EntityType Name="DbCountryNames">
           <Key>
@@ -71,6 +89,14 @@
           <Property Name="CouponValueLeft" Type="decimal" Precision="18" Scale="5" Nullable="false" />
           <Property Name="CouponStatus" Type="int" Nullable="false" />
           <Property Name="DateModified" Type="datetime" />
+        </EntityType>
+        <EntityType Name="DbCurrencies">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="CurrencyCode" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="DbCustomers">
           <Key>
@@ -101,6 +127,15 @@
           <Property Name="OrganisationId" Type="int" />
           <Property Name="OrganisationRole" Type="int" />
           <Property Name="AccountStatus" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DbExchangeRates">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DateFetched" Type="datetime" Nullable="false" />
+          <Property Name="CurrencyId" Type="int" Nullable="false" />
+          <Property Name="ExchangeRate" Type="decimal" Precision="18" Scale="4" Nullable="false" />
         </EntityType>
         <EntityType Name="DbFulfillmentPartners">
           <Key>
@@ -199,6 +234,7 @@
           <Property Name="LetterSize" Type="int" Nullable="false" />
           <Property Name="LetterType" Type="int" Nullable="false" />
           <Property Name="OfficeId" Type="int" Nullable="false" />
+          <Property Name="Guid" Type="uniqueidentifier" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'LetterAmazer.dbo.DbLog' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -236,6 +272,9 @@ warning 6002: The table/view 'LetterAmazer.dbo.DbLog' does not have a primary ke
           <Property Name="LetterSize" Type="int" Nullable="false" />
           <Property Name="LetterType" Type="int" Nullable="false" />
           <Property Name="OfficeProductReferenceId" Type="int" />
+          <Property Name="ShippingWeekdays" Type="int" Nullable="false" />
+          <Property Name="Enabled" Type="bit" Nullable="false" />
+          <Property Name="Automatic" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="DbOffices">
           <Key>
@@ -357,6 +396,7 @@ warning 6002: The table/view 'LetterAmazer.dbo.DbLog' does not have a primary ke
           <Property Name="Span_lower" Type="int" Nullable="false" />
           <Property Name="Span_upper" Type="int" Nullable="false" />
           <Property Name="OfficeProductId" Type="int" Nullable="false" />
+          <Property Name="CurrencyId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="DbShops">
           <Key>
@@ -608,11 +648,14 @@ warning 6002: The table/view 'LetterAmazer.dbo.DbLog' does not have a primary ke
         </Association>
         <EntityContainer Name="LetterAmazerStoreContainer">
           <EntitySet Name="DbApiAccess" EntityType="Self.DbApiAccess" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DbCmsContent" EntityType="Self.DbCmsContent" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DbContinents" EntityType="Self.DbContinents" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DbCountries" EntityType="Self.DbCountries" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DbCountryNames" EntityType="Self.DbCountryNames" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DbCoupons" EntityType="Self.DbCoupons" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DbCurrencies" EntityType="Self.DbCurrencies" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DbCustomers" EntityType="Self.DbCustomers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DbExchangeRates" EntityType="Self.DbExchangeRates" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DbFulfillmentPartners" EntityType="Self.DbFulfillmentPartners" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DbInvoiceLines" EntityType="Self.DbInvoiceLines" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DbInvoices" EntityType="Self.DbInvoices" Schema="dbo" store:Type="Tables" />
@@ -723,6 +766,32 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="LetterAmazer" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="DbApiAccess">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OrganisationId" Type="Int32" Nullable="false" />
+          <Property Name="ApiKey" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ApiSecret" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="DbOrganisation" Relationship="Self.FK_DbApiAccess_DbApiAccess" FromRole="DbApiAccess" ToRole="DbOrganisation" />
+        </EntityType>
+        <EntityType Name="DbCmsContent">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Headline" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="SeoTitle" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="MetaDescription" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Section" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DateModified" Type="DateTime" Precision="3" />
+          <Property Name="Enabled" Type="Boolean" Nullable="false" />
+          <Property Name="CmsKey" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Alias" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+        </EntityType>
         <EntityType Name="DbContinents">
           <Key>
             <PropertyRef Name="Id" />
@@ -751,16 +820,18 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
           <Property Name="East" Type="Double" />
           <Property Name="GeonameId" Type="Int32" />
           <Property Name="West" Type="Double" />
-          <Property Name="Population" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Population" Type="Int32" />
           <Property Name="InsideEu" Type="Boolean" />
           <Property Name="ContinentId" Type="Int32" />
           <Property Name="VatPercentage" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Enabled" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="DbCustomers" Relationship="Self.FK_Customers_Countries" FromRole="DbCountries" ToRole="DbCustomers" />
           <NavigationProperty Name="DbOrganisationAddressList" Relationship="Self.FK_DbOrganisationAddressList_DbCountries" FromRole="DbCountries" ToRole="DbOrganisationAddressList" />
           <NavigationProperty Name="DbLetters" Relationship="Self.FK_Letters_FromCountry" FromRole="DbCountries" ToRole="DbLetters" />
           <NavigationProperty Name="DbLetters1" Relationship="Self.FK_Letters_ToCountry" FromRole="DbCountries" ToRole="DbLetters" />
           <NavigationProperty Name="DbOffices" Relationship="Self.FK_Offices_Countries" FromRole="DbCountries" ToRole="DbOffices" />
           <NavigationProperty Name="DbShops" Relationship="Self.FK_Shops_Countries" FromRole="DbCountries" ToRole="DbShops" />
+          <Property Name="Alias" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
         </EntityType>
         <EntityType Name="DbCountryNames">
           <Key>
@@ -786,6 +857,14 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
           <Property Name="CouponValueLeft" Type="Decimal" Precision="18" Scale="5" Nullable="false" />
           <Property Name="CouponStatus" Type="Int32" Nullable="false" />
           <Property Name="DateModified" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="DbCurrencies">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CurrencyCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
         </EntityType>
         <EntityType Name="DbCustomers">
           <Key>
@@ -819,6 +898,15 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
           <NavigationProperty Name="DbCountries" Relationship="Self.FK_Customers_Countries" FromRole="DbCustomers" ToRole="DbCountries" />
           <NavigationProperty Name="DbLetters" Relationship="Self.FK_Letter_Customer" FromRole="DbCustomers" ToRole="DbLetters" />
           <NavigationProperty Name="DbOrders" Relationship="Self.FK_Order_Customer" FromRole="DbCustomers" ToRole="DbOrders" />
+        </EntityType>
+        <EntityType Name="DbExchangeRates">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DateFetched" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CurrencyId" Type="Int32" Nullable="false" />
+          <Property Name="ExchangeRate" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
         </EntityType>
         <EntityType Name="DbFulfillmentPartners">
           <Key>
@@ -925,8 +1013,9 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
           <NavigationProperty Name="DbCountries" Relationship="Self.FK_Letters_FromCountry" FromRole="DbLetters" ToRole="DbCountries" />
           <NavigationProperty Name="DbCountries1" Relationship="Self.FK_Letters_ToCountry" FromRole="DbLetters" ToRole="DbCountries" />
           <NavigationProperty Name="DbCustomers" Relationship="Self.FK_Letter_Customer" FromRole="DbLetters" ToRole="DbCustomers" />
+          <NavigationProperty Name="DbOrders" Relationship="Self.FK_DbLetters_DbOrders" FromRole="DbLetters" ToRole="DbOrders" />
           <NavigationProperty Name="DbOrderlines" Relationship="Self.FK_OrderItem_Letter" FromRole="DbLetters" ToRole="DbOrderlines" />
-          <NavigationProperty Name="DbOrders" Relationship="LetterAmazer.FK_DbLetters_DbOrders" FromRole="DbLetters" ToRole="DbOrders" />
+          <Property Name="Guid" Type="Guid" Nullable="false" />
         </EntityType>
         <EntityType Name="DbOfficeProducts">
           <Key>
@@ -945,8 +1034,11 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
           <Property Name="LetterSize" Type="Int32" Nullable="false" />
           <Property Name="LetterType" Type="Int32" Nullable="false" />
           <Property Name="OfficeProductReferenceId" Type="Int32" />
+          <Property Name="ShippingWeekdays" Type="Int32" Nullable="false" />
+          <Property Name="Enabled" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="DbProductMatrixLines" Relationship="Self.FK_DbProductMatrixLines_DbOfficeProducts" FromRole="DbOfficeProducts" ToRole="DbProductMatrixLines" />
           <NavigationProperty Name="DbOffices" Relationship="Self.FK_OfficeProducts_Offices" FromRole="DbOfficeProducts" ToRole="DbOffices" />
+          <Property Name="Automatic" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="DbOffices">
           <Key>
@@ -998,8 +1090,8 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
           <Property Name="Total" Type="Decimal" Precision="18" Scale="5" Nullable="false" />
           <NavigationProperty Name="DbCustomers" Relationship="Self.FK_Order_Customer" FromRole="DbOrders" ToRole="DbCustomers" />
           <NavigationProperty Name="DbInvoices" Relationship="Self.FK_DbInvoices_DbOrders" FromRole="DbOrders" ToRole="DbInvoices" />
+          <NavigationProperty Name="DbLetters" Relationship="Self.FK_DbLetters_DbOrders" FromRole="DbOrders" ToRole="DbLetters" />
           <NavigationProperty Name="DbOrderlines" Relationship="Self.FK_OrderItem_Order" FromRole="DbOrders" ToRole="DbOrderlines" />
-          <NavigationProperty Name="DbLetters" Relationship="LetterAmazer.FK_DbLetters_DbOrders" FromRole="DbOrders" ToRole="DbLetters" />
         </EntityType>
         <EntityType Name="DbOrganisation">
           <Key>
@@ -1021,9 +1113,9 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
           <Property Name="IsPrivate" Type="Boolean" Nullable="false" />
           <Property Name="RequiredFulfillmentPartnerId" Type="Int32" />
           <Property Name="RequiredOfficeId" Type="Int32" />
+          <NavigationProperty Name="DbApiAccess" Relationship="Self.FK_DbApiAccess_DbApiAccess" FromRole="DbOrganisation" ToRole="DbApiAccess" />
           <NavigationProperty Name="DbOrganisationAddressList" Relationship="Self.FK_DbOrganisationAddressList_DbOrganisation" FromRole="DbOrganisation" ToRole="DbOrganisationAddressList" />
           <NavigationProperty Name="DbOrganisationProfileSettings" Relationship="Self.FK_DbOrganisationProfileSettings_DbOrganisation" FromRole="DbOrganisation" ToRole="DbOrganisationProfileSettings" />
-          <NavigationProperty Name="DbApiAccess" Relationship="LetterAmazer.FK_DbApiAccess_DbApiAccess" FromRole="DbOrganisation" ToRole="DbApiAccess" />
         </EntityType>
         <EntityType Name="DbOrganisationAddressList">
           <Key>
@@ -1083,6 +1175,7 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
           <Property Name="Span_lower" Type="Int32" Nullable="false" />
           <Property Name="Span_upper" Type="Int32" Nullable="false" />
           <Property Name="OfficeProductId" Type="Int32" Nullable="false" />
+          <Property Name="CurrencyId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="DbOfficeProducts" Relationship="Self.FK_DbProductMatrixLines_DbOfficeProducts" FromRole="DbProductMatrixLines" ToRole="DbOfficeProducts" />
         </EntityType>
         <EntityType Name="DbShops">
@@ -1112,6 +1205,18 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
           <Property Name="Message" Type="String" MaxLength="4000" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Exception" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
         </EntityType>
+        <Association Name="FK_DbApiAccess_DbApiAccess">
+          <End Role="DbOrganisation" Type="Self.DbOrganisation" Multiplicity="1" />
+          <End Role="DbApiAccess" Type="Self.DbApiAccess" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DbOrganisation">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DbApiAccess">
+              <PropertyRef Name="OrganisationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Customers_Countries">
           <End Role="DbCountries" Type="Self.DbCountries" Multiplicity="0..1" />
           <End Role="DbCustomers" Type="Self.DbCustomers" Multiplicity="*" />
@@ -1256,6 +1361,18 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_DbLetters_DbOrders">
+          <End Role="DbOrders" Type="Self.DbOrders" Multiplicity="1" />
+          <End Role="DbLetters" Type="Self.DbLetters" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DbOrders">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DbLetters">
+              <PropertyRef Name="OrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_OrderItem_Letter">
           <End Role="DbLetters" Type="Self.DbLetters" Multiplicity="0..1" />
           <End Role="DbOrderlines" Type="Self.DbOrderlines" Multiplicity="*" />
@@ -1329,11 +1446,15 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="LetterAmazerEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="DbApiAccess" EntityType="Self.DbApiAccess" />
+          <EntitySet Name="DbCmsContent" EntityType="Self.DbCmsContent" />
           <EntitySet Name="DbContinents" EntityType="Self.DbContinents" />
           <EntitySet Name="DbCountries" EntityType="Self.DbCountries" />
           <EntitySet Name="DbCountryNames" EntityType="Self.DbCountryNames" />
           <EntitySet Name="DbCoupons" EntityType="Self.DbCoupons" />
+          <EntitySet Name="DbCurrencies" EntityType="Self.DbCurrencies" />
           <EntitySet Name="DbCustomers" EntityType="Self.DbCustomers" />
+          <EntitySet Name="DbExchangeRates" EntityType="Self.DbExchangeRates" />
           <EntitySet Name="DbFulfillmentPartners" EntityType="Self.DbFulfillmentPartners" />
           <EntitySet Name="DbInvoiceLines" EntityType="Self.DbInvoiceLines" />
           <EntitySet Name="DbInvoices" EntityType="Self.DbInvoices" />
@@ -1349,6 +1470,10 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
           <EntitySet Name="DbProductMatrixLines" EntityType="Self.DbProductMatrixLines" />
           <EntitySet Name="DbShops" EntityType="Self.DbShops" />
           <EntitySet Name="DbLog" EntityType="Self.DbLog" />
+          <AssociationSet Name="FK_DbApiAccess_DbApiAccess" Association="Self.FK_DbApiAccess_DbApiAccess">
+            <End Role="DbOrganisation" EntitySet="DbOrganisation" />
+            <End Role="DbApiAccess" EntitySet="DbApiAccess" />
+          </AssociationSet>
           <AssociationSet Name="FK_Customers_Countries" Association="Self.FK_Customers_Countries">
             <End Role="DbCountries" EntitySet="DbCountries" />
             <End Role="DbCustomers" EntitySet="DbCustomers" />
@@ -1397,6 +1522,10 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
             <End Role="DbOrders" EntitySet="DbOrders" />
             <End Role="DbInvoices" EntitySet="DbInvoices" />
           </AssociationSet>
+          <AssociationSet Name="FK_DbLetters_DbOrders" Association="Self.FK_DbLetters_DbOrders">
+            <End Role="DbOrders" EntitySet="DbOrders" />
+            <End Role="DbLetters" EntitySet="DbLetters" />
+          </AssociationSet>
           <AssociationSet Name="FK_OrderItem_Letter" Association="Self.FK_OrderItem_Letter">
             <End Role="DbLetters" EntitySet="DbLetters" />
             <End Role="DbOrderlines" EntitySet="DbOrderlines" />
@@ -1421,56 +1550,40 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
             <End Role="DbOrganisation" EntitySet="DbOrganisation" />
             <End Role="DbOrganisationProfileSettings" EntitySet="DbOrganisationProfileSettings" />
           </AssociationSet>
-          <AssociationSet Name="FK_DbLetters_DbOrders" Association="LetterAmazer.FK_DbLetters_DbOrders">
-            <End Role="DbOrders" EntitySet="DbOrders" />
-            <End Role="DbLetters" EntitySet="DbLetters" />
-          </AssociationSet>
-          <EntitySet Name="DbApiAccess" EntityType="LetterAmazer.DbApiAccess" />
-          <AssociationSet Name="FK_DbApiAccess_DbApiAccess" Association="LetterAmazer.FK_DbApiAccess_DbApiAccess">
-            <End Role="DbOrganisation" EntitySet="DbOrganisation" />
-            <End Role="DbApiAccess" EntitySet="DbApiAccess" />
-          </AssociationSet>
         </EntityContainer>
-        <Association Name="FK_DbLetters_DbOrders">
-          <End Type="LetterAmazer.DbOrders" Role="DbOrders" Multiplicity="1" />
-          <End Type="LetterAmazer.DbLetters" Role="DbLetters" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="DbOrders">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="DbLetters">
-              <PropertyRef Name="OrderId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="DbApiAccess">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="OrganisationId" Type="Int32" Nullable="false" />
-          <Property Name="ApiKey" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="ApiSecret" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="DbOrganisation" Relationship="LetterAmazer.FK_DbApiAccess_DbApiAccess" FromRole="DbApiAccess" ToRole="DbOrganisation" />
-        </EntityType>
-        <Association Name="FK_DbApiAccess_DbApiAccess">
-          <End Type="LetterAmazer.DbOrganisation" Role="DbOrganisation" Multiplicity="1" />
-          <End Type="LetterAmazer.DbApiAccess" Role="DbApiAccess" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="DbOrganisation">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="DbApiAccess">
-              <PropertyRef Name="OrganisationId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="LetterAmazerStoreContainer" CdmEntityContainer="LetterAmazerEntities">
+          <EntitySetMapping Name="DbApiAccess">
+            <EntityTypeMapping TypeName="LetterAmazer.DbApiAccess">
+              <MappingFragment StoreEntitySet="DbApiAccess">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
+                <ScalarProperty Name="ApiKey" ColumnName="ApiKey" />
+                <ScalarProperty Name="ApiSecret" ColumnName="ApiSecret" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DbCmsContent">
+            <EntityTypeMapping TypeName="LetterAmazer.DbCmsContent">
+              <MappingFragment StoreEntitySet="DbCmsContent">
+                <ScalarProperty Name="Alias" ColumnName="Alias" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Headline" ColumnName="Headline" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="SeoTitle" ColumnName="SeoTitle" />
+                <ScalarProperty Name="MetaDescription" ColumnName="MetaDescription" />
+                <ScalarProperty Name="Section" ColumnName="Section" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="DateModified" ColumnName="DateModified" />
+                <ScalarProperty Name="Enabled" ColumnName="Enabled" />
+                <ScalarProperty Name="CmsKey" ColumnName="CmsKey" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="DbContinents">
             <EntityTypeMapping TypeName="LetterAmazer.DbContinents">
               <MappingFragment StoreEntitySet="DbContinents">
@@ -1482,6 +1595,7 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
           <EntitySetMapping Name="DbCountries">
             <EntityTypeMapping TypeName="LetterAmazer.DbCountries">
               <MappingFragment StoreEntitySet="DbCountries">
+                <ScalarProperty Name="Alias" ColumnName="Alias" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="CountryName" ColumnName="CountryName" />
                 <ScalarProperty Name="CurrencyCode" ColumnName="CurrencyCode" />
@@ -1503,6 +1617,7 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
                 <ScalarProperty Name="InsideEu" ColumnName="InsideEu" />
                 <ScalarProperty Name="ContinentId" ColumnName="ContinentId" />
                 <ScalarProperty Name="VatPercentage" ColumnName="VatPercentage" />
+                <ScalarProperty Name="Enabled" ColumnName="Enabled" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1530,6 +1645,15 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
                 <ScalarProperty Name="CouponValueLeft" ColumnName="CouponValueLeft" />
                 <ScalarProperty Name="CouponStatus" ColumnName="CouponStatus" />
                 <ScalarProperty Name="DateModified" ColumnName="DateModified" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DbCurrencies">
+            <EntityTypeMapping TypeName="LetterAmazer.DbCurrencies">
+              <MappingFragment StoreEntitySet="DbCurrencies">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="CurrencyCode" ColumnName="CurrencyCode" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1561,6 +1685,16 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
                 <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
                 <ScalarProperty Name="OrganisationRole" ColumnName="OrganisationRole" />
                 <ScalarProperty Name="AccountStatus" ColumnName="AccountStatus" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DbExchangeRates">
+            <EntityTypeMapping TypeName="LetterAmazer.DbExchangeRates">
+              <MappingFragment StoreEntitySet="DbExchangeRates">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="DateFetched" ColumnName="DateFetched" />
+                <ScalarProperty Name="CurrencyId" ColumnName="CurrencyId" />
+                <ScalarProperty Name="ExchangeRate" ColumnName="ExchangeRate" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1626,6 +1760,7 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
           <EntitySetMapping Name="DbLetters">
             <EntityTypeMapping TypeName="LetterAmazer.DbLetters">
               <MappingFragment StoreEntitySet="DbLetters">
+                <ScalarProperty Name="Guid" ColumnName="Guid" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
                 <ScalarProperty Name="FromAddress_Address" ColumnName="FromAddress_Address" />
@@ -1669,6 +1804,7 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
           <EntitySetMapping Name="DbOfficeProducts">
             <EntityTypeMapping TypeName="LetterAmazer.DbOfficeProducts">
               <MappingFragment StoreEntitySet="DbOfficeProducts">
+                <ScalarProperty Name="Automatic" ColumnName="Automatic" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="OfficeId" ColumnName="OfficeId" />
                 <ScalarProperty Name="ScopeType" ColumnName="ScopeType" />
@@ -1682,6 +1818,8 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
                 <ScalarProperty Name="LetterSize" ColumnName="LetterSize" />
                 <ScalarProperty Name="LetterType" ColumnName="LetterType" />
                 <ScalarProperty Name="OfficeProductReferenceId" ColumnName="OfficeProductReferenceId" />
+                <ScalarProperty Name="ShippingWeekdays" ColumnName="ShippingWeekdays" />
+                <ScalarProperty Name="Enabled" ColumnName="Enabled" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1811,6 +1949,7 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
                 <ScalarProperty Name="Span_lower" ColumnName="Span_lower" />
                 <ScalarProperty Name="Span_upper" ColumnName="Span_upper" />
                 <ScalarProperty Name="OfficeProductId" ColumnName="OfficeProductId" />
+                <ScalarProperty Name="CurrencyId" ColumnName="CurrencyId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1833,16 +1972,6 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
                 <ScalarProperty Name="Logger" ColumnName="Logger" />
                 <ScalarProperty Name="Message" ColumnName="Message" />
                 <ScalarProperty Name="Exception" ColumnName="Exception" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="DbApiAccess">
-            <EntityTypeMapping TypeName="LetterAmazer.DbApiAccess">
-              <MappingFragment StoreEntitySet="DbApiAccess">
-                <ScalarProperty Name="ApiSecret" ColumnName="ApiSecret" />
-                <ScalarProperty Name="ApiKey" ColumnName="ApiKey" />
-                <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
