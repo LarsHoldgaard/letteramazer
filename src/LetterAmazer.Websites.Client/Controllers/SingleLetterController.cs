@@ -1,6 +1,8 @@
-﻿using System.Configuration;
+﻿using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Net;
+using iTextSharp.text;
 using LetterAmazer.Business.Services.Domain.AddressInfos;
 using LetterAmazer.Business.Services.Domain.Countries;
 using LetterAmazer.Business.Services.Domain.Coupons;
@@ -231,16 +233,18 @@ namespace LetterAmazer.Websites.Client.Controllers
             string city, 
             string state,
             int country, 
-            int letterType)
+            int letterType,
+            string mode)
         {
             try
             {
                 //// TODO: stop being a fuck-tard
-
                 string[] uploadFileKey2 = HelperMethods.RemoveJsonFromEntries(uploadFileKey);
 
                 Letter letter = new Letter();
                 var dl_country = countryService.GetCountryById(country);
+
+                Price finalPrice = new Price();
 
                 letter.ToAddress = new AddressInfo()
                 {
@@ -251,68 +255,75 @@ namespace LetterAmazer.Websites.Client.Controllers
                     State = state
                 };
 
-                letter.LetterContent = new LetterContent();
-                if (usePdf)
+
+                switch (mode)
                 {
-                    letter.LetterContent.Path = uploadFileKey2[0];
+                    case "merge":
+                        break;
+                    case "multiple":
+                    default:
+                        List<Price> prices = new List<Price>();
+                        foreach (var uploadedFileKey in uploadFileKey2)
+                        {
+                            letter.LetterContent = new LetterContent();
+                            if (usePdf)
+                            {
+                                letter.LetterContent.Path = uploadedFileKey;
+                            }
+                            else
+                            {
+                                letter.LetterContent.Path = string.Format("{0}/{1}/{2}.pdf", DateTime.Now.Year, DateTime.Now.Month,
+                                    Guid.NewGuid().ToString());
+                                string filepath = PathHelper.GetAbsoluteFile(letter.LetterContent.Path);
+                                content = HttpUtility.HtmlDecode(content);
+                                content = HttpUtility.UrlDecode(content);
+                                var convertedText = HelperMethods.Utf8FixString(content);
+                                PdfHelper.ConvertToPdf(filepath, convertedText);
+                            }
+
+                            var priceSpec = new PriceSpecification()
+                            {
+                                CountryId = letter.ToAddress.Country.Id,
+                                LetterColor = LetterColor.Color,
+                                LetterProcessing = LetterProcessing.Dull,
+                                LetterPaperWeight = LetterPaperWeight.Eight,
+                                LetterType = (LetterType)letterType
+                            };
+
+                            if (SessionHelper.Customer != null)
+                            {
+                                priceSpec.OfficeId =
+                                    SessionHelper.Customer.Organisation.RequiredOfficeId.HasValue
+                                        ? SessionHelper.Customer.Organisation.RequiredOfficeId.Value
+                                        : 0;
+                            }
+
+                            var selectedOfficeProductId = priceService.GetPriceBySpecification(priceSpec).OfficeProductId;
+
+                            var price = priceService.GetPriceBySpecification(new PriceSpecification()
+                            {
+                                CountryId = letter.ToAddress.Country.Id,
+                                PageCount = letter.LetterContent.PageCount,
+                                OfficeProductId = selectedOfficeProductId
+                            });
+                            prices.Add(price);
+                        }
+
+                        foreach (var price in prices)
+                        {
+                            finalPrice.VatPercentage = price.VatPercentage;
+                            finalPrice.PriceExVat += price.PriceExVat;
+                        }
+                        break;
                 }
-                else
-                {
-                    letter.LetterContent.Path = string.Format("{0}/{1}/{2}.pdf", DateTime.Now.Year, DateTime.Now.Month,
-                        Guid.NewGuid().ToString());
-                    string filepath = PathHelper.GetAbsoluteFile(letter.LetterContent.Path);
-                    content = HttpUtility.HtmlDecode(content);
-                    content = HttpUtility.UrlDecode(content);
-                    var convertedText = HelperMethods.Utf8FixString(content);
-                    PdfHelper.ConvertToPdf(filepath, convertedText);
-                }
 
-                var priceSpec = new PriceSpecification()
-                {
-                    CountryId = letter.ToAddress.Country.Id,
-                    LetterColor = LetterColor.Color,
-                    LetterProcessing = LetterProcessing.Dull,
-                    LetterPaperWeight = LetterPaperWeight.Eight,
-                    LetterType = (LetterType)letterType
-                };
-
-                if (SessionHelper.Customer != null)
-                {
-                    priceSpec.OfficeId =
-                        SessionHelper.Customer.Organisation.RequiredOfficeId.HasValue
-                            ? SessionHelper.Customer.Organisation.RequiredOfficeId.Value
-                            : 0;
-                }
-
-                var selectedOfficeProductId = priceService.GetPriceBySpecification(priceSpec).OfficeProductId;
-                
-                var price = priceService.GetPriceBySpecification(new PriceSpecification()
-                {
-                    CountryId = letter.ToAddress.Country.Id,
-                    PageCount = letter.LetterContent.PageCount,
-                    OfficeProductId = selectedOfficeProductId
-                });
-
-
-                bool isValidCredits = false;
-                decimal credits = 0;
-                if (SessionHelper.Customer != null)
-                {
-                    credits = SessionHelper.Customer.CreditsLeft;
-                    if (credits > 0)
-                    {
-                        isValidCredits = true;
-                    }
-                }
-
+              
                 return Json(new
                 {
                     status = "success",
-                    price = price,
+                    price = finalPrice,
                     numberOfPages = letter.LetterContent.PageCount,
-                    credits = credits,
-                    isAuthenticated = SessionHelper.Customer != null,
-                    isValidCredits = isValidCredits
+                    isAuthenticated = SessionHelper.Customer != null
                 });
             }
             catch (BusinessException businessException)
@@ -414,6 +425,10 @@ namespace LetterAmazer.Websites.Client.Controllers
         [HttpPost]
         public ActionResult SendWindowedLetter(SendWindowedLetterViewModel model)
         {
+            //// TODO: stop being a fuck-tard
+            string[] uploadedFiles = model.UploadFile[0].Split(',');
+            model.UploadFile = uploadedFiles;
+
             var order = new SingleLetterController(orderService, paymentService, couponService, countryService, priceService, customerService, null, null, officeService, officeProductService).
                 CreateOrderFromViewModel(model);
 
@@ -440,6 +455,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                 throw new Exception("Cannot make an order without an e-mail");
             }
 
+            
             AddressInfo addressInfo = new AddressInfo();
             addressInfo.Country = countryService.GetCountryById(int.Parse(model.SelectedCountry));
             addressInfo.Address1 = model.DestinationAddress;
@@ -476,18 +492,11 @@ namespace LetterAmazer.Websites.Client.Controllers
                 LetterType = selectedOfficeProduct.LetterDetails.LetterType
             };
 
-            Letter letter = new Letter()
-            {
-                LetterDetails = letterDetail,
-                ToAddress = addressInfo,
-            };
-
            
             Order order = new Order();
-
             if (SessionHelper.Customer != null)
             {
-                            order.Customer = SessionHelper.Customer;
+                 order.Customer = SessionHelper.Customer;
             }
             else
             {
@@ -512,54 +521,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                 order.Customer = customer;
             }
 
-            if (model.UseUploadFile)
-            {
-                logger.DebugFormat("upload file key: {0}", model.UploadFile[0]);
-                letter.LetterContent.Path = model.UploadFile[0];
-            }
-            else
-            {
-                string tempKeyName = string.Format("{0}/{1}/{2}.pdf", DateTime.Now.Year, DateTime.Now.Month,
-                    Guid.NewGuid().ToString());
-                string tempPath = PathHelper.GetAbsoluteFile(tempKeyName);
-
-                var convertedText = HelperMethods.Utf8FixString(model.WriteContent);
-                PdfHelper.ConvertToPdf(tempPath, convertedText);
-                letter.LetterContent.Path = tempKeyName;
-                letter.LetterContent.WrittenContent = model.WriteContent;
-            }
-
-            if (System.IO.File.Exists(PathHelper.GetAbsoluteFile(letter.LetterContent.Path)))
-            {
-                // convert to lettersize if letter size
-                if (selectedOfficeProduct.LetterDetails.LetterSize == LetterSize.Letter)
-                {
-                    PdfHelper.ConvertPdfSize(PathHelper.GetAbsoluteFile(letter.LetterContent.Path),LetterSize.A4, LetterSize.Letter);
-                }
-                letter.LetterContent.Content =
-                    System.IO.File.ReadAllBytes(PathHelper.GetAbsoluteFile(letter.LetterContent.Path));
-            }
-
-
-            var price = priceService.GetPriceBySpecification(new PriceSpecification()
-            {
-                CountryId = addressInfo.Country.Id,
-                PageCount = letter.LetterContent.PageCount,
-                OfficeProductId = selectedOfficeProduct.Id
-            });
-
-            if (SessionHelper.Customer != null)
-            {
-                price.VatPercentage = SessionHelper.Customer.VatPercentage();
-            }
-            else
-            {
-                price.VatPercentage = 0.25m;
-            }
-
-            var officeProductId = price.OfficeProductId;
-            letter.OfficeId = officeProductService.GetOfficeProductById(officeProductId).OfficeId;
-
+          
             Coupon coupon = null;
             if (!string.IsNullOrEmpty(model.VoucherCode))
             {
@@ -573,20 +535,84 @@ namespace LetterAmazer.Websites.Client.Controllers
                 }
             }
 
-            order.OrderLines.Add(new OrderLine()
+            foreach (var uploadFile in model.UploadFile)
             {
-                BaseProduct = letter,
-                ProductType = ProductType.Letter,
-                Price = new Price()
+
+                Letter letter = new Letter()
                 {
-                    PriceExVat = price.PriceExVat,
-                    VatPercentage = price.VatPercentage
+                    LetterDetails = letterDetail,
+                    ToAddress = addressInfo,
+                };
+
+
+                if (model.UseUploadFile)
+                {
+                    logger.DebugFormat("upload file key: {0}", uploadFile);
+                    letter.LetterContent.Path = uploadFile;
                 }
-            });
+                else
+                {
+                    string tempKeyName = string.Format("{0}/{1}/{2}.pdf", DateTime.Now.Year, DateTime.Now.Month,
+                        Guid.NewGuid().ToString());
+                    string tempPath = PathHelper.GetAbsoluteFile(tempKeyName);
+
+                    var convertedText = HelperMethods.Utf8FixString(model.WriteContent);
+                    PdfHelper.ConvertToPdf(tempPath, convertedText);
+                    letter.LetterContent.Path = tempKeyName;
+                    letter.LetterContent.WrittenContent = model.WriteContent;
+                }
+
+                if (System.IO.File.Exists(PathHelper.GetAbsoluteFile(letter.LetterContent.Path)))
+                {
+                    // convert to lettersize if letter size
+                    if (selectedOfficeProduct.LetterDetails.LetterSize == LetterSize.Letter)
+                    {
+                        PdfHelper.ConvertPdfSize(PathHelper.GetAbsoluteFile(letter.LetterContent.Path), LetterSize.A4, LetterSize.Letter);
+                    }
+                    letter.LetterContent.Content =
+                        System.IO.File.ReadAllBytes(PathHelper.GetAbsoluteFile(letter.LetterContent.Path));
+                }
 
 
+                var price = priceService.GetPriceBySpecification(new PriceSpecification()
+                {
+                    CountryId = addressInfo.Country.Id,
+                    PageCount = letter.LetterContent.PageCount,
+                    OfficeProductId = selectedOfficeProduct.Id
+                });
 
-            var rest = addCouponlines(price, coupon, order);
+                if (SessionHelper.Customer != null)
+                {
+                    price.VatPercentage = SessionHelper.Customer.VatPercentage();
+                }
+                else
+                {
+                    price.VatPercentage = 0.25m;
+                }
+
+                var officeProductId = price.OfficeProductId;
+                letter.OfficeId = officeProductService.GetOfficeProductById(officeProductId).OfficeId;
+
+                order.OrderLines.Add(new OrderLine()
+                {
+                    BaseProduct = letter,
+                    ProductType = ProductType.Letter,
+                    Price = new Price()
+                    {
+                        PriceExVat = price.PriceExVat,
+                        VatPercentage = price.VatPercentage
+                    }
+                });
+            }
+
+            Price finalPrice = new Price();
+            foreach (var orderLine in order.OrderLines)
+            {
+                finalPrice.PriceExVat += orderLine.Price.PriceExVat;
+                finalPrice.VatPercentage = orderLine.Price.VatPercentage;
+            }
+
+            var rest = addCouponlines(finalPrice, coupon, order);
 
             if (rest.Total > 0)
             {
@@ -597,7 +623,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                     Price = new Price()
                     {
                         PriceExVat = rest.PriceExVat,
-                        VatPercentage = price.VatPercentage
+                        VatPercentage = finalPrice.VatPercentage
                     }
                 });
             }

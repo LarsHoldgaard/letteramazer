@@ -81,8 +81,8 @@
                             <text>(<label id="priceOfLetterLbl" data-bind="text: getPriceTotal"></label> EUR inc. local VAT)</text>
                         }
                     </dd>
-                    <dt>Pages</dt>
-                    <dd data-bind="text: numberOfPages"></dd>
+                    <dt data-bind="visible: uploadFileKey().length == 1">Pages</dt>
+                    <dd data-bind="text: numberOfPages, visible: uploadFileKey().length == 1"></dd>
                     <dt>Shipping time</dt>
                     <dd>1-3 Week days</dd>
                 </dl>
@@ -114,14 +114,14 @@
     var createLetterData = {
         getPriceUrl: '@Url.Action("GetPrice", "SingleLetter")',
         thumbnailUrl: '@Url.Action("GetThumbnail", "SingleLetter")',
-        uploadMode: 'merge'
+        uploadMode: 'multiple'
     };
 
     var viewModel = new SendWindowedLetterViewModel('#sendLetterForm', createLetterData);
     ko.applyBindings(viewModel, document.getElementById('sendLetterForm'));
 
     // this line is used to remove multiple uploaded files, if we only want to allow single
-    //                if (createLetterData.currentFile != null) $(createLetterData.currentFile.previewTemplate).remove();
+    // if (createLetterData.currentFile != null) $(createLetterData.currentFile.previewTemplate).remove();
 
     $('div#myDropzone').dropzone({
         url: '@Url.Action("Upload", "SingleLetter")',
@@ -156,8 +156,6 @@
                 });
                 viewModel.uploadFileKey('');
             }
-
-            console.log('KO UploadFileKey: ' + viewModel.uploadFileKey() + ' , length: ' + viewModel.uploadFileKey().length);
         },
         error: function (file, responseText) {
             console.log('Send windowed envelope error call');
