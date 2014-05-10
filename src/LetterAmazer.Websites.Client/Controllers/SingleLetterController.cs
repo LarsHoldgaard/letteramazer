@@ -192,8 +192,7 @@ namespace LetterAmazer.Websites.Client.Controllers
             string city, 
             string state,
             int country, 
-            int letterType,
-            string mode)
+            int letterType)
         {
             try
             {
@@ -215,12 +214,6 @@ namespace LetterAmazer.Websites.Client.Controllers
                 };
 
 
-                switch (mode)
-                {
-                    case "merge":
-                        break;
-                    case "multiple":
-                    default:
                         List<Price> prices = new List<Price>();
                         foreach (var uploadedFileKey in uploadFileKey2)
                         {
@@ -273,9 +266,6 @@ namespace LetterAmazer.Websites.Client.Controllers
                             finalPrice.VatPercentage = price.VatPercentage;
                             finalPrice.PriceExVat += price.PriceExVat;
                         }
-                        break;
-                }
-
               
                 return Json(new
                 {

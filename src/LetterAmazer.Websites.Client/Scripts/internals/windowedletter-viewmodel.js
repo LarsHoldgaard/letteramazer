@@ -14,7 +14,6 @@
     self.numberOfPages = ko.observable(0);
     self.shippingtime = ko.observable('');
     self.thumbnailImagePath = ko.observable('');
-
     self.uploadstatus('pending');
 
     self.downloadPrices = function () {
