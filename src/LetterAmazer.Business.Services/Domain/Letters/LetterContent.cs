@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,15 +12,23 @@ namespace LetterAmazer.Business.Services.Domain.Letters
     public class LetterContent
     {
         public string Path { get; set; }
-        public byte[] Content { get; set; }
+
+        public byte[] Content
+        {
+            get
+            {
+                var path = PathHelper.GetAbsoluteFile(Path);
+                return File.ReadAllBytes(path);
+            }
+        }
+
         public string WrittenContent { get; set; }
 
         public int PageCount
         {
             get
             {
-                var pages = PdfHelper.GetPagesCount(PathHelper.GetAbsoluteFile(Path));
-                return pages;
+                return PdfHelper.GetPagesCount(PathHelper.GetAbsoluteFile(Path));
             }
         }
 

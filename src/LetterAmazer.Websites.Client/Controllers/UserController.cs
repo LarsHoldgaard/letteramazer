@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Web.Security;
 using LetterAmazer.Business.Services.Domain.AddressInfos;
+using LetterAmazer.Business.Services.Domain.Checkout;
 using LetterAmazer.Business.Services.Domain.Countries;
 using LetterAmazer.Business.Services.Domain.Customers;
 using LetterAmazer.Business.Services.Domain.Invoice;
@@ -14,6 +15,7 @@ using LetterAmazer.Business.Services.Domain.Payments;
 using LetterAmazer.Business.Services.Domain.Pricing;
 using LetterAmazer.Business.Services.Domain.Products;
 using LetterAmazer.Business.Services.Domain.Products.ProductDetails;
+using LetterAmazer.Business.Services.Domain.Session;
 using LetterAmazer.Business.Utils.Helpers;
 using LetterAmazer.Websites.Client.Attributes;
 using LetterAmazer.Websites.Client.ViewModels;
@@ -42,12 +44,15 @@ namespace LetterAmazer.Websites.Client.Controllers
         private ICustomerService customerService;
         private IOfficeService officeService;
         private IOfficeProductService officeProductService;
+        private ICheckoutService checkoutService;
+        private ISessionService sessionService;
 
         public UserController(IOrderService orderService, IPaymentService paymentService,
             ILetterService letterService, ICountryService countryService,
             IPriceService priceService,
             IOrganisationService organisationService, IMailService mailService, IInvoiceService invoiceService,
-            ICustomerService customerService,IOfficeService officeService, IOfficeProductService officeProductService)
+            ICustomerService customerService,IOfficeService officeService, IOfficeProductService officeProductService,
+            ICheckoutService checkoutService,ISessionService sessionService)
         {
             this.orderService = orderService;
             this.paymentService = paymentService;
@@ -60,6 +65,8 @@ namespace LetterAmazer.Websites.Client.Controllers
             this.customerService = customerService;
             this.officeProductService = officeProductService;
             this.officeService = officeService;
+            this.checkoutService = checkoutService;
+            this.sessionService = sessionService;
         }
 
         public ActionResult Index(int? page, DashboardViewModel model)
@@ -163,7 +170,7 @@ namespace LetterAmazer.Websites.Client.Controllers
             {
                 ValidateInput();
 
-                var order = new SingleLetterController(orderService, paymentService, countryService, priceService, customerService, null, null, officeService, officeProductService).CreateOrderFromViewModel(model);
+                var order = new SingleLetterController(orderService, paymentService, countryService, priceService, customerService,officeService, officeProductService,checkoutService,sessionService).CreateOrderFromViewModel(model);
 
                 var storedOrder = orderService.Create(order);
 

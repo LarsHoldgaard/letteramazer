@@ -14,7 +14,7 @@ namespace LetterAmazer.Business.Services.Domain.Pricing
         public int CountryId { get; set; }
         public int ContinentId { get; set; }
         public int ZipId { get; set; }
-        public int OfficeId { get; set; }
+        public int UserId { get; set; }
 
         public int OfficeProductId { get; set; }
         

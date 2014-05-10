@@ -86,15 +86,12 @@ namespace LetterAmazer.Websites.Client
                     .InNamespace("LetterAmazer.Business.Services.Services.PaymentMethods.Implementations")
                     .WithServiceAllInterfaces());
 
-
-
             // All factories in service DLL
             Container.Register(
                 Classes.FromAssembly(assembly)
                     .InNamespace("LetterAmazer.Business.Services.Factory")
                     .WithServiceAllInterfaces());
-
-
+            
             Container.Register(Component.For<LetterAmazerEntities>());
         }
 

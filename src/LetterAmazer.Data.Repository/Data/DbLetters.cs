@@ -43,7 +43,6 @@ namespace LetterAmazer.Data.Repository.Data
         public string ToAddress_VatNr { get; set; }
         public string LetterContent_Path { get; set; }
         public string LetterContent_WrittenContent { get; set; }
-        public byte[] LetterContent_Content { get; set; }
         public int LetterStatus { get; set; }
         public string ToAddress_State { get; set; }
         public string ToAddress_Co { get; set; }

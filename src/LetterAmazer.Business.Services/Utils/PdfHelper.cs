@@ -43,6 +43,7 @@ namespace LetterAmazer.Business.Utils.Helpers
             return numberOfPages;
         }
 
+
         public static void ConvertPdfSize(string path, LetterSize fromSize, LetterSize toSize)
         {
             if (fromSize != LetterSize.A4 || toSize != LetterSize.Letter)

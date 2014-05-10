@@ -91,6 +91,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Domain\Api\ApiKeys.cs" />
+    <Compile Include="Domain\Checkout\Checkout.cs" />
+    <Compile Include="Domain\Checkout\ICheckoutService.cs" />
     <Compile Include="Domain\Common\S3Access.cs" />
     <Compile Include="Domain\Content\CmsContent.cs" />
     <Compile Include="Domain\Content\ContentSpecification.cs" />
@@ -102,6 +104,7 @@
     <Compile Include="Domain\Currencies\ICurrencyService.cs" />
     <Compile Include="Domain\Customers\AccountStatus.cs" />
     <Compile Include="Domain\Customers\OrganisationRole.cs" />
+    <Compile Include="Domain\Files\IFileService.cs" />
     <Compile Include="Domain\Invoice\IInvoiceService.cs" />
     <Compile Include="Domain\Invoice\Invoice.cs" />
     <Compile Include="Domain\Invoice\InvoiceLine.cs" />
@@ -124,6 +127,8 @@
     <Compile Include="Domain\ProductMatrix\IProductMatrixService.cs" />
     <Compile Include="Domain\ProductMatrix\ProductMatrixLineSpecification.cs" />
     <Compile Include="Domain\Products\Credit.cs" />
+    <Compile Include="Domain\Session\ISessionService.cs" />
+    <Compile Include="Domain\Session\Session.cs" />
     <Compile Include="Factory\ContentFactory.cs" />
     <Compile Include="Factory\Interfaces\IContentFactory.cs" />
     <Compile Include="Factory\Interfaces\IInvoiceFactory.cs" />
@@ -136,8 +141,10 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="Services\CheckoutService.cs" />
     <Compile Include="Services\ContentService.cs" />
     <Compile Include="Services\CurrencyService.cs" />
+    <Compile Include="Services\FileService.cs" />
     <Compile Include="Services\FulfillmentJobs\IntermailService.cs" />
     <Compile Include="Services\FulfillmentJobs\PostalMethodsService.cs" />
     <Compile Include="Services\InvoiceService.cs" />
@@ -238,6 +245,7 @@
     <Compile Include="Services\PaymentMethods\Implementations\PaypalMethod.cs" />
     <Compile Include="Services\PaymentService.cs" />
     <Compile Include="Services\PriceService.cs" />
+    <Compile Include="Services\SessionService.cs" />
     <Compile Include="Services\ShippingService.cs" />
     <Compile Include="Utils\Helpers.cs" />
     <Compile Include="Utils\PdfHelper.cs" />
