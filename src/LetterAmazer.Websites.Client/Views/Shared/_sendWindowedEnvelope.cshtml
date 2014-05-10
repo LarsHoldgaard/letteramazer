@@ -15,18 +15,18 @@
             </div>
         </div>
     </div>
-    @Html.HiddenFor(m => m.UploadFile, new Dictionary<string, object> { { "data-bind", "value:uploadFileKey" } })
+    @Html.HiddenFor(m => m.UploadFile, new Dictionary<string, object> { { "data-bind", "value:uploadFileKey()" } })
 
 
     <h2>2. What country should we send the letter to?</h2>
     <p>Select the country we should send this letter to:</p>
-    <div style="max-width: 350px">
+    <div style="max-width: 700px">
 
         @Html.DropDownListFor(model => model.SelectedCountry, Model.Countries, new Dictionary<string, object> { { "class", "form-control sendaletter_countrylist" }, { "data-bind", "value:countryId" } })
         @Html.HiddenFor(m => m.DestinationCountryId, new Dictionary<string, object> { { "data-bind", "value:countryId" } })
 
     </div>
-    <div data-bind="visible: getUploadStatus() == 'failure' && uploadFileKey()" class="alert alert-error" style="margin-top: 10px;">
+    <div data-bind="visible: getUploadStatus() == 'failure' && uploadFileKey().length > 0" class="alert alert-error" style="margin-top: 10px;">
         <h2>This PDF file cannot be sent</h2>
         <p>
             Please make sure the following requirements are met:
@@ -81,14 +81,14 @@
                             <text>(<label id="priceOfLetterLbl" data-bind="text: getPriceTotal"></label> EUR inc. local VAT)</text>
                         }
                     </dd>
-                    <dt>Pages</dt>
-                    <dd data-bind="text: numberOfPages"></dd>
+                    <dt data-bind="visible: uploadFileKey().length == 1">Pages</dt>
+                    <dd data-bind="text: numberOfPages, visible: uploadFileKey().length == 1"></dd>
                     <dt>Shipping time</dt>
                     <dd>1-3 Week days</dd>
                 </dl>
                 <input type="submit" value="Send letter" class="btn btn-success btn-lg" />
             </div>
-            <div class="col-md-9">
+            <div class="col-md-9" data-bind="visible: uploadFileKey().length == 1">
                 <br /><b>Your letter</b><br />
                 The grey box is where the address has to be:
 
@@ -114,10 +114,14 @@
     var createLetterData = {
         getPriceUrl: '@Url.Action("GetPrice", "SingleLetter")',
         thumbnailUrl: '@Url.Action("GetThumbnail", "SingleLetter")',
+        uploadMode: 'multiple'
     };
 
     var viewModel = new SendWindowedLetterViewModel('#sendLetterForm', createLetterData);
     ko.applyBindings(viewModel, document.getElementById('sendLetterForm'));
+
+    // this line is used to remove multiple uploaded files, if we only want to allow single
+    // if (createLetterData.currentFile != null) $(createLetterData.currentFile.previewTemplate).remove();
 
     $('div#myDropzone').dropzone({
         url: '@Url.Action("Upload", "SingleLetter")',
@@ -133,7 +137,7 @@
             console.log('Send windowed envelope success call');
             var template = file.previewTemplate;
             if (data.status == "success") {
-                if (createLetterData.currentFile != null) $(createLetterData.currentFile.previewTemplate).remove();
+
                 createLetterData.currentFile = file;
                 $(template).find('.dz-progress').hide();
                 $(template).find('.dz-details img').attr({
@@ -141,7 +145,7 @@
                     'height': '100',
                     'style': 'margin-top: 28px; margin-left: 20px; height: 65px; width: 65px; display: block;'
                 });
-                viewModel.uploadFileKey(data.key);
+                viewModel.uploadFileKey.push(data.key);
                 viewModel.downloadPrices();
 
             } else {
@@ -157,13 +161,14 @@
             console.log('Send windowed envelope error call');
             var template = file.previewTemplate;
             $(template).remove();
-            viewModel.uploadFileKey('');
+            viewModel.uploadFileKey.remove(file);
         },
         removedfile: function (file) {
             var template = file.previewTemplate;
             $(template).remove();
-            viewModel.uploadFileKey('');
+            viewModel.uploadFileKey.remove(file);
 
+            // TODO: why?
             viewModel.downloadPrices();
         }
     });
@@ -174,13 +179,13 @@
         'fileTypeExts': '*.pdf',
         'fileObjName': 'uploadFile',
         'removeCompleted': false,
-        'multi': false,
+        'multi': true,
         'swf': '@Url.Content("~/Scripts/uploadify/uploadify.swf")',
         'uploader': '@Url.Action("Upload", "SingleLetter")',
         'onUploadSuccess': function (file, data, response) {
             var result = $.parseJSON(data);
             if (result.status == "success") {
-                viewModel.uploadFileKey(result.key);
+                viewModel.uploadFileKey.push(result.key);
             }
 
         },

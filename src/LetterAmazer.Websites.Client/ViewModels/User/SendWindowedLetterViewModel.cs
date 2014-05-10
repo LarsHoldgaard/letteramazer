@@ -18,7 +18,7 @@ namespace LetterAmazer.Websites.Client.ViewModels.User
         public int? LetterType { get; set; }
 
         public bool UseUploadFile { get; set; }
-        public string UploadFile { get; set; }
+        public string[] UploadFile { get; set; }
         public string WriteContent { get; set; }
 
         public int PaymentMethodId { get; set; }
