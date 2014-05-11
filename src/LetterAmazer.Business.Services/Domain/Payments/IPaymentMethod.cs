@@ -8,6 +8,8 @@ namespace LetterAmazer.Business.Services.Domain.Payments
     {
         string Process(Order order);
         void VerifyPayment(Order order);
+
+        void CallbackNotification();
         void ChargeBacks(Order order);
     }
 }

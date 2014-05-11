@@ -105,6 +105,11 @@ namespace LetterAmazer.Business.Services.Services.PaymentMethods.Implementations
             orderService.Update(order);
         }
 
+        public void CallbackNotification()
+        {
+            throw new NotImplementedException();
+        }
+
         public void ChargeBacks(Order order)
         {
             throw new NotImplementedException();

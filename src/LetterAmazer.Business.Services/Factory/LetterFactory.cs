@@ -32,7 +32,6 @@ namespace LetterAmazer.Business.Services.Factory
             {
                 LetterContent = new LetterContent()
                 {
-                    Content = dbLetter.LetterContent_Content,
                     Path = dbLetter.LetterContent_Path,
                     WrittenContent = dbLetter.LetterContent_WrittenContent
                 },

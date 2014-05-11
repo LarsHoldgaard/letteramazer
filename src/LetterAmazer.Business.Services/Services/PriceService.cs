@@ -8,6 +8,7 @@ using Castle.Components.DictionaryAdapter.Xml;
 using LetterAmazer.Business.Services.Domain.AddressInfos;
 using LetterAmazer.Business.Services.Domain.Countries;
 using LetterAmazer.Business.Services.Domain.Currencies;
+using LetterAmazer.Business.Services.Domain.Customers;
 using LetterAmazer.Business.Services.Domain.Letters;
 using LetterAmazer.Business.Services.Domain.OfficeProducts;
 using LetterAmazer.Business.Services.Domain.Orders;
@@ -30,10 +31,11 @@ namespace LetterAmazer.Business.Services.Services
         private IOfficeProductService offerProductService;
         private IOrganisationService organisationService;
         private ICurrencyService currencyService;
+        private ICustomerService customerService;
         public PriceService(ICountryService countryService,
             LetterAmazerEntities repository, IProductMatrixService productMatrixService, 
             IOfficeProductService offerProductService, IOrganisationService organisationService,
-            ICurrencyService currencyService)
+            ICurrencyService currencyService,ICustomerService customerService)
         {
             this.countryService = countryService;
             this.repository = repository;
@@ -41,11 +43,11 @@ namespace LetterAmazer.Business.Services.Services
             this.offerProductService = offerProductService;
             this.organisationService = organisationService;
             this.currencyService = currencyService;
+            this.customerService = customerService;
         }
 
         public Price GetPriceByOrder(Order order)
         {
-            
             var price = new Price();
             foreach (var orderLine in order.OrderLines)
             {
@@ -53,8 +55,7 @@ namespace LetterAmazer.Business.Services.Services
                 {
                     var letter = (Letter)orderLine.BaseProduct;
                     var letterPrice = GetPriceByLetter(letter);
-                    price.PriceExVat += letterPrice.PriceExVat;
-                    price.VatPercentage = letterPrice.PriceExVat;
+                    price.AddPrice(letterPrice);
                 }
 
             }
@@ -125,9 +126,13 @@ namespace LetterAmazer.Business.Services.Services
             {
                 officeProducts = officeProducts.Where(c => c.ContinentId == specification.ContinentId || c.ScopeType == (int)ProductScope.RestOfWorld);
             }
-            if (specification.OfficeId > 0)
+            if (specification.UserId > 0)
             {
-                officeProducts = officeProducts.Where(c => c.OfficeId == specification.OfficeId);
+                var customer = customerService.GetCustomerById(specification.UserId);
+                if (customer.HasOrganisation && customer.Organisation.RequiredOfficeId.HasValue)
+                {
+                    officeProducts = officeProducts.Where(c => c.OfficeId == customer.Organisation.RequiredOfficeId.Value);
+                }
             }
             if (specification.ShippingDays > 0)
             {

@@ -58,6 +58,11 @@ namespace LetterAmazer.Business.Services.Services.PaymentMethods.Implementations
             throw new NotImplementedException();
         }
 
+        public void CallbackNotification()
+        {
+            throw new NotImplementedException();
+        }
+
         public void ChargeBacks(Order order)
         {
             throw new NotImplementedException();

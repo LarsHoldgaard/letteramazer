@@ -288,7 +288,6 @@ namespace LetterAmazer.Business.Services.Services
                     ToAddress_VatNr = letter.ToAddress.VatNr,
                     OrderId = letter.OrderId,
                     LetterContent_WrittenContent = letter.LetterContent.WrittenContent,
-                    LetterContent_Content = letter.LetterContent.Content,
                     LetterContent_Path = letter.LetterContent.Path,
                     LetterStatus = (int)letter.LetterStatus,
                     OfficeId = letter.OfficeId,

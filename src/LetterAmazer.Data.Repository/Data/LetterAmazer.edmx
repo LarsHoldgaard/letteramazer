@@ -205,7 +205,6 @@
           <Property Name="ToAddress_VatNr" Type="nvarchar" MaxLength="159" />
           <Property Name="LetterContent_Path" Type="nvarchar" MaxLength="250" />
           <Property Name="LetterContent_WrittenContent" Type="nvarchar" MaxLength="4000" />
-          <Property Name="LetterContent_Content" Type="varbinary(max)" />
           <Property Name="LetterStatus" Type="int" Nullable="false" />
           <Property Name="ToAddress_State" Type="nvarchar" MaxLength="150" />
           <Property Name="ToAddress_Co" Type="nvarchar" MaxLength="150" />
@@ -963,7 +962,6 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
           <Property Name="ToAddress_VatNr" Type="String" MaxLength="159" FixedLength="false" Unicode="true" />
           <Property Name="LetterContent_Path" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="LetterContent_WrittenContent" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
-          <Property Name="LetterContent_Content" Type="Binary" MaxLength="Max" FixedLength="false" />
           <Property Name="LetterStatus" Type="Int32" Nullable="false" />
           <Property Name="ToAddress_State" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="ToAddress_Co" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
@@ -1730,7 +1728,6 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
                 <ScalarProperty Name="ToAddress_VatNr" ColumnName="ToAddress_VatNr" />
                 <ScalarProperty Name="LetterContent_Path" ColumnName="LetterContent_Path" />
                 <ScalarProperty Name="LetterContent_WrittenContent" ColumnName="LetterContent_WrittenContent" />
-                <ScalarProperty Name="LetterContent_Content" ColumnName="LetterContent_Content" />
                 <ScalarProperty Name="LetterStatus" ColumnName="LetterStatus" />
                 <ScalarProperty Name="ToAddress_State" ColumnName="ToAddress_State" />
                 <ScalarProperty Name="ToAddress_Co" ColumnName="ToAddress_Co" />

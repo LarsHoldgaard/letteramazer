@@ -15,8 +15,7 @@ namespace LetterAmazer.Business.Services.Domain.Orders
         public int Quantity { get; set; }
 
         public Price Price { get; set; }
-        public int CouponId { get; set; }
-
+        
 
         public OrderLine()
         {
