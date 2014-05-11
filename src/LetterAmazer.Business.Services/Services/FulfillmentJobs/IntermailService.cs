@@ -56,22 +56,27 @@ namespace LetterAmazer.Business.Services.Services.FulfillmentJobs
                     }
 
                     string servePath = FtpServer + "/" + colorPath + "/" + letter.Guid + ".pdf";
-                    FtpWebRequest ftp = (FtpWebRequest)FtpWebRequest.Create(servePath);
-                    ftp.Credentials = new NetworkCredential(Username, Password);
 
-                    ftp.KeepAlive = true;
-                    ftp.UseBinary = true;
-                    ftp.Method = WebRequestMethods.Ftp.UploadFile;
+                    if (isactivated)
+                    {
+                        FtpWebRequest ftp = (FtpWebRequest)FtpWebRequest.Create(servePath);
+                        ftp.Credentials = new NetworkCredential(Username, Password);
 
-                    var fs = new MemoryStream(letter.LetterContent.Content);
-                    byte[] buffer = new byte[fs.Length];
-                    fs.Read(buffer, 0, buffer.Length);
-                    fs.Close();
+                        ftp.KeepAlive = true;
+                        ftp.UseBinary = true;
+                        ftp.Method = WebRequestMethods.Ftp.UploadFile;
 
-                    Stream ftpstream = ftp.GetRequestStream();
-                    ftpstream.Write(buffer, 0, buffer.Length);
-                    ftpstream.Close();
+                        var fs = new MemoryStream(letter.LetterContent.Content);
+                        byte[] buffer = new byte[fs.Length];
+                        fs.Read(buffer, 0, buffer.Length);
+                        fs.Close();
 
+                        Stream ftpstream = ftp.GetRequestStream();
+                        ftpstream.Write(buffer, 0, buffer.Length);
+                        ftpstream.Close();
+
+                    }
+                    
                     status.AppendLine("Success on: " + letter.Guid + " <br/>");
                 }
                 catch (Exception ex)

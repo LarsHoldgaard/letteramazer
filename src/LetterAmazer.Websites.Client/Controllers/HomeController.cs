@@ -467,6 +467,7 @@ namespace LetterAmazer.Websites.Client.Controllers
            new Helper().FillCountries(prices.Countries,standardCountryId);
             
             prices.SelectedLetterSizes = ControllerHelpers.GetEnumSelectList<LetterSize>().ToList();
+            prices.SelectedLetterSizes.RemoveAt(1);
             return prices;
         }
 

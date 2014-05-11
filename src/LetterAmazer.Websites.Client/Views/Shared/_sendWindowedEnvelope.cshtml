@@ -4,13 +4,13 @@
 @using (Html.BeginForm("SendWindowedLetter", "SingleLetter", FormMethod.Post, new { id = "sendLetterForm" }))
 {
     <h2>1. Upload your file</h2>
-    <p>You can upload a PDF file below, by clicking the gray zone. It is important you follow a normal letter template, as this is directly printed into a windowed envelope.</p>
-
-    <div style="max-width: 350px">
+    <p>You can upload one or multiple PDF files below.</p>
+    <p><b>Make sure the recepient address is positioned correct</b>. Upload a single PDF document and see the preview below to verify its position.</p>
+    <div style="max-width: 700px">
         <div id="myDropzone" class="la-dropzone">
             <div class="dz-default dz-message">
                 <span>
-                    Click here to upload your PDF file
+                    Drag your PDF files here, or click here to select one from your computer
                 </span>
             </div>
         </div>
