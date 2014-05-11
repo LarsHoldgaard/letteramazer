@@ -11,7 +11,9 @@ using LetterAmazer.Business.Services.Domain.Offices;
 using LetterAmazer.Business.Services.Domain.Orders;
 using LetterAmazer.Business.Services.Domain.Payments;
 using LetterAmazer.Business.Services.Domain.Pricing;
-using LetterAmazer.Business.Services.Domain.Products;
+using LetterAmazer.Business.Services.Domain.Products.ProductDetails;
+using LetterAmazer.Business.Utils.Helpers;
+using ProductType = LetterAmazer.Business.Services.Domain.Products.ProductType;
 
 namespace LetterAmazer.Business.Services.Services
 {
@@ -35,21 +37,21 @@ namespace LetterAmazer.Business.Services.Services
         public Order ConvertCheckout(Checkout checkout)
         {
             Order order = new Order();
-
-            Customer customer = customerService.GetCustomerById(checkout.UserId);
-            order.Customer = customer;
-
             Price price = new Price();
+
+            fileConversion(checkout);
+            setCustomer(checkout,order);
+            
             foreach (var letter in checkout.Letters)
             {
                 var letterPrice = priceService.GetPriceBySpecification(new PriceSpecification()
                 {
-                    OfficeProductId = letter.Item1
+                    OfficeProductId = letter.OfficeProductId
                 });
 
                 order.OrderLines.Add(new OrderLine()
                 {
-                    BaseProduct = letter.Item2,
+                    BaseProduct = letter.Letter,
                     Price = letterPrice,
                     Quantity = 1,
                     ProductType = ProductType.Letter
@@ -66,6 +68,59 @@ namespace LetterAmazer.Business.Services.Services
             });
 
             return order;
+        }
+
+
+        /// <summary>
+        /// Finds or create the customer and sets it on the order
+        /// </summary>
+        /// <param name="checkout"></param>
+        /// <param name="order"></param>
+        private void setCustomer(Checkout checkout, Order order)
+        {
+            Customer customer = null;
+
+            // user exists
+            if (checkout.UserId > 0)
+            {
+                 customer= customerService.GetCustomerById(checkout.UserId);
+            }
+            else
+            {
+                var existingCustomer = customerService.GetCustomerBySpecification(new CustomerSpecification()
+                {
+                    Email = checkout.Email
+                }).FirstOrDefault();
+
+                if (existingCustomer == null)
+                {
+                    Customer newCustomer = new Customer();
+                    newCustomer.Email = checkout.Email;
+                    customer = customerService.Create(newCustomer);
+                }
+                else
+                {
+                    customer = existingCustomer;
+                }
+            }
+            order.Customer = customer;
+        }
+
+        /// <summary>
+        /// Convert files into their right filesizes if conversions are needed
+        /// </summary>
+        /// <param name="checkout"></param>
+        private void fileConversion(Checkout checkout)
+        {
+            foreach (var letter in checkout.Letters)
+            {   
+                // TODO: make a check if the current filesize is different from the file, so we don't make unneeded conversions
+                if (letter.Letter.LetterDetails.LetterSize == LetterSize.Letter)
+                {
+                    PdfHelper.ConvertPdfSize(PathHelper.GetAbsoluteFile(letter.Letter.LetterContent.Path), LetterSize.A4, LetterSize.Letter);
+                }
+
+            }
         }
     }
 }

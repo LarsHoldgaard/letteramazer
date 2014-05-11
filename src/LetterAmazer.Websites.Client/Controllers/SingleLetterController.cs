@@ -349,40 +349,33 @@ namespace LetterAmazer.Websites.Client.Controllers
             Checkout checkout = new Checkout()
             {
                 UserId = SessionHelper.Customer != null ? SessionHelper.Customer.Id : 0,
+                Email = model.Email,
                 PaymentMethodId = model.PaymentMethodId
             };
             
             foreach (var uploadFile in model.UploadFile)
             {
                 var priceInfo = GetPriceFromFile(uploadFile,model.DestinationCountry);
-                var t = new Tuple<int, Letter>(priceInfo.OfficeProductId, new Letter()
+
+                var t = new CheckoutLine()
                 {
-                    ToAddress = new AddressInfo()
+                    OfficeProductId = priceInfo.OfficeProductId,
+                    Letter = new Letter()
                     {
-                        Country = countryService.GetCountryById(model.DestinationCountry)
-                    },
-                    LetterContent = new LetterContent()
-                    {
-                        Path= uploadFile
-                    },
-                });
+                        ToAddress = new AddressInfo()
+                        {
+                            Country = countryService.GetCountryById(model.DestinationCountry)
+                        },
+                        LetterContent = new LetterContent()
+                        {
+                            Path = uploadFile
+                        }
+                    }
+                };
                 checkout.Letters.Add(t);                
             }
 
             return checkoutService.ConvertCheckout(checkout);
-
-            // TODO: move this logic into a fileservice
-            //if (System.IO.File.Exists(PathHelper.GetAbsoluteFile(letter.LetterContent.Path)))
-            //{
-            //    // convert to lettersize if letter size
-            //    if (selectedOfficeProduct.LetterDetails.LetterSize == LetterSize.Letter)
-            //    {
-            //        PdfHelper.ConvertPdfSize(PathHelper.GetAbsoluteFile(letter.LetterContent.Path), LetterSize.A4, LetterSize.Letter);
-            //    }
-            //    letter.LetterContent.Content =
-            //        System.IO.File.ReadAllBytes(PathHelper.GetAbsoluteFile(letter.LetterContent.Path));
-            //}
-
         }
 
         private string GetUploadFileName(string uploadFilename)

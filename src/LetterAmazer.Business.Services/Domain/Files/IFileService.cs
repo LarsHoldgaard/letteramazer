@@ -8,5 +8,6 @@ namespace LetterAmazer.Business.Services.Domain.Files
 {
     public interface IFileService
     {
+
     }
 }
