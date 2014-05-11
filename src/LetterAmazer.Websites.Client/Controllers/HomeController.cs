@@ -65,6 +65,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                 IsLoggedIn = SessionHelper.Customer != null 
             };
 
+            // TODO: move to country/helper layer
             var countries = countryService.GetCountryBySpecificaiton(new CountrySpecification()
             {
                 Take = 999
@@ -141,34 +142,6 @@ namespace LetterAmazer.Websites.Client.Controllers
 
         public ActionResult About()
         {
-            //var countries = countryService.GetCountryBySpecificaiton(new CountrySpecification()
-            //{
-            //    Take = 999
-            //});
-
-            //var path =
-            //        "C:\\Users\\larsholdgaard\\Documents\\Work\\output";
-            //var files = Directory.GetFiles(path).ToList();
-
-            //int i = 0;
-            //foreach (var country in countries)
-            //{
-            //    var currentpath = files[i];
-            //    StreamReader rdr = new StreamReader(currentpath);
-            //    var data = rdr.ReadToEnd();
-
-            //    //
-            //    CmsContent content = new CmsContent()
-            //    {
-            //        Alias = country.Alias,
-            //        Section = "sendletter",
-            //        Headline = "Send a letter to " + country.Name + " online (ie. " + country.Capital + ")",
-            //        Content = data
-            //    };
-            //    contentService.Create(content);
-            //    i++;
-            //}
-
             return View();
         }
 
@@ -181,6 +154,7 @@ namespace LetterAmazer.Websites.Client.Controllers
         {
             var prices = buildPriceViewModel(59); // ID of Denmark. TODO: some IP to countryID?
 
+            // TODO: move to country/helper layer
             PriceOverviewViewModel priceOverviewViewModel = new PriceOverviewViewModel();
             priceOverviewViewModel.PriceViewModel = prices;
 
@@ -204,6 +178,7 @@ namespace LetterAmazer.Websites.Client.Controllers
 
         public ActionResult GetSendALetterTo(string alias)
         {
+            // TODO: clean up
             var countries = countryService.GetCountryBySpecificaiton(new CountrySpecification()
             {
                 Take = 999
@@ -236,6 +211,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                 SendWindowedLetterViewModel = windowedModel
             };
 
+
             foreach (var acountry in countries)
             {
                 sendaletterto.SendWindowedLetterViewModel.Countries.Add(new SelectListItem()
@@ -256,6 +232,7 @@ namespace LetterAmazer.Websites.Client.Controllers
 
         public ActionResult GetPricing(string alias)
         {
+            // TODO: clean up
             var countries = countryService.GetCountryBySpecificaiton(new CountrySpecification()
             {
                 Take = 999
@@ -354,6 +331,7 @@ namespace LetterAmazer.Websites.Client.Controllers
         {
             RegisterViewModel model = new RegisterViewModel();
 
+            // TODO: move to country/helper layer
             var countries = countryService.GetCountryBySpecificaiton(new CountrySpecification()
             {
                 Take = 999

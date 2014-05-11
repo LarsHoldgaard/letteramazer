@@ -78,6 +78,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                 }
             }
 
+            // TODO: move to helper/country layer
             CreateSingleLetterModel model = new CreateSingleLetterModel()
             {
                 PaymentMethodId = 1,
@@ -112,6 +113,7 @@ namespace LetterAmazer.Websites.Client.Controllers
         [HttpGet]
         public FileResult GetThumbnail(string[] uploadFileKey)
         {
+            // TODO: move to service layer
             var stringPath = uploadFileKey[0];
             if (string.IsNullOrEmpty(stringPath))
             {
@@ -128,6 +130,7 @@ namespace LetterAmazer.Websites.Client.Controllers
         }
 
         [HttpPost, ValidateInput(false)]
+        [Obsolete]
         public ActionResult Index(CreateSingleLetterModel model)
         {
             try
@@ -162,6 +165,7 @@ namespace LetterAmazer.Websites.Client.Controllers
         {
             try
             {
+                // TODO: move to service layer
                 HttpPostedFileBase uploadFile = Request.Files[0];
                 string keyName = GetUploadFileName(uploadFile.FileName);
                 string filename = PathHelper.GetAbsoluteFile(keyName);
@@ -270,6 +274,8 @@ namespace LetterAmazer.Websites.Client.Controllers
         {
             if (string.IsNullOrEmpty(content)) return File(new byte[0], "text/plain");
 
+
+            // TODO: move to service layer
             content = HttpUtility.HtmlDecode(content);
             content = HttpUtility.UrlDecode(content);
 

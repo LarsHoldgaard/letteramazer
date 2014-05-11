@@ -46,6 +46,8 @@ namespace LetterAmazer.Websites.Client.Controllers
         {
             try
             {
+                // TODO: move to payment service layer
+
                 logger.Info("IPN called");
 
                 PaypalMethod paypalMethod = new PaypalMethod(orderService);
