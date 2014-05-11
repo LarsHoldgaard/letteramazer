@@ -37,7 +37,7 @@ namespace LetterAmazer.Business.Services.Services
         public Order ConvertCheckout(Checkout checkout)
         {
             Order order = new Order();
-            Price price = new Price();
+            Price price = null;
 
             fileConversion(checkout);
             setCustomer(checkout,order);
@@ -46,7 +46,8 @@ namespace LetterAmazer.Business.Services.Services
             {
                 var letterPrice = priceService.GetPriceBySpecification(new PriceSpecification()
                 {
-                    OfficeProductId = letter.OfficeProductId
+                    OfficeProductId = letter.OfficeProductId,
+                    UserId = checkout.UserId
                 });
 
                 order.OrderLines.Add(new OrderLine()
@@ -57,7 +58,19 @@ namespace LetterAmazer.Business.Services.Services
                     ProductType = ProductType.Letter
                 });
 
-                price.AddPrice(letterPrice);
+                if (price == null)
+                {
+                    price = new Price()
+                    {
+                        PriceExVat = letterPrice.PriceExVat,
+                        VatPercentage = letterPrice.VatPercentage
+                    };
+                }
+                else
+                {
+                    price.AddPrice(letterPrice);    
+                }
+                
             }
 
             order.OrderLines.Add(new OrderLine()

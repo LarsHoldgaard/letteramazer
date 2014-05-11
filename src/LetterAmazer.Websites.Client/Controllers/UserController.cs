@@ -28,6 +28,7 @@ using System.Web.Mvc;
 using LetterAmazer.Websites.Client.ViewModels.User;
 using LetterAmazer.Business.Services.Domain.Organisation;
 using Microsoft.Web.Infrastructure;
+using ProductType = LetterAmazer.Business.Services.Domain.Products.ProductType;
 
 namespace LetterAmazer.Websites.Client.Controllers
 {
@@ -615,22 +616,31 @@ namespace LetterAmazer.Websites.Client.Controllers
 
         private OrderDetailViewModel getOrderDetailViewModel(Order order)
         {
-            var letter = (Letter)order.OrderLines.FirstOrDefault(c => c.ProductType == LetterAmazer.Business.Services.Domain.Products.ProductType.Letter).BaseProduct;
-
+            var letters = order.OrderLines.Where(c => c.ProductType == ProductType.Letter);
 
             OrderDetailViewModel viewModel = new OrderDetailViewModel()
             {
-                AddressInfo = letter.ToAddress,
                 DateCreated = order.DateCreated,
                 DateModified = order.DateModified.HasValue ? order.DateModified.Value : order.DateCreated,
                 DatePaid = order.DatePaid.HasValue ? order.DatePaid.Value : (DateTime?)null,
                 DateSent = order.DateSent.HasValue ? order.DateSent.Value : (DateTime?)null,
                 OrderStatus = order.OrderStatus,
-                LetterDetails = letter.LetterDetails,
-                Id = letter.Id,
-                Price = order.Price
-
+                Price = order.Price,
+                OrderId = order.Id
             };
+
+            foreach (var letterLine in letters)
+            {
+                var letter = (Letter)letterLine.BaseProduct;
+
+                viewModel.Letters.Add(new LetterDetailViewModel()
+                {
+                    Id = letter.Id,
+                    AddressInfo = letter.ToAddress,
+                    LetterDetails = letter.LetterDetails,
+                    Price = letterLine.Price,
+                });
+            }
 
             return viewModel;
         }

@@ -93,6 +93,8 @@ namespace LetterAmazer.Business.Services.Services
             IQueryable<DbOfficeProducts> officeProducts =
                 repository.DbOfficeProducts.Where(c => c.ReferenceType == (int) ProductMatrixReferenceType.Sales && c.Enabled);
 
+            decimal vatPercentage = 0.25m;
+
             if (specification.CountryId > 0)
             {
                 var country = countryService.GetCountryById(specification.CountryId);
@@ -133,6 +135,7 @@ namespace LetterAmazer.Business.Services.Services
                 {
                     officeProducts = officeProducts.Where(c => c.OfficeId == customer.Organisation.RequiredOfficeId.Value);
                 }
+                vatPercentage = customer.VatPercentage();
             }
             if (specification.ShippingDays > 0)
             {
@@ -163,36 +166,12 @@ namespace LetterAmazer.Business.Services.Services
                 throw new BusinessException("No price for this specification");
             }
 
-            var addVat = isVatAdded(specification);
-
             return new Price()
             {
                 OfficeProductId = officeProductId,
                 PriceExVat = minCost,
-                VatPercentage = addVat ? 0.25m : 0.0m
+                VatPercentage = vatPercentage
             };
-        }
-
-        private bool isVatAdded(PriceSpecification specification)
-        {
-            bool addVat = true;
-            if (specification.OrganisationId > 0)
-            {
-                var organisation = organisationService.GetOrganisationById(specification.OrganisationId);
-
-                if (organisation.Address.Country.InsideEu)
-                {
-                    if (!string.IsNullOrEmpty(organisation.Address.VatNr))
-                    {
-                        addVat = false;
-                    }
-                }
-                else
-                {
-                    addVat = false;
-                }
-            }
-            return addVat;
         }
 
         public Price GetPriceByMatrixLines(IEnumerable<ProductMatrixLine> matrix, int pageCount)

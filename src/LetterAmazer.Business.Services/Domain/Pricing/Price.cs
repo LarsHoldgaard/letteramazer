@@ -52,11 +52,6 @@ namespace LetterAmazer.Business.Services.Domain.Pricing
 
         public void AddPrice(Price price)
         {
-            if (price.VatPercentage != price.VatPercentage)
-            {
-                throw new BusinessException("You cannot add a price with a different VAT than the existing one");
-            }
-
             this.PriceExVat += price.PriceExVat;
         }
     }
