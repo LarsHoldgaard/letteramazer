@@ -4,6 +4,9 @@ using System.Web.Http.ModelBinding;
 using System.Web.Mvc;
 using iTextSharp.text;
 using LetterAmazer.Business.Services.Domain.Countries;
+using LetterAmazer.Business.Services.Factory;
+using LetterAmazer.Business.Services.Services;
+using LetterAmazer.Data.Repository.Data;
 
 namespace LetterAmazer.Websites.Client.Helpers
 {
@@ -11,9 +14,9 @@ namespace LetterAmazer.Websites.Client.Helpers
     {
         private ICountryService countryService;
 
-        public Helper(ICountryService countryService)
+        public Helper()
         {
-            this.countryService = countryService;
+            this.countryService = new CountryService(new LetterAmazerEntities(), new CountryFactory());
         }
 
 

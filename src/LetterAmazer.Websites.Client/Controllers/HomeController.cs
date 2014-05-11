@@ -34,25 +34,21 @@ namespace LetterAmazer.Websites.Client.Controllers
 
         private ICountryService countryService;
         private ICustomerService customerService;
-        private IOfficeService officeService;
         private IMailService mailService;
         private IPriceService priceService;
         private IOrganisationService organisationService;
         private IPriceUpdater priceUpdater;
-        private Helper helper;
         private IContentService contentService;
-        public HomeController(ICustomerService customerService,IOfficeService officeService,IPriceUpdater priceUpdater,
+        public HomeController(ICustomerService customerService,IPriceUpdater priceUpdater,
             IMailService mailService, ICountryService countryService, IPriceService priceService, IOrganisationService organisationService,
-            Helper helper,IContentService contentService)
+            IContentService contentService)
         {
             this.customerService = customerService;
-            this.officeService = officeService;
             this.countryService = countryService;
             this.mailService = mailService;
             this.priceService = priceService;
             this.organisationService = organisationService;
             this.priceUpdater = priceUpdater;
-            this.helper = helper;
             this.contentService = contentService;
         }
 
@@ -66,7 +62,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                 IsLoggedIn = SessionHelper.Customer != null 
             };
 
-            helper.FillCountries(windowedModel.Countries,59);
+            new Helper().FillCountries(windowedModel.Countries,59);
 
             return View(windowedModel);
         }
@@ -312,7 +308,7 @@ namespace LetterAmazer.Websites.Client.Controllers
         {
             RegisterViewModel model = new RegisterViewModel();
 
-            helper.FillCountries(model.Countries,59);
+            new Helper().FillCountries(model.Countries,59);
 
             return View(model);
         }
@@ -468,7 +464,7 @@ namespace LetterAmazer.Websites.Client.Controllers
         {
             
             PriceViewModel prices = new PriceViewModel();
-           helper.FillCountries(prices.Countries,standardCountryId);
+           new Helper().FillCountries(prices.Countries,standardCountryId);
             
             prices.SelectedLetterSizes = ControllerHelpers.GetEnumSelectList<LetterSize>().ToList();
             return prices;

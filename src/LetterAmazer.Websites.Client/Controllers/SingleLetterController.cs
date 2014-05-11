@@ -48,11 +48,10 @@ namespace LetterAmazer.Websites.Client.Controllers
 
         private IOfficeService officeService;
         private IOfficeProductService officeProductService;
-        private Helper helper;
 
         public SingleLetterController(IOrderService orderService, IPaymentService paymentService,
             ICountryService countryService, IPriceService priceService,ICustomerService customerService, IOfficeService officeService, 
-            IOfficeProductService officeProductService, ICheckoutService checkoutService,ISessionService sessionService, Helper helper)
+            IOfficeProductService officeProductService, ICheckoutService checkoutService,ISessionService sessionService)
         {
             this.orderService = orderService;
             this.paymentService = paymentService;
@@ -63,7 +62,6 @@ namespace LetterAmazer.Websites.Client.Controllers
             this.officeService = officeService;
             this.checkoutService = checkoutService;
             this.sessionService = sessionService;
-            this.helper = helper;
         }
 
         [HttpGet]
@@ -87,7 +85,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                 LetterType = (int)LetterType.Pres
             };
 
-            helper.FillCountries(model.Countries);
+            new Helper().FillCountries(model.Countries);
 
             // TODO: maybe cleanup?
             var countries = countryService.GetCountryBySpecificaiton(new CountrySpecification()
@@ -233,6 +231,7 @@ namespace LetterAmazer.Websites.Client.Controllers
             foreach (var uploadedFileKey in uploadFileKey2)
             {
                 price.AddPrice(GetPriceFromFile(uploadedFileKey,countryId));
+                price.VatPercentage = SessionHelper.Customer != null ? SessionHelper.Customer.VatPercentage():25;
             }
             return price;
         }
@@ -321,7 +320,7 @@ namespace LetterAmazer.Websites.Client.Controllers
             //// TODO: stop being a fuck-tard
             model.UploadFile = model.UploadFile[0].Split(',');
             
-            var order = new SingleLetterController(orderService, paymentService, countryService, priceService, customerService, officeService, officeProductService,checkoutService,sessionService,helper).
+            var order = new SingleLetterController(orderService, paymentService, countryService, priceService, customerService, officeService, officeProductService,checkoutService,sessionService).
                 CreateOrderFromViewModel(model);
 
             var updated_order = orderService.Create(order);
