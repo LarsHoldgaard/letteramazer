@@ -14,6 +14,7 @@ using LetterAmazer.Business.Services.Domain.Pricing;
 using LetterAmazer.Business.Services.Domain.Products.ProductDetails;
 using LetterAmazer.Business.Utils.Helpers;
 using LetterAmazer.Websites.Client.Attributes;
+using LetterAmazer.Websites.Client.Helpers;
 using LetterAmazer.Websites.Client.ViewModels;
 using System;
 using System.Web.Mvc;
@@ -38,11 +39,11 @@ namespace LetterAmazer.Websites.Client.Controllers
         private IPriceService priceService;
         private IOrganisationService organisationService;
         private IPriceUpdater priceUpdater;
-        private IDeliveryJobService deliveryJobService;
+        private Helper helper;
         private IContentService contentService;
         public HomeController(ICustomerService customerService,IOfficeService officeService,IPriceUpdater priceUpdater,
             IMailService mailService, ICountryService countryService, IPriceService priceService, IOrganisationService organisationService,
-            IDeliveryJobService deliveryJobService,IContentService contentService)
+            Helper helper,IContentService contentService)
         {
             this.customerService = customerService;
             this.officeService = officeService;
@@ -51,7 +52,7 @@ namespace LetterAmazer.Websites.Client.Controllers
             this.priceService = priceService;
             this.organisationService = organisationService;
             this.priceUpdater = priceUpdater;
-            this.deliveryJobService = deliveryJobService;
+            this.helper = helper;
             this.contentService = contentService;
         }
 
@@ -65,36 +66,15 @@ namespace LetterAmazer.Websites.Client.Controllers
                 IsLoggedIn = SessionHelper.Customer != null 
             };
 
-            // TODO: move to country/helper layer
-            var countries = countryService.GetCountryBySpecificaiton(new CountrySpecification()
-            {
-                Take = 999
-            });
-
-            foreach (var country in countries)
-            {
-                var selectedItem = new SelectListItem()
-                {
-                    Text = country.Name,
-                    Value = country.Id.ToString()
-                };
-
-                if (country.Id == 59)
-                {
-                    selectedItem.Selected = true;
-                }
-
-                windowedModel.Countries.Add(selectedItem);
-            }
+            helper.FillCountries(windowedModel.Countries,59);
 
             return View(windowedModel);
         }
 
         public ActionResult Faq()
         {
-            
+            // TODO: Give up this kind of freedom ;) 
             priceUpdater.Execute();
-            //deliveryJobService.Execute(false);
             return View();
         }
 
@@ -154,10 +134,11 @@ namespace LetterAmazer.Websites.Client.Controllers
         {
             var prices = buildPriceViewModel(59); // ID of Denmark. TODO: some IP to countryID?
 
-            // TODO: move to country/helper layer
+            
             PriceOverviewViewModel priceOverviewViewModel = new PriceOverviewViewModel();
             priceOverviewViewModel.PriceViewModel = prices;
 
+            
             var countries = countryService.GetCountryBySpecificaiton(new CountrySpecification()
             {
                 Take = 999
@@ -331,27 +312,7 @@ namespace LetterAmazer.Websites.Client.Controllers
         {
             RegisterViewModel model = new RegisterViewModel();
 
-            // TODO: move to country/helper layer
-            var countries = countryService.GetCountryBySpecificaiton(new CountrySpecification()
-            {
-                Take = 999
-            });
-
-            foreach (var country in countries)
-            {
-                var selectedItem = new SelectListItem()
-                {
-                    Text = country.Name,
-                    Value = country.Id.ToString()
-                };
-
-                if (country.Id == 59)
-                {
-                    selectedItem.Selected = true;
-                }
-
-                model.Countries.Add(selectedItem);
-            }
+            helper.FillCountries(model.Countries,59);
 
             return View(model);
         }
@@ -505,28 +466,10 @@ namespace LetterAmazer.Websites.Client.Controllers
 
         private PriceViewModel buildPriceViewModel(int standardCountryId)
         {
-            var countries = countryService.GetCountryBySpecificaiton(new CountrySpecification()
-            {
-                Take = 999
-            });
-
+            
             PriceViewModel prices = new PriceViewModel();
-            foreach (var country in countries)
-            {
-                var selectedItem = new SelectListItem()
-                {
-                    Text = country.Name,
-                    Value = country.Id.ToString(),
-                };
-
-                if (country.Id == standardCountryId)
-                {
-                    selectedItem.Selected = true;
-                }
-
-                prices.Countries.Add(selectedItem);
-            }
-
+           helper.FillCountries(prices.Countries,standardCountryId);
+            
             prices.SelectedLetterSizes = ControllerHelpers.GetEnumSelectList<LetterSize>().ToList();
             return prices;
         }

@@ -18,6 +18,7 @@ using LetterAmazer.Business.Services.Domain.Products.ProductDetails;
 using LetterAmazer.Business.Services.Domain.Session;
 using LetterAmazer.Business.Utils.Helpers;
 using LetterAmazer.Websites.Client.Attributes;
+using LetterAmazer.Websites.Client.Helpers;
 using LetterAmazer.Websites.Client.ViewModels;
 using LetterAmazer.Websites.Client.Extensions;
 using LetterAmazer.Websites.Client.ViewModels.Shared.Utils;
@@ -26,6 +27,7 @@ using System;
 using System.Web.Mvc;
 using LetterAmazer.Websites.Client.ViewModels.User;
 using LetterAmazer.Business.Services.Domain.Organisation;
+using Microsoft.Web.Infrastructure;
 
 namespace LetterAmazer.Websites.Client.Controllers
 {
@@ -46,13 +48,14 @@ namespace LetterAmazer.Websites.Client.Controllers
         private IOfficeProductService officeProductService;
         private ICheckoutService checkoutService;
         private ISessionService sessionService;
+        private Helper helper;
 
         public UserController(IOrderService orderService, IPaymentService paymentService,
             ILetterService letterService, ICountryService countryService,
             IPriceService priceService,
             IOrganisationService organisationService, IMailService mailService, IInvoiceService invoiceService,
             ICustomerService customerService,IOfficeService officeService, IOfficeProductService officeProductService,
-            ICheckoutService checkoutService,ISessionService sessionService)
+            ICheckoutService checkoutService,ISessionService sessionService, Helper helper)
         {
             this.orderService = orderService;
             this.paymentService = paymentService;
@@ -67,6 +70,7 @@ namespace LetterAmazer.Websites.Client.Controllers
             this.officeService = officeService;
             this.checkoutService = checkoutService;
             this.sessionService = sessionService;
+            this.helper = helper;
         }
 
         public ActionResult Index(int? page, DashboardViewModel model)
@@ -94,26 +98,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                 IsLoggedIn = SessionHelper.Customer != null
             };
 
-            var countries = countryService.GetCountryBySpecificaiton(new CountrySpecification()
-            {
-                Take = 999
-            });
-
-            foreach (var country in countries)
-            {
-                var selectedItem = new SelectListItem()
-                {
-                    Text = country.Name,
-                    Value = country.Id.ToString()
-                };
-
-                if (country.Id == 59)
-                {
-                    selectedItem.Selected = true;
-                }
-
-                windowedModel.Countries.Add(selectedItem);
-            }
+            helper.FillCountries(windowedModel.Countries,59);
 
             return View(windowedModel);
         }
@@ -143,22 +128,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                 model.HasCredits = true;
             }
 
-
-            var countries = countryService.GetCountryBySpecificaiton(new CountrySpecification()
-            {
-                Take = 999
-            });
-
-            foreach (var country in countries)
-            {
-                var selectedItem = new SelectListItem()
-                {
-                    Text = country.Name,
-                    Value = country.Id.ToString(),
-                };
-
-                model.Countries.Add(selectedItem);
-            }
+            helper.FillCountries(model.Countries);
 
             return View(model);
         }
@@ -170,7 +140,7 @@ namespace LetterAmazer.Websites.Client.Controllers
             {
                 ValidateInput();
 
-                var order = new SingleLetterController(orderService, paymentService, countryService, priceService, customerService,officeService, officeProductService,checkoutService,sessionService).CreateOrderFromViewModel(model);
+                var order = new SingleLetterController(orderService, paymentService, countryService, priceService, customerService,officeService, officeProductService,checkoutService,sessionService,helper).CreateOrderFromViewModel(model);
 
                 var storedOrder = orderService.Create(order);
 
@@ -203,26 +173,7 @@ namespace LetterAmazer.Websites.Client.Controllers
         {
             var organisationViewModel = new EditOrganisationViewModel();
 
-            var countries = countryService.GetCountryBySpecificaiton(new CountrySpecification()
-            {
-                Take = 999
-            });
-
-            foreach (var country in countries)
-            {
-                var selectedItem = new SelectListItem()
-                {
-                    Text = country.Name,
-                    Value = country.Id.ToString(),
-                };
-
-                if (country.Id == SessionHelper.Customer.Organisation.Address.Country.Id)
-                {
-                    selectedItem.Selected = true;
-                }
-
-                organisationViewModel.Countries.Add(selectedItem);
-            }
+            helper.FillCountries(organisationViewModel.Countries, SessionHelper.Customer.Organisation.Address.Country.Id);
 
             var organisationId = SessionHelper.Customer.Organisation.Id;
             var organisation = organisationService.GetOrganisationById(organisationId);
@@ -271,27 +222,8 @@ namespace LetterAmazer.Websites.Client.Controllers
         {
             var orgView = new CreateOrganisationViewModel();
 
-            var countries = countryService.GetCountryBySpecificaiton(new CountrySpecification()
-            {
-                Take = 999
-            });
-
-            foreach (var country in countries)
-            {
-                var selectedItem = new SelectListItem()
-                {
-                    Text = country.Name,
-                    Value = country.Id.ToString(),
-                };
-
-                if (country.Id == SessionHelper.Customer.PreferedCountryId)
-                {
-                    selectedItem.Selected = true;
-                }
-
-                orgView.Countries.Add(selectedItem);
-            }
-
+            helper.FillCountries(orgView.Countries, SessionHelper.Customer.PreferedCountryId);
+            
             return View(orgView);
         }
 
@@ -375,26 +307,7 @@ namespace LetterAmazer.Websites.Client.Controllers
             editViewModel.Email = customer.Email;
 
 
-            var countries = countryService.GetCountryBySpecificaiton(new CountrySpecification()
-            {
-                Take = 999
-            });
-
-            foreach (var country in countries)
-            {
-                var selectedItem = new SelectListItem()
-                {
-                    Text = country.Name,
-                    Value = country.Id.ToString()
-                };
-
-                if (country.Id == SessionHelper.Customer.PreferedCountryId)
-                {
-                    selectedItem.Selected = true;
-                }
-
-                editViewModel.Countries.Add(selectedItem);
-            }
+            helper.FillCountries(editViewModel.Countries,SessionHelper.Customer.PreferedCountryId);
 
             editViewModel.LetterTypes = ControllerHelpers.GetEnumSelectList<LetterType>().ToList();
 
@@ -846,26 +759,8 @@ namespace LetterAmazer.Websites.Client.Controllers
             }
             model.OrganisationId = organisation.Id;
 
-            var countries = countryService.GetCountryBySpecificaiton(new CountrySpecification()
-            {
-                Take = 999
-            });
-
-            foreach (var country in countries)
-            {
-                var selectedItem = new SelectListItem()
-                {
-                    Text = country.Name,
-                    Value = country.Id.ToString(),
-                };
-
-                if (country.Id == SessionHelper.Customer.PreferedCountryId)
-                {
-                    selectedItem.Selected = true;
-                }
-
-                model.NewContact.Countries.Add(selectedItem);
-            }
+            helper.FillCountries(model.NewContact.Countries,SessionHelper.Customer.PreferedCountryId);
+         
         }
 
         private ContactViewModel getContactViewModel(AddressList addressList)
@@ -895,26 +790,9 @@ namespace LetterAmazer.Websites.Client.Controllers
             model.State = addressList.AddressInfo.State;
             model.OrganisationName = addressList.AddressInfo.Organisation;
             model.AddressListId = addressList.Id;
-            var countries = countryService.GetCountryBySpecificaiton(new CountrySpecification()
-            {
-                Take = 999
-            });
 
-            foreach (var country in countries)
-            {
-                var selectedItem = new SelectListItem()
-                {
-                    Text = country.Name,
-                    Value = country.Id.ToString()
-                };
+            helper.FillCountries(model.Countries,addressList.AddressInfo.Country.Id);
 
-                if (country.Id == addressList.AddressInfo.Country.Id)
-                {
-                    selectedItem.Selected = true;
-                }
-
-                model.Countries.Add(selectedItem);
-            }
 
             return model;
         }

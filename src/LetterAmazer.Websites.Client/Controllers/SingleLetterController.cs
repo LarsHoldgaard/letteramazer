@@ -19,6 +19,7 @@ using LetterAmazer.Business.Services.Domain.Products.ProductDetails;
 using LetterAmazer.Business.Services.Domain.Session;
 using LetterAmazer.Business.Services.Exceptions;
 using LetterAmazer.Business.Thumbnail;
+using LetterAmazer.Websites.Client.Helpers;
 using LetterAmazer.Websites.Client.ViewModels.Home;
 using LetterAmazer.Websites.Client.ViewModels.User;
 using log4net;
@@ -47,20 +48,22 @@ namespace LetterAmazer.Websites.Client.Controllers
 
         private IOfficeService officeService;
         private IOfficeProductService officeProductService;
+        private Helper helper;
+
         public SingleLetterController(IOrderService orderService, IPaymentService paymentService,
-            ICountryService countryService, IPriceService priceService,
-            ICustomerService customerService, IOfficeService officeService, IOfficeProductService officeProductService, ICheckoutService checkoutService,ISessionService sessionService)
+            ICountryService countryService, IPriceService priceService,ICustomerService customerService, IOfficeService officeService, 
+            IOfficeProductService officeProductService, ICheckoutService checkoutService,ISessionService sessionService, Helper helper)
         {
             this.orderService = orderService;
             this.paymentService = paymentService;
             this.countryService = countryService;
             this.priceService = priceService;
             this.customerService = customerService;
-
             this.officeProductService = officeProductService;
             this.officeService = officeService;
             this.checkoutService = checkoutService;
             this.sessionService = sessionService;
+            this.helper = helper;
         }
 
         [HttpGet]
@@ -78,18 +81,19 @@ namespace LetterAmazer.Websites.Client.Controllers
                 }
             }
 
-            // TODO: move to helper/country layer
             CreateSingleLetterModel model = new CreateSingleLetterModel()
             {
                 PaymentMethodId = 1,
                 LetterType = (int)LetterType.Pres
             };
 
+            helper.FillCountries(model.Countries);
+
+            // TODO: maybe cleanup?
             var countries = countryService.GetCountryBySpecificaiton(new CountrySpecification()
             {
                 Take = 999
             });
-
             foreach (var country in countries)
             {
                 model.CountryPriceList.CountryPriceViewModel.Add(new CountryPriceViewModel()
@@ -97,14 +101,6 @@ namespace LetterAmazer.Websites.Client.Controllers
                     Alias = country.Alias,
                     Name = country.Name
                 });
-
-                var selectedItem = new SelectListItem()
-                {
-                    Text = country.Name,
-                    Value = country.Id.ToString(),
-                };
-
-                model.Countries.Add(selectedItem);
             }
 
             return View(model);
@@ -325,7 +321,7 @@ namespace LetterAmazer.Websites.Client.Controllers
             //// TODO: stop being a fuck-tard
             model.UploadFile = model.UploadFile[0].Split(',');
             
-            var order = new SingleLetterController(orderService, paymentService, countryService, priceService, customerService, officeService, officeProductService,checkoutService,sessionService).
+            var order = new SingleLetterController(orderService, paymentService, countryService, priceService, customerService, officeService, officeProductService,checkoutService,sessionService,helper).
                 CreateOrderFromViewModel(model);
 
             var updated_order = orderService.Create(order);
