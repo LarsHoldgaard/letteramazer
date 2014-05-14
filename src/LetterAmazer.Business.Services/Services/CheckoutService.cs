@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using LetterAmazer.Business.Services.Domain.Checkout;
 using LetterAmazer.Business.Services.Domain.Countries;
 using LetterAmazer.Business.Services.Domain.Customers;
+using LetterAmazer.Business.Services.Domain.Files;
 using LetterAmazer.Business.Services.Domain.OfficeProducts;
 using LetterAmazer.Business.Services.Domain.Offices;
 using LetterAmazer.Business.Services.Domain.Orders;
@@ -23,15 +24,17 @@ namespace LetterAmazer.Business.Services.Services
         private IPriceService priceService;
         private ICustomerService customerService;
         private IOfficeProductService officeProductService;
+        private IFileService fileService;
 
         public CheckoutService(ICountryService countryService,IPriceService priceService,
             ICustomerService customerService,
-            IOfficeProductService officeProductService)
+            IOfficeProductService officeProductService,IFileService fileService)
         {
             this.countryService = countryService;
             this.priceService = priceService;
             this.customerService = customerService;
             this.officeProductService = officeProductService;
+            this.fileService = fileService;
         }
 
         public Order ConvertCheckout(Checkout checkout)

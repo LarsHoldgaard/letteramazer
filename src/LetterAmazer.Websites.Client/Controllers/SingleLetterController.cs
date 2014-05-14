@@ -8,6 +8,7 @@ using LetterAmazer.Business.Services.Domain.Checkout;
 using LetterAmazer.Business.Services.Domain.Countries;
 using LetterAmazer.Business.Services.Domain.Customers;
 using LetterAmazer.Business.Services.Domain.DeliveryJobs;
+using LetterAmazer.Business.Services.Domain.Files;
 using LetterAmazer.Business.Services.Domain.Letters;
 using LetterAmazer.Business.Services.Domain.OfficeProducts;
 using LetterAmazer.Business.Services.Domain.Offices;
@@ -48,10 +49,11 @@ namespace LetterAmazer.Websites.Client.Controllers
 
         private IOfficeService officeService;
         private IOfficeProductService officeProductService;
+        private IFileService fileService;
 
         public SingleLetterController(IOrderService orderService, IPaymentService paymentService,
             ICountryService countryService, IPriceService priceService,ICustomerService customerService, IOfficeService officeService, 
-            IOfficeProductService officeProductService, ICheckoutService checkoutService,ISessionService sessionService)
+            IOfficeProductService officeProductService, ICheckoutService checkoutService,ISessionService sessionService, IFileService fileService)
         {
             this.orderService = orderService;
             this.paymentService = paymentService;
@@ -62,11 +64,15 @@ namespace LetterAmazer.Websites.Client.Controllers
             this.officeService = officeService;
             this.checkoutService = checkoutService;
             this.sessionService = sessionService;
+            this.fileService = fileService;
         }
 
         [HttpGet]
         public ActionResult Index()
         {
+        //    var val = fileService.Get("2014/5/503e17f9-c6d0-49dd-a38e-6fe2e0860f28.pdf");
+        //    return File(val, "application/pdf");
+
             if (SessionHelper.Customer != null)
             {
                 if (SessionHelper.Customer.CreditsLeft > 0.0m)
@@ -320,7 +326,7 @@ namespace LetterAmazer.Websites.Client.Controllers
             //// TODO: stop being a fuck-tard
             model.UploadFile = model.UploadFile[0].Split(',');
             
-            var order = new SingleLetterController(orderService, paymentService, countryService, priceService, customerService, officeService, officeProductService,checkoutService,sessionService).
+            var order = new SingleLetterController(orderService, paymentService, countryService, priceService, customerService, officeService, officeProductService,checkoutService,sessionService,null).
                 CreateOrderFromViewModel(model);
 
             var updated_order = orderService.Create(order);
