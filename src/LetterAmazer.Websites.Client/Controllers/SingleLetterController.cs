@@ -120,11 +120,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                 return new FileStreamResult(new MemoryStream(), "image/jpeg");
             }
 
-            var basePath = Server.MapPath(ConfigurationManager.AppSettings["LetterAmazer.Settings.StoreThumbnail"]);
-            uploadFileKey[0] = PathHelper.GetAbsoluteFile(uploadFileKey[0]);
-            var thumbnailService = new ThumbnailGenerator(basePath);
-            var byteData = System.IO.File.ReadAllBytes(uploadFileKey[0]);
-            var data = thumbnailService.GetThumbnailFromA4(byteData);
+            var data = fileService.Get(stringPath);
 
             return new FileStreamResult(new MemoryStream(data), "image/jpeg");
         }
@@ -165,16 +161,11 @@ namespace LetterAmazer.Websites.Client.Controllers
         {
             try
             {
-                // TODO: move to service layer
                 HttpPostedFileBase uploadFile = Request.Files[0];
                 string keyName = GetUploadFileName(uploadFile.FileName);
-                string filename = PathHelper.GetAbsoluteFile(keyName);
-                string path = Path.GetDirectoryName(filename);
-                if (!Directory.Exists(path))
-                {
-                    Directory.CreateDirectory(path);
-                }
-                uploadFile.SaveAs(filename);
+
+                fileService.Put(Business.Services.Utils.Helpers.GetBytes(uploadFile.InputStream), keyName);
+                
                 return Json(new
                 {
                     status = "success",
@@ -194,7 +185,7 @@ namespace LetterAmazer.Websites.Client.Controllers
         {
             try
             {
-                //// TODO: stop being a fuck-tard
+                //// TODO: stop being a fuck-tard and dont call this json removal method
                 string[] uploadFileKey2 = HelperMethods.RemoveJsonFromEntries(uploadFileKey);
 
                 Price price = GetPricesFromFiles(uploadFileKey2, country);

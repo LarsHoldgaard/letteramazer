@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LetterAmazer.Business.Services.Domain.Countries;
+using LetterAmazer.Business.Services.Services;
 using LetterAmazer.Business.Utils.Helpers;
 
 namespace LetterAmazer.Business.Services.Domain.Letters
@@ -17,8 +18,9 @@ namespace LetterAmazer.Business.Services.Domain.Letters
         {
             get
             {
-                var path = PathHelper.GetAbsoluteFile(Path);
-                return File.ReadAllBytes(path);
+                // TODO: not do this, this is insane
+                var fileService = new FileService();
+                return fileService.Get(Path);
             }
         }
 
@@ -28,7 +30,7 @@ namespace LetterAmazer.Business.Services.Domain.Letters
         {
             get
             {
-                return PdfHelper.GetPagesCount(PathHelper.GetAbsoluteFile(Path));
+                return PdfHelper.GetPagesCount(Content);
             }
         }
 

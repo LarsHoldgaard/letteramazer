@@ -35,9 +35,9 @@ namespace LetterAmazer.Business.Utils.Helpers
         }
 
 
-        public static int GetPagesCount(string path)
+        public static int GetPagesCount(byte[] pdfFile)
         {
-            var pdfReader = new PdfReader(path);
+            var pdfReader = new PdfReader(pdfFile);
             int numberOfPages = pdfReader.NumberOfPages;
             pdfReader.Close();
             return numberOfPages;

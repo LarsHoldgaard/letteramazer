@@ -12,6 +12,7 @@ using Amazon.S3.Model;
 using iTextSharp.text.pdf.crypto;
 using LetterAmazer.Business.Services.Domain.Files;
 using LetterAmazer.Business.Services.Domain.Products.ProductDetails;
+using LetterAmazer.Business.Services.Utils;
 using LetterAmazer.Business.Utils.Helpers;
 
 namespace LetterAmazer.Business.Services.Services
@@ -30,14 +31,7 @@ namespace LetterAmazer.Business.Services.Services
 
         }
 
-        public static byte[] ReadFully(Stream input)
-        {
-            using (MemoryStream ms = new MemoryStream())
-            {
-                input.CopyTo(ms);
-                return ms.ToArray();
-            }
-        }
+
 
         public byte[] Get(string path)
         {
@@ -48,7 +42,7 @@ namespace LetterAmazer.Business.Services.Services
                     BucketName = bucketname,
                     Key = path
                 });
-                return ReadFully(obj.ResponseStream);
+                return Helpers.GetBytes(obj.ResponseStream);
             }
         }
 
