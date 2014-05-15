@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using LetterAmazer.Business.Services.Domain.Partners;
+using LetterAmazer.Business.Services.Domain.Partners.PartnerJsonDto;
+using Newtonsoft.Json;
 
 namespace LetterAmazer.Business.Services.Services.Partners.Invoice
 {
@@ -26,24 +28,48 @@ namespace LetterAmazer.Business.Services.Services.Partners.Invoice
 
         public List<PartnerInvoice> GetBySpecification(PartnerInvoiceSpecification partnerInvoiceSpecification)
         {
-            var invoiceApiUrl = string.Format("{0}/{1}", apiUrl, "invoices/booked");
+            var invoiceApiUrl = string.Format("{0}/{1}", apiUrl, "invoices/booked?pageSize=999");
 
-            var invoices = getJsonStringFromRequest(buildEconomicsHttpRequest(invoiceApiUrl));
+            var invoiceString = getJsonStringFromRequest(buildEconomicsHttpRequest(invoiceApiUrl));
+            var economicsInvoices = JsonConvert.DeserializeObject<EconomicsPartnerInvoices>(invoiceString);
+            var collection =
+                economicsInvoices.collection.Where(
+                    c => c.date >= partnerInvoiceSpecification.From && c.date <= partnerInvoiceSpecification.To).OrderByDescending(c=>c.date);
 
-            return new List<PartnerInvoice>();
+            var invoices = new List<PartnerInvoice>();
+            foreach (var economicInvoice in collection)
+            {
+                invoices.Add(new PartnerInvoice()
+                {
+                    DateCreated = economicInvoice.date,
+                    PdfUrl = economicInvoice.pdf,
+                    Id = economicInvoice.orderId
+                });
+            }
+
+            return invoices;
         }
 
         
 
         private string getJsonStringFromRequest(HttpWebRequest request)
         {
-            var response = request.GetResponse();
-            using (Stream stream = response.GetResponseStream())
+            try
             {
-                StreamReader reader = new StreamReader(stream, Encoding.UTF8);
-                String responseString = reader.ReadToEnd();
-                return responseString;
+                var response = request.GetResponse();
+                using (Stream stream = response.GetResponseStream())
+                {
+                    StreamReader reader = new StreamReader(stream, Encoding.UTF8);
+                    String responseString = reader.ReadToEnd();
+                    return responseString;
+                }
             }
+            catch (Exception)
+            {
+                // TODO: give back some error - we know economics can be down from time to time :p
+                throw new Exception();
+            }
+            
         }
 
         private HttpWebRequest buildEconomicsHttpRequest(string url)
