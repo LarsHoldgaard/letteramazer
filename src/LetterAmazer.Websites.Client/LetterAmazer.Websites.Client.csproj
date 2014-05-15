@@ -164,6 +164,7 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CallbackController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\PartnerController.cs" />
     <Compile Include="Controllers\PaymentController.cs" />
     <Compile Include="Controllers\SingleLetterController.cs" />
     <Compile Include="Controllers\UserController.cs" />
@@ -195,6 +196,7 @@
     <Compile Include="ViewModels\Home\SendALetterToViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\OrderDetailViewModel.cs" />
+    <Compile Include="ViewModels\Partner\PartnerInvoiceOverviewViewModel.cs" />
     <Compile Include="ViewModels\Payment\InvoiceViewModel.cs" />
     <Compile Include="ViewModels\Home\PriceViewModel.cs" />
     <Compile Include="ViewModels\DashboardViewModel.cs" />
@@ -685,6 +687,7 @@
     <Content Include="Views\Shared\_countryPricesOverview.cshtml" />
     <Content Include="Views\Home\GetSendALetterTo.cshtml" />
     <Content Include="Views\Shared\_sendLettersToOverview.cshtml" />
+    <Content Include="Views\Partner\Economic.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

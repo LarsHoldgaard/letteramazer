@@ -33,6 +33,12 @@ namespace LetterAmazer.Websites.Client
                 defaults: new { controller = "Payment", action = "Invoice", id = UrlParameter.Optional }
             );
 
+            routes.MapRoute(
+                name: "Partners",
+                url: "partner/{action}/{id}",
+                defaults: new { controller = "Partner", action = "Index", id = UrlParameter.Optional }
+            );
+
 
             routes.MapRoute(
                 name: "User",

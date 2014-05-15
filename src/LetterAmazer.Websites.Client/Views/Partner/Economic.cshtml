@@ -1,0 +1,40 @@
+﻿@model LetterAmazer.Websites.Client.ViewModels.Partner.PartnerInvoiceOverviewViewModel
+
+<h1>E-conomic invoices</h1>
+
+From <input id="fromDateInput" type="date" value="@Model.From.ToString("dd-MM-yyyy")" />
+to <input id="toDateInput" type="date" value="@Model.To.ToString("dd-MM-yyyy")" />
+<input type="submit" value="Search" class="btn-sm btn-success" />
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>
+                Id
+            </th>
+            <th>
+                Date
+            </th>
+            <th>
+                Download
+            </th>
+
+        </tr>
+    </thead>
+
+    @foreach (var item in Model.PartnerInvoices)
+    {
+        <tr>
+            <td>
+                @item.Id
+            </td>
+            <td>
+                @item.DateCreated
+            </td>
+            <td>
+                <a href="@item.PdfUrl" target="_blank">Download PDF</a>
+            </td>
+        </tr>
+    }
+
+</table>
