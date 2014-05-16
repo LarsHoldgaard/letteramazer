@@ -225,10 +225,11 @@
     <Content Include="Content\css\sections\site\Sidewide.css">
       <DependentUpon>Sidewide.less</DependentUpon>
     </Content>
-    <Content Include="Content\images\1383510546_Forward.png" />
+    <Content Include="Content\css\sections\site\Variables.css">
+      <DependentUpon>Variables.less</DependentUpon>
+    </Content>
     <Content Include="Content\images\1455878_10152199113254113_90765289_n.jpg" />
     <Content Include="Content\images\1623763_10151813235096886_1787855136_n.jpg" />
-    <Content Include="Content\images\ajax-loader.gif" />
     <Content Include="Content\images\icons\1395498076_130.png" />
     <Content Include="Content\images\icons\1395498087_cloud-upload.png" />
     <Content Include="Content\images\icons\1395514602_circle-add.png" />
@@ -236,19 +237,13 @@
     <Content Include="Content\images\icons\1395523082_document_text_accept.png" />
     <Content Include="Content\images\icons\1395523084_icon-ios7-gear.png" />
     <Content Include="Content\images\icons\1395600604_print.png" />
+    <Content Include="Content\images\icons\ajax-loader.gif" />
     <Content Include="Content\images\icons\automation.png" />
+    <Content Include="Content\images\icons\pdf-icon.png" />
     <Content Include="Content\images\icons\pressed.jpg" />
+    <Content Include="Content\images\icons\uploadpdf.png" />
     <Content Include="Content\images\icons\windowed_envelope.jpg" />
-    <Content Include="Content\images\letter.png" />
-    <Content Include="Content\images\letteramazer.png" />
-    <Content Include="Content\images\letteramazer_small.png" />
-    <Content Include="Content\images\letteramazer_small_white.png" />
-    <Content Include="Content\images\output_modified.jpg" />
-    <Content Include="Content\images\pdf-icon.png" />
-    <Content Include="Content\images\printer_cartoon.gif" />
-    <Content Include="Content\images\stamp.png" />
-    <Content Include="Content\images\uploadpdf.png" />
-    <Content Include="Content\images\writetext.png" />
+    <Content Include="Content\images\icons\writetext.png" />
     <Content Include="Content\plugins\bootstrap\bootstrap-theme.css" />
     <Content Include="Content\plugins\bootstrap\bootstrap-theme.min.css" />
     <Content Include="Content\plugins\bootstrap\bootstrap.css" />
