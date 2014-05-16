@@ -85,7 +85,7 @@
                 
                 <h4>Price</h4>
                 Price ex. VAT: @Math.Round(letter.Price.PriceExVat,2) EUR<br/>
-                Vat (@(letter.Price.VatPercentage * 100) %): @Math.Round(Model.Price.VatPrice,2) EUR<br/>
+                Vat (@Math.Round((letter.Price.VatPercentage * 100),2) %): @Math.Round(letter.Price.VatPrice,2) EUR<br/>
                 Total: @Math.Round(letter.Price.Total, 2) EUR<br/>
             </div>
         </div> 

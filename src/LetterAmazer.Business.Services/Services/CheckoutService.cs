@@ -60,7 +60,8 @@ namespace LetterAmazer.Business.Services.Services
                 var letterPrice = priceService.GetPriceBySpecification(new PriceSpecification()
                 {
                     OfficeProductId = letter.OfficeProductId,
-                    UserId = checkout.UserId
+                    UserId = checkout.UserId,
+                    PageCount = letter.Letter.LetterContent.PageCount
                 });
 
                 order.OrderLines.Add(new OrderLine()
