@@ -122,6 +122,10 @@
     <Compile Include="Domain\OfficeProducts\OfficeProductSpecification.cs" />
     <Compile Include="Domain\Organisation\AddressList.cs" />
     <Compile Include="Domain\Organisation\OrganisationSettings.cs" />
+    <Compile Include="Domain\Partners\IPartnerInvoiceService.cs" />
+    <Compile Include="Domain\Partners\PartnerInvoice.cs" />
+    <Compile Include="Domain\Partners\PartnerInvoiceSpecification.cs" />
+    <Compile Include="Domain\Partners\PartnerJsonDto\EconomicsPartnerInvoices.cs" />
     <Compile Include="Domain\PriceUpdater\IPriceUpdater.cs" />
     <Compile Include="Domain\Pricing\PriceSpecification.cs" />
     <Compile Include="Domain\Pricing\ProductMatrixReferenceType.cs" />
@@ -159,6 +163,7 @@
     <Compile Include="Services\MailService.cs" />
     <Compile Include="Services\OfficeProductService.cs" />
     <Compile Include="Services\OrganisationService.cs" />
+    <Compile Include="Services\Partners\Invoice\EconomicInvoiceService.cs" />
     <Compile Include="Services\PriceUpdater.cs" />
     <Compile Include="Services\ProductMatrixService.cs" />
     <Compile Include="Domain\AddressInfos\AddressInfo.cs" />
@@ -333,6 +338,7 @@
   <ItemGroup>
     <None Include="Web References\com.postalmethods.api\PostalWS.disco" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
