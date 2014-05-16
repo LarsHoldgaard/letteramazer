@@ -244,10 +244,13 @@
     <Content Include="Content\images\icons\uploadpdf.png" />
     <Content Include="Content\images\icons\windowed_envelope.jpg" />
     <Content Include="Content\images\icons\writetext.png" />
-    <Content Include="Content\plugins\bootstrap\bootstrap-theme.css" />
-    <Content Include="Content\plugins\bootstrap\bootstrap-theme.min.css" />
-    <Content Include="Content\plugins\bootstrap\bootstrap.css" />
-    <Content Include="Content\plugins\bootstrap\bootstrap.min.css" />
+    <Content Include="Content\plugins\bootstrap\css\bootstrap-theme.css" />
+    <Content Include="Content\plugins\bootstrap\css\bootstrap-theme.min.css" />
+    <Content Include="Content\plugins\bootstrap\css\bootstrap.css" />
+    <Content Include="Content\plugins\bootstrap\css\bootstrap.min.css" />
+    <Content Include="Content\plugins\bootstrap\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\plugins\bootstrap\js\bootstrap.js" />
+    <Content Include="Content\plugins\bootstrap\js\bootstrap.min.js" />
     <Content Include="Content\themes\base\images\animated-overlay.gif" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
@@ -312,8 +315,6 @@
     <Content Include="Content\themes\base\minified\jquery.ui.tooltip.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
-    <Content Include="Scripts\bootstrap\bootstrap.js" />
-    <Content Include="Scripts\bootstrap\bootstrap.min.js" />
     <Content Include="Scripts\ckeditor\CHANGES.md" />
     <Content Include="Scripts\ckeditor\LICENSE.md" />
     <Content Include="Scripts\ckeditor\plugins\scayt\LICENSE.md" />
@@ -339,8 +340,11 @@
     <Content Include="Content\css\sections\site\Sidewide.css.map">
       <DependentUpon>Sidewide.css</DependentUpon>
     </Content>
-    <Content Include="Content\plugins\bootstrap\bootstrap-theme.css.map" />
-    <Content Include="Content\plugins\bootstrap\bootstrap.css.map" />
+    <Content Include="Content\plugins\bootstrap\css\bootstrap-theme.css.map" />
+    <Content Include="Content\plugins\bootstrap\css\bootstrap.css.map" />
+    <Content Include="Content\plugins\bootstrap\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\plugins\bootstrap\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Content\plugins\bootstrap\fonts\glyphicons-halflings-regular.woff" />
     <None Include="Properties\PublishProfiles\FileDEploy.pubxml" />
     <None Include="Properties\PublishProfiles\Stat.pubxml" />
     <None Include="Scripts\jquery-2.0.3.intellisense.js" />
