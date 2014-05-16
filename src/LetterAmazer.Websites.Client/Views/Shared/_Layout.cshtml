@@ -1,74 +1,61 @@
-﻿
-@{
+﻿@{
     var controller = ViewContext.RouteData.Values["controller"].ToString().ToLower();
     var action = ViewContext.RouteData.Values["action"].ToString().ToLower();
 }
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.PageTitle</title>
-    
+
     <link href="@Url.Content("~/Content/plugins/bootstrap/bootstrap.min.css")" rel="stylesheet" type="text/css" />
 
-    <link type="text/css" rel="stylesheet" href="http://fonts.googleapis.com/css?family=Kite+One" />
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
     @Styles.Render("~/Content/css")
 
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-    <script type="text/javascript" src="@Url.Content("~/Scripts/bootstrap/bootstrap.min.js")"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/plugins/bootstrap/js/bootstrap.min.js")"></script>
 
     @RenderSection("header", false)
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="/"><img src="/Content/images/letteramazer_small_white.png" height="25" class="navbar-left" /></a>
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li class="@(action == "index" && controller == "home" ? "active" : "")"><a href="@Url.Action("Index", "Home")">Send letters</a></li>
-                    <li class="@(action == "business" && controller == "home" ? "active" : "")"><a href="@Url.Action("Business", "Home")">Business</a></li>
-                    <li class="@(action == "api" && controller == "home" ? "active" : "")"><a href="@Url.Action("ApiInfo", "Home")">Api</a></li>
-                    <li class="@(action == "reseller" && controller == "home" ? "active" : "")"><a href="@Url.Action("Reseller", "Home")">Reseller</a></li>
-
-                    <li class="@(action == "pricing" && controller == "home" ? "active" : "")"><a href="@Url.Action("Pricing", "Home")">Pricing</a></li>
-                    
-                </ul>
-                @Html.Partial("Authentication")
-                
-            </div>
-        </div>
-    </div>
-
-
-    <div class="container container-top">
-        <div class="row">
-            <div class="col-lg-12">
-                @RenderBody()
-                
-             
-            </div>
-        </div>
-    </div>
-
-    <div class="container">
-        <hr />
-        <footer class="footer">
-            <a href="/"><img src="/Content/images/letteramazer_small.png" height="25" class="navbar-left" /></a>
-            <ul>
-                <li>@Html.ActionLink("About us", "About", "Home")</li>
-                <li>@Html.ActionLink("Contact us", "Contact", "Home")</li>
+    <header>
+        <a href="/">LetterAmazer</a>
+        
+        <nav>
+            <ul class="nav navbar-nav">
+                <li>
+                    Send letters
+                </li>
+                <li>
+                    Business
+                </li>
+                <li>
+                    API
+                </li>
+                <li>
+                    Pricing
+                </li>
+                <li>
+                    Account
+                </li>
             </ul>
-        </footer>
-    </div>
+        </nav>
+    </header>
+    
+    <main>
+    
+        @RenderBody()    
+    </main>
+
+    
+
+    
+    <footer>
+        
+    </footer>
+
 
     <script type="text/javascript">
         (function (i, s, o, g, r, a, m) {
