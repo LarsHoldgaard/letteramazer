@@ -253,7 +253,6 @@
     <Content Include="Content\plugins\bootstrap\bootstrap-theme.min.css" />
     <Content Include="Content\plugins\bootstrap\bootstrap.css" />
     <Content Include="Content\plugins\bootstrap\bootstrap.min.css" />
-    <Content Include="Content\sql\10-05-2014-Deletecoupons.txt" />
     <Content Include="Content\themes\base\images\animated-overlay.gif" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
