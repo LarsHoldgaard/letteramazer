@@ -113,8 +113,14 @@ namespace LetterAmazer.Websites.Client.Controllers
         [HttpGet]
         public FileResult GetThumbnail(string[] uploadFileKey)
         {
-            // TODO: move to service layer
             var stringPath = uploadFileKey[0];
+
+            // if more than one image, don't show it (for now)
+            if (stringPath.Contains(","))
+            {
+                return new FileStreamResult(new MemoryStream(), "image/jpeg");
+            }
+
             if (string.IsNullOrEmpty(stringPath))
             {
                 return new FileStreamResult(new MemoryStream(), "image/jpeg");
@@ -122,7 +128,12 @@ namespace LetterAmazer.Websites.Client.Controllers
 
             var data = fileService.Get(stringPath);
 
-            return new FileStreamResult(new MemoryStream(data), "image/jpeg");
+            var basePath = Server.MapPath(ConfigurationManager.AppSettings["LetterAmazer.Settings.StoreThumbnail"]);
+            var thumbnailService = new ThumbnailGenerator(basePath);
+            var imageData = thumbnailService.GetThumbnailFromA4(data);
+
+
+            return new FileStreamResult(new MemoryStream(imageData), "image/jpeg");
         }
 
         [HttpPost, ValidateInput(false)]
