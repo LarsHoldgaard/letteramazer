@@ -687,12 +687,7 @@
     <Content Include="Views\Shared\_sendLettersToOverview.cshtml" />
     <Content Include="Views\Partner\Economic.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
-    <Folder Include="UserData\PdfLetters\" />
-    <Folder Include="UserData\Thumbnail\" />
-    <Folder Include="UserData\Zip\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>
