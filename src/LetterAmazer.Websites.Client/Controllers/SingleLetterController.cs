@@ -8,6 +8,7 @@ using LetterAmazer.Business.Services.Domain.Checkout;
 using LetterAmazer.Business.Services.Domain.Countries;
 using LetterAmazer.Business.Services.Domain.Customers;
 using LetterAmazer.Business.Services.Domain.DeliveryJobs;
+using LetterAmazer.Business.Services.Domain.Files;
 using LetterAmazer.Business.Services.Domain.Letters;
 using LetterAmazer.Business.Services.Domain.OfficeProducts;
 using LetterAmazer.Business.Services.Domain.Offices;
@@ -48,10 +49,11 @@ namespace LetterAmazer.Websites.Client.Controllers
 
         private IOfficeService officeService;
         private IOfficeProductService officeProductService;
+        private IFileService fileService;
 
         public SingleLetterController(IOrderService orderService, IPaymentService paymentService,
             ICountryService countryService, IPriceService priceService,ICustomerService customerService, IOfficeService officeService, 
-            IOfficeProductService officeProductService, ICheckoutService checkoutService,ISessionService sessionService)
+            IOfficeProductService officeProductService, ICheckoutService checkoutService,ISessionService sessionService, IFileService fileService)
         {
             this.orderService = orderService;
             this.paymentService = paymentService;
@@ -62,11 +64,15 @@ namespace LetterAmazer.Websites.Client.Controllers
             this.officeService = officeService;
             this.checkoutService = checkoutService;
             this.sessionService = sessionService;
+            this.fileService = fileService;
         }
 
         [HttpGet]
         public ActionResult Index()
         {
+        //    var val = fileService.Get("2014/5/503e17f9-c6d0-49dd-a38e-6fe2e0860f28.pdf");
+        //    return File(val, "application/pdf");
+
             if (SessionHelper.Customer != null)
             {
                 if (SessionHelper.Customer.CreditsLeft > 0.0m)
@@ -107,20 +113,27 @@ namespace LetterAmazer.Websites.Client.Controllers
         [HttpGet]
         public FileResult GetThumbnail(string[] uploadFileKey)
         {
-            // TODO: move to service layer
             var stringPath = uploadFileKey[0];
+
+            // if more than one image, don't show it (for now)
+            if (stringPath.Contains(","))
+            {
+                return new FileStreamResult(new MemoryStream(), "image/jpeg");
+            }
+
             if (string.IsNullOrEmpty(stringPath))
             {
                 return new FileStreamResult(new MemoryStream(), "image/jpeg");
             }
 
-            var basePath = Server.MapPath(ConfigurationManager.AppSettings["LetterAmazer.Settings.StoreThumbnail"]);
-            uploadFileKey[0] = PathHelper.GetAbsoluteFile(uploadFileKey[0]);
-            var thumbnailService = new ThumbnailGenerator(basePath);
-            var byteData = System.IO.File.ReadAllBytes(uploadFileKey[0]);
-            var data = thumbnailService.GetThumbnailFromA4(byteData);
+            var data = fileService.Get(stringPath);
 
-            return new FileStreamResult(new MemoryStream(data), "image/jpeg");
+            var basePath = Server.MapPath(ConfigurationManager.AppSettings["LetterAmazer.Settings.StoreThumbnail"]);
+            var thumbnailService = new ThumbnailGenerator(basePath);
+            var imageData = thumbnailService.GetThumbnailFromA4(data);
+
+
+            return new FileStreamResult(new MemoryStream(imageData), "image/jpeg");
         }
 
         [HttpPost, ValidateInput(false)]
@@ -159,16 +172,11 @@ namespace LetterAmazer.Websites.Client.Controllers
         {
             try
             {
-                // TODO: move to service layer
                 HttpPostedFileBase uploadFile = Request.Files[0];
                 string keyName = GetUploadFileName(uploadFile.FileName);
-                string filename = PathHelper.GetAbsoluteFile(keyName);
-                string path = Path.GetDirectoryName(filename);
-                if (!Directory.Exists(path))
-                {
-                    Directory.CreateDirectory(path);
-                }
-                uploadFile.SaveAs(filename);
+
+                fileService.Put(Business.Services.Utils.Helpers.GetBytes(uploadFile.InputStream), keyName);
+                
                 return Json(new
                 {
                     status = "success",
@@ -188,7 +196,7 @@ namespace LetterAmazer.Websites.Client.Controllers
         {
             try
             {
-                //// TODO: stop being a fuck-tard
+                //// TODO: stop being a fuck-tard and dont call this json removal method
                 string[] uploadFileKey2 = HelperMethods.RemoveJsonFromEntries(uploadFileKey);
 
                 Price price = GetPricesFromFiles(uploadFileKey2, country);
@@ -282,6 +290,7 @@ namespace LetterAmazer.Websites.Client.Controllers
 
         public FileResult PreviewPDF(string key)
         {
+            throw new NotImplementedException();
             logger.DebugFormat("pdf key file: {0}", key);
             string filename = PathHelper.GetAbsoluteFile(key);
             return File(filename, "application/pdf", Path.GetFileName(filename));
@@ -320,7 +329,7 @@ namespace LetterAmazer.Websites.Client.Controllers
             //// TODO: stop being a fuck-tard
             model.UploadFile = model.UploadFile[0].Split(',');
             
-            var order = new SingleLetterController(orderService, paymentService, countryService, priceService, customerService, officeService, officeProductService,checkoutService,sessionService).
+            var order = new SingleLetterController(orderService, paymentService, countryService, priceService, customerService, officeService, officeProductService,checkoutService,sessionService,null).
                 CreateOrderFromViewModel(model);
 
             var updated_order = orderService.Create(order);
@@ -357,6 +366,7 @@ namespace LetterAmazer.Websites.Client.Controllers
             foreach (var uploadFile in model.UploadFile)
             {
                 var priceInfo = GetPriceFromFile(uploadFile,model.DestinationCountry);
+                var officeProduct = officeProductService.GetOfficeProductById(priceInfo.OfficeProductId);
 
                 var t = new CheckoutLine()
                 {
@@ -370,7 +380,8 @@ namespace LetterAmazer.Websites.Client.Controllers
                         LetterContent = new LetterContent()
                         {
                             Path = uploadFile
-                        }
+                        },
+                        OfficeId = officeProduct.OfficeId
                     }
                 };
                 checkout.Letters.Add(t);                

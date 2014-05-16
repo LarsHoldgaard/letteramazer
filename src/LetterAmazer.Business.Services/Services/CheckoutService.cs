@@ -6,42 +6,55 @@ using System.Threading.Tasks;
 using LetterAmazer.Business.Services.Domain.Checkout;
 using LetterAmazer.Business.Services.Domain.Countries;
 using LetterAmazer.Business.Services.Domain.Customers;
+using LetterAmazer.Business.Services.Domain.Files;
 using LetterAmazer.Business.Services.Domain.OfficeProducts;
 using LetterAmazer.Business.Services.Domain.Offices;
 using LetterAmazer.Business.Services.Domain.Orders;
 using LetterAmazer.Business.Services.Domain.Payments;
 using LetterAmazer.Business.Services.Domain.Pricing;
 using LetterAmazer.Business.Services.Domain.Products.ProductDetails;
+using LetterAmazer.Business.Services.Exceptions;
 using LetterAmazer.Business.Utils.Helpers;
 using ProductType = LetterAmazer.Business.Services.Domain.Products.ProductType;
 
 namespace LetterAmazer.Business.Services.Services
 {
-    public class CheckoutService:ICheckoutService
+    public class CheckoutService : ICheckoutService
     {
         private ICountryService countryService;
         private IPriceService priceService;
         private ICustomerService customerService;
         private IOfficeProductService officeProductService;
+        private IFileService fileService;
 
-        public CheckoutService(ICountryService countryService,IPriceService priceService,
+        public CheckoutService(ICountryService countryService, IPriceService priceService,
             ICustomerService customerService,
-            IOfficeProductService officeProductService)
+            IOfficeProductService officeProductService, IFileService fileService)
         {
             this.countryService = countryService;
             this.priceService = priceService;
             this.customerService = customerService;
             this.officeProductService = officeProductService;
+            this.fileService = fileService;
         }
 
         public Order ConvertCheckout(Checkout checkout)
         {
+            if (checkout.Letters.Any(c => c.Letter.OfficeId == 0))
+            {
+                throw new ArgumentException("No letter can have 0 as an officeID on checkout");
+            }
+            if (checkout.Letters.Any(c => c.OfficeProductId == 0))
+            {
+                throw new ArgumentException("No letter can have 0 as an officeProductId on checkout");
+            }
+
             Order order = new Order();
             Price price = null;
 
             fileConversion(checkout);
-            setCustomer(checkout,order);
-            
+            setCustomer(checkout, order);
+
             foreach (var letter in checkout.Letters)
             {
                 var letterPrice = priceService.GetPriceBySpecification(new PriceSpecification()
@@ -68,9 +81,9 @@ namespace LetterAmazer.Business.Services.Services
                 }
                 else
                 {
-                    price.AddPrice(letterPrice);    
+                    price.AddPrice(letterPrice);
                 }
-                
+
             }
 
             order.OrderLines.Add(new OrderLine()
@@ -96,7 +109,7 @@ namespace LetterAmazer.Business.Services.Services
             // user exists
             if (checkout.UserId > 0)
             {
-                 customer= customerService.GetCustomerById(checkout.UserId);
+                customer = customerService.GetCustomerById(checkout.UserId);
             }
             else
             {
@@ -126,11 +139,13 @@ namespace LetterAmazer.Business.Services.Services
         private void fileConversion(Checkout checkout)
         {
             foreach (var letter in checkout.Letters)
-            {   
+            {
                 // TODO: make a check if the current filesize is different from the file, so we don't make unneeded conversions
                 if (letter.Letter.LetterDetails.LetterSize == LetterSize.Letter)
                 {
-                    PdfHelper.ConvertPdfSize(PathHelper.GetAbsoluteFile(letter.Letter.LetterContent.Path), LetterSize.A4, LetterSize.Letter);
+                    var fileData = fileService.Get(letter.Letter.LetterContent.Path);
+                    var converted = PdfHelper.ConvertPdfSize(fileData, LetterSize.A4, LetterSize.Letter);
+                    fileService.Put(converted, letter.Letter.LetterContent.Path);
                 }
 
             }

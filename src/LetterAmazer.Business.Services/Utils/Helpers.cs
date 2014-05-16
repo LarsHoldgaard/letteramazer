@@ -37,6 +37,16 @@ namespace LetterAmazer.Business.Services.Utils
             return bytes;
         }
 
+
+        public static byte[] GetBytes(Stream input)
+        {
+            using (MemoryStream ms = new MemoryStream())
+            {
+                input.CopyTo(ms);
+                return ms.ToArray();
+            }
+        }
+
         public static string GetString(byte[] bytes)
         {
             char[] chars = new char[bytes.Length / sizeof(char)];
