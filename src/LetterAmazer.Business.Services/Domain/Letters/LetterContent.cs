@@ -39,9 +39,10 @@ namespace LetterAmazer.Business.Services.Domain.Letters
         {
             get
             {
+                throw new NotImplementedException();
                 if (string.IsNullOrEmpty(textinpdf))
                 {
-                    textinpdf = PdfHelper.GetContentsOfPdf(PathHelper.GetAbsoluteFile(Path));
+                    //textinpdf = PdfHelper.GetContentsOfPdf(PathHelper.GetAbsoluteFile(Path));
                 }
                 return textinpdf;
             }

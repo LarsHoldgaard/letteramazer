@@ -279,6 +279,7 @@ namespace LetterAmazer.Websites.Client.Controllers
 
         public FileResult PreviewPDF(string key)
         {
+            throw new NotImplementedException();
             logger.DebugFormat("pdf key file: {0}", key);
             string filename = PathHelper.GetAbsoluteFile(key);
             return File(filename, "application/pdf", Path.GetFileName(filename));
@@ -354,6 +355,7 @@ namespace LetterAmazer.Websites.Client.Controllers
             foreach (var uploadFile in model.UploadFile)
             {
                 var priceInfo = GetPriceFromFile(uploadFile,model.DestinationCountry);
+                var officeProduct = officeProductService.GetOfficeProductById(priceInfo.OfficeProductId);
 
                 var t = new CheckoutLine()
                 {
@@ -367,7 +369,8 @@ namespace LetterAmazer.Websites.Client.Controllers
                         LetterContent = new LetterContent()
                         {
                             Path = uploadFile
-                        }
+                        },
+                        OfficeId = officeProduct.OfficeId
                     }
                 };
                 checkout.Letters.Add(t);                
