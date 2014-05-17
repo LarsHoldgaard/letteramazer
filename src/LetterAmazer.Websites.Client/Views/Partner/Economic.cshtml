@@ -44,7 +44,7 @@
                 <td data-bind="text: customerName"></td>
                 <td data-bind="text: price().priceExVatText()"></td>
                 <td>
-                    <a data-bind="href: pdfLink">Download</a>
+                    <a data-bind="attr: { href: pdfLink }">Download</a>
                 </td>
                 <td data-bind="text: status"></td>
             </tr>
@@ -71,18 +71,12 @@
     var dateStart = dateToday.getDate() - 14;
 
 
-
-    // new invoice('05-05-2014', 'LetterAmazer IvS', "http://www.antennahouse.com/XSLsample/pdf/sample-link_1.pdf", "not printed"),
-    //new invoice('05-05-2014', 'LetterAmazer IvS', "http://www.antennahouse.com/XSLsample/pdf/sample-link_1.pdf", "not printed")
     var invoices = [
         @foreach (var invoice in Model.PartnerInvoices)
         {
-            
-                [ 'invoiceDate':invoice.InvoiceDate]
-            
+            <text>[{'invoiceDate':"@invoice.InvoiceDate", 'customerName':"@invoice.CustomerName", 'pdfLink':"@invoice.PdfUrl", 'status':"N/A"}],</text>
         }
     ];
-
 
     // set data
     var data = {
@@ -90,6 +84,8 @@
         dateTo: dateToday,
         invoiceData: invoices
     };
+
+    console.log('View data: ' + data);
 
     // apply knockout bindings
     var economicViewModel = new EconomicsViewModel('#economicInvoiceOverview', data);

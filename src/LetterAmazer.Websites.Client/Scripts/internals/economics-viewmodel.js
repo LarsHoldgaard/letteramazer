@@ -1,5 +1,7 @@
 ﻿function invoice(invoiceDate, customerName, pdfLink, status) {
     var self = this;
+
+    console.log('inside invoice constructor. invoiceDate: ' + invoiceDate);
     self.pdfLink = pdfLink;
     self.print = ko.observable(false);
     self.customerName = customerName;
@@ -17,8 +19,9 @@
             self.jsonPrice().VatPercentage);
     });
 
-    
+
     self.updatePrices = function () {
+
         $.ajax({
             url: '/SingleLetter/GetPriceFromUrl',
             type: 'POST',
@@ -28,11 +31,14 @@
             dataType: 'json',
             success: function (data) {
                 self.jsonPrice(data.price);
+
             },
             error: function (file, responseText) {
                 console.log('Price error');
+
             }
         });
+
     };
 
 }
@@ -64,12 +70,19 @@ var EconomicsViewModel = function (formSelector, data) {
     var self = this;
     self.dateFrom = data.dateFrom;
     self.dateTo = data.dateTo;
-    
 
-    self.invoices = ko.observableArray([
-        new invoice('05-05-2014', 'LetterAmazer IvS', "http://www.antennahouse.com/XSLsample/pdf/sample-link_1.pdf", "not printed"),
-        new invoice('05-05-2014', 'LetterAmazer IvS', "http://www.antennahouse.com/XSLsample/pdf/sample-link_1.pdf", "not printed")
-    ]);
+
+    self.invoices = ko.observableArray([]);
+
+    console.log(data.invoiceData);
+
+    $(data.invoiceData).each(function (index, ele) {
+        console.log('pre inv status: ' + ele[0]);
+        var inv = new invoice(ele[0].invoiceDate, ele[0].customerName, ele[0].pdfLink, ele[0].status);
+        console.log('inv status: ' + inv.invoiceDate);
+        self.invoices.push(inv);
+        console.log('self-invoices: ' + self.invoices.length);
+    });
 
     self.totalPrice = ko.computed(function () {
         var exVat = 0.0;

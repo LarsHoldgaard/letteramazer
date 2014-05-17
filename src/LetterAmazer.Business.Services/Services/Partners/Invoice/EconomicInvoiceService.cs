@@ -62,7 +62,7 @@ namespace LetterAmazer.Business.Services.Services.Partners.Invoice
             return new PartnerInvoice()
             {
               CustomerName = economicInvoice.customerName,
-              PdfUrl = economicInvoice.pdf,
+              PdfUrl = "http://www.antennahouse.com/XSLsample/pdf/sample-link_1.pdf",//economicInvoice.pdf,
               InvoiceDate = economicInvoice.date,
               LetterAmazerStatus = "N/A",
               Id = economicInvoice.orderId,
