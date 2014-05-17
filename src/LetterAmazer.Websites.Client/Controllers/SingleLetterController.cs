@@ -173,9 +173,8 @@ namespace LetterAmazer.Websites.Client.Controllers
             try
             {
                 HttpPostedFileBase uploadFile = Request.Files[0];
-                string keyName = GetUploadFileName(uploadFile.FileName);
-
-                fileService.Put(Business.Services.Utils.Helpers.GetBytes(uploadFile.InputStream), keyName);
+                
+                var keyName = fileService.Put(Business.Services.Utils.Helpers.GetBytes(uploadFile.InputStream), Guid.NewGuid().ToString());
                 
                 return Json(new
                 {
@@ -187,6 +186,39 @@ namespace LetterAmazer.Websites.Client.Controllers
             {
                 logger.Error(ex);
                 return Json(new { status = "error", message = ex.Message });
+            }
+        }
+
+        [HttpPost]
+        public JsonResult GetPriceFromUrl(string pdfUrl)
+        {
+            try
+            {
+                using (var client = new WebClient())
+                {
+                    var data = client.DownloadData(pdfUrl);
+                    
+                    var fileKey = fileService.Put(data,Guid.NewGuid().ToString());
+
+                    var price = GetPriceFromFile(fileKey, 59);
+                    return Json(new
+                    {
+                        status = "success",
+                        price = price,
+                        isAuthenticated = SessionHelper.Customer != null
+                    });
+                }
+            }
+            catch (Exception)
+            {
+                return Json(new
+                {
+                    status = "error",
+                    message = "We cannot send this letter. Right now we only support Denmark and 1-7 pages pr letter",
+                    price = 0,
+                    numberOfPages = 0,
+                    isAuthenticated = SessionHelper.Customer != null,
+                });
             }
         }
 
@@ -390,10 +422,6 @@ namespace LetterAmazer.Websites.Client.Controllers
             return checkoutService.ConvertCheckout(checkout);
         }
 
-        private string GetUploadFileName(string uploadFilename)
-        {
-            return string.Format("{0}/{1}/{2}.pdf", DateTime.Now.Year, DateTime.Now.Month, Guid.NewGuid().ToString());
-        }
 
     }
 }

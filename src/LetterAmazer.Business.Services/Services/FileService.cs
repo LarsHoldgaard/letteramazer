@@ -46,8 +46,9 @@ namespace LetterAmazer.Business.Services.Services
             }
         }
 
-        public void Put(byte[] data, string path)
+        public string Put(byte[] data, string path)
         {
+            path = getUploadDateString(path);
             using (var client = new AmazonS3Client(accessId, secretAccessId))
             {
                 client.PutObject(new PutObjectRequest()
@@ -58,6 +59,13 @@ namespace LetterAmazer.Business.Services.Services
                     InputStream = new MemoryStream(data)
                 });
             }
+            return path;
+        }
+
+
+        private string getUploadDateString(string path)
+        {
+            return string.Format("{0}/{1}/{2}.pdf", DateTime.Now.Year, DateTime.Now.Month,path);
         }
     }
 }

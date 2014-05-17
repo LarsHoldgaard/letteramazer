@@ -38,7 +38,7 @@
         <tbody data-bind="foreach: invoices">
             <tr>
                 <td>
-                    <input type="checkbox" data-bind="checked: print" />
+                    <input type="checkbox" data-bind="checked: print, click:updatePrices()" />
                 </td>
                 <td data-bind="text: invoiceDate"></td>
                 <td data-bind="text: customerName"></td>
@@ -55,12 +55,12 @@
     @using (Html.BeginForm("Economic", "Partner", FormMethod.Post))
     {
         <div>
-            @*Amount: <label data-bind="text: invoices().length"></label>
-            Price: <label data-bind="text:totalPrice().price().priceExVat"></label><br />
-            Vat (25%): <label data-bind="text:totalPrice().price().priceExVat"></label><br />*@
-            Total: <label data-bind="text:totalPrice().priceExVat"></label><br />
+            Amount: <label data-bind="text: invoiceCount()"></label><br />
+            Price: <label data-bind="text:totalPrice().priceExVat"></label><br />
+            Vat (<span data-bind="text:totalPrice().vatPercentage"></span>): <label data-bind="text:totalPrice().vatAmount"></label><br />
+            Total: <label data-bind="text:totalPrice().total()"></label><br />
 
-            <input type="submit" value="Send all letters now" />
+            <input type="submit" value="Send all letters now" class="btn btn-lg btn-success" />
         </div>
     }
 </div>
@@ -70,10 +70,25 @@
     var dateToday = new Date();
     var dateStart = dateToday.getDate() - 14;
 
+
+
+    // new invoice('05-05-2014', 'LetterAmazer IvS', "http://www.antennahouse.com/XSLsample/pdf/sample-link_1.pdf", "not printed"),
+    //new invoice('05-05-2014', 'LetterAmazer IvS', "http://www.antennahouse.com/XSLsample/pdf/sample-link_1.pdf", "not printed")
+    var invoices = [
+        @foreach (var invoice in Model.PartnerInvoices)
+        {
+            
+                [ 'invoiceDate':invoice.InvoiceDate]
+            
+        }
+    ];
+
+
     // set data
     var data = {
         dateFrom: dateStart,
-        dateTo: dateToday
+        dateTo: dateToday,
+        invoiceData: invoices
     };
 
     // apply knockout bindings

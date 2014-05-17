@@ -51,9 +51,11 @@ namespace LetterAmazer.Websites.Client.Controllers
             {
                 model.PartnerInvoices.Add(new PartnerInvoiceViewModel()
                 {
-                    Id = partnerInvoice.Id,
-                    DateCreated = partnerInvoice.DateCreated,
-                    PdfUrl = partnerInvoice.PdfUrl
+                    Amount = partnerInvoice.Price.PriceExVat,
+                    Currency = partnerInvoice.Price.CurrencyCode.ToString(),
+                    PdfUrl = partnerInvoice.PdfUrl,
+                    CustomerName = partnerInvoice.CustomerName,
+                    InvoiceDate = partnerInvoice.InvoiceDate
                 });
             }
 

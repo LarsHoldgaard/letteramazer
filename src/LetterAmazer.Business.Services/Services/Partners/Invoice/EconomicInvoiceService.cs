@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Web;
 using LetterAmazer.Business.Services.Domain.Partners;
 using LetterAmazer.Business.Services.Domain.Partners.PartnerJsonDto;
+using LetterAmazer.Business.Services.Domain.Pricing;
 using Newtonsoft.Json;
 
 namespace LetterAmazer.Business.Services.Services.Partners.Invoice
@@ -60,9 +61,15 @@ namespace LetterAmazer.Business.Services.Services.Partners.Invoice
         {
             return new PartnerInvoice()
             {
-                DateCreated = economicInvoice.date,
-                PdfUrl = economicInvoice.pdf,
-                Id = economicInvoice.orderId
+              CustomerName = economicInvoice.customerName,
+              PdfUrl = economicInvoice.pdf,
+              InvoiceDate = economicInvoice.date,
+              LetterAmazerStatus = "N/A",
+              Id = economicInvoice.orderId,
+              Price = new Price()
+              {
+                  PriceExVat = economicInvoice.netAmount
+              }
             };
         }
 
