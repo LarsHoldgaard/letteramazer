@@ -1,44 +1,83 @@
 ﻿@model LetterAmazer.Websites.Client.ViewModels.Partner.PartnerInvoiceOverviewViewModel
 
-<h1>E-conomic invoices</h1>
+@section header {
+    <script type="text/javascript" src="@Url.Content("~/Scripts/knockout-3.0.0.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/internals/economics-viewmodel.js")"></script>
+}
 
-From <input id="fromDateInput" type="date" value="@Model.From.ToString("dd-MM-yyyy")" />
-to <input id="toDateInput" type="date" value="@Model.To.ToString("dd-MM-yyyy")" />
-<input type="submit" value="Search" class="btn-sm btn-success" />
+<div id="economicInvoiceOverview">
 
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Print</th>
-            <th>
-                Id
-            </th>
-            <th>
-                Date
-            </th>
-            <th>
-                Download
-            </th>
 
-        </tr>
-    </thead>
+    <h1>E-conomic invoices</h1>
 
-    @foreach (var item in Model.PartnerInvoices)
+    From <input id="fromDateInput" type="date" data-bind="value: dateFrom" />
+    to <input id="toDateInput" type="date" data-bind="value: dateTo" />
+    <input type="submit" value="Search" class="btn-sm btn-success" />
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>
+                    Print document
+                </th>
+                <th>
+                    Invoice date
+                </th>
+                <th>
+                    Customer name
+                </th>
+                <th>
+                    Amount
+                </th>
+                <th>
+                    Download
+                </th>
+                <th>LetterAmazer status</th>
+            </tr>
+        </thead>
+        <tbody data-bind="foreach: invoices">
+            <tr>
+                <td>
+                    <input type="checkbox" data-bind="checked: print" />
+                </td>
+                <td data-bind="text: invoiceDate"></td>
+                <td data-bind="text: customerName"></td>
+                <td data-bind="text: price().priceExVatText()"></td>
+                <td>
+                    <a data-bind="href: pdfLink">Download</a>
+                </td>
+                <td data-bind="text: status"></td>
+            </tr>
+        </tbody>
+    </table>
+
+
+    @using (Html.BeginForm("Economic", "Partner", FormMethod.Post))
     {
-        <tr>
-            <td>
-                <input type="checkbox" />
-            </td>
-            <td>
-                @item.Id
-            </td>
-            <td>
-                @item.DateCreated
-            </td>
-            <td>
-                <a href="@item.PdfUrl" target="_blank">Download PDF</a>
-            </td>
-        </tr>
-    }
+        <div>
+            @*Amount: <label data-bind="text: invoices().length"></label>
+            Price: <label data-bind="text:totalPrice().price().priceExVat"></label><br />
+            Vat (25%): <label data-bind="text:totalPrice().price().priceExVat"></label><br />*@
+            Total: <label data-bind="text:totalPrice().priceExVat"></label><br />
 
-</table>
+            <input type="submit" value="Send all letters now" />
+        </div>
+    }
+</div>
+
+<script>
+    // set standard dates
+    var dateToday = new Date();
+    var dateStart = dateToday.getDate() - 14;
+
+    // set data
+    var data = {
+        dateFrom: dateStart,
+        dateTo: dateToday
+    };
+
+    // apply knockout bindings
+    var economicViewModel = new EconomicsViewModel('#economicInvoiceOverview', data);
+    ko.applyBindings(economicViewModel, document.getElementById(economicInvoiceOverview));
+
+</script>

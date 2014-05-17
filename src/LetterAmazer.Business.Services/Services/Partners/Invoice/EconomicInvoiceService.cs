@@ -26,6 +26,16 @@ namespace LetterAmazer.Business.Services.Services.Partners.Invoice
             this.privateId = ConfigurationManager.AppSettings["LetterAmazer.Apps.Economics.PrivateAppId"];
         }
 
+        public PartnerInvoice GetById(string id)
+        {
+            var invoiceApiUrl = string.Format("{0}/{1}", apiUrl, "invoices/booked/id");
+
+            var invoiceString = getJsonStringFromRequest(buildEconomicsHttpRequest(invoiceApiUrl));
+            var economicsInvoice = JsonConvert.DeserializeObject<EconomicInvoice>(invoiceString);
+
+            return getPartnerInvoice(economicsInvoice);
+        }
+
         public List<PartnerInvoice> GetBySpecification(PartnerInvoiceSpecification partnerInvoiceSpecification)
         {
             var invoiceApiUrl = string.Format("{0}/{1}", apiUrl, "invoices/booked?pageSize=999");
@@ -39,18 +49,22 @@ namespace LetterAmazer.Business.Services.Services.Partners.Invoice
             var invoices = new List<PartnerInvoice>();
             foreach (var economicInvoice in collection)
             {
-                invoices.Add(new PartnerInvoice()
-                {
-                    DateCreated = economicInvoice.date,
-                    PdfUrl = economicInvoice.pdf,
-                    Id = economicInvoice.orderId
-                });
+                invoices.Add(getPartnerInvoice(economicInvoice));
             }
 
             return invoices;
         }
 
-        
+
+        private PartnerInvoice getPartnerInvoice(EconomicInvoice economicInvoice)
+        {
+            return new PartnerInvoice()
+            {
+                DateCreated = economicInvoice.date,
+                PdfUrl = economicInvoice.pdf,
+                Id = economicInvoice.orderId
+            };
+        }
 
         private string getJsonStringFromRequest(HttpWebRequest request)
         {

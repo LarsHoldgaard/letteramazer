@@ -19,6 +19,8 @@ namespace LetterAmazer.Websites.Client.ViewModels.Partner
             this.To = DateTime.Now;
             this.From = DateTime.Now.AddDays(-1000);
         }
+
+        public string[] SelectedInvoices { get; set; }
     }
 
     public class PartnerInvoiceViewModel
