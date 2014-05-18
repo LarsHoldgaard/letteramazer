@@ -350,6 +350,27 @@ warning 6002: The table/view 'LetterAmazer.dbo.DbLog' does not have a primary ke
           <Property Name="LetterSize" Type="int" />
           <Property Name="PreferedCountryId" Type="int" />
         </EntityType>
+        <EntityType Name="DbPartners">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Guid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="DateCreated" Type="datetime" Nullable="false" />
+          <Property Name="DateUpdated" Type="datetime" />
+          <Property Name="PartnerType" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DbPartnerTransactions">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PartnerId" Type="int" Nullable="false" />
+          <Property Name="CustomerId" Type="int" Nullable="false" />
+          <Property Name="ValueId" Type="int" Nullable="false" />
+          <Property Name="OrderId" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="DbPaymentMethods">
           <Key>
             <PropertyRef Name="Id" />
@@ -480,6 +501,30 @@ warning 6002: The table/view 'LetterAmazer.dbo.DbLog' does not have a primary ke
             </Principal>
             <Dependent Role="DbOrganisationProfileSettings">
               <PropertyRef Name="OrganisationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DbPartnerTransactions_DbCustomers">
+          <End Role="DbCustomers" Type="Self.DbCustomers" Multiplicity="1" />
+          <End Role="DbPartnerTransactions" Type="Self.DbPartnerTransactions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DbCustomers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DbPartnerTransactions">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DbPartnerTransactions_DbPartners">
+          <End Role="DbPartners" Type="Self.DbPartners" Multiplicity="1" />
+          <End Role="DbPartnerTransactions" Type="Self.DbPartnerTransactions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DbPartners">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DbPartnerTransactions">
+              <PropertyRef Name="PartnerId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -647,6 +692,8 @@ warning 6002: The table/view 'LetterAmazer.dbo.DbLog' does not have a primary ke
           <EntitySet Name="DbOrganisation" EntityType="Self.DbOrganisation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DbOrganisationAddressList" EntityType="Self.DbOrganisationAddressList" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DbOrganisationProfileSettings" EntityType="Self.DbOrganisationProfileSettings" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DbPartners" EntityType="Self.DbPartners" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DbPartnerTransactions" EntityType="Self.DbPartnerTransactions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DbPaymentMethods" EntityType="Self.DbPaymentMethods" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DbProductMatrixLines" EntityType="Self.DbProductMatrixLines" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DbShops" EntityType="Self.DbShops" Schema="dbo" store:Type="Tables" />
@@ -692,6 +739,14 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
           <AssociationSet Name="FK_DbOrganisationProfileSettings_DbOrganisation" Association="Self.FK_DbOrganisationProfileSettings_DbOrganisation">
             <End Role="DbOrganisation" EntitySet="DbOrganisation" />
             <End Role="DbOrganisationProfileSettings" EntitySet="DbOrganisationProfileSettings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DbPartnerTransactions_DbCustomers" Association="Self.FK_DbPartnerTransactions_DbCustomers">
+            <End Role="DbCustomers" EntitySet="DbCustomers" />
+            <End Role="DbPartnerTransactions" EntitySet="DbPartnerTransactions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DbPartnerTransactions_DbPartners" Association="Self.FK_DbPartnerTransactions_DbPartners">
+            <End Role="DbPartners" EntitySet="DbPartners" />
+            <End Role="DbPartnerTransactions" EntitySet="DbPartnerTransactions" />
           </AssociationSet>
           <AssociationSet Name="FK_DbProductMatrixLines_DbOfficeProducts" Association="Self.FK_DbProductMatrixLines_DbOfficeProducts">
             <End Role="DbOfficeProducts" EntitySet="DbOfficeProducts" />
@@ -861,6 +916,7 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
           <Property Name="OrganisationRole" Type="Int32" />
           <Property Name="AccountStatus" Type="Int32" Nullable="false" />
           <NavigationProperty Name="DbCountries" Relationship="Self.FK_Customers_Countries" FromRole="DbCustomers" ToRole="DbCountries" />
+          <NavigationProperty Name="DbPartnerTransactions" Relationship="Self.FK_DbPartnerTransactions_DbCustomers" FromRole="DbCustomers" ToRole="DbPartnerTransactions" />
           <NavigationProperty Name="DbLetters" Relationship="Self.FK_Letter_Customer" FromRole="DbCustomers" ToRole="DbLetters" />
           <NavigationProperty Name="DbOrders" Relationship="Self.FK_Order_Customer" FromRole="DbCustomers" ToRole="DbOrders" />
         </EntityType>
@@ -1110,6 +1166,30 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
           <Property Name="PreferedCountryId" Type="Int32" />
           <NavigationProperty Name="DbOrganisation" Relationship="Self.FK_DbOrganisationProfileSettings_DbOrganisation" FromRole="DbOrganisationProfileSettings" ToRole="DbOrganisation" />
         </EntityType>
+        <EntityType Name="DbPartners">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Guid" Type="Guid" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DateUpdated" Type="DateTime" Precision="3" />
+          <Property Name="PartnerType" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="DbPartnerTransactions" Relationship="Self.FK_DbPartnerTransactions_DbPartners" FromRole="DbPartners" ToRole="DbPartnerTransactions" />
+        </EntityType>
+        <EntityType Name="DbPartnerTransactions">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PartnerId" Type="Int32" Nullable="false" />
+          <Property Name="CustomerId" Type="Int32" Nullable="false" />
+          <Property Name="ValueId" Type="Int32" Nullable="false" />
+          <Property Name="OrderId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="DbCustomers" Relationship="Self.FK_DbPartnerTransactions_DbCustomers" FromRole="DbPartnerTransactions" ToRole="DbCustomers" />
+          <NavigationProperty Name="DbPartners" Relationship="Self.FK_DbPartnerTransactions_DbPartners" FromRole="DbPartnerTransactions" ToRole="DbPartners" />
+        </EntityType>
         <EntityType Name="DbPaymentMethods">
           <Key>
             <PropertyRef Name="Id" />
@@ -1248,6 +1328,18 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
             </Principal>
             <Dependent Role="DbShops">
               <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DbPartnerTransactions_DbCustomers">
+          <End Role="DbCustomers" Type="Self.DbCustomers" Multiplicity="1" />
+          <End Role="DbPartnerTransactions" Type="Self.DbPartnerTransactions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DbCustomers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DbPartnerTransactions">
+              <PropertyRef Name="CustomerId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1407,6 +1499,18 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_DbPartnerTransactions_DbPartners">
+          <End Role="DbPartners" Type="Self.DbPartners" Multiplicity="1" />
+          <End Role="DbPartnerTransactions" Type="Self.DbPartnerTransactions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DbPartners">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DbPartnerTransactions">
+              <PropertyRef Name="PartnerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="LetterAmazerEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="DbApiAccess" EntityType="Self.DbApiAccess" />
           <EntitySet Name="DbCmsContent" EntityType="Self.DbCmsContent" />
@@ -1427,6 +1531,8 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
           <EntitySet Name="DbOrganisation" EntityType="Self.DbOrganisation" />
           <EntitySet Name="DbOrganisationAddressList" EntityType="Self.DbOrganisationAddressList" />
           <EntitySet Name="DbOrganisationProfileSettings" EntityType="Self.DbOrganisationProfileSettings" />
+          <EntitySet Name="DbPartners" EntityType="Self.DbPartners" />
+          <EntitySet Name="DbPartnerTransactions" EntityType="Self.DbPartnerTransactions" />
           <EntitySet Name="DbPaymentMethods" EntityType="Self.DbPaymentMethods" />
           <EntitySet Name="DbProductMatrixLines" EntityType="Self.DbProductMatrixLines" />
           <EntitySet Name="DbShops" EntityType="Self.DbShops" />
@@ -1458,6 +1564,10 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
           <AssociationSet Name="FK_Shops_Countries" Association="Self.FK_Shops_Countries">
             <End Role="DbCountries" EntitySet="DbCountries" />
             <End Role="DbShops" EntitySet="DbShops" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DbPartnerTransactions_DbCustomers" Association="Self.FK_DbPartnerTransactions_DbCustomers">
+            <End Role="DbCustomers" EntitySet="DbCustomers" />
+            <End Role="DbPartnerTransactions" EntitySet="DbPartnerTransactions" />
           </AssociationSet>
           <AssociationSet Name="FK_Letter_Customer" Association="Self.FK_Letter_Customer">
             <End Role="DbCustomers" EntitySet="DbCustomers" />
@@ -1510,6 +1620,10 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
           <AssociationSet Name="FK_DbOrganisationProfileSettings_DbOrganisation" Association="Self.FK_DbOrganisationProfileSettings_DbOrganisation">
             <End Role="DbOrganisation" EntitySet="DbOrganisation" />
             <End Role="DbOrganisationProfileSettings" EntitySet="DbOrganisationProfileSettings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DbPartnerTransactions_DbPartners" Association="Self.FK_DbPartnerTransactions_DbPartners">
+            <End Role="DbPartners" EntitySet="DbPartners" />
+            <End Role="DbPartnerTransactions" EntitySet="DbPartnerTransactions" />
           </AssociationSet>
         </EntityContainer>
       </Schema>
@@ -1860,6 +1974,29 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
                 <ScalarProperty Name="LetterType" ColumnName="LetterType" />
                 <ScalarProperty Name="LetterSize" ColumnName="LetterSize" />
                 <ScalarProperty Name="PreferedCountryId" ColumnName="PreferedCountryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DbPartners">
+            <EntityTypeMapping TypeName="LetterAmazer.DbPartners">
+              <MappingFragment StoreEntitySet="DbPartners">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Guid" ColumnName="Guid" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="DateUpdated" ColumnName="DateUpdated" />
+                <ScalarProperty Name="PartnerType" ColumnName="PartnerType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DbPartnerTransactions">
+            <EntityTypeMapping TypeName="LetterAmazer.DbPartnerTransactions">
+              <MappingFragment StoreEntitySet="DbPartnerTransactions">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="PartnerId" ColumnName="PartnerId" />
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+                <ScalarProperty Name="ValueId" ColumnName="ValueId" />
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

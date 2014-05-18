@@ -124,9 +124,14 @@
     <Compile Include="Domain\Organisation\AddressList.cs" />
     <Compile Include="Domain\Organisation\OrganisationSettings.cs" />
     <Compile Include="Domain\Partners\IPartnerInvoiceService.cs" />
+    <Compile Include="Domain\Partners\IPartnerService.cs" />
+    <Compile Include="Domain\Partners\Partner.cs" />
     <Compile Include="Domain\Partners\PartnerInvoice.cs" />
     <Compile Include="Domain\Partners\PartnerInvoiceSpecification.cs" />
     <Compile Include="Domain\Partners\PartnerJsonDto\EconomicsPartnerInvoices.cs" />
+    <Compile Include="Domain\Partners\PartnerTransactionSpecification.cs" />
+    <Compile Include="Domain\Partners\PartnerTransaction.cs" />
+    <Compile Include="Domain\Partners\PartnerType.cs" />
     <Compile Include="Domain\PriceUpdater\IPriceUpdater.cs" />
     <Compile Include="Domain\Pricing\PriceSpecification.cs" />
     <Compile Include="Domain\Pricing\ProductMatrixReferenceType.cs" />
@@ -140,8 +145,10 @@
     <Compile Include="Factory\Interfaces\IInvoiceFactory.cs" />
     <Compile Include="Factory\Interfaces\IOfficeProductFactory.cs" />
     <Compile Include="Factory\Interfaces\IOrganisationFactory.cs" />
+    <Compile Include="Factory\Interfaces\IPartnerFactory.cs" />
     <Compile Include="Factory\Interfaces\IProductMatrixFactory.cs" />
     <Compile Include="Factory\InvoiceFactory.cs" />
+    <Compile Include="Factory\PartnerFactory.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
@@ -165,6 +172,7 @@
     <Compile Include="Services\OfficeProductService.cs" />
     <Compile Include="Services\OrganisationService.cs" />
     <Compile Include="Services\Partners\Invoice\EconomicInvoiceService.cs" />
+    <Compile Include="Services\Partners\PartnerService.cs" />
     <Compile Include="Services\PriceUpdater.cs" />
     <Compile Include="Services\ProductMatrixService.cs" />
     <Compile Include="Domain\AddressInfos\AddressInfo.cs" />

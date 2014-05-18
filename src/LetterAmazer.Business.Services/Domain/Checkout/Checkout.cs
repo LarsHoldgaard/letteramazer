@@ -11,6 +11,8 @@ namespace LetterAmazer.Business.Services.Domain.Checkout
     {
         public int UserId { get; set; }
 
+        public List<int> PartnerIds { get; set; } 
+
         public string Email { get; set; }
 
         /// <summary>
@@ -23,6 +25,7 @@ namespace LetterAmazer.Business.Services.Domain.Checkout
         public Checkout()
         {
             this.Letters = new List<CheckoutLine>();
+            this.PartnerIds = new List<int>();
         }
 
     }
