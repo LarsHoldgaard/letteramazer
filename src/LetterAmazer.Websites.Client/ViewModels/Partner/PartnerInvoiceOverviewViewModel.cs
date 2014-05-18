@@ -25,7 +25,7 @@ namespace LetterAmazer.Websites.Client.ViewModels.Partner
 
     public class PartnerInvoiceViewModel
     {
-        
+        public string OrderId { get; set; }
         public string PdfUrl { get; set; }
         public DateTime InvoiceDate { get; set; }
         public string CustomerName { get; set; }

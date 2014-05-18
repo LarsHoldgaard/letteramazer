@@ -41,7 +41,7 @@ namespace LetterAmazer.Websites.Client.Controllers
         {
             var model = new PartnerInvoiceOverviewViewModel();
 
-            var invoices = economicInvoiceService.GetBySpecification(new PartnerInvoiceSpecification()
+            var invoices = economicInvoiceService.GetPartnerInvoiceBySpecification(new PartnerInvoiceSpecification()
             {
                 From = model.From,
                 To = model.To
@@ -55,7 +55,8 @@ namespace LetterAmazer.Websites.Client.Controllers
                     Currency = partnerInvoice.Price.CurrencyCode.ToString(),
                     PdfUrl = partnerInvoice.PdfUrl,
                     CustomerName = partnerInvoice.CustomerName,
-                    InvoiceDate = partnerInvoice.InvoiceDate
+                    InvoiceDate = partnerInvoice.InvoiceDate,
+                    OrderId = partnerInvoice.Id
                 });
             }
 
@@ -74,7 +75,8 @@ namespace LetterAmazer.Websites.Client.Controllers
 
             foreach (var selectedInvoice in model.SelectedInvoices)
             {
-                var invoice = economicInvoiceService.GetById(selectedInvoice);
+                var invoice = economicInvoiceService.GetPartnerInvoiceById(selectedInvoice);
+                int i = 0;
                 //var priceInfo = GetPriceFromFile(uploadFile,model.DestinationCountry);
                 //var officeProduct = officeProductService.GetOfficeProductById(priceInfo.OfficeProductId);
 

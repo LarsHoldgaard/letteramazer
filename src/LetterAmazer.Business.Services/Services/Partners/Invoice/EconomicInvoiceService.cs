@@ -27,9 +27,10 @@ namespace LetterAmazer.Business.Services.Services.Partners.Invoice
             this.privateId = ConfigurationManager.AppSettings["LetterAmazer.Apps.Economics.PrivateAppId"];
         }
 
-        public PartnerInvoice GetById(string id)
+        public PartnerInvoice GetPartnerInvoiceById(string id)
         {
-            var invoiceApiUrl = string.Format("{0}/{1}", apiUrl, "invoices/booked/id");
+            //https://restapi.e-conomic.com/invoices/booked/20001
+            var invoiceApiUrl = string.Format("{0}/{1}/{2}", apiUrl, "invoices/booked",id);
 
             var invoiceString = getJsonStringFromRequest(buildEconomicsHttpRequest(invoiceApiUrl));
             var economicsInvoice = JsonConvert.DeserializeObject<EconomicInvoice>(invoiceString);
@@ -37,7 +38,7 @@ namespace LetterAmazer.Business.Services.Services.Partners.Invoice
             return getPartnerInvoice(economicsInvoice);
         }
 
-        public List<PartnerInvoice> GetBySpecification(PartnerInvoiceSpecification partnerInvoiceSpecification)
+        public List<PartnerInvoice> GetPartnerInvoiceBySpecification(PartnerInvoiceSpecification partnerInvoiceSpecification)
         {
             var invoiceApiUrl = string.Format("{0}/{1}", apiUrl, "invoices/booked?pageSize=999");
 

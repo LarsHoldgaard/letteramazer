@@ -27,7 +27,7 @@
                     Customer name
                 </th>
                 <th>
-                    Amount
+                    Invoice amount
                 </th>
                 <th>
                     Download
@@ -38,11 +38,11 @@
         <tbody data-bind="foreach: invoices">
             <tr>
                 <td>
-                    <input type="checkbox" data-bind="checked: print, click:updatePrices()" />
+                    <input type="checkbox" data-bind="checked: print, click:updatePrices" />
                 </td>
                 <td data-bind="text: invoiceDate"></td>
                 <td data-bind="text: customerName"></td>
-                <td data-bind="text: price().priceExVatText()"></td>
+                <td data-bind="text: amount"></td>
                 <td>
                     <a data-bind="attr: { href: pdfLink }">Download</a>
                 </td>
@@ -62,8 +62,16 @@
 
             <input type="submit" value="Send all letters now" class="btn btn-lg btn-success" />
         </div>
+        
+        @Html.HiddenFor(m => m.SelectedInvoices, new Dictionary<string, object> { { "data-bind", "value:selectedPrintList()" } })
     }
 </div>
+
+
+@*$.ajax({ url: 'http://stackoverflow.com/...',
+         data: ko.toJSON(yourModel),
+         //other stuff
+})*@
 
 <script>
     // set standard dates
@@ -74,7 +82,7 @@
     var invoices = [
         @foreach (var invoice in Model.PartnerInvoices)
         {
-            <text>[{'invoiceDate':"@invoice.InvoiceDate", 'customerName':"@invoice.CustomerName", 'pdfLink':"@invoice.PdfUrl", 'status':"N/A"}],</text>
+            <text>[{'orderid':"@invoice.OrderId",'invoiceDate':"@invoice.InvoiceDate", 'customerName':"@invoice.CustomerName", 'amount':"@invoice.Amount", 'pdfLink':"@invoice.PdfUrl", 'status':"N/A"}],</text>
         }
     ];
 
@@ -85,8 +93,7 @@
         invoiceData: invoices
     };
 
-    console.log('View data: ' + data);
-
+    
     // apply knockout bindings
     var economicViewModel = new EconomicsViewModel('#economicInvoiceOverview', data);
     ko.applyBindings(economicViewModel, document.getElementById(economicInvoiceOverview));

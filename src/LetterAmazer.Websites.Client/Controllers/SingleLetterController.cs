@@ -197,8 +197,8 @@ namespace LetterAmazer.Websites.Client.Controllers
                 using (var client = new WebClient())
                 {
                     var data = client.DownloadData(pdfUrl);
-                    
-                    var fileKey = fileService.Put(data,Guid.NewGuid().ToString());
+
+                    var fileKey = fileService.Put(data, Guid.NewGuid().ToString());
 
                     var price = GetPriceFromFile(fileKey, 59);
                     return Json(new
@@ -290,7 +290,6 @@ namespace LetterAmazer.Websites.Client.Controllers
             {
                 Path = uploadedFileKey
             };
-
             var priceSpec = new PriceSpecification()
             {
                 CountryId = letter.ToAddress.Country.Id,
