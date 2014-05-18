@@ -201,7 +201,7 @@ namespace LetterAmazer.Websites.Client.Controllers
 
                     var fileKey = fileService.Put(data, Guid.NewGuid().ToString());
 
-                    var price = priceService.GetPricesFromFiles(new[]{fileKey}, customerId, 59);
+                    var price = priceService.GetPricesFromFiles(new[] { fileKey }, customerId, 59);  // TODO: wtf?
                     
                     return Json(new
                     {

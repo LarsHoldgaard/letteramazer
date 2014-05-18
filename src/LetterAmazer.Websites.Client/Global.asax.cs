@@ -3,6 +3,7 @@ using Castle.MicroKernel.Registration;
 using Castle.Windsor;
 using Castle.Windsor.Installer;
 using LetterAmazer.Business.Services;
+using LetterAmazer.Business.Services.Services.Partners.Invoice;
 using LetterAmazer.Data.Repository.Data;
 using LetterAmazer.Websites.Client.IoC;
 using System;
@@ -86,12 +87,19 @@ namespace LetterAmazer.Websites.Client
                     .InNamespace("LetterAmazer.Business.Services.Services.PaymentMethods.Implementations")
                     .WithServiceAllInterfaces());
 
+            Container.Register(
+                Classes.FromAssembly(assembly)
+                    .InNamespace("LetterAmazer.Business.Services.Services.Partners")
+                    .WithServiceAllInterfaces());
+
+
             // All factories in service DLL
             Container.Register(
                 Classes.FromAssembly(assembly)
                     .InNamespace("LetterAmazer.Business.Services.Factory")
                     .WithServiceAllInterfaces());
-            
+
+            Container.Register(Component.For<EconomicInvoiceService>());
             Container.Register(Component.For<LetterAmazerEntities>());
         }
 

@@ -96,6 +96,8 @@ namespace LetterAmazer.Business.Services.Services
                 Price = price
             });
 
+            order.PartnerTransactions = checkout.PartnerTransactions;
+
             return order;
         }
 
@@ -168,6 +170,8 @@ namespace LetterAmazer.Business.Services.Services
 
             }
         }
+
+        
 
     }
 }

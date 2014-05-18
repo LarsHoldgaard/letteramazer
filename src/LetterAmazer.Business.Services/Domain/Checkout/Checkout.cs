@@ -4,12 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LetterAmazer.Business.Services.Domain.Letters;
+using LetterAmazer.Business.Services.Domain.Partners;
 
 namespace LetterAmazer.Business.Services.Domain.Checkout
 {
     public class Checkout
     {
         public int UserId { get; set; }
+
+        public List<PartnerTransaction> PartnerTransactions { get; set; }
 
         public List<int> PartnerIds { get; set; } 
 
@@ -26,6 +29,7 @@ namespace LetterAmazer.Business.Services.Domain.Checkout
         {
             this.Letters = new List<CheckoutLine>();
             this.PartnerIds = new List<int>();
+            this.PartnerTransactions = new List<PartnerTransaction>();
         }
 
     }

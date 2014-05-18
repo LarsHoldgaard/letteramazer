@@ -13,5 +13,7 @@ namespace LetterAmazer.Business.Services.Domain.Partners
         public int OrderId { get; set; }
         public int PartnerId { get; set; }
         public int ValueId { get; set; }
+        public DateTime DateCreated { get; set; }
+        public DateTime? DateUpdated { get; set; }
     }
 }

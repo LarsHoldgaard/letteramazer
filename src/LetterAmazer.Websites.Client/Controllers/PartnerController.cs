@@ -15,6 +15,7 @@ using LetterAmazer.Business.Services.Domain.Orders;
 using LetterAmazer.Business.Services.Domain.Partners;
 using LetterAmazer.Business.Services.Domain.Payments;
 using LetterAmazer.Business.Services.Domain.Pricing;
+using LetterAmazer.Business.Services.Services.Partners;
 using LetterAmazer.Business.Services.Services.Partners.Invoice;
 using LetterAmazer.Business.Utils.Helpers;
 using LetterAmazer.Websites.Client.ViewModels;
@@ -36,9 +37,9 @@ namespace LetterAmazer.Websites.Client.Controllers
         private ICountryService countryService;
         private IFileService fileService;
         public PartnerController(IOrderService orderService, IPaymentService paymentService, ICheckoutService checkoutService,
-            IOfficeProductService officeProductService, IPriceService priceService,ICountryService countryService,IFileService fileService)
+            IOfficeProductService officeProductService, IPriceService priceService, ICountryService countryService, IFileService fileService, EconomicInvoiceService economicInvoiceService)
         {
-            this.economicInvoiceService = new EconomicInvoiceService();
+            this.economicInvoiceService = economicInvoiceService;
             this.orderService = orderService;
             this.paymentService = paymentService;
             this.checkoutService = checkoutService;
@@ -68,7 +69,8 @@ namespace LetterAmazer.Websites.Client.Controllers
                     CustomerName = partnerInvoice.CustomerName,
                     InvoiceDate = partnerInvoice.InvoiceDate,
                     OrderId = partnerInvoice.OrderId,
-                    Id = partnerInvoice.Id
+                    Id = partnerInvoice.Id,
+                    Status = partnerInvoice.LetterAmazerStatus
                 });
             }
 
@@ -86,19 +88,26 @@ namespace LetterAmazer.Websites.Client.Controllers
                 PaymentMethodId = 2
             };
 
+
             foreach (var selectedInvoice in model.SelectedInvoices[0].Split(';'))
             {
                 var invoice = economicInvoiceService.GetPartnerInvoiceById(selectedInvoice);
 
+                checkout.PartnerTransactions.Add(new PartnerTransaction()
+                  {
+                      CustomerId = customerId,
+                      PartnerId = 1,
+                      ValueId = int.Parse(invoice.Id)
+                  });
 
                 string fileKey = string.Empty;
                 using (var client = new WebClient())
                 {
                     var data = client.DownloadData(invoice.PdfUrl);
-                    fileKey = fileService.Put(data, Guid.NewGuid().ToString());    
+                    fileKey = fileService.Put(data, Guid.NewGuid().ToString());
                 }
-                
-                var priceInfo = priceService.GetPricesFromFiles(new[] { fileKey }, customerId, 59);
+
+                var priceInfo = priceService.GetPricesFromFiles(new[] { fileKey }, customerId, 59);  // TODO: wtf?
 
                 var officeProduct = officeProductService.GetOfficeProductById(priceInfo.OfficeProductId);
 
@@ -109,7 +118,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                     {
                         ToAddress = new AddressInfo()
                         {
-                            Country = countryService.GetCountryById(59)
+                            Country = countryService.GetCountryById(59)  // TODO: wtf?
                         },
                         LetterContent = new LetterContent()
                         {

@@ -17,6 +17,6 @@ namespace LetterAmazer.Business.Services.Domain.Partners
 
         public Price Price { get; set; }
         public string CustomerName { get; set; }
-        public string LetterAmazerStatus { get; set; }
+        public bool LetterAmazerStatus { get; set; }
     }
 }

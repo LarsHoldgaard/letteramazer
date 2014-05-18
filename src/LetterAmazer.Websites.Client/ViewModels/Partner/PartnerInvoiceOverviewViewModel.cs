@@ -32,5 +32,6 @@ namespace LetterAmazer.Websites.Client.ViewModels.Partner
         public string CustomerName { get; set; }
         public string Currency { get; set; }
         public decimal Amount { get; set; }
+        public bool Status { get; set; }
     }
 }

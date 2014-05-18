@@ -19,12 +19,14 @@ namespace LetterAmazer.Business.Services.Services.Partners.Invoice
         private string accessId;
         private string apiUrl;
         private string privateId;
+        private IPartnerService partnerService;
 
-        public EconomicInvoiceService()
+        public EconomicInvoiceService(IPartnerService partnerService)
         {
             this.accessId = ConfigurationManager.AppSettings["LetterAmazer.Apps.Economics.AccessId"];
             this.apiUrl = ConfigurationManager.AppSettings["LetterAmazer.Apps.Economics.ApiUrl"];
             this.privateId = ConfigurationManager.AppSettings["LetterAmazer.Apps.Economics.PrivateAppId"];
+            this.partnerService = partnerService;
         }
 
         public PartnerInvoice GetPartnerInvoiceById(string id)
@@ -51,27 +53,34 @@ namespace LetterAmazer.Business.Services.Services.Partners.Invoice
             var invoices = new List<PartnerInvoice>();
             foreach (var economicInvoice in collection)
             {
-                invoices.Add(getPartnerInvoice(economicInvoice));
+                var partnerTransactions = partnerService.GetPartnerTransactionBySpecification(new PartnerTransactionSpecification()
+                {
+                    CustomerId = 10, // TODO: wtf?
+                    PartnerId = 1, // TODO: wtf?
+                    ValueId = int.Parse(economicInvoice.id)
+                }).FirstOrDefault();
+
+                invoices.Add(getPartnerInvoice(economicInvoice, partnerTransactions));
             }
 
             return invoices;
         }
 
 
-        private PartnerInvoice getPartnerInvoice(EconomicInvoice economicInvoice)
+        private PartnerInvoice getPartnerInvoice(EconomicInvoice economicInvoice, PartnerTransaction partnerTransaction = null)
         {
             return new PartnerInvoice()
             {
-              CustomerName = economicInvoice.customerName,
-              PdfUrl = "http://www.antennahouse.com/XSLsample/pdf/sample-link_1.pdf",//economicInvoice.pdf,
-              InvoiceDate = economicInvoice.date,
-              LetterAmazerStatus = "N/A",
-              Id = economicInvoice.id,
-              OrderId = economicInvoice.orderId,
-              Price = new Price()
-              {
-                  PriceExVat = economicInvoice.netAmount
-              }
+                CustomerName = economicInvoice.customerName,
+                PdfUrl = "http://www.antennahouse.com/XSLsample/pdf/sample-link_1.pdf",//economicInvoice.pdf,
+                InvoiceDate = economicInvoice.date,
+                LetterAmazerStatus = partnerTransaction != null,
+                Id = economicInvoice.id,
+                OrderId = economicInvoice.orderId,
+                Price = new Price()
+                {
+                    PriceExVat = economicInvoice.netAmount
+                }
             };
         }
 

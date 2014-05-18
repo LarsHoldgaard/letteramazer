@@ -37,7 +37,9 @@ namespace LetterAmazer.Business.Services.Factory
                 OrderId = partners.OrderId,
                 PartnerId = partners.PartnerId, 
                 Id = partners.Id,
-                ValueId = partners.ValueId
+                ValueId = partners.ValueId,
+                DateCreated = partners.DateCreated,
+                DateUpdated = partners.DateUpdated
             };
         }
 

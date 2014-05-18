@@ -19,6 +19,8 @@ namespace LetterAmazer.Data.Repository.Data
         public int CustomerId { get; set; }
         public int ValueId { get; set; }
         public int OrderId { get; set; }
+        public System.DateTime DateCreated { get; set; }
+        public Nullable<System.DateTime> DateUpdated { get; set; }
     
         public virtual DbCustomers DbCustomers { get; set; }
         public virtual DbPartners DbPartners { get; set; }

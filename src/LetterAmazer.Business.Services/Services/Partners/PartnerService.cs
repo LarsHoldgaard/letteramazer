@@ -65,8 +65,30 @@ namespace LetterAmazer.Business.Services.Services.Partners
             {
                 dbPartnerTransactions = dbPartnerTransactions.Where(c => c.PartnerId == specification.PartnerId);
             }
+            if (specification.ValueId > 0)
+            {
+                dbPartnerTransactions = dbPartnerTransactions.Where(c => c.ValueId == specification.ValueId);
+            }
+
 
             return partnerFactory.Create(dbPartnerTransactions.OrderBy(c => c.Id).Skip(specification.Skip).Take(specification.Take).ToList());
+        }
+
+        public PartnerTransaction Create(PartnerTransaction partnerTransaction)
+        {
+            var partnerT = new DbPartnerTransactions()
+            {
+                CustomerId = partnerTransaction.CustomerId,
+                PartnerId = partnerTransaction.PartnerId,
+                ValueId = partnerTransaction.ValueId,
+                OrderId = partnerTransaction.OrderId,
+                DateUpdated = DateTime.Now,
+                DateCreated = DateTime.Now
+            };
+            repository.DbPartnerTransactions.Add(partnerT);
+            repository.SaveChanges();
+
+            return GetPartnerTransactionById(partnerT.Id);
         }
     }
 }

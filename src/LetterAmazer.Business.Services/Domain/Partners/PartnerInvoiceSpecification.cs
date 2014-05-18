@@ -12,5 +12,9 @@ namespace LetterAmazer.Business.Services.Domain.Partners
         public DateTime From { get; set; }
         public DateTime To { get; set; }
 
+        public int CustomerId { get; set; }
+        public int PartnerId { get; set; }
+        public int ValueId { get; set; }
+
     }
 }

@@ -12,5 +12,6 @@ namespace LetterAmazer.Business.Services.Domain.Partners
         PartnerTransaction GetPartnerTransactionById(int id);
         List<PartnerTransaction> GetPartnerTransactionBySpecification(PartnerTransactionSpecification specification);
 
+        PartnerTransaction Create(PartnerTransaction partnerTransaction);
     }
 }
