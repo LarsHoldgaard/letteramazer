@@ -18,5 +18,8 @@ namespace LetterAmazer.Business.Services.Domain.Pricing
         Price GetPriceBySpecification(PriceSpecification specification);
 
         Price GetPriceByMatrixLines(IEnumerable<ProductMatrixLine> matrix, int pageCount);
+
+        
+        Price GetPricesFromFiles(string[] filePaths, int customerId, int countryId);
     }
 }

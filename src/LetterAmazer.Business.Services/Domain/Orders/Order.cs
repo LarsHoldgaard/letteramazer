@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using LetterAmazer.Business.Services.Domain.Customers;
+using LetterAmazer.Business.Services.Domain.Partners;
 using LetterAmazer.Business.Services.Domain.Payments;
 using LetterAmazer.Business.Services.Domain.Pricing;
 using LetterAmazer.Business.Services.Domain.Products;
@@ -25,13 +26,14 @@ namespace LetterAmazer.Business.Services.Domain.Orders
 
         public Price Price { get; set; }
 
+        public List<PartnerTransaction> PartnerTransactions { get; set; }
         
         public List<OrderLine> OrderLines { get; set; }
         public Order()
         {
             this.OrderLines = new List<OrderLine>();
             this.OrderStatus =OrderStatus.Created;
-
+            this.PartnerTransactions = new List<PartnerTransaction>();
         }
 
         public decimal CostFromLines()

@@ -196,11 +196,13 @@ namespace LetterAmazer.Websites.Client.Controllers
             {
                 using (var client = new WebClient())
                 {
+                    var customerId = SessionHelper.Customer != null ? SessionHelper.Customer.Id : 0;
                     var data = client.DownloadData(pdfUrl);
 
                     var fileKey = fileService.Put(data, Guid.NewGuid().ToString());
 
-                    var price = GetPriceFromFile(fileKey, 59);
+                    var price = priceService.GetPricesFromFiles(new[] { fileKey }, customerId, 59);  // TODO: wtf?
+                    
                     return Json(new
                     {
                         status = "success",
@@ -230,8 +232,8 @@ namespace LetterAmazer.Websites.Client.Controllers
             {
                 //// TODO: stop being a fuck-tard and dont call this json removal method
                 string[] uploadFileKey2 = HelperMethods.RemoveJsonFromEntries(uploadFileKey);
-
-                Price price = GetPricesFromFiles(uploadFileKey2, country);
+                var customerId = SessionHelper.Customer != null ? SessionHelper.Customer.Id : 0;
+                Price price = priceService.GetPricesFromFiles(uploadFileKey2, customerId, country);
                 
                 return Json(new
                 {
@@ -265,45 +267,9 @@ namespace LetterAmazer.Websites.Client.Controllers
             });
         }
 
-        private Price GetPricesFromFiles(string[] uploadFileKey2, int countryId)
-        {
-            Price price = new Price();
-            foreach (var uploadedFileKey in uploadFileKey2)
-            {
-                price.AddPrice(GetPriceFromFile(uploadedFileKey,countryId));
-                price.VatPercentage = SessionHelper.Customer != null ? SessionHelper.Customer.VatPercentage():25;
-            }
-            return price;
-        }
+    
 
-        private Price GetPriceFromFile(string uploadedFileKey, int countryId)
-        {
-            Letter letter = new Letter()
-            {
-                ToAddress = new AddressInfo()
-                {
-                    Country = countryService.GetCountryById(countryId)
-                }
-            };
-
-            letter.LetterContent = new LetterContent()
-            {
-                Path = uploadedFileKey
-            };
-            var priceSpec = new PriceSpecification()
-            {
-                CountryId = letter.ToAddress.Country.Id,
-                LetterColor = LetterColor.Color,
-                LetterProcessing = LetterProcessing.Dull,
-                LetterPaperWeight = LetterPaperWeight.Eight,
-                LetterType = LetterType.Windowed,
-                PageCount = letter.LetterContent.PageCount,
-                UserId = SessionHelper.Customer != null ? SessionHelper.Customer.Id : 0
-            };
-
-           return priceService.GetPriceBySpecification(priceSpec);
-        }
-
+     
         public FileResult GeneratePDF(string content)
         {
             if (string.IsNullOrEmpty(content)) return File(new byte[0], "text/plain");
@@ -396,7 +362,10 @@ namespace LetterAmazer.Websites.Client.Controllers
             
             foreach (var uploadFile in model.UploadFile)
             {
-                var priceInfo = GetPriceFromFile(uploadFile,model.DestinationCountry);
+
+                var customerId = SessionHelper.Customer != null ? SessionHelper.Customer.Id : 0;
+                var priceInfo = priceService.GetPricesFromFiles(new[] { uploadFile }, customerId, model.DestinationCountry);
+
                 var officeProduct = officeProductService.GetOfficeProductById(priceInfo.OfficeProductId);
 
                 var t = new CheckoutLine()

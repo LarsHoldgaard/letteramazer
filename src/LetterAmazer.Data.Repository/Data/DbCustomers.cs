@@ -16,6 +16,7 @@ namespace LetterAmazer.Data.Repository.Data
     {
         public DbCustomers()
         {
+            this.DbPartnerTransactions = new HashSet<DbPartnerTransactions>();
             this.DbLetters = new HashSet<DbLetters>();
             this.DbOrders = new HashSet<DbOrders>();
         }
@@ -47,6 +48,7 @@ namespace LetterAmazer.Data.Repository.Data
         public int AccountStatus { get; set; }
     
         public virtual DbCountries DbCountries { get; set; }
+        public virtual ICollection<DbPartnerTransactions> DbPartnerTransactions { get; set; }
         public virtual ICollection<DbLetters> DbLetters { get; set; }
         public virtual ICollection<DbOrders> DbOrders { get; set; }
     }

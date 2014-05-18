@@ -211,6 +211,61 @@ namespace LetterAmazer.Business.Services.Services
             }; 
         }
 
+
+
+        public Price GetPricesFromFiles(string[] filePaths, int customerId, int countryId)
+        {
+            var vatPercentage = 25.0m;
+            if (customerId > 0)
+            {
+                var customer = customerService.GetCustomerById(customerId);
+                vatPercentage = customer.VatPercentage();
+            }
+            
+
+            Price price = new Price();
+            foreach (var uploadedFileKey in filePaths)
+            {
+                var p = getPriceFromFile(uploadedFileKey, customerId, countryId);
+                price.AddPrice(p);
+                price.VatPercentage = vatPercentage;
+
+                if (price.OfficeProductId == 0)
+                {
+                    price.OfficeProductId = p.OfficeProductId;
+                }
+            }
+            return price;
+        }
+
+        private Price getPriceFromFile(string uploadedFileKey, int customerId, int countryId)
+        {
+            Letter letter = new Letter()
+            {
+                ToAddress = new AddressInfo()
+                {
+                    Country = countryService.GetCountryById(countryId)
+                }
+            };
+
+            letter.LetterContent = new LetterContent()
+            {
+                Path = uploadedFileKey
+            };
+            var priceSpec = new PriceSpecification()
+            {
+                CountryId = letter.ToAddress.Country.Id,
+                LetterColor = LetterColor.Color,
+                LetterProcessing = LetterProcessing.Dull,
+                LetterPaperWeight = LetterPaperWeight.Eight,
+                LetterType = LetterType.Windowed,
+                PageCount = letter.LetterContent.PageCount,
+                UserId = customerId
+            };
+
+            return GetPriceBySpecification(priceSpec);
+        }
+
     }
 
 }

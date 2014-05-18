@@ -1,6 +1,8 @@
-﻿using LetterAmazer.Business.Services.Domain.Customers;
+﻿using System.Web.UI.WebControls.WebParts;
+using LetterAmazer.Business.Services.Domain.Customers;
 using LetterAmazer.Business.Services.Domain.Letters;
 using LetterAmazer.Business.Services.Domain.Orders;
+using LetterAmazer.Business.Services.Domain.Partners;
 using LetterAmazer.Business.Services.Domain.Pricing;
 using LetterAmazer.Business.Services.Domain.Products;
 using LetterAmazer.Business.Services.Factory.Interfaces;
@@ -19,15 +21,17 @@ namespace LetterAmazer.Business.Services.Services
         private LetterAmazerEntities repository;
         private ILetterService letterService;
         private ICustomerService customerService;
+        private IPartnerService partnerService;
 
         public OrderService(LetterAmazerEntities repository,
             ILetterService letterService,
-            IOrderFactory orderFactory, ICustomerService customerService)
+            IOrderFactory orderFactory, ICustomerService customerService, IPartnerService partnerService)
         {
             this.repository = repository;
             this.letterService = letterService;
             this.orderFactory = orderFactory;
             this.customerService = customerService;
+            this.partnerService = partnerService;
         }
 
         public Order Create(Order order)
@@ -67,14 +71,18 @@ namespace LetterAmazer.Business.Services.Services
             dborder.Total = order.Price.Total;
             dborder.VatPercentage = order.Price.VatPercentage;
             dborder.PriceExVat = order.Price.PriceExVat;
-
+            
             repository.DbOrders.Add(dborder);
-
             repository.SaveChanges();
            
+            foreach(var partnerTransaction in order.PartnerTransactions)
+            {
+                partnerTransaction.OrderId = dborder.Id;
+                partnerService.Create(partnerTransaction);
+            }
+
             return GetOrderById(dborder.Id);
         }
-
         
         public Order Update(Order order)
         {

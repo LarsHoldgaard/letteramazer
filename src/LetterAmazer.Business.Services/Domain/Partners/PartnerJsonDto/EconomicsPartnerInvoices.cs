@@ -35,7 +35,7 @@ namespace LetterAmazer.Business.Services.Domain.Partners.PartnerJsonDto
     public class EconomicInvoice
     {
         public string orderId { get; set; }
-       
+        public string id { get; set; }
         public DateTime date { get; set; }
         public DateTime dueDate { get; set; }
        

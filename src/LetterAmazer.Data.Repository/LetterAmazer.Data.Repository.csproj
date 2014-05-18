@@ -108,6 +108,12 @@
     <Compile Include="Data\DbOrganisationProfileSettings.cs">
       <DependentUpon>LetterAmazer.tt</DependentUpon>
     </Compile>
+    <Compile Include="Data\DbPartners.cs">
+      <DependentUpon>LetterAmazer.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\DbPartnerTransactions.cs">
+      <DependentUpon>LetterAmazer.tt</DependentUpon>
+    </Compile>
     <Compile Include="Data\DbPaymentMethods.cs">
       <DependentUpon>LetterAmazer.tt</DependentUpon>
     </Compile>

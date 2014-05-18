@@ -25,11 +25,13 @@ namespace LetterAmazer.Websites.Client.ViewModels.Partner
 
     public class PartnerInvoiceViewModel
     {
+        public string Id { get; set; }
         public string OrderId { get; set; }
         public string PdfUrl { get; set; }
         public DateTime InvoiceDate { get; set; }
         public string CustomerName { get; set; }
         public string Currency { get; set; }
         public decimal Amount { get; set; }
+        public bool Status { get; set; }
     }
 }
