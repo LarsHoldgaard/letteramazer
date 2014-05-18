@@ -46,8 +46,8 @@
                 <td>
                     <a data-bind="attr: { href: pdfLink }">Download</a>
                 </td>
-                <td>
-                    <input type="checkbox" data-bind="checked: status" />
+                <td data-bind="text: status">
+                    @*<input type="checkbox" data-bind="checked: status" />*@
                 </td>
             </tr>
         </tbody>
@@ -84,7 +84,7 @@
     var invoices = [
         @foreach (var invoice in Model.PartnerInvoices)
         {
-            <text>[{'orderid':"@invoice.Id",'invoiceDate':"@invoice.InvoiceDate", 'customerName':"@invoice.CustomerName", 'amount':"@invoice.Amount", 'pdfLink':"@invoice.PdfUrl", 'status':"@invoice.Status"}],</text>
+            <text>[{'orderid':"@invoice.Id",'invoiceDate':"@invoice.InvoiceDate", 'customerName':"@invoice.CustomerName", 'amount':"@invoice.Amount", 'pdfLink':"@invoice.PdfUrl", 'status':"@(invoice.Status?"Sent":"Not sent")"}],</text>
         }
     ];
 
