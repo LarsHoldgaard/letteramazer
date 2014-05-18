@@ -1,17 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Castle.Windsor.Diagnostics.Extensions;
 using LetterAmazer.Business.Services.Domain.AddressInfos;
 using LetterAmazer.Business.Services.Domain.Checkout;
+using LetterAmazer.Business.Services.Domain.Countries;
+using LetterAmazer.Business.Services.Domain.Files;
 using LetterAmazer.Business.Services.Domain.Letters;
 using LetterAmazer.Business.Services.Domain.OfficeProducts;
 using LetterAmazer.Business.Services.Domain.Orders;
 using LetterAmazer.Business.Services.Domain.Partners;
 using LetterAmazer.Business.Services.Domain.Payments;
+using LetterAmazer.Business.Services.Domain.Pricing;
 using LetterAmazer.Business.Services.Services.Partners.Invoice;
 using LetterAmazer.Business.Utils.Helpers;
+using LetterAmazer.Websites.Client.ViewModels;
 using LetterAmazer.Websites.Client.ViewModels.Partner;
 using log4net;
 
@@ -26,15 +32,20 @@ namespace LetterAmazer.Websites.Client.Controllers
         private EconomicInvoiceService economicInvoiceService;
         private ICheckoutService checkoutService;
         private IOfficeProductService officeProductService;
-
+        private IPriceService priceService;
+        private ICountryService countryService;
+        private IFileService fileService;
         public PartnerController(IOrderService orderService, IPaymentService paymentService, ICheckoutService checkoutService,
-            IOfficeProductService officeProductService)
+            IOfficeProductService officeProductService, IPriceService priceService,ICountryService countryService,IFileService fileService)
         {
             this.economicInvoiceService = new EconomicInvoiceService();
             this.orderService = orderService;
             this.paymentService = paymentService;
             this.checkoutService = checkoutService;
             this.officeProductService = officeProductService;
+            this.priceService = priceService;
+            this.countryService = countryService;
+            this.fileService = fileService;
         }
 
         public ActionResult Economic()
@@ -56,7 +67,8 @@ namespace LetterAmazer.Websites.Client.Controllers
                     PdfUrl = partnerInvoice.PdfUrl,
                     CustomerName = partnerInvoice.CustomerName,
                     InvoiceDate = partnerInvoice.InvoiceDate,
-                    OrderId = partnerInvoice.Id
+                    OrderId = partnerInvoice.OrderId,
+                    Id = partnerInvoice.Id
                 });
             }
 
@@ -66,43 +78,60 @@ namespace LetterAmazer.Websites.Client.Controllers
         [HttpPost]
         public ActionResult Economic(PartnerInvoiceOverviewViewModel model)
         {
+            var customerId = SessionHelper.Customer != null ? SessionHelper.Customer.Id : 0;
             Checkout checkout = new Checkout()
             {
-                UserId = SessionHelper.Customer != null ? SessionHelper.Customer.Id : 0,
+                UserId = customerId,
                 Email = SessionHelper.Customer.Email,
                 PaymentMethodId = 2
             };
 
-            foreach (var selectedInvoice in model.SelectedInvoices)
+            foreach (var selectedInvoice in model.SelectedInvoices[0].Split(';'))
             {
                 var invoice = economicInvoiceService.GetPartnerInvoiceById(selectedInvoice);
-                int i = 0;
-                //var priceInfo = GetPriceFromFile(uploadFile,model.DestinationCountry);
-                //var officeProduct = officeProductService.GetOfficeProductById(priceInfo.OfficeProductId);
 
-                //var t = new CheckoutLine()
-                //{
-                //    OfficeProductId = priceInfo.OfficeProductId,
-                //    Letter = new Letter()
-                //    {
-                //        ToAddress = new AddressInfo()
-                //        {
-                //            Country = countryService.GetCountryById(model.DestinationCountry)
-                //        },
-                //        LetterContent = new LetterContent()
-                //        {
-                //            Path = uploadFile
-                //        },
-                //        OfficeId = officeProduct.OfficeId
-                //    }
-                //}
-                //checkout.Letters.Add(t);
+
+                string fileKey = string.Empty;
+                using (var client = new WebClient())
+                {
+                    var data = client.DownloadData(invoice.PdfUrl);
+                    fileKey = fileService.Put(data, Guid.NewGuid().ToString());    
+                }
+                
+                var priceInfo = priceService.GetPricesFromFiles(new[] { fileKey }, customerId, 59);
+
+                var officeProduct = officeProductService.GetOfficeProductById(priceInfo.OfficeProductId);
+
+                var t = new CheckoutLine()
+                {
+                    OfficeProductId = priceInfo.OfficeProductId,
+                    Letter = new Letter()
+                    {
+                        ToAddress = new AddressInfo()
+                        {
+                            Country = countryService.GetCountryById(59)
+                        },
+                        LetterContent = new LetterContent()
+                        {
+                            Path = fileKey
+                        },
+                        OfficeId = officeProduct.OfficeId
+                    }
+                };
+                checkout.Letters.Add(t);
             }
 
-            //var updated_order = orderService.Create(order);
+            var order = checkoutService.ConvertCheckout(checkout);
+            var updated_order = orderService.Create(order);
 
-            //string redirectUrl = paymentService.Process(updated_order);
-            throw new NotImplementedException();
+            string redirectUrl = paymentService.Process(updated_order);
+
+            if (string.IsNullOrEmpty(redirectUrl))
+            {
+                DashboardViewModel dashboardViewModel = new DashboardViewModel();
+                return RedirectToAction("Index", "User", dashboardViewModel);
+            }
+            return Redirect(redirectUrl);
         }
 
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -54,6 +55,7 @@ namespace LetterAmazer.Business.Services.Services
 
             fileConversion(checkout);
             setCustomer(checkout, order);
+            setReturnPostId(checkout);
 
             foreach (var letter in checkout.Letters)
             {
@@ -97,6 +99,21 @@ namespace LetterAmazer.Business.Services.Services
             return order;
         }
 
+
+        /// <summary>
+        /// Prints the letterID on the PDF, so we can mark it as return post
+        /// </summary>
+        /// <param name="checkout"></param>
+        private void setReturnPostId(Checkout checkout)
+        {
+            foreach (var letter in checkout.Letters)
+            {
+                var fileData = fileService.Get(letter.Letter.LetterContent.Path);
+                var converted = PdfHelper.WriteIdOnPdf(fileData, letter.Letter.Id.ToString());
+                fileService.Put(converted, letter.Letter.LetterContent.Path);
+                File.WriteAllBytes("D:\\pdfloltest.pdf",converted);
+            }
+        }
 
         /// <summary>
         /// Finds or create the customer and sets it on the order

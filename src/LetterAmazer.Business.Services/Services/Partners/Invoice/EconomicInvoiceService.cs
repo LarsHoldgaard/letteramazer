@@ -66,7 +66,8 @@ namespace LetterAmazer.Business.Services.Services.Partners.Invoice
               PdfUrl = "http://www.antennahouse.com/XSLsample/pdf/sample-link_1.pdf",//economicInvoice.pdf,
               InvoiceDate = economicInvoice.date,
               LetterAmazerStatus = "N/A",
-              Id = economicInvoice.orderId,
+              Id = economicInvoice.id,
+              OrderId = economicInvoice.orderId,
               Price = new Price()
               {
                   PriceExVat = economicInvoice.netAmount

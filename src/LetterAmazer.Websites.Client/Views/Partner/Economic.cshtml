@@ -82,7 +82,7 @@
     var invoices = [
         @foreach (var invoice in Model.PartnerInvoices)
         {
-            <text>[{'orderid':"@invoice.OrderId",'invoiceDate':"@invoice.InvoiceDate", 'customerName':"@invoice.CustomerName", 'amount':"@invoice.Amount", 'pdfLink':"@invoice.PdfUrl", 'status':"N/A"}],</text>
+            <text>[{'orderid':"@invoice.Id",'invoiceDate':"@invoice.InvoiceDate", 'customerName':"@invoice.CustomerName", 'amount':"@invoice.Amount", 'pdfLink':"@invoice.PdfUrl", 'status':"N/A"}],</text>
         }
     ];
 

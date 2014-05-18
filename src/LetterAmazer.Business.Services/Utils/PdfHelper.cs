@@ -84,6 +84,59 @@ namespace LetterAmazer.Business.Utils.Helpers
             return finalBytes;
         }
 
+        public static byte[] WriteIdOnPdf(byte[] inPDF, string str)
+        {
+            byte[] finalBytes;
+
+            // open the reader
+            using (PdfReader reader = new PdfReader(inPDF))
+            {
+                Rectangle size = reader.GetPageSizeWithRotation(1);
+                using (Document document = new Document(size))
+                {
+                    // open the writer
+                    using (MemoryStream ms = new MemoryStream())
+                    {
+                        using (PdfWriter writer = PdfWriter.GetInstance(document, ms))
+                        {
+                            document.Open();
+
+                            for (var i = 1; i <= reader.NumberOfPages; i++)
+                            {
+                                document.NewPage();
+
+                                var baseFont = BaseFont.CreateFont(BaseFont.HELVETICA_BOLD, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
+                                var importedPage = writer.GetImportedPage(reader, i);
+
+                                var contentByte = writer.DirectContent;
+                                contentByte.BeginText();
+                                contentByte.SetFontAndSize(baseFont, 18);
+
+                                var multiLineString = "Hello,\r\nWorld!";
+
+                                contentByte.ShowTextAligned(PdfContentByte.ALIGN_LEFT, multiLineString,100, 200, 0);
+                                 
+
+                                contentByte.EndText();
+                                contentByte.AddTemplate(importedPage, 0, 0);
+                            }
+
+                            document.Close();
+                            ms.Close();
+                            writer.Close();
+                            reader.Close();
+                        }
+
+                        finalBytes = ms.ToArray();
+                    }
+                      
+                }
+                
+            }
+            
+            return finalBytes;
+        }
+
         public static byte[] ConvertToPdf(string textToConvert)
         {
             byte[] pdfBytes;
