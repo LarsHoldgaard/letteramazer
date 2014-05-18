@@ -13,6 +13,7 @@ namespace LetterAmazer.Business.Services.Domain.Partners.PartnerJsonDto
         public Metadata metaData { get; set; }
         public Pagination pagination { get; set; }
         public string self { get; set; }
+        
     }
 
     public class Metadata
@@ -43,6 +44,9 @@ namespace LetterAmazer.Business.Services.Domain.Partners.PartnerJsonDto
         public int attention { get; set; }
        
         public DateTime deliveryDate { get; set; }
+        public string customerName { get; set; }
+        public decimal netAmount { get; set; }
+        public decimal vatAmount { get; set; }
     }
 
     public class EconomicCustomer

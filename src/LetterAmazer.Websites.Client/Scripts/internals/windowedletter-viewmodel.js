@@ -53,6 +53,7 @@
             }
         });
 
+        // TODO: wtf? this is really messy isn't it
         self.thumbnailImagePath(self.thumbnailUrl + '?uploadFileKey=' + self.uploadFileKey());
         
         console.log('Upload status: ' + self.uploadstatus());

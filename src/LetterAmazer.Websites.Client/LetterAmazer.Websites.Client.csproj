@@ -612,7 +612,7 @@
     <Content Include="Scripts\dropzone\dropzone.min.js" />
     <Content Include="Scripts\dropzone\images\spritemap%402x.png" />
     <Content Include="Scripts\dropzone\images\spritemap.png" />
-    <Content Include="Scripts\internals\country.js" />
+    <Content Include="Scripts\internals\economics-viewmodel.js" />
     <Content Include="Scripts\internals\sendaletter-viewmodel.js" />
     <Content Include="Scripts\internals\windowedletter-viewmodel.js" />
     <Content Include="Scripts\jquery-2.0.3.js" />
