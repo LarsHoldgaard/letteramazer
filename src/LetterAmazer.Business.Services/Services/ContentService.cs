@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Amazon.SimpleEmail.Model;
+using LetterAmazer.Business.Services.Domain.Caching;
 using LetterAmazer.Business.Services.Domain.Content;
 using LetterAmazer.Business.Services.Factory.Interfaces;
 using LetterAmazer.Data.Repository.Data;
@@ -14,24 +16,33 @@ namespace LetterAmazer.Business.Services.Services
     {
         private LetterAmazerEntities repository;
         private IContentFactory contentFactory;
+        private ICacheService cacheService;
 
-
-        public ContentService(LetterAmazerEntities letterAmazerEntities, IContentFactory contentFactory)
+        public ContentService(LetterAmazerEntities letterAmazerEntities, IContentFactory contentFactory,ICacheService cacheService)
         {
             this.repository = letterAmazerEntities;
             this.contentFactory = contentFactory;
+            this.cacheService = cacheService;
         }
 
         public CmsContent GetContentById(int id)
         {
-            var dbContent = repository.DbCmsContent.FirstOrDefault(c => c.Id == id);
-
-            if (dbContent == null)
+             var cacheKey = cacheService.GetCacheKey(MethodBase.GetCurrentMethod().Name, id.ToString());
+            if (!cacheService.ContainsKey(cacheKey))
             {
-                throw new ArgumentException("No content with this ID");
-            }
+                var dbContent = repository.DbCmsContent.FirstOrDefault(c => c.Id == id);
 
-            return contentFactory.Create(dbContent);
+                if (dbContent == null)
+                {
+                    throw new ArgumentException("No content with this ID");
+                }
+
+                var content = contentFactory.Create(dbContent);
+                cacheService.Create(cacheKey, content);
+                return content;
+            }
+            return (CmsContent) (cacheService.GetById(cacheKey));
+
         }
 
         public List<CmsContent> GetContentBySpecifications(ContentSpecification specification)
@@ -74,7 +85,7 @@ namespace LetterAmazer.Business.Services.Services
             repository.DbCmsContent.Add(dbContent);
             repository.SaveChanges();
 
-
+            cacheService.Delete(cacheService.GetCacheKey("GetContentById",dbContent.Id.ToString()));
             return GetContentById(dbContent.Id);
         }
 
@@ -99,6 +110,7 @@ namespace LetterAmazer.Business.Services.Services
 
             repository.SaveChanges();
 
+            cacheService.Delete(cacheService.GetCacheKey("GetContentById", dbContent.Id.ToString()));
             return GetContentById(content.Id);
         }
 
@@ -113,6 +125,8 @@ namespace LetterAmazer.Business.Services.Services
 
             repository.DbCmsContent.Remove(dbContent);
             repository.SaveChanges();
+
+            cacheService.Delete(cacheService.GetCacheKey("GetContentById", dbContent.Id.ToString()));
         }
 
 

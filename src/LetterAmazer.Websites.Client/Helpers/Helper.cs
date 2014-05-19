@@ -16,7 +16,7 @@ namespace LetterAmazer.Websites.Client.Helpers
 
         public Helper()
         {
-            this.countryService = new CountryService(new LetterAmazerEntities(), new CountryFactory());
+            this.countryService = new CountryService(new LetterAmazerEntities(), new CountryFactory(),new CacheService());
         }
 
 

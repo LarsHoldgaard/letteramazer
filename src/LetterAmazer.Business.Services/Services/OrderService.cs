@@ -1,4 +1,5 @@
 ﻿using System.Web.UI.WebControls.WebParts;
+using LetterAmazer.Business.Services.Domain.Caching;
 using LetterAmazer.Business.Services.Domain.Customers;
 using LetterAmazer.Business.Services.Domain.Letters;
 using LetterAmazer.Business.Services.Domain.Orders;
@@ -9,6 +10,7 @@ using LetterAmazer.Business.Services.Factory.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using LetterAmazer.Business.Utils.Helpers;
 using LetterAmazer.Data.Repository.Data;
 using LetterAmazer.Business.Services.Exceptions;
 
@@ -22,16 +24,18 @@ namespace LetterAmazer.Business.Services.Services
         private ILetterService letterService;
         private ICustomerService customerService;
         private IPartnerService partnerService;
+        private ICacheService cacheService;
 
         public OrderService(LetterAmazerEntities repository,
             ILetterService letterService,
-            IOrderFactory orderFactory, ICustomerService customerService, IPartnerService partnerService)
+            IOrderFactory orderFactory, ICustomerService customerService, IPartnerService partnerService,ICacheService cacheService)
         {
             this.repository = repository;
             this.letterService = letterService;
             this.orderFactory = orderFactory;
             this.customerService = customerService;
             this.partnerService = partnerService;
+            this.cacheService = cacheService;
         }
 
         public Order Create(Order order)
@@ -45,7 +49,7 @@ namespace LetterAmazer.Business.Services.Services
             }
 
             dborder.Guid = Guid.NewGuid();
-            dborder.OrderCode = GenerateOrderCode();
+            dborder.OrderCode = order.OrderCode;
 
             if (order.Customer.AccountStatus == AccountStatus.Test)
             {
@@ -251,17 +255,6 @@ namespace LetterAmazer.Business.Services.Services
         }
 
         #region Private helper methods
-        private string GenerateOrderCode()
-        {
-            string orderCode = "LA" + DateTime.Now.Ticks.GetHashCode();
-
-            if (repository.DbOrders.Any(c => c.OrderCode == orderCode))
-            {
-                orderCode = "LA" + DateTime.Now.Ticks.GetHashCode();
-            }
-
-            return orderCode;
-        }
 
         private DbOrderlines setOrderline(OrderLine orderLine)
         {

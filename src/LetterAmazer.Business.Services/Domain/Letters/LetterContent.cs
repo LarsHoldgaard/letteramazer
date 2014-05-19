@@ -19,8 +19,8 @@ namespace LetterAmazer.Business.Services.Domain.Letters
             get
             {
                 // TODO: not do this, this is insane
-                var fileService = new FileService();
-                return fileService.Get(Path);
+                var fileService = new FileService(new CacheService());
+                return fileService.GetFileById(Path);
             }
         }
 

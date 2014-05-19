@@ -25,7 +25,7 @@ namespace LetterAmazer.Tools.CountryNameAdder
             InitializeComponent();
 
             this.countries = new List<Country>();
-            this.countryService = new CountryService(new LetterAmazerEntities(), new CountryFactory());
+            this.countryService = new CountryService(new LetterAmazerEntities(), new CountryFactory(),new CacheService());
         }
 
 

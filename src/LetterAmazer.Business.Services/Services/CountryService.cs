@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using LetterAmazer.Business.Services.Domain.Caching;
 using LetterAmazer.Business.Services.Domain.Countries;
+using LetterAmazer.Business.Services.Domain.Mails.ViewModels;
 using LetterAmazer.Business.Services.Exceptions;
 using LetterAmazer.Business.Services.Factory;
 using LetterAmazer.Business.Services.Factory.Interfaces;
@@ -13,11 +16,13 @@ namespace LetterAmazer.Business.Services.Services
     {
         private LetterAmazerEntities repository;
         private ICountryFactory countryFactory;
+        private ICacheService cacheService;
 
-        public CountryService(LetterAmazerEntities repository, ICountryFactory countryFactory)
+        public CountryService(LetterAmazerEntities repository, ICountryFactory countryFactory,ICacheService cacheService)
         {
             this.repository = repository;
             this.countryFactory = countryFactory;
+            this.cacheService = cacheService;
         }
 
         public Country Update(Country country)
@@ -74,13 +79,20 @@ namespace LetterAmazer.Business.Services.Services
                 throw new ArgumentException("Id has to be above 0");
             }
 
-            var country = repository.DbCountries.FirstOrDefault(c => c.Id == id);
-            if (country == null)
+            var cacheKey = cacheService.GetCacheKey(MethodBase.GetCurrentMethod().Name, id.ToString());
+            if (!cacheService.ContainsKey(cacheKey))
             {
-                throw new ItemNotFoundException("Country");
-            }
+                var country = repository.DbCountries.FirstOrDefault(c => c.Id == id);
+                if (country == null)
+                {
+                    throw new ItemNotFoundException("Country");
+                }
 
-            return countryFactory.Create(country);
+                var countryObj= countryFactory.Create(country);
+                cacheService.Create(cacheKey, countryObj);
+                return countryObj;
+            }
+            return (Country)cacheService.GetById(cacheKey);
         }
 
         public List<Country> GetCountryBySpecificaiton(CountrySpecification specification)

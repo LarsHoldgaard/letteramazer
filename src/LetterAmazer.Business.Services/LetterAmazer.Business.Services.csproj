@@ -92,6 +92,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Domain\Api\ApiKeys.cs" />
+    <Compile Include="Domain\Caching\ICacheService.cs" />
     <Compile Include="Domain\Checkout\Checkout.cs" />
     <Compile Include="Domain\Checkout\CheckoutLine.cs" />
     <Compile Include="Domain\Checkout\ICheckoutService.cs" />
@@ -154,6 +155,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="Services\CacheService.cs" />
     <Compile Include="Services\CheckoutService.cs" />
     <Compile Include="Services\ContentService.cs" />
     <Compile Include="Services\CurrencyService.cs" />

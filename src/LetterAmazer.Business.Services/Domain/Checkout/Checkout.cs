@@ -14,6 +14,7 @@ namespace LetterAmazer.Business.Services.Domain.Checkout
 
         public List<PartnerTransaction> PartnerTransactions { get; set; }
 
+        public string OrderNumber { get; set; }
         public List<int> PartnerIds { get; set; } 
 
         public string Email { get; set; }

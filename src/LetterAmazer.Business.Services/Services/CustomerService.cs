@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Reflection;
+using LetterAmazer.Business.Services.Domain.Caching;
 using LetterAmazer.Business.Services.Domain.Customers;
 using LetterAmazer.Business.Services.Domain.Mails;
 using LetterAmazer.Business.Services.Exceptions;
@@ -16,26 +18,33 @@ namespace LetterAmazer.Business.Services.Services
         private ICustomerFactory customerFactory;
         private LetterAmazerEntities repository;
         private IMailService mailService;
+        private ICacheService cacheService;
 
         public CustomerService(LetterAmazerEntities repository, ICustomerFactory customerFactory,
-            IMailService mailService)
+            IMailService mailService,ICacheService cacheService)
         {
             this.repository = repository;
             this.customerFactory = customerFactory;
             this.mailService = mailService;
+            this.cacheService = cacheService;
         }
 
         public Customer GetCustomerById(int customerId)
         {
-            DbCustomers dbcustomer = repository.DbCustomers.FirstOrDefault(c => c.Id == customerId);
-            if (dbcustomer == null)
+            var cacheKey = cacheService.GetCacheKey(MethodBase.GetCurrentMethod().Name, customerId.ToString());
+            if (!cacheService.ContainsKey(cacheKey))
             {
-                throw new ItemNotFoundException("Customer");
+                DbCustomers dbcustomer = repository.DbCustomers.FirstOrDefault(c => c.Id == customerId);
+                if (dbcustomer == null)
+                {
+                    throw new ItemNotFoundException("Customer");
+                }
+
+                var customer = customerFactory.Create(dbcustomer);
+                cacheService.Create(cacheKey, customer);
+                return customer;
             }
-
-            var customer = customerFactory.Create(dbcustomer);
-
-            return customer;
+            return (Customer) cacheService.GetById(cacheKey);
         }
 
         public Customer LoginUser(string email, string password)
@@ -163,6 +172,9 @@ namespace LetterAmazer.Business.Services.Services
                 id = dbCustomer.Id;
             }
 
+
+            cacheService.Delete(cacheService.GetCacheKey("GetCustomerById",id.ToString()));
+
             var storedCustomer = GetCustomerById(id);
             mailService.ConfirmUser(storedCustomer);
             return storedCustomer;
@@ -210,6 +222,8 @@ namespace LetterAmazer.Business.Services.Services
 
             repository.SaveChanges();
 
+            cacheService.Delete(cacheService.GetCacheKey("GetCustomerById", customer.Id.ToString()));
+
             return GetCustomerById(customer.Id);
         }
 
@@ -218,6 +232,9 @@ namespace LetterAmazer.Business.Services.Services
             var dbcust = repository.DbCustomers.FirstOrDefault(c => c.Id == customer.Id);
             repository.DbCustomers.Remove(dbcust);
             repository.SaveChanges();
+
+            cacheService.Delete(cacheService.GetCacheKey("GetCustomerById", customer.Id.ToString()));
+
         }
 
 

@@ -15,6 +15,7 @@ using LetterAmazer.Business.Services.Domain.Payments;
 using LetterAmazer.Business.Services.Domain.Pricing;
 using LetterAmazer.Business.Services.Domain.Products.ProductDetails;
 using LetterAmazer.Business.Services.Exceptions;
+using LetterAmazer.Business.Services.Utils;
 using LetterAmazer.Business.Utils.Helpers;
 using ProductType = LetterAmazer.Business.Services.Domain.Products.ProductType;
 
@@ -55,8 +56,8 @@ namespace LetterAmazer.Business.Services.Services
 
             fileConversion(checkout);
             setCustomer(checkout, order);
-            setReturnPostId(checkout);
 
+            checkout.OrderNumber = Helpers.GetRandomInt(1000000, 99999999).ToString();
             foreach (var letter in checkout.Letters)
             {
                 var letterPrice = priceService.GetPriceBySpecification(new PriceSpecification()
@@ -89,6 +90,7 @@ namespace LetterAmazer.Business.Services.Services
 
             }
 
+            order.OrderCode = checkout.OrderNumber;
             order.OrderLines.Add(new OrderLine()
             {
                 PaymentMethodId = checkout.PaymentMethodId,
@@ -97,7 +99,7 @@ namespace LetterAmazer.Business.Services.Services
             });
 
             order.PartnerTransactions = checkout.PartnerTransactions;
-
+            setReturnPostId(checkout);
             return order;
         }
 
@@ -110,10 +112,9 @@ namespace LetterAmazer.Business.Services.Services
         {
             foreach (var letter in checkout.Letters)
             {
-                var fileData = fileService.Get(letter.Letter.LetterContent.Path);
-                var converted = PdfHelper.WriteIdOnPdf(fileData, letter.Letter.Id.ToString());
-                fileService.Put(converted, letter.Letter.LetterContent.Path);
-                File.WriteAllBytes("D:\\pdfloltest.pdf",converted);
+                var fileData = fileService.GetFileById(letter.Letter.LetterContent.Path);
+                var converted = PdfHelper.WriteIdOnPdf(fileData, checkout.OrderNumber);
+                fileService.Create(converted, letter.Letter.LetterContent.Path);
             }
         }
 
@@ -163,9 +164,9 @@ namespace LetterAmazer.Business.Services.Services
                 // TODO: make a check if the current filesize is different from the file, so we don't make unneeded conversions
                 if (letter.Letter.LetterDetails.LetterSize == LetterSize.Letter)
                 {
-                    var fileData = fileService.Get(letter.Letter.LetterContent.Path);
+                    var fileData = fileService.GetFileById(letter.Letter.LetterContent.Path);
                     var converted = PdfHelper.ConvertPdfSize(fileData, LetterSize.A4, LetterSize.Letter);
-                    fileService.Put(converted, letter.Letter.LetterContent.Path);
+                    fileService.Create(converted, letter.Letter.LetterContent.Path);
                 }
 
             }

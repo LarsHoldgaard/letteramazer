@@ -88,52 +88,38 @@ namespace LetterAmazer.Business.Utils.Helpers
         {
             byte[] finalBytes;
 
-            // open the reader
-            using (PdfReader reader = new PdfReader(inPDF))
+            //Another in-memory PDF
+            using (var ms = new MemoryStream())
             {
-                Rectangle size = reader.GetPageSizeWithRotation(1);
-                using (Document document = new Document(size))
+                //Bind a reader to the bytes that we created above
+                using (var reader = new PdfReader(inPDF))
                 {
-                    // open the writer
-                    using (MemoryStream ms = new MemoryStream())
+                    //Store our page count
+                    var pageCount = reader.NumberOfPages;
+
+                    //Bind a stamper to our reader
+                    using (var stamper = new PdfStamper(reader, ms))
                     {
-                        using (PdfWriter writer = PdfWriter.GetInstance(document, ms))
-                        {
-                            document.Open();
 
-                            for (var i = 1; i <= reader.NumberOfPages; i++)
-                            {
-                                document.NewPage();
+                        //Setup a font to use
+                        var baseFont = BaseFont.CreateFont(BaseFont.HELVETICA_BOLD, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
 
-                                var baseFont = BaseFont.CreateFont(BaseFont.HELVETICA_BOLD, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
-                                var importedPage = writer.GetImportedPage(reader, i);
+                        //Get the raw PDF stream "on top" of the existing content
+                        var cb = stamper.GetOverContent(1);
 
-                                var contentByte = writer.DirectContent;
-                                contentByte.BeginText();
-                                contentByte.SetFontAndSize(baseFont, 18);
-
-                                var multiLineString = "Hello,\r\nWorld!";
-
-                                contentByte.ShowTextAligned(PdfContentByte.ALIGN_LEFT, multiLineString,100, 200, 0);
-                                 
-
-                                contentByte.EndText();
-                                contentByte.AddTemplate(importedPage, 0, 0);
-                            }
-
-                            document.Close();
-                            ms.Close();
-                            writer.Close();
-                            reader.Close();
-                        }
-
-                        finalBytes = ms.ToArray();
+                        //Draw some text
+                        cb.BeginText();
+                        
+                        cb.SetFontAndSize(baseFont, 8);
+                        cb.ShowTextAligned(PdfContentByte.ALIGN_LEFT,str,58,805,0);
+                        cb.EndText();
+                        
                     }
-                      
                 }
-                
+
+                //Once again, grab the bytes before closing things out
+                finalBytes = ms.ToArray();
             }
-            
             return finalBytes;
         }
 

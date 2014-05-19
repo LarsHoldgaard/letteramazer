@@ -104,7 +104,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                 using (var client = new WebClient())
                 {
                     var data = client.DownloadData(invoice.PdfUrl);
-                    fileKey = fileService.Put(data, Guid.NewGuid().ToString());
+                    fileKey = fileService.Create(data, Business.Services.Utils.Helpers.GetUploadDateString(Guid.NewGuid().ToString()));
                 }
 
                 var priceInfo = priceService.GetPricesFromFiles(new[] { fileKey }, customerId, 59);  // TODO: wtf?

@@ -75,7 +75,7 @@ namespace LetterAmazer.Business.Services.Services.PaymentMethods.Implementations
                 this.serviceUrl,
                 firstName,
                 itemName,
-                "USD",
+                "EUR",
                 volumeForUsd,
                 paypalIPNUrl,
                 country,
