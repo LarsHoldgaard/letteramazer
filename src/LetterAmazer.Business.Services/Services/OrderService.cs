@@ -1,4 +1,5 @@
 ﻿using System.Web.UI.WebControls.WebParts;
+using LetterAmazer.Business.Services.Domain.Caching;
 using LetterAmazer.Business.Services.Domain.Customers;
 using LetterAmazer.Business.Services.Domain.Letters;
 using LetterAmazer.Business.Services.Domain.Orders;
@@ -22,16 +23,18 @@ namespace LetterAmazer.Business.Services.Services
         private ILetterService letterService;
         private ICustomerService customerService;
         private IPartnerService partnerService;
+        private ICacheService cacheService;
 
         public OrderService(LetterAmazerEntities repository,
             ILetterService letterService,
-            IOrderFactory orderFactory, ICustomerService customerService, IPartnerService partnerService)
+            IOrderFactory orderFactory, ICustomerService customerService, IPartnerService partnerService,ICacheService cacheService)
         {
             this.repository = repository;
             this.letterService = letterService;
             this.orderFactory = orderFactory;
             this.customerService = customerService;
             this.partnerService = partnerService;
+            this.cacheService = cacheService;
         }
 
         public Order Create(Order order)

@@ -8,7 +8,7 @@ namespace LetterAmazer.Business.Services.Domain.Files
 {
     public interface IFileService
     {
-        string Put(byte[] data, string path);
-        byte[] Get(string path);
+        string Create(byte[] data, string path);
+        byte[] GetFileById(string path);
     }
 }
