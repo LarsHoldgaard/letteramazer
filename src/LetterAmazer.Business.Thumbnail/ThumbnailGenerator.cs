@@ -91,7 +91,7 @@ namespace LetterAmazer.Business.Thumbnail
                             Graphics gra = Graphics.FromImage(bmp);
 
                             gra.FillRectangle(brush, rectangleX, rectangleY, width, height);
-                            gra.DrawString("123456", new Font("Verdana", 8.0f), new SolidBrush(Color.Black), rectangleX, rectangleY - 10);
+                            gra.DrawString("123456", new Font("Verdana", 8.0f), new SolidBrush(Color.Black), rectangleX, rectangleY - 12);
                             bmp.Save(ms, ImageFormat.Jpeg);
 
                             ms.Position = 0;
