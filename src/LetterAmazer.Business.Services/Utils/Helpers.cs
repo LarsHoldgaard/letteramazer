@@ -15,6 +15,30 @@ namespace LetterAmazer.Business.Services.Utils
     /// </summary>
     public static class Helpers
     {
+        /// <summary>
+        /// Used to synchronize the random method, so it gives different numbers when used in a loop
+        /// </summary>
+        private static readonly object syncLock = new object();
+
+        /// <summary>
+        /// Random generator to generate solutions/assignments
+        /// </summary>
+        private static readonly Random ran = new Random();
+
+        /// <summary>
+        /// Will return anything from the min to the max-1
+        /// </summary>
+        /// <param name="min"></param>
+        /// <param name="max"></param>
+        /// <returns></returns>
+        public static int GetRandomInt(int min, int max)
+        {
+            lock (syncLock)
+            {
+                return ran.Next(min, max);
+            }
+        }
+
         public static string StreamToString(Stream stream)
         {
             stream.Position = 0;
@@ -54,6 +78,9 @@ namespace LetterAmazer.Business.Services.Utils
             return new string(chars);
         }
 
-    
+        public static string GetUploadDateString(string path)
+        {
+            return string.Format("{0}/{1}/{2}.pdf", DateTime.Now.Year, DateTime.Now.Month, path);
+        }
     }
 }

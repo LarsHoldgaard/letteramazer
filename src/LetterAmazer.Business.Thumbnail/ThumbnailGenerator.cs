@@ -41,10 +41,10 @@ namespace LetterAmazer.Business.Thumbnail
                 {
                     using (var ms = new MemoryStream())
                     {
+                        // DRAWING LETTER DOCUMENT (NOT A4)
                         Brush brush = new SolidBrush(Color.FromArgb(128, 170, 170, 170));
-
                         Graphics gra = Graphics.FromImage(bmp);
-
+                        
                         gra.FillRectangle(brush, rectangleX, rectangleY, width, height);
                         bmp.Save(ms, ImageFormat.Jpeg);
 
@@ -85,11 +85,13 @@ namespace LetterAmazer.Business.Thumbnail
                     {
                         using (var ms = new MemoryStream())
                         {
+                            // DRAWING A4 DOCUMENT
                             Brush brush = new SolidBrush(Color.FromArgb(128, 230, 230, 230));
 
                             Graphics gra = Graphics.FromImage(bmp);
 
                             gra.FillRectangle(brush, rectangleX, rectangleY, width, height);
+                            gra.DrawString("123456", new Font("Verdana", 8.0f), new SolidBrush(Color.Black), rectangleX, rectangleY - 10);
                             bmp.Save(ms, ImageFormat.Jpeg);
 
                             ms.Position = 0;

@@ -10,6 +10,7 @@ using LetterAmazer.Business.Services.Factory.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using LetterAmazer.Business.Utils.Helpers;
 using LetterAmazer.Data.Repository.Data;
 using LetterAmazer.Business.Services.Exceptions;
 
@@ -48,7 +49,7 @@ namespace LetterAmazer.Business.Services.Services
             }
 
             dborder.Guid = Guid.NewGuid();
-            dborder.OrderCode = GenerateOrderCode();
+            dborder.OrderCode = order.OrderCode;
 
             if (order.Customer.AccountStatus == AccountStatus.Test)
             {
@@ -254,17 +255,6 @@ namespace LetterAmazer.Business.Services.Services
         }
 
         #region Private helper methods
-        private string GenerateOrderCode()
-        {
-            string orderCode = "LA" + DateTime.Now.Ticks.GetHashCode();
-
-            if (repository.DbOrders.Any(c => c.OrderCode == orderCode))
-            {
-                orderCode = "LA" + DateTime.Now.Ticks.GetHashCode();
-            }
-
-            return orderCode;
-        }
 
         private DbOrderlines setOrderline(OrderLine orderLine)
         {

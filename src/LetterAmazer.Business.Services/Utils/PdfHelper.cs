@@ -111,7 +111,7 @@ namespace LetterAmazer.Business.Utils.Helpers
                         cb.BeginText();
                         
                         cb.SetFontAndSize(baseFont, 8);
-                        cb.ShowTextAligned(PdfContentByte.ALIGN_LEFT,str,245,790,0);
+                        cb.ShowTextAligned(PdfContentByte.ALIGN_LEFT,str,58,805,0);
                         cb.EndText();
                         
                     }

@@ -15,6 +15,7 @@ using LetterAmazer.Business.Services.Domain.Payments;
 using LetterAmazer.Business.Services.Domain.Pricing;
 using LetterAmazer.Business.Services.Domain.Products.ProductDetails;
 using LetterAmazer.Business.Services.Exceptions;
+using LetterAmazer.Business.Services.Utils;
 using LetterAmazer.Business.Utils.Helpers;
 using ProductType = LetterAmazer.Business.Services.Domain.Products.ProductType;
 
@@ -55,8 +56,8 @@ namespace LetterAmazer.Business.Services.Services
 
             fileConversion(checkout);
             setCustomer(checkout, order);
-            setReturnPostId(checkout);
 
+            checkout.OrderNumber = Helpers.GetRandomInt(1000000, 99999999).ToString();
             foreach (var letter in checkout.Letters)
             {
                 var letterPrice = priceService.GetPriceBySpecification(new PriceSpecification()
@@ -89,6 +90,7 @@ namespace LetterAmazer.Business.Services.Services
 
             }
 
+            order.OrderCode = checkout.OrderNumber;
             order.OrderLines.Add(new OrderLine()
             {
                 PaymentMethodId = checkout.PaymentMethodId,
@@ -97,7 +99,7 @@ namespace LetterAmazer.Business.Services.Services
             });
 
             order.PartnerTransactions = checkout.PartnerTransactions;
-
+            setReturnPostId(checkout);
             return order;
         }
 
@@ -111,7 +113,7 @@ namespace LetterAmazer.Business.Services.Services
             foreach (var letter in checkout.Letters)
             {
                 var fileData = fileService.GetFileById(letter.Letter.LetterContent.Path);
-                var converted = PdfHelper.WriteIdOnPdf(fileData, letter.Letter.Id.ToString());
+                var converted = PdfHelper.WriteIdOnPdf(fileData, checkout.OrderNumber);
                 fileService.Create(converted, letter.Letter.LetterContent.Path);
                 File.WriteAllBytes("D:\\pdfloltest.pdf",converted);
             }

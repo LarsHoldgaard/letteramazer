@@ -174,7 +174,8 @@ namespace LetterAmazer.Websites.Client.Controllers
             {
                 HttpPostedFileBase uploadFile = Request.Files[0];
                 
-                var keyName = fileService.Create(Business.Services.Utils.Helpers.GetBytes(uploadFile.InputStream), Guid.NewGuid().ToString());
+                var keyName = fileService.Create(Business.Services.Utils.Helpers.GetBytes(uploadFile.InputStream),
+Business.Services.Utils.Helpers.GetUploadDateString(Guid.NewGuid().ToString()));
                 
                 return Json(new
                 {
@@ -199,7 +200,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                     var customerId = SessionHelper.Customer != null ? SessionHelper.Customer.Id : 0;
                     var data = client.DownloadData(pdfUrl);
 
-                    var fileKey = fileService.Create(data, Guid.NewGuid().ToString());
+                    var fileKey = fileService.Create(data, Business.Services.Utils.Helpers.GetUploadDateString(Guid.NewGuid().ToString()));
 
                     var price = priceService.GetPricesFromFiles(new[] { fileKey }, customerId, 59);  // TODO: wtf?
                     

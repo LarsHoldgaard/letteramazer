@@ -13,29 +13,7 @@ namespace LetterAmazer.Business.Utils.Helpers
 {
     public static class HelperMethods
     {
-        /// <summary>
-        /// Used to synchronize the random method, so it gives different numbers when used in a loop
-        /// </summary>
-        private static readonly object syncLock = new object();
 
-        /// <summary>
-        /// Random generator to generate solutions/assignments
-        /// </summary>
-        private static readonly Random ran = new Random();
-
-        /// <summary>
-        /// Will return anything from the min to the max-1
-        /// </summary>
-        /// <param name="min"></param>
-        /// <param name="max"></param>
-        /// <returns></returns>
-        public static int GetRandomInt(int min, int max)
-        {
-            lock (syncLock)
-            {
-                return ran.Next(min, max);
-            }
-        }
 
         public static string UppercaseFirst(string s)
         {
