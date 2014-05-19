@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using LetterAmazer.Business.Services.Domain.Caching;
 using LetterAmazer.Business.Services.Domain.ProductMatrix;
 using LetterAmazer.Business.Services.Exceptions;
 using LetterAmazer.Business.Services.Factory.Interfaces;
@@ -15,25 +17,32 @@ namespace LetterAmazer.Business.Services.Services
         private LetterAmazerEntities repository;
 
         private IProductMatrixFactory productMatrixFactory;
-        
+        private ICacheService cacheService;
 
-        public ProductMatrixService(LetterAmazerEntities repository, IProductMatrixFactory productMatrixFactory)
+        public ProductMatrixService(LetterAmazerEntities repository, IProductMatrixFactory productMatrixFactory,ICacheService cacheService)
         {
             this.repository = repository;
             this.productMatrixFactory = productMatrixFactory;
+            this.cacheService = cacheService;
         }
 
         public ProductMatrixLine GetProductMatrixById(int id)
         {
-            var dbProductMatrix = repository.DbProductMatrixLines.FirstOrDefault(c => c.Id == id);
-
-            if (dbProductMatrix == null)
+            var cacheKey = cacheService.GetCacheKey(MethodBase.GetCurrentMethod().Name, id.ToString());
+            if (!cacheService.ContainsKey(cacheKey))
             {
-                throw new BusinessException("Product matrix wasn't found");
-            }
+                var dbProductMatrix = repository.DbProductMatrixLines.FirstOrDefault(c => c.Id == id);
 
-            var productMatrix = productMatrixFactory.Create(dbProductMatrix);
-            return productMatrix;
+                if (dbProductMatrix == null)
+                {
+                    throw new BusinessException("Product matrix wasn't found");
+                }
+
+                var productMatrix = productMatrixFactory.Create(dbProductMatrix);
+                cacheService.Create(cacheKey, productMatrix);
+                return productMatrix;
+            }
+            return (ProductMatrixLine) (cacheService.GetById(cacheKey));
         }
 
         public IEnumerable<ProductMatrixLine> GetProductMatrixBySpecification(ProductMatrixLineSpecification specification)
@@ -70,6 +79,8 @@ namespace LetterAmazer.Business.Services.Services
             repository.DbProductMatrixLines.Add(dbMatrixLine);
             repository.SaveChanges();
 
+            cacheService.Delete(cacheService.GetCacheKey("GetProductMatrixById",dbMatrixLine.Id.ToString()));
+
             return GetProductMatrixById(dbMatrixLine.Id);
         }
 
@@ -85,6 +96,8 @@ namespace LetterAmazer.Business.Services.Services
             dbMatrixLine.Title = productMatrixLine.Title;
             dbMatrixLine.CurrencyId = (int) productMatrixLine.CurrencyCode;
 
+            cacheService.Delete(cacheService.GetCacheKey("GetProductMatrixById", dbMatrixLine.Id.ToString()));
+
             return GetProductMatrixById(dbMatrixLine.Id);
         }
 
@@ -94,6 +107,8 @@ namespace LetterAmazer.Business.Services.Services
             
             repository.DbProductMatrixLines.Remove(dbProductMatrix);
             repository.SaveChanges();
+
+            cacheService.Delete(cacheService.GetCacheKey("GetProductMatrixById", productMatrixLine.Id.ToString()));
 
         }
     }

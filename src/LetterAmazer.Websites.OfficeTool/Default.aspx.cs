@@ -34,8 +34,8 @@ namespace LetterAmazer.Websites.OfficeTool
             this.fulfillmentPartnerService = new FulfillmentPartnerService(new LetterAmazerEntities(), new FulfilmentPartnerFactory());
             this.officeService = new OfficeService(new LetterAmazerEntities(),
                 new OfficeFactory(new CountryService(new LetterAmazerEntities(), new CountryFactory(),new CacheService())));
-            this.productMatrixService = new ProductMatrixService(new LetterAmazerEntities(), new ProductMatrixFactory());
-            this.offerProductService = new OfficeProductService(new LetterAmazerEntities(), new OfficeProductFactory(new ProductMatrixService(new LetterAmazerEntities(), new ProductMatrixFactory())),new CacheService());
+            this.productMatrixService = new ProductMatrixService(new LetterAmazerEntities(), new ProductMatrixFactory(),new CacheService());
+            this.offerProductService = new OfficeProductService(new LetterAmazerEntities(), new OfficeProductFactory(new ProductMatrixService(new LetterAmazerEntities(), new ProductMatrixFactory(),new CacheService())),new CacheService());
             this.countryService = new CountryService(new LetterAmazerEntities(), new CountryFactory(),new CacheService());
         }
 

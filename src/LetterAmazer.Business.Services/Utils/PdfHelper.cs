@@ -110,8 +110,8 @@ namespace LetterAmazer.Business.Utils.Helpers
                         //Draw some text
                         cb.BeginText();
                         
-                        cb.SetFontAndSize(baseFont, 14);
-                        cb.ShowTextAligned(PdfContentByte.ALIGN_LEFT,str,180,700,0);
+                        cb.SetFontAndSize(baseFont, 8);
+                        cb.ShowTextAligned(PdfContentByte.ALIGN_LEFT,str,245,790,0);
                         cb.EndText();
                         
                     }

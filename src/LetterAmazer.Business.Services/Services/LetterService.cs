@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using LetterAmazer.Business.Services.Domain.Caching;
 using LetterAmazer.Business.Services.Domain.Letters;
 using LetterAmazer.Business.Services.Factory;
 using LetterAmazer.Business.Services.Factory.Interfaces;
@@ -14,24 +16,31 @@ namespace LetterAmazer.Business.Services.Services
     {
         private LetterAmazerEntities repository;
         private ILetterFactory letterFactory;
+        private ICacheService cacheService;
 
-        public LetterService(LetterAmazerEntities repository,ILetterFactory letterFactory)
+        public LetterService(LetterAmazerEntities repository,ILetterFactory letterFactory,ICacheService cacheService)
         {
             this.letterFactory = letterFactory;
             this.repository = repository;
+            this.cacheService = cacheService;
         }
 
         public Letter GetLetterById(int letterId)
         {
-            DbLetters dbletter = repository.DbLetters.FirstOrDefault(c => c.Id == letterId);
-            if (dbletter == null)
+            var cacheKey = cacheService.GetCacheKey(MethodBase.GetCurrentMethod().Name, letterId.ToString());
+            if (!cacheService.ContainsKey(cacheKey))
             {
-                throw new ItemNotFoundException("Letter");
+                DbLetters dbletter = repository.DbLetters.FirstOrDefault(c => c.Id == letterId);
+                if (dbletter == null)
+                {
+                    throw new ItemNotFoundException("Letter");
+                }
+
+                var letter = letterFactory.Create(dbletter);
+                cacheService.Create(cacheKey, letter);
+                return letter;
             }
-
-            var letter = letterFactory.Create(dbletter);
-
-            return letter;
+            return (Letter)(cacheService.GetById(cacheKey));
         }
 
         public List<Letter> GetLetterBySpecification(LetterSpecification specification)
@@ -99,6 +108,8 @@ namespace LetterAmazer.Business.Services.Services
 
             repository.SaveChanges();
 
+
+            cacheService.Delete(cacheService.GetCacheKey("GetLetterById",letter.Id.ToString()));
             return GetLetterById(letter.Id);
         }
 
@@ -152,6 +163,7 @@ namespace LetterAmazer.Business.Services.Services
 
             repository.SaveChanges();
 
+            cacheService.Delete(cacheService.GetCacheKey("GetLetterById", letter.Id.ToString()));
             return GetLetterById(letter.Id);
         }
 
@@ -166,6 +178,8 @@ namespace LetterAmazer.Business.Services.Services
 
             repository.DbLetters.Remove(dbletter);
             repository.SaveChanges();
+
+            cacheService.Delete(cacheService.GetCacheKey("GetLetterById", letter.Id.ToString()));
         }
     }
 }
