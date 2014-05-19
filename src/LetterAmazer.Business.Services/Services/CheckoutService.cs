@@ -115,7 +115,6 @@ namespace LetterAmazer.Business.Services.Services
                 var fileData = fileService.GetFileById(letter.Letter.LetterContent.Path);
                 var converted = PdfHelper.WriteIdOnPdf(fileData, checkout.OrderNumber);
                 fileService.Create(converted, letter.Letter.LetterContent.Path);
-                File.WriteAllBytes("D:\\pdfloltest.pdf",converted);
             }
         }
 
