@@ -82,6 +82,7 @@ namespace LetterAmazer.Business.Services.Services
             dbletter.LetterProcessing = (int)letter.LetterDetails.LetterProcessing;
             dbletter.LetterType = (int)letter.LetterDetails.LetterType;
             dbletter.LetterSize = (int)letter.LetterDetails.LetterSize;
+            dbletter.DeliveryLabel = (int) letter.LetterDetails.DeliveryLabel;
             dbletter.Guid = Guid.NewGuid();
 
             dbletter.ToAddress_Address = letter.ToAddress.Address1;
@@ -133,6 +134,7 @@ namespace LetterAmazer.Business.Services.Services
             dbletter.LetterProcessing = (int)letter.LetterDetails.LetterProcessing;
             dbletter.LetterType = (int)letter.LetterDetails.LetterType;
             dbletter.LetterSize = (int)letter.LetterDetails.LetterSize;
+            dbletter.DeliveryLabel = (int)letter.LetterDetails.DeliveryLabel;
 
             dbletter.ToAddress_Address = letter.ToAddress.Address1;
             dbletter.ToAddress_Address2 = letter.ToAddress.Address2;

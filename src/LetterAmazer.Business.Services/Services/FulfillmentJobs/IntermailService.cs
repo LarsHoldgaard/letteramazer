@@ -10,6 +10,7 @@ using Amazon.IdentityManagement.Model;
 using LetterAmazer.Business.Services.Domain.Fulfillments;
 using LetterAmazer.Business.Services.Domain.Letters;
 using LetterAmazer.Business.Services.Domain.Mails;
+using LetterAmazer.Business.Services.Domain.OfficeProducts;
 using LetterAmazer.Business.Services.Domain.Orders;
 using LetterAmazer.Business.Services.Domain.Products.ProductDetails;
 using log4net;
@@ -21,7 +22,6 @@ namespace LetterAmazer.Business.Services.Services.FulfillmentJobs
         private static readonly ILog logger = LogManager.GetLogger(typeof(IntermailService));
 
         private IMailService mailService;
-        private ILetterService letterService;
         private IOrderService orderService;
         private bool isactivated;
 
@@ -29,12 +29,11 @@ namespace LetterAmazer.Business.Services.Services.FulfillmentJobs
         public string Username { get; set; }
         public string Password { get; set; }
 
-        public IntermailService(ILetterService letterService, IOrderService orderService, IMailService mailService)
+        public IntermailService(IOrderService orderService, IMailService mailService)
         {
             this.isactivated = bool.Parse(ConfigurationManager.AppSettings.Get("LetterAmazer.Settings.SendLetters"));
 
             this.mailService = mailService;
-            this.letterService = letterService;
             this.orderService = orderService;
 
             this.FtpServer = ConfigurationManager.AppSettings["LetterAmazer.Fulfilment.Intermail.FtpServer"];
