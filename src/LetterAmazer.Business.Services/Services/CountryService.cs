@@ -97,35 +97,43 @@ namespace LetterAmazer.Business.Services.Services
 
         public List<Country> GetCountryBySpecificaiton(CountrySpecification specification)
         {
-            IQueryable<DbCountries> dbcountries = repository.DbCountries;
+            var cacheKey = cacheService.GetCacheKey(MethodBase.GetCurrentMethod().Name, specification.ToString());
+            if (!cacheService.ContainsKey(cacheKey))
+            {
+                IQueryable<DbCountries> dbcountries = repository.DbCountries;
 
-            if (specification.Id > 0)
-            {
-                dbcountries = repository.DbCountries.Where(c => c.Id == specification.Id);
-            }
-            if (specification.InsideEu != null)
-            {
-                dbcountries = repository.DbCountries.Where(c => c.InsideEu.Value);
-            }
-            if (!string.IsNullOrEmpty(specification.CountryCode))
-            {
-                dbcountries = repository.DbCountries.Where(c => c.CountryCode == specification.CountryCode);
-            }
-            if (!string.IsNullOrEmpty(specification.CountryName))
-            {
-                dbcountries = repository.DbCountries.Where(c => c.CountryName == specification.CountryName);
-            }
-            if (specification.ContinentId > 0)
-            {
-                dbcountries = repository.DbCountries.Where(c => c.ContinentId == specification.ContinentId);
-            }
-            if (!string.IsNullOrEmpty(specification.Alias))
-            {
-                specification.Alias = specification.Alias.ToLower();
-                dbcountries = repository.DbCountries.Where(c => c.Alias == specification.Alias);
-            }
+                if (specification.Id > 0)
+                {
+                    dbcountries = repository.DbCountries.Where(c => c.Id == specification.Id);
+                }
+                if (specification.InsideEu != null)
+                {
+                    dbcountries = repository.DbCountries.Where(c => c.InsideEu.Value);
+                }
+                if (!string.IsNullOrEmpty(specification.CountryCode))
+                {
+                    dbcountries = repository.DbCountries.Where(c => c.CountryCode == specification.CountryCode);
+                }
+                if (!string.IsNullOrEmpty(specification.CountryName))
+                {
+                    dbcountries = repository.DbCountries.Where(c => c.CountryName == specification.CountryName);
+                }
+                if (specification.ContinentId > 0)
+                {
+                    dbcountries = repository.DbCountries.Where(c => c.ContinentId == specification.ContinentId);
+                }
+                if (!string.IsNullOrEmpty(specification.Alias))
+                {
+                    specification.Alias = specification.Alias.ToLower();
+                    dbcountries = repository.DbCountries.Where(c => c.Alias == specification.Alias);
+                }
 
-            return countryFactory.Create(dbcountries.Where(c=>c.Enabled).OrderBy(c=>c.CountryName).Skip(specification.Skip).Take(specification.Take).ToList());
+                var res= countryFactory.Create(dbcountries.Where(c=>c.Enabled).OrderBy(c=>c.CountryName).Skip(specification.Skip).Take(specification.Take).ToList());
+                cacheService.Create(cacheKey, res);
+                return res;
+            }
+            return (List<Country>) (cacheService.GetById(cacheKey));
+
         }
 
         public List<Continent> GetContinents()

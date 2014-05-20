@@ -12,6 +12,7 @@ namespace LetterAmazer.Business.Services.Domain.Caching
         object Create(string cacheKey, object obj);
         object Create(string cacheKey, object obj,DateTime expire);
         void Delete(string cacheKey);
+        void DeleteByContaining(string containing);
         string GetCacheKey(string methodName, string value);
         bool ContainsKey(string cacheKey);
     }

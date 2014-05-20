@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,7 +22,6 @@ namespace LetterAmazer.Business.Services.Services
         {
             if (ContainsKey(cacheKey))
             {
-                logger.Info("Cache key retrieved: " + cacheKey);
                 return HttpContext.Current.Cache[cacheKey];
             }
 
@@ -35,7 +36,6 @@ namespace LetterAmazer.Business.Services.Services
 
         public object Create(string cacheKey, object obj, DateTime expire)
         {
-            logger.Info("Cache key inserted: " + cacheKey);
             if (!ContainsKey(cacheKey))
             {
                 HttpContext.Current.Cache.Insert(cacheKey,
@@ -52,7 +52,35 @@ namespace LetterAmazer.Business.Services.Services
             HttpContext.Current.Cache.Remove(cacheKey);
         }
 
-        
+        public void DeleteByContaining(string containing)
+        {
+            Stopwatch watch = new Stopwatch();
+            watch.Start();
+            List<string> deleteList = new List<string>();
+            HttpContext oc = HttpContext.Current;
+
+            // find all cache keys in the system... maybe insane? I don't know lol
+            IDictionaryEnumerator en = oc.Cache.GetEnumerator();
+            while (en.MoveNext())
+            {
+                var k = en.Key.ToString();
+                if (k.Contains(containing))
+                {
+                    deleteList.Add(k);
+                }
+            }
+
+            foreach (var del in deleteList)
+            {
+                Delete(del);   
+            }
+
+
+            watch.Stop();
+            logger.Info(string.Format("DeleteByContaining containing {0} took {1} ms",containing,watch.ElapsedMilliseconds));
+        }
+
+
         public bool ContainsKey(string cacheKey)
         {
             return HttpContext.Current.Cache[cacheKey] != null;
