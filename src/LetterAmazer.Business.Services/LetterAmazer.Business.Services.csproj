@@ -116,6 +116,7 @@
     <Compile Include="Domain\Mails\IMailService.cs" />
     <Compile Include="Domain\Mails\ViewModels\MandrillMessageSend.cs" />
     <Compile Include="Domain\Mails\ViewModels\MandrillTemplateSend.cs" />
+    <Compile Include="Domain\OfficeProducts\DeliveryLabel.cs" />
     <Compile Include="Domain\Organisation\Organisation.cs" />
     <Compile Include="Domain\DeliveryJobs\IDeliveryJobService.cs" />
     <Compile Include="Domain\FulfillmentPartners\PartnerJob.cs" />

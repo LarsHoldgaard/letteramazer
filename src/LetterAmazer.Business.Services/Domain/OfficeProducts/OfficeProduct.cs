@@ -27,6 +27,7 @@ namespace LetterAmazer.Business.Services.Domain.OfficeProducts
 
         public int OfficeProductReferenceId { get; set; }
         public int ShippingDays { get; set; }
+        public DeliveryLabel DeliveryLabel { get; set; }
 
         public bool Enabled { get; set; }
 

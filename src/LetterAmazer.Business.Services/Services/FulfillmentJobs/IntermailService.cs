@@ -54,7 +54,6 @@ namespace LetterAmazer.Business.Services.Services.FulfillmentJobs
                     {
                         colorPath = "SORTHVID";
                     }
-
                     string servePath = FtpServer + "/" + colorPath + "/" + letter.Guid + ".pdf";
 
                     if (isactivated)
