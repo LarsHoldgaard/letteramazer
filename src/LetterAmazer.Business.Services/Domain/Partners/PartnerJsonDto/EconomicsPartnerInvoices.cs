@@ -45,6 +45,13 @@ namespace LetterAmazer.Business.Services.Domain.Partners.PartnerJsonDto
        
         public DateTime deliveryDate { get; set; }
         public string customerName { get; set; }
+        public string customerCountry { get; set; }
+        public string customerCity { get; set; }
+
+        public string customerAddress { get; set; }
+        public string customerPostalCode { get; set; }
+        public string customerCounty { get; set; }
+
         public decimal netAmount { get; set; }
         public decimal vatAmount { get; set; }
     }

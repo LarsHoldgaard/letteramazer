@@ -70,7 +70,11 @@ namespace LetterAmazer.Websites.Client.Controllers
                     InvoiceDate = partnerInvoice.InvoiceDate,
                     OrderId = partnerInvoice.OrderId,
                     Id = partnerInvoice.Id,
-                    Status = partnerInvoice.LetterAmazerStatus
+                    Status = partnerInvoice.LetterAmazerStatus,
+                    CustomerAddress = partnerInvoice.CustomerAddress,
+                    CustomerCity = partnerInvoice.CustomerCity,
+                    CustomerCountry = partnerInvoice.CustomerCountry,
+                    CustomerCounty = partnerInvoice.CustomerCounty
                 });
             }
 

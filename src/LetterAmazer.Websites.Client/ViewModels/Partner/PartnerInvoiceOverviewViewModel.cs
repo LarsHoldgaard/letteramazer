@@ -30,6 +30,11 @@ namespace LetterAmazer.Websites.Client.ViewModels.Partner
         public string PdfUrl { get; set; }
         public DateTime InvoiceDate { get; set; }
         public string CustomerName { get; set; }
+
+        public string CustomerAddress { get; set; }
+        public string CustomerCity { get; set; }
+        public string CustomerCountry { get; set; }
+        public string CustomerCounty { get; set; }
         public string Currency { get; set; }
         public decimal Amount { get; set; }
         public bool Status { get; set; }

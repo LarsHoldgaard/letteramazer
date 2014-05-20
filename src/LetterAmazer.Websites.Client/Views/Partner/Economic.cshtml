@@ -26,6 +26,7 @@
                 <th>
                     Customer name
                 </th>
+                <th>Customer country</th>
                 <th>
                     Invoice amount
                 </th>
@@ -42,6 +43,8 @@
                 </td>
                 <td data-bind="text: invoiceDate"></td>
                 <td data-bind="text: customerName"></td>
+                <td data-bind="text: customerCountry"></td>
+
                 <td data-bind="text: amount"></td>
                 <td>
                     <a data-bind="attr: { href: pdfLink }">Download</a>
@@ -84,7 +87,7 @@
     var invoices = [
         @foreach (var invoice in Model.PartnerInvoices)
         {
-            <text>[{'orderid':"@invoice.Id",'invoiceDate':"@invoice.InvoiceDate", 'customerName':"@invoice.CustomerName", 'amount':"@invoice.Amount", 'pdfLink':"@invoice.PdfUrl", 'status':"@(invoice.Status?"Sent":"Not sent")"}],</text>
+            <text>[{ 'orderid': "@invoice.Id", 'invoiceDate': "@invoice.InvoiceDate", 'customerName': "@invoice.CustomerName", 'customerCountry': "@invoice.CustomerCountry", 'amount': "@invoice.Amount", 'pdfLink': "@invoice.PdfUrl", 'status': "@(invoice.Status?"Sent":"Not sent")" }],</text>
         }
     ];
 

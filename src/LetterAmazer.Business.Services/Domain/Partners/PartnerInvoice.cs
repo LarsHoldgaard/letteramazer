@@ -17,6 +17,13 @@ namespace LetterAmazer.Business.Services.Domain.Partners
 
         public Price Price { get; set; }
         public string CustomerName { get; set; }
+        public string CustomerAddress { get; set; }
+        public string CustomerCity { get; set; }
+        public string CustomerCountry { get; set; }
+        public string CustomerCounty { get; set; }
+
+        public string CustomerPostalCode { get; set; }
+
         public bool LetterAmazerStatus { get; set; }
     }
 }

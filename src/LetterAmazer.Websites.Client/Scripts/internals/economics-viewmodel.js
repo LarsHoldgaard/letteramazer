@@ -1,9 +1,10 @@
-﻿function invoice(orderid, invoiceDate, customerName, amount,pdfLink, status) {
+﻿function invoice(orderid, invoiceDate, customerName, customerCountry, amount,pdfLink, status) {
     var self = this;
 
     self.pdfLink = pdfLink;
     self.print = ko.observable(false);
     self.customerName = customerName;
+    self.customerCountry = customerCountry;
     self.status = status;
     self.invoiceDate = invoiceDate;
     self.jsonPrice = ko.observable(0);
@@ -79,7 +80,7 @@ var EconomicsViewModel = function (formSelector, data) {
     self.invoices = ko.observableArray([]);
 
     $(data.invoiceData).each(function (index, ele) {
-        var inv = new invoice(ele[0].orderid,ele[0].invoiceDate, ele[0].customerName, ele[0].amount, ele[0].pdfLink, ele[0].status);
+        var inv = new invoice(ele[0].orderid,ele[0].invoiceDate, ele[0].customerName, ele[0].customerCountry,ele[0].amount, ele[0].pdfLink, ele[0].status);
         self.invoices.push(inv);
     });
 
