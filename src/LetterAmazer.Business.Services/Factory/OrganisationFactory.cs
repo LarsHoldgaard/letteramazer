@@ -17,9 +17,16 @@ namespace LetterAmazer.Business.Services.Factory
     {
         private IAddressFactory addressFactory;
 
+        private LetterAmazerEntities repository;
+
         public OrganisationFactory(IAddressFactory addressFactory)
         {
             this.addressFactory = addressFactory;
+        }
+
+        public OrganisationFactory(LetterAmazerEntities repository)
+        {
+            this.repository = repository;
         }
 
         public Organisation Create(DbOrganisation organisation, DbOrganisationProfileSettings organisationProfileSettings)
@@ -99,6 +106,18 @@ namespace LetterAmazer.Business.Services.Factory
                 ApiSecret = apiAccess.ApiSecret
             };
         }
+
+        public DbApiAccess GetApiKeys(ApiKeys apiKey)
+        {
+            DbApiAccess access = null;
+            var AccessList = repository.DbApiAccess.Where(q => q.ApiKey == apiKey.ApiKey && q.ApiSecret == apiKey.ApiSecret);
+            if (AccessList != null && AccessList.Count() > 0)
+            {
+                access = AccessList.FirstOrDefault();
+
+            }
+            return access;
+        } 
 
         public List<ApiKeys> CreateApiKeys(List<DbApiAccess> apiAccess)
         {
