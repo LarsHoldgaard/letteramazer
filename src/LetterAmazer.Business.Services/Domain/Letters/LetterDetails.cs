@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LetterAmazer.Business.Services.Domain.OfficeProducts;
 using LetterAmazer.Business.Services.Domain.Products.ProductDetails;
 using Org.BouncyCastle.Asn1.Crmf;
 
@@ -17,6 +18,8 @@ namespace LetterAmazer.Business.Services.Domain.Letters
         public LetterSize LetterSize { get; set; }
         public LetterType LetterType { get; set; }
 
+        public DeliveryLabel DeliveryLabel { get; set; }
+
         public LetterDetails()
         {
             this.LetterColor = LetterColor.Color;
@@ -24,6 +27,7 @@ namespace LetterAmazer.Business.Services.Domain.Letters
             this.LetterProcessing = LetterProcessing.Dull;
             this.LetterSize =LetterSize.A4;
             this.LetterType = LetterType.Windowed;
+            this.DeliveryLabel = DeliveryLabel.Miscellaneous;
         }
 
         public object Clone()

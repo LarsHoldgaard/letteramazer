@@ -89,7 +89,7 @@ namespace LetterAmazer.Business.Services.Services
             }
             else if (fulfillmentPartner.PartnerJob == PartnerJob.Intermail)
             {
-                fulfillmentService = new IntermailService(letterService,orderService,mailService);
+                fulfillmentService = new IntermailService(orderService,mailService);
             }
 
             if (fulfillmentService != null)

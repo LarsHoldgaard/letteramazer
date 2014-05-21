@@ -83,7 +83,7 @@ namespace LetterAmazer.Business.Services.Services.Partners
                 ValueId = partnerTransaction.ValueId,
                 OrderId = partnerTransaction.OrderId,
                 DateUpdated = DateTime.Now,
-                DateCreated = DateTime.Now
+                DateCreated = DateTime.Now,
             };
             repository.DbPartnerTransactions.Add(partnerT);
             repository.SaveChanges();

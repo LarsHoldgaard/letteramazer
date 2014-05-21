@@ -130,7 +130,8 @@ namespace LetterAmazer.Business.Services.Services
                 OfficeProductReferenceId = officeProduct.OfficeProductReferenceId,
                 ShippingWeekdays = officeProduct.ShippingDays,
                 Enabled = officeProduct.Enabled,
-                Automatic =officeProduct.Automatic
+                Automatic =officeProduct.Automatic,
+                DeliveryLabel = (int)officeProduct.DeliveryLabel
             };
 
             repository.DbOfficeProducts.Add(dbOfficeProduct);
@@ -166,6 +167,7 @@ namespace LetterAmazer.Business.Services.Services
             dbOfficeProduct.ShippingWeekdays = officeProduct.ShippingDays;
             dbOfficeProduct.Enabled = officeProduct.Enabled;
             dbOfficeProduct.Automatic = officeProduct.Automatic;
+            dbOfficeProduct.DeliveryLabel = (int) officeProduct.DeliveryLabel;
 
             cacheService.Delete(cacheService.GetCacheKey("GetOfficeProductById", dbOfficeProduct.Id.ToString()));
             return GetOfficeProductById(officeProduct.Id);

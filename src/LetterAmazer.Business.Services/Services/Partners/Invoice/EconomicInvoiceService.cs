@@ -31,7 +31,6 @@ namespace LetterAmazer.Business.Services.Services.Partners.Invoice
 
         public PartnerInvoice GetPartnerInvoiceById(string id)
         {
-            //https://restapi.e-conomic.com/invoices/booked/20001
             var invoiceApiUrl = string.Format("{0}/{1}/{2}", apiUrl, "invoices/booked",id);
 
             var invoiceString = getJsonStringFromRequest(buildEconomicsHttpRequest(invoiceApiUrl));
@@ -80,7 +79,12 @@ namespace LetterAmazer.Business.Services.Services.Partners.Invoice
                 Price = new Price()
                 {
                     PriceExVat = economicInvoice.netAmount
-                }
+                },
+                CustomerAddress = economicInvoice.customerAddress,
+                CustomerCity = economicInvoice.customerCity,
+                CustomerCountry = economicInvoice.customerCountry,
+                CustomerCounty = economicInvoice.customerCounty,
+                CustomerPostalCode = economicInvoice.customerPostalCode
             };
         }
 

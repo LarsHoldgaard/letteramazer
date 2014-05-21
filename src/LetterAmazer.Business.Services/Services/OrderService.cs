@@ -1,4 +1,5 @@
-﻿using System.Web.UI.WebControls.WebParts;
+﻿using System.Reflection;
+using System.Web.UI.WebControls.WebParts;
 using LetterAmazer.Business.Services.Domain.Caching;
 using LetterAmazer.Business.Services.Domain.Customers;
 using LetterAmazer.Business.Services.Domain.Letters;
@@ -85,6 +86,8 @@ namespace LetterAmazer.Business.Services.Services
                 partnerService.Create(partnerTransaction);
             }
 
+            cacheService.DeleteByContaining("GetOrderBySpecification");
+
             return GetOrderById(dborder.Id);
         }
         
@@ -104,36 +107,44 @@ namespace LetterAmazer.Business.Services.Services
             
             repository.SaveChanges();
 
+            cacheService.DeleteByContaining("GetOrderBySpecification");
             return GetOrderById(order.Id);
         }
 
         public List<Order> GetOrderBySpecification(OrderSpecification specification)
         {
-            IQueryable<DbOrders> dbOrders = repository.DbOrders;
+            var cacheKey = cacheService.GetCacheKey(MethodBase.GetCurrentMethod().Name, specification.ToString());
+            if (!cacheService.ContainsKey(cacheKey))
+            {
+                IQueryable<DbOrders> dbOrders = repository.DbOrders;
 
-            if (specification.OrderStatus.Any())
-            {
-                dbOrders = dbOrders.Where(c => specification.OrderStatus.Contains((OrderStatus) c.OrderStatus));
-            }
-            if (specification.FromDate != null)
-            {
-                dbOrders = dbOrders.Where(c => c.DateCreated >= specification.FromDate);
-            }
-            if (specification.ToDate != null)
-            {
-                dbOrders = dbOrders.Where(c => c.DateCreated <= specification.ToDate);
-            }
-            if (specification.UserId > 0)
-            {
-                dbOrders = dbOrders.Where(c => c.CustomerId == specification.UserId);
-            }
+                if (specification.OrderStatus.Any())
+                {
+                    dbOrders = dbOrders.Where(c => specification.OrderStatus.Contains((OrderStatus)c.OrderStatus));
+                }
+                if (specification.FromDate != null)
+                {
+                    dbOrders = dbOrders.Where(c => c.DateCreated >= specification.FromDate);
+                }
+                if (specification.ToDate != null)
+                {
+                    dbOrders = dbOrders.Where(c => c.DateCreated <= specification.ToDate);
+                }
+                if (specification.UserId > 0)
+                {
+                    dbOrders = dbOrders.Where(c => c.CustomerId == specification.UserId);
+                }
 
-            var ord = dbOrders.OrderBy(c=>c.Id).Skip(specification.Skip).Take(specification.Take).ToList();
+                var ord = dbOrders.OrderBy(c => c.Id).Skip(specification.Skip).Take(specification.Take).ToList();
 
-            List<List<DbOrderlines>> dbOrderItems = ord.
-                Select(dbOrderse => repository.DbOrderlines.Where(c => c.OrderId == dbOrderse.Id).
-                    ToList()).ToList();
-            return orderFactory.Create(ord, dbOrderItems);
+                List<List<DbOrderlines>> dbOrderItems = ord.
+                    Select(dbOrderse => repository.DbOrderlines.Where(c => c.OrderId == dbOrderse.Id).
+                        ToList()).ToList();
+                var res= orderFactory.Create(ord, dbOrderItems);
+                cacheService.Create(cacheKey, res);
+                return res;
+            }
+            return (List<Order>) (cacheService.GetById(cacheKey));
         }
 
         public Order GetOrderById(Guid orderId)

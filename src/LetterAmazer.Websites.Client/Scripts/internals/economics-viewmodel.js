@@ -1,19 +1,16 @@
-﻿function invoice(orderid, invoiceDate, customerName, amount,pdfLink, status) {
+﻿function invoice(orderid, invoiceDate, customerName, customerCountry, amount,pdfLink, status, countryId) {
     var self = this;
 
     self.pdfLink = pdfLink;
     self.print = ko.observable(false);
     self.customerName = customerName;
+    self.customerCountry = customerCountry;
     self.status = status;
     self.invoiceDate = invoiceDate;
     self.jsonPrice = ko.observable(0);
     self.amount = amount;
     self.orderid = orderid;
-
-    self.pdfPagesCount = function () {
-        return 1;
-    };
-
+    
     self.printingPrice = ko.computed(function () {
         var jsonPrice = self.jsonPrice();
         return new price(jsonPrice.PriceExVat,
@@ -23,12 +20,12 @@
 
     self.updatePrices = function () {
         var printStatus = self.print();
-
         $.ajax({
             url: '/SingleLetter/GetPriceFromUrl',
             type: 'POST',
             data: {
-                pdfUrl: self.pdfLink,
+                'pdfUrl': self.pdfLink,
+                'country': countryId
             },
             dataType: 'json',
             success: function (data) {
@@ -74,12 +71,13 @@ var EconomicsViewModel = function (formSelector, data) {
     var self = this;
     self.dateFrom = data.dateFrom;
     self.dateTo = data.dateTo;
-
+    self.countryId = ko.observable(0);
 
     self.invoices = ko.observableArray([]);
 
     $(data.invoiceData).each(function (index, ele) {
-        var inv = new invoice(ele[0].orderid,ele[0].invoiceDate, ele[0].customerName, ele[0].amount, ele[0].pdfLink, ele[0].status);
+        // todo: should make logic awesome... yes
+        var inv = new invoice(ele[0].orderid,ele[0].invoiceDate, ele[0].customerName, ele[0].customerCountry,ele[0].amount, ele[0].pdfLink, ele[0].status,59);
         self.invoices.push(inv);
     });
 

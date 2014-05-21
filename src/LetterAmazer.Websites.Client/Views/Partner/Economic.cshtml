@@ -26,6 +26,7 @@
                 <th>
                     Customer name
                 </th>
+                <th>Customer country</th>
                 <th>
                     Invoice amount
                 </th>
@@ -42,6 +43,8 @@
                 </td>
                 <td data-bind="text: invoiceDate"></td>
                 <td data-bind="text: customerName"></td>
+                <td data-bind="text: customerCountry"></td>
+
                 <td data-bind="text: amount"></td>
                 <td>
                     <a data-bind="attr: { href: pdfLink }">Download</a>
@@ -57,6 +60,12 @@
     @using (Html.BeginForm("Economic", "Partner", FormMethod.Post))
     {
         <div>
+            @Html.DropDownListFor(model => model.SelectedCountry, Model.Countries, new Dictionary<string, object> { { "class", "form-control sendaletter_countrylist" }, { "data-bind", "value:countryId" } })
+            @Html.HiddenFor(m => m.SelectedCountry, new Dictionary<string, object> { { "data-bind", "value:countryId" } })
+            
+            @*@Html.DropDownListFor(model => model.SelectedOriginCountry, Model.Countries, new Dictionary<string, object> { { "class", "form-control sendaletter_countrylist" }, { "data-bind", "value:originCountryId" } })
+            @Html.HiddenFor(m => m.SelectedOriginCountry, new Dictionary<string, object> { { "data-bind", "value:originCountryId" } })*@
+
             Amount: <label data-bind="text: invoiceCount()"></label><br />
             Price: <label data-bind="text:totalPrice().priceExVat"></label><br />
             Vat (<span data-bind="text:totalPrice().vatPercentage"></span>): <label data-bind="text:totalPrice().vatAmount"></label><br />
@@ -69,12 +78,6 @@
     }
 </div>
 
-
-@*$.ajax({ url: 'http://stackoverflow.com/...',
-         data: ko.toJSON(yourModel),
-         //other stuff
-})*@
-
 <script>
     // set standard dates
     var dateToday = new Date();
@@ -84,7 +87,7 @@
     var invoices = [
         @foreach (var invoice in Model.PartnerInvoices)
         {
-            <text>[{'orderid':"@invoice.Id",'invoiceDate':"@invoice.InvoiceDate", 'customerName':"@invoice.CustomerName", 'amount':"@invoice.Amount", 'pdfLink':"@invoice.PdfUrl", 'status':"@(invoice.Status?"Sent":"Not sent")"}],</text>
+            <text>[{ 'orderid': "@invoice.Id", 'invoiceDate': "@invoice.InvoiceDate", 'customerName': "@invoice.CustomerName", 'customerCountry': "@invoice.CustomerCountry", 'amount': "@invoice.Amount", 'pdfLink': "@invoice.PdfUrl", 'status': "@(invoice.Status?"Sent":"Not sent")" }],</text>
         }
     ];
 

@@ -191,7 +191,8 @@ Business.Services.Utils.Helpers.GetUploadDateString(Guid.NewGuid().ToString()));
         }
 
         [HttpPost]
-        public JsonResult GetPriceFromUrl(string pdfUrl)
+        public JsonResult GetPriceFromUrl(string pdfUrl,
+            string country)
         {
             try
             {
@@ -202,8 +203,8 @@ Business.Services.Utils.Helpers.GetUploadDateString(Guid.NewGuid().ToString()));
 
                     var fileKey = fileService.Create(data, Business.Services.Utils.Helpers.GetUploadDateString(Guid.NewGuid().ToString()));
 
-                    var price = priceService.GetPricesFromFiles(new[] { fileKey }, customerId, 59);  // TODO: wtf?
-                    
+                    var price = priceService.GetPricesFromFiles(new[] { fileKey }, customerId, int.Parse(country));
+
                     return Json(new
                     {
                         status = "success",
