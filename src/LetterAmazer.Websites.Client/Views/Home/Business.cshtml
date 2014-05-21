@@ -1,146 +1,124 @@
-﻿
-@{
+﻿@{
 
     ViewBag.PageTitle = "Automate sending letters - batch sending of physical letters";
 }
 
-<div class="frontpage">
-    <h1>
-        Automate your business:<br />
-        Let LetterAmazer send all your letters
-    </h1>
+<h1>Automate your business:<br />
+    Let LetterAmazer send all your letters
+</h1>
 
-    <p>
-        When we do the calculations together with our customers, we always get the same result:
+<p>
+    When we do the calculations together with our customers, we always get the same result:
         <b>It is cheaper to use LetterAmazer to send letters</b>, than doing it internally.
-    </p>
-    <p>With LetterAmazer you don't have to worry about salary for packaging, envelopes, stamps or delivery of letters.</p>
+</p>
+<p>With LetterAmazer you don't have to worry about salary for packaging, envelopes, stamps or delivery of letters.</p>
 
-    <p><b>There are NO registration fees, monthly fees or minimum usage</b>.</p>
+<p><b>There are NO registration fees, monthly fees or minimum usage</b>.</p>
 
-    <div class="row margintop">
-        <div class="col-md-4">
-            <div class="frontpage-top-uspmargin">
-                <img src="@Url.Content("~/Content/images/icons/1395514603_Account.png")" class="frontpage-top-image-usp" />
-                <span class="frontpage-top-usp">
-                    1. Create account
-                </span>
-                <span class="frontpage-top-usptext">
-                    Create a free account and you will be ready within 2 minutes
-                    <br /><a class="btn btn-lg btn-primary buttonmargintop" href="@Url.Action("Register")">Create an account now</a>
-                </span>
+<div class="row margintop">
+    <div class="col-md-4">
+        <div class="frontpage-top-uspmargin">
+            <img src="@Url.Content("~/Content/images/icons/1395514603_Account.png")" class="frontpage-top-image-usp" />
+            <span class="frontpage-top-usp">1. Create account
+            </span>
+            <span class="frontpage-top-usptext">Create a free account and you will be ready within 2 minutes
+                    <br />
+                <a class="btn btn-lg btn-primary buttonmargintop" href="@Url.Action("Register")">Create an account now</a>
+            </span>
 
-            </div>
-        </div>
-
-        <div class="col-md-4">
-            <div class="frontpage-top-uspmargin">
-                <img src="@Url.Content("~/Content/images/icons/1395514602_circle-add.png")" class="frontpage-top-image-usp" />
-                <span class="frontpage-top-usp">
-                    2. Insert money
-                </span>
-                <span class="frontpage-top-usptext">
-                    Pay using invoice or PayPal. There is no minimum amount.
-                </span>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="frontpage-top-uspmargin">
-                <img src="@Url.Content("~/Content/images/icons/1395498076_130.png")" class="frontpage-top-image-usp" />
-                <span class="frontpage-top-usp">
-                    3. Send letters
-                </span>
-                <span class="frontpage-top-usptext">
-                    Sending a single letter takes less than 30 seconds. You can always see what letters you previously has sent
-                </span>
-            </div>
         </div>
     </div>
 
-    <br />
-    <hr />
-    <br />
-    <div class="frontpage-top-usptext" style="text-align:left">
-        <span class="frontpage-top-description-header">Why is LetterAmazer a cheaper option?</span>
-
-        <p>The cost of sending letters is not only the postage fee. It is also salary, envelopes, paper, stamps and time spent making the delivery.</p>
-        <p>At LetterAmazer we send <b>a lot</b> of letters. That means:</p>
-        <ul>
-            <li>We automate the process of sending letters. Everything from printing, inventory and delivery is done by machines</li>
-            <li>We purchase big amounts of envelopes, paper and other supplies, so we get cheaper prices</li>
-
-        </ul>
-
-        <p>
-            <b>International letters</b>. <br />
-            We have offices around the world, which means we can print and send letters locally. That brings our prices down, much more than the local prices.
-        </p>
-        <p><b>Our prices</b> is publically available. @Html.ActionLink("See the prices here", "Pricing").</p>
+    <div class="col-md-4">
+        <div class="frontpage-top-uspmargin">
+            <img src="@Url.Content("~/Content/images/icons/1395514602_circle-add.png")" class="frontpage-top-image-usp" />
+            <span class="frontpage-top-usp">2. Insert money
+            </span>
+            <span class="frontpage-top-usptext">Pay using invoice or PayPal. There is no minimum amount.
+            </span>
+        </div>
     </div>
-
-
-    <br />
-    <hr />
-    <br />
-  
-    <div class="frontpage-top-usptext" style="text-align:left">
-        <span class="frontpage-top-description-header">Automatic integration</span>
-        <p>If you send a lot of letters, or want to send letters inside an application, we have an answer for that as well.</p>
-        <p>We have a working API. With this API, any application or software can send letters to any address in the world. We have previously experiences a lot of interest from:</p>
-        <ul>
-            <li>Accounting departments</li>
-            <li>Companies selling tickets</li>
-            <li>New apps and software as a service (SAAS) services</li>
-            <li>Potential resellers</li>
-            <li>... and many others</li>
-        </ul>
-        <p>The truth is that most developers would be able to integrate with LetterAmazer within a couple of hours. We use a standard REST API, and provide solid documentation.</p>
-
-        <p>@Html.ActionLink("Read more about our API","ApiInfo")</p>
-    </div>
-    <br />
-    <hr />
-    <br />
-    <div class="frontpage-top-usptext" style="text-align:left">
-        <span class="frontpage-top-description-header">Fast, convenient and stable</span>
-        <p>
-            When a trained employee uses to our system, it takes less than 10 seconds to send a windowed letter. That makes it extremely fast and convenient to send letters.
-        </p>
-        <p>We recognize that stability and uptime is extremely important. Therefore, we make sure of the following:</p>
-        <ul>
-            <li>We have multiple monitors on the website, so we can act if anything goes wrong</li>
-            <li>We run a wide range of tests, every time we make new code, so we don't break existing features</li>
-            <li>We are able to switch servers within hours, if sometimes go wrong</li>
-            <li>We take daily backups</li>
-        </ul>
-    </div>
-    <br />
-    <hr />
-    <br />
-    <div class="frontpage-top-usptext" style="text-align:left">
-        <span class="frontpage-top-description-header">How about privacy?</span>
-        <p>Every employee working with our letters, sign a confidential agreement. That means your letters are safe with us, and you don't have to worry about privacy.</p>
-    </div>
-    <br/>
-    <hr/>
-    <br/>
-    <div class="frontpage-top-usptext" style="text-align:left">
-        <span class="frontpage-top-description-header">Start today - try for free</span>
-        <p>Let us get you started. Remember, it is free!</p>
-        <a class="btn btn-lg btn-primary buttonmargintop" href="@Url.Action("Register")">Create an account now</a>
+    <div class="col-md-4">
+        <div class="frontpage-top-uspmargin">
+            <img src="@Url.Content("~/Content/images/icons/1395498076_130.png")" class="frontpage-top-image-usp" />
+            <span class="frontpage-top-usp">3. Send letters
+            </span>
+            <span class="frontpage-top-usptext">Sending a single letter takes less than 30 seconds. You can always see what letters you previously has sent
+            </span>
+        </div>
     </div>
 </div>
 
-@*<h1>Send physical letters online for businesses</h1>
-    <p>No employee loves the tiresome process of sending those physical letters. Let's make everyone's lives easier, and let us send them for you. Heck, it's probably even cheaper (and much cheaper if you count in the hourly wage).</p>
+<br />
+<hr />
+<br />
+<div class="frontpage-top-usptext" style="text-align: left">
+    <span class="frontpage-top-description-header">Why is LetterAmazer a cheaper option?</span>
 
-    <p>As a business, you can either use our easy "send a letter" form, and then pay every time you need send a letter, <b>or</b> you can create an account. If you create an account, you can add credits, and then get a friendly e-mail when your credits are running out.</p>
+    <p>The cost of sending letters is not only the postage fee. It is also salary, envelopes, paper, stamps and time spent making the delivery.</p>
+    <p>At LetterAmazer we send <b>a lot</b> of letters. That means:</p>
+    <ul>
+        <li>We automate the process of sending letters. Everything from printing, inventory and delivery is done by machines</li>
+        <li>We purchase big amounts of envelopes, paper and other supplies, so we get cheaper prices</li>
 
-    <p>If you create an account and add credits, things get even more easy. You can:</p>
-                - Send letters by going to our website, upload the file and click "send"<br />
-                - (Coming soon) Instead of visiting our website, you can just send us an e-mail with a PDF attachment. Then we will automatically print the letter and send it
+    </ul>
 
-    <p>For the IT-guys, we can even make a more automated solution:</p>
-                - (Coming soon) REST API which can be integrated into any system<br />
+    <p>
+        <b>International letters</b>.
+        <br />
+        We have offices around the world, which means we can print and send letters locally. That brings our prices down, much more than the local prices.
+    </p>
+    <p><b>Our prices</b> is publically available. @Html.ActionLink("See the prices here", "Pricing").</p>
+</div>
 
-    <p>BUT. Currently we are in beta. That means most of our features are being developed while you are reading this message. Get a message when we are ready by signing up here:</p>*@
+
+<br />
+<hr />
+<br />
+
+<div class="frontpage-top-usptext" style="text-align: left">
+    <span class="frontpage-top-description-header">Automatic integration</span>
+    <p>If you send a lot of letters, or want to send letters inside an application, we have an answer for that as well.</p>
+    <p>We have a working API. With this API, any application or software can send letters to any address in the world. We have previously experiences a lot of interest from:</p>
+    <ul>
+        <li>Accounting departments</li>
+        <li>Companies selling tickets</li>
+        <li>New apps and software as a service (SAAS) services</li>
+        <li>Potential resellers</li>
+        <li>... and many others</li>
+    </ul>
+    <p>The truth is that most developers would be able to integrate with LetterAmazer within a couple of hours. We use a standard REST API, and provide solid documentation.</p>
+
+    <p>@Html.ActionLink("Read more about our API", "ApiInfo")</p>
+</div>
+<br />
+<hr />
+<br />
+<div class="frontpage-top-usptext" style="text-align: left">
+    <span class="frontpage-top-description-header">Fast, convenient and stable</span>
+    <p>
+        When a trained employee uses to our system, it takes less than 10 seconds to send a windowed letter. That makes it extremely fast and convenient to send letters.
+    </p>
+    <p>We recognize that stability and uptime is extremely important. Therefore, we make sure of the following:</p>
+    <ul>
+        <li>We have multiple monitors on the website, so we can act if anything goes wrong</li>
+        <li>We run a wide range of tests, every time we make new code, so we don't break existing features</li>
+        <li>We are able to switch servers within hours, if sometimes go wrong</li>
+        <li>We take daily backups</li>
+    </ul>
+</div>
+<br />
+<hr />
+<br />
+<div class="frontpage-top-usptext" style="text-align: left">
+    <span class="frontpage-top-description-header">How about privacy?</span>
+    <p>Every employee working with our letters, sign a confidential agreement. That means your letters are safe with us, and you don't have to worry about privacy.</p>
+</div>
+<br />
+<hr />
+<br />
+<div class="frontpage-top-usptext" style="text-align: left">
+    <span class="frontpage-top-description-header">Start today - try for free</span>
+    <p>Let us get you started. Remember, it is free!</p>
+    <a class="btn btn-lg btn-primary buttonmargintop" href="@Url.Action("Register")">Create an account now</a>
+</div>

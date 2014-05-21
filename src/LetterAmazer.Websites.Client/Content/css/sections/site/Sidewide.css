@@ -1,4 +1,24 @@
 ﻿body {
-  font-size: "open-sans", Helvetica, Arial, sans-serif;
+  font-family: 'open-sans', Helvetica, Arial, sans-serif;
+  background-color: #f9f9f9;
 }
-/*# sourceMappingURL=Sidewide.css.map */
+.navbar-inverse {
+  background-color: white;
+  border-bottom: solid 1px #e5e5e5;
+}
+body > main > .container {
+  padding: 60px 15px 0;
+}
+a:hover,
+a:active {
+  color: #;
+}
+.content {
+  padding: 20px;
+  padding-left: 40px;
+  padding-right: 40px;
+  background-color: white;
+  margin-top: 25px;
+  border: 1px solid #d9d9d9;
+  border-radius: 5px;
+}

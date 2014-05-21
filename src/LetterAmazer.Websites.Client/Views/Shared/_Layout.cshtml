@@ -8,10 +8,8 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.PageTitle</title>
-
-    <link href="@Url.Content("~/Content/plugins/bootstrap/bootstrap.min.css")" rel="stylesheet" type="text/css" />
-
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    <link href="@Url.Content("~/Content/plugins/bootstrap/css/bootstrap.min.css")" rel="stylesheet" type="text/css" />
     @Styles.Render("~/Content/css")
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
@@ -21,39 +19,90 @@
 </head>
 <body>
     <header>
-        <a href="/" class="logo">LetterAmazer</a>
-        
-        <nav>
-            <ul class="nav navbar-nav">
-                <li>
-                    Send letters
-                </li>
-                <li>
-                    Business
-                </li>
-                <li>
-                    API
-                </li>
-                <li>
-                    Pricing
-                </li>
-                <li>
-                    Account
-                </li>
-            </ul>
-        </nav>
+        <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="/">LetterAmazer</a>
+                </div>
+                <div class="collapse navbar-collapse pull-right">
+                    <ul class="nav navbar-nav">
+                        <li>@Html.ActionLink("Send a letter", "Index", "Home")
+                        </li>
+                        <li>@Html.ActionLink("Business", "Business", "Home")
+                        </li>
+                        <li>@Html.ActionLink("API", "ApiInfo", "Home")
+                        </li>
+                        <li>@Html.ActionLink("Pricing", "Pricing", "Home")
+                        </li>
+                        <li>
+                            @Html.ActionLink("Account", "Login", "Home")
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
     </header>
-    
+
     <main>
-    
-        @RenderBody()    
+        <div class="container">
+            <div class="content">
+            @RenderBody()
+                
+                </div>
+            </div>
+        
     </main>
 
-    
 
-    
+
+
     <footer>
         
+        <div class="footer">
+            <div class="container">
+            <div class="row">
+                <div class="col-md-3 bottom-box">
+                    <a href="/"><img src="/Content/images/letteramazer_small.png" width="140px;"/></a>
+                </div>
+                <div class="col-md-3 border-left bottom-box">
+                    <b>Company info</b><br />
+                    LetterAmazer IvS<br />
+                    DK34343434<br />
+
+                </div>
+                <div class="col-md-3 border-left bottom-box">
+                    <nav>
+                        <b>Sections</b><br/>
+                        <ul>
+                            <li>@Html.ActionLink("Send a letter", "Index", "Home")
+                            </li>
+                            <li>@Html.ActionLink("Business", "Business", "Home")
+                            </li>
+                            <li>@Html.ActionLink("API", "ApiInfo", "Home")
+                            </li>
+                            <li>@Html.ActionLink("Pricing", "Pricing", "Home")
+                            </li>
+                            <li>
+                                @Html.ActionLink("Account", "Login", "Home")
+                            </li>
+
+                        </ul>
+                    </nav>
+                </div>
+                <div class="col-md-3 border-left bottom-box">
+                    <b>Get started</b>
+                    <p>LOL</p>
+                </div>
+
+            </div>
+        </div></div>
     </footer>
 
 

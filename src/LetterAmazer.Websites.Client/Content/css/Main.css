@@ -1,4 +1,51 @@
 ﻿body {
-  font-size: "open-sans", Helvetica, Arial, sans-serif;
+  font-family: 'open-sans', Helvetica, Arial, sans-serif;
+  background-color: #f9f9f9;
+  color: #616161;
 }
-/*# sourceMappingURL=Main.css.map */
+/*Page elements*/
+.content {
+  padding: 20px;
+  padding-left: 40px;
+  padding-right: 40px;
+  background-color: white;
+  margin-top: 25px;
+  border: 1px solid #d9d9d9;
+  border-radius: 5px;
+}
+.footer {
+  border-top: 1px solid #d9d9d9;
+  padding: 20px 0;
+  margin-top: 30px;
+}
+/*Helpers*/.border-left {
+  border-left: 1px solid #d9d9d9;
+}
+.bottom-box {
+  min-height: 120px;
+}
+/*Bootstrap overrides*/
+a,
+.navbar-inverse .navbar-nav > li > a {
+  color: #616161;
+}
+a:hover,
+a:active {
+  color: #5ca0da !important;
+}
+a {
+  color: #5ca0da;
+}
+.navbar-toggle {
+  background-color: #333333;
+}
+.navbar-inverse {
+  background-color: white;
+  border-bottom: solid 1px #d9d9d9;
+}
+body > main > .container {
+  padding: 60px 15px 0;
+}
+.btn-primary {
+  background-color: #5ca0da;
+}

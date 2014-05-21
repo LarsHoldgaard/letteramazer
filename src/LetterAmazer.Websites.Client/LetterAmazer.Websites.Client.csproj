@@ -225,7 +225,13 @@
     <Content Include="Content\css\sections\site\Sidewide.css">
       <DependentUpon>Sidewide.less</DependentUpon>
     </Content>
+    <Content Include="Content\css\sections\site\Sidewide.min.css">
+      <DependentUpon>Sidewide.less</DependentUpon>
+    </Content>
     <Content Include="Content\css\sections\site\Variables.css">
+      <DependentUpon>Variables.less</DependentUpon>
+    </Content>
+    <Content Include="Content\css\sections\site\Variables.min.css">
       <DependentUpon>Variables.less</DependentUpon>
     </Content>
     <Content Include="Content\images\1455878_10152199113254113_90765289_n.jpg" />
@@ -244,6 +250,7 @@
     <Content Include="Content\images\icons\uploadpdf.png" />
     <Content Include="Content\images\icons\windowed_envelope.jpg" />
     <Content Include="Content\images\icons\writetext.png" />
+    <Content Include="Content\images\letteramazer_small.png" />
     <Content Include="Content\plugins\bootstrap\css\bootstrap-theme.css" />
     <Content Include="Content\plugins\bootstrap\css\bootstrap-theme.min.css" />
     <Content Include="Content\plugins\bootstrap\css\bootstrap.css" />
@@ -251,7 +258,6 @@
     <Content Include="Content\plugins\bootstrap\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\plugins\bootstrap\js\bootstrap.js" />
     <Content Include="Content\plugins\bootstrap\js\bootstrap.min.js" />
-    <Content Include="Content\sql\20052014-add-deliverylabel.txt" />
     <Content Include="Content\themes\base\images\animated-overlay.gif" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
