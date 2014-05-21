@@ -30,6 +30,7 @@
             type: 'POST',
             data: {
                 pdfUrl: self.pdfLink,
+                country: self.countryId
             },
             dataType: 'json',
             success: function (data) {
@@ -75,7 +76,7 @@ var EconomicsViewModel = function (formSelector, data) {
     var self = this;
     self.dateFrom = data.dateFrom;
     self.dateTo = data.dateTo;
-
+    self.countryId = ko.observable(0);
 
     self.invoices = ko.observableArray([]);
 

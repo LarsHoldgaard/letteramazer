@@ -7,6 +7,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using Amazon.IdentityManagement.Model;
+using LetterAmazer.Business.Services.Domain.Countries;
 using LetterAmazer.Business.Services.Domain.Fulfillments;
 using LetterAmazer.Business.Services.Domain.Letters;
 using LetterAmazer.Business.Services.Domain.Mails;
@@ -53,7 +54,11 @@ namespace LetterAmazer.Business.Services.Services.FulfillmentJobs
                     {
                         colorPath = "SORTHVID";
                     }
-                    string servePath = FtpServer + "/" + colorPath + "/" + letter.Guid + ".pdf";
+
+                    string countryPath = getCountryPath(letter.ToAddress.Country);
+                    string filePath = string.Format("{0}_{1}_{2}", countryPath, letter.LetterDetails.DeliveryLabel,
+                        letter.Guid.ToString());
+                    string servePath = FtpServer + "/" + colorPath + "/" + filePath + ".pdf";
 
                     if (isactivated)
                     {
@@ -86,6 +91,19 @@ namespace LetterAmazer.Business.Services.Services.FulfillmentJobs
 
             orderService.UpdateByLetters(letters);
             mailService.SendIntermailStatus(status.ToString(),letters.Count());
+        }
+
+        private string getCountryPath(Country country)
+        {
+            if (country.Id == 59)
+            {
+                return "Danmark";
+            }
+            if (country.InsideEu)
+            {
+                return "Europa";
+            }
+            return "Verden";
         }
     }
 }

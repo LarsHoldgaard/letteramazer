@@ -60,6 +60,10 @@
     @using (Html.BeginForm("Economic", "Partner", FormMethod.Post))
     {
         <div>
+            @Html.DropDownListFor(model => model.SelectedCountry, Model.Countries, new Dictionary<string, object> { { "class", "form-control sendaletter_countrylist" }, { "data-bind", "value:countryId" } })
+            @Html.HiddenFor(m => m.SelectedCountry, new Dictionary<string, object> { { "data-bind", "value:countryId" } })
+
+
             Amount: <label data-bind="text: invoiceCount()"></label><br />
             Price: <label data-bind="text:totalPrice().priceExVat"></label><br />
             Vat (<span data-bind="text:totalPrice().vatPercentage"></span>): <label data-bind="text:totalPrice().vatAmount"></label><br />

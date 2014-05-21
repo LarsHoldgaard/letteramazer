@@ -18,6 +18,7 @@ using LetterAmazer.Business.Services.Domain.Pricing;
 using LetterAmazer.Business.Services.Services.Partners;
 using LetterAmazer.Business.Services.Services.Partners.Invoice;
 using LetterAmazer.Business.Utils.Helpers;
+using LetterAmazer.Websites.Client.Helpers;
 using LetterAmazer.Websites.Client.ViewModels;
 using LetterAmazer.Websites.Client.ViewModels.Partner;
 using log4net;
@@ -59,6 +60,8 @@ namespace LetterAmazer.Websites.Client.Controllers
                 To = model.To
             });
 
+            new Helper().FillCountries(model.Countries);
+
             foreach (var partnerInvoice in invoices)
             {
                 model.PartnerInvoices.Add(new PartnerInvoiceViewModel()
@@ -95,6 +98,7 @@ namespace LetterAmazer.Websites.Client.Controllers
 
             foreach (var selectedInvoice in model.SelectedInvoices[0].Split(';'))
             {
+                var deliveryCountryId = int.Parse(model.SelectedCountry);
                 var invoice = economicInvoiceService.GetPartnerInvoiceById(selectedInvoice);
 
                 checkout.PartnerTransactions.Add(new PartnerTransaction()
@@ -111,9 +115,10 @@ namespace LetterAmazer.Websites.Client.Controllers
                     fileKey = fileService.Create(data, Business.Services.Utils.Helpers.GetUploadDateString(Guid.NewGuid().ToString()));
                 }
 
-                var priceInfo = priceService.GetPricesFromFiles(new[] { fileKey }, customerId, 59);  // TODO: wtf?
+                var priceInfo = priceService.GetPricesFromFiles(new[] { fileKey }, customerId, deliveryCountryId);  // TODO: wtf?
 
                 var officeProduct = officeProductService.GetOfficeProductById(priceInfo.OfficeProductId);
+
 
                 var t = new CheckoutLine()
                 {
@@ -122,7 +127,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                     {
                         ToAddress = new AddressInfo()
                         {
-                            Country = countryService.GetCountryById(59)  // TODO: wtf?
+                            Country = countryService.GetCountryById(deliveryCountryId)
                         },
                         LetterContent = new LetterContent()
                         {

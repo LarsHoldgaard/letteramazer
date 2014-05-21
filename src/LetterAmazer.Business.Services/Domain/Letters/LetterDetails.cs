@@ -18,7 +18,7 @@ namespace LetterAmazer.Business.Services.Domain.Letters
         public LetterSize LetterSize { get; set; }
         public LetterType LetterType { get; set; }
 
-        public DeliveryLabel DeliveryLabel;
+        public DeliveryLabel DeliveryLabel { get; set; }
 
         public LetterDetails()
         {
