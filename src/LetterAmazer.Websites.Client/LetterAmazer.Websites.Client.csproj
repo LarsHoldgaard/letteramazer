@@ -187,6 +187,7 @@
     <Compile Include="IoC\WindsorFilterAttributeFilterProvider.cs" />
     <Compile Include="IoC\WindsorHttpControllerActivator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\AccountViewModel.cs" />
     <Compile Include="ViewModels\Home\ApiViewModel.cs" />
     <Compile Include="ViewModels\Api\OfficeProductViewModel.cs" />
     <Compile Include="ViewModels\CreateSingleLetterModel.cs" />
@@ -662,8 +663,6 @@
     <Content Include="Views\Home\Pricing.cshtml" />
     <Content Include="Views\SingleLetter\Index.cshtml" />
     <Content Include="Views\SingleLetter\Confirmation.cshtml" />
-    <Content Include="Views\Home\Register.cshtml" />
-    <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\Shared\Authentication.cshtml" />
     <Content Include="Views\Home\ForgotPassword.cshtml" />
     <Content Include="Views\Home\ForgotPasswordSuccess.cshtml" />
@@ -693,6 +692,7 @@
     <Content Include="Views\Home\GetSendALetterTo.cshtml" />
     <Content Include="Views\Shared\_sendLettersToOverview.cshtml" />
     <Content Include="Views\Partner\Economic.cshtml" />
+    <Content Include="Views\Home\Account.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

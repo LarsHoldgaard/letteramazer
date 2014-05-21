@@ -261,11 +261,13 @@ namespace LetterAmazer.Websites.Client.Controllers
             return pricing.PriceExVat;
         }
 
-        [HttpGet, AutoErrorRecovery]
-        public ActionResult Login()
+
+        public ActionResult Account()
         {
-            LoginViewModel model = new LoginViewModel();
-            return View(model);
+            AccountViewModel viewModel= new AccountViewModel();
+            var helper = new Helper();
+            helper.FillCountries(viewModel.RegisterViewModel.Countries);
+            return View(viewModel);
         }
 
         [HttpPost]
@@ -303,15 +305,6 @@ namespace LetterAmazer.Websites.Client.Controllers
             return RedirectToAction("Index");
         }
 
-        [HttpGet, AutoErrorRecovery]
-        public ActionResult Register()
-        {
-            RegisterViewModel model = new RegisterViewModel();
-
-            new Helper().FillCountries(model.Countries,59);
-
-            return View(model);
-        }
 
         [HttpPost]
         public ActionResult Register(RegisterViewModel model)

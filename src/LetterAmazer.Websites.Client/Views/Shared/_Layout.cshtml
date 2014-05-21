@@ -41,7 +41,7 @@
                         <li>@Html.ActionLink("Pricing", "Pricing", "Home")
                         </li>
                         <li>
-                            @Html.ActionLink("Account", "Login", "Home")
+                            @Html.ActionLink("Account", "Account", "Home")
                         </li>
                     </ul>
                 </div>
@@ -53,7 +53,35 @@
     <main>
         <div class="container">
             <div class="content">
-            @RenderBody()
+                <div class="row">
+                    @*<div class="col-md-8">*@
+                        @RenderBody()        
+                   @* </div>
+                    <aside>
+                    <div class="col-md-4">
+                        <div style="background-color:#f9f9f9; border:1px solid #d9d9d9;padding:15px; border-radius:5px;">
+                            <h3>Try our service for free</h3>
+                            
+                            <p>Want to test our service before buying? Contact us.</p>
+                            
+                            <p>Company:<br/>
+                                <input type="text" class="input-lg" placeholder="Company"/>
+                            </p>
+                            <p>Website:<br/>
+                                <input type="text" class="input-lg" placeholder="Website"/>
+                            </p>
+                            <p>E-mail:<br/>
+                                <input type="text" class="input-lg" placeholder="E-mail"/>
+                            </p>
+                            <input type="submit" class="btn btn-lg btn-primary" value="Get free access"/>
+                            
+                            <br/><br/>
+                            <small style="font-style:italic; font-size:small;">* this is meant for companies and we have the right to reject your ass.</small>
+                        </div>
+                    </div>
+                        </aside>*@
+                </div>
+                
                 
                 </div>
             </div>
@@ -64,45 +92,60 @@
 
 
     <footer>
-        
+
         <div class="footer">
             <div class="container">
-            <div class="row">
-                <div class="col-md-3 bottom-box">
-                    <a href="/"><img src="/Content/images/letteramazer_small.png" width="140px;"/></a>
-                </div>
-                <div class="col-md-3 border-left bottom-box">
-                    <b>Company info</b><br />
-                    LetterAmazer IvS<br />
-                    DK34343434<br />
+                <div class="row">
+                    <div class="col-md-3 bottom-box">
+                        <a href="/">
+                            <img src="/Content/images/letteramazer_small.png" width="140px;" /></a>
+                    </div>
+
+                    <div class="col-md-3 border-left bottom-box">
+                        <b>Contact us</b><br />
+                        <p>We speak english and danish.</p>
+
+                        <p>
+                            <b>Email</b>: info@letteramazer.com<br />
+                            <b>Phone</b>: (+45) 61793650<br />
+                            <b>Skype</b>: LarsHoldgaard (CEO)
+                        </p>
+                    </div>
+                    <div class="col-md-3 border-left bottom-box">
+                        <b>Company info</b><br />
+                        LetterAmazer IvS<br />
+                        DK35636307<br />
+                        <br />
+                        Måløv Hovedgade 58c st. th.
+                        <br />
+                        2760 Måløv<br />
+                        Denmark
+
+                    </div>
+
+                    <div class="col-md-3 border-left bottom-box">
+                        <nav>
+                            <b>Sections</b><br />
+                            <ul>
+                                <li>@Html.ActionLink("Send a letter", "Index", "Home")
+                                </li>
+                                <li>@Html.ActionLink("Business", "Business", "Home")
+                                </li>
+                                <li>@Html.ActionLink("API", "ApiInfo", "Home")
+                                </li>
+                                <li>@Html.ActionLink("Pricing", "Pricing", "Home")
+                                </li>
+                                <li>
+                                    @Html.ActionLink("Account", "Account", "Home")
+                                </li>
+                                <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                            </ul>
+                        </nav>
+                    </div>
 
                 </div>
-                <div class="col-md-3 border-left bottom-box">
-                    <nav>
-                        <b>Sections</b><br/>
-                        <ul>
-                            <li>@Html.ActionLink("Send a letter", "Index", "Home")
-                            </li>
-                            <li>@Html.ActionLink("Business", "Business", "Home")
-                            </li>
-                            <li>@Html.ActionLink("API", "ApiInfo", "Home")
-                            </li>
-                            <li>@Html.ActionLink("Pricing", "Pricing", "Home")
-                            </li>
-                            <li>
-                                @Html.ActionLink("Account", "Login", "Home")
-                            </li>
-
-                        </ul>
-                    </nav>
-                </div>
-                <div class="col-md-3 border-left bottom-box">
-                    <b>Get started</b>
-                    <p>LOL</p>
-                </div>
-
             </div>
-        </div></div>
+        </div>
     </footer>
 
 
