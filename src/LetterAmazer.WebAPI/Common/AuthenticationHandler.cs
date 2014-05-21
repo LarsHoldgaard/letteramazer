@@ -1,5 +1,8 @@
-﻿using LetterAmazer.Business.Services.Factory;
+﻿using LetterAmazer.Business.Services.Domain.Organisation;
+using LetterAmazer.Business.Services.Factory;
 using LetterAmazer.Business.Services.Factory.Interfaces;
+using LetterAmazer.Business.Services.Services;
+using LetterAmazer.Data.Repository.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,9 +11,8 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
-using LetterAmazer.Data.Repository.Data;
 
-namespace LetterAmazer.Websites.Client.Common
+namespace LetterAmazer.WebAPI.Common
 {
     /// <summary>
     /// A Class that looks at all HTTP requests for tokens.
@@ -111,9 +113,9 @@ namespace LetterAmazer.Websites.Client.Common
             message.Headers.TryGetValues(AccessTokenHeaderName, out apiTokenHeaderValues);
             message.Headers.TryGetValues(ScreatKeyHeaderName, out apiTokenHeaderValues);
             LetterAmazerEntities entity = new LetterAmazerEntities();
-            IOrganisationFactory organisationFactory = new OrganisationFactory(entity);
-
-            var dbapiAccess = organisationFactory.GetApiKeys(new Business.Services.Domain.Api.ApiKeys() { ApiKey = apiTokenHeaderValues.First(), ApiSecret = apiTokenHeaderValues.Last() });
+            
+            IOrganisationService organisationService = new OrganisationService(entity);
+            var dbapiAccess = organisationService.GetApiKeys(apiTokenHeaderValues.First(),apiTokenHeaderValues.Last());
 
             if(dbapiAccess != null)
             {

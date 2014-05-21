@@ -91,7 +91,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Domain\Api\ApiAccess.cs" />
     <Compile Include="Domain\Api\ApiKeys.cs" />
+    <Compile Include="Domain\Api\Role.cs" />
     <Compile Include="Domain\Checkout\Checkout.cs" />
     <Compile Include="Domain\Checkout\CheckoutLine.cs" />
     <Compile Include="Domain\Checkout\ICheckoutService.cs" />

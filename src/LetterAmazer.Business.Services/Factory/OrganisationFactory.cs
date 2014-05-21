@@ -107,17 +107,7 @@ namespace LetterAmazer.Business.Services.Factory
             };
         }
 
-        public DbApiAccess GetApiKeys(ApiKeys apiKey)
-        {
-            DbApiAccess access = null;
-            var AccessList = repository.DbApiAccess.Where(q => q.ApiKey == apiKey.ApiKey && q.ApiSecret == apiKey.ApiSecret);
-            if (AccessList != null && AccessList.Count() > 0)
-            {
-                access = AccessList.FirstOrDefault();
-
-            }
-            return access;
-        } 
+        
 
         public List<ApiKeys> CreateApiKeys(List<DbApiAccess> apiAccess)
         {

@@ -1,5 +1,7 @@
-﻿using LetterAmazer.Business.Services.Factory;
+﻿using LetterAmazer.Business.Services.Domain.Organisation;
+using LetterAmazer.Business.Services.Factory;
 using LetterAmazer.Business.Services.Factory.Interfaces;
+using LetterAmazer.Business.Services.Services;
 using LetterAmazer.Data.Repository.Data;
 using System;
 using System.Collections.Generic;
@@ -11,8 +13,9 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
 using System.Web.Http.Controllers;
+using LetterAmazer.Business.Services.Domain.Api;
 
-namespace LetterAmazer.Websites.Client.Common
+namespace LetterAmazer.WebAPI.Common
 {
     public class CustomAuthorizeAttribute : AuthorizeAttribute
     {
@@ -142,16 +145,17 @@ namespace LetterAmazer.Websites.Client.Common
             IEnumerable<string> apiTokenHeaderSecreatValues;
             message.Headers.TryGetValues(ScreatKeyHeaderName, out apiTokenHeaderSecreatValues);
             LetterAmazerEntities entity = new LetterAmazerEntities();
-            IOrganisationFactory organisationFactory = new OrganisationFactory(entity);
 
-            var dbapiAccess = organisationFactory.GetApiKeys(new Business.Services.Domain.Api.ApiKeys() { ApiKey = apiTokenHeaderKeyValues.First(), ApiSecret = apiTokenHeaderSecreatValues.First() });
+            IOrganisationService organisationService = new OrganisationService(entity);
+            var apiAccess = organisationService.GetApiKeys(apiTokenHeaderKeyValues.First(), apiTokenHeaderSecreatValues.First());
+
             //var dbapiAccess = organisationFactory.GetApiKeys(new Business.Services.Domain.Api.ApiKeys() { ApiKey = "abc", ApiSecret = "123456" });    
-            if (dbapiAccess != null)
+            if (apiAccess.Role != null)
             {
-                if (string.IsNullOrEmpty(dbapiAccess.Role)==false)
+                if (apiAccess.Role != Role.NONE)
                 {
-                    currentRole = dbapiAccess.Role;
-                    System.Web.HttpContext.Current.Session["OrganizationId"] = dbapiAccess.OrganisationId;
+                    currentRole = apiAccess.Role.ToString();
+                    System.Web.HttpContext.Current.Cache["OrganizationId"] = apiAccess.OrganisationId;
                 }
                 return true;
             }

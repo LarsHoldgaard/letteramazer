@@ -8,6 +8,7 @@ using LetterAmazer.Business.Services.Domain.Organisation;
 using LetterAmazer.Business.Services.Domain.Products.ProductDetails;
 using LetterAmazer.Business.Services.Factory.Interfaces;
 using LetterAmazer.Data.Repository.Data;
+using LetterAmazer.Business.Services.Domain.Api;
 
 namespace LetterAmazer.Business.Services.Services
 {
@@ -20,6 +21,10 @@ namespace LetterAmazer.Business.Services.Services
         {
             this.repository = repository;
             this.organisationFactory = organisationFactory;
+        }
+        public OrganisationService(LetterAmazerEntities repository)
+        {
+            this.repository = repository;
         }
 
         public Organisation Create(Organisation organisation)
@@ -193,5 +198,34 @@ namespace LetterAmazer.Business.Services.Services
             return GetAddressListById(dbAddresslist.Id);
 
         }
+
+        /// <summary>
+        /// Get API Key details
+        /// </summary>
+        /// <param name="apiKey"> api key</param>
+        /// <param name="apiSecreat">api secreat key</param>
+        /// <returns></returns>
+        public ApiAccess GetApiKeys(string apiKey, string apiSecreat)
+        {
+            ApiAccess apiAccess = null;
+            var AccessList = repository.DbApiAccess.Where(q => q.ApiKey == apiKey && q.ApiSecret == apiSecreat);
+            if (AccessList != null && AccessList.Count() > 0)
+            {
+                apiAccess = new ApiAccess();
+                var dbApiAccess = AccessList.FirstOrDefault();
+                apiAccess.ApiKey = dbApiAccess.ApiKey;
+                apiAccess.ApiSecret = dbApiAccess.ApiSecret;
+                apiAccess.OrganisationId = dbApiAccess.OrganisationId;
+                if (apiAccess.Role != null && apiAccess.Role> 0)
+                {
+                    apiAccess.Role = (Role)dbApiAccess.Role;
+                }
+                else
+                {
+                    apiAccess.Role = Role.NONE;
+                }
+            }
+            return apiAccess;
+        } 
     }
 }

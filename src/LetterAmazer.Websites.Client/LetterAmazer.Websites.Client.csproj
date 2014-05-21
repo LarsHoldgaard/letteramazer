@@ -158,12 +158,9 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\SingleCultureMvcRouteHandler.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Common\AuthenticationHandler.cs" />
-    <Compile Include="Common\CustomAuthorizeAttribute.cs" />
     <Compile Include="Controllers\Api\OfficeProductController.cs" />
     <Compile Include="Areas\Api\Routing\ApiAreaRegistration.cs" />
     <Compile Include="Attributes\AutoErrorRecoveryAttribute.cs" />
-    <Compile Include="Controllers\Api\OrderController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CallbackController.cs" />
     <Compile Include="Controllers\HomeController.cs" />

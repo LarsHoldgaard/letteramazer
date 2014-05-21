@@ -19,7 +19,7 @@ namespace LetterAmazer.Data.Repository.Data
         public string ApiKey { get; set; }
         public string ApiSecret { get; set; }
 
-        public string Role { get; set; }
+        public int Role { get; set; }
     
         public virtual DbOrganisation DbOrganisation { get; set; }
     }

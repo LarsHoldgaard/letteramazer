@@ -22,7 +22,5 @@ namespace LetterAmazer.Business.Services.Factory.Interfaces
         ApiKeys CreateApiKeys(DbApiAccess apiAccess);
         List<ApiKeys> CreateApiKeys(List<DbApiAccess> apiAccess);
 
-        DbApiAccess GetApiKeys(ApiKeys apiKey);
-
     }
 }
