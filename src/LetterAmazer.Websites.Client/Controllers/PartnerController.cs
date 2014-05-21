@@ -115,7 +115,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                     fileKey = fileService.Create(data, Business.Services.Utils.Helpers.GetUploadDateString(Guid.NewGuid().ToString()));
                 }
 
-                var priceInfo = priceService.GetPricesFromFiles(new[] { fileKey }, customerId, deliveryCountryId);  // TODO: wtf?
+                var priceInfo = priceService.GetPricesFromFiles(new[] { fileKey }, customerId, deliveryCountryId); 
 
                 var officeProduct = officeProductService.GetOfficeProductById(priceInfo.OfficeProductId);
 

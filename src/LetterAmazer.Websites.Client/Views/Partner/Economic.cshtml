@@ -62,7 +62,9 @@
         <div>
             @Html.DropDownListFor(model => model.SelectedCountry, Model.Countries, new Dictionary<string, object> { { "class", "form-control sendaletter_countrylist" }, { "data-bind", "value:countryId" } })
             @Html.HiddenFor(m => m.SelectedCountry, new Dictionary<string, object> { { "data-bind", "value:countryId" } })
-
+            
+            @*@Html.DropDownListFor(model => model.SelectedOriginCountry, Model.Countries, new Dictionary<string, object> { { "class", "form-control sendaletter_countrylist" }, { "data-bind", "value:originCountryId" } })
+            @Html.HiddenFor(m => m.SelectedOriginCountry, new Dictionary<string, object> { { "data-bind", "value:originCountryId" } })*@
 
             Amount: <label data-bind="text: invoiceCount()"></label><br />
             Price: <label data-bind="text:totalPrice().priceExVat"></label><br />
@@ -75,12 +77,6 @@
         @Html.HiddenFor(m => m.SelectedInvoices, new Dictionary<string, object> { { "data-bind", "value:selectedPrintList()" } })
     }
 </div>
-
-
-@*$.ajax({ url: 'http://stackoverflow.com/...',
-         data: ko.toJSON(yourModel),
-         //other stuff
-})*@
 
 <script>
     // set standard dates

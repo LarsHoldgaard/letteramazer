@@ -1,4 +1,4 @@
-﻿function invoice(orderid, invoiceDate, customerName, customerCountry, amount,pdfLink, status) {
+﻿function invoice(orderid, invoiceDate, customerName, customerCountry, amount,pdfLink, status, countryId) {
     var self = this;
 
     self.pdfLink = pdfLink;
@@ -24,13 +24,12 @@
 
     self.updatePrices = function () {
         var printStatus = self.print();
-
         $.ajax({
             url: '/SingleLetter/GetPriceFromUrl',
             type: 'POST',
             data: {
-                pdfUrl: self.pdfLink,
-                country: self.countryId
+                'pdfUrl': self.pdfLink,
+                'country': countryId
             },
             dataType: 'json',
             success: function (data) {
@@ -81,7 +80,8 @@ var EconomicsViewModel = function (formSelector, data) {
     self.invoices = ko.observableArray([]);
 
     $(data.invoiceData).each(function (index, ele) {
-        var inv = new invoice(ele[0].orderid,ele[0].invoiceDate, ele[0].customerName, ele[0].customerCountry,ele[0].amount, ele[0].pdfLink, ele[0].status);
+        //self.countryId()
+        var inv = new invoice(ele[0].orderid,ele[0].invoiceDate, ele[0].customerName, ele[0].customerCountry,ele[0].amount, ele[0].pdfLink, ele[0].status,59);
         self.invoices.push(inv);
     });
 
