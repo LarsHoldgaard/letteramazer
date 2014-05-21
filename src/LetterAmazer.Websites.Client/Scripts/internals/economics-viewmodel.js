@@ -10,11 +10,7 @@
     self.jsonPrice = ko.observable(0);
     self.amount = amount;
     self.orderid = orderid;
-
-    self.pdfPagesCount = function () {
-        return 1;
-    };
-
+    
     self.printingPrice = ko.computed(function () {
         var jsonPrice = self.jsonPrice();
         return new price(jsonPrice.PriceExVat,
@@ -80,7 +76,7 @@ var EconomicsViewModel = function (formSelector, data) {
     self.invoices = ko.observableArray([]);
 
     $(data.invoiceData).each(function (index, ele) {
-        //self.countryId()
+        // todo: should make logic awesome... yes
         var inv = new invoice(ele[0].orderid,ele[0].invoiceDate, ele[0].customerName, ele[0].customerCountry,ele[0].amount, ele[0].pdfLink, ele[0].status,59);
         self.invoices.push(inv);
     });

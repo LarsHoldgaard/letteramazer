@@ -60,7 +60,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                 To = model.To
             });
 
-            new Helper().FillCountries(model.Countries);
+            new Helper().FillCountries(model.Countries,59);
 
             foreach (var partnerInvoice in invoices)
             {
