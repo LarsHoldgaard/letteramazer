@@ -1,4 +1,5 @@
 ﻿using LetterAmazer.Business.Services.Domain.Orders;
+using LetterAmazer.Business.Services.Domain.Organisation;
 using LetterAmazer.WebAPI.Common;
 using System;
 using System.Collections.Generic;
@@ -20,9 +21,11 @@ namespace LetterAmazer.WebAPI.Controllers
 
         }
         private IOrderService orderService;
-        public OrderController(IOrderService orderService)
+        private IOrganisationService orgnisationService;
+        public OrderController(IOrderService orderService, IOrganisationService orgnisationService)
         {
             this.orderService = orderService;
+            this.orgnisationService = orgnisationService;
         }
         //
         // 

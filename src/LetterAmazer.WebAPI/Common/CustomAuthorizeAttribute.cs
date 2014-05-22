@@ -61,8 +61,6 @@ namespace LetterAmazer.WebAPI.Common
                         }
                         else
                         {
-                            actionContext.Response = new HttpResponseMessage(HttpStatusCode.Unauthorized);
-                            actionContext.Response.Headers.Add(BasicAuthResponseHeader, BasicAuthResponseHeaderValue);
                             return;
                         }
                     }
@@ -144,12 +142,12 @@ namespace LetterAmazer.WebAPI.Common
 
             IEnumerable<string> apiTokenHeaderSecreatValues;
             message.Headers.TryGetValues(ScreatKeyHeaderName, out apiTokenHeaderSecreatValues);
+            // TODO : we need to find some way to make this initiallization on correct way
             LetterAmazerEntities entity = new LetterAmazerEntities();
-
-            IOrganisationService organisationService = new OrganisationService(entity);
+            IOrganisationFactory factory = new OrganisationFactory(entity);
+            IOrganisationService organisationService = new OrganisationService(entity, factory);
             var apiAccess = organisationService.GetApiKeys(apiTokenHeaderKeyValues.First(), apiTokenHeaderSecreatValues.First());
 
-            //var dbapiAccess = organisationFactory.GetApiKeys(new Business.Services.Domain.Api.ApiKeys() { ApiKey = "abc", ApiSecret = "123456" });    
             if (apiAccess.Role != null)
             {
                 if (apiAccess.Role != Role.NONE)

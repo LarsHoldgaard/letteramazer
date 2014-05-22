@@ -22,10 +22,6 @@ namespace LetterAmazer.Business.Services.Services
             this.repository = repository;
             this.organisationFactory = organisationFactory;
         }
-        public OrganisationService(LetterAmazerEntities repository)
-        {
-            this.repository = repository;
-        }
 
         public Organisation Create(Organisation organisation)
         {

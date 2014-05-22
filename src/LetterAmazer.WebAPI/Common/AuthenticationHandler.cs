@@ -15,7 +15,7 @@ using System.Web;
 namespace LetterAmazer.WebAPI.Common
 {
     /// <summary>
-    /// A Class that looks at all HTTP requests for tokens.
+    /// A Class that looks at all HTTP requests for tokens. This class need to remove.
     /// </summary>
     public class AuthenticationHandler : DelegatingHandler
     {
@@ -29,7 +29,15 @@ namespace LetterAmazer.WebAPI.Common
         public string PrivateKey;
         public string ScreatKeyHeaderName = "X-ApiAccessSecret";
         public string Token = "Invalid Token";
+        private IOrganisationService organisationService;
 
+        public AuthenticationHandler()
+        {
+        }
+        public AuthenticationHandler(IOrganisationService organisationService)
+        {
+            organisationService = organisationService;
+        }
         protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request,
                                                                CancellationToken cancellationToken)
         {
@@ -112,14 +120,16 @@ namespace LetterAmazer.WebAPI.Common
             IEnumerable<string> apiTokenHeaderValues;
             message.Headers.TryGetValues(AccessTokenHeaderName, out apiTokenHeaderValues);
             message.Headers.TryGetValues(ScreatKeyHeaderName, out apiTokenHeaderValues);
-            LetterAmazerEntities entity = new LetterAmazerEntities();
-            
-            IOrganisationService organisationService = new OrganisationService(entity);
-            var dbapiAccess = organisationService.GetApiKeys(apiTokenHeaderValues.First(),apiTokenHeaderValues.Last());
 
-            if(dbapiAccess != null)
+            // TODO : we need to find some way to make this initiallization on correct way
+            LetterAmazerEntities entity = new LetterAmazerEntities();
+            IOrganisationFactory factory = new OrganisationFactory(entity);
+            IOrganisationService organisationService = new OrganisationService(entity, factory);
+            var apiAccess = organisationService.GetApiKeys(apiTokenHeaderValues.First(),apiTokenHeaderValues.Last());
+
+            if (apiAccess != null)
             {
-                   
+                System.Web.HttpContext.Current.Cache["OrganizationId"] = apiAccess.OrganisationId;
                 return true;
             }
             else

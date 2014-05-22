@@ -21,7 +21,7 @@ namespace LetterAmazer.WebAPI
                 defaults: new { id = RouteParameter.Optional }
             );
 
-            config.MessageHandlers.Add(new AuthenticationHandler());
+            //config.MessageHandlers.Add(new AuthenticationHandler());
         }
     }
 }
