@@ -1,4 +1,6 @@
-﻿@{
+﻿@using Antlr.StringTemplate
+@using Constants = LetterAmazer.Business.Utils.Helpers.Constants
+@{
 
     ViewBag.PageTitle = "Contact LetterAmazer";
 }
@@ -8,19 +10,23 @@
         <p>Always feel free to contact us.</p>
 
         <h2>Contact information</h2>
-        (+45) 61793650<br />
-        info@letteramazer.com
+        <p>We speak English and Danish.</p>
+        <b>E-mail</b>: (+45) 42927250<br />
+        <b>Phone</b>: info@letteramazer.com<br />
+        <b>Skype</b>: LarsHoldgaard (CEO)
 
         <h2>Company information</h2>
         LetterAmazer IvS<br />
+        Vat number: DK35636307<br /><br />
         Måløv Hovedgade 58c st. th.<br />
         2760 Måløv<br />
-        Denmark<br />
-        <br /><br />
-        Vat number: DK35636307<br />
+        Denmark
 
         <h2>Bank information</h2>
-        Bank: Norea<br />
-        Reg. nr: 2279<br />
-        Account number: 8971983559
-</div></div>
+        <b>Bank name</b>: @Constants.Texts.PracticalInformation.BankName <br/>
+        <b>IBAN</b>: @Constants.Texts.PracticalInformation.Iban <br />
+        <b>Swift</b>: @Constants.Texts.PracticalInformation.Swift <br />
+        <b>Bank registration number</b>: @Constants.Texts.PracticalInformation.BankReg <br />
+        <b>Bank account number</b>: @Constants.Texts.PracticalInformation.BankAccount <br />
+    </div>
+</div>

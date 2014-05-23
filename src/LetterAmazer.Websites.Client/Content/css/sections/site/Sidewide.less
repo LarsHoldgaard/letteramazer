@@ -25,13 +25,25 @@
     margin-top:30px;
 }
 
-/*Helpers*/ 
-.border-left {
-    border-left:1px solid @bgray;
+/*Helpers*/
+@media(min-width:992px) {
+    .border-left {
+        border-left: 1px solid @bgray;
+    }
 }
 
 .bottom-box {
     min-height:120px;
+}
+
+.list-checkmarks, .list-checkmarks ul {
+    list-style-type:none;
+    padding-left:0px;
+}
+
+.checkmark {
+    width:20px;
+    height:20px;
 }
 
 
@@ -62,4 +74,37 @@ body > main > .container {
 
 .btn-primary {
     background-color:@lblue;
+}
+
+.bg-primary p ,
+.bg-success  p ,
+.bg-info  p ,
+.bg-warning p ,
+.bg-danger p {
+    padding:15px;
+}
+
+
+/* Build in ASP.NET MVC error handling classes*/
+
+.field-validation-error {
+    color: #ff0000;
+}
+
+.field-validation-valid {
+    display: none;
+}
+
+.input-validation-error {
+    border: 1px solid #ff0000;
+    background-color: #ffeeee;
+}
+
+.validation-summary-errors {
+    font-weight: bold;
+    color: #ff0000;
+}
+
+.validation-summary-valid {
+    display: none;
 }

@@ -10,10 +10,10 @@
     <br /><b>How many pages?</b><br />
     <input type="number" id="getPricePageCount" value="1" class="form-control" />
     <br />
-    <input type="button" id="getPriceBtn" value="Get price" class="btn btn-primary btn-lg" />
+    <input type="button" id="getPriceBtn" value="Calculate price" class="btn btn-primary btn-lg" />
     <br /><br />
 
-    The price for this delivery is
+    Price of sending the letter:
     <label id="getPriceLbl"></label> .
 </div>
 
@@ -56,7 +56,7 @@
                 $('#getPriceLbl').text(parseFloat(data).toFixed(2) + ' EUR (ex. local VAT)');
             },
             error: function () {
-                $('#getPriceLbl').text('No prices for this delivery');
+                $('#getPriceLbl').text('We currently do not send letters to this country with the specified requirements.');
             }
         });
     }

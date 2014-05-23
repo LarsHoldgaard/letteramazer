@@ -12,6 +12,7 @@ using LetterAmazer.Business.Services.Domain.Organisation;
 using LetterAmazer.Business.Services.Domain.PriceUpdater;
 using LetterAmazer.Business.Services.Domain.Pricing;
 using LetterAmazer.Business.Services.Domain.Products.ProductDetails;
+using LetterAmazer.Business.Services.Exceptions;
 using LetterAmazer.Business.Utils.Helpers;
 using LetterAmazer.Websites.Client.Attributes;
 using LetterAmazer.Websites.Client.Helpers;
@@ -266,35 +267,42 @@ namespace LetterAmazer.Websites.Client.Controllers
         {
             AccountViewModel viewModel= new AccountViewModel();
             var helper = new Helper();
-            helper.FillCountries(viewModel.RegisterViewModel.Countries);
+            helper.FillCountries(viewModel.RegisterViewModel.Countries,59);
             return View(viewModel);
         }
 
         [HttpPost]
-        public ActionResult Login(LoginViewModel model)
+        public ActionResult Login(AccountViewModel accountViewModel)
         {
+            var model = accountViewModel.LoginViewModel;
+            var customer = customerService.LoginUser(model.Email, model.Password);
+
             try
             {
-                var customer = customerService.LoginUser(model.Email, model.Password);
-
-                SessionHelper.Customer = customer;
-                FormsAuthentication.SetAuthCookie(customer.Id.ToString(), model.Remember ?? false);
-
-                if (!string.IsNullOrEmpty(model.ReturnUrl))
+                if (customer != null)
                 {
-                    return Redirect(model.ReturnUrl);
+                    SessionHelper.Customer = customer;
+                    FormsAuthentication.SetAuthCookie(customer.Id.ToString(), model.Remember ?? false);
+
+                    if (!string.IsNullOrEmpty(model.ReturnUrl))
+                    {
+                        return Redirect(model.ReturnUrl);
+                    }
+
+                    return RedirectToAction("Index", "User");    
                 }
+                ModelState.AddBusinessError("Email and password combination is invalid");
                 
-                return RedirectToAction("Index", "User");
             }
             catch (Exception ex)
             {
                 logger.Error(ex);
-                ModelState.AddBusinessError("Email or password is invalid");
+                ModelState.AddBusinessError("Email and password combination is invalid");
             }
 
             FormsAuthentication.SignOut();
-            return RedirectToActionWithError("Login", model);
+            
+            return RedirectToActionWithError("Account",accountViewModel);
         }
 
         [HttpGet, AutoErrorRecovery]
@@ -307,8 +315,10 @@ namespace LetterAmazer.Websites.Client.Controllers
 
 
         [HttpPost]
-        public ActionResult Register(RegisterViewModel model)
+        public ActionResult Register(AccountViewModel accountViewModel)
         {
+            var model = accountViewModel.RegisterViewModel;
+
             try
             {
                 Customer customer = new Customer();
@@ -327,19 +337,14 @@ namespace LetterAmazer.Websites.Client.Controllers
                 {
                     return RedirectToAction("EditOrganisation", "User");
                 }
-                else
+                if (cust.Organisation != null && cust.Organisation.Id > 0)
                 {
-                    if (cust.Organisation != null && cust.Organisation.Id > 0)
-                    {
-                        cust.Organisation = null;
-                        customerService.Update(cust);
-                        this.organisationService.Delete(cust.Organisation);
-                    }
-
-                    return RedirectToAction("CreateOrganisation", "User");
+                    cust.Organisation = null;
+                    customerService.Update(cust);
+                    this.organisationService.Delete(cust.Organisation);
                 }
 
-                
+                return RedirectToAction("CreateOrganisation", "User");
             }
             catch (Exception ex)
             {
@@ -347,7 +352,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                 ModelState.AddBusinessError(ex.Message);
             }
 
-            return RedirectToActionWithError("Register", model);
+            return RedirectToActionWithError("Account", accountViewModel);
         }
 
 
@@ -363,15 +368,22 @@ namespace LetterAmazer.Websites.Client.Controllers
         {
             try
             {
-                customerService.RecoverPassword(model.Email);
+                if (ModelState.IsValid)
+                {
+                    customerService.RecoverPassword(model.Email);
+                    return RedirectToAction("ForgotPasswordSuccess");
+                }
 
-                return RedirectToAction("ForgotPasswordSuccess");
+            }
+            catch (BusinessException businessException)
+            {
+                ModelState.AddBusinessError("We could not find any users with the provided e-mail address");
             }
             catch (Exception)
             {
-                ModelState.AddBusinessError("Email is invalid");
+                ModelState.AddBusinessError("We could not find any users with the provided e-mail address");
             }
-
+                   
             return RedirectToActionWithError("ForgotPassword", model);
         }
 
@@ -390,7 +402,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                     ResetPasswordKey = key
                 }).FirstOrDefault();
 
-                return View(new RegisterViewModel() { ResetPasswordKey = key });
+                return View(new RegisterViewModel() { ResetPasswordKey = key, Email = customer.Email });
             }
             catch (Exception ex)
             {

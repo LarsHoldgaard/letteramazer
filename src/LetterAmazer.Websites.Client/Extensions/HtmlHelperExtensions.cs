@@ -19,29 +19,21 @@ namespace LetterAmazer.Websites.Client.Extensions
             if (htmlHelper.ViewData.ModelState.ContainsKey("Business"))
             {
                 ModelState modelState = htmlHelper.ViewData.ModelState["Business"];
-                return MessageBox(htmlHelper, MessageBoxType.Error, "An error occured",
+                return MessageBox(htmlHelper, MessageBoxType.Danger,
                     string.Format("<p>{0}</p>", htmlHelper.Encode(modelState.Errors[0].ErrorMessage)), false);
             }
             return null;
         }
 
-        public static HtmlString MessageBox(this HtmlHelper htmlHelper, MessageBoxType type, string title, string message, bool encodeMessage)
+        public static HtmlString MessageBox(this HtmlHelper htmlHelper, MessageBoxType type, string message, bool encodeMessage)
         {
             return new HtmlString(new StringBuilder()
-                .AppendFormat("<div class=\"alert alert-block alert-{0}\"><h4>{1}</h4>{2}</div>", type.ToString().ToLower(),
-                    htmlHelper.Encode(title), encodeMessage ? "<p>" + htmlHelper.Encode(message) + "</p>" : message)
+                .AppendFormat("<div class=\"bg-{0}\">{1}</div>", type.ToString().ToLower()
+                    , encodeMessage ? "<p>" + htmlHelper.Encode(message) + "</p>" : message)
                 .ToString());
         }
 
-        public static HtmlString MessageBox(this HtmlHelper htmlHelper, MessageBoxType type, string title, string message)
-        {
-            return MessageBox(htmlHelper, type, title, message, true);
-        }
 
-        public static HtmlString MessageBox(this HtmlHelper htmlHelper, MessageBoxType type, string message, bool encodeMessage)
-        {
-            return MessageBox(htmlHelper, type, type.ToString(), message, encodeMessage);
-        }
 
         public static HtmlString MessageBox(this HtmlHelper htmlHelper, MessageBoxType type, string message)
         {
@@ -50,8 +42,9 @@ namespace LetterAmazer.Websites.Client.Extensions
 
         public enum MessageBoxType
         {
+            Primary,
+            Danger,
             Info,
-            Error,
             Warning,
             Success
         }
