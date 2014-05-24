@@ -747,12 +747,15 @@ namespace LetterAmazer.Websites.Client.Controllers
             model.Customer = SessionHelper.Customer;
             model.LetterType = SessionHelper.Customer.DefaultLetterType;
 
+            setStats(model);
+
+
+            // invoices
             var unpaidInvoices = invoiceService.GetInvoiceBySpecification(new InvoiceSpecification()
             {
                 OrganisationId = SessionHelper.Customer.Organisation.Id,
                 InvoiceStatus = InvoiceStatus.Created
             });
-
             if (unpaidInvoices != null && unpaidInvoices.Any())
             {
                 model.UnpaidInvoices = new InvoiceOverviewViewModel();
@@ -768,6 +771,30 @@ namespace LetterAmazer.Websites.Client.Controllers
                     });
                 }    
             }
+        }
+
+        private void setStats(DashboardViewModel model)
+        {
+
+            int letterCount = 0;
+            decimal priceCount = 0;
+            var lastMonthOrders = orderService.GetOrderBySpecification(new OrderSpecification()
+            {
+                UserId = SessionHelper.Customer.Id,
+                ToDate = DateTime.Now,
+                FromDate = DateTime.Now.AddDays(-7),
+                OrderStatus = new List<OrderStatus>() {OrderStatus.Done, OrderStatus.InProgress, OrderStatus.Paid}
+            });
+            foreach (var lastMonthOrder in lastMonthOrders)
+            {
+                var letterLines =
+                    lastMonthOrder.OrderLines.Where(c => c.ProductType == ProductType.Letter)
+                        .Select(c => (Letter) c.BaseProduct);
+                letterCount += letterLines.Count();
+                priceCount += lastMonthOrder.Price.PriceExVat;
+            }
+            model.LettersLastMonth = letterCount;
+            model.MoneyLastMoney = priceCount;
         }
 
         private void buildContactsModel(EditContactsViewModel model)

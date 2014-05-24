@@ -104,7 +104,13 @@ namespace LetterAmazer.Business.Services.Services
             dborder.OrderCode = order.OrderCode;
             dborder.OrderStatus = (int)order.OrderStatus;
             dborder.DateUpdated = DateTime.Now;
-            
+            dborder.DatePaid = order.DatePaid;
+            dborder.DateSent = order.DateSent;
+            dborder.CustomerId = order.Customer.Id;
+            dborder.PriceExVat = order.Price.PriceExVat;
+            dborder.Total = order.Price.Total;
+            dborder.VatPercentage = order.Price.VatPercentage;
+
             repository.SaveChanges();
 
             cacheService.DeleteByContaining("GetOrderBySpecification");

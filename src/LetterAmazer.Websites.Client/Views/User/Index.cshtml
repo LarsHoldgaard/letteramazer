@@ -70,13 +70,13 @@ else
     <div class="col-md-4">
         <div class="dashboardBox">
             <p class="lead">Money spent last week</p>
-            <p class="credit-text">52,50 EUR</p>
+            <p class="credit-text">@Math.Round(Model.MoneyLastMoney,2) EUR (ex. vat)</p>
         </div>
     </div>
     <div class="col-md-4">
         <div class="dashboardBox">
             <p class="lead">Letters sent last week</p>
-            <p class="credit-text">123</p>
+            <p class="credit-text">@Model.LettersLastMonth</p>
 
         </div>
     </div>
