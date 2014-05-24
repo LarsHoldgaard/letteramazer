@@ -57,8 +57,7 @@ namespace LetterAmazer.Business.Services.Services
             fileConversion(checkout);
             setCustomer(checkout, order);
 
-            // TODO: wtf? should be on letter, not checkout lol
-            checkout.OrderNumber = Helpers.GetRandomInt(1000000, 99999999).ToString();
+            checkout.OrderNumber = Helpers.GetRandomInt(1000, 99999999).ToString();
             foreach (var letter in checkout.Letters)
             {
                 var letterPrice = priceService.GetPriceBySpecification(new PriceSpecification()
@@ -89,6 +88,7 @@ namespace LetterAmazer.Business.Services.Services
                     price.AddPrice(letterPrice);
                 }
 
+                letter.Letter.ReturnLabel = Helpers.GetRandomInt(1000000, 99999999);
             }
 
             order.OrderCode = checkout.OrderNumber;
