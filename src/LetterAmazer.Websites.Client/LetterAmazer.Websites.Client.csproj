@@ -235,6 +235,12 @@
     <Content Include="Content\css\sections\site\Variables.min.css">
       <DependentUpon>Variables.less</DependentUpon>
     </Content>
+    <Content Include="Content\css\sections\user\Dashboard.css">
+      <DependentUpon>Dashboard.less</DependentUpon>
+    </Content>
+    <Content Include="Content\css\sections\user\UserSection.css">
+      <DependentUpon>UserSection.less</DependentUpon>
+    </Content>
     <Content Include="Content\images\1455878_10152199113254113_90765289_n.jpg" />
     <Content Include="Content\images\1623763_10151813235096886_1787855136_n.jpg" />
     <Content Include="Content\images\icons\1395498076_130.png" />
@@ -354,6 +360,11 @@
     <Content Include="Content\plugins\bootstrap\fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\plugins\bootstrap\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="Content\plugins\bootstrap\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Content\css\sections\user\Dashboard.less" />
+    <Content Include="Content\css\sections\user\UserSection.less" />
+    <Content Include="Content\css\sections\user\UserSection.css.map">
+      <DependentUpon>UserSection.css</DependentUpon>
+    </Content>
     <None Include="Properties\PublishProfiles\FileDEploy.pubxml" />
     <None Include="Properties\PublishProfiles\Stat.pubxml" />
     <None Include="Scripts\jquery-2.0.3.intellisense.js" />
@@ -694,6 +705,7 @@
     <Content Include="Views\Shared\_sendLettersToOverview.cshtml" />
     <Content Include="Views\Partner\Economic.cshtml" />
     <Content Include="Views\Home\Account.cshtml" />
+    <Content Include="Views\Shared\_Standard.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

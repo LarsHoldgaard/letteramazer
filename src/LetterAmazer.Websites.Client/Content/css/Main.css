@@ -87,4 +87,40 @@ body > main > .container {
 .validation-summary-valid {
   display: none;
 }
+.breadcrumbs {
+  font-size: 10pt;
+  font-style: italic;
+}
+.dashboardBox {
+  padding: 20px;
+  background-color: white;
+  margin-top: 10px;
+  border: 1px solid #d9d9d9;
+  border-radius: 5px;
+  text-align: center;
+}
+.dashboardBox:hover {
+  background-color: #fbfbfb;
+}
+.pointer:hover {
+  cursor: pointer;
+}
+.dashboardBox .lead {
+  font-size: 16pt;
+  text-align: center;
+  display: block;
+  font-weight: bold;
+}
+.dashboardBox a,
+.dashboardBox a:hover {
+  color: black;
+}
+.smallInfo {
+  font-size: 10pt;
+  font-style: italic;
+}
+.dashboardBox .credit-text {
+  color: #5ca0da;
+  font-size: 22pt;
+}
 /*# sourceMappingURL=Main.css.map */

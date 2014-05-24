@@ -1,0 +1,12 @@
+﻿@{
+    ViewBag.Title = "_Standard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@RenderSection("header", false)
+
+<div class="content">
+    <div class="row">
+        @RenderBody()   
+    </div>
+</div>

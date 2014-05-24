@@ -1,4 +1,5 @@
-﻿@{
+﻿@using LetterAmazer.Business.Utils.Helpers
+@{
     var controller = ViewContext.RouteData.Values["controller"].ToString().ToLower();
     var action = ViewContext.RouteData.Values["action"].ToString().ToLower();
 }
@@ -32,16 +33,32 @@
                 </div>
                 <div class="collapse navbar-collapse pull-right">
                     <ul class="nav navbar-nav">
-                        <li>@Html.ActionLink("Send a letter", "Index", "Home")
-                        </li>
-                        <li>@Html.ActionLink("Business", "Business", "Home")
-                        </li>
-                        <li>@Html.ActionLink("API", "ApiInfo", "Home")
-                        </li>
-                        <li>@Html.ActionLink("Pricing", "Pricing", "Home")
+                        <li>
+                            @Html.ActionLink("Send a letter", "Index", "Home")
                         </li>
                         <li>
-                            @Html.ActionLink("Account", "Account", "Home")
+                            @Html.ActionLink("Business", "Business", "Home")
+                        </li>
+                        <li>
+                            @Html.ActionLink("API", "ApiInfo", "Home")
+                        </li>
+                        <li>
+                            @Html.ActionLink("Reseller", "Reseller", "Home")
+                        </li>
+                        <li>
+                            @Html.ActionLink("Pricing", "Pricing", "Home")
+                        </li>
+                        <li>
+                            @if (SessionHelper.Customer == null)
+                            {
+                                @Html.ActionLink("Account", "Account", "Home")
+                            }
+                            else
+                            {
+                                @Html.ActionLink("Dashboard", "Index", "User")
+                            }
+
+                            
                         </li>
                     </ul>
                 </div>
@@ -52,40 +69,36 @@
 
     <main>
         <div class="container">
-            <div class="content">
-                <div class="row">
-                    @*<div class="col-md-8">*@
-                        @RenderBody()        
-                   @* </div>
-                    <aside>
-                    <div class="col-md-4">
-                        <div style="background-color:#f9f9f9; border:1px solid #d9d9d9;padding:15px; border-radius:5px;">
-                            <h3>Try our service for free</h3>
-                            
-                            <p>Want to test our service before buying? Contact us.</p>
-                            
-                            <p>Company:<br/>
-                                <input type="text" class="input-lg" placeholder="Company"/>
-                            </p>
-                            <p>Website:<br/>
-                                <input type="text" class="input-lg" placeholder="Website"/>
-                            </p>
-                            <p>E-mail:<br/>
-                                <input type="text" class="input-lg" placeholder="E-mail"/>
-                            </p>
-                            <input type="submit" class="btn btn-lg btn-primary" value="Get free access"/>
-                            
-                            <br/><br/>
-                            <small style="font-style:italic; font-size:small;">* this is meant for companies and we have the right to reject your ass.</small>
-                        </div>
+            @*<div class="col-md-8">*@
+            @RenderBody()
+            @* </div>
+                <aside>
+                <div class="col-md-4">
+                    <div style="background-color:#f9f9f9; border:1px solid #d9d9d9;padding:15px; border-radius:5px;">
+                        <h3>Try our service for free</h3>
+
+                        <p>Want to test our service before buying? Contact us.</p>
+
+                        <p>Company:<br/>
+                            <input type="text" class="input-lg" placeholder="Company"/>
+                        </p>
+                        <p>Website:<br/>
+                            <input type="text" class="input-lg" placeholder="Website"/>
+                        </p>
+                        <p>E-mail:<br/>
+                            <input type="text" class="input-lg" placeholder="E-mail"/>
+                        </p>
+                        <input type="submit" class="btn btn-lg btn-primary" value="Get free access"/>
+
+                        <br/><br/>
+                        <small style="font-style:italic; font-size:small;">* this is meant for companies and we have the right to reject your ass.</small>
                     </div>
-                        </aside>*@
                 </div>
-                
-                
-                </div>
-            </div>
-        
+                    </aside>*@
+        </div>
+
+
+
     </main>
 
 
@@ -98,7 +111,8 @@
                 <div class="row">
                     <div class="col-md-3 bottom-box">
                         <a href="/">
-                            <img src="/Content/images/letteramazer_small.png" width="140px;" /></a>
+                            <img src="/Content/images/letteramazer_small.png" width="140px;" />
+                        </a>
                     </div>
 
                     <div class="col-md-3 border-left bottom-box">
@@ -127,39 +141,43 @@
                         <nav>
                             <b>Sections</b><br />
                             <ul>
-                                <li>@Html.ActionLink("Send a letter", "Index", "Home")
-                                </li>
-                                <li>@Html.ActionLink("Business", "Business", "Home")
-                                </li>
-                                <li>@Html.ActionLink("API", "ApiInfo", "Home")
-                                </li>
-                                <li>@Html.ActionLink("Pricing", "Pricing", "Home")
-                                </li>
                                 <li>
-                                    @Html.ActionLink("Account", "Account", "Home")
-                                </li>
-                                <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                            </ul>
-                        </nav>
-                    </div>
+                                    @Html.ActionLink("Send a letter", "Index", "Home")
+                            </li>
+                            <li>
+                                @Html.ActionLink("Business", "Business", "Home")
+                        </li>
+                        <li>
+                            @Html.ActionLink("API", "ApiInfo", "Home")
+                    </li>
+                    <li>
+                        @Html.ActionLink("Pricing", "Pricing", "Home")
+                </li>
+                <li>
+                    @Html.ActionLink("Account", "Account", "Home")
+                </li>
+                <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+            </ul>
+        </nav>
+    </div>
 
-                </div>
-            </div>
-        </div>
-    </footer>
+</div>
+</div>
+</div>
+</footer>
 
 
-    <script type="text/javascript">
-        (function (i, s, o, g, r, a, m) {
-            i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
-                (i[r].q = i[r].q || []).push(arguments)
-            }, i[r].l = 1 * new Date(); a = s.createElement(o),
-                m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
-        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+<script type="text/javascript">
+    (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+            (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date(); a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
 
-        ga('create', 'UA-45976349-1', 'letteramazer.com');
-        ga('send', 'pageview');
-    </script>
+    ga('create', 'UA-45976349-1', 'letteramazer.com');
+    ga('send', 'pageview');
+</script>
 </body>
 
 </html>

@@ -8,96 +8,141 @@
     <script type="text/javascript" src="@Url.Content("~/Scripts/jquery-ui-1.10.3.min.js")"></script>
 }
 
-@if (!SessionHelper.Customer.IsActivated)
-{
-    @Html.Partial("_notActivated")
-}
-
-<h1>LetterAmazer dashboard</h1>
-
-
-<h2>Insert more money</h2>
-<a class="btn btn-primary btn-lg" href="@Url.Action("Credits")">Insert money</a>
-
+<span class="breadcrumbs">LetterAmazer > Dashboard</span>
 
 <h2>Actions</h2>
-@if (Model.Customer.CreditsLeft > 0)
+@if (Model.Customer.HasOrganisation)
 {
-    @*if (Model.LetterType == LetterType.Pres)
-    {
-        <p><a class="btn btn-success btn-lg" href="@Url.Action("SendALetter")">Send a letter</a></p>
-    }
-    else
-    {*@
-        <p><a href="@Url.Action("SendWindowedLetter")" class="btn-success btn btn-lg">Send a windowed letter</a></p>
-    //}
+    <p class="smallInfo">You are logged in as @Model.Customer.Organisation.Name, <a href="@Url.Action("Logout", "Home")">log out</a>.</p>
 }
 else
 {
-    <p><b>No money left</b>. Insert more money to send a letter.</p>
-    <p><a href="#" class="btn-default btn btn-lg" disabled="disabled">Send a letter</a></p>
+<p class="smallInfo">You are logged in with e-mail @Model.Customer.Email, <a href="@Url.Action("Logout", "Home")">log out</a>.</p>    
 }
 
-<h2>Account status</h2>
-Money available: <b>@Model.Customer.Credit.ToFriendlyMoney() EUR</b>
-@if (SessionHelper.Customer.CreditLimit != 0)
-{
-    <p>Your account has a limit of @SessionHelper.Customer.CreditLimit EUR</p>
-}
+<div class="row">
+    <div class="col-md-4">
+        <div class="dashboardBox pointer">
+            <img src="https://cdn1.iconfinder.com/data/icons/ios7-line/512/Send_mail.png" width="80px" />
 
+            <p class="lead">Send a letter</p>
+            <p>Send a windowed envelope to any address, worldwide.</p>
+        </div>
+
+    </div>
+    <div class="col-md-4">
+        <div class="dashboardBox pointer">
+            <img src="https://cdn4.iconfinder.com/data/icons/vectory-finance-1/40/money_send_3-128.png" width="80px" />
+
+            <p class="lead">Insert money into account</p>
+            <p>Pick between many different payment methods.</p>
+        </div>
+
+    </div>
+    <div class="col-md-4">
+        <div class="dashboardBox pointer">
+            <img src="https://cdn2.iconfinder.com/data/icons/seo-web-optomization-ultimate-set/512/information_support-128.png" width="80px" />
+            <p class="lead">Help or special request</p>
+            <p>Need support or need to send specific types of letters?</p>
+        </div>
+
+    </div>
+
+</div>
+
+<hr />
+
+<h2>Stats</h2>
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="dashboardBox">
+            <p class="lead">Money on account</p>
+            <p class="credit-text">@Math.Round(Model.Customer.CreditsLeft, 0) EUR</p>
+            <p><a>Insert more</a></p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="dashboardBox">
+            <p class="lead">Money spent last week</p>
+            <p class="credit-text">52,50 EUR</p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="dashboardBox">
+            <p class="lead">Letters sent last week</p>
+            <p class="credit-text">123</p>
+
+        </div>
+    </div>
+</div>
+
+<hr/>
 
 @if (Model.UnpaidInvoices != null && Model.UnpaidInvoices.InvoiceSnippets.Any())
 {
-<h2>Pending unpaid invoices</h2>
-@Html.Partial("_invoiceOverview", Model.UnpaidInvoices)
-@Html.ActionLink("See all your invoices", "InvoiceOverview", "User", null, new { @class = "btn-primary btn" })    
+    <h2>Pending unpaid invoices</h2>
+    @Html.Partial("_invoiceOverview", Model.UnpaidInvoices)
+    @Html.ActionLink("See all your invoices", "InvoiceOverview", "User", null, new { @class = "btn-primary btn" })
+
+<hr/>
 }
+
+
+
+
 
 
 
 @if (Model.Orders != null && Model.Orders.Any())
 {
-    <h2>Overview of orders</h2>
-    
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <td>Order#</td>
-                <td>Date</td>
-                <td>Order state</td>
-                <td>Letter count</td>
-                <td>Price </td>
-                <td>See details </td>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model.Orders)
-            {
+<h2>Latest orders</h2>
 
+    <div class="dashboardBox">
+        <table class="table table-striped">
+            <thead>
                 <tr>
-                    <td>@item.Id</td>
-                    <td>@item.DateCreated.ToFriendlyDateTime()</td>
-                    <td>@item.OrderStatus.ToString()</td>
-                    <td>@item.OrderLines.Count</td>
-                    <td>@item.Price.ToFriendlyMoney() EUR</td>
-                    <td><a href="@Url.Action("Details", new { id = item.Id })">See details</a></td>
-
+                    <td>Order#</td>
+                    <td>Date</td>
+                    <td>Order state</td>
+                    <td>Letter count</td>
+                    <td>Price </td>
+                    <td>See details </td>
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Orders)
+                {
 
+                    <tr>
+                        <td>@item.Id</td>
+                        <td>@item.DateCreated.ToFriendlyDateTime()</td>
+                        <td>@item.OrderStatus.ToString()</td>
+                        <td>@item.OrderLines.Count</td>
+                        <td>@item.Price.ToFriendlyMoney() EUR</td>
+                        <td><a href="@Url.Action("Details", new { id = item.Id })">See details</a></td>
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 }
 
 
 
-<script type="text/javascript">
-    $(function () {
-        $('#fromDate').datepicker({
-            dateFormat: 'yy-mm-dd'
-        });
-        $('#toDate').datepicker({
-            dateFormat: 'yy-mm-dd'
-        });
-    });
-</script>
+
+
+
+
+
+        <script type="text/javascript">
+            $(function () {
+                $('#fromDate').datepicker({
+                    dateFormat: 'yy-mm-dd'
+                });
+                $('#toDate').datepicker({
+                    dateFormat: 'yy-mm-dd'
+                });
+            });
+        </script>
