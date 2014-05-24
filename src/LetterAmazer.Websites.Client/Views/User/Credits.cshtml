@@ -3,25 +3,34 @@
 
 @model LetterAmazer.Websites.Client.ViewModels.CreditsViewModel
 
-<h1>Insert money on your account</h1>
+@{
+ 
+    Layout = "~/Views/Shared/_Standard.cshtml";
+}
 
-@Html.ActionLink("Go back to your dashboard", "Index")<br /><br />
+<span class="breadcrumbs"><a href="/">LetterAmazer</a> > <a href="@Url.Action("Index")">Dashboard</a> > Insert money</span>
 
-You currently have @Model.Credit.ToFriendlyMoney() EUR on your account.
+<h1>Insert money into your account</h1>
+
+<p>Insert money into your account, so you cna use them to sent letters.</p>
+<p>You can always get non-used money back to your own bank account, by @Html.ActionLink("contacting us","Contact","Home").</p>
 
 
-<h3>How many euro do you want to insert?</h3>
 @using (Html.BeginForm("Credits", "User", FormMethod.Post))
 {
 
-    @Html.TextBoxFor(model => model.PurchaseAmount, new { @class = "form-control", placeholder = "How many credits?" })
+    <div class="row">
+        <div class="form-group col-md-4">
+            <label>How much do you want to insert?</label>
+            @Html.TextBoxFor(model => model.PurchaseAmount, new { @class = "", placeholder = "€ Amount" }) <text>EUR</text>
+            <label id="areyousure" style="font-style:italic; color:red; display:none;">Woah - are you sure? That's quite a lot of letters...</label>
 
-    <label id="areyousure" style="font-style:italic; color:red; display:none;">Woah - are you sure? That's quite a lot of letters...</label>
-    
-    <h3>Select payment method</h3>
-
-    @Html.DropDownListFor(model => model.SelectedPaymentMethod, Model.PaymentMethods, new { @class = "form-control" })
-
+        </div></div><div class="row">
+        <div class="form-group col-md-4">
+            <label>Select payment method</label>
+            @Html.RadioButtonFor(model => model.SelectedPaymentMethod, Model.PaymentMethods, new { @class = "form-control" })
+        </div>
+    </div>
     
     <h3>Summary</h3>
     
@@ -53,7 +62,7 @@ You currently have @Model.Credit.ToFriendlyMoney() EUR on your account.
             <b>VAT</b>: <span id="summary_vatprice"></span> EUR (<span id="summary_vatpercentage"></span> %)<br />
             <b>Total</b>: <span id="summary_total"></span> EUR<br />
         </div>
-    </div><br/><br/>
+    </div>
     
     <input type="submit" class="btn btn-primary btn-lg" value="Insert money into your account" />
 

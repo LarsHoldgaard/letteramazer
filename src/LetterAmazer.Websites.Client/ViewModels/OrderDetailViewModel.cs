@@ -21,7 +21,8 @@ namespace LetterAmazer.Websites.Client.ViewModels
 
         public DateTime? DateSent { get; set; }
         public Price Price { get; set; }
-        
+
+        public int Step { get; set; }
         
 
         public OrderDetailViewModel()
@@ -29,6 +30,7 @@ namespace LetterAmazer.Websites.Client.ViewModels
             this.Letters = new List<LetterDetailViewModel>();
         }
     }
+
 
     public class LetterDetailViewModel
     {

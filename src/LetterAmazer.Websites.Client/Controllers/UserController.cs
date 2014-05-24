@@ -642,6 +642,19 @@ namespace LetterAmazer.Websites.Client.Controllers
                 });
             }
 
+            if (order.OrderStatus == OrderStatus.Created)
+            {
+                viewModel.Step = 1;
+            }
+            if (order.OrderStatus == OrderStatus.Paid || order.OrderStatus == OrderStatus.InProgress)
+            {
+                viewModel.Step = 2;
+            }
+            if (order.OrderStatus == OrderStatus.Done)
+            {
+                viewModel.Step = 3;
+            }
+
             return viewModel;
         }
 

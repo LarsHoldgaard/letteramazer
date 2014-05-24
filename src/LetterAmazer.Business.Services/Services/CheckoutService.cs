@@ -57,6 +57,7 @@ namespace LetterAmazer.Business.Services.Services
             fileConversion(checkout);
             setCustomer(checkout, order);
 
+            // TODO: wtf? should be on letter, not checkout lol
             checkout.OrderNumber = Helpers.GetRandomInt(1000000, 99999999).ToString();
             foreach (var letter in checkout.Letters)
             {

@@ -238,6 +238,9 @@
     <Content Include="Content\css\sections\user\Dashboard.css">
       <DependentUpon>Dashboard.less</DependentUpon>
     </Content>
+    <Content Include="Content\css\sections\user\OrderDetails.css">
+      <DependentUpon>OrderDetails.less</DependentUpon>
+    </Content>
     <Content Include="Content\css\sections\user\UserSection.css">
       <DependentUpon>UserSection.less</DependentUpon>
     </Content>
@@ -364,6 +367,10 @@
     <Content Include="Content\css\sections\user\UserSection.less" />
     <Content Include="Content\css\sections\user\UserSection.css.map">
       <DependentUpon>UserSection.css</DependentUpon>
+    </Content>
+    <Content Include="Content\css\sections\user\OrderDetails.less" />
+    <Content Include="Content\css\sections\user\OrderDetails.css.map">
+      <DependentUpon>OrderDetails.css</DependentUpon>
     </Content>
     <None Include="Properties\PublishProfiles\FileDEploy.pubxml" />
     <None Include="Properties\PublishProfiles\Stat.pubxml" />

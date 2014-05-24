@@ -87,10 +87,6 @@ body > main > .container {
 .validation-summary-valid {
   display: none;
 }
-.breadcrumbs {
-  font-size: 10pt;
-  font-style: italic;
-}
 .dashboardBox {
   padding: 20px;
   background-color: white;
@@ -102,9 +98,6 @@ body > main > .container {
 .dashboardBox:hover {
   background-color: #fbfbfb;
 }
-.pointer:hover {
-  cursor: pointer;
-}
 .dashboardBox .lead {
   font-size: 16pt;
   text-align: center;
@@ -115,9 +108,36 @@ body > main > .container {
 .dashboardBox a:hover {
   color: black;
 }
+.breadcrumbs {
+  font-size: 10pt;
+  font-style: italic;
+}
+.statusCircle {
+  text-align: center;
+  font-size: 10pt;
+}
+.circleDiv {
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+  margin: 0 auto;
+  padding-top: 22px;
+}
+.circleNumber {
+  font-size: 18pt;
+}
+.pointer:hover {
+  cursor: pointer;
+}
 .smallInfo {
   font-size: 10pt;
   font-style: italic;
+}
+.dashboardLink,
+.dashboardLink:hover,
+.dashboardLink:active,
+.dashboardLink:visited {
+  color: #616161;
 }
 .dashboardBox .credit-text {
   color: #5ca0da;
