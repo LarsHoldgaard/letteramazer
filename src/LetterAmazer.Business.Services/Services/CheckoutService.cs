@@ -89,6 +89,7 @@ namespace LetterAmazer.Business.Services.Services
                 }
 
                 letter.Letter.ReturnLabel = Helpers.GetRandomInt(1000000, 99999999);
+                letter.Letter.DeliveryLabel = DeliveryLabel.Apost; // TODO: never hardcode a deliverylabel like this
             }
 
             order.OrderCode = checkout.OrderNumber;
