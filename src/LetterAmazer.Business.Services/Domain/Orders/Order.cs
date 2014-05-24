@@ -6,6 +6,7 @@ using LetterAmazer.Business.Services.Domain.Partners;
 using LetterAmazer.Business.Services.Domain.Payments;
 using LetterAmazer.Business.Services.Domain.Pricing;
 using LetterAmazer.Business.Services.Domain.Products;
+using LetterAmazer.Business.Services.Exceptions;
 
 namespace LetterAmazer.Business.Services.Domain.Orders
 {

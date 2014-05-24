@@ -65,7 +65,7 @@ namespace LetterAmazer.Business.Services.Services
             
             dborder.DateCreated = DateTime.Now;
             dborder.DateUpdated = DateTime.Now;
-            dborder.PaymentMethod = "";
+            
             dborder.CustomerId = order.Customer != null ? order.Customer.Id : 0;
 
             Price price = new Price();

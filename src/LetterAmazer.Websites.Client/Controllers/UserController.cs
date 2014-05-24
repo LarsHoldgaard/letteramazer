@@ -617,7 +617,7 @@ namespace LetterAmazer.Websites.Client.Controllers
         private OrderDetailViewModel getOrderDetailViewModel(Order order)
         {
             var letters = order.OrderLines.Where(c => c.ProductType == ProductType.Letter);
-
+            
             OrderDetailViewModel viewModel = new OrderDetailViewModel()
             {
                 DateCreated = order.DateCreated,

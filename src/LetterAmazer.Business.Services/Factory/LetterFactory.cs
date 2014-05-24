@@ -64,6 +64,8 @@ namespace LetterAmazer.Business.Services.Factory
                     DeliveryLabel = (DeliveryLabel)dbLetter.DeliveryLabel
                 },
                 Guid = dbLetter.Guid,
+                DeliveryLabel = (DeliveryLabel)(dbLetter.DeliveryLabel),
+                ReturnLabel = dbLetter.ReturnLabel.HasValue ? dbLetter.ReturnLabel.Value : 0
             };
 
             return letter;
