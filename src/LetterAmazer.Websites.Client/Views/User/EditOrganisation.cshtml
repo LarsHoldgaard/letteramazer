@@ -1,5 +1,12 @@
 ﻿@model LetterAmazer.Websites.Client.ViewModels.User.EditOrganisationViewModel
 
+@{
+
+    Layout = "~/Views/Shared/_Standard.cshtml";
+}
+
+
+
 <span class="breadcrumbs"><a href="/">LetterAmazer</a> > <a href="@Url.Action("Index")">Dashboard</a> > Edit organisation</span>
 
 <h1>Edit your organisation @Model.OrganisationName</h1>
@@ -21,28 +28,28 @@
         <div class="col-md-6">
             <label class="form-label" for="OrganisationName">Organisation name<span class="input-required">*</span></label><br />
             @Html.TextBoxFor(m => m.OrganisationName, new { @class = "form-control", placeholder = "Organisation name" })
-
+            <br />
+            <label class="form-label" for="VatNumber">Vat number (optional)</label><br />
+            @Html.TextBoxFor(m => m.VatNumber, new { @class = "form-control", placeholder = "Vat nr" })
             <br />
             <label class="form-label" for="">Country<span class="input-required">*</span></label><br />
             @Html.DropDownListFor(model => model.SelectedCountry, Model.Countries, new { @class = "form-control" })
             <br />
-            <label class="form-label" for="VatNumber">Vat number (optional)</label><br />
-            @Html.TextBoxFor(m => m.VatNumber, new { @class = "form-control", placeholder = "Vat nr" })
+            <label class="form-label" for="State">State (optional)</label><br />
+            @Html.TextBoxFor(m => m.State, new { @class = "form-control", placeholder = "State" })
+            <br />
+            <label class="form-label" for="ZipCode">Zip code<span class="input-required">*</span></label><br />
+            @Html.TextBoxFor(m => m.ZipCode, new { @class = "form-control", placeholder = "Zip code" })
+
+            <br />
+            <label class="form-label" for="City">City<span class="input-required">*</span></label><br />
+            @Html.TextBoxFor(m => m.City, new { @class = "form-control", placeholder = "City" })
             <br />
             <label class="form-label" for="Address1">Address<span class="input-required">*</span></label><br />
             @Html.TextBoxFor(m => m.Address1, new { @class = "form-control", placeholder = "Address" })
             <br />
             <label class="form-label" for="Address2">Address 2 (optional)</label><br />
             @Html.TextBoxFor(m => m.Address2, new { @class = "form-control", placeholder = "Address 2" })
-            <br />
-            <label class="form-label" for="ZipCode">Zip code<span class="input-required">*</span></label><br />
-            @Html.TextBoxFor(m => m.ZipCode, new { @class = "form-control", placeholder = "Zip code" })
-            <br />
-            <label class="form-label" for="State">State (optional)</label><br />
-            @Html.TextBoxFor(m => m.State, new { @class = "form-control", placeholder = "State" })
-            <br />
-            <label class="form-label" for="City">City<span class="input-required">*</span></label><br />
-            @Html.TextBoxFor(m => m.City, new { @class = "form-control", placeholder = "City" })
 
             <br />
 

@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/_Standard.cshtml";
 }
 
-<h1>Automate your business:<br />
+<h1>Automate your business:<br/>
     Let LetterAmazer send all your letters
 </h1>
 
@@ -16,45 +16,50 @@
 
 <p><b>There are NO registration fees, monthly fees or minimum usage</b>.</p>
 
-<div class="row margintop">
-    <div class="col-md-4">
-        <div class="frontpage-top-uspmargin">
-            <img src="@Url.Content("~/Content/images/icons/1395514603_Account.png")" class="frontpage-top-image-usp" />
-            <span class="frontpage-top-usp">1. Create account
-            </span>
-            <span class="frontpage-top-usptext">Create a free account and you will be ready within 2 minutes
-                    <br />
-                <a class="btn btn-lg btn-primary buttonmargintop" href="@Url.Action("Register")">Create an account now</a>
-            </span>
+<div class="row">
+    <div class="col-md-4 frontPageBox">
+    
+        <img src="@Url.Content("~/Content/images/icons/1395514603_Account.png")" />
+        <span class="lead">
+            1. Create account
+        </span>
+        <span>
+            Create a free account and you will be ready within 2 minutes
+            <br />
+            <a class="btn btn-lg btn-primary" href="@Url.Action("Account")">Create an account now</a>
+        </span>
 
-        </div>
-    </div>
-
-    <div class="col-md-4">
-        <div class="frontpage-top-uspmargin">
-            <img src="@Url.Content("~/Content/images/icons/1395514602_circle-add.png")" class="frontpage-top-image-usp" />
-            <span class="frontpage-top-usp">2. Insert money
-            </span>
-            <span class="frontpage-top-usptext">Pay using invoice or PayPal. There is no minimum amount.
-            </span>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="frontpage-top-uspmargin">
-            <img src="@Url.Content("~/Content/images/icons/1395498076_130.png")" class="frontpage-top-image-usp" />
-            <span class="frontpage-top-usp">3. Send letters
-            </span>
-            <span class="frontpage-top-usptext">Sending a single letter takes less than 30 seconds. You can always see what letters you previously has sent
-            </span>
-        </div>
-    </div>
+    
 </div>
 
-<br />
+    <div class="col-md-4 frontPageBox">
+        <img src="@Url.Content("~/Content/images/icons/1395514602_circle-add.png")"  />
+        <span class="lead">
+            2. Insert money
+        </span>
+        <span>
+            Pay using invoice or PayPal. There is no minimum amount.
+        </span>
+    
+</div>
+    <div class="col-md-4 frontPageBox">
+    
+        <img src="@Url.Content("~/Content/images/icons/1395498076_130.png")" />
+        <span class="lead">
+            3. Send letters
+        </span>
+        <span>
+            Sending a single letter takes less than 30 seconds. You can always see what letters you previously has sent
+        </span>
+    </div>
+
+</div>
+
+
 <hr />
-<br />
-<div class="frontpage-top-usptext" style="text-align: left">
-    <span class="frontpage-top-description-header">Why is LetterAmazer a cheaper option?</span>
+
+
+   <h2>Why is LetterAmazer a cheaper option?</h2>
 
     <p>The cost of sending letters is not only the postage fee. It is also salary, envelopes, paper, stamps and time spent making the delivery.</p>
     <p>At LetterAmazer we send <b>a lot</b> of letters. That means:</p>
@@ -70,15 +75,12 @@
         We have offices around the world, which means we can print and send letters locally. That brings our prices down, much more than the local prices.
     </p>
     <p><b>Our prices</b> is publically available. @Html.ActionLink("See the prices here", "Pricing").</p>
-</div>
 
 
-<br />
 <hr />
-<br />
 
-<div class="frontpage-top-usptext" style="text-align: left">
-    <span class="frontpage-top-description-header">Automatic integration</span>
+
+<h2>Automatic integration</h2>
     <p>If you send a lot of letters, or want to send letters inside an application, we have an answer for that as well.</p>
     <p>We have a working API. With this API, any application or software can send letters to any address in the world. We have previously experiences a lot of interest from:</p>
     <ul>
@@ -91,12 +93,11 @@
     <p>The truth is that most developers would be able to integrate with LetterAmazer within a couple of hours. We use a standard REST API, and provide solid documentation.</p>
 
     <p>@Html.ActionLink("Read more about our API", "ApiInfo")</p>
-</div>
-<br />
+
+
 <hr />
-<br />
-<div class="frontpage-top-usptext" style="text-align: left">
-    <span class="frontpage-top-description-header">Fast, convenient and stable</span>
+
+<h2>Fast, convenient and stable</h2>
     <p>
         When a trained employee uses to our system, it takes less than 10 seconds to send a windowed letter. That makes it extremely fast and convenient to send letters.
     </p>
@@ -107,19 +108,16 @@
         <li>We are able to switch servers within hours, if sometimes go wrong</li>
         <li>We take daily backups</li>
     </ul>
-</div>
-<br />
+
+
 <hr />
-<br />
-<div class="frontpage-top-usptext" style="text-align: left">
-    <span class="frontpage-top-description-header">How about privacy?</span>
+
+<h2>How about privacy?</h2>
     <p>Every employee working with our letters, sign a confidential agreement. That means your letters are safe with us, and you don't have to worry about privacy.</p>
-</div>
-<br />
+
+
 <hr />
-<br />
-<div class="frontpage-top-usptext" style="text-align: left">
-    <span class="frontpage-top-description-header">Start today - try for free</span>
+
+<h2>Start today - try for free</h2>
     <p>Let us get you started. Remember, it is free!</p>
-    <a class="btn btn-lg btn-primary buttonmargintop" href="@Url.Action("Register")">Create an account now</a>
-</div>
+    <a class="btn btn-lg btn-primary" href="@Url.Action("Account")">Create an account now</a>

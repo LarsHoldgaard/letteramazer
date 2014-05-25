@@ -6,96 +6,90 @@
 }
 
 
-<div class="frontpage">
-    <h1>
-        Send a letter API - REST api for snail mail
-    </h1>
 
-    @if (!string.IsNullOrEmpty(Model.Status))
-    {
-        <div class="alert alert-success">
-            @Model.Status
-        </div>
-    }
+<h1>
+    Send a letter API - REST api for snail mail
+</h1>
 
-    <p>If you send a lot of letters, or want to start sending letters inside your app or website, LetterAmazer is a good choice.</p>
+@if (!string.IsNullOrEmpty(Model.Status))
+{
+    <div class="alert alert-success">
+        @Model.Status
+    </div>
+}
+
+<p>If you send a lot of letters, or want to start sending letters inside your app or website, LetterAmazer is a good choice.</p>
+<p>
+    <b>We want to have the easiest letter API in the world</b>. Therefore, we always strive for the following:<br />
+    <ul>
+        <li>Provide an extremely simple REST API, with good documentation and code samples</li>
+        <li>Require as few parameters for calls as possible</li>
+        <li>100% Uptime. This is of course never possible, but this is one of our most important KPI's, which means it is our goal</li>
+        <li>Always answer questions within 24 hours</li>
+    </ul>
+</p>
+
+<p><b>Getting started is easy:</b></p>
+<div class="row">
+    <div class="col-md-4 frontPageBox">
+
+        <img src="@Url.Content("~/Content/images/icons/1395514603_Account.png")" />
+        <span class="lead">
+            1. Create account
+        </span>
+        <span>
+            Create a free account and you will be ready within 2 minutes
+            <br /><a class="btn btn-lg btn-primary buttonmargintop" href="@Url.Action("Account")">Create an account now</a>
+        </span>
+
+
+    </div>
+
+    <div class="col-md-4 frontPageBox">
+        <img src="@Url.Content("~/Content/images/icons/1395523084_icon-ios7-gear.png")" />
+        <span class="lead">
+            2. Add a new API key and secret
+        </span>
+        <span>
+            Create an API key and secret, which is your authentication to the API.
+        </span>
+    </div>
+
+    <div class="col-md-4 frontPageBox">
+
+        <img src="@Url.Content("~/Content/images/icons/1395523082_document_text_accept.png")" />
+        <span class="lead">
+            3. Make the integration
+        </span>
+        <span>
+            Use our API documentation or see our code samples, to make your integration work.
+        </span>
+    </div>
+
+</div>
+
+<hr />
+
+<h2>
+    Start using our API
+</h2>
+<p>Our API is currently in beta, which means we haven't opened it on the website yet. If you want to use it within the next month, please send us a message below:</p>
+
+@using (Html.BeginForm("ApiInfo", "Home", FormMethod.Post))
+{
     <p>
-        <b>We want to have the easiest letter API in the world</b>. Therefore, we always strive for the following:<br />
-        <ul>
-            <li>Provide an extremely simple REST API, with good documentation and code samples</li>
-            <li>Require as few parameters for calls as possible</li>
-            <li>100% Uptime. This is of course never possible, but this is one of our most important KPI's, which means it is our goal</li>
-            <li>Always answer questions within 24 hours</li>
-        </ul>
+        E-mail:<br />
+        @Html.TextBoxFor(model => model.Email, new { @class = "form-control", placeholder = "E-mail" })
+    </p>
+    <p>
+        Organisation:<br />
+        @Html.TextBoxFor(model => model.Organistion, new { @class = "form-control", placeholder = "Organistaion" })
+    </p>
+    <p>
+        How do you want to use the API:<br />
+        @Html.TextAreaFor(model => model.Comment, new { @class = "form-control", placeholder = "How do you want to use the API?" })
     </p>
 
-    <p><b>Getting started is easy:</b></p>
-    <div class="row margintop">
-        <div class="col-md-4">
-            <div class="frontpage-top-uspmargin">
-                <img src="@Url.Content("~/Content/images/icons/1395514603_Account.png")" class="frontpage-top-image-usp" />
-                <span class="frontpage-top-usp">
-                    1. Create account
-                </span>
-                <span class="frontpage-top-usptext">
-                    Create a free account and you will be ready within 2 minutes
-                    <br /><a class="btn btn-lg btn-primary buttonmargintop" href="@Url.Action("Register")">Create an account now</a>
-                </span>
 
-            </div>
-        </div>
-
-        <div class="col-md-4">
-            <div class="frontpage-top-uspmargin">
-                <img src="@Url.Content("~/Content/images/icons/1395523084_icon-ios7-gear.png")" class="frontpage-top-image-usp" />
-                <span class="frontpage-top-usp">
-                    2. Add a new API key and secret
-                </span>
-                <span class="frontpage-top-usptext">
-                    Create an API key and secret, which is your authentication to the API.
-                </span>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="frontpage-top-uspmargin">
-                <img src="@Url.Content("~/Content/images/icons/1395523082_document_text_accept.png")" class="frontpage-top-image-usp" />
-                <span class="frontpage-top-usp">
-                    3. Make the integration
-                </span>
-                <span class="frontpage-top-usptext">
-                    Use our API documentation or see our code samples, to make your integration work.
-                </span>
-            </div>
-        </div>
-    </div>
-
-    <br />
-    <hr />
-    <br />
-
-    <div class="frontpage-top-usptext" style="text-align:left">
-        <span class="frontpage-top-description-header">
-            Start using our API
-        </span>
-        <p>Our API is currently in beta, which means we haven't opened it on the website yet. If you want to use it within the next month, please send us a message below:</p>
-
-        @using (Html.BeginForm("ApiInfo", "Home", FormMethod.Post))
-        {
-            <p>
-                E-mail:<br />
-                @Html.TextBoxFor(model => model.Email, new { @class = "form-control", placeholder = "E-mail" })
-            </p>
-<p>
-                Organisation:<br />
-                @Html.TextBoxFor(model => model.Organistion, new { @class = "form-control", placeholder = "Organistaion" })
-            </p>
-<p>
-                How do you want to use the API:<br />
-                @Html.TextAreaFor(model => model.Comment, new { @class = "form-control", placeholder = "How do you want to use the API?" })
-            </p>
-
-
-            <input type="submit" class="btn btn-primary btn-lg" value="Send message" />
-        }
-    </div>
-</div>
+    <input type="submit" class="btn btn-primary btn-lg" value="Send message" />
+}

@@ -320,7 +320,7 @@ namespace LetterAmazer.Websites.Client.Controllers
         {
             SessionHelper.Customer = null;
             FormsAuthentication.SignOut();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index","Home");
         }
 
 

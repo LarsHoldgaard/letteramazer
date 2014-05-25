@@ -10,6 +10,14 @@
 
 <span class="breadcrumbs"><a href="/">LetterAmazer</a> > Dashboard</span>
 
+@if (!SessionHelper.Customer.IsActivated)
+{
+    @Html.Partial("_notActivated")
+}
+
+
+
+
 <h2>Actions</h2>
 @if (Model.Customer.HasOrganisation)
 {
@@ -24,7 +32,7 @@ else
     <div class="col-md-4">
         <a href="@Url.Action("SendWindowedLetter")" class="dashboardLink">
             <div class="dashboardBox pointer">
-                <img src="https://cdn1.iconfinder.com/data/icons/ios7-line/512/Send_mail.png" width="80px" />
+                <img src="@Url.Content("~/Content/images/icons/1401042242_Send_mail.png")" width="80px" />
 
                 <p class="lead">Send a letter</p>
                 <p>Send a windowed envelope to any address, worldwide.</p>
@@ -34,7 +42,7 @@ else
     <div class="col-md-4">
         <a href="@Url.Action("Credits")" class="dashboardLink">
             <div class="dashboardBox pointer">
-                <img src="https://cdn4.iconfinder.com/data/icons/vectory-finance-1/40/money_send_3-128.png" width="80px" />
+                <img src="@Url.Content("~/Content/images/icons/1401042203_money_send_3.png")" width="80px" />
 
                 <p class="lead">Insert money into account</p>
                 <p>Pick between many different payment methods.</p>
@@ -45,7 +53,7 @@ else
     <div class="col-md-4">
         <a href="@Url.Action("Contact","Home")" class="dashboardLink">
             <div class="dashboardBox pointer">
-                <img src="https://cdn2.iconfinder.com/data/icons/seo-web-optomization-ultimate-set/512/information_support-128.png" width="80px" />
+                <img src="@Url.Content("~/Content/images/icons/1401042222_information_support.png")" width="80px" />
                 <p class="lead">Help or special request</p>
                 <p>Need support or need to send specific types of letters?</p>
             </div>
