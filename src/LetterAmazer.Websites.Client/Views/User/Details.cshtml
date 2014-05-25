@@ -102,7 +102,17 @@
 <hr />
 
 <h2>Details about letters in this order</h2>
-<p class="smallInfo">@Model.Letters.Count Letters in this order.</p>
+
+@if (Model.Letters.Count > 1)
+{
+    <p class="smallInfo">@Model.Letters.Count Letters in this order.</p>
+
+}
+else
+{
+<p class="smallInfo">@Model.Letters.Count Letter in this order.</p>
+  
+}
 @foreach (var letter in Model.Letters)
 {
     <div class="dashboardBox" style="text-align:left;">

@@ -22,13 +22,13 @@ namespace LetterAmazer.Business.Services.Domain.Checkout
         /// <summary>
         /// Contains all the letters, where the integer is an officeproductID and the letter is a letter
         /// </summary>
-        public List<CheckoutLine> Letters { get; set; }
+        public List<CheckoutLine> CheckoutLines { get; set; }
 
         public int PaymentMethodId { get; set; }
 
         public Checkout()
         {
-            this.Letters = new List<CheckoutLine>();
+            this.CheckoutLines = new List<CheckoutLine>();
             this.PartnerIds = new List<int>();
             this.PartnerTransactions = new List<PartnerTransaction>();
         }

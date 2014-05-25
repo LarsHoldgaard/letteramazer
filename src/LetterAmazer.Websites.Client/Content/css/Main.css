@@ -124,10 +124,6 @@ body > main > .container {
   display: block;
   font-weight: bold;
 }
-.dashboardBox a,
-.dashboardBox a:hover {
-  color: black;
-}
 .breadcrumbs {
   font-size: 10pt;
   font-style: italic;

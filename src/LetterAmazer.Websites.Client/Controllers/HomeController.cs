@@ -70,8 +70,6 @@ namespace LetterAmazer.Websites.Client.Controllers
 
         public ActionResult Faq()
         {
-            // TODO: Give up this kind of freedom ;) 
-            priceUpdater.Execute();
             return View();
         }
 

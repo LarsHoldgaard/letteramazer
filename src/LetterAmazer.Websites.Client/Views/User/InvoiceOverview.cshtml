@@ -1,11 +1,13 @@
 ﻿@using LetterAmazer.Business.Services.Domain.Invoice
 @model LetterAmazer.Websites.Client.ViewModels.User.InvoiceOverviewViewModel
 
+@{
+    Layout = "~/Views/Shared/_Standard.cshtml";
+}
+
 <span class="breadcrumbs"><a href="/">LetterAmazer</a> > <a href="@Url.Action("Index")">Dashboard</a> > Invoices</span>
 
 <h1>Invoices</h1>
-
-@Html.ActionLink("Go back to your dashboard", "Index")<br /><br />
 
 <p>Here is a list of all invoices you have received from LetterAmazer.</p>
 @Html.Partial("_invoiceOverview", Model)

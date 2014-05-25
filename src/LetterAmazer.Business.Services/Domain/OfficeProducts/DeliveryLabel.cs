@@ -9,9 +9,9 @@ namespace LetterAmazer.Business.Services.Domain.OfficeProducts
     public enum DeliveryLabel
     {
         Miscellaneous=0,
-        Apost,
-        Bpost,
-        Cpost,
-        Unknown
+        Apost=1,
+        Bpost=2,
+        Cpost=3,
+        Unknown=4
     }
 }

@@ -23,17 +23,15 @@ namespace LetterAmazer.Business.Services.Services
 {
     public class CheckoutService : ICheckoutService
     {
-        private ICountryService countryService;
         private IPriceService priceService;
         private ICustomerService customerService;
         private IOfficeProductService officeProductService;
         private IFileService fileService;
 
-        public CheckoutService(ICountryService countryService, IPriceService priceService,
+        public CheckoutService(IPriceService priceService,
             ICustomerService customerService,
             IOfficeProductService officeProductService, IFileService fileService)
         {
-            this.countryService = countryService;
             this.priceService = priceService;
             this.customerService = customerService;
             this.officeProductService = officeProductService;
@@ -42,15 +40,18 @@ namespace LetterAmazer.Business.Services.Services
 
         public Order ConvertCheckout(Checkout checkout)
         {
-            if (checkout.Letters.Any(c => c.Letter.OfficeId == 0))
+            if (checkout.CheckoutLines.Any(c => c.ProductType == ProductType.Letter && c.Letter.OfficeId == 0))
             {
                 throw new ArgumentException("No letter can have 0 as an officeID on checkout");
             }
-            if (checkout.Letters.Any(c => c.OfficeProductId == 0))
+            if (checkout.CheckoutLines.Any(c => c.ProductType==ProductType.Letter && c.OfficeProductId == 0))
             {
                 throw new ArgumentException("No letter can have 0 as an officeProductId on checkout");
             }
-
+            if (checkout.UserId == 0 && string.IsNullOrEmpty(checkout.Email))
+            {
+                throw new ArgumentException("A checkout needs either a userID or an email");
+            }
             Order order = new Order();
             Price price = null;
 
@@ -58,38 +59,60 @@ namespace LetterAmazer.Business.Services.Services
             setCustomer(checkout, order);
 
             checkout.OrderNumber = Helpers.GetRandomInt(1000, 99999999).ToString();
-            foreach (var letter in checkout.Letters)
+
+            // TODO: should not be used like this, because the userID may be 0
+            Customer customer = null;
+            try
             {
-                var letterPrice = priceService.GetPriceBySpecification(new PriceSpecification()
-                {
-                    OfficeProductId = letter.OfficeProductId,
-                    UserId = checkout.UserId,
-                    PageCount = letter.Letter.LetterContent.PageCount
-                });
+                customer=customerService.GetCustomerById(checkout.UserId);
+            }
+            catch (Exception)
+            {}
 
-                order.OrderLines.Add(new OrderLine()
+            foreach (var letter in checkout.CheckoutLines)
+            {
+                
+                if (letter.ProductType == ProductType.Credit)
                 {
-                    BaseProduct = letter.Letter,
-                    Price = letterPrice,
-                    Quantity = 1,
-                    ProductType = ProductType.Letter
-                });
-
-                if (price == null)
-                {
-                    price = new Price()
+                    var costPrice = new Price()
                     {
-                        PriceExVat = letterPrice.PriceExVat,
-                        VatPercentage = letterPrice.VatPercentage
+                        PriceExVat = letter.Quantity,
+                        VatPercentage = customer.VatPercentage()
                     };
-                }
-                else
-                {
-                    price.AddPrice(letterPrice);
+                    order.OrderLines.Add(new OrderLine()
+                    {
+                        ProductType = ProductType.Credit,
+                        Quantity = letter.Quantity,
+                        Price = costPrice
+                    });
+                    price = setPriceOnLine(price, costPrice);
                 }
 
-                letter.Letter.ReturnLabel = Helpers.GetRandomInt(1000000, 99999999);
-                letter.Letter.DeliveryLabel = DeliveryLabel.Apost; // TODO: never hardcode a deliverylabel like this
+                if (letter.ProductType == ProductType.Letter)
+                {
+                    var officeProduct = officeProductService.GetOfficeProductById(letter.OfficeProductId);
+
+                    var letterPrice = priceService.GetPriceBySpecification(new PriceSpecification()
+                    {
+                        OfficeProductId = letter.OfficeProductId,
+                        UserId = checkout.UserId, //TODO: pretty fucked solution if userid=0 :D
+                        PageCount = letter.Letter.LetterContent.PageCount
+                    });
+
+                    order.OrderLines.Add(new OrderLine()
+                    {
+                        BaseProduct = letter.Letter,
+                        Price = letterPrice,
+                        Quantity = 1,
+                        ProductType = ProductType.Letter
+                    });
+
+                    price = setPriceOnLine(price,letterPrice);
+
+                    letter.Letter.ReturnLabel = Helpers.GetRandomInt(1000000, 99999999);
+                    letter.Letter.DeliveryLabel = officeProduct.DeliveryLabel;
+                }
+
             }
 
             order.OrderCode = checkout.OrderNumber;
@@ -106,13 +129,30 @@ namespace LetterAmazer.Business.Services.Services
         }
 
 
+        private Price setPriceOnLine(Price price, Price letterPrice)
+        {
+            if (price == null)
+            {
+                price = new Price()
+                {
+                    PriceExVat = letterPrice.PriceExVat,
+                    VatPercentage = letterPrice.VatPercentage
+                };
+            }
+            else
+            {
+                price.AddPrice(letterPrice);
+            }
+            return price;
+        }
+
         /// <summary>
         /// Prints the letterID on the PDF, so we can mark it as return post
         /// </summary>
         /// <param name="checkout"></param>
         private void setReturnPostId(Checkout checkout)
         {
-            foreach (var letter in checkout.Letters)
+            foreach (var letter in checkout.CheckoutLines.Where(c=>c.ProductType== ProductType.Letter))
             {
                 var fileData = fileService.GetFileById(letter.Letter.LetterContent.Path);
                 var converted = PdfHelper.WriteIdOnPdf(fileData, checkout.OrderNumber);
@@ -161,7 +201,7 @@ namespace LetterAmazer.Business.Services.Services
         /// <param name="checkout"></param>
         private void fileConversion(Checkout checkout)
         {
-            foreach (var letter in checkout.Letters)
+            foreach (var letter in checkout.CheckoutLines.Where(c=>c.ProductType == ProductType.Letter))
             {
                 // TODO: make a check if the current filesize is different from the file, so we don't make unneeded conversions
                 if (letter.Letter.LetterDetails.LetterSize == LetterSize.Letter)

@@ -364,7 +364,6 @@ Business.Services.Utils.Helpers.GetUploadDateString(Guid.NewGuid().ToString()));
             
             foreach (var uploadFile in model.UploadFile)
             {
-
                 var customerId = SessionHelper.Customer != null ? SessionHelper.Customer.Id : 0;
                 var priceInfo = priceService.GetPricesFromFiles(new[] { uploadFile }, customerId, model.DestinationCountry);
 
@@ -386,7 +385,7 @@ Business.Services.Utils.Helpers.GetUploadDateString(Guid.NewGuid().ToString()));
                         OfficeId = officeProduct.OfficeId
                     }
                 };
-                checkout.Letters.Add(t);                
+                checkout.CheckoutLines.Add(t);                
             }
 
             return checkoutService.ConvertCheckout(checkout);

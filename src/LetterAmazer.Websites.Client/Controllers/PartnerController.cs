@@ -136,7 +136,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                         OfficeId = officeProduct.OfficeId
                     }
                 };
-                checkout.Letters.Add(t);
+                checkout.CheckoutLines.Add(t);
             }
 
             var order = checkoutService.ConvertCheckout(checkout);

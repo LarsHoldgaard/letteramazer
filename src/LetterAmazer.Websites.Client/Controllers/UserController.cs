@@ -494,45 +494,19 @@ namespace LetterAmazer.Websites.Client.Controllers
         [HttpPost]
         public ActionResult Credits(CreditsViewModel model)
         {
-            var selectedPaymentMethod = paymentService.GetPaymentMethodById(int.Parse(model.SelectedPaymentMethod));
-            var credit = new Credit();
-
-            var creditLine = new OrderLine()
+            var userId = SessionHelper.Customer != null ? SessionHelper.Customer.Id : 0;
+            Checkout checkout = new Checkout()
             {
-                Quantity = model.PurchaseAmount,
-                ProductType = LetterAmazer.Business.Services.Domain.Products.ProductType.Credit,
-                BaseProduct = credit,
-                Price = new Price()
-                {
-                    PriceExVat = model.PurchaseAmount,
-                    VatPercentage = SessionHelper.Customer.VatPercentage()
-                }
+                UserId = userId,
+                PaymentMethodId = int.Parse(model.SelectedPaymentMethod)
             };
-
-            var paymentLine = new OrderLine()
+            checkout.CheckoutLines.Add(new CheckoutLine()
             {
-                PaymentMethodId = selectedPaymentMethod.Id,
-                ProductType = LetterAmazer.Business.Services.Domain.Products.ProductType.Payment,
-                Price = new Price()
-                {
-                    PriceExVat = model.PurchaseAmount,
-                    VatPercentage = SessionHelper.Customer.VatPercentage()
-                }
-            };
+                ProductType = ProductType.Credit,
+                Quantity = model.PurchaseAmount
+            });
 
-            Order order = new Order
-            {
-                Price = new Price()
-                {
-                    PriceExVat = model.PurchaseAmount,
-                    VatPercentage = SessionHelper.Customer.VatPercentage()
-                },
-                Customer = SessionHelper.Customer
-            };
-            order.OrderLines.Add(creditLine);
-            order.OrderLines.Add(paymentLine);
-
-            // TODO: need to use the chekcout object...
+            var order = checkoutService.ConvertCheckout(checkout);
 
             var placed_order = orderService.Create(order);
             string redirectUrl = paymentService.Process(placed_order);
