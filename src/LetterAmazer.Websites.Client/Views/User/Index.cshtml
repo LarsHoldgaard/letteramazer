@@ -8,6 +8,10 @@
     <script type="text/javascript" src="@Url.Content("~/Scripts/jquery-ui-1.10.3.min.js")"></script>
 }
 
+@{
+    ViewBag.PageTitle = "Dashboard - LetterAmazer";
+}
+
 <span class="breadcrumbs"><a href="/">LetterAmazer</a> > Dashboard</span>
 
 @if (!SessionHelper.Customer.IsActivated)
@@ -71,7 +75,7 @@ else
     <div class="col-md-4">
         <div class="dashboardBox">
             <p class="lead">Money on account</p>
-            <p class="credit-text">@Math.Round(Model.Customer.CreditsLeft, 0) EUR</p>
+            <p class="credit-text">@Math.Round(Model.Customer.CreditsLeft, 2) EUR</p>
             <p><a href="@Url.Action("Credits")">Insert more</a></p>
         </div>
     </div>
@@ -114,34 +118,35 @@ else
     <h2>Latest orders</h2>
 
     <div class="dashboardBox">
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <td>Order#</td>
-                    <td>Date</td>
-                    <td>Order state</td>
-                    <td>Letter count</td>
-                    <td>Price </td>
-                    <td>See details </td>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model.Orders)
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <td>Order#</td>
+                        <td>Date</td>
+                        <td>Order state</td>
+                        <td>Letter count</td>
+                        <td>Price </td>
+                        <td>See details </td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Orders)
                 {
 
-                    <tr>
-                        <td>@item.Id</td>
-                        <td>@item.DateCreated.ToFriendlyDateTime()</td>
-                        <td>@item.OrderStatus.ToString()</td>
-                        <td>@item.OrderLines.Count</td>
-                        <td>@item.Price.ToFriendlyMoney() EUR</td>
-                        <td><a href="@Url.Action("Details", new { id = item.Id })">See details</a></td>
+                        <tr>
+                            <td>@item.Id</td>
+                            <td>@item.DateCreated.ToFriendlyDateTime()</td>
+                            <td>@item.OrderStatus.ToString()</td>
+                            <td>@item.OrderLines.Count</td>
+                            <td>@item.Price.ToFriendlyMoney() EUR</td>
+                            <td><a href="@Url.Action("Details", new { id = item.Id })">See details</a></td>
 
-                    </tr>
+                        </tr>
                 }
-            </tbody>
-        </table>
-    </div>
+                </tbody>
+            </table>
+        </div></div>
 }
 
 

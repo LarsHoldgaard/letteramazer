@@ -2,59 +2,60 @@
 @model LetterAmazer.Websites.Client.ViewModels.User.InvoiceOverviewViewModel
 
 @if (Model.InvoiceSnippets != null && Model.InvoiceSnippets.Any())
-{
-    <table class="table table-stripped">
-        <thead>
-            <tr>
-                <th>
-                    Invoice number
-                </th>
-                <th>
-                    Date
-                </th>
-                <th>
-                    Total price
-                </th>
-                <th>Status</th>
-                <th>
-                    See invoice
-                </th>
-                <th>
-                    Delete
-                </th>
-            </tr>
-        </thead>
-        @foreach (var invoiceSnippet in Model.InvoiceSnippets)
-        {
-            <tr>
-                <td>
-                    @invoiceSnippet.OrderNumber
-                </td>
-                <td>
-                    @invoiceSnippet.DateCreated
-                </td>
-                <td>
-                    @invoiceSnippet.TotalPrice EUR
-                </td>
-                <td>
-                    @invoiceSnippet.Status
-                </td>
-                <td>
-                    <a href="/payment/invoice?id=@invoiceSnippet.InvoiceGuid">See invoice</a>
-                </td>
-                <td>
-                    @if (invoiceSnippet.Status == InvoiceStatus.Created)
-                    {
-                        <a href="/user/deleteinvoice?id=@invoiceSnippet.InvoiceGuid">Delete invoice</a>
-                    }
-                    else
-                    {
-                        <span style="text-decoration: line-through; color:gray" title="You cannot deleted invoices which has been paid">Delete</span>
-                    }
-                </td>
-            </tr>
-        }
-    </table>
+{<div class="table-responsive">
+        <table class="table table-stripped">
+            <thead>
+                <tr>
+                    <th>
+                        Invoice number
+                    </th>
+                    <th>
+                        Date
+                    </th>
+                    <th>
+                        Total price
+                    </th>
+                    <th>Status</th>
+                    <th>
+                        See invoice
+                    </th>
+                    <th>
+                        Delete
+                    </th>
+                </tr>
+            </thead>
+            @foreach (var invoiceSnippet in Model.InvoiceSnippets)
+            {
+                <tr>
+                    <td>
+                        @invoiceSnippet.OrderNumber
+                    </td>
+                    <td>
+                        @invoiceSnippet.DateCreated
+                    </td>
+                    <td>
+                        @invoiceSnippet.TotalPrice EUR
+                    </td>
+                    <td>
+                        @invoiceSnippet.Status
+                    </td>
+                    <td>
+                        <a href="/payment/invoice?id=@invoiceSnippet.InvoiceGuid">See invoice</a>
+                    </td>
+                    <td>
+                        @if (invoiceSnippet.Status == InvoiceStatus.Created)
+                        {
+                            <a href="/user/deleteinvoice?id=@invoiceSnippet.InvoiceGuid">Delete invoice</a>
+                        }
+                        else
+                        {
+                            <span style="text-decoration: line-through; color:gray" title="You cannot deleted invoices which has been paid">Delete</span>
+                        }
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
 }
 else
 {

@@ -3,6 +3,7 @@
 
 @{
     Layout = "~/Views/Shared/_Standard.cshtml";
+    ViewBag.PageTitle = "Log in or create a user - LetterAmazer";
 }
 
 @section header {
@@ -37,7 +38,7 @@
 
             <div class="form-group">
                 <label>Email address</label>
-                @Html.TextBoxFor(m => m.RegisterViewModel.Email, new { @class = "form-control", placeholder = "Email" })
+                @Html.TextBoxFor(m => m.RegisterViewModel.Email, new { @class = "form-control", placeholder = "Email", @type = "email" })
                 @Html.ValidationMessageFor(m => m.RegisterViewModel.Email)
             </div>
             <div class="form-group">
@@ -64,7 +65,7 @@
         {
             <div class="form-group">
                 <label>Email address</label>
-                @Html.TextBoxFor(m => m.LoginViewModel.Email, new { @class = "form-control", placeholder = "E-mail" })
+                @Html.TextBoxFor(m => m.LoginViewModel.Email, new { @class = "form-control", placeholder = "E-mail", @type = "email" })
                 @Html.ValidationMessageFor(m => m.LoginViewModel.Email)
             </div>
             <div class="form-group">

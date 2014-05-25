@@ -22,7 +22,7 @@
     <div class="row">
         <div class="form-group col-md-4">
             <h4>How much do you want to insert?</h4>
-            @Html.TextBoxFor(model => model.PurchaseAmount, new { @class = "", placeholder = "€ Amount" }) <text>EUR</text>
+            @Html.TextBoxFor(model => model.PurchaseAmount, new { @class = "", placeholder = "€ Amount", @type="number" }) <text>EUR</text>
             <label id="areyousure" style="font-style:italic; color:red; display:none;">Woah - are you sure? That's quite a lot of letters...</label>
 
         </div></div><div class="row">
