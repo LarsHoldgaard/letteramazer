@@ -24,5 +24,7 @@ namespace LetterAmazer.Data.Repository.Data
         public int SortOrder { get; set; }
         public bool IsVisible { get; set; }
         public bool RequiresLogin { get; set; }
+        public string Label { get; set; }
+        public string LogoPath { get; set; }
     }
 }

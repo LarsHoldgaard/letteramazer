@@ -4,31 +4,31 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="08c7d36a4cfc4fbf92d2c52ce976f733" Name="Diagram1">
-        <EntityTypeShape EntityType="LetterAmazer.DbApiAccess" Width="1.5" PointX="3" PointY="27.125" IsExpanded="true" />
+      <Diagram DiagramId="3d2a97b36adb4b119603164a3787a2b8" Name="Diagram1">
+        <EntityTypeShape EntityType="LetterAmazer.DbApiAccess" Width="1.5" PointX="3" PointY="27.625" IsExpanded="true" />
         <EntityTypeShape EntityType="LetterAmazer.DbCmsContent" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="LetterAmazer.DbContinents" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="LetterAmazer.DbCountries" Width="1.5" PointX="0.75" PointY="15.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="LetterAmazer.DbCountries" Width="1.5" PointX="0.75" PointY="16.125" IsExpanded="true" />
         <EntityTypeShape EntityType="LetterAmazer.DbCountryNames" Width="1.5" PointX="2.75" PointY="3.75" IsExpanded="true" />
         <EntityTypeShape EntityType="LetterAmazer.DbCurrencies" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="LetterAmazer.DbCustomers" Width="1.5" PointX="3" PointY="14" IsExpanded="true" />
+        <EntityTypeShape EntityType="LetterAmazer.DbCustomers" Width="1.5" PointX="3" PointY="14.5" IsExpanded="true" />
         <EntityTypeShape EntityType="LetterAmazer.DbExchangeRates" Width="1.5" PointX="4.75" PointY="3.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="LetterAmazer.DbFulfillmentPartners" Width="1.5" PointX="5.25" PointY="31" IsExpanded="true" />
-        <EntityTypeShape EntityType="LetterAmazer.DbInvoiceLines" Width="1.5" PointX="9.75" PointY="26" IsExpanded="true" />
-        <EntityTypeShape EntityType="LetterAmazer.DbInvoices" Width="1.5" PointX="7.5" PointY="23.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="LetterAmazer.DbLetters" Width="1.5" PointX="10.5" PointY="16.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="LetterAmazer.DbOfficeProducts" Width="1.5" PointX="9.75" PointY="10.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="LetterAmazer.DbOffices" Width="1.5" PointX="7.5" PointY="20.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="LetterAmazer.DbOrderlines" Width="1.5" PointX="12.75" PointY="21.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="LetterAmazer.DbOrders" Width="1.5" PointX="5.25" PointY="24.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="LetterAmazer.DbOrganisation" Width="1.5" PointX="0.75" PointY="23.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="LetterAmazer.DbOrganisationAddressList" Width="1.5" PointX="3" PointY="22.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="LetterAmazer.DbOrganisationProfileSettings" Width="1.5" PointX="3" PointY="34.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="LetterAmazer.DbPartners" Width="1.5" PointX="3" PointY="10.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="LetterAmazer.DbPartnerTransactions" Width="1.5" PointX="5.25" PointY="16.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="LetterAmazer.DbFulfillmentPartners" Width="1.5" PointX="5.25" PointY="31.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="LetterAmazer.DbInvoiceLines" Width="1.5" PointX="9.75" PointY="27" IsExpanded="true" />
+        <EntityTypeShape EntityType="LetterAmazer.DbInvoices" Width="1.5" PointX="7.5" PointY="24.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="LetterAmazer.DbLetters" Width="1.5" PointX="10.5" PointY="16.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="LetterAmazer.DbOfficeProducts" Width="1.5" PointX="9.75" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="LetterAmazer.DbOffices" Width="1.5" PointX="7.5" PointY="20.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="LetterAmazer.DbOrderlines" Width="1.5" PointX="12.75" PointY="21.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="LetterAmazer.DbOrders" Width="1.5" PointX="5.25" PointY="25.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="LetterAmazer.DbOrganisation" Width="1.5" PointX="0.75" PointY="24" IsExpanded="true" />
+        <EntityTypeShape EntityType="LetterAmazer.DbOrganisationAddressList" Width="1.5" PointX="3" PointY="22.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="LetterAmazer.DbOrganisationProfileSettings" Width="1.5" PointX="3" PointY="35.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="LetterAmazer.DbPartners" Width="1.5" PointX="3" PointY="10.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="LetterAmazer.DbPartnerTransactions" Width="1.5" PointX="5.25" PointY="16.375" IsExpanded="true" />
         <EntityTypeShape EntityType="LetterAmazer.DbPaymentMethods" Width="1.5" PointX="6.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="LetterAmazer.DbProductMatrixLines" Width="1.5" PointX="12" PointY="11" IsExpanded="true" />
-        <EntityTypeShape EntityType="LetterAmazer.DbShops" Width="1.5" PointX="3" PointY="31.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="LetterAmazer.DbProductMatrixLines" Width="1.5" PointX="12" PointY="11.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="LetterAmazer.DbShops" Width="1.5" PointX="3" PointY="31.875" IsExpanded="true" />
         <EntityTypeShape EntityType="LetterAmazer.DbLog" Width="1.5" PointX="0.75" PointY="6.75" IsExpanded="true" />
         <AssociationConnector Association="LetterAmazer.FK_DbApiAccess_DbApiAccess" ManuallyRouted="false" />
         <AssociationConnector Association="LetterAmazer.FK_Customers_Countries" ManuallyRouted="false" />

@@ -21,6 +21,9 @@ namespace LetterAmazer.Websites.Client.ViewModels
 
         public InvoiceOverviewViewModel UnpaidInvoices { get; set; }
 
+        public int LettersLastMonth { get; set; }
+        public decimal MoneyLastMoney { get; set; }
+
         public DashboardViewModel()
         {
             this.UnpaidInvoices = new InvoiceOverviewViewModel();

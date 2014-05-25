@@ -479,7 +479,7 @@ namespace LetterAmazer.Websites.Client.Controllers
             {
                 model.PaymentMethods.Add(new SelectListItem()
                 {
-                    Text = possiblePaymentMethod.Name,
+                    Text = possiblePaymentMethod.Label,
                     Value = possiblePaymentMethod.Id.ToString()
                 });
             }
@@ -531,6 +531,8 @@ namespace LetterAmazer.Websites.Client.Controllers
             };
             order.OrderLines.Add(creditLine);
             order.OrderLines.Add(paymentLine);
+
+            // TODO: need to use the chekcout object...
 
             var placed_order = orderService.Create(order);
             string redirectUrl = paymentService.Process(placed_order);
@@ -617,7 +619,7 @@ namespace LetterAmazer.Websites.Client.Controllers
         private OrderDetailViewModel getOrderDetailViewModel(Order order)
         {
             var letters = order.OrderLines.Where(c => c.ProductType == ProductType.Letter);
-
+            
             OrderDetailViewModel viewModel = new OrderDetailViewModel()
             {
                 DateCreated = order.DateCreated,
@@ -640,6 +642,19 @@ namespace LetterAmazer.Websites.Client.Controllers
                     LetterDetails = letter.LetterDetails,
                     Price = letterLine.Price,
                 });
+            }
+
+            if (order.OrderStatus == OrderStatus.Created)
+            {
+                viewModel.Step = 1;
+            }
+            if (order.OrderStatus == OrderStatus.Paid || order.OrderStatus == OrderStatus.InProgress)
+            {
+                viewModel.Step = 2;
+            }
+            if (order.OrderStatus == OrderStatus.Done)
+            {
+                viewModel.Step = 3;
             }
 
             return viewModel;
@@ -734,12 +749,15 @@ namespace LetterAmazer.Websites.Client.Controllers
             model.Customer = SessionHelper.Customer;
             model.LetterType = SessionHelper.Customer.DefaultLetterType;
 
+            setStats(model);
+
+
+            // invoices
             var unpaidInvoices = invoiceService.GetInvoiceBySpecification(new InvoiceSpecification()
             {
                 OrganisationId = SessionHelper.Customer.Organisation.Id,
                 InvoiceStatus = InvoiceStatus.Created
             });
-
             if (unpaidInvoices != null && unpaidInvoices.Any())
             {
                 model.UnpaidInvoices = new InvoiceOverviewViewModel();
@@ -755,6 +773,30 @@ namespace LetterAmazer.Websites.Client.Controllers
                     });
                 }    
             }
+        }
+
+        private void setStats(DashboardViewModel model)
+        {
+
+            int letterCount = 0;
+            decimal priceCount = 0;
+            var lastMonthOrders = orderService.GetOrderBySpecification(new OrderSpecification()
+            {
+                UserId = SessionHelper.Customer.Id,
+                ToDate = DateTime.Now,
+                FromDate = DateTime.Now.AddDays(-7),
+                OrderStatus = new List<OrderStatus>() {OrderStatus.Done, OrderStatus.InProgress, OrderStatus.Paid}
+            });
+            foreach (var lastMonthOrder in lastMonthOrders)
+            {
+                var letterLines =
+                    lastMonthOrder.OrderLines.Where(c => c.ProductType == ProductType.Letter)
+                        .Select(c => (Letter) c.BaseProduct);
+                letterCount += letterLines.Count();
+                priceCount += lastMonthOrder.Price.PriceExVat;
+            }
+            model.LettersLastMonth = letterCount;
+            model.MoneyLastMoney = priceCount;
         }
 
         private void buildContactsModel(EditContactsViewModel model)

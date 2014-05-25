@@ -1,100 +1,134 @@
 ﻿@using LetterAmazer.Websites.Client.Extensions
 @model LetterAmazer.Websites.Client.ViewModels.OrderDetailViewModel
 
+<span class="breadcrumbs"><a href="/">LetterAmazer</a> > <a href="@Url.Action("Index")">Dashboard</a> > Order details</span>
+
 @section header {
     <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/themes/base/jquery-ui.css")" />
     <script type="text/javascript" src="@Url.Content("~/Scripts/jquery-ui-1.10.3.min.js")"></script>
 }
 
-<div class="jumbotron-white">
-    <div class="container">
-        <h2>Details for the  @Model.OrderId</h2>
-        <p><a href="@Url.Action("Index")">Go back to the dashboard</a></p>
-        <h3>Details of the order</h3>
-        <dl>
-            <dt>Status:</dt>
-            <dd>@Model.OrderStatus.ToString()</dd>
-            <dt>Created:</dt>
-            <dd>@Model.DateCreated.ToFriendlyDateTime()</dd>
-            <dt>Last updated:</dt>
-            <dd>@Model.DateModified.ToFriendlyDateTime()</dd>
-            <dt>Price:</dt>
-            <dd>
-                Price ex. VAT: @Math.Round(Model.Price.PriceExVat, 2) EUR<br />
-                Vat (@(Model.Price.VatPercentage * 100) %): @Math.Round(Model.Price.VatPrice, 2) EUR<br />
-                Total: @Math.Round(Model.Price.Total, 2) EUR<br />
-            </dd>
-        </dl>
+<h1>Order details</h1>
 
-        <h3>Details of the letter</h3>
-        
-        @foreach (var letter in Model.Letters)
-        {
-           <h2>Letter (id @letter.Id)</h2>
-        <p><a href="@Url.Action("Download", new { id = letter.Id })">Download content</a></p>
-        <div class="row">
-            <div class="col-lg-6">
-                @*<h4>Details of recepient</h4>
-                <p>
-                    <b>Att</b>
-                    @if (!string.IsNullOrEmpty(letter.AddressInfo.AttPerson))
-                    {
-                        @letter.AddressInfo.AttPerson
-                    }
-                    else
-                    {
-                        @letter.AddressInfo.FirstName @letter.AddressInfo.LastName   
-                    }
-                    <br />
-                    @letter.AddressInfo.Address1
-                    <br />
-                    @letter.AddressInfo.Zipcode @letter.AddressInfo.City
-                    <br />
-                    @letter.AddressInfo.Country.Name
-                </p>*@
-                <h4>Details of printing</h4>
-                <dl>
-                    <dt>Color:</dt>
-                    <dd>@letter.LetterDetails.LetterColor.ToString()</dd>
-                    <dt>Paper type:</dt>
-                    <dd>@letter.LetterDetails.LetterProcessing.ToString()</dd>
-                    <dt>Printing quality:</dt>
-                    <dd>@letter.LetterDetails.LetterSize.ToString()</dd>
-                    <dt>Letter paper weight:</dt>
-                    <dd>@letter.LetterDetails.LetterPaperWeight.ToString()</dd>
-                    <dt>Letter type:</dt>
-                    <dd>@letter.LetterDetails.LetterType.ToString()</dd>
+<h2>Order status</h2>
 
-                </dl>
+<div class="dashboardBox" style="text-align:left;">
+    <div class="row">
+        <div class="col-md-3 statusCircle">
+
+
+            <div class="bg-success circleDiv">
+                <span class="circleNumber">1</span>
             </div>
-            <div class="col-lg-6">
-                @*<h4>Status of letter</h4>
-                <dl>
-                    <dt>@Model.DateCreated.ToFriendlyDateTime():</dt>
-                    <dd>Order was created</dd>
+            <br />
+            <b>1. Order created</b><br />
 
+            Order was created @Model.DateCreated
 
-                    @if (Model.DateSent.HasValue)
-                    {
-                        <dt>@Model.DateSent.Value.ToFriendlyDateTime():</dt>
-                        <dd>Order was sent</dd>
-                            
-                    }
+            <br />
+            <img src="/Content/images/icons/1400886751_onebit_34.png" width="40px;" />
+        </div>
 
-                </dl>*@
-                
-                <h4>Price</h4>
-                Price ex. VAT: @Math.Round(letter.Price.PriceExVat,2) EUR<br/>
-                Vat (@Math.Round((letter.Price.VatPercentage * 100),2) %): @Math.Round(letter.Price.VatPrice,2) EUR<br/>
-                Total: @Math.Round(letter.Price.Total, 2) EUR<br/>
-            </div>
-        </div> 
-        }
-            
-            
-        
+        <div class="col-md-3 statusCircle">
+            @if (Model.Step > 1)
+            {
+                <div class="bg-success circleDiv">
+                    <span class="circleNumber">2</span>
+                </div>
+                <br />
+                <b>2. Order paid</b>
+                <br />
+                <text>Order was paid the @Model.DatePaid  </text>
+                <br />
+                <img src="/Content/images/icons/1400886751_onebit_34.png" width="40px;" />
+            }
+            else
+            {
+                <div class="bg-info circleDiv">
+                    <span class="circleNumber">2</span>
+                </div>
+                <br />
+                <b>2. Order paid</b>
+                <br />
+                <text>Order has not been paid yet</text>
+            }
+
+        </div>
+
+        <div class="col-md-3 statusCircle">
+            @if (Model.Step > 2)
+            {
+                <div class="bg-success circleDiv"><span class="circleNumber">3</span></div>
+                <br />
+                <b>3. Order sent</b><br />
+                <text>Order was sent the @Model.DateSent.</text>
+                <br />
+                <img src="/Content/images/icons/1400886751_onebit_34.png" width="40px;" />
+            }
+            else
+            {
+                <div class="bg-info circleDiv"><span class="circleNumber">3</span></div>
+                <br />
+                <b>3. Order sent</b><br />
+                <text>Orders are usually sent after a maximum of two weekdays.</text>
+            }
+
+        </div>
+
     </div>
 </div>
-<script type="text/javascript">
-    
-</script>
+
+<hr />
+
+<h2>Order details</h2>
+
+<div class="dashboardBox" style="text-align:left;">
+    <div class="row">
+        <div class="col-md-6">
+            <h4>Price</h4>
+            Price ex. VAT: @Math.Round(Model.Price.PriceExVat, 2) EUR<br />
+            Vat (@Math.Round((Model.Price.VatPercentage * 100), 2) %): @Math.Round(Model.Price.VatPrice, 2) EUR<br />
+            Total: @Math.Round(Model.Price.Total, 2) EUR<br /><br />
+
+        </div>
+        <div class="col-md-6">
+            <h4>Order info</h4>
+            ID: @Model.OrderId
+        </div>
+    </div>
+
+</div>
+
+<hr />
+
+<h2>Details about letters in this order</h2>
+<p class="smallInfo">@Model.Letters.Count Letters in this order.</p>
+@foreach (var letter in Model.Letters)
+{
+    <div class="dashboardBox" style="text-align:left;">
+        <div class="row">
+            <div class="col-md-4">
+                <h4>Download letter</h4>
+                <a class="btn btn-lg btn-primary" href="@Url.Action("Download", new { id = letter.Id })">Download letter</a>
+            </div>
+            <div class="col-md-4">
+                <h4>Price</h4>
+                Price ex. VAT: @Math.Round(letter.Price.PriceExVat, 2) EUR<br />
+                Vat (@Math.Round((letter.Price.VatPercentage * 100), 2) %): @Math.Round(letter.Price.VatPrice, 2) EUR<br />
+                Total: @Math.Round(letter.Price.Total, 2) EUR<br /><br />
+
+            </div>
+            <div class="col-md-4">
+                <h4>Letter info</h4>
+                Id: @letter.Id
+            </div>
+
+        </div>
+
+
+    </div>
+}
+
+
+
+

@@ -187,6 +187,7 @@
     <Compile Include="IoC\WindsorFilterAttributeFilterProvider.cs" />
     <Compile Include="IoC\WindsorHttpControllerActivator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\AccountViewModel.cs" />
     <Compile Include="ViewModels\Home\ApiViewModel.cs" />
     <Compile Include="ViewModels\Api\OfficeProductViewModel.cs" />
     <Compile Include="ViewModels\CreateSingleLetterModel.cs" />
@@ -225,10 +226,26 @@
     <Content Include="Content\css\sections\site\Sidewide.css">
       <DependentUpon>Sidewide.less</DependentUpon>
     </Content>
-    <Content Include="Content\images\1383510546_Forward.png" />
+    <Content Include="Content\css\sections\site\Sidewide.min.css">
+      <DependentUpon>Sidewide.less</DependentUpon>
+    </Content>
+    <Content Include="Content\css\sections\site\Variables.css">
+      <DependentUpon>Variables.less</DependentUpon>
+    </Content>
+    <Content Include="Content\css\sections\site\Variables.min.css">
+      <DependentUpon>Variables.less</DependentUpon>
+    </Content>
+    <Content Include="Content\css\sections\user\Dashboard.css">
+      <DependentUpon>Dashboard.less</DependentUpon>
+    </Content>
+    <Content Include="Content\css\sections\user\OrderDetails.css">
+      <DependentUpon>OrderDetails.less</DependentUpon>
+    </Content>
+    <Content Include="Content\css\sections\user\UserSection.css">
+      <DependentUpon>UserSection.less</DependentUpon>
+    </Content>
     <Content Include="Content\images\1455878_10152199113254113_90765289_n.jpg" />
     <Content Include="Content\images\1623763_10151813235096886_1787855136_n.jpg" />
-    <Content Include="Content\images\ajax-loader.gif" />
     <Content Include="Content\images\icons\1395498076_130.png" />
     <Content Include="Content\images\icons\1395498087_cloud-upload.png" />
     <Content Include="Content\images\icons\1395514602_circle-add.png" />
@@ -236,24 +253,26 @@
     <Content Include="Content\images\icons\1395523082_document_text_accept.png" />
     <Content Include="Content\images\icons\1395523084_icon-ios7-gear.png" />
     <Content Include="Content\images\icons\1395600604_print.png" />
+    <Content Include="Content\images\icons\1400886751_onebit_34.png" />
+    <Content Include="Content\images\icons\1401042203_money_send_3.png" />
+    <Content Include="Content\images\icons\1401042222_information_support.png" />
+    <Content Include="Content\images\icons\1401042242_Send_mail.png" />
+    <Content Include="Content\images\icons\ajax-loader.gif" />
     <Content Include="Content\images\icons\automation.png" />
+    <Content Include="Content\images\icons\pdf-icon.png" />
     <Content Include="Content\images\icons\pressed.jpg" />
+    <Content Include="Content\images\icons\uploadpdf.png" />
     <Content Include="Content\images\icons\windowed_envelope.jpg" />
-    <Content Include="Content\images\letter.png" />
-    <Content Include="Content\images\letteramazer.png" />
+    <Content Include="Content\images\icons\writetext.png" />
     <Content Include="Content\images\letteramazer_small.png" />
-    <Content Include="Content\images\letteramazer_small_white.png" />
-    <Content Include="Content\images\output_modified.jpg" />
-    <Content Include="Content\images\pdf-icon.png" />
-    <Content Include="Content\images\printer_cartoon.gif" />
-    <Content Include="Content\images\stamp.png" />
-    <Content Include="Content\images\uploadpdf.png" />
-    <Content Include="Content\images\writetext.png" />
-    <Content Include="Content\plugins\bootstrap\bootstrap-theme.css" />
-    <Content Include="Content\plugins\bootstrap\bootstrap-theme.min.css" />
-    <Content Include="Content\plugins\bootstrap\bootstrap.css" />
-    <Content Include="Content\plugins\bootstrap\bootstrap.min.css" />
-    <Content Include="Content\sql\20052014-add-deliverylabel.txt" />
+    <Content Include="Content\plugins\bootstrap\css\bootstrap-theme.css" />
+    <Content Include="Content\plugins\bootstrap\css\bootstrap-theme.min.css" />
+    <Content Include="Content\plugins\bootstrap\css\bootstrap.css" />
+    <Content Include="Content\plugins\bootstrap\css\bootstrap.min.css" />
+    <Content Include="Content\plugins\bootstrap\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\plugins\bootstrap\js\bootstrap.js" />
+    <Content Include="Content\plugins\bootstrap\js\bootstrap.min.js" />
+    <Content Include="Content\sql\SqlChanges.txt" />
     <Content Include="Content\themes\base\images\animated-overlay.gif" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
@@ -318,8 +337,6 @@
     <Content Include="Content\themes\base\minified\jquery.ui.tooltip.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
-    <Content Include="Scripts\bootstrap\bootstrap.js" />
-    <Content Include="Scripts\bootstrap\bootstrap.min.js" />
     <Content Include="Scripts\ckeditor\CHANGES.md" />
     <Content Include="Scripts\ckeditor\LICENSE.md" />
     <Content Include="Scripts\ckeditor\plugins\scayt\LICENSE.md" />
@@ -345,8 +362,20 @@
     <Content Include="Content\css\sections\site\Sidewide.css.map">
       <DependentUpon>Sidewide.css</DependentUpon>
     </Content>
-    <Content Include="Content\plugins\bootstrap\bootstrap-theme.css.map" />
-    <Content Include="Content\plugins\bootstrap\bootstrap.css.map" />
+    <Content Include="Content\plugins\bootstrap\css\bootstrap-theme.css.map" />
+    <Content Include="Content\plugins\bootstrap\css\bootstrap.css.map" />
+    <Content Include="Content\plugins\bootstrap\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\plugins\bootstrap\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Content\plugins\bootstrap\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Content\css\sections\user\Dashboard.less" />
+    <Content Include="Content\css\sections\user\UserSection.less" />
+    <Content Include="Content\css\sections\user\UserSection.css.map">
+      <DependentUpon>UserSection.css</DependentUpon>
+    </Content>
+    <Content Include="Content\css\sections\user\OrderDetails.less" />
+    <Content Include="Content\css\sections\user\OrderDetails.css.map">
+      <DependentUpon>OrderDetails.css</DependentUpon>
+    </Content>
     <None Include="Properties\PublishProfiles\FileDEploy.pubxml" />
     <None Include="Properties\PublishProfiles\Stat.pubxml" />
     <None Include="Scripts\jquery-2.0.3.intellisense.js" />
@@ -657,8 +686,6 @@
     <Content Include="Views\Home\Pricing.cshtml" />
     <Content Include="Views\SingleLetter\Index.cshtml" />
     <Content Include="Views\SingleLetter\Confirmation.cshtml" />
-    <Content Include="Views\Home\Register.cshtml" />
-    <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\Shared\Authentication.cshtml" />
     <Content Include="Views\Home\ForgotPassword.cshtml" />
     <Content Include="Views\Home\ForgotPasswordSuccess.cshtml" />
@@ -688,13 +715,12 @@
     <Content Include="Views\Home\GetSendALetterTo.cshtml" />
     <Content Include="Views\Shared\_sendLettersToOverview.cshtml" />
     <Content Include="Views\Partner\Economic.cshtml" />
+    <Content Include="Views\Home\Account.cshtml" />
+    <Content Include="Views\Shared\_Standard.cshtml" />
+    <Content Include="Views\Home\Terms.cshtml" />
+    <Content Include="Views\Home\Privacy.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
-    <Folder Include="UserData\PdfLetters\" />
-    <Folder Include="UserData\Thumbnail\" />
-    <Folder Include="UserData\Zip\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>

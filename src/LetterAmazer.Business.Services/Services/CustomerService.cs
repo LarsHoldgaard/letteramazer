@@ -14,7 +14,7 @@ namespace LetterAmazer.Business.Services.Services
 {
     public class CustomerService : ICustomerService
     {
-        private const decimal StartCreditAmount = 3;
+        private const decimal StartCreditAmount = 0;
         private ICustomerFactory customerFactory;
         private LetterAmazerEntities repository;
         private IMailService mailService;
@@ -126,7 +126,7 @@ namespace LetterAmazer.Business.Services.Services
 
             if (repository.DbCustomers.Any(c => c.Email == providedEmail && c.DateActivated != null && c.DateActivated <= DateTime.Now))
             {
-                throw new BusinessException("The '" + providedEmail + "' email is existing in the system");
+                throw new BusinessException("The '" + providedEmail + "' email exists in our system");
             }
 
             var existingcustomer = GetCustomerBySpecification(new CustomerSpecification()

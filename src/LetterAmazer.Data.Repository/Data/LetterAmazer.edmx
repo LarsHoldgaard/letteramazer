@@ -219,6 +219,7 @@
           <Property Name="OfficeId" Type="int" Nullable="false" />
           <Property Name="Guid" Type="uniqueidentifier" Nullable="false" />
           <Property Name="DeliveryLabel" Type="int" Nullable="false" />
+          <Property Name="ReturnLabel" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'LetterAmazer.dbo.DbLog' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -297,7 +298,6 @@ warning 6002: The table/view 'LetterAmazer.dbo.DbLog' does not have a primary ke
           <Property Name="OrderCode" Type="nvarchar" MaxLength="20" Nullable="false" />
           <Property Name="TransactionCode" Type="nvarchar" MaxLength="20" />
           <Property Name="PriceExVat" Type="decimal" Precision="18" Scale="5" Nullable="false" />
-          <Property Name="PaymentMethod" Type="nvarchar" MaxLength="20" Nullable="false" />
           <Property Name="DatePaid" Type="datetime" />
           <Property Name="DateSent" Type="datetime" />
           <Property Name="VatPercentage" Type="decimal" Precision="18" Scale="2" Nullable="false" />
@@ -389,6 +389,8 @@ warning 6002: The table/view 'LetterAmazer.dbo.DbLog' does not have a primary ke
           <Property Name="SortOrder" Type="int" Nullable="false" />
           <Property Name="IsVisible" Type="bit" Nullable="false" />
           <Property Name="RequiresLogin" Type="bit" Nullable="false" />
+          <Property Name="Label" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="LogoPath" Type="varchar" MaxLength="250" />
         </EntityType>
         <EntityType Name="DbProductMatrixLines">
           <Key>
@@ -1034,12 +1036,13 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
           <Property Name="LetterType" Type="Int32" Nullable="false" />
           <Property Name="OfficeId" Type="Int32" Nullable="false" />
           <Property Name="Guid" Type="Guid" Nullable="false" />
+          <Property Name="DeliveryLabel" Type="Int32" Nullable="false" />
+          <Property Name="ReturnLabel" Type="Int32" />
           <NavigationProperty Name="DbCountries" Relationship="Self.FK_Letters_FromCountry" FromRole="DbLetters" ToRole="DbCountries" />
           <NavigationProperty Name="DbCountries1" Relationship="Self.FK_Letters_ToCountry" FromRole="DbLetters" ToRole="DbCountries" />
           <NavigationProperty Name="DbCustomers" Relationship="Self.FK_Letter_Customer" FromRole="DbLetters" ToRole="DbCustomers" />
           <NavigationProperty Name="DbOrders" Relationship="Self.FK_DbLetters_DbOrders" FromRole="DbLetters" ToRole="DbOrders" />
           <NavigationProperty Name="DbOrderlines" Relationship="Self.FK_OrderItem_Letter" FromRole="DbLetters" ToRole="DbOrderlines" />
-          <Property Name="DeliveryLabel" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="DbOfficeProducts">
           <Key>
@@ -1061,9 +1064,9 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
           <Property Name="ShippingWeekdays" Type="Int32" Nullable="false" />
           <Property Name="Enabled" Type="Boolean" Nullable="false" />
           <Property Name="Automatic" Type="Boolean" Nullable="false" />
+          <Property Name="DeliveryLabel" Type="Int32" Nullable="false" />
           <NavigationProperty Name="DbProductMatrixLines" Relationship="Self.FK_DbProductMatrixLines_DbOfficeProducts" FromRole="DbOfficeProducts" ToRole="DbProductMatrixLines" />
           <NavigationProperty Name="DbOffices" Relationship="Self.FK_OfficeProducts_Offices" FromRole="DbOfficeProducts" ToRole="DbOffices" />
-          <Property Name="DeliveryLabel" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="DbOffices">
           <Key>
@@ -1106,7 +1109,6 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
           <Property Name="OrderCode" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="TransactionCode" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="PriceExVat" Type="Decimal" Precision="18" Scale="5" Nullable="false" />
-          <Property Name="PaymentMethod" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="DatePaid" Type="DateTime" Precision="3" />
           <Property Name="DateSent" Type="DateTime" Precision="3" />
           <Property Name="VatPercentage" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
@@ -1192,10 +1194,10 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
           <Property Name="CustomerId" Type="Int32" Nullable="false" />
           <Property Name="ValueId" Type="Int32" Nullable="false" />
           <Property Name="OrderId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="DbCustomers" Relationship="Self.FK_DbPartnerTransactions_DbCustomers" FromRole="DbPartnerTransactions" ToRole="DbCustomers" />
-          <NavigationProperty Name="DbPartners" Relationship="Self.FK_DbPartnerTransactions_DbPartners" FromRole="DbPartnerTransactions" ToRole="DbPartners" />
           <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="DateUpdated" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="DbCustomers" Relationship="Self.FK_DbPartnerTransactions_DbCustomers" FromRole="DbPartnerTransactions" ToRole="DbCustomers" />
+          <NavigationProperty Name="DbPartners" Relationship="Self.FK_DbPartnerTransactions_DbPartners" FromRole="DbPartnerTransactions" ToRole="DbPartners" />
         </EntityType>
         <EntityType Name="DbPaymentMethods">
           <Key>
@@ -1211,6 +1213,8 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
           <Property Name="SortOrder" Type="Int32" Nullable="false" />
           <Property Name="IsVisible" Type="Boolean" Nullable="false" />
           <Property Name="RequiresLogin" Type="Boolean" Nullable="false" />
+          <Property Name="Label" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="LogoPath" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="DbProductMatrixLines">
           <Key>
@@ -1825,7 +1829,6 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
           <EntitySetMapping Name="DbLetters">
             <EntityTypeMapping TypeName="LetterAmazer.DbLetters">
               <MappingFragment StoreEntitySet="DbLetters">
-                <ScalarProperty Name="DeliveryLabel" ColumnName="DeliveryLabel" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
                 <ScalarProperty Name="FromAddress_Address" ColumnName="FromAddress_Address" />
@@ -1863,13 +1866,14 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
                 <ScalarProperty Name="LetterType" ColumnName="LetterType" />
                 <ScalarProperty Name="OfficeId" ColumnName="OfficeId" />
                 <ScalarProperty Name="Guid" ColumnName="Guid" />
+                <ScalarProperty Name="DeliveryLabel" ColumnName="DeliveryLabel" />
+                <ScalarProperty Name="ReturnLabel" ColumnName="ReturnLabel" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="DbOfficeProducts">
             <EntityTypeMapping TypeName="LetterAmazer.DbOfficeProducts">
               <MappingFragment StoreEntitySet="DbOfficeProducts">
-                <ScalarProperty Name="DeliveryLabel" ColumnName="DeliveryLabel" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="OfficeId" ColumnName="OfficeId" />
                 <ScalarProperty Name="ScopeType" ColumnName="ScopeType" />
@@ -1886,6 +1890,7 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
                 <ScalarProperty Name="ShippingWeekdays" ColumnName="ShippingWeekdays" />
                 <ScalarProperty Name="Enabled" ColumnName="Enabled" />
                 <ScalarProperty Name="Automatic" ColumnName="Automatic" />
+                <ScalarProperty Name="DeliveryLabel" ColumnName="DeliveryLabel" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1926,7 +1931,6 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
                 <ScalarProperty Name="OrderCode" ColumnName="OrderCode" />
                 <ScalarProperty Name="TransactionCode" ColumnName="TransactionCode" />
                 <ScalarProperty Name="PriceExVat" ColumnName="PriceExVat" />
-                <ScalarProperty Name="PaymentMethod" ColumnName="PaymentMethod" />
                 <ScalarProperty Name="DatePaid" ColumnName="DatePaid" />
                 <ScalarProperty Name="DateSent" ColumnName="DateSent" />
                 <ScalarProperty Name="VatPercentage" ColumnName="VatPercentage" />
@@ -2001,19 +2005,21 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
           <EntitySetMapping Name="DbPartnerTransactions">
             <EntityTypeMapping TypeName="LetterAmazer.DbPartnerTransactions">
               <MappingFragment StoreEntitySet="DbPartnerTransactions">
-                <ScalarProperty Name="DateUpdated" ColumnName="DateUpdated" />
-                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="PartnerId" ColumnName="PartnerId" />
                 <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
                 <ScalarProperty Name="ValueId" ColumnName="ValueId" />
                 <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="DateUpdated" ColumnName="DateUpdated" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="DbPaymentMethods">
             <EntityTypeMapping TypeName="LetterAmazer.DbPaymentMethods">
               <MappingFragment StoreEntitySet="DbPaymentMethods">
+                <ScalarProperty Name="LogoPath" ColumnName="LogoPath" />
+                <ScalarProperty Name="Label" ColumnName="Label" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />

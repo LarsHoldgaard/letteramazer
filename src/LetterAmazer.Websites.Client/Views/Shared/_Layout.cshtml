@@ -1,74 +1,174 @@
-﻿
+﻿@using LetterAmazer.Business.Utils.Helpers
 @{
     var controller = ViewContext.RouteData.Values["controller"].ToString().ToLower();
     var action = ViewContext.RouteData.Values["action"].ToString().ToLower();
 }
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.PageTitle</title>
-    
-    <link href="@Url.Content("~/Content/plugins/bootstrap/bootstrap.min.css")" rel="stylesheet" type="text/css" />
-
-    <link type="text/css" rel="stylesheet" href="http://fonts.googleapis.com/css?family=Kite+One" />
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    <link href="@Url.Content("~/Content/plugins/bootstrap/css/bootstrap.min.css")" rel="stylesheet" type="text/css" />
     @Styles.Render("~/Content/css")
 
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-    <script type="text/javascript" src="@Url.Content("~/Scripts/bootstrap/bootstrap.min.js")"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/plugins/bootstrap/js/bootstrap.min.js")"></script>
 
     @RenderSection("header", false)
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
+    <header>
+        <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="/">LetterAmazer</a>
+                </div>
+                <div class="collapse navbar-collapse pull-right">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            @Html.ActionLink("Send a letter", "Index", "Home")
+                        </li>
+                        <li>
+                            @Html.ActionLink("Business", "Business", "Home")
+                        </li>
+                        <li>
+                            @Html.ActionLink("API", "ApiInfo", "Home")
+                        </li>
+                        <li>
+                            @Html.ActionLink("Reseller", "Reseller", "Home")
+                        </li>
+                        <li>
+                            @Html.ActionLink("Pricing", "Pricing", "Home")
+                        </li>
+                        <li>
+                            @if (SessionHelper.Customer == null)
+                            {
+                                @Html.ActionLink("Account", "Account", "Home")
+                            }
+                            else
+                            {
+                                @Html.ActionLink("Dashboard", "Index", "User")
+                            }
+
+
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </header>
+
+    <main>
         <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="/"><img src="/Content/images/letteramazer_small_white.png" height="25" class="navbar-left" /></a>
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li class="@(action == "index" && controller == "home" ? "active" : "")"><a href="@Url.Action("Index", "Home")">Send letters</a></li>
-                    <li class="@(action == "business" && controller == "home" ? "active" : "")"><a href="@Url.Action("Business", "Home")">Business</a></li>
-                    <li class="@(action == "api" && controller == "home" ? "active" : "")"><a href="@Url.Action("ApiInfo", "Home")">Api</a></li>
-                    <li class="@(action == "reseller" && controller == "home" ? "active" : "")"><a href="@Url.Action("Reseller", "Home")">Reseller</a></li>
+            @*<div class="col-md-8">*@
+            @RenderBody()
+            @* </div>
+                <aside>
+                <div class="col-md-4">
+                    <div style="background-color:#f9f9f9; border:1px solid #d9d9d9;padding:15px; border-radius:5px;">
+                        <h3>Try our service for free</h3>
 
-                    <li class="@(action == "pricing" && controller == "home" ? "active" : "")"><a href="@Url.Action("Pricing", "Home")">Pricing</a></li>
-                    
-                </ul>
-                @Html.Partial("Authentication")
-                
+                        <p>Want to test our service before buying? Contact us.</p>
+
+                        <p>Company:<br/>
+                            <input type="text" class="input-lg" placeholder="Company"/>
+                        </p>
+                        <p>Website:<br/>
+                            <input type="text" class="input-lg" placeholder="Website"/>
+                        </p>
+                        <p>E-mail:<br/>
+                            <input type="text" class="input-lg" placeholder="E-mail"/>
+                        </p>
+                        <input type="submit" class="btn btn-lg btn-primary" value="Get free access"/>
+
+                        <br/><br/>
+                        <small style="font-style:italic; font-size:small;">* this is meant for companies and we have the right to reject your ass.</small>
+                    </div>
+                </div>
+                    </aside>*@
+        </div>
+
+
+
+    </main>
+
+
+
+
+    <footer>
+
+        <div class="footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3 bottom-box">
+                        <a href="/">
+                            <img src="/Content/images/letteramazer_small.png" width="140px;" />
+                        </a>
+                    </div>
+
+                    <div class="col-md-3 border-left bottom-box">
+                        <b>Contact us</b><br />
+                        <p>We speak english and danish.</p>
+
+                        <p>
+                            <b>Email</b>: info@letteramazer.com<br />
+                            <b>Phone</b>: (+45) 42927250<br />
+                            <b>Skype</b>: LarsHoldgaard (CEO)
+                        </p>
+                    </div>
+                    <div class="col-md-3 border-left bottom-box">
+                        <b>Company info</b><br />
+                        LetterAmazer IvS<br />
+                        DK35636307<br />
+                        <br />
+                        Måløv Hovedgade 58c st. th.
+                        <br />
+                        2760 Måløv<br />
+                        Denmark
+
+                    </div>
+
+                    <div class="col-md-3 border-left bottom-box">
+                        <nav>
+                            <b>Sections</b><br />
+                            <ul>
+                                <li>
+                                    @Html.ActionLink("Send a letter", "Index", "Home")
+                                </li>
+                                <li>
+                                    @Html.ActionLink("Business", "Business", "Home")
+                                </li>
+                                <li>
+                                    @Html.ActionLink("API", "ApiInfo", "Home")
+                                </li>
+                                <li>
+                                    @Html.ActionLink("Pricing", "Pricing", "Home")
+                                </li>
+                                <li>
+                                    @Html.ActionLink("Account", "Account", "Home")
+                                </li>
+                                <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                                <li>@Html.ActionLink("Terms of service", "Terms", "Home")</li>
+                                <li>@Html.ActionLink("Privacy policy", "Privacy", "Home")</li>
+
+                            </ul>
+                        </nav>
+                    </div>
+
+                </div>
             </div>
         </div>
-    </div>
+    </footer>
 
-
-    <div class="container container-top">
-        <div class="row">
-            <div class="col-lg-12">
-                @RenderBody()
-                
-             
-            </div>
-        </div>
-    </div>
-
-    <div class="container">
-        <hr />
-        <footer class="footer">
-            <a href="/"><img src="/Content/images/letteramazer_small.png" height="25" class="navbar-left" /></a>
-            <ul>
-                <li>@Html.ActionLink("About us", "About", "Home")</li>
-                <li>@Html.ActionLink("Contact us", "Contact", "Home")</li>
-            </ul>
-        </footer>
-    </div>
 
     <script type="text/javascript">
         (function (i, s, o, g, r, a, m) {

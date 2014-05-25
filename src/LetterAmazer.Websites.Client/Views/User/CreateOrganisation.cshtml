@@ -1,13 +1,17 @@
-﻿
-@model LetterAmazer.Websites.Client.ViewModels.User.CreateOrganisationViewModel
+﻿@model LetterAmazer.Websites.Client.ViewModels.User.CreateOrganisationViewModel
+
+@{
+
+    Layout = "~/Views/Shared/_Standard.cshtml";
+}
 
 
 <h1>Tell us more about you</h1>
 
 
-<div id="createOrganisationDiv" >
+<div id="createOrganisationDiv">
     <p>Do you represent a company? Then tell us more about you. If you don't represent a company, you can <a id="notACompany" href="#" style="font-weight: bold">create a personal account</a>.</p>
-    
+
     <h3>Please fill information</h3>
     <div class="row">
         <div class="col-md-8">
@@ -17,28 +21,29 @@
                     <div class="col-md-6">
                         <label class="form-label" for="OrganisationName">Organisation name<span class="input-required">*</span></label><br />
                         @Html.TextBoxFor(m => m.OrganisationName, new { @class = "form-control", placeholder = "Organisation name" })
-
-                        <br />
-                        <label class="form-label" for="">Country<span class="input-required">*</span></label><br />
-                        @Html.DropDownListFor(model => model.SelectedCountry, Model.Countries, new { @class = "form-control" })
                         <br />
                         <label class="form-label" for="VatNumber">Vat number (optional)</label><br />
                         @Html.TextBoxFor(m => m.VatNumber, new { @class = "form-control", placeholder = "Vat nr" })
                         <br />
+                        <label class="form-label" for="">Country<span class="input-required">*</span></label><br />
+                        @Html.DropDownListFor(model => model.SelectedCountry, Model.Countries, new { @class = "form-control" })
+                        <br />
+                        <label class="form-label" for="State">State (optional)</label><br />
+                        @Html.TextBoxFor(m => m.State, new { @class = "form-control", placeholder = "State" })
+                        <br />
+                        <label class="form-label" for="ZipCode">Zip code<span class="input-required">*</span></label><br />
+                        @Html.TextBoxFor(m => m.ZipCode, new { @class = "form-control", placeholder = "Zip code" })
+
+                        <br />
+                        <label class="form-label" for="City">City<span class="input-required">*</span></label><br />
+                        @Html.TextBoxFor(m => m.City, new { @class = "form-control", placeholder = "City" })
+                        <br/>
                         <label class="form-label" for="Address1">Address<span class="input-required">*</span></label><br />
                         @Html.TextBoxFor(m => m.Address1, new { @class = "form-control", placeholder = "Address" })
                         <br />
                         <label class="form-label" for="Address2">Address 2 (optional)</label><br />
                         @Html.TextBoxFor(m => m.Address2, new { @class = "form-control", placeholder = "Address 2" })
                         <br />
-                        <label class="form-label" for="ZipCode">Zip code<span class="input-required">*</span></label><br />
-                        @Html.TextBoxFor(m => m.ZipCode, new { @class = "form-control", placeholder = "Zip code" })
-                        <br />
-                        <label class="form-label" for="State">State (optional)</label><br />
-                        @Html.TextBoxFor(m => m.State, new { @class = "form-control", placeholder = "State" })
-                        <br />
-                        <label class="form-label" for="City">City<span class="input-required">*</span></label><br />
-                        @Html.TextBoxFor(m => m.City, new { @class = "form-control", placeholder = "City" })
 
 
                         <br /><br />
@@ -54,17 +59,17 @@
 </div>
 <div id="skipOrganisationDiv" style="display: none">
     <p>You don't represent a company? Then click here:</p>
-    
-        @using (Html.BeginForm("SkipOrganisation", "User", FormMethod.Post))
-{
 
-    <input type="submit" value="Skip creating organisation" id="skipOrganisationBtn" class="btn btn-primary btn-lg" />
-}
-        
-        
-        <a href="#" id="isCompany">Wait - I actually represent a company</a>
+    @using (Html.BeginForm("SkipOrganisation", "User", FormMethod.Post))
+    {
 
-    
+        <input type="submit" value="Skip creating organisation" id="skipOrganisationBtn" class="btn btn-primary btn-lg" />
+    }
+
+
+    <a href="#" id="isCompany">Wait - I actually represent a company</a>
+
+
 </div>
 
 
@@ -72,13 +77,13 @@
 
 
 <script>
-    $(document).ready(function() {
-        $('#notACompany').click(function() {
+    $(document).ready(function () {
+        $('#notACompany').click(function () {
             $('#skipOrganisationDiv').show(400);
             $('#createOrganisationDiv').hide(400);
         });
 
-        $('#isCompany').click(function() {
+        $('#isCompany').click(function () {
             $('#skipOrganisationDiv').hide(400);
             $('#createOrganisationDiv').show(400);
         });
