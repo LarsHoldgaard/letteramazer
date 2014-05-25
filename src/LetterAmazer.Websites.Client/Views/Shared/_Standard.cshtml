@@ -3,7 +3,10 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@RenderSection("header", false)
+@section header {
+@RenderSection("header", false)    
+}
+
 
 <div class="content">
     <div class="row">

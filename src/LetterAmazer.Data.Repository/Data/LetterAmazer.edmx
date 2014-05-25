@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="LetterAmazer.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="LetterAmazer.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="DbApiAccess">
           <Key>
             <PropertyRef Name="Id" />
@@ -389,6 +389,8 @@ warning 6002: The table/view 'LetterAmazer.dbo.DbLog' does not have a primary ke
           <Property Name="SortOrder" Type="int" Nullable="false" />
           <Property Name="IsVisible" Type="bit" Nullable="false" />
           <Property Name="RequiresLogin" Type="bit" Nullable="false" />
+          <Property Name="Label" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="LogoPath" Type="varchar" MaxLength="250" />
         </EntityType>
         <EntityType Name="DbProductMatrixLines">
           <Key>
@@ -801,8 +803,7 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
             <End Role="DbShops" EntitySet="DbShops" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="LetterAmazer" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -1212,6 +1213,8 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
           <Property Name="SortOrder" Type="Int32" Nullable="false" />
           <Property Name="IsVisible" Type="Boolean" Nullable="false" />
           <Property Name="RequiresLogin" Type="Boolean" Nullable="false" />
+          <Property Name="Label" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="LogoPath" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="DbProductMatrixLines">
           <Key>
@@ -2015,6 +2018,8 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
           <EntitySetMapping Name="DbPaymentMethods">
             <EntityTypeMapping TypeName="LetterAmazer.DbPaymentMethods">
               <MappingFragment StoreEntitySet="DbPaymentMethods">
+                <ScalarProperty Name="LogoPath" ColumnName="LogoPath" />
+                <ScalarProperty Name="Label" ColumnName="Label" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />

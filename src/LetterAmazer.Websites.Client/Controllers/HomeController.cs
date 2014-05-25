@@ -127,6 +127,16 @@ namespace LetterAmazer.Websites.Client.Controllers
             return View();
         }
 
+        public ActionResult Privacy()
+        {
+            return View();
+        }
+
+        public ActionResult Terms()
+        {
+            return View();
+        }
+
         public ActionResult Pricing()
         {
             var prices = buildPriceViewModel(59); // ID of Denmark. TODO: some IP to countryID?

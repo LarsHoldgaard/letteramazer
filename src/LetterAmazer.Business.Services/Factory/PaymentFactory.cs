@@ -24,7 +24,9 @@ namespace LetterAmazer.Business.Services.Factory
                 Price = dbPaymentMethods.Price,
                 Name = dbPaymentMethods.Name,
                 SortOrder = dbPaymentMethods.SortOrder,
-                RequiresLogin = dbPaymentMethods.RequiresLogin
+                RequiresLogin = dbPaymentMethods.RequiresLogin,
+                Label = dbPaymentMethods.Label,
+                LogoPath = dbPaymentMethods.LogoPath
             };
         }
 

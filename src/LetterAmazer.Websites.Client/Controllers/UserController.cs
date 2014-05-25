@@ -479,7 +479,7 @@ namespace LetterAmazer.Websites.Client.Controllers
             {
                 model.PaymentMethods.Add(new SelectListItem()
                 {
-                    Text = possiblePaymentMethod.Name,
+                    Text = possiblePaymentMethod.Label,
                     Value = possiblePaymentMethod.Id.ToString()
                 });
             }
@@ -531,6 +531,8 @@ namespace LetterAmazer.Websites.Client.Controllers
             };
             order.OrderLines.Add(creditLine);
             order.OrderLines.Add(paymentLine);
+
+            // TODO: need to use the chekcout object...
 
             var placed_order = orderService.Create(order);
             string redirectUrl = paymentService.Process(placed_order);

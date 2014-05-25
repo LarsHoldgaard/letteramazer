@@ -714,6 +714,8 @@
     <Content Include="Views\Partner\Economic.cshtml" />
     <Content Include="Views\Home\Account.cshtml" />
     <Content Include="Views\Shared\_Standard.cshtml" />
+    <Content Include="Views\Home\Terms.cshtml" />
+    <Content Include="Views\Home\Privacy.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

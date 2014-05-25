@@ -10,6 +10,8 @@ namespace LetterAmazer.Business.Services.Domain.Payments
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public string Label { get; set; }
+        public string LogoPath { get; set; }
         public DateTime DateCreated { get; set; }
         public DateTime? DateDeleted { get; set; }
 

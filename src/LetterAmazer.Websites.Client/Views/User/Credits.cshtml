@@ -12,7 +12,7 @@
 
 <h1>Insert money into your account</h1>
 
-<p>Insert money into your account, so you cna use them to sent letters.</p>
+<p>Insert money into your account, so you an use them to sent letters.</p>
 <p>You can always get non-used money back to your own bank account, by @Html.ActionLink("contacting us","Contact","Home").</p>
 
 
@@ -21,18 +21,18 @@
 
     <div class="row">
         <div class="form-group col-md-4">
-            <label>How much do you want to insert?</label>
+            <h4>How much do you want to insert?</h4>
             @Html.TextBoxFor(model => model.PurchaseAmount, new { @class = "", placeholder = "€ Amount" }) <text>EUR</text>
             <label id="areyousure" style="font-style:italic; color:red; display:none;">Woah - are you sure? That's quite a lot of letters...</label>
 
         </div></div><div class="row">
         <div class="form-group col-md-4">
-            <label>Select payment method</label>
-            @Html.RadioButtonFor(model => model.SelectedPaymentMethod, Model.PaymentMethods, new { @class = "form-control" })
+            <h4>Select payment method</h4>
+            @Html.DropDownListFor(model => model.SelectedPaymentMethod, Model.PaymentMethods, new { @class = "form-control" })
         </div>
     </div>
     
-    <h3>Summary</h3>
+    <h4>Summary</h4>
     
     <table class="table table-striped ">
         <thead>
@@ -63,7 +63,7 @@
             <b>Total</b>: <span id="summary_total"></span> EUR<br />
         </div>
     </div>
-    
+    <br/>
     <input type="submit" class="btn btn-primary btn-lg" value="Insert money into your account" />
 
     

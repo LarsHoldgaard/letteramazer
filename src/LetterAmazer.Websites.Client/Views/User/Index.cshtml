@@ -70,7 +70,7 @@ else
     <div class="col-md-4">
         <div class="dashboardBox">
             <p class="lead">Money spent last week</p>
-            <p class="credit-text">@Math.Round(Model.MoneyLastMoney,2) EUR (ex. vat)</p>
+            <p class="credit-text">@Math.Round(Model.MoneyLastMoney,2) EUR<br/>(ex. vat)</p>
         </div>
     </div>
     <div class="col-md-4">
@@ -87,9 +87,11 @@ else
 @if (Model.UnpaidInvoices != null && Model.UnpaidInvoices.InvoiceSnippets.Any())
 {
     <h2>Pending unpaid invoices</h2>
+    
+    <div class="dashboardBox">
     @Html.Partial("_invoiceOverview", Model.UnpaidInvoices)
-    @Html.ActionLink("See all your invoices", "InvoiceOverview", "User", null, new { @class = "btn-primary btn" })
-
+    @Html.ActionLink("See all your invoices", "InvoiceOverview", "User")
+        </div>
     <hr />
 }
 

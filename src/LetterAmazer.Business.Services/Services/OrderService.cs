@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.Data.Entity.Validation;
+using System.Reflection;
 using System.Web.UI.WebControls.WebParts;
 using LetterAmazer.Business.Services.Domain.Caching;
 using LetterAmazer.Business.Services.Domain.Customers;
@@ -11,6 +12,7 @@ using LetterAmazer.Business.Services.Factory.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using LetterAmazer.Business.Services.Utils;
 using LetterAmazer.Business.Utils.Helpers;
 using LetterAmazer.Data.Repository.Data;
 using LetterAmazer.Business.Services.Exceptions;
@@ -43,43 +45,52 @@ namespace LetterAmazer.Business.Services.Services
         {
             DbOrders dborder = new DbOrders();
 
-            foreach (var orderLine in order.OrderLines)
+
+            try
             {
-                var dbOrderLine = setOrderline(orderLine);
-                dborder.DbOrderlines.Add(dbOrderLine);
+                foreach (var orderLine in order.OrderLines)
+                {
+                    var dbOrderLine = setOrderline(orderLine);
+                    dborder.DbOrderlines.Add(dbOrderLine);
+                }
+
+                dborder.Guid = Guid.NewGuid();
+                dborder.OrderCode = order.OrderCode ?? Helpers.GetRandomInt(1000, 99999999).ToString(); // don't set it here, but use checkout contrller (problem sovled with credit)
+
+                if (order.Customer.AccountStatus == AccountStatus.Test)
+                {
+                    dborder.OrderStatus = (int) OrderStatus.Test;
+                }
+                else
+                {
+                    dborder.OrderStatus = (int) order.OrderStatus;
+                }
+
+
+
+                dborder.DateCreated = DateTime.Now;
+                dborder.DateUpdated = DateTime.Now;
+
+                dborder.CustomerId = order.Customer != null ? order.Customer.Id : 0;
+
+                Price price = new Price();
+                price.PriceExVat = order.CostFromLines();
+                price.VatPercentage = order.Customer.VatPercentage();
+                order.Price = price;
+
+                dborder.Total = order.Price.Total;
+                dborder.VatPercentage = order.Price.VatPercentage;
+                dborder.PriceExVat = order.Price.PriceExVat;
+
+                repository.DbOrders.Add(dborder);
+                repository.SaveChanges();
+
             }
-
-            dborder.Guid = Guid.NewGuid();
-            dborder.OrderCode = order.OrderCode;
-
-            if (order.Customer.AccountStatus == AccountStatus.Test)
+            catch (DbEntityValidationException exe)
             {
-                dborder.OrderStatus = (int)OrderStatus.Test;    
-            }
-            else
-            {
-                dborder.OrderStatus = (int)order.OrderStatus;
+                int i = 0;
             }
             
-            
-            
-            dborder.DateCreated = DateTime.Now;
-            dborder.DateUpdated = DateTime.Now;
-            
-            dborder.CustomerId = order.Customer != null ? order.Customer.Id : 0;
-
-            Price price = new Price();
-            price.PriceExVat = order.CostFromLines();
-            price.VatPercentage = order.Customer.VatPercentage();
-            order.Price = price;
-
-            dborder.Total = order.Price.Total;
-            dborder.VatPercentage = order.Price.VatPercentage;
-            dborder.PriceExVat = order.Price.PriceExVat;
-            
-            repository.DbOrders.Add(dborder);
-            repository.SaveChanges();
-           
             foreach(var partnerTransaction in order.PartnerTransactions)
             {
                 partnerTransaction.OrderId = dborder.Id;
@@ -290,6 +301,7 @@ namespace LetterAmazer.Business.Services.Services
             {
                 var letter = ((Letter)orderLine.BaseProduct);
 
+                // TODO: move logic to letter... or reuse one in letter?
                 DbLetters dbLetter = new DbLetters()
                 {
                     ToAddress_Address = letter.ToAddress.Address1,
@@ -314,7 +326,9 @@ namespace LetterAmazer.Business.Services.Services
                     LetterProcessing = (int)letter.LetterDetails.LetterProcessing,
                     LetterSize = (int)letter.LetterDetails.LetterSize,
                     LetterType = (int)letter.LetterDetails.LetterType,
-                  Guid = Guid.NewGuid()
+                    ReturnLabel = letter.ReturnLabel,
+                    DeliveryLabel = (int)letter.DeliveryLabel,
+                    Guid = Guid.NewGuid()
                 };
 
                 if (letter.FromAddress != null)
