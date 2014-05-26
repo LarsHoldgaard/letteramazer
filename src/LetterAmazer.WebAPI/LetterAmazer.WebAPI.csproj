@@ -156,7 +156,13 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Common\AuthenticationHandler.cs" />
     <Compile Include="Common\CustomAuthorizeAttribute.cs" />
+    <Compile Include="Common\ErrorCode.cs" />
+    <Compile Include="Common\ErrorThrownBy.cs" />
+    <Compile Include="Common\ServerException.cs" />
+    <Compile Include="Common\UserFriendlyException.cs" />
+    <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\InvoiceController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">

@@ -3,6 +3,7 @@ using Castle.Windsor;
 using LetterAmazer.Business.Services;
 using LetterAmazer.Business.Services.Services.Partners.Invoice;
 using LetterAmazer.Data.Repository.Data;
+using LetterAmazer.WebAPI.Common;
 using LetterAmazer.WebAPI.IoC;
 using System;
 using System.Collections.Generic;
@@ -66,6 +67,16 @@ namespace LetterAmazer.WebAPI
                     .WithServiceAllInterfaces());
 
             Container.Register(
+              Classes.FromAssembly(assembly)
+                  .InNamespace("LetterAmazer.Business.Services.Services.CustomerService")
+                  .WithServiceAllInterfaces());
+
+            Container.Register(
+              Classes.FromAssembly(assembly)
+                  .InNamespace("LetterAmazer.Business.Services.Services.InvoiceService")
+                  .WithServiceAllInterfaces());
+
+            Container.Register(
                 Classes.FromAssembly(assembly)
                     .InNamespace("LetterAmazer.Business.Services.Services.OrganisationService")
                     .WithServiceAllInterfaces());
@@ -79,6 +90,27 @@ namespace LetterAmazer.WebAPI
 
             Container.Register(Component.For<EconomicInvoiceService>());
             Container.Register(Component.For<LetterAmazerEntities>());
+        }
+
+        /// <summary>
+        /// Catch and handle unhandled exceptions (all application layers) via the
+        /// Enterprise Library Exception Handling Block.
+        /// See web.config for exception policy details.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Application_Error(object sender, EventArgs e)
+        {
+            var ex = Server.GetLastError();
+
+            var exception = new ServerException
+            {
+                ExceptionTime = DateTime.Now,
+                Message = "An unhandled exception occurred" + ex.Message + "Inner exception: " + ex.InnerException,
+                StackTrace = ex.StackTrace,
+            };
+
+            throw new UserFriendlyException("Something went wrong!",ex.InnerException);
         }
 
         public IWindsorContainer Container
