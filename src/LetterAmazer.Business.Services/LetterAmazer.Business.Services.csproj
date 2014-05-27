@@ -122,6 +122,7 @@
     <Compile Include="Domain\Mails\ViewModels\MandrillMessageSend.cs" />
     <Compile Include="Domain\Mails\ViewModels\MandrillTemplateSend.cs" />
     <Compile Include="Domain\OfficeProducts\DeliveryLabel.cs" />
+    <Compile Include="Domain\OfficeProducts\OfficeProduct.cs" />
     <Compile Include="Domain\Organisation\Organisation.cs" />
     <Compile Include="Domain\DeliveryJobs\IDeliveryJobService.cs" />
     <Compile Include="Domain\FulfillmentPartners\PartnerJob.cs" />
@@ -201,7 +202,6 @@
     <Compile Include="Domain\Letters\LetterStatus.cs" />
     <Compile Include="Domain\Offices\IOfficeService.cs" />
     <Compile Include="Domain\Offices\Office.cs" />
-    <Compile Include="Domain\OfficeProducts\OfficeProduct.cs" />
     <Compile Include="Domain\Offices\OfficeSpecification.cs" />
     <Compile Include="Domain\ProductMatrix\ProductMatrixLine.cs" />
     <Compile Include="Domain\ProductMatrix\ProductMatrixLineType.cs" />
