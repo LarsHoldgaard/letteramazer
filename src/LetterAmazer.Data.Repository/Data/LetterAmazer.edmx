@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="LetterAmazer.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="LetterAmazer.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="DbApiAccess">
           <Key>
             <PropertyRef Name="Id" />
@@ -13,6 +13,7 @@
           <Property Name="OrganisationId" Type="int" Nullable="false" />
           <Property Name="ApiKey" Type="varchar" MaxLength="250" Nullable="false" />
           <Property Name="ApiSecret" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="Role" Type="int" />
         </EntityType>
         <EntityType Name="DbCmsContent">
           <Key>
@@ -111,6 +112,32 @@
           <Property Name="OrganisationId" Type="int" />
           <Property Name="OrganisationRole" Type="int" />
           <Property Name="AccountStatus" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DbEnvelopes">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Label" Type="varchar" MaxLength="250" />
+          <Property Name="ImagePath" Type="varchar" MaxLength="250" />
+          <Property Name="LengthInCm" Type="decimal" Precision="18" Scale="5" />
+          <Property Name="HeightInCm" Type="decimal" Precision="18" Scale="5" />
+          <Property Name="ThicknessInCm" Type="decimal" Precision="18" Scale="5" />
+          <Property Name="MaxPages" Type="int" />
+          <Property Name="EnvelopeType" Type="int" Nullable="false" />
+          <Property Name="EnvelopeWeightInGm" Type="decimal" Precision="18" Scale="8" />
+        </EntityType>
+        <EntityType Name="DbEnvelopeWindows">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EnvelopeId" Type="int" Nullable="false" />
+          <Property Name="LetterSize" Type="int" Nullable="false" />
+          <Property Name="WindowXOffset" Type="int" Nullable="false" />
+          <Property Name="WindowYOffset" Type="int" Nullable="false" />
+          <Property Name="WindowLength" Type="int" Nullable="false" />
+          <Property Name="WindowHeight" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="DbExchangeRates">
           <Key>
@@ -220,6 +247,7 @@
           <Property Name="Guid" Type="uniqueidentifier" Nullable="false" />
           <Property Name="DeliveryLabel" Type="int" Nullable="false" />
           <Property Name="ReturnLabel" Type="int" />
+          <Property Name="EnvelopeId" Type="int" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'LetterAmazer.dbo.DbLog' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -261,6 +289,7 @@ warning 6002: The table/view 'LetterAmazer.dbo.DbLog' does not have a primary ke
           <Property Name="Enabled" Type="bit" Nullable="false" />
           <Property Name="Automatic" Type="bit" Nullable="false" />
           <Property Name="DeliveryLabel" Type="int" Nullable="false" />
+          <Property Name="EnvelopeId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="DbOffices">
           <Key>
@@ -435,6 +464,18 @@ warning 6002: The table/view 'LetterAmazer.dbo.DbLog' does not have a primary ke
             </Principal>
             <Dependent Role="DbApiAccess">
               <PropertyRef Name="OrganisationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DbEnvelopeWindows_DbEnvelopes">
+          <End Role="DbEnvelopes" Type="Self.DbEnvelopes" Multiplicity="1" />
+          <End Role="DbEnvelopeWindows" Type="Self.DbEnvelopeWindows" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DbEnvelopes">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DbEnvelopeWindows">
+              <PropertyRef Name="EnvelopeId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -686,6 +727,8 @@ warning 6002: The table/view 'LetterAmazer.dbo.DbLog' does not have a primary ke
           <EntitySet Name="DbCountryNames" EntityType="Self.DbCountryNames" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DbCurrencies" EntityType="Self.DbCurrencies" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DbCustomers" EntityType="Self.DbCustomers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DbEnvelopes" EntityType="Self.DbEnvelopes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DbEnvelopeWindows" EntityType="Self.DbEnvelopeWindows" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DbExchangeRates" EntityType="Self.DbExchangeRates" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DbFulfillmentPartners" EntityType="Self.DbFulfillmentPartners" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DbInvoiceLines" EntityType="Self.DbInvoiceLines" Schema="dbo" store:Type="Tables" />
@@ -721,6 +764,10 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
           <AssociationSet Name="FK_DbApiAccess_DbApiAccess" Association="Self.FK_DbApiAccess_DbApiAccess">
             <End Role="DbOrganisation" EntitySet="DbOrganisation" />
             <End Role="DbApiAccess" EntitySet="DbApiAccess" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DbEnvelopeWindows_DbEnvelopes" Association="Self.FK_DbEnvelopeWindows_DbEnvelopes">
+            <End Role="DbEnvelopes" EntitySet="DbEnvelopes" />
+            <End Role="DbEnvelopeWindows" EntitySet="DbEnvelopeWindows" />
           </AssociationSet>
           <AssociationSet Name="FK_DbInvoiceLines_DbInvoices" Association="Self.FK_DbInvoiceLines_DbInvoices">
             <End Role="DbInvoices" EntitySet="DbInvoices" />
@@ -803,7 +850,8 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
             <End Role="DbShops" EntitySet="DbShops" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="LetterAmazer" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -815,6 +863,7 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
           <Property Name="OrganisationId" Type="Int32" Nullable="false" />
           <Property Name="ApiKey" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="ApiSecret" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Role" Type="Int32" />
           <NavigationProperty Name="DbOrganisation" Relationship="Self.FK_DbApiAccess_DbApiAccess" FromRole="DbApiAccess" ToRole="DbOrganisation" />
         </EntityType>
         <EntityType Name="DbCmsContent">
@@ -924,6 +973,34 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
           <NavigationProperty Name="DbPartnerTransactions" Relationship="Self.FK_DbPartnerTransactions_DbCustomers" FromRole="DbCustomers" ToRole="DbPartnerTransactions" />
           <NavigationProperty Name="DbLetters" Relationship="Self.FK_Letter_Customer" FromRole="DbCustomers" ToRole="DbLetters" />
           <NavigationProperty Name="DbOrders" Relationship="Self.FK_Order_Customer" FromRole="DbCustomers" ToRole="DbOrders" />
+        </EntityType>
+        <EntityType Name="DbEnvelopes">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Label" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="ImagePath" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="LengthInCm" Type="Decimal" Precision="18" Scale="5" />
+          <Property Name="HeightInCm" Type="Decimal" Precision="18" Scale="5" />
+          <Property Name="ThicknessInCm" Type="Decimal" Precision="18" Scale="5" />
+          <Property Name="MaxPages" Type="Int32" />
+          <Property Name="EnvelopeType" Type="Int32" Nullable="false" />
+          <Property Name="EnvelopeWeightInGm" Type="Decimal" Precision="18" Scale="8" />
+          <NavigationProperty Name="DbEnvelopeWindows" Relationship="Self.FK_DbEnvelopeWindows_DbEnvelopes" FromRole="DbEnvelopes" ToRole="DbEnvelopeWindows" />
+        </EntityType>
+        <EntityType Name="DbEnvelopeWindows">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EnvelopeId" Type="Int32" Nullable="false" />
+          <Property Name="LetterSize" Type="Int32" Nullable="false" />
+          <Property Name="WindowXOffset" Type="Int32" Nullable="false" />
+          <Property Name="WindowYOffset" Type="Int32" Nullable="false" />
+          <Property Name="WindowLength" Type="Int32" Nullable="false" />
+          <Property Name="WindowHeight" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="DbEnvelopes" Relationship="Self.FK_DbEnvelopeWindows_DbEnvelopes" FromRole="DbEnvelopeWindows" ToRole="DbEnvelopes" />
         </EntityType>
         <EntityType Name="DbExchangeRates">
           <Key>
@@ -1038,6 +1115,7 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
           <Property Name="Guid" Type="Guid" Nullable="false" />
           <Property Name="DeliveryLabel" Type="Int32" Nullable="false" />
           <Property Name="ReturnLabel" Type="Int32" />
+          <Property Name="EnvelopeId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="DbCountries" Relationship="Self.FK_Letters_FromCountry" FromRole="DbLetters" ToRole="DbCountries" />
           <NavigationProperty Name="DbCountries1" Relationship="Self.FK_Letters_ToCountry" FromRole="DbLetters" ToRole="DbCountries" />
           <NavigationProperty Name="DbCustomers" Relationship="Self.FK_Letter_Customer" FromRole="DbLetters" ToRole="DbCustomers" />
@@ -1065,6 +1143,7 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
           <Property Name="Enabled" Type="Boolean" Nullable="false" />
           <Property Name="Automatic" Type="Boolean" Nullable="false" />
           <Property Name="DeliveryLabel" Type="Int32" Nullable="false" />
+          <Property Name="EnvelopeId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="DbProductMatrixLines" Relationship="Self.FK_DbProductMatrixLines_DbOfficeProducts" FromRole="DbOfficeProducts" ToRole="DbProductMatrixLines" />
           <NavigationProperty Name="DbOffices" Relationship="Self.FK_OfficeProducts_Offices" FromRole="DbOfficeProducts" ToRole="DbOffices" />
         </EntityType>
@@ -1213,7 +1292,7 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
           <Property Name="SortOrder" Type="Int32" Nullable="false" />
           <Property Name="IsVisible" Type="Boolean" Nullable="false" />
           <Property Name="RequiresLogin" Type="Boolean" Nullable="false" />
-          <Property Name="Label" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Label" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="LogoPath" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="DbProductMatrixLines">
@@ -1378,6 +1457,18 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_DbEnvelopeWindows_DbEnvelopes">
+          <End Role="DbEnvelopes" Type="Self.DbEnvelopes" Multiplicity="1" />
+          <End Role="DbEnvelopeWindows" Type="Self.DbEnvelopeWindows" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DbEnvelopes">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DbEnvelopeWindows">
+              <PropertyRef Name="EnvelopeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_FulfillmentPartners_Shops">
           <End Role="DbShops" Type="Self.DbShops" Multiplicity="1" />
           <End Role="DbFulfillmentPartners" Type="Self.DbFulfillmentPartners" Multiplicity="*" />
@@ -1530,6 +1621,8 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
           <EntitySet Name="DbCountryNames" EntityType="Self.DbCountryNames" />
           <EntitySet Name="DbCurrencies" EntityType="Self.DbCurrencies" />
           <EntitySet Name="DbCustomers" EntityType="Self.DbCustomers" />
+          <EntitySet Name="DbEnvelopes" EntityType="Self.DbEnvelopes" />
+          <EntitySet Name="DbEnvelopeWindows" EntityType="Self.DbEnvelopeWindows" />
           <EntitySet Name="DbExchangeRates" EntityType="Self.DbExchangeRates" />
           <EntitySet Name="DbFulfillmentPartners" EntityType="Self.DbFulfillmentPartners" />
           <EntitySet Name="DbInvoiceLines" EntityType="Self.DbInvoiceLines" />
@@ -1587,6 +1680,10 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
           <AssociationSet Name="FK_Order_Customer" Association="Self.FK_Order_Customer">
             <End Role="DbCustomers" EntitySet="DbCustomers" />
             <End Role="DbOrders" EntitySet="DbOrders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DbEnvelopeWindows_DbEnvelopes" Association="Self.FK_DbEnvelopeWindows_DbEnvelopes">
+            <End Role="DbEnvelopes" EntitySet="DbEnvelopes" />
+            <End Role="DbEnvelopeWindows" EntitySet="DbEnvelopeWindows" />
           </AssociationSet>
           <AssociationSet Name="FK_FulfillmentPartners_Shops" Association="Self.FK_FulfillmentPartners_Shops">
             <End Role="DbShops" EntitySet="DbShops" />
@@ -1650,6 +1747,7 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
                 <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
                 <ScalarProperty Name="ApiKey" ColumnName="ApiKey" />
                 <ScalarProperty Name="ApiSecret" ColumnName="ApiSecret" />
+                <ScalarProperty Name="Role" ColumnName="Role" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1754,6 +1852,34 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
                 <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
                 <ScalarProperty Name="OrganisationRole" ColumnName="OrganisationRole" />
                 <ScalarProperty Name="AccountStatus" ColumnName="AccountStatus" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DbEnvelopes">
+            <EntityTypeMapping TypeName="LetterAmazer.DbEnvelopes">
+              <MappingFragment StoreEntitySet="DbEnvelopes">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Label" ColumnName="Label" />
+                <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
+                <ScalarProperty Name="LengthInCm" ColumnName="LengthInCm" />
+                <ScalarProperty Name="HeightInCm" ColumnName="HeightInCm" />
+                <ScalarProperty Name="ThicknessInCm" ColumnName="ThicknessInCm" />
+                <ScalarProperty Name="MaxPages" ColumnName="MaxPages" />
+                <ScalarProperty Name="EnvelopeType" ColumnName="EnvelopeType" />
+                <ScalarProperty Name="EnvelopeWeightInGm" ColumnName="EnvelopeWeightInGm" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DbEnvelopeWindows">
+            <EntityTypeMapping TypeName="LetterAmazer.DbEnvelopeWindows">
+              <MappingFragment StoreEntitySet="DbEnvelopeWindows">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="EnvelopeId" ColumnName="EnvelopeId" />
+                <ScalarProperty Name="LetterSize" ColumnName="LetterSize" />
+                <ScalarProperty Name="WindowXOffset" ColumnName="WindowXOffset" />
+                <ScalarProperty Name="WindowYOffset" ColumnName="WindowYOffset" />
+                <ScalarProperty Name="WindowLength" ColumnName="WindowLength" />
+                <ScalarProperty Name="WindowHeight" ColumnName="WindowHeight" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1868,6 +1994,7 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
                 <ScalarProperty Name="Guid" ColumnName="Guid" />
                 <ScalarProperty Name="DeliveryLabel" ColumnName="DeliveryLabel" />
                 <ScalarProperty Name="ReturnLabel" ColumnName="ReturnLabel" />
+                <ScalarProperty Name="EnvelopeId" ColumnName="EnvelopeId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1891,6 +2018,7 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
                 <ScalarProperty Name="Enabled" ColumnName="Enabled" />
                 <ScalarProperty Name="Automatic" ColumnName="Automatic" />
                 <ScalarProperty Name="DeliveryLabel" ColumnName="DeliveryLabel" />
+                <ScalarProperty Name="EnvelopeId" ColumnName="EnvelopeId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -2018,8 +2146,6 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
           <EntitySetMapping Name="DbPaymentMethods">
             <EntityTypeMapping TypeName="LetterAmazer.DbPaymentMethods">
               <MappingFragment StoreEntitySet="DbPaymentMethods">
-                <ScalarProperty Name="LogoPath" ColumnName="LogoPath" />
-                <ScalarProperty Name="Label" ColumnName="Label" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
@@ -2030,6 +2156,8 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
                 <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
                 <ScalarProperty Name="IsVisible" ColumnName="IsVisible" />
                 <ScalarProperty Name="RequiresLogin" ColumnName="RequiresLogin" />
+                <ScalarProperty Name="Label" ColumnName="Label" />
+                <ScalarProperty Name="LogoPath" ColumnName="LogoPath" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -4,12 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LetterAmazer.Business.Services.Domain.Envelope;
+using LetterAmazer.Data.Repository.Data;
 
 namespace LetterAmazer.Business.Services.Factory.Interfaces
 {
     public interface IEnvelopeFactory
     {
-        Envelope Create(object envelope);
-        List<Envelope> Create(List<object> envelopes);
+        Envelope Create(DbEnvelopes envelope);
+        List<Envelope> Create(List<DbEnvelopes> envelopes);
     }
 }

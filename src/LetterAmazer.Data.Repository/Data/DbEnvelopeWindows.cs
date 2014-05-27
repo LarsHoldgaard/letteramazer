@@ -12,14 +12,16 @@ namespace LetterAmazer.Data.Repository.Data
     using System;
     using System.Collections.Generic;
     
-    public partial class DbApiAccess
+    public partial class DbEnvelopeWindows
     {
         public int Id { get; set; }
-        public int OrganisationId { get; set; }
-        public string ApiKey { get; set; }
-        public string ApiSecret { get; set; }
-        public Nullable<int> Role { get; set; }
+        public int EnvelopeId { get; set; }
+        public int LetterSize { get; set; }
+        public int WindowXOffset { get; set; }
+        public int WindowYOffset { get; set; }
+        public int WindowLength { get; set; }
+        public int WindowHeight { get; set; }
     
-        public virtual DbOrganisation DbOrganisation { get; set; }
+        public virtual DbEnvelopes DbEnvelopes { get; set; }
     }
 }

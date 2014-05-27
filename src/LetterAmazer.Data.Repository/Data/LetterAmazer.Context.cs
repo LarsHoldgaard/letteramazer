@@ -32,6 +32,8 @@ namespace LetterAmazer.Data.Repository.Data
         public DbSet<DbCountryNames> DbCountryNames { get; set; }
         public DbSet<DbCurrencies> DbCurrencies { get; set; }
         public DbSet<DbCustomers> DbCustomers { get; set; }
+        public DbSet<DbEnvelopes> DbEnvelopes { get; set; }
+        public DbSet<DbEnvelopeWindows> DbEnvelopeWindows { get; set; }
         public DbSet<DbExchangeRates> DbExchangeRates { get; set; }
         public DbSet<DbFulfillmentPartners> DbFulfillmentPartners { get; set; }
         public DbSet<DbInvoiceLines> DbInvoiceLines { get; set; }

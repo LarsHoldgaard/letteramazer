@@ -149,6 +149,7 @@
     <Compile Include="Domain\Session\ISessionService.cs" />
     <Compile Include="Domain\Session\Session.cs" />
     <Compile Include="Factory\ContentFactory.cs" />
+    <Compile Include="Factory\EnvelopeFactory.cs" />
     <Compile Include="Factory\Interfaces\IContentFactory.cs" />
     <Compile Include="Factory\Interfaces\IEnvelopeFactory.cs" />
     <Compile Include="Factory\Interfaces\IInvoiceFactory.cs" />
