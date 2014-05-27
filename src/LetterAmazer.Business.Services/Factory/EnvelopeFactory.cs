@@ -32,5 +32,22 @@ namespace LetterAmazer.Business.Services.Factory
         {
             return envelopes.Select(Create).ToList();
         }
+
+        public EnvelopeWindow Create(DbEnvelopeWindows envelopeWindow)
+        {
+            return new EnvelopeWindow()
+            {
+                WindowHeight = envelopeWindow.WindowHeight,
+                WindowLength = envelopeWindow.WindowLength,
+                WindowXOffset = envelopeWindow.WindowXOffset,
+                WindowYOffset = envelopeWindow.WindowYOffset,
+                LetterSize = (LetterSize)(envelopeWindow.LetterSize)
+            };
+        }
+
+        public List<EnvelopeWindow> Create(List<DbEnvelopeWindows> envelopeWindow)
+        {
+            return envelopeWindow.Select(Create).ToList();
+        }
     }
 }

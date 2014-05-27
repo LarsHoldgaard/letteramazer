@@ -9,7 +9,7 @@ namespace LetterAmazer.Business.Services.Domain.Envelope
     public interface IEnvelopeService
     {
         Envelope Create(Envelope envelope);
-        Envelope GetById(int id);
+        Envelope GetEnvelopeById(int id);
         Envelope Update(Envelope envelope);
 
     }

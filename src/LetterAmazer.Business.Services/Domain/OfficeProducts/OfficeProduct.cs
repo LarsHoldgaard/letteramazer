@@ -34,6 +34,7 @@ namespace LetterAmazer.Business.Services.Domain.OfficeProducts
 
         public bool Automatic { get; set; }
         public DeliveryLabel DeliveryLabel { get; set; }
+        public int EnvelopeId { get; set; }
 
         public OfficeProduct()
         {

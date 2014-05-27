@@ -27,6 +27,8 @@ namespace LetterAmazer.Business.Services.Domain.OfficeProducts
         public int ZipId { get; set; }
         public int ContinentId { get; set; }
 
+        public int EnvelopeId { get; set; }
+
         public int ShippingDays { get; set; }
 
         public bool? Automatic { get; set; }

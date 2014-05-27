@@ -8,6 +8,7 @@ using LetterAmazer.Business.Services.Domain.Checkout;
 using LetterAmazer.Business.Services.Domain.Countries;
 using LetterAmazer.Business.Services.Domain.Customers;
 using LetterAmazer.Business.Services.Domain.DeliveryJobs;
+using LetterAmazer.Business.Services.Domain.Envelope;
 using LetterAmazer.Business.Services.Domain.Files;
 using LetterAmazer.Business.Services.Domain.Letters;
 using LetterAmazer.Business.Services.Domain.OfficeProducts;
@@ -50,10 +51,11 @@ namespace LetterAmazer.Websites.Client.Controllers
         private IOfficeService officeService;
         private IOfficeProductService officeProductService;
         private IFileService fileService;
+        private IEnvelopeService envelopeService;
 
         public SingleLetterController(IOrderService orderService, IPaymentService paymentService,
             ICountryService countryService, IPriceService priceService,ICustomerService customerService, IOfficeService officeService, 
-            IOfficeProductService officeProductService, ICheckoutService checkoutService,ISessionService sessionService, IFileService fileService)
+            IOfficeProductService officeProductService, ICheckoutService checkoutService,ISessionService sessionService, IFileService fileService,IEnvelopeService envelopeService)
         {
             this.orderService = orderService;
             this.paymentService = paymentService;
@@ -65,14 +67,12 @@ namespace LetterAmazer.Websites.Client.Controllers
             this.checkoutService = checkoutService;
             this.sessionService = sessionService;
             this.fileService = fileService;
+            this.envelopeService = envelopeService;
         }
 
         [HttpGet]
         public ActionResult Index()
         {
-        //    var val = fileService.Get("2014/5/503e17f9-c6d0-49dd-a38e-6fe2e0860f28.pdf");
-        //    return File(val, "application/pdf");
-
             if (SessionHelper.Customer != null)
             {
                 if (SessionHelper.Customer.CreditsLeft > 0.0m)
@@ -128,9 +128,14 @@ namespace LetterAmazer.Websites.Client.Controllers
 
             var data = fileService.GetFileById(stringPath);
 
+            var envelope = envelopeService.GetEnvelopeById(1);
+            var envelopeWindow = envelope.EnvelopeWindows[LetterSize.A4];
             var basePath = Server.MapPath(ConfigurationManager.AppSettings["LetterAmazer.Settings.StoreThumbnail"]);
             var thumbnailService = new ThumbnailGenerator(basePath);
-            var imageData = thumbnailService.GetThumbnailFromA4(data);
+
+
+            var imageData = thumbnailService.GetThumbnailFromA4(data, (int)envelopeWindow.WindowXOffset, (int)envelopeWindow.WindowYOffset,
+                (int)envelopeWindow.WindowLength, (int)envelopeWindow.WindowHeight);
 
 
             return new FileStreamResult(new MemoryStream(imageData), "image/jpeg");
@@ -327,8 +332,8 @@ Business.Services.Utils.Helpers.GetUploadDateString(Guid.NewGuid().ToString()));
         {
             //// TODO: stop being a fuck-tard
             model.UploadFile = model.UploadFile[0].Split(',');
-            
-            var order = new SingleLetterController(orderService, paymentService, countryService, priceService, customerService, officeService, officeProductService,checkoutService,sessionService,null).
+
+            var order = new SingleLetterController(orderService, paymentService, countryService, priceService, customerService, officeService, officeProductService, checkoutService, sessionService, null, envelopeService).
                 CreateOrderFromViewModel(model);
 
             var updated_order = orderService.Create(order);

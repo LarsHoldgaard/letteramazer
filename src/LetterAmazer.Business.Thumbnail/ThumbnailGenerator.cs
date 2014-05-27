@@ -19,48 +19,45 @@ namespace LetterAmazer.Business.Thumbnail
             baseStorePath = basePath;
         }
 
-        public byte[] GetThumbnailFromLetter(byte[] inputfile)
-        {
-            int rectangleX = 120;
-            int rectangleY = 50;
-            int width = 310;
-            int height = 200;
+        //public byte[] GetThumbnailFromLetter(byte[] inputfile)
+        //{
+        //    int rectangleX = 120;
+        //    int rectangleY = 50;
+        //    int width = 310;
+        //    int height = 200;
 
-            string tempInputFilePath = Guid.NewGuid().ToString() + ".pdf";
-            string tempOutputFilePatah = Guid.NewGuid().ToString() + ".jpg";
+        //    string tempInputFilePath = Guid.NewGuid().ToString() + ".pdf";
+        //    string tempOutputFilePatah = Guid.NewGuid().ToString() + ".jpg";
 
-            StorePdfFile(inputfile, tempInputFilePath);
+        //    StorePdfFile(inputfile, tempInputFilePath);
 
             
-            GhostscriptWrapper.GeneratePageThumb(tempInputFilePath, tempOutputFilePatah, 1, 100, 100);
+        //    GhostscriptWrapper.GeneratePageThumb(tempInputFilePath, tempOutputFilePatah, 1, 100, 100);
 
-            byte[] data = null;
-            using (FileStream fs = new FileStream(tempInputFilePath, FileMode.Open))
-            {
-                using (Bitmap bmp = new Bitmap(fs))
-                {
-                    using (var ms = new MemoryStream())
-                    {
-                        // DRAWING LETTER DOCUMENT (NOT A4)
-                        Brush brush = new SolidBrush(Color.FromArgb(128, 170, 170, 170));
-                        Graphics gra = Graphics.FromImage(bmp);
+        //    byte[] data = null;
+        //    using (FileStream fs = new FileStream(tempInputFilePath, FileMode.Open))
+        //    {
+        //        using (Bitmap bmp = new Bitmap(fs))
+        //        {
+        //            using (var ms = new MemoryStream())
+        //            {
+        //                // DRAWING LETTER DOCUMENT (NOT A4)
+        //                Brush brush = new SolidBrush(Color.FromArgb(128, 170, 170, 170));
+        //                Graphics gra = Graphics.FromImage(bmp);
                         
-                        gra.FillRectangle(brush, rectangleX, rectangleY, width, height);
-                        bmp.Save(ms, ImageFormat.Jpeg);
+        //                gra.FillRectangle(brush, rectangleX, rectangleY, width, height);
+        //                bmp.Save(ms, ImageFormat.Jpeg);
 
-                        data = ReadFully(ms);
-                    }
-                }
-            }
-            return data;
-        }
+        //                data = ReadFully(ms);
+        //            }
+        //        }
+        //    }
+        //    return data;
+        //}
 
-        public byte[] GetThumbnailFromA4(byte[] inputfile)
+        public byte[] GetThumbnailFromA4(byte[] inputfile, int rectangleX, int rectangleY,
+            int width,int height)
         {
-            int rectangleX = 80;
-            int rectangleY = 54;
-            int width = 320;
-            int height = 192;
 
             logger.Info("GetThumbnailFromA4");
             string tempInputFilePath = baseStorePath + "\\" +Guid.NewGuid().ToString() + ".pdf";

@@ -107,6 +107,10 @@ namespace LetterAmazer.Business.Services.Services
             {
                 dbProducts = dbProducts.Where(c => c.Enabled);
             }
+            if (specification.EnvelopeId > 0)
+            {
+                dbProducts = dbProducts.Where(c => c.EnvelopeId == specification.EnvelopeId);
+            }
 
             return
                 officeProductFactory.Create(dbProducts.OrderBy(c => c.Id).Skip(specification.Skip).Take(specification.Take).ToList());
@@ -131,7 +135,8 @@ namespace LetterAmazer.Business.Services.Services
                 ShippingWeekdays = officeProduct.ShippingDays,
                 Enabled = officeProduct.Enabled,
                 Automatic =officeProduct.Automatic,
-                DeliveryLabel = (int)officeProduct.DeliveryLabel
+                DeliveryLabel = (int)officeProduct.DeliveryLabel,
+                EnvelopeId = officeProduct.EnvelopeId
             };
 
             repository.DbOfficeProducts.Add(dbOfficeProduct);
@@ -168,6 +173,7 @@ namespace LetterAmazer.Business.Services.Services
             dbOfficeProduct.Enabled = officeProduct.Enabled;
             dbOfficeProduct.Automatic = officeProduct.Automatic;
             dbOfficeProduct.DeliveryLabel = (int) officeProduct.DeliveryLabel;
+            dbOfficeProduct.EnvelopeId = officeProduct.EnvelopeId;
 
             cacheService.Delete(cacheService.GetCacheKey("GetOfficeProductById", dbOfficeProduct.Id.ToString()));
             return GetOfficeProductById(officeProduct.Id);

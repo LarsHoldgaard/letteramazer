@@ -71,7 +71,7 @@ namespace LetterAmazer.Websites.Client
         {
             // All services in service DLL
             var assembly = Assembly.LoadFrom(Server.MapPath("~/bin/LetterAmazer.Business.Services.dll"));
-            ;
+            
             Container.Register(
                 Classes.FromAssembly(assembly)
                     .InNamespace("LetterAmazer.Business.Services.Services")

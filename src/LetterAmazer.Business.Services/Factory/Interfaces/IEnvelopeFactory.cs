@@ -12,5 +12,9 @@ namespace LetterAmazer.Business.Services.Factory.Interfaces
     {
         Envelope Create(DbEnvelopes envelope);
         List<Envelope> Create(List<DbEnvelopes> envelopes);
+
+        EnvelopeWindow Create(DbEnvelopeWindows envelopeWindow);
+        List<EnvelopeWindow> Create(List<DbEnvelopeWindows> envelopeWindow);
+
     }
 }
