@@ -18,6 +18,8 @@ namespace LetterAmazer.Data.Repository.Data
         public int OrganisationId { get; set; }
         public string ApiKey { get; set; }
         public string ApiSecret { get; set; }
+
+        public int Role { get; set; }
     
         public virtual DbOrganisation DbOrganisation { get; set; }
     }
