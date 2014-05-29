@@ -112,6 +112,7 @@
     <Compile Include="Domain\Envelope\Envelope.cs" />
     <Compile Include="Domain\Envelope\EnvelopeWindow.cs" />
     <Compile Include="Domain\Envelope\IEnvelopeService.cs" />
+    <Compile Include="Domain\Files\FileUploadMode.cs" />
     <Compile Include="Domain\Files\IFileService.cs" />
     <Compile Include="Domain\Invoice\IInvoiceService.cs" />
     <Compile Include="Domain\Invoice\Invoice.cs" />

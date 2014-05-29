@@ -14,15 +14,7 @@ namespace LetterAmazer.Business.Services.Domain.Letters
     {
         public string Path { get; set; }
 
-        public byte[] Content
-        {
-            get
-            {
-                // TODO: not do this, this is insane
-                var fileService = new FileService(new CacheService());
-                return fileService.GetFileById(Path);
-            }
-        }
+        public byte[] Content { get; set; }
 
         public string WrittenContent { get; set; }
 

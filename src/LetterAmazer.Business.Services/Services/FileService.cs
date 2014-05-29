@@ -24,6 +24,8 @@ namespace LetterAmazer.Business.Services.Services
         private string accessId;
         private string secretAccessId;
         private string bucketname;
+        private string temp_bucketname;
+
         private ICacheService cacheService;
 
         public FileService(ICacheService cacheService)
@@ -31,21 +33,33 @@ namespace LetterAmazer.Business.Services.Services
             this.accessId = ConfigurationManager.AppSettings["LetterAmazer.Storage.S3.AccessKeyId"];
             this.secretAccessId = ConfigurationManager.AppSettings["LetterAmazer.Storage.S3.SecretAccessKey"];
             this.bucketname = ConfigurationManager.AppSettings["LetterAmazer.Storage.S3.Bucketname"];
+            this.temp_bucketname = ConfigurationManager.AppSettings["LetterAmazer.Storage.S3.Temporarily_Bucketname"];
+
             this.cacheService = cacheService;
         }
 
 
-
         public byte[] GetFileById(string path)
+        {
+            return GetFileById(path, FileUploadMode.Permanently);
+        }
+
+        public byte[] GetFileById(string path,FileUploadMode mode)
         {
             var cacheKey = cacheService.GetCacheKey(MethodBase.GetCurrentMethod().Name, path);
             if (!cacheService.ContainsKey(cacheKey))
             {
                 using (var client = new AmazonS3Client(accessId, secretAccessId))
                 {
+                    string bucketName = bucketname;
+                    if (mode == FileUploadMode.Temporarily)
+                    {
+                        bucketName = temp_bucketname;
+                    }
+                    
                     var obj = client.GetObject(new GetObjectRequest()
                     {
-                        BucketName = bucketname,
+                        BucketName = bucketName,
                         Key = path
                     });
                     var fileBytes = Helpers.GetBytes(obj.ResponseStream);
@@ -60,11 +74,22 @@ namespace LetterAmazer.Business.Services.Services
 
         public string Create(byte[] data, string path)
         {
+            return Create(data, path, FileUploadMode.Permanently);
+        }
+
+        public string Create(byte[] data, string path, FileUploadMode mode)
+        {
             using (var client = new AmazonS3Client(accessId, secretAccessId))
             {
+                string bucketName = bucketname;
+                if (mode == FileUploadMode.Temporarily)
+                {
+                    bucketName = temp_bucketname;
+                }
+
                 client.PutObject(new PutObjectRequest()
                 {
-                    BucketName = bucketname,
+                    BucketName = bucketName,
                     ContentType = "application/pdf",
                     Key = path,
                     InputStream = new MemoryStream(data)

@@ -252,6 +252,7 @@ namespace LetterAmazer.Business.Services.Services
             {
                 Path = uploadedFileKey
             };
+
             var priceSpec = new PriceSpecification()
             {
                 CountryId = letter.ToAddress.Country.Id,

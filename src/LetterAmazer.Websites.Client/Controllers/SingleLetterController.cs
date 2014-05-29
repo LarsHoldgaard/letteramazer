@@ -91,7 +91,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                 LetterType = (int)LetterType.Pres
             };
 
-            new Helper().FillCountries(model.Countries);
+            Helper.FillCountries(countryService,model.Countries);
 
             // TODO: maybe cleanup?
             var countries = countryService.GetCountryBySpecificaiton(new CountrySpecification()
@@ -178,9 +178,10 @@ namespace LetterAmazer.Websites.Client.Controllers
             try
             {
                 HttpPostedFileBase uploadFile = Request.Files[0];
-                
+
+                var fileStorageName = uploadFile.FileName;
                 var keyName = fileService.Create(Business.Services.Utils.Helpers.GetBytes(uploadFile.InputStream),
-Business.Services.Utils.Helpers.GetUploadDateString(Guid.NewGuid().ToString()));
+                    fileStorageName,FileUploadMode.Temporarily);
                 
                 return Json(new
                 {
