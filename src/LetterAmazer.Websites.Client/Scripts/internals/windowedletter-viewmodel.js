@@ -23,22 +23,19 @@
                     console.log('Cannot send letter');
                 }
 
-                //self.priceExVat=data.price.PriceExVat;
-                //self.priceTotal=data.price.Total;
-                //self.vatPercentage=data.price.VatPercentage;
-                //self.numberOfPages(data.numberOfPages);
-
+                self.numberOfPages(data.numberOfPages);
                 self.priceExVat(data.price.PriceExVat);
                 self.priceTotal(data.price.Total);
                 self.vatPercentage(data.price.VatPercentage);
 
-                if (self.priceTotal > 0) {
+                if (self.priceTotal() > 0) {
                     console.log('Setting uploadstatus to success');
                     self.uploadStatus('success');
-                } else {
-                    console.log('Setting uploadstatus to failure. Price: ' + data.price.Total);
-                    self.uploadStatus('failure');
                 }
+                //else {
+                //    console.log('Setting uploadstatus to failure. Price: ' + data.price.Total);
+                //    self.uploadStatus('failure');
+                //}
             },
             error: function (file, responseText) {
                 console.log('Price error');
@@ -86,7 +83,7 @@ var SendWindowedLetterViewModel = function(formSelector, data) {
         $(self.letters()).each(function (index, ele) {
             price += ele.priceTotal();
         });
-        return price;
+        return parseFloat(price).toFixed(2);
     };
 
     self.getPriceExVat = function () {
@@ -94,15 +91,22 @@ var SendWindowedLetterViewModel = function(formSelector, data) {
         $(self.letters()).each(function (index, ele) {
                 price += ele.priceExVat();
         });
-        return price;
+        return parseFloat(price).toFixed(2);
     };
 
-    //self.getUploadStatus = function () {
-    //    var uploadStatus = true;
-    //    $(self.letters).each(function (index, ele) {
-    //        uploadStatus += ele.uploadstatus;
-    //    });
-    //    return uploadStatus;
-    //};
+    self.status = ko.computed(function () {
+        if (self.letters().length == 0) {
+            return false;
+        }
+
+        var re = true;
+        $(self.letters()).each(function (index, ele) {
+            if (ele.uploadStatus() != 'success') {
+                re = false;
+            }
+        });
+        return re;
+    });
+
 };
 

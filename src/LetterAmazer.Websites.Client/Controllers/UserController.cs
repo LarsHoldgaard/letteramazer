@@ -101,7 +101,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                 UseUploadFile = true,
                 IsLoggedIn = SessionHelper.Customer != null
             };
-            Helper.FillPaymentMethods(paymentService,windowedModel.PaymentMethods);
+            Helper.FillPaymentMethods(paymentService,windowedModel.PaymentMethods,PaymentType.Letters);
             Helper.FillCountries(countryService, windowedModel.Countries, 59);
 
             return View(windowedModel);
@@ -475,7 +475,7 @@ namespace LetterAmazer.Websites.Client.Controllers
             model.Credit = SessionHelper.Customer.Credit;
             model.CreditLimit = SessionHelper.Customer.CreditLimit;
 
-            Helper.FillPaymentMethods(paymentService,model.PaymentMethods);
+            Helper.FillPaymentMethods(paymentService,model.PaymentMethods,PaymentType.Credits);
 
             return View(model);
         }

@@ -46,7 +46,7 @@ namespace LetterAmazer.Business.Services.Services
 
         public byte[] GetFileById(string path,FileUploadMode mode)
         {
-            var cacheKey = cacheService.GetCacheKey(MethodBase.GetCurrentMethod().Name, path);
+            var cacheKey = cacheService.GetCacheKey(MethodBase.GetCurrentMethod().Name, path + "_" + mode.ToString());
             if (!cacheService.ContainsKey(cacheKey))
             {
                 using (var client = new AmazonS3Client(accessId, secretAccessId))

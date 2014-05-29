@@ -240,12 +240,18 @@ namespace LetterAmazer.Websites.Client.Controllers
             {
                 var customerId = SessionHelper.Customer != null ? SessionHelper.Customer.Id : 0;
                 Price price = priceService.GetPricesFromFiles(new string[] { uploadFileKey }, customerId, country);
-                
+                var fileBytes = fileService.GetFileById(uploadFileKey, FileUploadMode.Temporarily);
+                var deta = new LetterContent()
+                {
+                    Content = fileBytes
+                };
+
                 return Json(new
                 {
                     status = "success",
                     price = price,
-                    isAuthenticated = SessionHelper.Customer != null
+                    isAuthenticated = SessionHelper.Customer != null,
+                    numberOfPages = deta.PageCount
                 });
             }
             catch (BusinessException businessException)
@@ -395,6 +401,8 @@ namespace LetterAmazer.Websites.Client.Controllers
 
             return checkoutService.ConvertCheckout(checkout);
         }
+
+
 
 
     }

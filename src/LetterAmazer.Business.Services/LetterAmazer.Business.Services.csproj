@@ -141,6 +141,7 @@
     <Compile Include="Domain\Partners\PartnerTransactionSpecification.cs" />
     <Compile Include="Domain\Partners\PartnerTransaction.cs" />
     <Compile Include="Domain\Partners\PartnerType.cs" />
+    <Compile Include="Domain\Payments\PaymentType.cs" />
     <Compile Include="Domain\PriceUpdater\IPriceUpdater.cs" />
     <Compile Include="Domain\Pricing\PriceSpecification.cs" />
     <Compile Include="Domain\Pricing\ProductMatrixReferenceType.cs" />
