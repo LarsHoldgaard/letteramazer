@@ -126,7 +126,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                 return new FileStreamResult(new MemoryStream(), "image/jpeg");
             }
 
-            var data = fileService.GetFileById(stringPath);
+            var data = fileService.GetFileById(stringPath,FileUploadMode.Temporarily);
 
             var envelope = envelopeService.GetEnvelopeById(1);
             var envelopeWindow = envelope.EnvelopeWindows[LetterSize.A4];

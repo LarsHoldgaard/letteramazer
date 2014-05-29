@@ -5,7 +5,7 @@
 {
     <h2>1. Upload files</h2>
 
-    <div class="dashboardBox">
+    <div class="dashboardBox" style="text-align: left;">
 
         <p><b>Make sure the recepient address is positioned correct</b>. Upload a single PDF document and see the preview below to verify its position.</p>
         <div style="max-width: 700px">
@@ -24,24 +24,24 @@
 
 
     <h2>2. Pick a country and a payment method</h2>
-    
+
     <div class="row">
-            <div class="col-md-4">
-    <div class="dashboardBox">
-        <p>Select the country we should send this letter to:</p>
-        <div>
+        <div class="col-md-5">
+            <div class="dashboardBox" style="text-align: left;">
+                <p>Select the country we should send this letter to:</p>
+                <div>
 
-            @Html.DropDownListFor(model => model.SelectedCountry, Model.Countries, new Dictionary<string, object> { { "class", "form-control sendaletter_countrylist" }, { "data-bind", "value:countryId" } })
-            @Html.HiddenFor(m => m.DestinationCountryId, new Dictionary<string, object> { { "data-bind", "value:countryId" } })
+                    @Html.DropDownListFor(model => model.SelectedCountry, Model.Countries, new Dictionary<string, object> { { "class", "form-control sendaletter_countrylist" }, { "data-bind", "value:countryId" } })
+                    @Html.HiddenFor(m => m.DestinationCountryId, new Dictionary<string, object> { { "data-bind", "value:countryId" } })
 
+                </div>
+
+                <p>Select payment method</p>
+                @Html.DropDownListFor(model => model.PaymentMethodId, Model.PaymentMethods, new { @class = "form-control" })
+
+            </div>
         </div>
-
-
-
-        <p>Select payment method</p>
-        @Html.DropDownListFor(model => model.PaymentMethodId, Model.PaymentMethods, new { @class = "form-control" })
-
-    </div></div></div>
+    </div>
     @*<div data-bind="visible: getUploadStatus() == 'failure'" class="alert alert-error" style="margin-top: 10px;">
             <h2>This PDF file cannot be sent</h2>
             <p>
@@ -66,71 +66,93 @@
     //data-bind="visible: getUploadStatus() == 'success'"
     <div>
 
-        <h2>3. Send this letter</h2>
+        <h2>3. Summary and send letters</h2>
+        
+        <div class="dashboardBox" style="text-align: left;">
+            @if (!Model.IsLoggedIn)
+            {
+                <p>
+                    Enter your e-mail:<br />
+                    @Html.TextBoxFor(model => model.Email)
+                </p>
 
-        @if (!Model.IsLoggedIn)
-        {
-            <p>
-                Enter your e-mail:<br />
-                @Html.TextBoxFor(model => model.Email)
-            </p>
+                <p>
+                    Where are you from?<br />
+                    @Html.DropDownListFor(model => model.SelectedOriginCountry, Model.Countries, new Dictionary<string, object> { { "class", "form-control sendaletter_countrylist" }, { "data-bind", "value:originCountryId" } })
+                    @Html.HiddenFor(m => m.SelectedOriginCountry, new Dictionary<string, object> { { "data-bind", "value:originCountryId" } })
+                </p>
 
-            <p>
-                Where are you from?<br />
-                @Html.DropDownListFor(model => model.SelectedOriginCountry, Model.Countries, new Dictionary<string, object> { { "class", "form-control sendaletter_countrylist" }, { "data-bind", "value:originCountryId" } })
-                @Html.HiddenFor(m => m.SelectedOriginCountry, new Dictionary<string, object> { { "data-bind", "value:originCountryId" } })
-            </p>
+            }
 
-        }
+            <div class="row">
+                <div class="col-md-3">
+                    <dl>
+                        <dt>Letters</dt>
+                        <dd><label data-bind="text: letters().length"></label></dd>
+                        <dt>Price</dt>
+                        <dd>
 
-        <div class="row">
-            <div class="col-md-3">
-                <dl>
-                    <dt>Price</dt>
-                    @*<dd>
-
-                            <label id="priceOfLetterLbl" data-bind="text: getPriceExVat"></label> EUR
+                            <label id="priceOfLetterLbl" data-bind="text: getPriceExVat()"></label> EUR
 
                             @if (SessionHelper.Customer != null && SessionHelper.Customer.VatPercentage() > 0.0m)
                             {
-                                <text>(<label id="priceOfLetterLbl" data-bind="text: getPriceTotal"></label> EUR inc. local VAT)</text>
+                                <text>(<label id="priceOfLetterLbl" data-bind="text: getPriceTotal()"></label> EUR inc. local VAT)</text>
                             }
-                        </dd>*@
-                </dl>
-                <input type="submit" value="Send letter" class="btn btn-success btn-lg" />
+                        </dd>
+                        <dt>
+                            Shipping time
+                        </dt>
+                        <dd>1-2 Weekdays</dd>
+                    </dl>
+                    <input type="submit" value="Send letters now" class="btn btn-success btn-lg" />
+                </div>
             </div>
         </div>
 
 
+        <h2><label data-bind="text: letters().length"></label> Letters ready to be sent</h2>
 
-        <h2>Letters uploaded <label data-bind="text: letters().length"></label></h2>
-        
 
         <div data-bind="foreach: letters()">
-            <div class="dashboardBox">
-                <label data-bind="text: filePath"></label><br/><br/>
-                <a data-bind="attr: { file_id: filePath}" id="deleteFile" class="deleteFile">Slet</a>
+            <div class="dashboardBox" style="text-align: left;">
+                <div class="row">
+                    <div class="col-md-6 pull-left">
+                        <h3><label data-bind="text: filePath"></label></h3>
+                        
+                        Pages in letter: <label>1</label><br />
+                        
+                        <h4>Price</h4>
+                        Price (ex vat): <label data-bind="text: priceExVat"></label> EUR<br />
+                        VAT:<br />
+                        Price total: <label data-bind="text: priceTotal"></label> EUR
+
+                        <br /><br />
+                        <a data-bind="attr: { file_id: filePath}" id="deleteFile" class="deleteFile" style="cursor:pointer;">Delete letter</a>
+                    </div>
+                    <div class="col-md-6 pull-right">
+                        <a data-bind="attr:{href: thumbnail()}" target="_blank">
+                            <img data-bind="attr:{src: thumbnail()}" style="max-width:240px;" />
+                        </a>
+                    </div>
+                </div>
+
                 @*Price: <label data-bind="text: amount"></label>
-                Pages: <label data-bind="text: pages"></label>*@
+                    Pages: <label data-bind="text: pages"></label>*@
 
                 @*<div class="col-md-9" data-bind="visible: uploadFileKey().length == 1">
-                    <br /><b>Your letter</b><br />
-                    The grey box is where the address has to be:
+                        <br /><b>Your letter</b><br />
+                        The grey box is where the address has to be:
 
-                    <div style="border:1px solid #d9d9d9; max-width: 700px;">
-                        <img data-bind="attr:{src: thumbnail}" style="width:100%;" />
-                    </div>
+                        <div style="border:1px solid #d9d9d9; max-width: 700px;">
+                            <img data-bind="attr:{src: thumbnail}" style="width:100%;" />
+                        </div>
 
-                </div>*@
+                    </div>*@
             </div>
         </div>
     </div>
 
 
-    <p>Length: </p>
-    <label data-bind="text: letters().length"></label>
-
-    @Html.HiddenFor(model => model.PaymentMethodId)
     @Html.HiddenFor(model => model.LetterType)
     @Html.HiddenFor(model => model.UseUploadFile)
 }
@@ -166,9 +188,10 @@
                     'style': 'margin-top: 28px; margin-left: 20px; height: 65px; width: 65px; display: block;'
                 });
 
-                var uploadedLetter = new letter(data.key,'',59);
+                var uploadedLetter = new letter(data.key, '', 59);
                 viewModel.letters.push(uploadedLetter);
 
+                viewModel.updateAllPrices();
                 console.log('letters length: ' + viewModel.letters().length);
             } else {
                 $(template).find('.dz-error-message').remove();
@@ -187,7 +210,7 @@
         },
         removedfile: function (file) {
             var vLetters = viewModel.letters();
-            for (var i = 0; i < vLetters.length;i++) {
+            for (var i = 0; i < vLetters.length; i++) {
                 if (vLetters[i].filePath == file.name) {
                     viewModel.letters.splice(i, 1);
                     continue;
@@ -196,7 +219,8 @@
 
             var template = file.previewTemplate;
             $(template).remove();
-            
+            viewModel.updateAllPrices();
+
             console.log('remove: ' + file.name);
             console.log('letters length: ' + viewModel.letters().length);
         }
@@ -224,9 +248,9 @@
         }
     });
 
-    $('body').on('click', 'a.deleteFile', function() {
+    $('body').on('click', 'a.deleteFile', function () {
         var val = $(this).attr('file_id');
-        
+
         var vLetters = viewModel.letters();
         for (var i = 0; i < vLetters.length; i++) {
             if (vLetters[i].filePath == val) {

@@ -3,10 +3,13 @@
     self.filePath = filePath;
     self.imagePath = imagePath;
     self.countryId = countryId;
-    self.cost = ko.observable(0);
     self.numberOfPages = ko.observable(0);
-    //self.uploadstatus('pending');
-    self.updatePrices = function () {
+    self.uploadStatus = ko.observable('');
+    self.priceExVat = 0;//ko.observable(0);
+    self.priceTotal = 0;//ko.observable(0);
+    self.vatPercentage = ko.observable(0);
+
+    self.updatePrice = function () {
         $.ajax({
             url: '/SingleLetter/GetPrice',
             type: 'POST',
@@ -16,14 +19,25 @@
             },
             dataType: 'json',
             success: function (data) {
-                self.cost(data.price);
-                self.numberOfPages(data.numberOfPages);
-                if (data.price.Total > 0) {
+                if (data.status === 'error') {
+                    console.log('Cannot send letter');
+                }
+
+                //self.priceExVat=data.price.PriceExVat;
+                //self.priceTotal=data.price.Total;
+                //self.vatPercentage=data.price.VatPercentage;
+                //self.numberOfPages(data.numberOfPages);
+
+                self.priceExVat = 1.5;
+                self.priceTotal = 1.85;
+                self.vatPercentage = 0.25;
+
+                if (self.priceTotal > 0) {
                     console.log('Setting uploadstatus to success');
-                    //self.uploadstatus('success');
+                    self.uploadStatus('success');
                 } else {
                     console.log('Setting uploadstatus to failure. Price: ' + data.price.Total);
-                    //self.uploadstatus('failure');
+                    self.uploadStatus('failure');
                 }
             },
             error: function (file, responseText) {
@@ -33,15 +47,8 @@
     };
 
     self.thumbnail = function() {
-        $.ajax({
-            url: '/SingleLetter/GetThumbnail' + '?uploadFileKey=' + self.filePath,
-            success: function(data) {
-            
-            },
-            error: function (file, responseText) {
-                console.log('Price error');
-            }
-        });
+        var path = '/SingleLetter/GetThumbnail' + '?uploadFileKey=' + self.filePath;
+        return path;
     };
 }
 
@@ -61,27 +68,36 @@ var SendWindowedLetterViewModel = function(formSelector, data) {
 
         var ol = "";
         for (var i = 0; i < arr.length; i++) {
-            ol += (ol.length > 0 ? ";" : "") + arr[i].filePath;
+            ol += (ol.length > 0 ? ";" : "") +
+                arr[i].filePath;
         }
         console.log('selectedFiles: ' + ol);
         return ol;
     });
 
-    //self.getPriceTotal = function () {
-    //    var price = 0.0;
-    //    $(self.letters).each(function (index, ele) {
-    //        price += ele.cost.Total.toFixed(2);
-    //    });
-    //    return price;
-    //};
+    self.updateAllPrices = function() {
+        $(self.letters()).each(function(index, ele) {
+            ele.updatePrice();
+        });
+    };
 
-    //self.getPriceExVat = function () {
-    //    var price = 0.0;
-    //    $(self.letters).each(function (index, ele) {
-    //        price += ele.cost.priceExVat.toFixed(2);
-    //    });
-    //    return price;
-    //};
+    self.getPriceTotal = function () {
+        var price = 0.0;
+        $(self.letters()).each(function (index, ele) {
+            price += 1.0;
+            //price += ele.priceTotal;
+        });
+        return price;
+    };
+
+    self.getPriceExVat = function () {
+        var price = 0.0;
+        $(self.letters()).each(function (index, ele) {
+            price += 1.0;
+            //price += ele.priceExVat;
+        });
+        return price;
+    };
 
     //self.getUploadStatus = function () {
     //    var uploadStatus = true;
