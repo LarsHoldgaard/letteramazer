@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using LetterAmazer.Business.Services.Domain.Caching;
+using LetterAmazer.Business.Services.Domain.Files;
 using LetterAmazer.Business.Services.Domain.Letters;
 using LetterAmazer.Business.Services.Factory;
 using LetterAmazer.Business.Services.Factory.Interfaces;
@@ -17,6 +18,7 @@ namespace LetterAmazer.Business.Services.Services
         private LetterAmazerEntities repository;
         private ILetterFactory letterFactory;
         private ICacheService cacheService;
+        private IFileService fileService;
 
         public LetterService(LetterAmazerEntities repository,ILetterFactory letterFactory,ICacheService cacheService)
         {

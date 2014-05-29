@@ -55,6 +55,7 @@ namespace LetterAmazer.Business.Services.Services
             Order order = new Order();
             Price price = null;
 
+            storeFilesCorrectly(checkout);
             fileConversion(checkout);
             setCustomer(checkout, order);
 
@@ -128,6 +129,20 @@ namespace LetterAmazer.Business.Services.Services
             return order;
         }
 
+        private void storeFilesCorrectly(Checkout checkout)
+        {
+            foreach (var checkoutLine in checkout.CheckoutLines)
+            {
+                if (checkoutLine.ProductType == ProductType.Letter)
+                {
+                    var byteData = fileService.GetFileById(checkoutLine.Letter.LetterContent.Path,FileUploadMode.Temporarily);
+                    var keyName = fileService.Create(byteData,
+                        Helpers.GetUploadDateString(Guid.NewGuid().ToString()));
+
+                    checkoutLine.Letter.LetterContent.Path = keyName;
+                }
+            }
+        }
 
         private Price setPriceOnLine(Price price, Price letterPrice)
         {

@@ -7,6 +7,8 @@ namespace LetterAmazer.Websites.Client.ViewModels.User
     {
         public string SelectedCountry { get; set; }
         public List<SelectListItem> Countries { get; set; }
+        public List<SelectListItem> PaymentMethods { get; set; }
+
 
         public bool IsLoggedIn { get; set; }
         public string Email { get; set; }
@@ -26,6 +28,7 @@ namespace LetterAmazer.Websites.Client.ViewModels.User
         public SendWindowedLetterViewModel()
         {
             this.Countries = new List<SelectListItem>();
+            this.PaymentMethods = new List<SelectListItem>();
         }
     }
 }

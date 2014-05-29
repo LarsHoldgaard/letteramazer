@@ -63,7 +63,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                 IsLoggedIn = SessionHelper.Customer != null 
             };
 
-            new Helper().FillCountries(windowedModel.Countries,59);
+            Helper.FillCountries(countryService, windowedModel.Countries, 59);
 
             return View(windowedModel);
         }
@@ -274,8 +274,8 @@ namespace LetterAmazer.Websites.Client.Controllers
         public ActionResult Account()
         {
             AccountViewModel viewModel= new AccountViewModel();
-            var helper = new Helper();
-            helper.FillCountries(viewModel.RegisterViewModel.Countries,59);
+
+            Helper.FillCountries(countryService, viewModel.RegisterViewModel.Countries, 59);
             return View(viewModel);
         }
 
@@ -477,7 +477,7 @@ namespace LetterAmazer.Websites.Client.Controllers
         {
             
             PriceViewModel prices = new PriceViewModel();
-           new Helper().FillCountries(prices.Countries,standardCountryId);
+            Helper.FillCountries(countryService, prices.Countries, standardCountryId);
             
             prices.SelectedLetterSizes = ControllerHelpers.GetEnumSelectList<LetterSize>().ToList();
             prices.SelectedLetterSizes.RemoveAt(1);

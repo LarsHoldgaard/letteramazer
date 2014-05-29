@@ -91,7 +91,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                 LetterType = (int)LetterType.Pres
             };
 
-            new Helper().FillCountries(model.Countries);
+            Helper.FillCountries(countryService,model.Countries);
 
             // TODO: maybe cleanup?
             var countries = countryService.GetCountryBySpecificaiton(new CountrySpecification()
@@ -126,7 +126,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                 return new FileStreamResult(new MemoryStream(), "image/jpeg");
             }
 
-            var data = fileService.GetFileById(stringPath);
+            var data = fileService.GetFileById(stringPath,FileUploadMode.Temporarily);
 
             var envelope = envelopeService.GetEnvelopeById(1);
             var envelopeWindow = envelope.EnvelopeWindows[LetterSize.A4];
@@ -178,9 +178,10 @@ namespace LetterAmazer.Websites.Client.Controllers
             try
             {
                 HttpPostedFileBase uploadFile = Request.Files[0];
-                
+
+                var fileStorageName = uploadFile.FileName;
                 var keyName = fileService.Create(Business.Services.Utils.Helpers.GetBytes(uploadFile.InputStream),
-Business.Services.Utils.Helpers.GetUploadDateString(Guid.NewGuid().ToString()));
+                    fileStorageName,FileUploadMode.Temporarily);
                 
                 return Json(new
                 {
@@ -237,16 +238,20 @@ Business.Services.Utils.Helpers.GetUploadDateString(Guid.NewGuid().ToString()));
         {
             try
             {
-                //// TODO: stop being a fuck-tard and dont call this json removal method
-                string[] uploadFileKey2 = HelperMethods.RemoveJsonFromEntries(uploadFileKey);
                 var customerId = SessionHelper.Customer != null ? SessionHelper.Customer.Id : 0;
-                Price price = priceService.GetPricesFromFiles(uploadFileKey2, customerId, country);
-                
+                Price price = priceService.GetPricesFromFiles(new string[] { uploadFileKey }, customerId, country);
+                var fileBytes = fileService.GetFileById(uploadFileKey, FileUploadMode.Temporarily);
+                var deta = new LetterContent()
+                {
+                    Content = fileBytes
+                };
+
                 return Json(new
                 {
                     status = "success",
                     price = price,
-                    isAuthenticated = SessionHelper.Customer != null
+                    isAuthenticated = SessionHelper.Customer != null,
+                    numberOfPages = deta.PageCount
                 });
             }
             catch (BusinessException businessException)
@@ -331,9 +336,9 @@ Business.Services.Utils.Helpers.GetUploadDateString(Guid.NewGuid().ToString()));
         public ActionResult SendWindowedLetter(SendWindowedLetterViewModel model)
         {
             //// TODO: stop being a fuck-tard
-            model.UploadFile = model.UploadFile[0].Split(',');
+            model.UploadFile = model.UploadFile[0].Split(';');
 
-            var order = new SingleLetterController(orderService, paymentService, countryService, priceService, customerService, officeService, officeProductService, checkoutService, sessionService, null, envelopeService).
+            var order = new SingleLetterController(orderService, paymentService, countryService, priceService, customerService, officeService, officeProductService, checkoutService, sessionService, fileService, envelopeService).
                 CreateOrderFromViewModel(model);
 
             var updated_order = orderService.Create(order);
@@ -371,7 +376,7 @@ Business.Services.Utils.Helpers.GetUploadDateString(Guid.NewGuid().ToString()));
             {
                 var customerId = SessionHelper.Customer != null ? SessionHelper.Customer.Id : 0;
                 var priceInfo = priceService.GetPricesFromFiles(new[] { uploadFile }, customerId, model.DestinationCountry);
-
+                var fileBytes = fileService.GetFileById(uploadFile, FileUploadMode.Temporarily);
                 var officeProduct = officeProductService.GetOfficeProductById(priceInfo.OfficeProductId);
 
                 var t = new CheckoutLine()
@@ -385,7 +390,8 @@ Business.Services.Utils.Helpers.GetUploadDateString(Guid.NewGuid().ToString()));
                         },
                         LetterContent = new LetterContent()
                         {
-                            Path = uploadFile
+                            Path = uploadFile,
+                            Content = fileBytes
                         },
                         OfficeId = officeProduct.OfficeId
                     }
@@ -395,6 +401,8 @@ Business.Services.Utils.Helpers.GetUploadDateString(Guid.NewGuid().ToString()));
 
             return checkoutService.ConvertCheckout(checkout);
         }
+
+
 
 
     }

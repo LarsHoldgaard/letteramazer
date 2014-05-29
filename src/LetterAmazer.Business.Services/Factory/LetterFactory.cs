@@ -34,7 +34,7 @@ namespace LetterAmazer.Business.Services.Factory
                 LetterContent = new LetterContent()
                 {
                     Path = dbLetter.LetterContent_Path,
-                    WrittenContent = dbLetter.LetterContent_WrittenContent
+                    WrittenContent = dbLetter.LetterContent_WrittenContent,
                 },
                 LetterStatus = (LetterStatus)(dbLetter.LetterStatus),
                 Id = dbLetter.Id,

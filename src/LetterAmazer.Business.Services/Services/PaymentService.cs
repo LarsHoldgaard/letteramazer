@@ -76,6 +76,21 @@ namespace LetterAmazer.Business.Services.Services
                         c => c.MinimumAmount <= specification.TotalPrice && c.MaximumAmount >= specification.TotalPrice);
             }
 
+            if (specification.PaymentType != null)
+            {
+                if (specification.PaymentType.Value == PaymentType.Credits)
+                {
+                    // remove credits from payment methods
+                    dbPaymentMethods = dbPaymentMethods.Where(c => c.Id != 2);
+                }
+                if (specification.PaymentType.Value == PaymentType.Letters)
+                {
+                    // remove invoice from payment methods
+                    dbPaymentMethods = dbPaymentMethods.Where(c => c.Id != 5);
+                }
+
+            }
+
             return paymentFactory.Create(dbPaymentMethods.OrderBy(c=>c.SortOrder).Skip(specification.Skip).Take(specification.Take).ToList());
         }
 

@@ -9,6 +9,7 @@ using LetterAmazer.Business.Services.Domain.AddressInfos;
 using LetterAmazer.Business.Services.Domain.Countries;
 using LetterAmazer.Business.Services.Domain.Currencies;
 using LetterAmazer.Business.Services.Domain.Customers;
+using LetterAmazer.Business.Services.Domain.Files;
 using LetterAmazer.Business.Services.Domain.Letters;
 using LetterAmazer.Business.Services.Domain.OfficeProducts;
 using LetterAmazer.Business.Services.Domain.Orders;
@@ -32,10 +33,11 @@ namespace LetterAmazer.Business.Services.Services
         private IOrganisationService organisationService;
         private ICurrencyService currencyService;
         private ICustomerService customerService;
+        private IFileService fileService;
         public PriceService(ICountryService countryService,
             LetterAmazerEntities repository, IProductMatrixService productMatrixService, 
             IOfficeProductService offerProductService, IOrganisationService organisationService,
-            ICurrencyService currencyService,ICustomerService customerService)
+            ICurrencyService currencyService,ICustomerService customerService, IFileService fileService)
         {
             this.countryService = countryService;
             this.repository = repository;
@@ -44,6 +46,7 @@ namespace LetterAmazer.Business.Services.Services
             this.organisationService = organisationService;
             this.currencyService = currencyService;
             this.customerService = customerService;
+            this.fileService = fileService;
         }
 
         public Price GetPriceByOrder(Order order)
@@ -248,10 +251,13 @@ namespace LetterAmazer.Business.Services.Services
                 }
             };
 
+            var fileByte = fileService.GetFileById(uploadedFileKey, FileUploadMode.Temporarily);
             letter.LetterContent = new LetterContent()
             {
-                Path = uploadedFileKey
+                Path = uploadedFileKey,
+                Content = fileByte
             };
+
             var priceSpec = new PriceSpecification()
             {
                 CountryId = letter.ToAddress.Country.Id,

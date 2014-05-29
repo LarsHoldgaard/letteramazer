@@ -6,6 +6,7 @@ using LetterAmazer.Business.Services.Domain.Checkout;
 using LetterAmazer.Business.Services.Domain.Countries;
 using LetterAmazer.Business.Services.Domain.Customers;
 using LetterAmazer.Business.Services.Domain.Envelope;
+using LetterAmazer.Business.Services.Domain.Files;
 using LetterAmazer.Business.Services.Domain.Invoice;
 using LetterAmazer.Business.Services.Domain.Letters;
 using LetterAmazer.Business.Services.Domain.Mails;
@@ -51,12 +52,13 @@ namespace LetterAmazer.Websites.Client.Controllers
         private ICheckoutService checkoutService;
         private ISessionService sessionService;
         private IEnvelopeService envelopeService;
+        private IFileService fileService;
         public UserController(IOrderService orderService, IPaymentService paymentService,
             ILetterService letterService, ICountryService countryService,
             IPriceService priceService,
             IOrganisationService organisationService, IMailService mailService, IInvoiceService invoiceService,
             ICustomerService customerService,IOfficeService officeService, IOfficeProductService officeProductService,
-            ICheckoutService checkoutService,ISessionService sessionService,IEnvelopeService envelopeService)
+            ICheckoutService checkoutService,ISessionService sessionService,IEnvelopeService envelopeService,IFileService fileService)
         {
             this.orderService = orderService;
             this.paymentService = paymentService;
@@ -72,6 +74,7 @@ namespace LetterAmazer.Websites.Client.Controllers
             this.checkoutService = checkoutService;
             this.sessionService = sessionService;
             this.envelopeService = envelopeService;
+            this.fileService = fileService;
         }
 
         public ActionResult Index(int? page, DashboardViewModel model)
@@ -98,8 +101,8 @@ namespace LetterAmazer.Websites.Client.Controllers
                 UseUploadFile = true,
                 IsLoggedIn = SessionHelper.Customer != null
             };
-
-            new Helper().FillCountries(windowedModel.Countries,59);
+            Helper.FillPaymentMethods(paymentService,windowedModel.PaymentMethods,PaymentType.Letters);
+            Helper.FillCountries(countryService, windowedModel.Countries, 59);
 
             return View(windowedModel);
         }
@@ -129,7 +132,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                 model.HasCredits = true;
             }
 
-            new Helper().FillCountries(model.Countries);
+            Helper.FillCountries(countryService,model.Countries);
 
             return View(model);
         }
@@ -141,7 +144,7 @@ namespace LetterAmazer.Websites.Client.Controllers
             {
                 ValidateInput();
 
-                var order = new SingleLetterController(orderService, paymentService, countryService, priceService, customerService,officeService, officeProductService,checkoutService,sessionService,null,envelopeService).CreateOrderFromViewModel(model);
+                var order = new SingleLetterController(orderService, paymentService, countryService, priceService, customerService,officeService, officeProductService,checkoutService,sessionService,fileService,envelopeService).CreateOrderFromViewModel(model);
 
                 var storedOrder = orderService.Create(order);
 
@@ -174,7 +177,7 @@ namespace LetterAmazer.Websites.Client.Controllers
         {
             var organisationViewModel = new EditOrganisationViewModel();
 
-            new Helper().FillCountries(organisationViewModel.Countries, SessionHelper.Customer.Organisation.Address.Country.Id);
+            Helper.FillCountries(countryService, organisationViewModel.Countries, SessionHelper.Customer.Organisation.Address.Country.Id);
 
             var organisationId = SessionHelper.Customer.Organisation.Id;
             var organisation = organisationService.GetOrganisationById(organisationId);
@@ -223,7 +226,7 @@ namespace LetterAmazer.Websites.Client.Controllers
         {
             var orgView = new CreateOrganisationViewModel();
 
-            new Helper().FillCountries(orgView.Countries, SessionHelper.Customer.PreferedCountryId);
+            Helper.FillCountries(countryService, orgView.Countries, SessionHelper.Customer.PreferedCountryId);
             
             return View(orgView);
         }
@@ -308,7 +311,7 @@ namespace LetterAmazer.Websites.Client.Controllers
             editViewModel.Email = customer.Email;
 
 
-            new Helper().FillCountries(editViewModel.Countries,SessionHelper.Customer.PreferedCountryId);
+            Helper.FillCountries(countryService,editViewModel.Countries,SessionHelper.Customer.PreferedCountryId);
 
             editViewModel.LetterTypes = ControllerHelpers.GetEnumSelectList<LetterType>().ToList();
 
@@ -461,6 +464,7 @@ namespace LetterAmazer.Websites.Client.Controllers
         public FileResult Download(int id)
         {
             Letter letter = letterService.GetLetterById(id);
+            letter.LetterContent.downloadFile(fileService);
             return File(letter.LetterContent.Content, "application/pdf", id + ".pdf");
         }
 
@@ -471,21 +475,7 @@ namespace LetterAmazer.Websites.Client.Controllers
             model.Credit = SessionHelper.Customer.Credit;
             model.CreditLimit = SessionHelper.Customer.CreditLimit;
 
-            var possiblePaymentMethods =
-                paymentService.GetPaymentMethodsBySpecification(new PaymentMethodSpecification()
-                {
-                    CustomerId = SessionHelper.Customer.Id
-                });
-            
-            foreach (var possiblePaymentMethod in possiblePaymentMethods)
-            {
-                model.PaymentMethods.Add(new SelectListItem()
-                {
-                    Text = possiblePaymentMethod.Label,
-                    Value = possiblePaymentMethod.Id.ToString()
-                });
-            }
-
+            Helper.FillPaymentMethods(paymentService,model.PaymentMethods,PaymentType.Credits);
 
             return View(model);
         }
@@ -785,7 +775,7 @@ namespace LetterAmazer.Websites.Client.Controllers
             }
             model.OrganisationId = organisation.Id;
 
-            new Helper().FillCountries(model.NewContact.Countries,SessionHelper.Customer.PreferedCountryId);
+            Helper.FillCountries(countryService,model.NewContact.Countries,SessionHelper.Customer.PreferedCountryId);
          
         }
 
@@ -817,7 +807,7 @@ namespace LetterAmazer.Websites.Client.Controllers
             model.OrganisationName = addressList.AddressInfo.Organisation;
             model.AddressListId = addressList.Id;
 
-            new Helper().FillCountries(model.Countries,addressList.AddressInfo.Country.Id);
+            Helper.FillCountries(countryService, model.Countries, addressList.AddressInfo.Country.Id);
 
 
             return model;
