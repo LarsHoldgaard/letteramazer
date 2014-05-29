@@ -6,6 +6,7 @@ using LetterAmazer.Business.Services.Domain.Checkout;
 using LetterAmazer.Business.Services.Domain.Countries;
 using LetterAmazer.Business.Services.Domain.Customers;
 using LetterAmazer.Business.Services.Domain.Envelope;
+using LetterAmazer.Business.Services.Domain.Files;
 using LetterAmazer.Business.Services.Domain.Invoice;
 using LetterAmazer.Business.Services.Domain.Letters;
 using LetterAmazer.Business.Services.Domain.Mails;
@@ -51,12 +52,13 @@ namespace LetterAmazer.Websites.Client.Controllers
         private ICheckoutService checkoutService;
         private ISessionService sessionService;
         private IEnvelopeService envelopeService;
+        private IFileService fileService;
         public UserController(IOrderService orderService, IPaymentService paymentService,
             ILetterService letterService, ICountryService countryService,
             IPriceService priceService,
             IOrganisationService organisationService, IMailService mailService, IInvoiceService invoiceService,
             ICustomerService customerService,IOfficeService officeService, IOfficeProductService officeProductService,
-            ICheckoutService checkoutService,ISessionService sessionService,IEnvelopeService envelopeService)
+            ICheckoutService checkoutService,ISessionService sessionService,IEnvelopeService envelopeService,IFileService fileService)
         {
             this.orderService = orderService;
             this.paymentService = paymentService;
@@ -72,6 +74,7 @@ namespace LetterAmazer.Websites.Client.Controllers
             this.checkoutService = checkoutService;
             this.sessionService = sessionService;
             this.envelopeService = envelopeService;
+            this.fileService = fileService;
         }
 
         public ActionResult Index(int? page, DashboardViewModel model)
@@ -141,7 +144,7 @@ namespace LetterAmazer.Websites.Client.Controllers
             {
                 ValidateInput();
 
-                var order = new SingleLetterController(orderService, paymentService, countryService, priceService, customerService,officeService, officeProductService,checkoutService,sessionService,null,envelopeService).CreateOrderFromViewModel(model);
+                var order = new SingleLetterController(orderService, paymentService, countryService, priceService, customerService,officeService, officeProductService,checkoutService,sessionService,fileService,envelopeService).CreateOrderFromViewModel(model);
 
                 var storedOrder = orderService.Create(order);
 
@@ -461,6 +464,7 @@ namespace LetterAmazer.Websites.Client.Controllers
         public FileResult Download(int id)
         {
             Letter letter = letterService.GetLetterById(id);
+            letter.LetterContent.downloadFile(fileService);
             return File(letter.LetterContent.Content, "application/pdf", id + ".pdf");
         }
 

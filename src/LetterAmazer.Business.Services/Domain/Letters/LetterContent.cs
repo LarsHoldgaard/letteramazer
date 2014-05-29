@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LetterAmazer.Business.Services.Domain.Countries;
+using LetterAmazer.Business.Services.Domain.Files;
 using LetterAmazer.Business.Services.Services;
 using LetterAmazer.Business.Utils.Helpers;
 
@@ -15,6 +16,12 @@ namespace LetterAmazer.Business.Services.Domain.Letters
         public string Path { get; set; }
 
         public byte[] Content { get; set; }
+
+        public void downloadFile(IFileService fileService)
+        {
+            var file = fileService.GetFileById(Path);
+            Content = file;
+        }
 
         public string WrittenContent { get; set; }
 

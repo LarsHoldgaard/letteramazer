@@ -332,9 +332,9 @@ namespace LetterAmazer.Websites.Client.Controllers
         public ActionResult SendWindowedLetter(SendWindowedLetterViewModel model)
         {
             //// TODO: stop being a fuck-tard
-            model.UploadFile = model.UploadFile[0].Split(',');
+            model.UploadFile = model.UploadFile[0].Split(';');
 
-            var order = new SingleLetterController(orderService, paymentService, countryService, priceService, customerService, officeService, officeProductService, checkoutService, sessionService, null, envelopeService).
+            var order = new SingleLetterController(orderService, paymentService, countryService, priceService, customerService, officeService, officeProductService, checkoutService, sessionService, fileService, envelopeService).
                 CreateOrderFromViewModel(model);
 
             var updated_order = orderService.Create(order);
@@ -372,7 +372,7 @@ namespace LetterAmazer.Websites.Client.Controllers
             {
                 var customerId = SessionHelper.Customer != null ? SessionHelper.Customer.Id : 0;
                 var priceInfo = priceService.GetPricesFromFiles(new[] { uploadFile }, customerId, model.DestinationCountry);
-
+                var fileBytes = fileService.GetFileById(uploadFile, FileUploadMode.Temporarily);
                 var officeProduct = officeProductService.GetOfficeProductById(priceInfo.OfficeProductId);
 
                 var t = new CheckoutLine()
@@ -386,7 +386,8 @@ namespace LetterAmazer.Websites.Client.Controllers
                         },
                         LetterContent = new LetterContent()
                         {
-                            Path = uploadFile
+                            Path = uploadFile,
+                            Content = fileBytes
                         },
                         OfficeId = officeProduct.OfficeId
                     }
