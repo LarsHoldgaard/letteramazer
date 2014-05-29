@@ -238,10 +238,8 @@ namespace LetterAmazer.Websites.Client.Controllers
         {
             try
             {
-                //// TODO: stop being a fuck-tard and dont call this json removal method
-                string[] uploadFileKey2 = HelperMethods.RemoveJsonFromEntries(uploadFileKey);
                 var customerId = SessionHelper.Customer != null ? SessionHelper.Customer.Id : 0;
-                Price price = priceService.GetPricesFromFiles(uploadFileKey2, customerId, country);
+                Price price = priceService.GetPricesFromFiles(new string[] { uploadFileKey }, customerId, country);
                 
                 return Json(new
                 {

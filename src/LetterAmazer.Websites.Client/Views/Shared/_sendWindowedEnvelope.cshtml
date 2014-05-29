@@ -235,17 +235,17 @@
         'multi': true,
         'swf': '@Url.Content("~/Scripts/uploadify/uploadify.swf")',
         'uploader': '@Url.Action("Upload", "SingleLetter")',
-        'onUploadSuccess': function (file, data, response) {
-            //var result = $.parseJSON(data);
-            //if (result.status == "success") {
-            //    console.log('Upload key: ' + result.key);
-            //    viewModel.uploadFileKey.push(result.key);
-            //}
+        //'onUploadSuccess': function (file, data, response) {
+        //    //var result = $.parseJSON(data);
+        //    //if (result.status == "success") {
+        //    //    console.log('Upload key: ' + result.key);
+        //    //    viewModel.uploadFileKey.push(result.key);
+        //    //}
 
-        },
-        'onUploadError': function (ex, e, er) {
-            console.log(er);
-        }
+        //},
+        //'onUploadError': function (ex, e, er) {
+        //    console.log(er);
+        //}
     });
 
     $('body').on('click', 'a.deleteFile', function () {

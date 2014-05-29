@@ -5,8 +5,8 @@
     self.countryId = countryId;
     self.numberOfPages = ko.observable(0);
     self.uploadStatus = ko.observable('');
-    self.priceExVat = 0;//ko.observable(0);
-    self.priceTotal = 0;//ko.observable(0);
+    self.priceExVat = ko.observable(0);
+    self.priceTotal = ko.observable(0);
     self.vatPercentage = ko.observable(0);
 
     self.updatePrice = function () {
@@ -14,7 +14,7 @@
             url: '/SingleLetter/GetPrice',
             type: 'POST',
             data: {
-                'pdfUrl': self.filePath,
+                'uploadFileKey': self.filePath,
                 'country': self.countryId
             },
             dataType: 'json',
@@ -28,9 +28,9 @@
                 //self.vatPercentage=data.price.VatPercentage;
                 //self.numberOfPages(data.numberOfPages);
 
-                self.priceExVat = 1.5;
-                self.priceTotal = 1.85;
-                self.vatPercentage = 0.25;
+                self.priceExVat(data.price.PriceExVat);
+                self.priceTotal(data.price.Total);
+                self.vatPercentage(data.price.VatPercentage);
 
                 if (self.priceTotal > 0) {
                     console.log('Setting uploadstatus to success');
@@ -75,8 +75,8 @@ var SendWindowedLetterViewModel = function(formSelector, data) {
         return ol;
     });
 
-    self.updateAllPrices = function() {
-        $(self.letters()).each(function(index, ele) {
+    self.updateAllPrices = function () {
+        $(self.letters()).each(function (index, ele) {
             ele.updatePrice();
         });
     };
@@ -84,8 +84,7 @@ var SendWindowedLetterViewModel = function(formSelector, data) {
     self.getPriceTotal = function () {
         var price = 0.0;
         $(self.letters()).each(function (index, ele) {
-            price += 1.0;
-            //price += ele.priceTotal;
+            price += ele.priceTotal();
         });
         return price;
     };
@@ -93,8 +92,7 @@ var SendWindowedLetterViewModel = function(formSelector, data) {
     self.getPriceExVat = function () {
         var price = 0.0;
         $(self.letters()).each(function (index, ele) {
-            price += 1.0;
-            //price += ele.priceExVat;
+                price += ele.priceExVat();
         });
         return price;
     };
