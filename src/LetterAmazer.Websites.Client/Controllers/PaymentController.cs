@@ -26,11 +26,11 @@ namespace LetterAmazer.Websites.Client.Controllers
 
         public ActionResult Epay(int id)
         {
-            var acceptUrl = ConfigurationManager.AppSettings[""];
-            var callbackUrl = ConfigurationManager.AppSettings[""];
-            var declineUrl = ConfigurationManager.AppSettings[""];
-            var googleTracker = ConfigurationManager.AppSettings[""];
-            var merchantNumber = ConfigurationManager.AppSettings[""];
+            var acceptUrl = ConfigurationManager.AppSettings["LetterAmazer.Payment.Successful"];
+            var callbackUrl = ConfigurationManager.AppSettings["LetterAmazer.Payment.Epay.CallbackUrl"];
+            var declineUrl = ConfigurationManager.AppSettings["LetterAmazer.Payment.Decline"];
+            var googleTracker = ConfigurationManager.AppSettings["LetterAmazer.Settings.Analytics"];
+            var merchantNumber = ConfigurationManager.AppSettings["LetterAmazer.Payment.Epay.MerchantNumber"];
 
             var order = orderService.GetOrderById(id);
 

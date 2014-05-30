@@ -14,5 +14,15 @@ namespace LetterAmazer.Websites.Client.ViewModels.Payment
         public string AcceptUrl { get; set; }
         public string CallbackUrl { get; set; }
         public string MerchantNumber { get; set; }
+
+        public string AmountInMinorUnits
+        {
+            get
+            {
+                var amountTotal = Amount*100;
+                amountTotal = Math.Round(amountTotal, 0);
+                return amountTotal.ToString();
+            }
+        }
     }
 }

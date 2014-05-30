@@ -50,9 +50,9 @@ namespace LetterAmazer.Websites.Client.Controllers
 
                 paypalMethod.CallbackNotification();
 
-                var updated_customer = customerService.Update(SessionHelper.Customer);
-                SessionHelper.Customer = updated_customer;
-                FormsAuthentication.SetAuthCookie(SessionHelper.Customer.Id.ToString(), true);
+                //var updated_customer = customerService.Update(SessionHelper.Customer);
+                //SessionHelper.Customer = updated_customer;
+                //FormsAuthentication.SetAuthCookie(SessionHelper.Customer.Id.ToString(), true);
 
 
                 return Json(new { status = "success" }, JsonRequestBehavior.AllowGet);
@@ -66,12 +66,39 @@ namespace LetterAmazer.Websites.Client.Controllers
 
         public JsonResult BitPay(string content)
         {
-            return Json("");
+            var method = new EpayMethod();
+
+            try
+            {
+                method.CallbackNotification();
+
+                return Json(new { status = "success" }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex);
+                return Json(new { status = "error" }, JsonRequestBehavior.AllowGet);
+            }
+
         }
 
         public JsonResult Epay(string content)
         {
-            return Json("");
+            var method = new EpayMethod();
+
+            try
+            {
+                method.CallbackNotification();
+
+                return Json(new { status = "success" }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex);
+                return Json(new { status = "error" }, JsonRequestBehavior.AllowGet);
+            }
+
+
         }
 
 
