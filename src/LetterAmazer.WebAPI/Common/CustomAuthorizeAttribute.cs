@@ -53,7 +53,7 @@ namespace LetterAmazer.WebAPI.Common
                     }
                     else
                     {
-                        if(this.Roles.Contains(this.currentRole) == false)
+                        if(this.Roles.ToUpper().Contains(this.currentRole) == false)
                         {
                             actionContext.Response = new HttpResponseMessage(HttpStatusCode.Forbidden);
                             actionContext.Response.Headers.Add(BasicAuthResponseHeader, BasicAuthResponseHeaderValue);

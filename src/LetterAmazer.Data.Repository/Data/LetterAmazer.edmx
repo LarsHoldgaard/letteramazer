@@ -13,6 +13,7 @@
           <Property Name="OrganisationId" Type="int" Nullable="false" />
           <Property Name="ApiKey" Type="varchar" MaxLength="250" Nullable="false" />
           <Property Name="ApiSecret" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="Role" Type="int" />
         </EntityType>
         <EntityType Name="DbCmsContent">
           <Key>
@@ -812,6 +813,7 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
           <Property Name="ApiKey" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="ApiSecret" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="DbOrganisation" Relationship="Self.FK_DbApiAccess_DbApiAccess" FromRole="DbApiAccess" ToRole="DbOrganisation" />
+          <Property Name="Role" Type="Int32" />
         </EntityType>
         <EntityType Name="DbCmsContent">
           <Key>
@@ -1638,6 +1640,7 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
           <EntitySetMapping Name="DbApiAccess">
             <EntityTypeMapping TypeName="LetterAmazer.DbApiAccess">
               <MappingFragment StoreEntitySet="DbApiAccess">
+                <ScalarProperty Name="Role" ColumnName="Role" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
                 <ScalarProperty Name="ApiKey" ColumnName="ApiKey" />

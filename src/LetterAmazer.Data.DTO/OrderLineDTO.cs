@@ -16,6 +16,6 @@ namespace LetterAmazer.Data.DTO
 
         public int Quantity { get; set; }
 
-        public decimal Price { get; set; }
+        public Price Price { get; set; }
     }
 }

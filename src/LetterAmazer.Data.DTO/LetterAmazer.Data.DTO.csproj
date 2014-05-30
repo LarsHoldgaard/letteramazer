@@ -41,10 +41,13 @@
   <ItemGroup>
     <Compile Include="AddressInfoDTO.cs" />
     <Compile Include="CustomerDTO.cs" />
+    <Compile Include="CustomerSpecificationDTO.cs" />
     <Compile Include="InvoiceDTO.cs" />
     <Compile Include="InvoiceLineDTO.cs" />
+    <Compile Include="InvoiceSpecificationDTO.cs" />
     <Compile Include="OrderDTO.cs" />
     <Compile Include="OrderLineDTO.cs" />
+    <Compile Include="OrderSpecificationDTO.cs" />
     <Compile Include="PartnerTransactionDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

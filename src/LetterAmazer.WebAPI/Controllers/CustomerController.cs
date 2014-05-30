@@ -57,5 +57,18 @@ namespace LetterAmazer.WebAPI.Controllers
             this.customerService.Delete(customer);
             return Request.CreateResponse(HttpStatusCode.OK);
         }
+
+        /// <summary>
+        /// Find Customer
+        /// </summary>
+        /// <param name="CustomerSpecificationDTO"></param>
+        /// <returns></returns>
+        [HttpPost, ActionName("Find")]
+        [CustomAuthorize(Roles = "Admin, Super User")]
+        public IList<CustomerDTO> Find(CustomerSpecificationDTO customerSpecification)
+        {
+            var customerList = this.customerService.GetCustomerBySpecification(AutoMapper.Mapper.Map<CustomerSpecificationDTO, CustomerSpecification>(customerSpecification));
+            return AutoMapper.Mapper.DynamicMap<IList<Customer>, IList<CustomerDTO>>(customerList);
+        }
     }
 }

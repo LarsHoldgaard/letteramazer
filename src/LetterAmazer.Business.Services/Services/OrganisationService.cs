@@ -212,7 +212,7 @@ namespace LetterAmazer.Business.Services.Services
                 apiAccess.ApiKey = dbApiAccess.ApiKey;
                 apiAccess.ApiSecret = dbApiAccess.ApiSecret;
                 apiAccess.OrganisationId = dbApiAccess.OrganisationId;
-                if (apiAccess.Role != null && apiAccess.Role> 0)
+                if (dbApiAccess.Role != null && dbApiAccess.Role > 0)
                 {
                     apiAccess.Role = (Role)dbApiAccess.Role;
                 }

@@ -16,11 +16,6 @@ namespace LetterAmazer.WebAPI.Controllers
     /// </summary>
     public class OrderController : ApiController
     {
-
-        public OrderController()
-        {
-
-        }
         private IOrderService orderService;
         private IOrganisationService orgnisationService;
         public OrderController(IOrderService orderService, IOrganisationService orgnisationService)
@@ -33,7 +28,7 @@ namespace LetterAmazer.WebAPI.Controllers
         /// Create Create
         /// </summary>
         /// <param name="id">The item post id.</param>
-        [HttpGet, ActionName("Create")]
+        [HttpGet, ActionName("Test")]
         [CustomAuthorize(Roles = "Admin, Super User")]
         public HttpResponseMessage Test()
         {
@@ -45,11 +40,12 @@ namespace LetterAmazer.WebAPI.Controllers
         /// </summary>
         /// <param name="orderDTO"></param>
         /// <returns></returns>
-        [HttpGet, ActionName("Create")]
+        [HttpPost, ActionName("Create")]
         [CustomAuthorize(Roles = "Admin, Super User")]
         public OrderDTO Create(OrderDTO orderDTO)
         {
-            var newOrder = this.orderService.Create(AutoMapper.Mapper.Map<OrderDTO,Order>(orderDTO));
+
+            var newOrder = this.orderService.Create(AutoMapper.Mapper.DynamicMap<OrderDTO, Order>(orderDTO));
             return AutoMapper.Mapper.Map<Order, OrderDTO>(newOrder);
         }
 
@@ -58,12 +54,12 @@ namespace LetterAmazer.WebAPI.Controllers
         /// </summary>
         /// <param name="orderDTO"></param>
         /// <returns></returns>
-        [HttpGet, ActionName("Update")]
+        [HttpPost, ActionName("Update")]
         [CustomAuthorize(Roles = "Admin, Super User")]
         public OrderDTO Update(OrderDTO orderDTO)
         {
-            var newOrder = this.orderService.Update(AutoMapper.Mapper.Map<OrderDTO, Order>(orderDTO));
-            return AutoMapper.Mapper.Map<Order, OrderDTO>(newOrder);
+            var newOrder = this.orderService.Update(AutoMapper.Mapper.DynamicMap<OrderDTO, Order>(orderDTO));
+            return AutoMapper.Mapper.DynamicMap<Order, OrderDTO>(newOrder);
         }
 
         /// <summary>
@@ -71,13 +67,26 @@ namespace LetterAmazer.WebAPI.Controllers
         /// </summary>
         /// <param name="orderid"></param>
         /// <returns></returns>
-        [HttpGet, ActionName("Delete")]
+        [HttpPost, ActionName("Delete")]
         [CustomAuthorize(Roles = "Admin, Super User")]
         public HttpResponseMessage Delete(int orderid)
         {
             var order = this.orderService.GetOrderById(orderid);
             this.orderService.Delete(order);
             return Request.CreateResponse(HttpStatusCode.OK);
+        }
+
+        /// <summary>
+        /// Find Order
+        /// </summary>
+        /// <param name="orderid"></param>
+        /// <returns></returns>
+        [HttpPost, ActionName("Find")]
+        [CustomAuthorize(Roles = "Admin, Super User")]
+        public IList<OrderDTO> Find(OrderSpecificationDTO orderSpecification)
+        {
+            var orderList = this.orderService.GetOrderBySpecification(AutoMapper.Mapper.Map<OrderSpecificationDTO, OrderSpecification>(orderSpecification));
+            return AutoMapper.Mapper.DynamicMap<IList<Order>, IList<OrderDTO>>(orderList);
         }
     }
 }

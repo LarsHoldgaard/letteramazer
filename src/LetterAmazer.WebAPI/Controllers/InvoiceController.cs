@@ -61,6 +61,27 @@ namespace LetterAmazer.WebAPI.Controllers
             this.invoiceService.Delete(invoice);
             return Request.CreateResponse(HttpStatusCode.OK);
         }
+        [HttpGet, ActionName("Get")]
+        [CustomAuthorize(Roles = "Admin, Super User")]
+        [Route("api/Invoice/{invoiceId}", Name = "Invoice")]
+        public InvoiceDTO  Get(int invoiceId)
+        {
+            var getdata = this.invoiceService.GetInvoiceById(invoiceId);
+            var finaldt= AutoMapper.Mapper.DynamicMap<Invoice, InvoiceDTO>(getdata);
+            return finaldt;
+        }
 
+        /// <summary>
+        /// Find Order
+        /// </summary>
+        /// <param name="InvoiceSpecificationDTO"></param>
+        /// <returns></returns>
+        [HttpPost, ActionName("Delete")]
+        [CustomAuthorize(Roles = "Admin, Super User")]
+        public IList<InvoiceDTO> Find(InvoiceSpecificationDTO invoiceSpecification)
+        {
+            var invoiceList = this.invoiceService.GetInvoiceBySpecification(AutoMapper.Mapper.Map<InvoiceSpecificationDTO, InvoiceSpecification>(invoiceSpecification));
+            return AutoMapper.Mapper.DynamicMap<IList<Invoice>, IList<InvoiceDTO>>(invoiceList);
+        }
     }
 }

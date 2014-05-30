@@ -29,6 +29,8 @@ namespace LetterAmazer.WebAPI
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            AutomapperMaps.CreateMaps();
         }
 
         private void InitializeContainer()
@@ -65,6 +67,11 @@ namespace LetterAmazer.WebAPI
                 Classes.FromAssembly(assembly)
                     .InNamespace("LetterAmazer.Business.Services.Services.OrderService")
                     .WithServiceAllInterfaces());
+
+            Container.Register(
+    Classes.FromAssembly(assembly)
+        .InNamespace("LetterAmazer.Business.Services.Services.Partners")
+        .WithServiceAllInterfaces());
 
             Container.Register(
               Classes.FromAssembly(assembly)
