@@ -177,6 +177,8 @@ namespace LetterAmazer.Business.Services.Services
 
             var storedCustomer = GetCustomerById(id);
             mailService.ConfirmUser(storedCustomer);
+            mailService.NotificationNewUser(customer.Email);
+
             return storedCustomer;
         }
 

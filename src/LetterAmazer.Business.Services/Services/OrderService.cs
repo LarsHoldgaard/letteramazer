@@ -4,6 +4,7 @@ using System.Web.UI.WebControls.WebParts;
 using LetterAmazer.Business.Services.Domain.Caching;
 using LetterAmazer.Business.Services.Domain.Customers;
 using LetterAmazer.Business.Services.Domain.Letters;
+using LetterAmazer.Business.Services.Domain.Mails;
 using LetterAmazer.Business.Services.Domain.Orders;
 using LetterAmazer.Business.Services.Domain.Partners;
 using LetterAmazer.Business.Services.Domain.Pricing;
@@ -25,13 +26,15 @@ namespace LetterAmazer.Business.Services.Services
         
         private LetterAmazerEntities repository;
         private ILetterService letterService;
+        private IMailService mailService;
         private ICustomerService customerService;
         private IPartnerService partnerService;
         private ICacheService cacheService;
 
         public OrderService(LetterAmazerEntities repository,
             ILetterService letterService,
-            IOrderFactory orderFactory, ICustomerService customerService, IPartnerService partnerService,ICacheService cacheService)
+            IOrderFactory orderFactory, ICustomerService customerService, IPartnerService partnerService,
+            ICacheService cacheService, IMailService mailService)
         {
             this.repository = repository;
             this.letterService = letterService;
@@ -39,6 +42,7 @@ namespace LetterAmazer.Business.Services.Services
             this.customerService = customerService;
             this.partnerService = partnerService;
             this.cacheService = cacheService;
+            this.mailService = mailService;
         }
 
         public Order Create(Order order)
@@ -98,6 +102,8 @@ namespace LetterAmazer.Business.Services.Services
             }
 
             cacheService.DeleteByContaining("GetOrderBySpecification");
+
+            mailService.NotificationNewOrder(dborder.Total.ToString());
 
             return GetOrderById(dborder.Id);
         }

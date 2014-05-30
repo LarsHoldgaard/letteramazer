@@ -64,34 +64,36 @@
             <div class="row">
                 <div class="col-md-5">
                     <dl>
-                        <dt>Amount of letters</dt>
-                        <dd><span data-bind="text: letters().length"></span></dd>
-                        <dt>Price</dt>
-                        <dd>
+                        <div data-bind="visible: doneLoading()">
+                            <dt>Amount of letters</dt>
+                            <dd><span data-bind="text: letters().length"></span></dd>
+                            <dt>Price</dt>
+                            <dd>
 
-                            <label id="priceOfLetterLbl" data-bind="text: getPriceExVat()"></label> EUR
+                                <label id="priceOfLetterLbl" data-bind="text: getPriceExVat()"></label> EUR
 
-                            @if (SessionHelper.Customer != null && SessionHelper.Customer.VatPercentage() > 0.0m)
-                            {
-                                <text>(<label id="priceOfLetterLbl" data-bind="text: getPriceTotal()"></label> EUR inc. local VAT)</text>
-                            }
-                        </dd>
-                        <dt>
-                            Shipping time
-                        </dt>
-                        <dd>1-2 Weekdays</dd>
+                                @if (SessionHelper.Customer != null && SessionHelper.Customer.VatPercentage() > 0.0m)
+                                {
+                                    <text>(<label id="priceOfLetterLbl" data-bind="text: getPriceTotal()"></label> EUR inc. local VAT)</text>
+                                }
+                            </dd>
+                            <dt>
+                                Shipping time
+                            </dt>
+                            <dd><span data-bind="text: shippingDays()"></span> Weekday(s)</dd>    
+                        </div>
+                        
                     </dl>
-                    <input type="submit" value="Send letters now" class="btn btn-success btn-lg" />
+                    <input type="submit" value="Send letters now" class="btn btn-success btn-lg" data-bind="visible: status() && doneLoading()" />
+                    
+                    <div data-bind="visible: !doneLoading()">
+                        <img src="@Url.Content("~/Content/images/icons/ajax-loader.gif")"/>
+                    </div>
 
-                    <div data-bind="visible: !status()" class="bg-danger">
+                    <div data-bind="visible: !status() && letters().length > 0" class="alert alert-danger" style="margin-top:8px;">
                         <p>Whooops. There is a problem with one of your letters.</p>
                         
-                        <p>Please make sure the following requirements are met:</p>
-                        <ul>
-                            <li>The PDF file is below 25mb</li>
-                            <li>The PDF file contains 7 pages or less</li>
-                            <li>The PDF file are being sent to Denmark</li>
-                        </ul>
+                        <p>Scroll down to see the problem.</p>
                     </div>
                 </div>
             </div>
@@ -106,7 +108,7 @@
                 <div class="row">
                     <div class="col-md-6 pull-left">
                         
-                        <div data-bind="visible: uploadStatus() != 'success'" class="bg-danger">
+                        <div data-bind="visible: uploadStatus() != 'success'" class="alert alert-danger">
                             <p>Whooops. There is a problem with this letter.</p>
 
                             <p>Please make sure the following requirements are met:</p>

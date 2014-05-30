@@ -21,5 +21,10 @@ namespace LetterAmazer.Business.Services.Domain.Mails
 
         void NotificationApiWish(string email, string organisation, string comment);
         void NotificationResellerWish(string email, string wish, string comment);
+
+        void NotificationNewOrder(string amount);
+        void NotificationNewUser(string email);
+
     }
+
 }

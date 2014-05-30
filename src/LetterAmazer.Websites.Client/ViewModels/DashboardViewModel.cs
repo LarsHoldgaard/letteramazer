@@ -24,6 +24,8 @@ namespace LetterAmazer.Websites.Client.ViewModels
         public int LettersLastMonth { get; set; }
         public decimal MoneyLastMoney { get; set; }
 
+        public DashboardStatus? DashboardStatus { get; set; }
+
         public DashboardViewModel()
         {
             this.UnpaidInvoices = new InvoiceOverviewViewModel();
@@ -50,5 +52,11 @@ namespace LetterAmazer.Websites.Client.ViewModels
     public class OrderLineProductViewModel
     {
         
+    }
+
+    public enum DashboardStatus
+    {
+        Normal=0,
+        SendLetter=1
     }
 }
