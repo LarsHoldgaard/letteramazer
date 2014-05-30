@@ -267,7 +267,7 @@
     <Compile Include="Services\LetterService.cs" />
     <Compile Include="Services\OfficeService.cs" />
     <Compile Include="Services\OrderService.cs" />
-    <Compile Include="Services\PaymentMethods\Implementations\BitcoinMethod.cs" />
+    <Compile Include="Services\PaymentMethods\Implementations\BitPayMethod.cs" />
     <Compile Include="Services\PaymentMethods\Implementations\CreditsMethod.cs" />
     <Compile Include="Services\PaymentMethods\Implementations\InvoiceMethod.cs" />
     <Compile Include="Services\PaymentMethods\Implementations\PaypalMethod.cs" />

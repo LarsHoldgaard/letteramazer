@@ -120,7 +120,7 @@ namespace LetterAmazer.Business.Services.Services
             }
             else if (name == "Bitcoin")
             {
-                return new BitcoinMethod();
+                return new BitPayMethod();
             }
             else
             {
