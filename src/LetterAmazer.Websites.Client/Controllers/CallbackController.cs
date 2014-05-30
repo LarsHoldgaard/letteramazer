@@ -40,8 +40,6 @@ namespace LetterAmazer.Websites.Client.Controllers
 
         //
         // GET: /Callback/
-
-
         public JsonResult PaypalIpn(string abekat)
         {
             try
@@ -65,6 +63,18 @@ namespace LetterAmazer.Websites.Client.Controllers
                 return Json(new { status = "error" }, JsonRequestBehavior.AllowGet);
             }
         }
+
+        public JsonResult BitPay(string content)
+        {
+            return Json("");
+        }
+
+        public JsonResult Epay(string content)
+        {
+            return Json("");
+        }
+
+
 
     }
 }

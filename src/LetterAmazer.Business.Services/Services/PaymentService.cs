@@ -122,6 +122,10 @@ namespace LetterAmazer.Business.Services.Services
             {
                 return new BitPayMethod();
             }
+            else if (name == "Epay")
+            {
+                return new EpayMethod();
+            }
             else
             {
                 return new PaypalMethod(orderService);

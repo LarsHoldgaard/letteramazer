@@ -187,6 +187,7 @@
     <Compile Include="Services\OrganisationService.cs" />
     <Compile Include="Services\Partners\Invoice\EconomicInvoiceService.cs" />
     <Compile Include="Services\Partners\PartnerService.cs" />
+    <Compile Include="Services\PaymentMethods\Implementations\EpayMethod.cs" />
     <Compile Include="Services\PriceUpdater.cs" />
     <Compile Include="Services\ProductMatrixService.cs" />
     <Compile Include="Domain\AddressInfos\AddressInfo.cs" />

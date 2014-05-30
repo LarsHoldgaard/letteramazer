@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -22,12 +23,29 @@ namespace LetterAmazer.Websites.Client.Controllers
             this.invoiceService = invoiceService;
         }
 
-        //
-        // GET: /Payment/
 
-        public ActionResult Index()
+        public ActionResult Epay(int id)
         {
-            return View();
+            var acceptUrl = ConfigurationManager.AppSettings[""];
+            var callbackUrl = ConfigurationManager.AppSettings[""];
+            var declineUrl = ConfigurationManager.AppSettings[""];
+            var googleTracker = ConfigurationManager.AppSettings[""];
+            var merchantNumber = ConfigurationManager.AppSettings[""];
+
+            var order = orderService.GetOrderById(id);
+
+            var epayModel = new EpayViewModel()
+            {
+                OrderId = id.ToString(),
+                Amount = order.Price.Total,
+                AcceptUrl = acceptUrl,
+                CallbackUrl = callbackUrl,
+                DeclineUrl = declineUrl,
+                GoogleTracker = googleTracker,
+                MerchantNumber = merchantNumber
+            };
+
+            return View(epayModel);
         }
 
         public ActionResult Invoice(Guid id)
