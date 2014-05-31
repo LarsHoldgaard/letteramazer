@@ -66,7 +66,7 @@ namespace LetterAmazer.Websites.Client.Controllers
 
         public JsonResult BitPay(string content)
         {
-            var method = new EpayMethod();
+            var method = new EpayMethod(orderService);
 
             try
             {
@@ -82,9 +82,9 @@ namespace LetterAmazer.Websites.Client.Controllers
 
         }
 
-        public JsonResult Epay(string content)
+        public JsonResult Epay(string orderid)
         {
-            var method = new EpayMethod();
+            var method = new EpayMethod(orderService);
 
             try
             {

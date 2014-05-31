@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 using LetterAmazer.Business.Services.Domain.Customers;
 using LetterAmazer.Business.Services.Domain.Orders;
 using LetterAmazer.Business.Services.Domain.Payments;
@@ -22,13 +23,17 @@ namespace LetterAmazer.Business.Services.Services.PaymentMethods.Implementations
         private string notificaitonEmail;
         private string successfulUrl;
 
-        public BitPayMethod()
+
+        private IOrderService orderService;
+
+        public BitPayMethod(IOrderService orderService)
         {
             apiKey = ConfigurationManager.AppSettings.Get("LetterAmazer.Payment.Bitpay.Apikey");
             apiUrl = ConfigurationManager.AppSettings.Get("LetterAmazer.Payment.Bitpay.ApiUrl");
             callbackUrl = ConfigurationManager.AppSettings.Get("LetterAmazer.Payment.Bitpay.CallbackUrl");
             notificaitonEmail = ConfigurationManager.AppSettings.Get("LetterAmazer.Notification.Emails");
             successfulUrl = ConfigurationManager.AppSettings.Get("LetterAmazer.Payment.Successful");
+            this.orderService = orderService;
         }
 
         public string Process(Order order)
@@ -53,6 +58,8 @@ namespace LetterAmazer.Business.Services.Services.PaymentMethods.Implementations
 
             var request = (HttpWebRequest)WebRequest.Create(postUrl);
             request.UseDefaultCredentials = true;
+            request.Referer = "http://www.letteramazer.com";
+            request.UserAgent = "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.114 Safari/537.36";
             request.ContentType = "application/json";
             request.Credentials = new NetworkCredential(apiKey,string.Empty);
             request.Method = "POST";
@@ -84,7 +91,14 @@ namespace LetterAmazer.Business.Services.Services.PaymentMethods.Implementations
 
         public void CallbackNotification()
         {
-            throw new NotImplementedException();
+            int id = 0;
+            int.TryParse(HttpContext.Current.Request.QueryString["orderid"], out id);
+
+            var order = orderService.GetOrderById(id);
+            order.OrderStatus = OrderStatus.Paid;
+            order.DatePaid = DateTime.Now;
+            orderService.ReplenishOrderLines(order);
+            orderService.Update(order);
         }
 
         public void ChargeBacks(Order order)

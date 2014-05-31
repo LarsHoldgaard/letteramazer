@@ -123,11 +123,11 @@ namespace LetterAmazer.Business.Services.Services
             }
             else if (name == "Bitcoin")
             {
-                return new BitPayMethod();
+                return new BitPayMethod(orderService);
             }
             else if (name == "Epay")
             {
-                return new EpayMethod();
+                return new EpayMethod(orderService);
             }
             else
             {
