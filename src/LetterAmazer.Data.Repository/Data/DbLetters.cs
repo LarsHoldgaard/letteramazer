@@ -59,6 +59,7 @@ namespace LetterAmazer.Data.Repository.Data
         public int DeliveryLabel { get; set; }
         public Nullable<int> ReturnLabel { get; set; }
         public int EnvelopeId { get; set; }
+        public int OrganisationId { get; set; }
     
         public virtual DbCountries DbCountries { get; set; }
         public virtual DbCountries DbCountries1 { get; set; }

@@ -74,7 +74,7 @@ namespace LetterAmazer.Business.Services.Services
 
                 dborder.DateCreated = DateTime.Now;
                 dborder.DateUpdated = DateTime.Now;
-
+                dborder.OrganisationId = order.OrganisationId;
                 dborder.CustomerId = order.Customer != null ? order.Customer.Id : 0;
 
                 Price price = new Price();
@@ -127,6 +127,7 @@ namespace LetterAmazer.Business.Services.Services
             dborder.PriceExVat = order.Price.PriceExVat;
             dborder.Total = order.Price.Total;
             dborder.VatPercentage = order.Price.VatPercentage;
+            dborder.OrganisationId = order.OrganisationId;
 
             repository.SaveChanges();
 
@@ -155,7 +156,20 @@ namespace LetterAmazer.Business.Services.Services
                 }
                 if (specification.UserId > 0)
                 {
-                    dbOrders = dbOrders.Where(c => c.CustomerId == specification.UserId);
+                    var customer = customerService.GetCustomerById(specification.UserId);
+
+                    // if administator or poweruser, they can see all orders in the organisation
+                    if (customer.OrganisationRole.HasValue &&
+                        (customer.OrganisationRole.Value == OrganisationRole.Administrator ||
+                         customer.OrganisationRole.Value == OrganisationRole.Poweruser))
+                    {
+                        dbOrders = dbOrders.Where(c => c.OrganisationId == customer.Organisation.Id ||
+                            c.CustomerId == specification.UserId);
+                    }
+                    else
+                    {
+                        dbOrders = dbOrders.Where(c => c.CustomerId == specification.UserId);
+                    }
                 }
 
                 var ord = dbOrders.OrderBy(c => c.Id).Skip(specification.Skip).Take(specification.Take).ToList();
@@ -311,6 +325,8 @@ namespace LetterAmazer.Business.Services.Services
                 // TODO: move logic to letter... or reuse one in letter?
                 DbLetters dbLetter = new DbLetters()
                 {
+                    CustomerId = letter.CustomerId,
+                    OrganisationId = letter.OrganisationId,
                     ToAddress_Address = letter.ToAddress.Address1,
                     ToAddress_Address2 = letter.ToAddress.Address2,
                     ToAddress_AttPerson = letter.ToAddress.AttPerson,

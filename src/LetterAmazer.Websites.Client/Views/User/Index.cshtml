@@ -129,6 +129,7 @@ else
                     <tr>
                         <td>Order#</td>
                         <td>Date</td>
+                        <td>Created by</td>
                         <td>Order state</td>
                         <td>Letter count</td>
                         <td>Price </td>
@@ -142,6 +143,7 @@ else
                         <tr>
                             <td>@item.Id</td>
                             <td>@item.DateCreated.ToFriendlyDateTime()</td>
+                            <td>@item.CreatedByEmail</td>
                             <td>@item.OrderStatus.ToString()</td>
                             <td>@item.OrderLines.Count</td>
                             <td>@item.Price.ToFriendlyMoney() EUR</td>

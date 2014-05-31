@@ -11,7 +11,8 @@ namespace LetterAmazer.Websites.Client.ViewModels
     public class OrderDetailViewModel
     {
         public List<LetterDetailViewModel> Letters { get; set; }
-        
+
+        public string CreatedByEmail { get; set; }
         public OrderStatus OrderStatus { get; set; }
         public int OrderId { get; set; }
 

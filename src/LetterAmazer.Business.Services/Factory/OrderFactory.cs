@@ -41,6 +41,7 @@ namespace LetterAmazer.Business.Services.Factory
                 Guid = dborder.Guid,
                 OrderLines = Create(dborderLines),
                 DateSent = dborder.DateSent,
+                OrganisationId = dborder.OrganisationId,
                 Price = new Price()
                 {
                     PriceExVat = dborder.PriceExVat,

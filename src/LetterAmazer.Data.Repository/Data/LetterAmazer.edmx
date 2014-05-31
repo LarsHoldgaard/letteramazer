@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="LetterAmazer.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="LetterAmazer.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="DbApiAccess">
           <Key>
             <PropertyRef Name="Id" />
@@ -248,6 +248,7 @@
           <Property Name="DeliveryLabel" Type="int" Nullable="false" />
           <Property Name="ReturnLabel" Type="int" />
           <Property Name="EnvelopeId" Type="int" Nullable="false" />
+          <Property Name="OrganisationId" Type="int" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'LetterAmazer.dbo.DbLog' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -331,6 +332,7 @@ warning 6002: The table/view 'LetterAmazer.dbo.DbLog' does not have a primary ke
           <Property Name="DateSent" Type="datetime" />
           <Property Name="VatPercentage" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="Total" Type="decimal" Precision="18" Scale="5" Nullable="false" />
+          <Property Name="OrganisationId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="DbOrganisation">
           <Key>
@@ -850,8 +852,7 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
             <End Role="DbShops" EntitySet="DbShops" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="LetterAmazer" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -1121,6 +1122,7 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
           <NavigationProperty Name="DbCustomers" Relationship="Self.FK_Letter_Customer" FromRole="DbLetters" ToRole="DbCustomers" />
           <NavigationProperty Name="DbOrders" Relationship="Self.FK_DbLetters_DbOrders" FromRole="DbLetters" ToRole="DbOrders" />
           <NavigationProperty Name="DbOrderlines" Relationship="Self.FK_OrderItem_Letter" FromRole="DbLetters" ToRole="DbOrderlines" />
+          <Property Name="OrganisationId" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="DbOfficeProducts">
           <Key>
@@ -1196,6 +1198,7 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
           <NavigationProperty Name="DbInvoices" Relationship="Self.FK_DbInvoices_DbOrders" FromRole="DbOrders" ToRole="DbInvoices" />
           <NavigationProperty Name="DbLetters" Relationship="Self.FK_DbLetters_DbOrders" FromRole="DbOrders" ToRole="DbLetters" />
           <NavigationProperty Name="DbOrderlines" Relationship="Self.FK_OrderItem_Order" FromRole="DbOrders" ToRole="DbOrderlines" />
+          <Property Name="OrganisationId" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="DbOrganisation">
           <Key>
@@ -1955,6 +1958,7 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
           <EntitySetMapping Name="DbLetters">
             <EntityTypeMapping TypeName="LetterAmazer.DbLetters">
               <MappingFragment StoreEntitySet="DbLetters">
+                <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
                 <ScalarProperty Name="FromAddress_Address" ColumnName="FromAddress_Address" />
@@ -2050,6 +2054,7 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
           <EntitySetMapping Name="DbOrders">
             <EntityTypeMapping TypeName="LetterAmazer.DbOrders">
               <MappingFragment StoreEntitySet="DbOrders">
+                <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="OrderStatus" ColumnName="OrderStatus" />
                 <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />

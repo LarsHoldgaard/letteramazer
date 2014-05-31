@@ -74,6 +74,8 @@ namespace LetterAmazer.Business.Services.Services
                 throw new BusinessException();
             }
 
+            dbletter.OrganisationId = letter.OrganisationId;
+            dbletter.CustomerId = letter.CustomerId;
             dbletter.LetterContent_Path = letter.LetterContent.Path;
             dbletter.LetterContent_WrittenContent = letter.LetterContent.WrittenContent;
             dbletter.LetterStatus = (int)letter.LetterStatus;
@@ -127,6 +129,8 @@ namespace LetterAmazer.Business.Services.Services
                 throw new BusinessException();
             }
 
+            dbletter.OrganisationId = letter.OrganisationId;
+            dbletter.CustomerId = letter.CustomerId;
             dbletter.LetterContent_Path = letter.LetterContent.Path;
             dbletter.LetterContent_WrittenContent = letter.LetterContent.WrittenContent;
             dbletter.LetterStatus = (int)letter.LetterStatus;

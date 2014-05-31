@@ -17,6 +17,7 @@ namespace LetterAmazer.Business.Services.Domain.Orders
         public string OrderCode { get; set; }
         public OrderStatus OrderStatus { get; set; }
         public Customer Customer { get; set; }
+        public int OrganisationId { get; set; }
         public DateTime DateCreated { get; set; }
         public DateTime? DateModified { get; set; }
         public DateTime? DatePaid { get; set; }

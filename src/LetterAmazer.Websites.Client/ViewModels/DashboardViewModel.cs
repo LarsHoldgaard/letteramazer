@@ -36,6 +36,7 @@ namespace LetterAmazer.Websites.Client.ViewModels
     {
         public int Id { get; set; }
         public decimal Price { get; set; }
+        public string CreatedByEmail { get; set; }
         public OrderStatus OrderStatus { get; set; }
         public DateTime DateCreated { get; set; }
         public List<OrderLineViewModel> OrderLines { get; set; }

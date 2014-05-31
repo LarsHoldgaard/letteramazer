@@ -588,6 +588,7 @@ namespace LetterAmazer.Websites.Client.Controllers
 
         private OrderDetailViewModel getOrderDetailViewModel(Order order)
         {
+            var customer = customerService.GetCustomerById(order.Customer.Id);
             var letters = order.OrderLines.Where(c => c.ProductType == ProductType.Letter);
             
             OrderDetailViewModel viewModel = new OrderDetailViewModel()
@@ -598,7 +599,8 @@ namespace LetterAmazer.Websites.Client.Controllers
                 DateSent = order.DateSent.HasValue ? order.DateSent.Value : (DateTime?)null,
                 OrderStatus = order.OrderStatus,
                 Price = order.Price,
-                OrderId = order.Id
+                OrderId = order.Id,
+                CreatedByEmail = customer.Email
             };
 
             foreach (var letterLine in letters)
@@ -640,6 +642,8 @@ namespace LetterAmazer.Websites.Client.Controllers
                 // only if the line is a letter - it might be something like credits
                 if (letterLine != null)
                 {
+                    var customer = customerService.GetCustomerById(order.Customer.Id);
+
                     var letter = (Letter)letterLine.BaseProduct;
                     OrderViewModel viewModel = new OrderViewModel()
                     {
@@ -648,7 +652,8 @@ namespace LetterAmazer.Websites.Client.Controllers
                         OrderStatus = order.OrderStatus,
                         Id = order.Id,
                         Price = order.Price.PriceExVat,
-                        LetterStatus = letter.LetterStatus
+                        LetterStatus = letter.LetterStatus,
+                        CreatedByEmail = customer.Email
                     };
 
                     ordersViewModels.Add(viewModel);

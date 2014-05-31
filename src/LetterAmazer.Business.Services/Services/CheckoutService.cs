@@ -112,11 +112,15 @@ namespace LetterAmazer.Business.Services.Services
 
                     letter.Letter.ReturnLabel = Helpers.GetRandomInt(1000000, 99999999);
                     letter.Letter.DeliveryLabel = officeProduct.DeliveryLabel;
+                    letter.Letter.CustomerId = customer.Id;
+                    letter.Letter.OrganisationId = customer.Organisation.Id;
                 }
 
             }
 
             order.OrderCode = checkout.OrderNumber;
+            order.OrganisationId = customer.Organisation.Id;
+
             order.OrderLines.Add(new OrderLine()
             {
                 PaymentMethodId = checkout.PaymentMethodId,

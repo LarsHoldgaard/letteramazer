@@ -34,6 +34,7 @@ namespace LetterAmazer.Data.Repository.Data
         public Nullable<System.DateTime> DateSent { get; set; }
         public decimal VatPercentage { get; set; }
         public decimal Total { get; set; }
+        public int OrganisationId { get; set; }
     
         public virtual DbCustomers DbCustomers { get; set; }
         public virtual ICollection<DbInvoices> DbInvoices { get; set; }

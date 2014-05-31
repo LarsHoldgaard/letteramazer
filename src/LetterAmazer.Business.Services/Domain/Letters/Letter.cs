@@ -17,6 +17,8 @@ namespace LetterAmazer.Business.Services.Domain.Letters
         public int Id { get; set; }
         public Guid Guid { get; set; }
         public int OrderId { get; set; }
+        public int CustomerId { get; set; }
+        public int OrganisationId { get; set; }
         public AddressInfo FromAddress { get; set; }
         public AddressInfo ToAddress { get; set; }
         public LetterStatus LetterStatus { get; set; }
