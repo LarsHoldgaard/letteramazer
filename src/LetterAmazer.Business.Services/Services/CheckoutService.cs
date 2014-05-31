@@ -94,7 +94,7 @@ namespace LetterAmazer.Business.Services.Services
                     var letterPrice = priceService.GetPriceBySpecification(new PriceSpecification()
                     {
                         OfficeProductId = letter.OfficeProductId,
-                        UserId = customer.Id, //TODO: pretty fucked solution if userid=0 :D
+                        UserId = customer.Id,
                         PageCount = letter.Letter.LetterContent.PageCount
                     });
 

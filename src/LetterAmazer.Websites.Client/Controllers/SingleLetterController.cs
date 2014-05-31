@@ -234,12 +234,13 @@ namespace LetterAmazer.Websites.Client.Controllers
 
         [HttpPost]
         public JsonResult GetPrice(string uploadFileKey,
-            int country)
+            int country,
+            int originCountry)
         {
             try
             {
                 var customerId = SessionHelper.Customer != null ? SessionHelper.Customer.Id : 0;
-                Price price = priceService.GetPricesFromFiles(new string[] { uploadFileKey }, customerId, country);
+                Price price = priceService.GetPricesFromFiles(new string[] { uploadFileKey }, customerId, country,originCountry);
                 var officeProduct = officeProductService.GetOfficeProductById(price.OfficeProductId);
                 var fileBytes = fileService.GetFileById(uploadFileKey, FileUploadMode.Temporarily);
                 var deta = new LetterContent()

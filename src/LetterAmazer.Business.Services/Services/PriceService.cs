@@ -131,6 +131,8 @@ namespace LetterAmazer.Business.Services.Services
             {
                 officeProducts = officeProducts.Where(c => c.ContinentId == specification.ContinentId || c.ScopeType == (int)ProductScope.RestOfWorld);
             }
+
+            // look at userid 
             if (specification.UserId > 0)
             {
                 var customer = customerService.GetCustomerById(specification.UserId);
@@ -140,6 +142,13 @@ namespace LetterAmazer.Business.Services.Services
                 }
                 vatPercentage = customer.VatPercentage();
             }
+            else if(specification.OriginCountryId>0)
+            {
+                var originCountry = specification.OriginCountryId;
+                var country = countryService.GetCountryById(originCountry);
+                vatPercentage = country.InsideEu ? 0.25m : 0.0m;
+            }
+
             if (specification.ShippingDays > 0)
             {
                 officeProducts = officeProducts.Where(c => c.ShippingWeekdays == specification.ShippingDays);
@@ -216,13 +225,17 @@ namespace LetterAmazer.Business.Services.Services
 
 
 
-        public Price GetPricesFromFiles(string[] filePaths, int customerId, int countryId)
+        public Price GetPricesFromFiles(string[] filePaths, int customerId, int countryId, int originCountryId=0)
         {
             var vatPercentage = 0.25m;
             if (customerId > 0)
             {
                 var customer = customerService.GetCustomerById(customerId);
                 vatPercentage = customer.VatPercentage();
+            }
+            else
+            {
+                
             }
             
 

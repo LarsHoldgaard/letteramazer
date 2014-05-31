@@ -150,7 +150,7 @@ namespace LetterAmazer.Business.Services.Services
                 dbCustomer.RegistrationKey = Guid.NewGuid().ToString();
                 dbCustomer.AccountStatus = (int) (customer.AccountStatus);
 
-                if (customer.Organisation.Id > 0)
+                if (customer.Organisation != null && customer.Organisation.Id > 0)
                 {
                     dbCustomer.OrganisationId = customer.Organisation.Id;
                 }

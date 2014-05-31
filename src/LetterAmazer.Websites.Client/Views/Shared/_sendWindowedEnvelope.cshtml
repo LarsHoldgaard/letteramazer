@@ -56,7 +56,7 @@
 
                 <p>
                     Where are you from?<br />
-                    @Html.DropDownListFor(model => model.SelectedOriginCountry, Model.Countries, new Dictionary<string, object> { { "class", "form-control sendaletter_countrylist" }, { "data-bind", "value:originCountryId" } })
+                    @Html.DropDownListFor(model => model.SelectedOriginCountry, Model.Countries, new Dictionary<string, object> { { "class", "form-control origin_countrylist" }, { "data-bind", "value:originCountryId" } })
                     @Html.HiddenFor(m => m.SelectedOriginCountry, new Dictionary<string, object> { { "data-bind", "value:originCountryId" } })
                 </p>
 
@@ -200,7 +200,8 @@
                     'style': 'margin-top: 28px; margin-left: 20px; height: 65px; width: 65px; display: block;'
                 });
 
-                var uploadedLetter = new letter(data.key, '', 59);
+                //originCountryId
+                var uploadedLetter = new letter(data.key, '', viewModel.countryId(), viewModel.originCountryId());
                 viewModel.letters.push(uploadedLetter);
 
                 viewModel.updateAllPrices();
@@ -277,7 +278,12 @@
             var countryId = viewModel.countryId();
             viewModel.updateLetterCountry(countryId);
             viewModel.updateAllPrices();
+        });
 
+        $('.origin_countrylist').change(function () {
+            var countryId = viewModel.countryId();
+            viewModel.updateOriginCountry(countryId);
+            viewModel.updateAllPrices();
         });
     });
 </script>

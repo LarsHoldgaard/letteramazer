@@ -1,4 +1,4 @@
-﻿function letter(filePath, imagePath, countryId) {
+﻿function letter(filePath, imagePath, countryId, originCountryId) {
     var self = this;
     self.filePath = filePath;
     self.imagePath = imagePath;
@@ -9,16 +9,16 @@
     self.priceExVat = ko.observable(0);
     self.priceTotal = ko.observable(0);
     self.vatPercentage = ko.observable(0);
+    self.originCountry = originCountryId;
 
     self.updatePrice = function () {
-
-
         $.ajax({
             url: '/SingleLetter/GetPrice',
             type: 'POST',
             data: {
                 'uploadFileKey': self.filePath,
-                'country': self.countryId
+                'country': self.countryId,
+                'originCountry': self.originCountry
             },
             dataType: 'json',
             success: function (data) {
@@ -87,7 +87,13 @@ var SendWindowedLetterViewModel = function(formSelector, data) {
             ele.countryId = countryId;
         });
     };
+    self.updateOriginCountry = function (countryId) {
+        $(self.letters()).each(function (index, ele) {
+            ele.originCountryId = countryId;
+        });
+    };
 
+    
     self.isCreditsEnough = ko.computed(function () {
         if (self.paymentMethodId() == self.creditPaymentMethodId) {
             if (self.getPriceTotal() > self.userCredits) {

@@ -19,7 +19,7 @@ namespace LetterAmazer.Business.Services.Domain.Pricing
 
         Price GetPriceByMatrixLines(IEnumerable<ProductMatrixLine> matrix, int pageCount);
 
-        
-        Price GetPricesFromFiles(string[] filePaths, int customerId, int countryId);
+
+        Price GetPricesFromFiles(string[] filePaths, int customerId, int countryId, int originCountryId = 0);
     }
 }

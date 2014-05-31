@@ -328,13 +328,15 @@ namespace LetterAmazer.Websites.Client.Controllers
 
             try
             {
+                var countryId = int.Parse(model.SelectedCountry);
+
                 Customer customer = new Customer();
                 
                 customer.Email = model.Email;
                 customer.Password = model.Password;
                 customer.CustomerInfo = new AddressInfo();
-                customer.CustomerInfo.Country = countryService.GetCountryById(int.Parse(model.SelectedCountry));
-
+                customer.CustomerInfo.Country = countryService.GetCountryById(countryId);
+                
                 var cust = customerService.Create(customer);
 
                 SessionHelper.Customer = cust;
