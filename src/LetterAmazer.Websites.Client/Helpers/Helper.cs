@@ -45,10 +45,16 @@ namespace LetterAmazer.Websites.Client.Helpers
 
         public static void FillPaymentMethods(IPaymentService paymentService, List<SelectListItem> items, PaymentType paymentType)
         {
+            int customerId = 0;
+            if (SessionHelper.Customer != null)
+            {
+                customerId = SessionHelper.Customer.Id;
+            }
+
             var possiblePaymentMethods =
            paymentService.GetPaymentMethodsBySpecification(new PaymentMethodSpecification()
            {
-               CustomerId = SessionHelper.Customer.Id,
+               CustomerId = customerId,
                PaymentType = paymentType
            });
 

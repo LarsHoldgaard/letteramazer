@@ -4,6 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Amazon.SimpleWorkflow.Model;
+using LetterAmazer.Business.Services.Domain.AddressInfos;
 using LetterAmazer.Business.Services.Domain.Checkout;
 using LetterAmazer.Business.Services.Domain.Countries;
 using LetterAmazer.Business.Services.Domain.Customers;
@@ -11,6 +13,7 @@ using LetterAmazer.Business.Services.Domain.Files;
 using LetterAmazer.Business.Services.Domain.OfficeProducts;
 using LetterAmazer.Business.Services.Domain.Offices;
 using LetterAmazer.Business.Services.Domain.Orders;
+using LetterAmazer.Business.Services.Domain.Organisation;
 using LetterAmazer.Business.Services.Domain.Payments;
 using LetterAmazer.Business.Services.Domain.Pricing;
 using LetterAmazer.Business.Services.Domain.Products.ProductDetails;
@@ -27,15 +30,17 @@ namespace LetterAmazer.Business.Services.Services
         private ICustomerService customerService;
         private IOfficeProductService officeProductService;
         private IFileService fileService;
+        private IOrganisationService organisationService;
 
         public CheckoutService(IPriceService priceService,
             ICustomerService customerService,
-            IOfficeProductService officeProductService, IFileService fileService)
+            IOfficeProductService officeProductService, IFileService fileService, IOrganisationService organisationService)
         {
             this.priceService = priceService;
             this.customerService = customerService;
             this.officeProductService = officeProductService;
             this.fileService = fileService;
+            this.organisationService = organisationService;
         }
 
         public Order ConvertCheckout(Checkout checkout)
@@ -61,14 +66,7 @@ namespace LetterAmazer.Business.Services.Services
 
             checkout.OrderNumber = Helpers.GetRandomInt(1000, 99999999).ToString();
 
-            // TODO: should not be used like this, because the userID may be 0
-            Customer customer = null;
-            try
-            {
-                customer=customerService.GetCustomerById(checkout.UserId);
-            }
-            catch (Exception)
-            {}
+            Customer customer = order.Customer;
 
             foreach (var letter in checkout.CheckoutLines)
             {
@@ -92,11 +90,11 @@ namespace LetterAmazer.Business.Services.Services
                 if (letter.ProductType == ProductType.Letter)
                 {
                     var officeProduct = officeProductService.GetOfficeProductById(letter.OfficeProductId);
-
+                   
                     var letterPrice = priceService.GetPriceBySpecification(new PriceSpecification()
                     {
                         OfficeProductId = letter.OfficeProductId,
-                        UserId = checkout.UserId, //TODO: pretty fucked solution if userid=0 :D
+                        UserId = customer.Id, //TODO: pretty fucked solution if userid=0 :D
                         PageCount = letter.Letter.LetterContent.PageCount
                     });
 
@@ -204,6 +202,19 @@ namespace LetterAmazer.Business.Services.Services
                 {
                     Customer newCustomer = new Customer();
                     newCustomer.Email = checkout.Email;
+
+                    Organisation organisation =new Organisation()
+                    {
+                        IsPrivate = true,
+                        Name = checkout.Email,
+                        Address = new AddressInfo()
+                        {
+                            Country = new Country() { Id = checkout.RecipientCountry}
+                        }
+                    };
+                    var organisation_stored = organisationService.Create(organisation);
+                    newCustomer.Organisation = organisation_stored;
+
                     customer = customerService.Create(newCustomer);
                 }
                 else

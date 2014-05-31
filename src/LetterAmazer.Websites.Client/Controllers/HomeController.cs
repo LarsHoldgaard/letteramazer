@@ -9,6 +9,7 @@ using LetterAmazer.Business.Services.Domain.DeliveryJobs;
 using LetterAmazer.Business.Services.Domain.Mails;
 using LetterAmazer.Business.Services.Domain.Offices;
 using LetterAmazer.Business.Services.Domain.Organisation;
+using LetterAmazer.Business.Services.Domain.Payments;
 using LetterAmazer.Business.Services.Domain.PriceUpdater;
 using LetterAmazer.Business.Services.Domain.Pricing;
 using LetterAmazer.Business.Services.Domain.Products.ProductDetails;
@@ -40,9 +41,10 @@ namespace LetterAmazer.Websites.Client.Controllers
         private IOrganisationService organisationService;
         private IPriceUpdater priceUpdater;
         private IContentService contentService;
+        private IPaymentService paymentService;
         public HomeController(ICustomerService customerService,IPriceUpdater priceUpdater,
             IMailService mailService, ICountryService countryService, IPriceService priceService, IOrganisationService organisationService,
-            IContentService contentService)
+            IContentService contentService,IPaymentService paymentService)
         {
             this.customerService = customerService;
             this.countryService = countryService;
@@ -51,6 +53,7 @@ namespace LetterAmazer.Websites.Client.Controllers
             this.organisationService = organisationService;
             this.priceUpdater = priceUpdater;
             this.contentService = contentService;
+            this.paymentService = paymentService;
         }
 
         public ActionResult Index()
@@ -197,15 +200,11 @@ namespace LetterAmazer.Websites.Client.Controllers
                 SendWindowedLetterViewModel = windowedModel
             };
 
-
+            Helper.FillCountries(countryService, sendaletterto.SendWindowedLetterViewModel.Countries,59);
+            Helper.FillPaymentMethods(paymentService, windowedModel.PaymentMethods, PaymentType.Letters);
+            
             foreach (var acountry in countries)
             {
-                sendaletterto.SendWindowedLetterViewModel.Countries.Add(new SelectListItem()
-                {
-                    Text = acountry.Name,
-                    Value = acountry.Id.ToString()
-                });
-
                 sendaletterto.CountryPriceList.CountryPriceViewModel.Add(new CountryPriceViewModel()
                 {
                     Alias = acountry.Alias,

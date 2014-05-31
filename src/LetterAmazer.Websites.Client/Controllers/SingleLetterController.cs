@@ -373,7 +373,8 @@ namespace LetterAmazer.Websites.Client.Controllers
             {
                 UserId = SessionHelper.Customer != null ? SessionHelper.Customer.Id : 0,
                 Email = model.Email,
-                PaymentMethodId = model.PaymentMethodId
+                PaymentMethodId = model.PaymentMethodId,
+                RecipientCountry=model.DestinationCountry
             };
             
             foreach (var uploadFile in model.UploadFile)

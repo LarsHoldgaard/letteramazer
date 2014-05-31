@@ -149,7 +149,12 @@ namespace LetterAmazer.Business.Services.Services
                 dbCustomer.DateCreated = DateTime.Now;
                 dbCustomer.RegistrationKey = Guid.NewGuid().ToString();
                 dbCustomer.AccountStatus = (int) (customer.AccountStatus);
-                
+
+                if (customer.Organisation.Id > 0)
+                {
+                    dbCustomer.OrganisationId = customer.Organisation.Id;
+                }
+
                 repository.DbCustomers.Add(dbCustomer);
                 repository.SaveChanges();
 

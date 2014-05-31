@@ -218,7 +218,7 @@ namespace LetterAmazer.Business.Services.Services
 
         public Price GetPricesFromFiles(string[] filePaths, int customerId, int countryId)
         {
-            var vatPercentage = 25.0m;
+            var vatPercentage = 0.25m;
             if (customerId > 0)
             {
                 var customer = customerService.GetCustomerById(customerId);
