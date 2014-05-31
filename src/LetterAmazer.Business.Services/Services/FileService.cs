@@ -96,7 +96,7 @@ namespace LetterAmazer.Business.Services.Services
                 });
             }
 
-            cacheService.Delete(cacheService.GetCacheKey("GetFileById",path));
+            cacheService.Delete(cacheService.GetCacheKey("GetFileById", path + "_" + mode.ToString()));
             return path;
         }
 

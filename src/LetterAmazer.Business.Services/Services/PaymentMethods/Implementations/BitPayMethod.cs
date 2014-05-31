@@ -116,10 +116,6 @@ namespace LetterAmazer.Business.Services.Services.PaymentMethods.Implementations
 
     }
 
-
-
-
-
     public class BitPayInvoiceViewModel
     {
         public decimal price { get; set; }
