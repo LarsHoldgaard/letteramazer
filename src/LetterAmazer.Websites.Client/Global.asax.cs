@@ -70,6 +70,9 @@ namespace LetterAmazer.Websites.Client
 
         private void registerCustom()
         {
+            Container.Register(Component.For<EconomicInvoiceService>());
+            Container.Register(Component.For<LetterAmazerEntities>());
+            
             // All services in service DLL
             var assembly = Assembly.LoadFrom(Server.MapPath("~/bin/LetterAmazer.Business.Services.dll"));
             
@@ -93,6 +96,11 @@ namespace LetterAmazer.Websites.Client
                     .InNamespace("LetterAmazer.Business.Services.Services.Partners")
                     .WithServiceAllInterfaces());
 
+            Container.Register(
+                Classes.FromAssembly(assembly)
+                    .InNamespace("LetterAmazer.Business.Services.Services.Caching").If(c => c.Name != "MemoryCache")
+                    .WithServiceAllInterfaces());
+
 
             // All factories in service DLL
             Container.Register(
@@ -100,9 +108,7 @@ namespace LetterAmazer.Websites.Client
                     .InNamespace("LetterAmazer.Business.Services.Factory")
                     .WithServiceAllInterfaces());
 
-            Container.Register(Component.For<EconomicInvoiceService>());
-            Container.Register(Component.For<LetterAmazerEntities>());
-            Container.Register(Component.For<HttpCacheService>());
+
 
         }
 
