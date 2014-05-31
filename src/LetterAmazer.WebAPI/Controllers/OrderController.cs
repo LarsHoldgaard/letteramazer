@@ -24,7 +24,7 @@ namespace LetterAmazer.WebAPI.Controllers
             this.orgnisationService = orgnisationService;
         }
         //
-        // 
+        // <summary>
         /// Create Create
         /// </summary>
         /// <param name="id">The item post id.</param>
@@ -46,7 +46,7 @@ namespace LetterAmazer.WebAPI.Controllers
         {
 
             var newOrder = this.orderService.Create(AutoMapper.Mapper.DynamicMap<OrderDTO, Order>(orderDTO));
-            return AutoMapper.Mapper.Map<Order, OrderDTO>(newOrder);
+            return AutoMapper.Mapper.DynamicMap<Order, OrderDTO>(newOrder);
         }
 
         /// <summary>
@@ -79,14 +79,31 @@ namespace LetterAmazer.WebAPI.Controllers
         /// <summary>
         /// Find Order
         /// </summary>
-        /// <param name="orderid"></param>
-        /// <returns></returns>
+        /// <param name="OrderSpecificationDTO"></param>
+        /// <returns>List of order</returns>
         [HttpPost, ActionName("Find")]
         [CustomAuthorize(Roles = "Admin, Super User")]
-        public IList<OrderDTO> Find(OrderSpecificationDTO orderSpecification)
+        public List<OrderDTO> Find(OrderSpecificationDTO orderSpecification)
         {
-            var orderList = this.orderService.GetOrderBySpecification(AutoMapper.Mapper.Map<OrderSpecificationDTO, OrderSpecification>(orderSpecification));
-            return AutoMapper.Mapper.DynamicMap<IList<Order>, IList<OrderDTO>>(orderList);
+            var orderList = this.orderService.GetOrderBySpecification(AutoMapper.Mapper.DynamicMap<OrderSpecificationDTO, OrderSpecification>(orderSpecification));
+
+                var orderListDto = new List<OrderDTO>();
+                foreach (var item in orderList)
+                {
+                    orderListDto.Add(AutoMapper.Mapper.DynamicMap<OrderDTO>(item));
+                }
+                return orderListDto;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="orderSpecification"></param>
+        /// <returns></returns>
+        [HttpPost, ActionName("Count")]
+        [CustomAuthorize(Roles = "Admin, Super User")]
+        public int Count(OrderSpecificationDTO orderSpecification)
+        {
+            throw new NotImplementedException();
         }
     }
 }
