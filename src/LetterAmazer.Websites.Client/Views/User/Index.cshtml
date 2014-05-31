@@ -118,43 +118,13 @@ else
 
 
 
-@if (Model.Orders != null && Model.Orders.Any())
+@if (Model.OrderOverviewViewModel.Orders != null && Model.OrderOverviewViewModel.Orders.Any())
 {
     <h2>Latest orders</h2>
-
     <div class="dashboardBox">
-        <div class="table-responsive">
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <td>Order#</td>
-                        <td>Date</td>
-                        <td>Created by</td>
-                        <td>Order state</td>
-                        <td>Letter count</td>
-                        <td>Price </td>
-                        <td>See details </td>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model.Orders)
-                    {
-
-                        <tr>
-                            <td>@item.Id</td>
-                            <td>@item.DateCreated.ToFriendlyDateTime()</td>
-                            <td>@item.CreatedByEmail</td>
-                            <td>@item.OrderStatus.ToString()</td>
-                            <td>@item.OrderLines.Count</td>
-                            <td>@item.Price.ToFriendlyMoney() EUR</td>
-                            <td><a href="@Url.Action("Details", new { id = item.Id })">See details</a></td>
-
-                        </tr>
-                    }
-                </tbody>
-            </table>
+   @Html.Partial("_orderOverview",Model.OrderOverviewViewModel)
+     @Html.ActionLink("See all your orders", "OrderOrderview", "User")
         </div>
-    </div>
 }
 
 

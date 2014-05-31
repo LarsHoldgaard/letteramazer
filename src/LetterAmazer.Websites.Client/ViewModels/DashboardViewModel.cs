@@ -11,7 +11,7 @@ namespace LetterAmazer.Websites.Client.ViewModels
     public class DashboardViewModel
     {
         public Customer Customer { get; set; }
-        public List<OrderViewModel> Orders { get; set; }
+        public OrderOverviewViewModel OrderOverviewViewModel { get; set; }
         public DateTime? FromDate { get; set; }
         public DateTime? ToDate { get; set; }
 
@@ -30,6 +30,7 @@ namespace LetterAmazer.Websites.Client.ViewModels
         public DashboardViewModel()
         {
             this.UnpaidInvoices = new InvoiceOverviewViewModel();
+            this.OrderOverviewViewModel = new OrderOverviewViewModel();
         }
     }
 

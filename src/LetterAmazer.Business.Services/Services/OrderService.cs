@@ -175,7 +175,7 @@ namespace LetterAmazer.Business.Services.Services
                     }
                 }
 
-                var ord = dbOrders.OrderBy(c => c.Id).Skip(specification.Skip).Take(specification.Take).ToList();
+                var ord = dbOrders.OrderByDescending(c => c.DateCreated).Skip(specification.Skip).Take(specification.Take).ToList();
 
                 List<List<DbOrderlines>> dbOrderItems = ord.
                     Select(dbOrderse => repository.DbOrderlines.Where(c => c.OrderId == dbOrderse.Id).

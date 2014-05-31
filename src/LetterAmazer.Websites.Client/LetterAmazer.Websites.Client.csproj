@@ -211,6 +211,7 @@
     <Compile Include="ViewModels\User\EditOrganisationSettingsViewModel.cs" />
     <Compile Include="ViewModels\User\EditOrganisationViewModel.cs" />
     <Compile Include="ViewModels\User\InvoiceOverviewViewModel.cs" />
+    <Compile Include="ViewModels\User\OrderOverviewViewModel.cs" />
     <Compile Include="ViewModels\User\SendWindowedLetterViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -719,6 +720,8 @@
     <Content Include="Views\Home\Terms.cshtml" />
     <Content Include="Views\Home\Privacy.cshtml" />
     <Content Include="Views\Payment\Epay.cshtml" />
+    <Content Include="Views\User\OrderOrderview.cshtml" />
+    <Content Include="Views\Shared\_orderOverview.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\sql\" />

@@ -527,6 +527,20 @@ namespace LetterAmazer.Websites.Client.Controllers
             return Json("OK",JsonRequestBehavior.AllowGet);
         }
 
+        #region "Order overview"
+
+        [HttpGet]
+        public ActionResult OrderOrderview()
+        {
+            var orders = buildOrderOverview(SessionHelper.Customer.Id, 9999);
+            var model = new OrderOverviewViewModel();
+            model.Orders = orders;
+            return View(model);
+
+        }
+
+        #endregion
+
         #region "Invoices"
 
         [HttpGet]
@@ -713,14 +727,23 @@ namespace LetterAmazer.Websites.Client.Controllers
             return models;
         }
 
-        private void buildOverviewModel(DashboardViewModel model)
+        private List<OrderViewModel> buildOrderOverview(int userId, int take)
         {
             var orders = orderService.GetOrderBySpecification(new OrderSpecification()
             {
-                UserId = SessionHelper.Customer.Id
-            }).OrderByDescending(c => c.DateCreated);
+                UserId = userId,
+                Take = take
+            });
+            return getOrderViewModel(orders);
+        }
 
-            model.Orders = getOrderViewModel(orders);
+        private void buildOverviewModel(DashboardViewModel model)
+        {
+
+            model.OrderOverviewViewModel = new OrderOverviewViewModel()
+            {
+                Orders = buildOrderOverview(SessionHelper.Customer.Id, 5)
+            };
             model.Customer = SessionHelper.Customer;
             model.LetterType = SessionHelper.Customer.DefaultLetterType;
             model.Credits = SessionHelper.Customer.CreditsLeft;

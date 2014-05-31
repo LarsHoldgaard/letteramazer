@@ -35,7 +35,8 @@ namespace LetterAmazer.Business.Services.Domain.Customers
         public bool IsActivated {
             get
             {
-                if ((DateActivated.HasValue && DateActivated.Value <= DateTime.Now)&& (string.IsNullOrEmpty(RegisterKey)))
+                if ((DateActivated.HasValue && DateActivated.Value <= DateTime.Now) && 
+                    (string.IsNullOrEmpty(RegisterKey)))
                 {
                     return true;
                 }
