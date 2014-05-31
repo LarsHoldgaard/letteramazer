@@ -30,9 +30,10 @@ namespace LetterAmazer.Data.Repository.Data
         public DbSet<DbContinents> DbContinents { get; set; }
         public DbSet<DbCountries> DbCountries { get; set; }
         public DbSet<DbCountryNames> DbCountryNames { get; set; }
-        public DbSet<DbCoupons> DbCoupons { get; set; }
         public DbSet<DbCurrencies> DbCurrencies { get; set; }
         public DbSet<DbCustomers> DbCustomers { get; set; }
+        public DbSet<DbEnvelopes> DbEnvelopes { get; set; }
+        public DbSet<DbEnvelopeWindows> DbEnvelopeWindows { get; set; }
         public DbSet<DbExchangeRates> DbExchangeRates { get; set; }
         public DbSet<DbFulfillmentPartners> DbFulfillmentPartners { get; set; }
         public DbSet<DbInvoiceLines> DbInvoiceLines { get; set; }
@@ -45,6 +46,8 @@ namespace LetterAmazer.Data.Repository.Data
         public DbSet<DbOrganisation> DbOrganisation { get; set; }
         public DbSet<DbOrganisationAddressList> DbOrganisationAddressList { get; set; }
         public DbSet<DbOrganisationProfileSettings> DbOrganisationProfileSettings { get; set; }
+        public DbSet<DbPartners> DbPartners { get; set; }
+        public DbSet<DbPartnerTransactions> DbPartnerTransactions { get; set; }
         public DbSet<DbPaymentMethods> DbPaymentMethods { get; set; }
         public DbSet<DbProductMatrixLines> DbProductMatrixLines { get; set; }
         public DbSet<DbShops> DbShops { get; set; }

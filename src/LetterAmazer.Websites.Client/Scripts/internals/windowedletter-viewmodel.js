@@ -1,83 +1,157 @@
-﻿var SendWindowedLetterViewModel = function (formSelector, data) {
+﻿function letter(filePath, imagePath, countryId) {
     var self = this;
-    self.uploadstatus = ko.observable('');
-    self.getPriceUrl = data.getPriceUrl;
-    self.thumbnailUrl = data.thumbnailUrl;
-
-    self.countryId = ko.observable(0);
-    self.originCountryId = ko.observable(0);
-
-    self.uploadFileKey = ko.observable('');
-    self.cost = ko.observable(0);
+    self.filePath = filePath;
+    self.imagePath = imagePath;
+    self.countryId = countryId;
     self.numberOfPages = ko.observable(0);
-    self.shippingtime = ko.observable('');
-    self.thumbnailImagePath = ko.observable('');
+    self.shippingDays = ko.observable(0);
+    self.uploadStatus = ko.observable('');
+    self.priceExVat = ko.observable(0);
+    self.priceTotal = ko.observable(0);
+    self.vatPercentage = ko.observable(0);
 
-    self.uploadstatus('pending');
+    self.updatePrice = function () {
 
-    self.downloadPrices = function () {
-        console.log('Download prices is called');
-        var thiz = self;
+
         $.ajax({
-            url: self.getPriceUrl,
+            url: '/SingleLetter/GetPrice',
             type: 'POST',
             data: {
-                usePdf: true,
-                uploadFileKey: self.uploadFileKey(),
-                country: self.countryId(),
-                content: '',
-                address: '',
-                postal: '',
-                city: '',
-                state: '',
-                letterType: 0
+                'uploadFileKey': self.filePath,
+                'country': self.countryId
             },
             dataType: 'json',
             success: function (data) {
-                thiz.cost(data.price);
-                thiz.numberOfPages(data.numberOfPages);
-                if (data.price.Total > 0) {
+                self.numberOfPages(data.numberOfPages);
+                self.shippingDays(data.shippingDays);
+                self.priceExVat(data.price.PriceExVat);
+                self.priceTotal(data.price.Total);
+                self.vatPercentage(data.price.VatPercentage);
+
+                if (self.priceTotal() > 0) {
                     console.log('Setting uploadstatus to success');
-                    self.uploadstatus('success');
-                } else {
-                    console.log('Setting uploadstatus to failure. Price: ' + data.price.Total);
-                    self.uploadstatus('failure');
+                    self.uploadStatus('success');
                 }
 
+                if (data.status === 'error') {
+                    console.log('Cannot send letter');
+                    self.uploadStatus('failure');
+                }
             },
             error: function (file, responseText) {
                 console.log('Price error');
-                
             }
         });
-
-        console.log('setting thumlnail:');
-        self.thumbnailImagePath(self.thumbnailUrl + '?uploadFileKey=' + self.uploadFileKey());
-        console.log(' thumlnail set:' + self.thumbnailImagePath());
-
-        console.log('Upload status: ' + self.uploadstatus());
     };
 
-    self.getUploadStatus = ko.computed(function() {
-        return self.uploadstatus();
-    });
-
-    self.getPriceTotal = ko.computed(function () {
-        try {
-            return self.cost().Total.toFixed(2);
-        } catch (ex) {
-            return 0;
-        }
-    });
-
-    self.getPriceExVat = ko.computed(function () {
-        try {
-            return self.cost().PriceExVat.toFixed(2);
-        } catch (ex) {
-            return 0;
-        }
-    });
-
-
+    self.thumbnail = function() {
+        var path = '/SingleLetter/GetThumbnail' + '?uploadFileKey=' + self.filePath;
+        return path;
+    };
 }
+
+
+var SendWindowedLetterViewModel = function(formSelector, data) {
+    var self = this;
+
+    self.uploadstatus = ko.observable(''); // pending, success or failure depending on the current status of the fileupload
+    self.uploadmode = data.uploadMode; // merge og multiple, depending on if we should allow multiple uploads and send separate or merge the files into a single pdf
+    self.userCredits = data.userCredits;
+    self.creditPaymentMethodId = data.creditPaymentMethodId;
+    self.countryId = ko.observable(0);
+    self.paymentMethodId = ko.observable(0);
+    self.originCountryId = ko.observable(0);
+
+
+    self.letters = ko.observableArray([]);
+    self.selectedFiles = ko.computed(function () {
+        var arr = self.letters();
+
+        var ol = "";
+        for (var i = 0; i < arr.length; i++) {
+            ol += (ol.length > 0 ? ";" : "") +
+                arr[i].filePath;
+        }
+        console.log('selectedFiles: ' + ol);
+        return ol;
+    });
+
+    self.updateAllPrices = function () {
+        $(self.letters()).each(function (index, ele) {
+            ele.updatePrice();
+        });
+    };
+
+    self.updateLetterCountry = function(countryId) {
+        $(self.letters()).each(function (index, ele) {
+            ele.countryId = countryId;
+        });
+    };
+
+    self.isCreditsEnough = ko.computed(function () {
+        if (self.paymentMethodId() == self.creditPaymentMethodId) {
+            if (self.getPriceTotal() > self.userCredits) {
+                return false;
+            }
+        }
+        return true;
+    });
+
+    self.getPriceTotal = function () {
+        var price = 0.0;
+        $(self.letters()).each(function (index, ele) {
+            price += ele.priceTotal();
+        });
+        return parseFloat(price).toFixed(2);
+    };
+
+    self.getPriceExVat = function () {
+        var price = 0.0;
+        $(self.letters()).each(function (index, ele) {
+                price += ele.priceExVat();
+        });
+        return parseFloat(price).toFixed(2);
+    };
+
+    self.shippingDays = ko.computed(function() {
+        if (self.letters().length == 0) {
+            return 0;
+        }
+
+        var longest = 999;
+        $(self.letters()).each(function(index, ele) {
+            var days = ele.shippingDays();
+            if (longest > days) {
+                longest = days;
+            }
+        });
+        return longest;
+    });
+
+    self.status = ko.computed(function () {
+        if (self.letters().length == 0) {
+            return false;
+        }
+
+        var re = true;
+        $(self.letters()).each(function (index, ele) {
+            console.log('Status on letter: ' + ele.uploadStatus());
+            if (ele.uploadStatus() === 'error' || ele.uploadStatus() === 'failure') {
+                re = false;
+            }
+        });
+        return re;
+    });
+
+    self.doneLoading = ko.computed(function () {
+        var doneLoading = true;
+        $(self.letters()).each(function (index, ele) {
+            if (ele.uploadStatus() === '') {
+                doneLoading = false;
+            }
+        });
+        return doneLoading;
+    });
+
+};
 

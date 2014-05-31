@@ -28,6 +28,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LetterAmazer.Tools.CountryN
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LetterAmazer.Business.Thumbnail", "LetterAmazer.Business.Thumbnail\LetterAmazer.Business.Thumbnail.csproj", "{9AF338E2-A15A-4F9B-98D6-4EC5D70968ED}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LetterAmazer.Data.DTO", "LetterAmazer.Data.DTO\LetterAmazer.Data.DTO.csproj", "{1BB13A4D-7124-4037-9357-C057059BFC0B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LetterAmazer.WebAPI", "LetterAmazer.WebAPI\LetterAmazer.WebAPI.csproj", "{033D3E52-72FB-4A0E-9714-82B1637A5293}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -70,6 +74,14 @@ Global
 		{9AF338E2-A15A-4F9B-98D6-4EC5D70968ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9AF338E2-A15A-4F9B-98D6-4EC5D70968ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9AF338E2-A15A-4F9B-98D6-4EC5D70968ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1BB13A4D-7124-4037-9357-C057059BFC0B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1BB13A4D-7124-4037-9357-C057059BFC0B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1BB13A4D-7124-4037-9357-C057059BFC0B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1BB13A4D-7124-4037-9357-C057059BFC0B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{033D3E52-72FB-4A0E-9714-82B1637A5293}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{033D3E52-72FB-4A0E-9714-82B1637A5293}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{033D3E52-72FB-4A0E-9714-82B1637A5293}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{033D3E52-72FB-4A0E-9714-82B1637A5293}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

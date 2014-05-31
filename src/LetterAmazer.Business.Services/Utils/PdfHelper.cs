@@ -35,51 +35,92 @@ namespace LetterAmazer.Business.Utils.Helpers
         }
 
 
-        public static int GetPagesCount(string path)
+        public static int GetPagesCount(byte[] pdfFile)
         {
-            var pdfReader = new PdfReader(path);
+            var pdfReader = new PdfReader(pdfFile);
             int numberOfPages = pdfReader.NumberOfPages;
             pdfReader.Close();
             return numberOfPages;
         }
 
-        public static void ConvertPdfSize(string path, LetterSize fromSize, LetterSize toSize)
+
+        public static byte[] ConvertPdfSize(byte[] inPDF, LetterSize fromSize, LetterSize toSize)
         {
             if (fromSize != LetterSize.A4 || toSize != LetterSize.Letter)
             {
                 throw new ArgumentException("Function only supports from size A4 to size letter");
             }
+            byte[] finalBytes;
 
-            string original = path;
-            string inPDF = path;
-            string outPDF = PathHelper.GetAbsoluteFile(Guid.NewGuid().ToString());
-            using (PdfReader pdfr = new PdfReader(inPDF))
+            using (var outPDF = new MemoryStream())
             {
-                using (Document doc = new Document(PageSize.LETTER))
+                using (PdfReader pdfr = new PdfReader(inPDF))
                 {
-                    Document.Compress = true;
-
-                    PdfWriter writer = PdfWriter.GetInstance(doc, new FileStream(outPDF, FileMode.Create));
-                    doc.Open();
-
-                    PdfContentByte cb = writer.DirectContent;
-
-                    PdfImportedPage page;
-
-                    for (int i = 1; i < pdfr.NumberOfPages + 1; i++)
+                    using (Document doc = new Document(PageSize.LETTER))
                     {
-                        page = writer.GetImportedPage(pdfr, i);
-                        cb.AddTemplate(page, PageSize.LETTER.Width / pdfr.GetPageSize(i).Width, 0, 0, PageSize.LETTER.Height / pdfr.GetPageSize(i).Height, 0, 0);
-                        doc.NewPage();
-                    }
+                        Document.Compress = true;
 
-                    doc.Close();
+                        PdfWriter writer = PdfWriter.GetInstance(doc, outPDF);
+                        doc.Open();
+
+                        PdfContentByte cb = writer.DirectContent;
+
+                        PdfImportedPage page;
+
+                        for (int i = 1; i < pdfr.NumberOfPages + 1; i++)
+                        {
+                            page = writer.GetImportedPage(pdfr, i);
+                            cb.AddTemplate(page, PageSize.LETTER.Width / pdfr.GetPageSize(i).Width, 0, 0, PageSize.LETTER.Height / pdfr.GetPageSize(i).Height, 0, 0);
+                            doc.NewPage();
+                        }
+
+                        doc.Close();
+                    }
+                    pdfr.Close();
                 }
-                pdfr.Close();
+                finalBytes = outPDF.ToArray();
             }
-            
-            File.Delete(original);
-            File.Copy(outPDF, original);
+
+            return finalBytes;
+        }
+
+        public static byte[] WriteIdOnPdf(byte[] inPDF, string str)
+        {
+            byte[] finalBytes;
+
+            //Another in-memory PDF
+            using (var ms = new MemoryStream())
+            {
+                //Bind a reader to the bytes that we created above
+                using (var reader = new PdfReader(inPDF))
+                {
+                    //Store our page count
+                    var pageCount = reader.NumberOfPages;
+
+                    //Bind a stamper to our reader
+                    using (var stamper = new PdfStamper(reader, ms))
+                    {
+
+                        //Setup a font to use
+                        var baseFont = BaseFont.CreateFont(BaseFont.HELVETICA_BOLD, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
+
+                        //Get the raw PDF stream "on top" of the existing content
+                        var cb = stamper.GetOverContent(1);
+
+                        //Draw some text
+                        cb.BeginText();
+                        
+                        cb.SetFontAndSize(baseFont, 8);
+                        cb.ShowTextAligned(PdfContentByte.ALIGN_LEFT,str,58,805,0);
+                        cb.EndText();
+                        
+                    }
+                }
+
+                //Once again, grab the bytes before closing things out
+                finalBytes = ms.ToArray();
+            }
+            return finalBytes;
         }
 
         public static byte[] ConvertToPdf(string textToConvert)

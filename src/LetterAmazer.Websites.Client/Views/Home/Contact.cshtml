@@ -1,28 +1,43 @@
-﻿@using LetterAmazer.Websites.Client.Resources.Views.Home
-
+﻿@using Constants = LetterAmazer.Business.Utils.Helpers.Constants
 @{
-
+    Layout = "~/Views/Shared/_Standard.cshtml";
     ViewBag.PageTitle = "Contact LetterAmazer";
 }
 <div class="frontpage">
     <div class="frontpage-top-usptext" style="text-align:left">
         <h1>Contact us</h1>
         <p>Always feel free to contact us.</p>
+        
+        <div class="row">
+            <div class="col-md-4">
+                <h2>Contact information</h2>
+                <p>We speak English and Danish.</p>
+                <b>Phone</b>: (+45) 42927250<br />
+                <b>E-mail</b>: info@letteramazer.com<br />
+                <b>Skype</b>: LarsHoldgaard (CEO)
 
-        <h2>Contact information</h2>
-        (+45) 61793650<br />
-        info@letteramazer.com
+            </div>
+            <div class="col-md-4">
+                <h2>Company information</h2>
+                LetterAmazer IvS<br />
+                Vat number: DK35636307<br /><br />
+                Måløv Hovedgade 58c st. th.<br />
+                2760 Måløv<br />
+                Denmark
+            </div>
+            <div class="col-md-4">
+                <h2>Bank information</h2>
+                <b>Bank name</b>: @Constants.Texts.PracticalInformation.BankName <br />
+                <b>IBAN</b>: @Constants.Texts.PracticalInformation.Iban <br />
+                <b>Swift</b>: @Constants.Texts.PracticalInformation.Swift <br />
+                <b>Bank registration number</b>: @Constants.Texts.PracticalInformation.BankReg <br />
+                <b>Bank account number</b>: @Constants.Texts.PracticalInformation.BankAccount <br />
+            </div>
 
-        <h2>Company information</h2>
-        LetterAmazer IvS<br />
-        Måløv Hovedgade 58c st. th.<br />
-        2760 Måløv<br />
-        Denmark<br />
-        <br /><br />
-        Vat number: DK35636307<br />
+        </div>
+    
+      
 
-        <h2>Bank information</h2>
-        Bank: Norea<br />
-        Reg. nr: 2279<br />
-        Account number: 8971983559
-</div></div>
+       
+    </div>
+</div>

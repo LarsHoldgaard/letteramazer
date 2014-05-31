@@ -1,0 +1,13 @@
+﻿@model LetterAmazer.Websites.Client.ViewModels.User.OrderOverviewViewModel
+@{
+    Layout = "~/Views/Shared/_Standard.cshtml";
+}
+
+<span class="breadcrumbs"><a href="/">LetterAmazer</a> > <a href="@Url.Action("Index")">Dashboard</a> > Orders</span>
+
+<h1>
+    Overview of all orders
+</h1>
+<div class="dashboardBox">
+    @Html.Partial("_orderOverview", Model)
+    </div>

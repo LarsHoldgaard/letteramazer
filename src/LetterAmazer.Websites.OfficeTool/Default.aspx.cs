@@ -17,6 +17,7 @@ using LetterAmazer.Business.Services.Domain.ProductMatrix;
 using LetterAmazer.Business.Services.Domain.Products.ProductDetails;
 using LetterAmazer.Business.Services.Factory;
 using LetterAmazer.Business.Services.Services;
+using LetterAmazer.Business.Services.Services.Caching;
 using LetterAmazer.Data.Repository.Data;
 
 namespace LetterAmazer.Websites.OfficeTool
@@ -33,10 +34,10 @@ namespace LetterAmazer.Websites.OfficeTool
         {
             this.fulfillmentPartnerService = new FulfillmentPartnerService(new LetterAmazerEntities(), new FulfilmentPartnerFactory());
             this.officeService = new OfficeService(new LetterAmazerEntities(),
-                new OfficeFactory(new CountryService(new LetterAmazerEntities(), new CountryFactory())));
-            this.productMatrixService = new ProductMatrixService(new LetterAmazerEntities(), new ProductMatrixFactory());
-            this.offerProductService = new OfficeProductService(new LetterAmazerEntities(), new OfficeProductFactory(new ProductMatrixService(new LetterAmazerEntities(), new ProductMatrixFactory())));
-            this.countryService = new CountryService(new LetterAmazerEntities(), new CountryFactory());
+                new OfficeFactory(new CountryService(new LetterAmazerEntities(), new CountryFactory(),new HttpCacheService())));
+            this.productMatrixService = new ProductMatrixService(new LetterAmazerEntities(), new ProductMatrixFactory(),new HttpCacheService());
+            this.offerProductService = new OfficeProductService(new LetterAmazerEntities(), new OfficeProductFactory(new ProductMatrixService(new LetterAmazerEntities(), new ProductMatrixFactory(),new HttpCacheService())),new HttpCacheService());
+            this.countryService = new CountryService(new LetterAmazerEntities(), new CountryFactory(),new HttpCacheService());
         }
 
         public List<FulfilmentPartner> FulfilmentPartners

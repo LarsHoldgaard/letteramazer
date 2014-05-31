@@ -1,15 +1,21 @@
 ﻿using System.Data.Entity.Validation;
-using LetterAmazer.Business.Services.Domain.Coupons;
+using System.Reflection;
+using System.Web.UI.WebControls.WebParts;
+using LetterAmazer.Business.Services.Domain.Caching;
 using LetterAmazer.Business.Services.Domain.Customers;
 using LetterAmazer.Business.Services.Domain.Letters;
+using LetterAmazer.Business.Services.Domain.Mails;
 using LetterAmazer.Business.Services.Domain.Orders;
-using LetterAmazer.Business.Services.Domain.Payments;
+using LetterAmazer.Business.Services.Domain.Organisation;
+using LetterAmazer.Business.Services.Domain.Partners;
 using LetterAmazer.Business.Services.Domain.Pricing;
 using LetterAmazer.Business.Services.Domain.Products;
 using LetterAmazer.Business.Services.Factory.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using LetterAmazer.Business.Services.Utils;
+using LetterAmazer.Business.Utils.Helpers;
 using LetterAmazer.Data.Repository.Data;
 using LetterAmazer.Business.Services.Exceptions;
 
@@ -21,63 +27,89 @@ namespace LetterAmazer.Business.Services.Services
         
         private LetterAmazerEntities repository;
         private ILetterService letterService;
+        private IMailService mailService;
         private ICustomerService customerService;
+        private IPartnerService partnerService;
+        private ICacheService cacheService;
+        private IOrganisationService organisationService;
 
         public OrderService(LetterAmazerEntities repository,
             ILetterService letterService,
-            IOrderFactory orderFactory, ICustomerService customerService)
+            IOrderFactory orderFactory, ICustomerService customerService, IPartnerService partnerService,
+            ICacheService cacheService, IMailService mailService,IOrganisationService organisationService)
         {
             this.repository = repository;
             this.letterService = letterService;
             this.orderFactory = orderFactory;
             this.customerService = customerService;
+            this.partnerService = partnerService;
+            this.cacheService = cacheService;
+            this.mailService = mailService;
+            this.organisationService = organisationService;
         }
 
         public Order Create(Order order)
         {
             DbOrders dborder = new DbOrders();
 
-            foreach (var orderLine in order.OrderLines)
-            {
-                var dbOrderLine = setOrderline(orderLine);
-                dborder.DbOrderlines.Add(dbOrderLine);
-            }
 
-            dborder.Guid = Guid.NewGuid();
-            dborder.OrderCode = GenerateOrderCode();
+            try
+            {
+                foreach (var orderLine in order.OrderLines)
+                {
+                    var dbOrderLine = setOrderline(orderLine);
+                    dborder.DbOrderlines.Add(dbOrderLine);
+                }
 
-            if (order.Customer.AccountStatus == AccountStatus.Test)
-            {
-                dborder.OrderStatus = (int)OrderStatus.Test;    
+                dborder.Guid = Guid.NewGuid();
+                dborder.OrderCode = order.OrderCode ?? Helpers.GetRandomInt(1000, 99999999).ToString(); // don't set it here, but use checkout contrller (problem sovled with credit)
+
+                if (order.Customer.AccountStatus == AccountStatus.Test)
+                {
+                    dborder.OrderStatus = (int) OrderStatus.Test;
+                }
+                else
+                {
+                    dborder.OrderStatus = (int) order.OrderStatus;
+                }
+
+
+
+                dborder.DateCreated = DateTime.Now;
+                dborder.DateUpdated = DateTime.Now;
+                dborder.OrganisationId = order.OrganisationId;
+                dborder.CustomerId = order.Customer != null ? order.Customer.Id : 0;
+
+                Price price = new Price();
+                price.PriceExVat = order.CostFromLines();
+                price.VatPercentage = order.Customer.VatPercentage();
+                order.Price = price;
+
+                dborder.Total = order.Price.Total;
+                dborder.VatPercentage = order.Price.VatPercentage;
+                dborder.PriceExVat = order.Price.PriceExVat;
+
+                repository.DbOrders.Add(dborder);
+                repository.SaveChanges();
+
             }
-            else
+            catch (DbEntityValidationException exe)
             {
-                dborder.OrderStatus = (int)order.OrderStatus;
+                int i = 0;
             }
             
-            
-            
-            dborder.DateCreated = DateTime.Now;
-            dborder.DateUpdated = DateTime.Now;
-            dborder.PaymentMethod = "";
-            dborder.CustomerId = order.Customer != null ? order.Customer.Id : 0;
+            foreach(var partnerTransaction in order.PartnerTransactions)
+            {
+                partnerTransaction.OrderId = dborder.Id;
+                partnerService.Create(partnerTransaction);
+            }
 
-            Price price = new Price();
-            price.PriceExVat = order.CostFromLines();
-            price.VatPercentage = order.Customer.VatPercentage();
-            order.Price = price;
+            cacheService.DeleteByContaining("GetOrderBySpecification");
 
-            dborder.Total = order.Price.Total;
-            dborder.VatPercentage = order.Price.VatPercentage;
-            dborder.PriceExVat = order.Price.PriceExVat;
+            mailService.NotificationNewOrder(dborder.Total.ToString());
 
-            repository.DbOrders.Add(dborder);
-
-            repository.SaveChanges();
-           
             return GetOrderById(dborder.Id);
         }
-
         
         public Order Update(Order order)
         {
@@ -92,39 +124,67 @@ namespace LetterAmazer.Business.Services.Services
             dborder.OrderCode = order.OrderCode;
             dborder.OrderStatus = (int)order.OrderStatus;
             dborder.DateUpdated = DateTime.Now;
-            
+            dborder.DatePaid = order.DatePaid;
+            dborder.DateSent = order.DateSent;
+            dborder.CustomerId = order.Customer.Id;
+            dborder.PriceExVat = order.Price.PriceExVat;
+            dborder.Total = order.Price.Total;
+            dborder.VatPercentage = order.Price.VatPercentage;
+            dborder.OrganisationId = order.OrganisationId;
+
             repository.SaveChanges();
 
+            cacheService.DeleteByContaining("GetOrderBySpecification");
             return GetOrderById(order.Id);
         }
 
         public List<Order> GetOrderBySpecification(OrderSpecification specification)
         {
-            IQueryable<DbOrders> dbOrders = repository.DbOrders;
+            var cacheKey = cacheService.GetCacheKey(MethodBase.GetCurrentMethod().Name, specification.ToString());
+            if (!cacheService.ContainsKey(cacheKey))
+            {
+                IQueryable<DbOrders> dbOrders = repository.DbOrders;
 
-            if (specification.OrderStatus.Any())
-            {
-                dbOrders = dbOrders.Where(c => specification.OrderStatus.Contains((OrderStatus) c.OrderStatus));
-            }
-            if (specification.FromDate != null)
-            {
-                dbOrders = dbOrders.Where(c => c.DateCreated >= specification.FromDate);
-            }
-            if (specification.ToDate != null)
-            {
-                dbOrders = dbOrders.Where(c => c.DateCreated <= specification.ToDate);
-            }
-            if (specification.UserId > 0)
-            {
-                dbOrders = dbOrders.Where(c => c.CustomerId == specification.UserId);
-            }
+                if (specification.OrderStatus.Any())
+                {
+                    dbOrders = dbOrders.Where(c => specification.OrderStatus.Contains((OrderStatus)c.OrderStatus));
+                }
+                if (specification.FromDate != null)
+                {
+                    dbOrders = dbOrders.Where(c => c.DateCreated >= specification.FromDate);
+                }
+                if (specification.ToDate != null)
+                {
+                    dbOrders = dbOrders.Where(c => c.DateCreated <= specification.ToDate);
+                }
+                if (specification.UserId > 0)
+                {
+                    var customer = customerService.GetCustomerById(specification.UserId);
 
-            var ord = dbOrders.OrderBy(c=>c.Id).Skip(specification.Skip).Take(specification.Take).ToList();
+                    // if administator or poweruser, they can see all orders in the organisation
+                    if (customer.OrganisationRole.HasValue &&
+                        (customer.OrganisationRole.Value == OrganisationRole.Administrator ||
+                         customer.OrganisationRole.Value == OrganisationRole.Poweruser))
+                    {
+                        dbOrders = dbOrders.Where(c => c.OrganisationId == customer.Organisation.Id ||
+                            c.CustomerId == specification.UserId);
+                    }
+                    else
+                    {
+                        dbOrders = dbOrders.Where(c => c.CustomerId == specification.UserId);
+                    }
+                }
 
-            List<List<DbOrderlines>> dbOrderItems = ord.
-                Select(dbOrderse => repository.DbOrderlines.Where(c => c.OrderId == dbOrderse.Id).
-                    ToList()).ToList();
-            return orderFactory.Create(ord, dbOrderItems);
+                var ord = dbOrders.OrderByDescending(c => c.DateCreated).Skip(specification.Skip).Take(specification.Take).ToList();
+
+                List<List<DbOrderlines>> dbOrderItems = ord.
+                    Select(dbOrderse => repository.DbOrderlines.Where(c => c.OrderId == dbOrderse.Id).
+                        ToList()).ToList();
+                var res= orderFactory.Create(ord, dbOrderItems);
+                cacheService.Create(cacheKey, res);
+                return res;
+            }
+            return (List<Order>) (cacheService.GetById(cacheKey));
         }
 
         public Order GetOrderById(Guid orderId)
@@ -187,9 +247,10 @@ namespace LetterAmazer.Business.Services.Services
             {
                 if (orderLine.ProductType == ProductType.Credit)
                 {
-                    var credits = orderLine.Price.PriceExVat;
-                    order.Customer.Credit += credits;
-                    customerService.Update(order.Customer);
+                    var credits = orderLine.Price.Total;
+                    var organisation = order.Customer.Organisation;
+                    organisation.Credit += credits;
+                    organisationService.Update(organisation);
                 }
             }
         }
@@ -216,7 +277,8 @@ namespace LetterAmazer.Business.Services.Services
                 foreach (var orderLine in order.OrderLines)
                 {
                     // if this is the case, there are multiple lines and one of them is not sent yet, which means the order is in progress
-                    if (orderLine.ProductType == ProductType.Letter && ((Letter)orderLine.BaseProduct).LetterStatus == LetterStatus.Created)
+                    if (orderLine.ProductType == ProductType.Letter && 
+                        ((Letter)orderLine.BaseProduct).LetterStatus == LetterStatus.Created)
                     {
                         isOrderDone = false;
                     }
@@ -246,17 +308,6 @@ namespace LetterAmazer.Business.Services.Services
         }
 
         #region Private helper methods
-        private string GenerateOrderCode()
-        {
-            string orderCode = "LA" + DateTime.Now.Ticks.GetHashCode();
-
-            if (repository.DbOrders.Any(c => c.OrderCode == orderCode))
-            {
-                orderCode = "LA" + DateTime.Now.Ticks.GetHashCode();
-            }
-
-            return orderCode;
-        }
 
         private DbOrderlines setOrderline(OrderLine orderLine)
         {
@@ -270,14 +321,16 @@ namespace LetterAmazer.Business.Services.Services
             if (orderLine.ProductType == ProductType.Payment && orderLine.PaymentMethodId >0)
             {
                 dbOrderLine.PaymentMethodId = orderLine.PaymentMethodId;
-                dbOrderLine.CouponId = orderLine.CouponId;
             }
             if (orderLine.ProductType == ProductType.Letter)
             {
                 var letter = ((Letter)orderLine.BaseProduct);
 
+                // TODO: move logic to letter... or reuse one in letter?
                 DbLetters dbLetter = new DbLetters()
                 {
+                    CustomerId = letter.CustomerId,
+                    OrganisationId = letter.OrganisationId,
                     ToAddress_Address = letter.ToAddress.Address1,
                     ToAddress_Address2 = letter.ToAddress.Address2,
                     ToAddress_AttPerson = letter.ToAddress.AttPerson,
@@ -292,7 +345,6 @@ namespace LetterAmazer.Business.Services.Services
                     ToAddress_VatNr = letter.ToAddress.VatNr,
                     OrderId = letter.OrderId,
                     LetterContent_WrittenContent = letter.LetterContent.WrittenContent,
-                    LetterContent_Content = letter.LetterContent.Content,
                     LetterContent_Path = letter.LetterContent.Path,
                     LetterStatus = (int)letter.LetterStatus,
                     OfficeId = letter.OfficeId,
@@ -301,7 +353,9 @@ namespace LetterAmazer.Business.Services.Services
                     LetterProcessing = (int)letter.LetterDetails.LetterProcessing,
                     LetterSize = (int)letter.LetterDetails.LetterSize,
                     LetterType = (int)letter.LetterDetails.LetterType,
-                  Guid = Guid.NewGuid()
+                    ReturnLabel = letter.ReturnLabel,
+                    DeliveryLabel = (int)letter.DeliveryLabel,
+                    Guid = Guid.NewGuid()
                 };
 
                 if (letter.FromAddress != null)

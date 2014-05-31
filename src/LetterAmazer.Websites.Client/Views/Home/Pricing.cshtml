@@ -1,21 +1,25 @@
-﻿@using LetterAmazer.Websites.Client.Resources.Views.Home
-@model LetterAmazer.Websites.Client.ViewModels.Home.PriceOverviewViewModel
+﻿@model LetterAmazer.Websites.Client.ViewModels.Home.PriceOverviewViewModel
 
 @{
     ViewBag.PageTitle = "Price for sending a letter online";
+    Layout = "~/Views/Shared/_Standard.cshtml";
 }
 
 <div class="frontpage-top-usptext" style="text-align:left">
     <h1>Prices to send physical letters around the globe</h1>
 
+    <p>Below you can calculate the price of letters send through our website. This calculator handles most common requests, but we also have a group of customers having unique needs (think logo on letters, registered mail and so forth, bigger batches for marketing purposes). If you have a special request, please @Html.ActionLink("contact us","Contact")</p>
+    
+    <p>As of right now, we solely send windowed envelopes. Please test your position of the address information, before sending letters, by uploading a single letter in our "send a letter" form.</p>
+
     @Html.Partial("_priceCalculator", Model.PriceViewModel)
 
-    <br /><br /><p>
-        So, when we started LetterAmazer, we found out sending letters isn't free. But! We have done anything in our power to find the cheapest prices, so you can send letters world-wide cheaply.
+    <hr/><p>
+        When we started LetterAmazer, we found out sending letters isn't free. But! We have done anything in our power to find the cheapest prices, so you can send letters world-wide cheaply.
     </p>
     <p>We have a wide range of subcontractors who help us deliver letters. Depending on your requirements, we provide the cheapest prices we have.</p>
 
 
     <br />
-    @Html.Partial("_countryPricesOverview",Model.CountryPriceList)
+    @Html.Partial("_countryPricesOverview", Model.CountryPriceList)
 </div>

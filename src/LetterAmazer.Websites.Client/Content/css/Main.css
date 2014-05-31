@@ -1,175 +1,166 @@
-﻿h1 {
-  font-size: 48pt;
-  font-family: 'Open Sans', sans-serif;
+﻿body {
+  font-family: 'open-sans', Helvetica, Arial, sans-serif;
+  background-color: #f9f9f9;
+  color: #616161;
+  font-size: 13pt;
 }
-.margintop {
-  margin-top: 35px;
-}
-.buttonmargintop {
-  margin-top: 10px;
-}
-.center {
-  text-align: center;
-  margin-left: auto;
-  margin-right: auto;
-}
-.block {
-  display: block;
-}
-.frontpage {
-  font-size: 14pt;
-  font-family: 'Open Sans', sans-serif;
-}
-.frontpage-top-usptext {
-  text-align: center;
-  display: block;
-  font-size: 14pt;
-  font-family: 'Open Sans', sans-serif;
-}
-.frontpage-top-usp {
-  font-size: 24pt;
-  display: block;
-  text-align: center;
-}
-.frontpage-top-description-header {
-  font-size: 24pt;
-}
-.frontpage h1 {
-  text-align: center;
-}
-.frontpage-top-image-usp {
-  max-width: 100px;
-  width: 100px;
-  height: 100px;
-  max-height: 100px;
-  display: block;
-  text-align: center;
-  margin-left: auto;
-  margin-right: auto;
-}
-.frontpage-top-uspmargin {
-  margin-left: 30px;
-  margin-right: 30px;
-}
-.frontpage-send-letters h2 {
-  font-size: 18pt;
-}
-body {
-  padding-bottom: 20px;
-  padding-top: 50px;
-}
-.navbar .container .navbar-nav > li > a,
-.navbar .container .navbar-nav label {
-  padding-top: 18px;
-  padding-bottom: 18px;
-  color: #999;
-}
-.jumbotron-lightblue {
-  background-color: #F1F6F9;
-}
-.jumbotron-white {
-  background-color: #FFFFFF;
+/*Page elements*/
+.content {
+  padding: 20px;
+  padding-left: 40px;
+  padding-right: 40px;
+  background-color: white;
+  margin-top: 25px;
+  border: 1px solid #d9d9d9;
+  border-radius: 5px;
 }
 .footer {
-  color: #81919B;
+  border-top: 1px solid #d9d9d9;
+  padding: 20px 0;
+  margin-top: 30px;
 }
-.footer ul,
-.footer li {
-  display: inline;
-  margin-left: 20px;
+/*Helpers*/
+@media (min-width: 992px) {
+  .border-left {
+    border-left: 1px solid #d9d9d9;
+  }
 }
-.footer li {
-  list-style: none outside none;
+.bottom-box {
+  min-height: 120px;
 }
-.promotionMargin {
-  margin-bottom: 25px;
-  margin-top: 45px;
+.list-checkmarks,
+.list-checkmarks ul {
+  list-style-type: none;
+  padding-left: 0px;
 }
-.sendLettersForm {
-  font-family: 'Kite One', sans-serif;
+.checkmark {
+  width: 20px;
+  height: 20px;
 }
-.sendLettersForm select {
-  border-radius: 6px;
-  color: #81919B;
-  height: 45px;
-  line-height: 1.33;
-  padding-left: 12px;
-  padding-top: 7px;
+/*Bootstrap overrides*/
+a,
+.navbar-inverse .navbar-nav > li > a {
+  color: #616161;
 }
-.sendLettersForm img {
-  cursor: pointer;
+a:hover,
+a:active {
+  color: #5ca0da !important;
 }
-#sendaletter-step1,
-#sendaletter-step2 {
-  min-height: 450px;
+a {
+  color: #5ca0da;
 }
-#sendaletter-step3 {
-  min-height: 572px;
+.navbar-toggle {
+  background-color: #333333;
 }
-.letterDestination dd label {
-  font-weight: normal;
+.navbar-inverse {
+  background-color: white;
+  border-bottom: solid 1px #d9d9d9;
 }
-.submitAbe {
-  margin-left: 11px;
+body > main > .container {
+  padding: 60px 15px 0;
 }
-.sendAletterSideboxSomething {
-  background: none repeat scroll 0 0 #FFFFB2;
-  border: 1px solid #D4D444;
-  border-radius: 10px;
-  margin-top: 8px;
-  padding: 12px;
+.btn-primary {
+  background-color: #5ca0da;
 }
-label.error {
-  color: #ff0000;
-  padding-left: 5px;
+.bg-primary p,
+.bg-success p,
+.bg-info p,
+.bg-warning p,
+.bg-danger p {
+  padding: 15px;
 }
-dl {
-  margin-top: 20px;
-}
-.uploadify-button {
-  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25) !important;
-  background-color: #006dcc !important;
-  *background-color: #0044cc !important;
-  background-image: -moz-linear-gradient(top, #0088cc, #0044cc) !important;
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#0088cc), to(#0044cc)) !important;
-  background-image: -webkit-linear-gradient(top, #0088cc, #0044cc) !important;
-  background-image: -o-linear-gradient(top, #0088cc, #0044cc) !important;
-  background-image: linear-gradient(to bottom, #0088cc, #0044cc) !important;
-  background-repeat: repeat-x !important;
-  border: solid 1px #0044cc !important;
-  border-color: #0044cc #0044cc #002a80 !important;
-  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25) !important;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff0088cc', endColorstr='#ff0044cc', GradientType=0) !important;
-  filter: progid:DXImageTransform.Microsoft.gradient(enabled=false) !important;
-  border-radius: 4px !important;
-  -webkit-border-radius: 4px !important;
-  -moz-border-radius: 4px !important;
-  font-weight: normal !important;
-}
-.loginSection {
-  padding: 25px 0px;
-}
-.loginSection form .login {
-  margin-bottom: 20px;
-}
+/* Build in ASP.NET MVC error handling classes*/
 .field-validation-error {
-  color: red;
+  color: #ff0000;
 }
-.alert-error {
-  background-color: #F2DEDE;
-  border-color: #EBCCD1;
-  color: #A94442;
+.field-validation-valid {
+  display: none;
 }
-.input-required {
-  color: red;
+.input-validation-error {
+  border: 1px solid #ff0000;
+  background-color: #ffeeee;
+}
+.validation-summary-errors {
+  font-weight: bold;
+  color: #ff0000;
+}
+.validation-summary-valid {
+  display: none;
+}
+.frontPageBox {
+  text-align: center;
+  margin-top: 35px;
+}
+.frontPageBox img {
+  max-width: 80px;
+  margin-bottom: 10px;
+  min-height: 79px;
+}
+.frontPageBox .lead {
+  display: block;
+  font-size: 22pt;
   font-weight: bold;
 }
-#myDropzone,
-.la-dropzone {
-  min-height: 240px !important;
-  border: 1px solid gray;
+.frontpageHeader {
+  font-size: 34pt;
+  text-align: center;
+  color: black;
+  margin-bottom: 15px;
 }
-.form-control {
-  max-width: 250px;
+.dashboardBox {
+  padding: 20px;
+  background-color: white;
+  margin-top: 10px;
+  border: 1px solid #d9d9d9;
+  border-radius: 5px;
+  text-align: center;
+}
+.dashboardBox:hover {
+  background-color: #fbfbfb;
+}
+.dashboardBox .lead {
+  font-size: 16pt;
+  text-align: center;
+  display: block;
+  font-weight: bold;
+}
+.breadcrumbs {
+  font-size: 10pt;
+  font-style: italic;
+}
+.statusCircle {
+  text-align: center;
+  font-size: 10pt;
+  margin-top: 20px;
+}
+.circleDiv {
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+  margin: 0 auto;
+  padding-top: 22px;
+}
+.circleNumber {
+  font-size: 18pt;
+}
+.pointer:hover {
+  cursor: pointer;
+}
+.smallInfo {
+  font-size: 10pt;
+  font-style: italic;
+}
+.dashboardLink,
+.dashboardLink:hover,
+.dashboardLink:active,
+.dashboardLink:visited,
+.dashboardLink p,
+.dashboardLink p:hover {
+  color: #616161;
+  text-decoration: none;
+}
+.dashboardBox .credit-text {
+  color: #5ca0da;
+  font-size: 22pt;
 }
 /*# sourceMappingURL=Main.css.map */

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using LetterAmazer.Business.Services.Domain.AddressInfos;
 using LetterAmazer.Business.Services.Domain.Customers;
 using LetterAmazer.Business.Services.Domain.Letters;
+using LetterAmazer.Business.Services.Domain.OfficeProducts;
 using LetterAmazer.Business.Services.Domain.Products.ProductDetails;
 using LetterAmazer.Business.Services.Factory.Interfaces;
 using LetterAmazer.Business.Services.Services;
@@ -32,9 +33,8 @@ namespace LetterAmazer.Business.Services.Factory
             {
                 LetterContent = new LetterContent()
                 {
-                    Content = dbLetter.LetterContent_Content,
                     Path = dbLetter.LetterContent_Path,
-                    WrittenContent = dbLetter.LetterContent_WrittenContent
+                    WrittenContent = dbLetter.LetterContent_WrittenContent,
                 },
                 LetterStatus = (LetterStatus)(dbLetter.LetterStatus),
                 Id = dbLetter.Id,
@@ -61,9 +61,13 @@ namespace LetterAmazer.Business.Services.Factory
                     LetterSize = (LetterSize)dbLetter.LetterSize,
                     LetterProcessing = (LetterProcessing)dbLetter.LetterProcessing,
                     LetterType = (LetterType)dbLetter.LetterType,
-
+                    DeliveryLabel = (DeliveryLabel)dbLetter.DeliveryLabel
                 },
-                Guid = dbLetter.Guid
+                Guid = dbLetter.Guid,
+                DeliveryLabel = (DeliveryLabel)(dbLetter.DeliveryLabel),
+                ReturnLabel = dbLetter.ReturnLabel.HasValue ? dbLetter.ReturnLabel.Value : 0,
+                CustomerId = dbLetter.CustomerId.HasValue ? dbLetter.CustomerId.Value : 0,
+                OrganisationId = dbLetter.OrganisationId
             };
 
             return letter;

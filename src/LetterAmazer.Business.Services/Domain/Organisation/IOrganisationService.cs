@@ -1,4 +1,5 @@
-﻿namespace LetterAmazer.Business.Services.Domain.Organisation
+﻿using LetterAmazer.Business.Services.Domain.Api;
+namespace LetterAmazer.Business.Services.Domain.Organisation
 {
     public interface IOrganisationService
     {
@@ -12,6 +13,7 @@
         AddressList GetAddressListById(int id);
         AddressList Update(AddressList addressList);
         AddressList Create(AddressList addressList);
+        ApiAccess GetApiKeys(string apiKey, string apiSecreat);
 
     }
 }

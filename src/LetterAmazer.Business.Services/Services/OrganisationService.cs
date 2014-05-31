@@ -8,11 +8,13 @@ using LetterAmazer.Business.Services.Domain.Organisation;
 using LetterAmazer.Business.Services.Domain.Products.ProductDetails;
 using LetterAmazer.Business.Services.Factory.Interfaces;
 using LetterAmazer.Data.Repository.Data;
+using LetterAmazer.Business.Services.Domain.Api;
 
 namespace LetterAmazer.Business.Services.Services
 {
     public class OrganisationService : IOrganisationService
     {
+        private const decimal StartCreditAmount = 0;
         private IOrganisationFactory organisationFactory;
         private LetterAmazerEntities repository;
 
@@ -30,7 +32,9 @@ namespace LetterAmazer.Business.Services.Services
                 Name = organisation.Name,
                 DateCreated = DateTime.Now,
                 IsPrivate = organisation.IsPrivate,
-                CountryId = organisation.Address.Country.Id
+                CountryId = organisation.Address.Country.Id,
+                CreditLimit = organisation.CreditLimit,
+                Credits = organisation.Credit
             };
 
             if (!organisation.IsPrivate)
@@ -76,6 +80,8 @@ namespace LetterAmazer.Business.Services.Services
             dbOrganisation.Zipcode = organisation.Address.Zipcode;
             dbOrganisation.CountryId = organisation.Address.Country.Id;
             dbOrganisation.IsPrivate = organisation.IsPrivate;
+            dbOrganisation.CreditLimit = organisation.CreditLimit;
+            dbOrganisation.Credits = organisation.Credit;
 
             var dbOrganisationSettings =
                 repository.DbOrganisationProfileSettings.FirstOrDefault(c => c.OrganisationId == organisation.Id);
@@ -193,5 +199,34 @@ namespace LetterAmazer.Business.Services.Services
             return GetAddressListById(dbAddresslist.Id);
 
         }
+
+        /// <summary>
+        /// Get API Key details
+        /// </summary>
+        /// <param name="apiKey"> api key</param>
+        /// <param name="apiSecreat">api secreat key</param>
+        /// <returns></returns>
+        public ApiAccess GetApiKeys(string apiKey, string apiSecreat)
+        {
+            ApiAccess apiAccess = null;
+            var AccessList = repository.DbApiAccess.Where(q => q.ApiKey == apiKey && q.ApiSecret == apiSecreat);
+            if (AccessList != null && AccessList.Count() > 0)
+            {
+                apiAccess = new ApiAccess();
+                var dbApiAccess = AccessList.FirstOrDefault();
+                apiAccess.ApiKey = dbApiAccess.ApiKey;
+                apiAccess.ApiSecret = dbApiAccess.ApiSecret;
+                apiAccess.OrganisationId = dbApiAccess.OrganisationId;
+                if (apiAccess.Role != null && apiAccess.Role> 0)
+                {
+                    apiAccess.Role = (Role)dbApiAccess.Role;
+                }
+                else
+                {
+                    apiAccess.Role = Role.NONE;
+                }
+            }
+            return apiAccess;
+        } 
     }
 }

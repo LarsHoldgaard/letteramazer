@@ -43,7 +43,6 @@ namespace LetterAmazer.Data.Repository.Data
         public string ToAddress_VatNr { get; set; }
         public string LetterContent_Path { get; set; }
         public string LetterContent_WrittenContent { get; set; }
-        public byte[] LetterContent_Content { get; set; }
         public int LetterStatus { get; set; }
         public string ToAddress_State { get; set; }
         public string ToAddress_Co { get; set; }
@@ -57,6 +56,10 @@ namespace LetterAmazer.Data.Repository.Data
         public int LetterType { get; set; }
         public int OfficeId { get; set; }
         public System.Guid Guid { get; set; }
+        public int DeliveryLabel { get; set; }
+        public Nullable<int> ReturnLabel { get; set; }
+        public int EnvelopeId { get; set; }
+        public int OrganisationId { get; set; }
     
         public virtual DbCountries DbCountries { get; set; }
         public virtual DbCountries DbCountries1 { get; set; }

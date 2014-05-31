@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using iTextSharp.text;
+using LetterAmazer.Business.Services.Domain.Caching;
 using LetterAmazer.Business.Services.Domain.OfficeProducts;
 using LetterAmazer.Business.Services.Domain.ProductMatrix;
 using LetterAmazer.Business.Services.Exceptions;
@@ -17,24 +19,32 @@ namespace LetterAmazer.Business.Services.Services
         private LetterAmazerEntities repository;
         
         private IOfficeProductFactory officeProductFactory;
+        private ICacheService cacheService;
 
-        public OfficeProductService(LetterAmazerEntities repository,IOfficeProductFactory officeProductFactory)
+        public OfficeProductService(LetterAmazerEntities repository,IOfficeProductFactory officeProductFactory,ICacheService cacheService)
         {
             this.repository = repository;
             this.officeProductFactory = officeProductFactory;
+            this.cacheService = cacheService;
         }
 
         public OfficeProduct GetOfficeProductById(int id)
         {
-            var dbOfficeProduct = repository.DbOfficeProducts.FirstOrDefault(c => c.Id == id);
-
-            if (dbOfficeProduct == null)
+            var cacheKey = cacheService.GetCacheKey(MethodBase.GetCurrentMethod().Name, id.ToString());
+            if (!cacheService.ContainsKey(cacheKey))
             {
-                return null;
-            }
+                var dbOfficeProduct = repository.DbOfficeProducts.FirstOrDefault(c => c.Id == id);
 
-            var officeProduct = officeProductFactory.Create(dbOfficeProduct);
-            return officeProduct;
+                if (dbOfficeProduct == null)
+                {
+                    return null;
+                }
+
+                var officeProduct = officeProductFactory.Create(dbOfficeProduct);
+                cacheService.Create(cacheKey, officeProduct);
+                return officeProduct;
+            }
+            return (OfficeProduct) cacheService.GetById(cacheKey);
         }
 
         public List<OfficeProduct> GetOfficeProductBySpecification(OfficeProductSpecification specification)
@@ -97,6 +107,10 @@ namespace LetterAmazer.Business.Services.Services
             {
                 dbProducts = dbProducts.Where(c => c.Enabled);
             }
+            if (specification.EnvelopeId > 0)
+            {
+                dbProducts = dbProducts.Where(c => c.EnvelopeId == specification.EnvelopeId);
+            }
 
             return
                 officeProductFactory.Create(dbProducts.OrderBy(c => c.Id).Skip(specification.Skip).Take(specification.Take).ToList());
@@ -120,12 +134,15 @@ namespace LetterAmazer.Business.Services.Services
                 OfficeProductReferenceId = officeProduct.OfficeProductReferenceId,
                 ShippingWeekdays = officeProduct.ShippingDays,
                 Enabled = officeProduct.Enabled,
-                Automatic =officeProduct.Automatic
+                Automatic =officeProduct.Automatic,
+                DeliveryLabel = (int)officeProduct.DeliveryLabel,
+                EnvelopeId = officeProduct.EnvelopeId
             };
 
             repository.DbOfficeProducts.Add(dbOfficeProduct);
             repository.SaveChanges();
 
+            cacheService.Delete(cacheService.GetCacheKey("GetOfficeProductById",dbOfficeProduct.Id.ToString()));
             return GetOfficeProductById(dbOfficeProduct.Id);
 
         }
@@ -155,8 +172,10 @@ namespace LetterAmazer.Business.Services.Services
             dbOfficeProduct.ShippingWeekdays = officeProduct.ShippingDays;
             dbOfficeProduct.Enabled = officeProduct.Enabled;
             dbOfficeProduct.Automatic = officeProduct.Automatic;
+            dbOfficeProduct.DeliveryLabel = (int) officeProduct.DeliveryLabel;
+            dbOfficeProduct.EnvelopeId = officeProduct.EnvelopeId;
 
-
+            cacheService.Delete(cacheService.GetCacheKey("GetOfficeProductById", dbOfficeProduct.Id.ToString()));
             return GetOfficeProductById(officeProduct.Id);
         }
 
@@ -172,7 +191,7 @@ namespace LetterAmazer.Business.Services.Services
             repository.DbOfficeProducts.Remove(dbProduct);
 
             repository.SaveChanges();
-
+            cacheService.Delete(cacheService.GetCacheKey("GetOfficeProductById", officeProduct.Id.ToString()));
         }
 
         /// <summary>

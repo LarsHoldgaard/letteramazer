@@ -63,13 +63,16 @@
     <Compile Include="Data\DbCountryNames.cs">
       <DependentUpon>LetterAmazer.tt</DependentUpon>
     </Compile>
-    <Compile Include="Data\DbCoupons.cs">
-      <DependentUpon>LetterAmazer.tt</DependentUpon>
-    </Compile>
     <Compile Include="Data\DbCurrencies.cs">
       <DependentUpon>LetterAmazer.tt</DependentUpon>
     </Compile>
     <Compile Include="Data\DbCustomers.cs">
+      <DependentUpon>LetterAmazer.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\DbEnvelopes.cs">
+      <DependentUpon>LetterAmazer.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\DbEnvelopeWindows.cs">
       <DependentUpon>LetterAmazer.tt</DependentUpon>
     </Compile>
     <Compile Include="Data\DbExchangeRates.cs">
@@ -109,6 +112,12 @@
       <DependentUpon>LetterAmazer.tt</DependentUpon>
     </Compile>
     <Compile Include="Data\DbOrganisationProfileSettings.cs">
+      <DependentUpon>LetterAmazer.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\DbPartners.cs">
+      <DependentUpon>LetterAmazer.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\DbPartnerTransactions.cs">
       <DependentUpon>LetterAmazer.tt</DependentUpon>
     </Compile>
     <Compile Include="Data\DbPaymentMethods.cs">

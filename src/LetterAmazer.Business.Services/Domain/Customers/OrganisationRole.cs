@@ -9,6 +9,7 @@ namespace LetterAmazer.Business.Services.Domain.Customers
     public enum OrganisationRole
     {
         User=0,
-        Administrator=1
+        Administrator=1,
+        Poweruser=2
     }
 }

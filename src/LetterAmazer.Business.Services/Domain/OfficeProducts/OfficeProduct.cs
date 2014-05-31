@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
-using iTextSharp.text;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using LetterAmazer.Business.Services.Domain.Letters;
-using LetterAmazer.Business.Services.Domain.Offices;
 using LetterAmazer.Business.Services.Domain.Pricing;
 using LetterAmazer.Business.Services.Domain.ProductMatrix;
 
@@ -31,6 +33,8 @@ namespace LetterAmazer.Business.Services.Domain.OfficeProducts
         public bool Enabled { get; set; }
 
         public bool Automatic { get; set; }
+        public DeliveryLabel DeliveryLabel { get; set; }
+        public int EnvelopeId { get; set; }
 
         public OfficeProduct()
         {

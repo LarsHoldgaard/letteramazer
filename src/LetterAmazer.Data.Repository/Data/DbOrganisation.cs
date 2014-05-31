@@ -37,6 +37,8 @@ namespace LetterAmazer.Data.Repository.Data
         public bool IsPrivate { get; set; }
         public Nullable<int> RequiredFulfillmentPartnerId { get; set; }
         public Nullable<int> RequiredOfficeId { get; set; }
+        public decimal Credits { get; set; }
+        public decimal CreditLimit { get; set; }
     
         public virtual ICollection<DbApiAccess> DbApiAccess { get; set; }
         public virtual ICollection<DbOrganisationAddressList> DbOrganisationAddressList { get; set; }

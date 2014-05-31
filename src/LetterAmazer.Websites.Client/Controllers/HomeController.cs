@@ -12,8 +12,10 @@ using LetterAmazer.Business.Services.Domain.Organisation;
 using LetterAmazer.Business.Services.Domain.PriceUpdater;
 using LetterAmazer.Business.Services.Domain.Pricing;
 using LetterAmazer.Business.Services.Domain.Products.ProductDetails;
+using LetterAmazer.Business.Services.Exceptions;
 using LetterAmazer.Business.Utils.Helpers;
 using LetterAmazer.Websites.Client.Attributes;
+using LetterAmazer.Websites.Client.Helpers;
 using LetterAmazer.Websites.Client.ViewModels;
 using System;
 using System.Web.Mvc;
@@ -33,25 +35,21 @@ namespace LetterAmazer.Websites.Client.Controllers
 
         private ICountryService countryService;
         private ICustomerService customerService;
-        private IOfficeService officeService;
         private IMailService mailService;
         private IPriceService priceService;
         private IOrganisationService organisationService;
         private IPriceUpdater priceUpdater;
-        private IDeliveryJobService deliveryJobService;
         private IContentService contentService;
-        public HomeController(ICustomerService customerService,IOfficeService officeService,IPriceUpdater priceUpdater,
+        public HomeController(ICustomerService customerService,IPriceUpdater priceUpdater,
             IMailService mailService, ICountryService countryService, IPriceService priceService, IOrganisationService organisationService,
-            IDeliveryJobService deliveryJobService,IContentService contentService)
+            IContentService contentService)
         {
             this.customerService = customerService;
-            this.officeService = officeService;
             this.countryService = countryService;
             this.mailService = mailService;
             this.priceService = priceService;
             this.organisationService = organisationService;
             this.priceUpdater = priceUpdater;
-            this.deliveryJobService = deliveryJobService;
             this.contentService = contentService;
         }
 
@@ -65,35 +63,13 @@ namespace LetterAmazer.Websites.Client.Controllers
                 IsLoggedIn = SessionHelper.Customer != null 
             };
 
-            var countries = countryService.GetCountryBySpecificaiton(new CountrySpecification()
-            {
-                Take = 999
-            });
-
-            foreach (var country in countries)
-            {
-                var selectedItem = new SelectListItem()
-                {
-                    Text = country.Name,
-                    Value = country.Id.ToString()
-                };
-
-                if (country.Id == 59)
-                {
-                    selectedItem.Selected = true;
-                }
-
-                windowedModel.Countries.Add(selectedItem);
-            }
+            Helper.FillCountries(countryService, windowedModel.Countries, 59);
 
             return View(windowedModel);
         }
 
         public ActionResult Faq()
         {
-            
-            priceUpdater.Execute();
-            //deliveryJobService.Execute(false);
             return View();
         }
 
@@ -141,34 +117,6 @@ namespace LetterAmazer.Websites.Client.Controllers
 
         public ActionResult About()
         {
-            //var countries = countryService.GetCountryBySpecificaiton(new CountrySpecification()
-            //{
-            //    Take = 999
-            //});
-
-            //var path =
-            //        "C:\\Users\\larsholdgaard\\Documents\\Work\\output";
-            //var files = Directory.GetFiles(path).ToList();
-
-            //int i = 0;
-            //foreach (var country in countries)
-            //{
-            //    var currentpath = files[i];
-            //    StreamReader rdr = new StreamReader(currentpath);
-            //    var data = rdr.ReadToEnd();
-
-            //    //
-            //    CmsContent content = new CmsContent()
-            //    {
-            //        Alias = country.Alias,
-            //        Section = "sendletter",
-            //        Headline = "Send a letter to " + country.Name + " online (ie. " + country.Capital + ")",
-            //        Content = data
-            //    };
-            //    contentService.Create(content);
-            //    i++;
-            //}
-
             return View();
         }
 
@@ -177,13 +125,25 @@ namespace LetterAmazer.Websites.Client.Controllers
             return View();
         }
 
+        public ActionResult Privacy()
+        {
+            return View();
+        }
+
+        public ActionResult Terms()
+        {
+            return View();
+        }
+
         public ActionResult Pricing()
         {
             var prices = buildPriceViewModel(59); // ID of Denmark. TODO: some IP to countryID?
 
+            
             PriceOverviewViewModel priceOverviewViewModel = new PriceOverviewViewModel();
             priceOverviewViewModel.PriceViewModel = prices;
 
+            
             var countries = countryService.GetCountryBySpecificaiton(new CountrySpecification()
             {
                 Take = 999
@@ -204,6 +164,7 @@ namespace LetterAmazer.Websites.Client.Controllers
 
         public ActionResult GetSendALetterTo(string alias)
         {
+            // TODO: clean up
             var countries = countryService.GetCountryBySpecificaiton(new CountrySpecification()
             {
                 Take = 999
@@ -236,6 +197,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                 SendWindowedLetterViewModel = windowedModel
             };
 
+
             foreach (var acountry in countries)
             {
                 sendaletterto.SendWindowedLetterViewModel.Countries.Add(new SelectListItem()
@@ -256,6 +218,7 @@ namespace LetterAmazer.Websites.Client.Controllers
 
         public ActionResult GetPricing(string alias)
         {
+            // TODO: clean up
             var countries = countryService.GetCountryBySpecificaiton(new CountrySpecification()
             {
                 Take = 999
@@ -307,38 +270,47 @@ namespace LetterAmazer.Websites.Client.Controllers
             return pricing.PriceExVat;
         }
 
-        [HttpGet, AutoErrorRecovery]
-        public ActionResult Login()
+
+        public ActionResult Account()
         {
-            LoginViewModel model = new LoginViewModel();
-            return View(model);
+            AccountViewModel viewModel= new AccountViewModel();
+
+            Helper.FillCountries(countryService, viewModel.RegisterViewModel.Countries, 59);
+            return View(viewModel);
         }
 
         [HttpPost]
-        public ActionResult Login(LoginViewModel model)
+        public ActionResult Login(AccountViewModel accountViewModel)
         {
+            var model = accountViewModel.LoginViewModel;
+            var customer = customerService.LoginUser(model.Email, model.Password);
+
             try
             {
-                var customer = customerService.LoginUser(model.Email, model.Password);
-
-                SessionHelper.Customer = customer;
-                FormsAuthentication.SetAuthCookie(customer.Id.ToString(), model.Remember ?? false);
-
-                if (!string.IsNullOrEmpty(model.ReturnUrl))
+                if (customer != null)
                 {
-                    return Redirect(model.ReturnUrl);
+                    SessionHelper.Customer = customer;
+                    FormsAuthentication.SetAuthCookie(customer.Id.ToString(), model.Remember ?? false);
+
+                    if (!string.IsNullOrEmpty(model.ReturnUrl))
+                    {
+                        return Redirect(model.ReturnUrl);
+                    }
+
+                    return RedirectToAction("Index", "User");    
                 }
+                ModelState.AddBusinessError("Email and password combination is invalid");
                 
-                return RedirectToAction("Index", "User");
             }
             catch (Exception ex)
             {
                 logger.Error(ex);
-                ModelState.AddBusinessError(LetterAmazer.Websites.Client.Resources.Views.Shared.ViewRes.EmailOrPasswordInvalid);
+                ModelState.AddBusinessError("Email and password combination is invalid");
             }
 
             FormsAuthentication.SignOut();
-            return RedirectToActionWithError("Login", model);
+            
+            return RedirectToActionWithError("Account",accountViewModel);
         }
 
         [HttpGet, AutoErrorRecovery]
@@ -346,41 +318,15 @@ namespace LetterAmazer.Websites.Client.Controllers
         {
             SessionHelper.Customer = null;
             FormsAuthentication.SignOut();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index","Home");
         }
 
-        [HttpGet, AutoErrorRecovery]
-        public ActionResult Register()
-        {
-            RegisterViewModel model = new RegisterViewModel();
-
-            var countries = countryService.GetCountryBySpecificaiton(new CountrySpecification()
-            {
-                Take = 999
-            });
-
-            foreach (var country in countries)
-            {
-                var selectedItem = new SelectListItem()
-                {
-                    Text = country.Name,
-                    Value = country.Id.ToString()
-                };
-
-                if (country.Id == 59)
-                {
-                    selectedItem.Selected = true;
-                }
-
-                model.Countries.Add(selectedItem);
-            }
-
-            return View(model);
-        }
 
         [HttpPost]
-        public ActionResult Register(RegisterViewModel model)
+        public ActionResult Register(AccountViewModel accountViewModel)
         {
+            var model = accountViewModel.RegisterViewModel;
+
             try
             {
                 Customer customer = new Customer();
@@ -399,19 +345,14 @@ namespace LetterAmazer.Websites.Client.Controllers
                 {
                     return RedirectToAction("EditOrganisation", "User");
                 }
-                else
+                if (cust.Organisation != null && cust.Organisation.Id > 0)
                 {
-                    if (cust.Organisation != null && cust.Organisation.Id > 0)
-                    {
-                        cust.Organisation = null;
-                        customerService.Update(cust);
-                        this.organisationService.Delete(cust.Organisation);
-                    }
-
-                    return RedirectToAction("CreateOrganisation", "User");
+                    cust.Organisation = null;
+                    customerService.Update(cust);
+                    this.organisationService.Delete(cust.Organisation);
                 }
 
-                
+                return RedirectToAction("CreateOrganisation", "User");
             }
             catch (Exception ex)
             {
@@ -419,7 +360,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                 ModelState.AddBusinessError(ex.Message);
             }
 
-            return RedirectToActionWithError("Register", model);
+            return RedirectToActionWithError("Account", accountViewModel);
         }
 
 
@@ -435,15 +376,22 @@ namespace LetterAmazer.Websites.Client.Controllers
         {
             try
             {
-                customerService.RecoverPassword(model.Email);
+                if (ModelState.IsValid)
+                {
+                    customerService.RecoverPassword(model.Email);
+                    return RedirectToAction("ForgotPasswordSuccess");
+                }
 
-                return RedirectToAction("ForgotPasswordSuccess");
+            }
+            catch (BusinessException businessException)
+            {
+                ModelState.AddBusinessError("We could not find any users with the provided e-mail address");
             }
             catch (Exception)
             {
-                ModelState.AddBusinessError(LetterAmazer.Websites.Client.Resources.Views.Shared.ViewRes.EmailInvalid);
+                ModelState.AddBusinessError("We could not find any users with the provided e-mail address");
             }
-
+                   
             return RedirectToActionWithError("ForgotPassword", model);
         }
 
@@ -462,7 +410,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                     ResetPasswordKey = key
                 }).FirstOrDefault();
 
-                return View(new RegisterViewModel() { ResetPasswordKey = key });
+                return View(new RegisterViewModel() { ResetPasswordKey = key, Email = customer.Email });
             }
             catch (Exception ex)
             {
@@ -527,29 +475,12 @@ namespace LetterAmazer.Websites.Client.Controllers
 
         private PriceViewModel buildPriceViewModel(int standardCountryId)
         {
-            var countries = countryService.GetCountryBySpecificaiton(new CountrySpecification()
-            {
-                Take = 999
-            });
-
+            
             PriceViewModel prices = new PriceViewModel();
-            foreach (var country in countries)
-            {
-                var selectedItem = new SelectListItem()
-                {
-                    Text = country.Name,
-                    Value = country.Id.ToString(),
-                };
-
-                if (country.Id == standardCountryId)
-                {
-                    selectedItem.Selected = true;
-                }
-
-                prices.Countries.Add(selectedItem);
-            }
-
+            Helper.FillCountries(countryService, prices.Countries, standardCountryId);
+            
             prices.SelectedLetterSizes = ControllerHelpers.GetEnumSelectList<LetterSize>().ToList();
+            prices.SelectedLetterSizes.RemoveAt(1);
             return prices;
         }
 

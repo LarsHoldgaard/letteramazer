@@ -17,6 +17,10 @@ namespace LetterAmazer.Business.Services.Domain.Organisation
         public DateTime? DateDeleted { get; set; }
         public Guid Guid { get; set; }
 
+
+        public decimal Credit { get; set; }
+        public decimal CreditLimit { get; set; }
+
         public List<AddressList> AddressList { get; set; }
 
         public bool IsPrivate { get; set; }

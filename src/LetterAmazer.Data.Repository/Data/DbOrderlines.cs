@@ -21,7 +21,6 @@ namespace LetterAmazer.Data.Repository.Data
         public int Quantity { get; set; }
         public decimal PriceExVat { get; set; }
         public Nullable<int> PaymentMethodId { get; set; }
-        public Nullable<int> CouponId { get; set; }
         public decimal VatPercentage { get; set; }
         public decimal Total { get; set; }
     

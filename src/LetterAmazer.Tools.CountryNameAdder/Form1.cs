@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using LetterAmazer.Business.Services.Domain.Countries;
 using LetterAmazer.Business.Services.Factory;
 using LetterAmazer.Business.Services.Services;
+using LetterAmazer.Business.Services.Services.Caching;
 using LetterAmazer.Data.Repository.Data;
 
 namespace LetterAmazer.Tools.CountryNameAdder
@@ -25,7 +26,7 @@ namespace LetterAmazer.Tools.CountryNameAdder
             InitializeComponent();
 
             this.countries = new List<Country>();
-            this.countryService = new CountryService(new LetterAmazerEntities(), new CountryFactory());
+            this.countryService = new CountryService(new LetterAmazerEntities(), new CountryFactory(),new HttpCacheService());
         }
 
 

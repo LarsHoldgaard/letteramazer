@@ -1,0 +1,84 @@
+﻿@using LetterAmazer.Websites.Client.Extensions
+@model LetterAmazer.Websites.Client.ViewModels.AccountViewModel
+
+@{
+    Layout = "~/Views/Shared/_Standard.cshtml";
+    ViewBag.PageTitle = "Log in or create a user - LetterAmazer";
+}
+
+@section header {
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.validate.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")"></script>
+}
+
+
+@Html.ValidationSummary() 
+@Html.BusinessErrorMessageBox()
+<div class="row">
+    <div class="col-md-6">
+
+        <h1>Get your free account</h1>
+        <p>
+            Accounts are for everyone. By creating a <b>free account</b>, you are able to:
+            <br />
+            <ul class="list-checkmarks">
+                <li><img src="/Content/images/icons/1400886751_onebit_34.png" class="checkmark" /> Send letters much faster</li>
+                <li><img src="/Content/images/icons/1400886751_onebit_34.png" class="checkmark" /> Insert money on your account, so you don't have to pay every time you send a letter</li>
+                <li><img src="/Content/images/icons/1400886751_onebit_34.png" class="checkmark" /> Get an overview of all your invoices</li>
+                <li>
+                    <img src="/Content/images/icons/1400886751_onebit_34.png" class="checkmark" /> See and download all letters you have previously sent
+                </li>
+            </ul>
+        </p>
+
+        <h3>Get your free account now</h3>
+        @using (Html.BeginForm("Register", "Home", FormMethod.Post, new { @class = "form" }))
+        {
+            
+
+            <div class="form-group">
+                <label>Email address</label>
+                @Html.TextBoxFor(m => m.RegisterViewModel.Email, new { @class = "form-control", placeholder = "Email", @type = "email" })
+                @Html.ValidationMessageFor(m => m.RegisterViewModel.Email)
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                @Html.PasswordFor(m => m.RegisterViewModel.Password, new { @class = "form-control", placeholder = "Password" })
+                @Html.ValidationMessageFor(m => m.RegisterViewModel.Password)
+            </div>
+            <div class="form-group">
+                <label>Your country (the country where you live or where your organization is registered in)</label>
+                @Html.DropDownListFor(model => model.RegisterViewModel.SelectedCountry, Model.RegisterViewModel.Countries, new { @class = "form-control" })
+            </div>
+            <input type="submit" class="btn btn-primary btn-lg" value="Get your free account now" />
+        }
+
+
+    </div>
+
+
+    <div class="col-md-6 border-left">
+        <h1>Log into existing account</h1>
+       
+
+        @using (Html.BeginForm("Login", "Home", FormMethod.Post))
+        {
+            <div class="form-group">
+                <label>Email address</label>
+                @Html.TextBoxFor(m => m.LoginViewModel.Email, new { @class = "form-control", placeholder = "E-mail", @type = "email" })
+                @Html.ValidationMessageFor(m => m.LoginViewModel.Email)
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                @Html.PasswordFor(m => m.LoginViewModel.Password, new { @class = "form-control", placeholder = "Password" })
+                @Html.ValidationMessageFor(m => m.LoginViewModel.Password)
+            </div>
+            <input type="submit" class="btn btn-primary btn-lg" value="Log in" />
+            <br/><br/>
+            <p>Did you forget your password? No problem, <a href="@Url.Action("ForgotPassword")">reset your password here</a>.</p>
+
+        }
+
+    </div>
+
+</div>

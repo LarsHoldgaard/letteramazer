@@ -1,6 +1,4 @@
-﻿@using LetterAmazer.Websites.Client.Resources.Views.Home
-
-@model LetterAmazer.Websites.Client.ViewModels.User.SendWindowedLetterViewModel
+﻿@model LetterAmazer.Websites.Client.ViewModels.User.SendWindowedLetterViewModel
 @section header {
     <link href="@Url.Content("~/Scripts/uploadify/uploadify.css")" rel="stylesheet" type="text/css" />
     <script type="text/javascript" src="@Url.Content("~/Scripts/uploadify/jquery.uploadify.min.js")"></script>
@@ -14,167 +12,109 @@
 
 @{
     ViewBag.PageTitle = "Send a letter online - sending snail mail internationally";
+    Layout = "~/Views/Shared/_Standard.cshtml";
 }
 
-<div class="frontpage">
-    <h1>We send letters, worldwide</h1>
-    
-    <div class="row margintop">
-        <div class="col-md-4">
-            <div class="frontpage-top-uspmargin">
-                <img src="@Url.Content("~/Content/images/icons/1395498087_cloud-upload.png")" class="frontpage-top-image-usp" />
-                <span class="frontpage-top-usp">
-                    1. Upload
-                </span>
-                <span class="frontpage-top-usptext">
-                    Send your PDF file. Either use our online form that takes less than 10 seconds, or use our API
-                    <br /><a href="#step_one_upload">Read more</a>
-                </span>
 
-            </div>
-        </div>
+<h1 class="frontpageHeader">We send real letters, worldwide</h1>
 
-        <div class="col-md-4">
-            <div class="frontpage-top-uspmargin">
-                <img src="@Url.Content("~/Content/images/icons/1395600604_print.png")" class="frontpage-top-image-usp" />
-                <span class="frontpage-top-usp">
-                    2. Printing
-                </span>
-                <span class="frontpage-top-usptext">
-                    Your letter is printed at a professional mailing house, and put into a quality envelope
-                    <br /><a href="#step_two_upload">Read more</a>
-                </span>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="frontpage-top-uspmargin">
-                <img src="@Url.Content("~/Content/images/icons/1395498076_130.png")" class="frontpage-top-image-usp" />
-                <span class="frontpage-top-usp">
-                    3. Delivery
-                </span>
-                <span class="frontpage-top-usptext">
-                    Your letter is delivered to the address you wrote in the letter. Usually the next day
-                    <br /><a href="#step_three_shipping">Read more</a>
-                </span>
-            </div>
-        </div>
+<div class="row">
+    <div class="col-md-4 frontPageBox">
+
+        <img src="@Url.Content("~/Content/images/icons/1395498087_cloud-upload.png")" />
+        <span class="lead">
+            1. You upload a file
+        </span>
+        <span>
+            Send your PDF file. Either use our online form that takes less than 10 seconds, or use our API
+            <br /><a href="#step_one_upload">Read more</a>
+        </span>
+
+
     </div>
-    <br />
-    <hr />
-    <br />
-    <div class="row">
-        <div class="col-md-4">
-            <div class="frontpage-top-uspmargin">
-                @*<a href="#sendwindowed">*@<img src="@Url.Content("~/Content/images/icons/windowed_envelope.jpg")" class="frontpage-top-image-usp" />@*</a>*@
-                <span class="frontpage-top-usp">
-                    Send a windowed envelope
-                </span>
-                <span class="frontpage-top-usptext">
-                    Upload a windowed envelope, and we will make sure it arrives in the right place<br />
-                    @*<a href="#sendwindowed" class="btn btn-lg btn-primary buttonmargintop">Try it now</a>*@
-                </span>
 
-            </div>
-        </div>
+    <div class="col-md-4 frontPageBox">
 
-        <div class="col-md-4">
-            <div class="frontpage-top-uspmargin">
-                @*<a href="@Url.Action("Index","SingleLetter")">*@<img src="@Url.Content("~/Content/images/icons/pressed.jpg")" class="frontpage-top-image-usp" />@*</a>*@
-                <span class="frontpage-top-usp">
-                    Send a normal envelope
-                </span>
-                <span class="frontpage-top-usptext">
-                    You write the destination address, which will be printed on the envelope<br />
-                    @*<a href="@Url.Action("Index","SingleLetter")" class="btn btn-lg btn-primary buttonmargintop">Try it now</a>*@
-                </span>
+        <img src="@Url.Content("~/Content/images/icons/1395600604_print.png")" />
+        <span class="lead">
+            2. We print and send your letter
+        </span>
+        <span>
+            Your letter is printed at a professional mailing house, and put into a quality envelope
+            <br /><a href="#step_two_upload">Read more</a>
+        </span>
 
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="frontpage-top-uspmargin">
-                <a href="@Url.Action("Business")">
-                    <img src="@Url.Content("~/Content/images/icons/automation.png")" class="frontpage-top-image-usp" />
-                </a>
-                <span class="frontpage-top-usp">
-                    Automate your business
-                </span>
-                <span class="frontpage-top-usptext">
-                    Stop wasting time and money on sending letters yourself. We can do it faster and cheaper<br />
-                    <a href="@Url.Action("Business")" class="btn btn-lg btn-primary buttonmargintop">Learn more</a>
-                </span>
+    </div>
+    <div class="col-md-4 frontPageBox">
 
-            </div>
-        </div>
+        <img src="@Url.Content("~/Content/images/icons/1395498076_130.png")" />
+        <span class="lead">
+            3. Letters are delivered soon after
+        </span>
+        <span>
+            Your letter is delivered to the address you wrote in the letter. Usually the next day
+            <br /><a href="#step_three_shipping">Read more</a>
+        </span>
+
     </div>
 </div>
-<br />
-<hr />
-<br />
-<div class="frontpage-top-usptext" style="text-align:left">
-    <span id="step_one_upload" class="frontpage-top-description-header">
-        1. Uploading a file to LetterAmazer
-    </span>
-    <p>
-        Uploading a file to LetterAmazer is simple:<br />
-        You select the PDF file you want to send, and you are done.
-    </p>
-    <p>All letters you have sent is stored on your e-mail, which means you can always see what letters you have previously sent.</p>
-</div>
 
 
 <br />
 <hr />
 <br />
-<div class="frontpage-top-usptext" style="text-align:left">
-    <span id="step_two_upload" class="frontpage-top-description-header">
-        2. Printing
-    </span>
-    <p>We use quality printing houses around the world. When you upload a file, we make sure it is sent to a local printing house, that delivers high quality.</p>
-    <p>When we select printing houses, we are very concerned about privacy Therefore, the employees at the printing houses signs a confidentially agreement, to make sure everything is safe.</p>
-</div>
+<h2 id="step_one_upload">
+    1. Uploading a file to LetterAmazer
+</h2>
+<p>
+    Uploading a file to LetterAmazer is simple:<br />
+    You select the PDF file you want to send, and you are done.
+</p>
+<p>All letters you have sent is stored on your e-mail, which means you can always see what letters you have previously sent.</p>
+
+
+
 <br />
 <hr />
 <br />
-<div class="frontpage-top-usptext" style="text-align:left">
-    <span id="step_three_shipping" class="frontpage-top-description-header">
-        3. Delivery
-    </span>
-    <p>
-        The letters are printed locally, and sent locally. That means we use local mail company, to keep price low and quality high.
-    </p>
-    <p>We focus on fast deliveries. Therefore, we strive for a maximum of 2 delivery weekdays for letters.</p>
-</div>
+<h2 id="step_two_upload">
+    2. Printing
+</h2>
+<p>We use quality printing houses around the world. When you upload a file, we make sure it is sent to a local printing house, that delivers high quality.</p>
+<p>When we select printing houses, we are very concerned about privacy Therefore, the employees at the printing houses signs a confidentially agreement, to make sure everything is safe.</p>
 <br />
 <hr />
 <br />
 
-@*<div class="frontpage-send-letters">
-    <span id="sendwindowed" class="frontpage-top-description-header">Try to send a windowed envelope now</span>
-    <p class="frontpage-top-usptext" style="text-align:left;">Important: if you register a user, we won't ask for your e-mail or country, and you can insert money on you account.</p>
-    @Html.Partial("_sendWindowedEnvelope", Model)
-</div>
+<h2 id="step_three_shipping">
+    3. Delivery
+
+</h2>
+<p>
+    The letters are printed locally, and sent locally. That means we use local mail company, to keep price low and quality high.
+</p>
+<p>We focus on fast deliveries. Therefore, we strive for a maximum of 2 delivery weekdays for letters.</p>
+
 <br />
 <hr />
-<br />*@
+<br />
 
-<div style="font-size:12pt;">
-    
-        <h2 class="frontpage-top-description-header">Send a letter online - sending snail mail internationally</h2>
-    
 
-    <p>15 Years ago we were blessed with the invention of e-mail, and communication has been extremely easy since. However, we all send physical letters from time to time. </p>
+<h2>Send a letter online - sending snail mail internationally</h2>
 
-    <p>Sending physical letters is so tiresome. First you have to <strong>buy some windowed envelopes</strong>. Then you have to <strong>manually adjust the document</strong>, so the recipients address fit the window in the envelope. Then you have to <strong>print the documents on a printer</strong> (oh wait, who does actually own a working printer with ink these days?). Then you have to <strong>bend the paper</strong>, and manually put the <strong>paper down in the envelope</strong>. Afterwards, you have to close the envelope (if you are lucky they seal automatically, if you are unlucky you have to use your tongue). At last, you have forgotten to <strong>buy stamps</strong>, and you need to go <strong>down to the postal office and buy them</strong>. Then you can send your letters… if you can find a mailbox.</p>
 
-    <p>We have decided to fix this problem so none ever has to face it again.</p>
+<p>15 Years ago we were blessed with the invention of e-mail, and communication has been extremely easy since. However, we all send physical letters from time to time. </p>
 
-    <p>We have made a service which makes it easy to send letters. You go to www.letteramazer.com, upload the letter as a file and then we send the letter for you. Easy, done deal.</p>
+<p>Sending physical letters is so tiresome. First you have to <strong>buy some windowed envelopes</strong>. Then you have to <strong>manually adjust the document</strong>, so the recipients address fit the window in the envelope. Then you have to <strong>print the documents on a printer</strong> (oh wait, who does actually own a working printer with ink these days?). Then you have to <strong>bend the paper</strong>, and manually put the <strong>paper down in the envelope</strong>. Afterwards, you have to close the envelope (if you are lucky they seal automatically, if you are unlucky you have to use your tongue). At last, you have forgotten to <strong>buy stamps</strong>, and you need to go <strong>down to the postal office and buy them</strong>. Then you can send your letters… if you can find a mailbox.</p>
 
-    <p>Heck, this is especially easy if you have a business. You can create an account with some credits, so you don't have to worry about payment each time. Then you can easily send letters from our website without using any form of payment.
+<p>We have decided to fix this problem so none ever has to face it again.</p>
 
-    <p>Good. It's time to stop the madness. Enough time has been spent licking those damn envelopes and stamps. Let's save time and money, and make everyone happier.</p>
+<p>We have made a service which makes it easy to send letters. You go to www.letteramazer.com, upload the letter as a file and then we send the letter for you. Easy, done deal.</p>
 
-    <p>Welcome to LetterAmazer.</p>
-    
-    <a href="@Url.Action("Index","SingleLetter")" >Try sending a letter now</a>
-</div>
+<p>Heck, this is especially easy if you have a business. You can create an account with some credits, so you don't have to worry about payment each time. Then you can easily send letters from our website without using any form of payment.
+
+<p>Good. It's time to stop the madness. Enough time has been spent licking those damn envelopes and stamps. Let's save time and money, and make everyone happier.</p>
+
+<p>Welcome to LetterAmazer.</p>
+
+<a href="/sendletters/denmark">Try sending a letter now</a>

@@ -7,34 +7,13 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.UI.WebControls;
+using Newtonsoft.Json;
 
 namespace LetterAmazer.Business.Utils.Helpers
 {
     public static class HelperMethods
     {
-        /// <summary>
-        /// Used to synchronize the random method, so it gives different numbers when used in a loop
-        /// </summary>
-        private static readonly object syncLock = new object();
 
-        /// <summary>
-        /// Random generator to generate solutions/assignments
-        /// </summary>
-        private static readonly Random ran = new Random();
-
-        /// <summary>
-        /// Will return anything from the min to the max-1
-        /// </summary>
-        /// <param name="min"></param>
-        /// <param name="max"></param>
-        /// <returns></returns>
-        public static int GetRandomInt(int min, int max)
-        {
-            lock (syncLock)
-            {
-                return ran.Next(min, max);
-            }
-        }
 
         public static string UppercaseFirst(string s)
         {
@@ -194,6 +173,11 @@ namespace LetterAmazer.Business.Utils.Helpers
                     result.Append(str[i]);
             }
             return result.ToString();
+        }
+
+        public static string[] RemoveJsonFromEntries(string entries)
+        {
+            return JsonConvert.DeserializeObject<string[]>(entries);
         }
 
         public static bool ScrambledEquals<T>(IEnumerable<T> list1, IEnumerable<T> list2)

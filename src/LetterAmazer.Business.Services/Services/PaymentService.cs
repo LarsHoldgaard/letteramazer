@@ -1,10 +1,9 @@
-﻿using Amazon.EC2.Model;
-using LetterAmazer.Business.Services.Domain.Countries;
-using LetterAmazer.Business.Services.Domain.Coupons;
+﻿using LetterAmazer.Business.Services.Domain.Countries;
 using LetterAmazer.Business.Services.Domain.Customers;
 using LetterAmazer.Business.Services.Domain.Invoice;
 using LetterAmazer.Business.Services.Domain.Mails;
 using LetterAmazer.Business.Services.Domain.Orders;
+using LetterAmazer.Business.Services.Domain.Organisation;
 using LetterAmazer.Business.Services.Domain.Payments;
 using LetterAmazer.Business.Services.Domain.Pricing;
 using LetterAmazer.Business.Services.Domain.Products;
@@ -12,9 +11,6 @@ using LetterAmazer.Business.Services.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using LetterAmazer.Business.Services.Factory;
 using LetterAmazer.Business.Services.Factory.Interfaces;
 using LetterAmazer.Business.Services.Services.PaymentMethods.Implementations;
 using LetterAmazer.Data.Repository.Data;
@@ -26,27 +22,26 @@ namespace LetterAmazer.Business.Services.Services
         private IPaymentFactory paymentFactory;
         private LetterAmazerEntities repository;
         private IPriceService priceService;
-        private ICouponService couponService;
         private ICustomerService customerService;
         private IOrderService orderService;
         private ICountryService countryService;
         private IInvoiceService invoiceService;
         private IMailService mailService;
+        private IOrganisationService organisationService;
 
-        public PaymentService(LetterAmazerEntities repository,IPriceService priceService,IPaymentFactory paymentFactory, 
-            ICouponService couponService, ICustomerService customerService, 
+        public PaymentService(LetterAmazerEntities repository,IPriceService priceService,IPaymentFactory paymentFactory,  ICustomerService customerService, 
             IOrderService orderService, ICountryService countryService, IInvoiceService invoiceService,
-            IMailService mailService)
+            IMailService mailService, IOrganisationService organisationService)
         {
             this.priceService = priceService;
             this.repository = repository;
             this.paymentFactory = paymentFactory;
-            this.couponService = couponService;
             this.customerService = customerService;
             this.orderService = orderService;
             this.countryService = countryService;
             this.invoiceService = invoiceService;
             this.mailService = mailService;
+            this.organisationService = organisationService;
         }
 
         public string Process(Order order)
@@ -84,6 +79,21 @@ namespace LetterAmazer.Business.Services.Services
                         c => c.MinimumAmount <= specification.TotalPrice && c.MaximumAmount >= specification.TotalPrice);
             }
 
+            if (specification.PaymentType != null)
+            {
+                if (specification.PaymentType.Value == PaymentType.Credits)
+                {
+                    // remove credits from payment methods
+                    dbPaymentMethods = dbPaymentMethods.Where(c => c.Id != 2);
+                }
+                if (specification.PaymentType.Value == PaymentType.Letters)
+                {
+                    // remove invoice from payment methods
+                    dbPaymentMethods = dbPaymentMethods.Where(c => c.Id != 5);
+                }
+
+            }
+
             return paymentFactory.Create(dbPaymentMethods.OrderBy(c=>c.SortOrder).Skip(specification.Skip).Take(specification.Take).ToList());
         }
 
@@ -105,11 +115,7 @@ namespace LetterAmazer.Business.Services.Services
         {
             if (name == "Credit")
             {
-                return new CreditsMethod(customerService,orderService);
-            }
-            else if (name == "Coupon")
-            {
-                return new CouponMethod(couponService);
+                return new CreditsMethod(customerService,orderService,organisationService);
             }
             else if (name == "Invoice")
             {
@@ -117,7 +123,11 @@ namespace LetterAmazer.Business.Services.Services
             }
             else if (name == "Bitcoin")
             {
-                return new BitcoinMethod();
+                return new BitPayMethod();
+            }
+            else if (name == "Epay")
+            {
+                return new EpayMethod();
             }
             else
             {

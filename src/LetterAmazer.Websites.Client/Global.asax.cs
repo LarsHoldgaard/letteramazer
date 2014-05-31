@@ -3,6 +3,8 @@ using Castle.MicroKernel.Registration;
 using Castle.Windsor;
 using Castle.Windsor.Installer;
 using LetterAmazer.Business.Services;
+using LetterAmazer.Business.Services.Services.Caching;
+using LetterAmazer.Business.Services.Services.Partners.Invoice;
 using LetterAmazer.Data.Repository.Data;
 using LetterAmazer.Websites.Client.IoC;
 using System;
@@ -68,9 +70,12 @@ namespace LetterAmazer.Websites.Client
 
         private void registerCustom()
         {
+            Container.Register(Component.For<EconomicInvoiceService>());
+            Container.Register(Component.For<LetterAmazerEntities>());
+            
             // All services in service DLL
             var assembly = Assembly.LoadFrom(Server.MapPath("~/bin/LetterAmazer.Business.Services.dll"));
-            ;
+            
             Container.Register(
                 Classes.FromAssembly(assembly)
                     .InNamespace("LetterAmazer.Business.Services.Services")
@@ -86,6 +91,15 @@ namespace LetterAmazer.Websites.Client
                     .InNamespace("LetterAmazer.Business.Services.Services.PaymentMethods.Implementations")
                     .WithServiceAllInterfaces());
 
+            Container.Register(
+                Classes.FromAssembly(assembly)
+                    .InNamespace("LetterAmazer.Business.Services.Services.Partners")
+                    .WithServiceAllInterfaces());
+
+            Container.Register(
+                Classes.FromAssembly(assembly)
+                    .InNamespace("LetterAmazer.Business.Services.Services.Caching").If(c => c.Name != "MemoryCache")
+                    .WithServiceAllInterfaces());
 
 
             // All factories in service DLL
@@ -95,7 +109,7 @@ namespace LetterAmazer.Websites.Client
                     .WithServiceAllInterfaces());
 
 
-            Container.Register(Component.For<LetterAmazerEntities>());
+
         }
 
         public IWindsorContainer Container

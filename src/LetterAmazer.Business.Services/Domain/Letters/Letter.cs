@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Amazon.EC2.Model;
 using LetterAmazer.Business.Services.Domain.AddressInfos;
 using LetterAmazer.Business.Services.Domain.Customers;
+using LetterAmazer.Business.Services.Domain.OfficeProducts;
 using LetterAmazer.Business.Services.Domain.Orders;
 using LetterAmazer.Business.Services.Domain.Products;
 
@@ -16,6 +17,8 @@ namespace LetterAmazer.Business.Services.Domain.Letters
         public int Id { get; set; }
         public Guid Guid { get; set; }
         public int OrderId { get; set; }
+        public int CustomerId { get; set; }
+        public int OrganisationId { get; set; }
         public AddressInfo FromAddress { get; set; }
         public AddressInfo ToAddress { get; set; }
         public LetterStatus LetterStatus { get; set; }
@@ -24,6 +27,8 @@ namespace LetterAmazer.Business.Services.Domain.Letters
         public LetterDetails LetterDetails { get; set; }
 
         public int OfficeId { get; set; }
+        public DeliveryLabel DeliveryLabel { get; set; }
+        public int ReturnLabel { get; set; }
 
         public Letter()
         {

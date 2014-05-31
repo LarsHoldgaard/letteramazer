@@ -1,0 +1,106 @@
+﻿@model LetterAmazer.Websites.Client.ViewModels.Partner.PartnerInvoiceOverviewViewModel
+
+@section header {
+    <script type="text/javascript" src="@Url.Content("~/Scripts/knockout-3.0.0.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/internals/economics-viewmodel.js")"></script>
+}
+
+<div id="economicInvoiceOverview">
+
+
+    <h1>E-conomic invoices</h1>
+
+    From <input id="fromDateInput" type="date" data-bind="value: dateFrom" />
+    to <input id="toDateInput" type="date" data-bind="value: dateTo" />
+    <input type="submit" value="Search" class="btn-sm btn-success" />
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>
+                    Print document
+                </th>
+                <th>
+                    Invoice date
+                </th>
+                <th>
+                    Customer name
+                </th>
+                <th>Customer country</th>
+                <th>
+                    Invoice amount
+                </th>
+                <th>
+                    Download
+                </th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody data-bind="foreach: invoices">
+            <tr>
+                <td>
+                    <input type="checkbox" data-bind="checked: print, click:updatePrices" />
+                </td>
+                <td data-bind="text: invoiceDate"></td>
+                <td data-bind="text: customerName"></td>
+                <td data-bind="text: customerCountry"></td>
+
+                <td data-bind="text: amount"></td>
+                <td>
+                    <a data-bind="attr: { href: pdfLink }">Download</a>
+                </td>
+                <td data-bind="text: status">
+                    @*<input type="checkbox" data-bind="checked: status" />*@
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+
+    @using (Html.BeginForm("Economic", "Partner", FormMethod.Post))
+    {
+        <div>
+            @Html.DropDownListFor(model => model.SelectedCountry, Model.Countries, new Dictionary<string, object> { { "class", "form-control sendaletter_countrylist" }, { "data-bind", "value:countryId" } })
+            @Html.HiddenFor(m => m.SelectedCountry, new Dictionary<string, object> { { "data-bind", "value:countryId" } })
+            
+            @*@Html.DropDownListFor(model => model.SelectedOriginCountry, Model.Countries, new Dictionary<string, object> { { "class", "form-control sendaletter_countrylist" }, { "data-bind", "value:originCountryId" } })
+            @Html.HiddenFor(m => m.SelectedOriginCountry, new Dictionary<string, object> { { "data-bind", "value:originCountryId" } })*@
+
+            Amount: <label data-bind="text: invoiceCount()"></label><br />
+            Price: <label data-bind="text:totalPrice().priceExVat"></label><br />
+            Vat (<span data-bind="text:totalPrice().vatPercentage"></span>): <label data-bind="text:totalPrice().vatAmount"></label><br />
+            Total: <label data-bind="text:totalPrice().total()"></label><br />
+
+            <input type="submit" value="Send all letters now" class="btn btn-lg btn-success" />
+        </div>
+        
+        @Html.HiddenFor(m => m.SelectedInvoices, new Dictionary<string, object> { { "data-bind", "value:selectedPrintList()" } })
+    }
+</div>
+
+<script>
+    // set standard dates
+    var dateToday = new Date();
+    var dateStart = dateToday.getDate() - 14;
+
+
+    var invoices = [
+        @foreach (var invoice in Model.PartnerInvoices)
+        {
+            <text>[{ 'orderid': "@invoice.Id", 'invoiceDate': "@invoice.InvoiceDate", 'customerName': "@invoice.CustomerName", 'customerCountry': "@invoice.CustomerCountry", 'amount': "@invoice.Amount", 'pdfLink': "@invoice.PdfUrl", 'status': "@(invoice.Status?"Sent":"Not sent")" }],</text>
+        }
+    ];
+
+    // set data
+    var data = {
+        dateFrom: dateStart,
+        dateTo: dateToday,
+        invoiceData: invoices
+    };
+
+    
+    // apply knockout bindings
+    var economicViewModel = new EconomicsViewModel('#economicInvoiceOverview', data);
+    ko.applyBindings(economicViewModel, document.getElementById(economicInvoiceOverview));
+
+</script>

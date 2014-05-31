@@ -3,9 +3,9 @@
 @{
 
     ViewBag.PageTitle = "Become a letter fulfillment reseller of partner";
+    Layout = "~/Views/Shared/_Standard.cshtml";
 }           
 
-<div class="frontpage">
     <h1>
         LetterAmazer partner - sell an implementation or become a reseller
     </h1>
@@ -16,7 +16,7 @@
             @Model.Status
         </div>
     }
-    <div class="frontpage-top-usptext" style="text-align:left">
+    
         <p>
             Our software is very flexible, which provides two very interesting opportunities:
             <ul>
@@ -28,14 +28,10 @@
                 </li>
             </ul>
         </p>
-        </div>
-
-        <br />
+    
         <hr />
-        <br />
-
-        <div class="frontpage-top-usptext" style="text-align:left">
-            <span class="frontpage-top-description-header">Become a LetterAmazer partner</span>
+    
+<h2>Become a LetterAmazer partner</h2>
 
 
             <p>The actual implementation of LetterAmazer is a relatively simple task, and it is a value proposition the customers love.</p>
@@ -51,32 +47,16 @@
             <p>We always listen to partners, and if you have any unique requirements, we are always flexible within reasonable limits.</p>
 
 
-        </div>
-
-        <br />
         <hr />
-        <br />
-
-        <div class="frontpage-top-usptext" style="text-align:left">
-            <span class="frontpage-top-description-header">Become a LetterAmazer reseller</span>
+<h2>Become a LetterAmazer reseller</h2>
             <p>If you want to send letters yourself, you can use us as a backend. By using us as a backend, you don’t have to worry about the fulfilment side of the business, which is very time-consuming and difficult.</p>
 
             <p>As with partners, we are also very open to suggestions from resellers.</p>
 
-        </div>
-
-
-        <br />
+        
         <hr />
-        <br />
-
-
-
-
-        <div class="frontpage-top-usptext" style="text-align:left">
-            <span class="frontpage-top-description-header">
-                Interested in either becoming a partner or reseller?
-            </span>
+        
+<h2>Interested in either becoming a partner or reseller?</h2>
             <p>Let’s get in touch. Fill the formula below, or contact us.</p>
 
             @using (Html.BeginForm("Reseller", "Home", FormMethod.Post))
@@ -97,5 +77,3 @@
 
                 <input type="submit" class="btn btn-primary btn-lg" value="Send message" />
             }
-        </div>
-    </div>

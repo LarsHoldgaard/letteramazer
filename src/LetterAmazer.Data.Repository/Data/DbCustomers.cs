@@ -16,6 +16,7 @@ namespace LetterAmazer.Data.Repository.Data
     {
         public DbCustomers()
         {
+            this.DbPartnerTransactions = new HashSet<DbPartnerTransactions>();
             this.DbLetters = new HashSet<DbLetters>();
             this.DbOrders = new HashSet<DbOrders>();
         }
@@ -34,8 +35,6 @@ namespace LetterAmazer.Data.Repository.Data
         public string Password { get; set; }
         public System.DateTime DateCreated { get; set; }
         public Nullable<System.DateTime> DateUpdated { get; set; }
-        public Nullable<decimal> Credits { get; set; }
-        public decimal CreditLimit { get; set; }
         public string ResetPasswordKey { get; set; }
         public string Phone { get; set; }
         public string CustomerInfo_State { get; set; }
@@ -47,6 +46,7 @@ namespace LetterAmazer.Data.Repository.Data
         public int AccountStatus { get; set; }
     
         public virtual DbCountries DbCountries { get; set; }
+        public virtual ICollection<DbPartnerTransactions> DbPartnerTransactions { get; set; }
         public virtual ICollection<DbLetters> DbLetters { get; set; }
         public virtual ICollection<DbOrders> DbOrders { get; set; }
     }

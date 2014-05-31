@@ -11,7 +11,7 @@ namespace LetterAmazer.Websites.Client.ViewModels
     public class DashboardViewModel
     {
         public Customer Customer { get; set; }
-        public List<OrderViewModel> Orders { get; set; }
+        public OrderOverviewViewModel OrderOverviewViewModel { get; set; }
         public DateTime? FromDate { get; set; }
         public DateTime? ToDate { get; set; }
 
@@ -21,9 +21,16 @@ namespace LetterAmazer.Websites.Client.ViewModels
 
         public InvoiceOverviewViewModel UnpaidInvoices { get; set; }
 
+        public decimal Credits { get; set; }
+        public int LettersLastMonth { get; set; }
+        public decimal MoneyLastMoney { get; set; }
+
+        public DashboardStatus? DashboardStatus { get; set; }
+
         public DashboardViewModel()
         {
             this.UnpaidInvoices = new InvoiceOverviewViewModel();
+            this.OrderOverviewViewModel = new OrderOverviewViewModel();
         }
     }
 
@@ -31,6 +38,7 @@ namespace LetterAmazer.Websites.Client.ViewModels
     {
         public int Id { get; set; }
         public decimal Price { get; set; }
+        public string CreatedByEmail { get; set; }
         public OrderStatus OrderStatus { get; set; }
         public DateTime DateCreated { get; set; }
         public List<OrderLineViewModel> OrderLines { get; set; }
@@ -47,5 +55,11 @@ namespace LetterAmazer.Websites.Client.ViewModels
     public class OrderLineProductViewModel
     {
         
+    }
+
+    public enum DashboardStatus
+    {
+        Normal=0,
+        SendLetter=1
     }
 }

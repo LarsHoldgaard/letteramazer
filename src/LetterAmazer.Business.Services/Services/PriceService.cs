@@ -8,6 +8,8 @@ using Castle.Components.DictionaryAdapter.Xml;
 using LetterAmazer.Business.Services.Domain.AddressInfos;
 using LetterAmazer.Business.Services.Domain.Countries;
 using LetterAmazer.Business.Services.Domain.Currencies;
+using LetterAmazer.Business.Services.Domain.Customers;
+using LetterAmazer.Business.Services.Domain.Files;
 using LetterAmazer.Business.Services.Domain.Letters;
 using LetterAmazer.Business.Services.Domain.OfficeProducts;
 using LetterAmazer.Business.Services.Domain.Orders;
@@ -30,10 +32,12 @@ namespace LetterAmazer.Business.Services.Services
         private IOfficeProductService offerProductService;
         private IOrganisationService organisationService;
         private ICurrencyService currencyService;
+        private ICustomerService customerService;
+        private IFileService fileService;
         public PriceService(ICountryService countryService,
             LetterAmazerEntities repository, IProductMatrixService productMatrixService, 
             IOfficeProductService offerProductService, IOrganisationService organisationService,
-            ICurrencyService currencyService)
+            ICurrencyService currencyService,ICustomerService customerService, IFileService fileService)
         {
             this.countryService = countryService;
             this.repository = repository;
@@ -41,11 +45,12 @@ namespace LetterAmazer.Business.Services.Services
             this.offerProductService = offerProductService;
             this.organisationService = organisationService;
             this.currencyService = currencyService;
+            this.customerService = customerService;
+            this.fileService = fileService;
         }
 
         public Price GetPriceByOrder(Order order)
         {
-            
             var price = new Price();
             foreach (var orderLine in order.OrderLines)
             {
@@ -53,8 +58,7 @@ namespace LetterAmazer.Business.Services.Services
                 {
                     var letter = (Letter)orderLine.BaseProduct;
                     var letterPrice = GetPriceByLetter(letter);
-                    price.PriceExVat += letterPrice.PriceExVat;
-                    price.VatPercentage = letterPrice.PriceExVat;
+                    price.AddPrice(letterPrice);
                 }
 
             }
@@ -92,6 +96,8 @@ namespace LetterAmazer.Business.Services.Services
             IQueryable<DbOfficeProducts> officeProducts =
                 repository.DbOfficeProducts.Where(c => c.ReferenceType == (int) ProductMatrixReferenceType.Sales && c.Enabled);
 
+            decimal vatPercentage = 0.25m;
+
             if (specification.CountryId > 0)
             {
                 var country = countryService.GetCountryById(specification.CountryId);
@@ -125,9 +131,14 @@ namespace LetterAmazer.Business.Services.Services
             {
                 officeProducts = officeProducts.Where(c => c.ContinentId == specification.ContinentId || c.ScopeType == (int)ProductScope.RestOfWorld);
             }
-            if (specification.OfficeId > 0)
+            if (specification.UserId > 0)
             {
-                officeProducts = officeProducts.Where(c => c.OfficeId == specification.OfficeId);
+                var customer = customerService.GetCustomerById(specification.UserId);
+                if (customer.HasOrganisation && customer.Organisation.RequiredOfficeId.HasValue)
+                {
+                    officeProducts = officeProducts.Where(c => c.OfficeId == customer.Organisation.RequiredOfficeId.Value);
+                }
+                vatPercentage = customer.VatPercentage();
             }
             if (specification.ShippingDays > 0)
             {
@@ -158,36 +169,12 @@ namespace LetterAmazer.Business.Services.Services
                 throw new BusinessException("No price for this specification");
             }
 
-            var addVat = isVatAdded(specification);
-
             return new Price()
             {
                 OfficeProductId = officeProductId,
                 PriceExVat = minCost,
-                VatPercentage = addVat ? 0.25m : 0.0m
+                VatPercentage = vatPercentage
             };
-        }
-
-        private bool isVatAdded(PriceSpecification specification)
-        {
-            bool addVat = true;
-            if (specification.OrganisationId > 0)
-            {
-                var organisation = organisationService.GetOrganisationById(specification.OrganisationId);
-
-                if (organisation.Address.Country.InsideEu)
-                {
-                    if (!string.IsNullOrEmpty(organisation.Address.VatNr))
-                    {
-                        addVat = false;
-                    }
-                }
-                else
-                {
-                    addVat = false;
-                }
-            }
-            return addVat;
         }
 
         public Price GetPriceByMatrixLines(IEnumerable<ProductMatrixLine> matrix, int pageCount)
@@ -225,6 +212,64 @@ namespace LetterAmazer.Business.Services.Services
                 OfficeProductId = 0,
                 CurrencyCode = currencyCode
             }; 
+        }
+
+
+
+        public Price GetPricesFromFiles(string[] filePaths, int customerId, int countryId)
+        {
+            var vatPercentage = 25.0m;
+            if (customerId > 0)
+            {
+                var customer = customerService.GetCustomerById(customerId);
+                vatPercentage = customer.VatPercentage();
+            }
+            
+
+            Price price = new Price();
+            foreach (var uploadedFileKey in filePaths)
+            {
+                var p = getPriceFromFile(uploadedFileKey, customerId, countryId);
+                price.AddPrice(p);
+                price.VatPercentage = vatPercentage;
+
+                if (price.OfficeProductId == 0)
+                {
+                    price.OfficeProductId = p.OfficeProductId;
+                }
+            }
+            return price;
+        }
+
+        private Price getPriceFromFile(string uploadedFileKey, int customerId, int countryId)
+        {
+            Letter letter = new Letter()
+            {
+                ToAddress = new AddressInfo()
+                {
+                    Country = countryService.GetCountryById(countryId)
+                }
+            };
+
+            var fileByte = fileService.GetFileById(uploadedFileKey, FileUploadMode.Temporarily);
+            letter.LetterContent = new LetterContent()
+            {
+                Path = uploadedFileKey,
+                Content = fileByte
+            };
+
+            var priceSpec = new PriceSpecification()
+            {
+                CountryId = letter.ToAddress.Country.Id,
+                LetterColor = LetterColor.Color,
+                LetterProcessing = LetterProcessing.Dull,
+                LetterPaperWeight = LetterPaperWeight.Eight,
+                LetterType = LetterType.Windowed,
+                PageCount = letter.LetterContent.PageCount,
+                UserId = customerId
+            };
+
+            return GetPriceBySpecification(priceSpec);
         }
 
     }

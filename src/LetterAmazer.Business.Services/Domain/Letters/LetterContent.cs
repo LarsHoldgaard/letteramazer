@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LetterAmazer.Business.Services.Domain.Countries;
+using LetterAmazer.Business.Services.Domain.Files;
+using LetterAmazer.Business.Services.Services;
 using LetterAmazer.Business.Utils.Helpers;
 
 namespace LetterAmazer.Business.Services.Domain.Letters
@@ -11,15 +14,22 @@ namespace LetterAmazer.Business.Services.Domain.Letters
     public class LetterContent
     {
         public string Path { get; set; }
+
         public byte[] Content { get; set; }
+
+        public void downloadFile(IFileService fileService)
+        {
+            var file = fileService.GetFileById(Path);
+            Content = file;
+        }
+
         public string WrittenContent { get; set; }
 
         public int PageCount
         {
             get
             {
-                var pages = PdfHelper.GetPagesCount(PathHelper.GetAbsoluteFile(Path));
-                return pages;
+                return PdfHelper.GetPagesCount(Content);
             }
         }
 
@@ -28,9 +38,10 @@ namespace LetterAmazer.Business.Services.Domain.Letters
         {
             get
             {
+                throw new NotImplementedException();
                 if (string.IsNullOrEmpty(textinpdf))
                 {
-                    textinpdf = PdfHelper.GetContentsOfPdf(PathHelper.GetAbsoluteFile(Path));
+                    //textinpdf = PdfHelper.GetContentsOfPdf(PathHelper.GetAbsoluteFile(Path));
                 }
                 return textinpdf;
             }

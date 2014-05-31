@@ -7,9 +7,11 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using Amazon.IdentityManagement.Model;
+using LetterAmazer.Business.Services.Domain.Countries;
 using LetterAmazer.Business.Services.Domain.Fulfillments;
 using LetterAmazer.Business.Services.Domain.Letters;
 using LetterAmazer.Business.Services.Domain.Mails;
+using LetterAmazer.Business.Services.Domain.OfficeProducts;
 using LetterAmazer.Business.Services.Domain.Orders;
 using LetterAmazer.Business.Services.Domain.Products.ProductDetails;
 using log4net;
@@ -21,7 +23,6 @@ namespace LetterAmazer.Business.Services.Services.FulfillmentJobs
         private static readonly ILog logger = LogManager.GetLogger(typeof(IntermailService));
 
         private IMailService mailService;
-        private ILetterService letterService;
         private IOrderService orderService;
         private bool isactivated;
 
@@ -29,12 +30,11 @@ namespace LetterAmazer.Business.Services.Services.FulfillmentJobs
         public string Username { get; set; }
         public string Password { get; set; }
 
-        public IntermailService(ILetterService letterService, IOrderService orderService, IMailService mailService)
+        public IntermailService(IOrderService orderService, IMailService mailService)
         {
             this.isactivated = bool.Parse(ConfigurationManager.AppSettings.Get("LetterAmazer.Settings.SendLetters"));
 
             this.mailService = mailService;
-            this.letterService = letterService;
             this.orderService = orderService;
 
             this.FtpServer = ConfigurationManager.AppSettings["LetterAmazer.Fulfilment.Intermail.FtpServer"];
@@ -55,23 +55,31 @@ namespace LetterAmazer.Business.Services.Services.FulfillmentJobs
                         colorPath = "SORTHVID";
                     }
 
-                    string servePath = FtpServer + "/" + colorPath + "/" + letter.Guid + ".pdf";
-                    FtpWebRequest ftp = (FtpWebRequest)FtpWebRequest.Create(servePath);
-                    ftp.Credentials = new NetworkCredential(Username, Password);
+                    string countryPath = getCountryPath(letter.ToAddress.Country);
+                    string filePath = string.Format("{0}_{1}_{2}", countryPath, letter.LetterDetails.DeliveryLabel,
+                        letter.Guid.ToString());
+                    string servePath = FtpServer + "/" + colorPath + "/" + filePath + ".pdf";
 
-                    ftp.KeepAlive = true;
-                    ftp.UseBinary = true;
-                    ftp.Method = WebRequestMethods.Ftp.UploadFile;
+                    if (isactivated)
+                    {
+                        FtpWebRequest ftp = (FtpWebRequest)FtpWebRequest.Create(servePath);
+                        ftp.Credentials = new NetworkCredential(Username, Password);
 
-                    var fs = new MemoryStream(letter.LetterContent.Content);
-                    byte[] buffer = new byte[fs.Length];
-                    fs.Read(buffer, 0, buffer.Length);
-                    fs.Close();
+                        ftp.KeepAlive = true;
+                        ftp.UseBinary = true;
+                        ftp.Method = WebRequestMethods.Ftp.UploadFile;
 
-                    Stream ftpstream = ftp.GetRequestStream();
-                    ftpstream.Write(buffer, 0, buffer.Length);
-                    ftpstream.Close();
+                        var fs = new MemoryStream(letter.LetterContent.Content);
+                        byte[] buffer = new byte[fs.Length];
+                        fs.Read(buffer, 0, buffer.Length);
+                        fs.Close();
 
+                        Stream ftpstream = ftp.GetRequestStream();
+                        ftpstream.Write(buffer, 0, buffer.Length);
+                        ftpstream.Close();
+
+                    }
+                    
                     status.AppendLine("Success on: " + letter.Guid + " <br/>");
                 }
                 catch (Exception ex)
@@ -83,6 +91,19 @@ namespace LetterAmazer.Business.Services.Services.FulfillmentJobs
 
             orderService.UpdateByLetters(letters);
             mailService.SendIntermailStatus(status.ToString(),letters.Count());
+        }
+
+        private string getCountryPath(Country country)
+        {
+            if (country.Id == 59)
+            {
+                return "Danmark";
+            }
+            if (country.InsideEu)
+            {
+                return "Europa";
+            }
+            return "Verden";
         }
     }
 }

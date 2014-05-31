@@ -1,0 +1,37 @@
+﻿@using LetterAmazer.Websites.Client.Extensions
+@model LetterAmazer.Websites.Client.ViewModels.User.OrderOverviewViewModel
+
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <td>Order#</td>
+                    <td>Date</td>
+                    <td>Created by</td>
+                    <td>Order state</td>
+                    <td>Letter count</td>
+                    <td>Price </td>
+                    <td>See details </td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Orders)
+                {
+
+                    <tr>
+                        <td>@item.Id</td>
+                        <td>@item.DateCreated.ToFriendlyDateTime()</td>
+                        <td>@item.CreatedByEmail</td>
+                        <td>@item.OrderStatus.ToString()</td>
+                        <td>@item.OrderLines.Count</td>
+                        <td>@item.Price.ToFriendlyMoney() EUR</td>
+                        <td><a href="@Url.Action("Details","User", new { id = item.Id })">See details</a></td>
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+

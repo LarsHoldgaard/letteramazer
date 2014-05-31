@@ -17,9 +17,16 @@ namespace LetterAmazer.Business.Services.Factory
     {
         private IAddressFactory addressFactory;
 
+        private LetterAmazerEntities repository;
+
         public OrganisationFactory(IAddressFactory addressFactory)
         {
             this.addressFactory = addressFactory;
+        }
+
+        public OrganisationFactory(LetterAmazerEntities repository)
+        {
+            this.repository = repository;
         }
 
         public Organisation Create(DbOrganisation organisation, DbOrganisationProfileSettings organisationProfileSettings)
@@ -34,7 +41,9 @@ namespace LetterAmazer.Business.Services.Factory
                 IsPrivate = organisation.IsPrivate,
                 Name = organisation.Name,
                RequiredFulfillmentPartnerId = organisation.RequiredFulfillmentPartnerId,
-               RequiredOfficeId = organisation.RequiredOfficeId
+               RequiredOfficeId = organisation.RequiredOfficeId,
+               Credit = organisation.Credits,
+               CreditLimit = organisation.CreditLimit
             };
 
             int countryId = 0;
@@ -99,6 +108,8 @@ namespace LetterAmazer.Business.Services.Factory
                 ApiSecret = apiAccess.ApiSecret
             };
         }
+
+        
 
         public List<ApiKeys> CreateApiKeys(List<DbApiAccess> apiAccess)
         {
