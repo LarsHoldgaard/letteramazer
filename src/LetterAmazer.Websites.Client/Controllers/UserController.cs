@@ -88,7 +88,9 @@ namespace LetterAmazer.Websites.Client.Controllers
 
         public ActionResult SendWindowedLetter()
         {
-            if (SessionHelper.Customer.CreditsLeft <= 0.0m)
+            var customer = SessionHelper.Customer;
+
+            if (customer.CreditsLeft <= 0.0m)
             {
                 DashboardViewModel dashboardViewModel = new DashboardViewModel();
                 return RedirectToAction("Index", "User", dashboardViewModel);
@@ -96,11 +98,13 @@ namespace LetterAmazer.Websites.Client.Controllers
 
             var windowedModel = new SendWindowedLetterViewModel()
             {
-                PaymentMethodId = SessionHelper.Customer != null ? 2 : 1, // if logged in, credits, otherwise PayPal
+                PaymentMethodId = customer != null ? 2 : 1, // if logged in, credits, otherwise PayPal
                 LetterType = (int)LetterType.Windowed,
                 UseUploadFile = true,
-                IsLoggedIn = SessionHelper.Customer != null
+                IsLoggedIn = customer != null,
+                UserCredits = customer != null ? customer.CreditsLeft : 0.0m
             };
+
             Helper.FillPaymentMethods(paymentService,windowedModel.PaymentMethods,PaymentType.Letters);
             Helper.FillCountries(countryService, windowedModel.Countries, 59);
 

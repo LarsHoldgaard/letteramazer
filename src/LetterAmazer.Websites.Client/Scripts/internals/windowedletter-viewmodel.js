@@ -11,6 +11,8 @@
     self.vatPercentage = ko.observable(0);
 
     self.updatePrice = function () {
+
+
         $.ajax({
             url: '/SingleLetter/GetPrice',
             type: 'POST',
@@ -54,7 +56,10 @@ var SendWindowedLetterViewModel = function(formSelector, data) {
 
     self.uploadstatus = ko.observable(''); // pending, success or failure depending on the current status of the fileupload
     self.uploadmode = data.uploadMode; // merge og multiple, depending on if we should allow multiple uploads and send separate or merge the files into a single pdf
+    self.userCredits = data.userCredits;
+    self.creditPaymentMethodId = data.creditPaymentMethodId;
     self.countryId = ko.observable(0);
+    self.paymentMethodId = ko.observable(0);
     self.originCountryId = ko.observable(0);
 
 
@@ -76,6 +81,21 @@ var SendWindowedLetterViewModel = function(formSelector, data) {
             ele.updatePrice();
         });
     };
+
+    self.updateLetterCountry = function(countryId) {
+        $(self.letters()).each(function (index, ele) {
+            ele.countryId = countryId;
+        });
+    };
+
+    self.isCreditsEnough = ko.computed(function () {
+        if (self.paymentMethodId() == self.creditPaymentMethodId) {
+            if (self.getPriceTotal() > self.userCredits) {
+                return false;
+            }
+        }
+        return true;
+    });
 
     self.getPriceTotal = function () {
         var price = 0.0;

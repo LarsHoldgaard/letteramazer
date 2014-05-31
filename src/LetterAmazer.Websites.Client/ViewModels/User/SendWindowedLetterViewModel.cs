@@ -22,6 +22,7 @@ namespace LetterAmazer.Websites.Client.ViewModels.User
         public bool UseUploadFile { get; set; }
         public string[] UploadFile { get; set; }
         public string WriteContent { get; set; }
+        public decimal UserCredits { get; set; }
 
         public int PaymentMethodId { get; set; }
 

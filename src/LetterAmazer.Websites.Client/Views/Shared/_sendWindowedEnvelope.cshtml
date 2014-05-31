@@ -35,7 +35,8 @@
                 </div>
 
                 <p>Select payment method</p>
-                @Html.DropDownListFor(model => model.PaymentMethodId, Model.PaymentMethods, new { @class = "form-control" })
+                @Html.DropDownListFor(model => model.PaymentMethodId, Model.PaymentMethods, new Dictionary<string, object>{{ "class", "form-control" }, { "data-bind","value:paymentMethodId"} })
+                @Html.HiddenFor(m => m.PaymentMethodId, new Dictionary<string, object> { { "data-bind", "value:paymentMethodId" } })
 
             </div>
         </div>
@@ -84,7 +85,14 @@
                         </div>
                         
                     </dl>
-                    <input type="submit" value="Send letters now" class="btn btn-success btn-lg" data-bind="visible: status() && doneLoading()" />
+                    
+                    <div data-bind="visible: isCreditsEnough()">
+                        <input type="submit" value="Send letters now" class="btn btn-success btn-lg" data-bind="visible: status() && doneLoading()" />    
+                    </div>
+                    <div data-bind="visible: !isCreditsEnough()" class="alert alert-warning">
+                        <p>You have selected credits as a payment method, but you do not have enough credits to send this order.</p>
+                        <p>Please select a new payment method, or insert some more money.</p>
+                    </div>
                     
                     <div data-bind="visible: !doneLoading()">
                         <img src="@Url.Content("~/Content/images/icons/ajax-loader.gif")"/>
@@ -114,8 +122,8 @@
                             <p>Please make sure the following requirements are met:</p>
                             <ul>
                                 <li>The PDF file is below 25mb</li>
-                                <li>The PDF file contains 7 pages or less</li>
-                                <li>The PDF file are being sent to Denmark</li>
+                                <li>The PDF file contains 15 pages or less</li>
+                                <li>The PDF file is not corrupt</li>
                             </ul>
                         </div>
 
@@ -163,6 +171,8 @@
 
 
     var createLetterData = {
+        userCredits: '@Model.UserCredits',
+        creditPaymentMethodId: '2'
     };
 
     var viewModel = new SendWindowedLetterViewModel('#sendLetterForm', createLetterData);
@@ -194,7 +204,6 @@
                 viewModel.letters.push(uploadedLetter);
 
                 viewModel.updateAllPrices();
-                console.log('letters length: ' + viewModel.letters().length);
             } else {
                 $(template).find('.dz-error-message').remove();
                 $(template).addClass('dz-error');
@@ -222,9 +231,6 @@
             var template = file.previewTemplate;
             $(template).remove();
             viewModel.updateAllPrices();
-
-            console.log('remove: ' + file.name);
-            console.log('letters length: ' + viewModel.letters().length);
         }
     });
 
@@ -262,14 +268,16 @@
         }
 
         var template = 'div.dz-preview:contains(' + val + ')';
-        console.log('template value: ' + template);
         $(template).remove();
     });
 
-    $(document).ready(function () {
-        $('#SelectedCountry').change(function () {
-            viewModel.downloadPrices();
-        });
 
+    $(document).ready(function () {
+        $('.sendaletter_countrylist').change(function () {    
+            var countryId = viewModel.countryId();
+            viewModel.updateLetterCountry(countryId);
+            viewModel.updateAllPrices();
+
+        });
     });
 </script>
