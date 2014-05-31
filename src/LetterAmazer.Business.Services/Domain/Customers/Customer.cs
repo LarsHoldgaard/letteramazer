@@ -16,8 +16,13 @@ namespace LetterAmazer.Business.Services.Domain.Customers
         public DateTime? DateModified { get; set; }
 
         public DateTime? DateActivated { get; set; }
-        public decimal Credit { get; set; }
-        public decimal CreditLimit { get; set; }
+
+        public decimal Credit {
+            get { return Organisation.Credit; }
+        }
+        public decimal CreditLimit {
+            get { return Organisation.CreditLimit; }
+        }
         public string ResetPasswordKey { get; set; }
         public string RegisterKey { get; set; }
         public Organisation.Organisation Organisation { get; set; }

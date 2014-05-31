@@ -3,6 +3,7 @@ using LetterAmazer.Business.Services.Domain.Customers;
 using LetterAmazer.Business.Services.Domain.Invoice;
 using LetterAmazer.Business.Services.Domain.Mails;
 using LetterAmazer.Business.Services.Domain.Orders;
+using LetterAmazer.Business.Services.Domain.Organisation;
 using LetterAmazer.Business.Services.Domain.Payments;
 using LetterAmazer.Business.Services.Domain.Pricing;
 using LetterAmazer.Business.Services.Domain.Products;
@@ -26,10 +27,11 @@ namespace LetterAmazer.Business.Services.Services
         private ICountryService countryService;
         private IInvoiceService invoiceService;
         private IMailService mailService;
+        private IOrganisationService organisationService;
 
         public PaymentService(LetterAmazerEntities repository,IPriceService priceService,IPaymentFactory paymentFactory,  ICustomerService customerService, 
             IOrderService orderService, ICountryService countryService, IInvoiceService invoiceService,
-            IMailService mailService)
+            IMailService mailService, IOrganisationService organisationService)
         {
             this.priceService = priceService;
             this.repository = repository;
@@ -39,6 +41,7 @@ namespace LetterAmazer.Business.Services.Services
             this.countryService = countryService;
             this.invoiceService = invoiceService;
             this.mailService = mailService;
+            this.organisationService = organisationService;
         }
 
         public string Process(Order order)
@@ -112,7 +115,7 @@ namespace LetterAmazer.Business.Services.Services
         {
             if (name == "Credit")
             {
-                return new CreditsMethod(customerService,orderService);
+                return new CreditsMethod(customerService,orderService,organisationService);
             }
             else if (name == "Invoice")
             {

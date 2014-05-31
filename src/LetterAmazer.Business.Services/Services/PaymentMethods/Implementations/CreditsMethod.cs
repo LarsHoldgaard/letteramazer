@@ -3,6 +3,7 @@ using System.Linq;
 using System.Web.Security;
 using LetterAmazer.Business.Services.Domain.Customers;
 using LetterAmazer.Business.Services.Domain.Orders;
+using LetterAmazer.Business.Services.Domain.Organisation;
 using LetterAmazer.Business.Services.Domain.Payments;
 using LetterAmazer.Business.Services.Domain.Products;
 using LetterAmazer.Business.Services.Exceptions;
@@ -15,11 +16,13 @@ namespace LetterAmazer.Business.Services.Services.PaymentMethods.Implementations
 
         private IOrderService orderService;
         private ICustomerService customerService;
-
-        public CreditsMethod(ICustomerService customerService, IOrderService orderService)
+        private IOrganisationService organisationService;
+        public CreditsMethod(ICustomerService customerService, IOrderService orderService,
+            IOrganisationService organisationService)
         {
             this.customerService = customerService;
             this.orderService = orderService;
+            this.organisationService = organisationService;
         }
 
         public string Process(Order order)
@@ -38,9 +41,11 @@ namespace LetterAmazer.Business.Services.Services.PaymentMethods.Implementations
                 throw new BusinessException("User does not have enough credits to purchase this order");
             }
 
-            customer.Credit -= orderLine.Price.Total*orderLine.Quantity;
+            customer.Organisation.Credit -= orderLine.Price.Total*orderLine.Quantity;
 
+            organisationService.Update(customer.Organisation);
             var updated_customer = customerService.Update(customer);
+
 
             order.OrderStatus =OrderStatus.Paid;
             order.DatePaid = DateTime.Now;

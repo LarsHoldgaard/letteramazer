@@ -14,6 +14,7 @@ namespace LetterAmazer.Business.Services.Services
 {
     public class OrganisationService : IOrganisationService
     {
+        private const decimal StartCreditAmount = 0;
         private IOrganisationFactory organisationFactory;
         private LetterAmazerEntities repository;
 
@@ -31,7 +32,9 @@ namespace LetterAmazer.Business.Services.Services
                 Name = organisation.Name,
                 DateCreated = DateTime.Now,
                 IsPrivate = organisation.IsPrivate,
-                CountryId = organisation.Address.Country.Id
+                CountryId = organisation.Address.Country.Id,
+                CreditLimit = organisation.CreditLimit,
+                Credits = organisation.Credit
             };
 
             if (!organisation.IsPrivate)
@@ -77,6 +80,8 @@ namespace LetterAmazer.Business.Services.Services
             dbOrganisation.Zipcode = organisation.Address.Zipcode;
             dbOrganisation.CountryId = organisation.Address.Country.Id;
             dbOrganisation.IsPrivate = organisation.IsPrivate;
+            dbOrganisation.CreditLimit = organisation.CreditLimit;
+            dbOrganisation.Credits = organisation.Credit;
 
             var dbOrganisationSettings =
                 repository.DbOrganisationProfileSettings.FirstOrDefault(c => c.OrganisationId == organisation.Id);

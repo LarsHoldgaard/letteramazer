@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="LetterAmazer.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="LetterAmazer.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="DbApiAccess">
           <Key>
             <PropertyRef Name="Id" />
@@ -101,8 +101,6 @@
           <Property Name="Password" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="DateCreated" Type="datetime" Nullable="false" />
           <Property Name="DateUpdated" Type="datetime" />
-          <Property Name="Credits" Type="decimal" Precision="18" Scale="5" />
-          <Property Name="CreditLimit" Type="decimal" Precision="18" Scale="0" Nullable="false" />
           <Property Name="ResetPasswordKey" Type="nvarchar" MaxLength="50" />
           <Property Name="Phone" Type="nvarchar" MaxLength="100" />
           <Property Name="CustomerInfo_State" Type="nvarchar" MaxLength="150" />
@@ -354,6 +352,8 @@ warning 6002: The table/view 'LetterAmazer.dbo.DbLog' does not have a primary ke
           <Property Name="IsPrivate" Type="bit" Nullable="false" />
           <Property Name="RequiredFulfillmentPartnerId" Type="int" />
           <Property Name="RequiredOfficeId" Type="int" />
+          <Property Name="Credits" Type="decimal" Precision="18" Scale="5" Nullable="false" />
+          <Property Name="CreditLimit" Type="decimal" Precision="18" Scale="0" Nullable="false" />
         </EntityType>
         <EntityType Name="DbOrganisationAddressList">
           <Key>
@@ -852,7 +852,8 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
             <End Role="DbShops" EntitySet="DbShops" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="LetterAmazer" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -959,8 +960,6 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
           <Property Name="Password" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="DateUpdated" Type="DateTime" Precision="3" />
-          <Property Name="Credits" Type="Decimal" Precision="18" Scale="5" />
-          <Property Name="CreditLimit" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
           <Property Name="ResetPasswordKey" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Phone" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="CustomerInfo_State" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
@@ -1117,12 +1116,12 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
           <Property Name="DeliveryLabel" Type="Int32" Nullable="false" />
           <Property Name="ReturnLabel" Type="Int32" />
           <Property Name="EnvelopeId" Type="Int32" Nullable="false" />
+          <Property Name="OrganisationId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="DbCountries" Relationship="Self.FK_Letters_FromCountry" FromRole="DbLetters" ToRole="DbCountries" />
           <NavigationProperty Name="DbCountries1" Relationship="Self.FK_Letters_ToCountry" FromRole="DbLetters" ToRole="DbCountries" />
           <NavigationProperty Name="DbCustomers" Relationship="Self.FK_Letter_Customer" FromRole="DbLetters" ToRole="DbCustomers" />
           <NavigationProperty Name="DbOrders" Relationship="Self.FK_DbLetters_DbOrders" FromRole="DbLetters" ToRole="DbOrders" />
           <NavigationProperty Name="DbOrderlines" Relationship="Self.FK_OrderItem_Letter" FromRole="DbLetters" ToRole="DbOrderlines" />
-          <Property Name="OrganisationId" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="DbOfficeProducts">
           <Key>
@@ -1194,11 +1193,11 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
           <Property Name="DateSent" Type="DateTime" Precision="3" />
           <Property Name="VatPercentage" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="Total" Type="Decimal" Precision="18" Scale="5" Nullable="false" />
+          <Property Name="OrganisationId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="DbCustomers" Relationship="Self.FK_Order_Customer" FromRole="DbOrders" ToRole="DbCustomers" />
           <NavigationProperty Name="DbInvoices" Relationship="Self.FK_DbInvoices_DbOrders" FromRole="DbOrders" ToRole="DbInvoices" />
           <NavigationProperty Name="DbLetters" Relationship="Self.FK_DbLetters_DbOrders" FromRole="DbOrders" ToRole="DbLetters" />
           <NavigationProperty Name="DbOrderlines" Relationship="Self.FK_OrderItem_Order" FromRole="DbOrders" ToRole="DbOrderlines" />
-          <Property Name="OrganisationId" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="DbOrganisation">
           <Key>
@@ -1220,6 +1219,8 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
           <Property Name="IsPrivate" Type="Boolean" Nullable="false" />
           <Property Name="RequiredFulfillmentPartnerId" Type="Int32" />
           <Property Name="RequiredOfficeId" Type="Int32" />
+          <Property Name="Credits" Type="Decimal" Precision="18" Scale="5" Nullable="false" />
+          <Property Name="CreditLimit" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
           <NavigationProperty Name="DbApiAccess" Relationship="Self.FK_DbApiAccess_DbApiAccess" FromRole="DbOrganisation" ToRole="DbApiAccess" />
           <NavigationProperty Name="DbOrganisationAddressList" Relationship="Self.FK_DbOrganisationAddressList_DbOrganisation" FromRole="DbOrganisation" ToRole="DbOrganisationAddressList" />
           <NavigationProperty Name="DbOrganisationProfileSettings" Relationship="Self.FK_DbOrganisationProfileSettings_DbOrganisation" FromRole="DbOrganisation" ToRole="DbOrganisationProfileSettings" />
@@ -1844,8 +1845,6 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
                 <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
                 <ScalarProperty Name="DateUpdated" ColumnName="DateUpdated" />
-                <ScalarProperty Name="Credits" ColumnName="Credits" />
-                <ScalarProperty Name="CreditLimit" ColumnName="CreditLimit" />
                 <ScalarProperty Name="ResetPasswordKey" ColumnName="ResetPasswordKey" />
                 <ScalarProperty Name="Phone" ColumnName="Phone" />
                 <ScalarProperty Name="CustomerInfo_State" ColumnName="CustomerInfo_State" />
@@ -1958,7 +1957,6 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
           <EntitySetMapping Name="DbLetters">
             <EntityTypeMapping TypeName="LetterAmazer.DbLetters">
               <MappingFragment StoreEntitySet="DbLetters">
-                <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
                 <ScalarProperty Name="FromAddress_Address" ColumnName="FromAddress_Address" />
@@ -1999,6 +1997,7 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
                 <ScalarProperty Name="DeliveryLabel" ColumnName="DeliveryLabel" />
                 <ScalarProperty Name="ReturnLabel" ColumnName="ReturnLabel" />
                 <ScalarProperty Name="EnvelopeId" ColumnName="EnvelopeId" />
+                <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -2054,7 +2053,6 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
           <EntitySetMapping Name="DbOrders">
             <EntityTypeMapping TypeName="LetterAmazer.DbOrders">
               <MappingFragment StoreEntitySet="DbOrders">
-                <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="OrderStatus" ColumnName="OrderStatus" />
                 <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
@@ -2068,6 +2066,7 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
                 <ScalarProperty Name="DateSent" ColumnName="DateSent" />
                 <ScalarProperty Name="VatPercentage" ColumnName="VatPercentage" />
                 <ScalarProperty Name="Total" ColumnName="Total" />
+                <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -2090,6 +2089,8 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
                 <ScalarProperty Name="IsPrivate" ColumnName="IsPrivate" />
                 <ScalarProperty Name="RequiredFulfillmentPartnerId" ColumnName="RequiredFulfillmentPartnerId" />
                 <ScalarProperty Name="RequiredOfficeId" ColumnName="RequiredOfficeId" />
+                <ScalarProperty Name="Credits" ColumnName="Credits" />
+                <ScalarProperty Name="CreditLimit" ColumnName="CreditLimit" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -35,8 +35,6 @@ namespace LetterAmazer.Data.Repository.Data
         public string Password { get; set; }
         public System.DateTime DateCreated { get; set; }
         public Nullable<System.DateTime> DateUpdated { get; set; }
-        public Nullable<decimal> Credits { get; set; }
-        public decimal CreditLimit { get; set; }
         public string ResetPasswordKey { get; set; }
         public string Phone { get; set; }
         public string CustomerInfo_State { get; set; }

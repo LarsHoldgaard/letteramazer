@@ -21,6 +21,7 @@ namespace LetterAmazer.Websites.Client.ViewModels
 
         public InvoiceOverviewViewModel UnpaidInvoices { get; set; }
 
+        public decimal Credits { get; set; }
         public int LettersLastMonth { get; set; }
         public decimal MoneyLastMoney { get; set; }
 

@@ -41,7 +41,9 @@ namespace LetterAmazer.Business.Services.Factory
                 IsPrivate = organisation.IsPrivate,
                 Name = organisation.Name,
                RequiredFulfillmentPartnerId = organisation.RequiredFulfillmentPartnerId,
-               RequiredOfficeId = organisation.RequiredOfficeId
+               RequiredOfficeId = organisation.RequiredOfficeId,
+               Credit = organisation.Credits,
+               CreditLimit = organisation.CreditLimit
             };
 
             int countryId = 0;

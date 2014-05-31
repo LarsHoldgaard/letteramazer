@@ -6,6 +6,7 @@ using LetterAmazer.Business.Services.Domain.Customers;
 using LetterAmazer.Business.Services.Domain.Letters;
 using LetterAmazer.Business.Services.Domain.Mails;
 using LetterAmazer.Business.Services.Domain.Orders;
+using LetterAmazer.Business.Services.Domain.Organisation;
 using LetterAmazer.Business.Services.Domain.Partners;
 using LetterAmazer.Business.Services.Domain.Pricing;
 using LetterAmazer.Business.Services.Domain.Products;
@@ -30,11 +31,12 @@ namespace LetterAmazer.Business.Services.Services
         private ICustomerService customerService;
         private IPartnerService partnerService;
         private ICacheService cacheService;
+        private IOrganisationService organisationService;
 
         public OrderService(LetterAmazerEntities repository,
             ILetterService letterService,
             IOrderFactory orderFactory, ICustomerService customerService, IPartnerService partnerService,
-            ICacheService cacheService, IMailService mailService)
+            ICacheService cacheService, IMailService mailService,IOrganisationService organisationService)
         {
             this.repository = repository;
             this.letterService = letterService;
@@ -43,6 +45,7 @@ namespace LetterAmazer.Business.Services.Services
             this.partnerService = partnerService;
             this.cacheService = cacheService;
             this.mailService = mailService;
+            this.organisationService = organisationService;
         }
 
         public Order Create(Order order)
@@ -245,8 +248,9 @@ namespace LetterAmazer.Business.Services.Services
                 if (orderLine.ProductType == ProductType.Credit)
                 {
                     var credits = orderLine.Price.Total;
-                    order.Customer.Credit += credits;
-                    customerService.Update(order.Customer);
+                    var organisation = order.Customer.Organisation;
+                    organisation.Credit += credits;
+                    organisationService.Update(organisation);
                 }
             }
         }

@@ -723,7 +723,7 @@ namespace LetterAmazer.Websites.Client.Controllers
             model.Orders = getOrderViewModel(orders);
             model.Customer = SessionHelper.Customer;
             model.LetterType = SessionHelper.Customer.DefaultLetterType;
-
+            model.Credits = SessionHelper.Customer.CreditsLeft;
             setStats(model);
 
 
@@ -752,7 +752,6 @@ namespace LetterAmazer.Websites.Client.Controllers
 
         private void setStats(DashboardViewModel model)
         {
-
             int letterCount = 0;
             decimal priceCount = 0;
             var lastMonthOrders = orderService.GetOrderBySpecification(new OrderSpecification()
@@ -772,6 +771,7 @@ namespace LetterAmazer.Websites.Client.Controllers
             }
             model.LettersLastMonth = letterCount;
             model.MoneyLastMoney = priceCount;
+            
         }
 
         private void buildContactsModel(EditContactsViewModel model)
