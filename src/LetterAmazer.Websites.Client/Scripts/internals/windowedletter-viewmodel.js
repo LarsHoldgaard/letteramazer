@@ -3,13 +3,13 @@
     self.filePath = filePath;
     self.imagePath = imagePath;
     self.countryId = countryId;
+    self.originCountry = originCountryId;
     self.numberOfPages = ko.observable(0);
     self.shippingDays = ko.observable(0);
     self.uploadStatus = ko.observable('');
     self.priceExVat = ko.observable(0);
     self.priceTotal = ko.observable(0);
     self.vatPercentage = ko.observable(0);
-    self.originCountry = originCountryId;
 
     self.updatePrice = function () {
         $.ajax({
@@ -29,7 +29,6 @@
                 self.vatPercentage(data.price.VatPercentage);
 
                 if (self.priceTotal() > 0) {
-                    console.log('Setting uploadstatus to success');
                     self.uploadStatus('success');
                 }
 
@@ -72,7 +71,6 @@ var SendWindowedLetterViewModel = function(formSelector, data) {
             ol += (ol.length > 0 ? ";" : "") +
                 arr[i].filePath;
         }
-        console.log('selectedFiles: ' + ol);
         return ol;
     });
 
@@ -89,7 +87,7 @@ var SendWindowedLetterViewModel = function(formSelector, data) {
     };
     self.updateOriginCountry = function (countryId) {
         $(self.letters()).each(function (index, ele) {
-            ele.originCountryId = countryId;
+            ele.originCountry = countryId;
         });
     };
 
@@ -141,7 +139,6 @@ var SendWindowedLetterViewModel = function(formSelector, data) {
 
         var re = true;
         $(self.letters()).each(function (index, ele) {
-            console.log('Status on letter: ' + ele.uploadStatus());
             if (ele.uploadStatus() === 'error' || ele.uploadStatus() === 'failure') {
                 re = false;
             }

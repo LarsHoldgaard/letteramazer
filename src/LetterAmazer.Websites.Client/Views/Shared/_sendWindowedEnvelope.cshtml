@@ -47,36 +47,34 @@
         <h2>3. Summary and send letters</h2>
 
         <div class="dashboardBox" style="text-align: left;">
-            @if (!Model.IsLoggedIn)
-            {
-                <p>
-                    Enter your e-mail:<br />
-                    @Html.TextBoxFor(model => model.Email)
-                </p>
-
-                <p>
-                    Where are you from?<br />
-                    @Html.DropDownListFor(model => model.SelectedOriginCountry, Model.Countries, new Dictionary<string, object> { { "class", "form-control origin_countrylist" }, { "data-bind", "value:originCountryId" } })
-                    @Html.HiddenFor(m => m.SelectedOriginCountry, new Dictionary<string, object> { { "data-bind", "value:originCountryId" } })
-                </p>
-
-            }
+         
 
             <div class="row">
                 <div class="col-md-5">
                     <dl>
                         <div data-bind="visible: doneLoading()">
+                            @if (!Model.IsLoggedIn)
+                            {
+                                <p>
+                                    Enter your e-mail:<br />
+                                    @Html.TextBoxFor(model => model.Email)
+                                </p>
+
+                                <p>
+                                    Where are you from?<br />
+                                    @Html.DropDownListFor(model => model.SelectedOriginCountry, Model.Countries, new Dictionary<string, object> { { "class", "form-control origin_countrylist" }, { "data-bind", "value:originCountryId" } })
+                                    @Html.HiddenFor(m => m.SelectedOriginCountry, new Dictionary<string, object> { { "data-bind", "value:originCountryId" } })
+                                </p>
+
+                            }
+
                             <dt>Amount of letters</dt>
                             <dd><span data-bind="text: letters().length"></span></dd>
                             <dt>Price</dt>
                             <dd>
 
-                                <label id="priceOfLetterLbl" data-bind="text: getPriceExVat()"></label> EUR
-
-                                @if (SessionHelper.Customer != null && SessionHelper.Customer.VatPercentage() > 0.0m)
-                                {
-                                    <text>(<label id="priceOfLetterLbl" data-bind="text: getPriceTotal()"></label> EUR inc. local VAT)</text>
-                                }
+                                <label id="priceOfLetterLbl" data-bind="text: getPriceExVat()"></label> EUR (<label id="priceOfLetterLbl" data-bind="text: getPriceTotal()"></label> EUR inc. local VAT)
+                                
                             </dd>
                             <dt>
                                 Shipping time
@@ -191,8 +189,6 @@
         success: function (file, data) {
             var template = file.previewTemplate;
             if (data.status == "success") {
-                console.log('Success upload: ' + data.key);
-
                 $(template).find('.dz-progress').hide();
                 $(template).find('.dz-details img').attr({
                     'src': '@Url.Content("~/Content/images/icons/pdf-icon.png")',
@@ -243,18 +239,7 @@
         'removeCompleted': false,
         'multi': true,
         'swf': '@Url.Content("~/Scripts/uploadify/uploadify.swf")',
-        'uploader': '@Url.Action("Upload", "SingleLetter")',
-        //'onUploadSuccess': function (file, data, response) {
-        //    //var result = $.parseJSON(data);
-        //    //if (result.status == "success") {
-        //    //    console.log('Upload key: ' + result.key);
-        //    //    viewModel.uploadFileKey.push(result.key);
-        //    //}
-
-        //},
-        //'onUploadError': function (ex, e, er) {
-        //    console.log(er);
-        //}
+        'uploader': '@Url.Action("Upload", "SingleLetter")'
     });
 
     $('body').on('click', 'a.deleteFile', function () {
@@ -281,7 +266,7 @@
         });
 
         $('.origin_countrylist').change(function () {
-            var countryId = viewModel.countryId();
+            var countryId = viewModel.originCountryId();
             viewModel.updateOriginCountry(countryId);
             viewModel.updateAllPrices();
         });

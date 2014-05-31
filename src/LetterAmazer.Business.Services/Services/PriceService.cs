@@ -227,24 +227,12 @@ namespace LetterAmazer.Business.Services.Services
 
         public Price GetPricesFromFiles(string[] filePaths, int customerId, int countryId, int originCountryId=0)
         {
-            var vatPercentage = 0.25m;
-            if (customerId > 0)
-            {
-                var customer = customerService.GetCustomerById(customerId);
-                vatPercentage = customer.VatPercentage();
-            }
-            else
-            {
-                
-            }
-            
-
             Price price = new Price();
             foreach (var uploadedFileKey in filePaths)
             {
-                var p = getPriceFromFile(uploadedFileKey, customerId, countryId);
+                var p = getPriceFromFile(uploadedFileKey, customerId, countryId,originCountryId);
                 price.AddPrice(p);
-                price.VatPercentage = vatPercentage;
+                price.VatPercentage = p.VatPercentage;
 
                 if (price.OfficeProductId == 0)
                 {
@@ -254,7 +242,7 @@ namespace LetterAmazer.Business.Services.Services
             return price;
         }
 
-        private Price getPriceFromFile(string uploadedFileKey, int customerId, int countryId)
+        private Price getPriceFromFile(string uploadedFileKey, int customerId, int countryId, int originCountry=0)
         {
             Letter letter = new Letter()
             {
@@ -279,7 +267,8 @@ namespace LetterAmazer.Business.Services.Services
                 LetterPaperWeight = LetterPaperWeight.Eight,
                 LetterType = LetterType.Windowed,
                 PageCount = letter.LetterContent.PageCount,
-                UserId = customerId
+                UserId = customerId,
+                OriginCountryId = originCountry
             };
 
             return GetPriceBySpecification(priceSpec);
