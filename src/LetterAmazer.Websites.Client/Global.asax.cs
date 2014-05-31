@@ -41,9 +41,15 @@ namespace LetterAmazer.Websites.Client
         {
             ILog logger = LogManager.GetLogger(typeof(GlobalContext));
 
-            Exception ex = Server.GetLastError();
-
-            logger.Error(ex);
+            try
+            {
+                Exception ex = Server.GetLastError();
+                logger.Fatal(ex);
+            }
+            catch (Exception)
+            {
+                logger.Fatal("Lol, something went totally crazy fatal bad");
+            }
         }
 
         private void InitializeContainer()

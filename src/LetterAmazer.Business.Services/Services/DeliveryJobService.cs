@@ -41,6 +41,8 @@ namespace LetterAmazer.Business.Services.Services
 
         public void Execute(bool runSchedule)
         {
+            logger.Info("Running deliveryjob with runSchedule: " + runSchedule);
+
             var relevantOrders = orderService.GetOrderBySpecification(new OrderSpecification()
             {
                 OrderStatus = new List<OrderStatus>()
@@ -51,11 +53,16 @@ namespace LetterAmazer.Business.Services.Services
             });
 
 
+            logger.Info("Relevant orders count: " + relevantOrders.Count);
+
             var letters = getLettersFromOrders(relevantOrders);
+
+            logger.Info("Letters in orders: " + letters.Count);
 
             // no letters to send in this batch
             if (!letters.Any())
             {
+                logger.Info("Stopping letterjob. No letters to be sent");
                 return;
             }
 
@@ -63,6 +70,7 @@ namespace LetterAmazer.Business.Services.Services
             {
                 var lettersByPartnerJob = getLettersByPartnerJob(letters);
 
+                logger.Info("We sent letters from this amount of partners: " + lettersByPartnerJob.Count);
                 foreach (var entity in lettersByPartnerJob)
                 {
                     processDelivery(entity,runSchedule);
@@ -81,14 +89,17 @@ namespace LetterAmazer.Business.Services.Services
             IFulfillmentService fulfillmentService = null;
             if (fulfillmentPartner.PartnerJob == PartnerJob.Jupiter)
             {
+                logger.Info("We are running the following job: Jupiter");
                 fulfillmentService = new JupiterService(letterService, orderService);
             }
             else if (fulfillmentPartner.PartnerJob == PartnerJob.PostalMethods)
             {
+                logger.Info("We are running the following job: PostalMethods");
                 fulfillmentService = new PostalMethodsService(letterService, orderService);
             }
             else if (fulfillmentPartner.PartnerJob == PartnerJob.Intermail)
             {
+                logger.Info("We are running the following job: Intermail");
                 fulfillmentService = new IntermailService(orderService,mailService);
             }
 
@@ -97,6 +108,7 @@ namespace LetterAmazer.Business.Services.Services
                 var schedule = CrontabSchedule.Parse(fulfillmentPartner.CronInterval);
                 var exDate = schedule.GetNextOccurrence(DateTime.Now.AddHours(-1));
 
+                logger.Info("ExDate in schedule: " + exDate);
                 if (exDate < DateTime.Now && runSchedule || (!runSchedule))
                 {
                     fulfillmentService.Process(entity.Value);

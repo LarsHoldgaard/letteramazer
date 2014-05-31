@@ -47,6 +47,7 @@ namespace LetterAmazer.Business.Services.Services.FulfillmentJobs
             StringBuilder status = new StringBuilder();
             foreach (var letter in letters)
             {
+                logger.Info("Intermail processing for letter: " + letter.Id);
                 try
                 {
                     string colorPath = "FARVE";
@@ -60,6 +61,8 @@ namespace LetterAmazer.Business.Services.Services.FulfillmentJobs
                         letter.Guid.ToString());
                     string servePath = FtpServer + "/" + colorPath + "/" + filePath + ".pdf";
 
+
+                    logger.Info("Intermail processing for letter with ID: " + letter.Id + ". StoragePath: " + servePath);
                     if (isactivated)
                     {
                         FtpWebRequest ftp = (FtpWebRequest)FtpWebRequest.Create(servePath);

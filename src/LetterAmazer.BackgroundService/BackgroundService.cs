@@ -27,8 +27,7 @@ namespace LetterAmazer.BackgroundService
     partial class BackgroundService : ServiceBase, IContainerAccessor
     {
         private static readonly ILog logger = LogManager.GetLogger(typeof(BackgroundService));
-
-
+        
         public BackgroundService()
         {
             InitializeComponent();
@@ -52,22 +51,23 @@ namespace LetterAmazer.BackgroundService
 
             if (args.Length == 0)
             {
+                logger.Info("Running scheduled delivery");
                 var delivery = new DeliveryLetterJob();
                 delivery.ExecuteJob(true);
             }
             else if (args.Contains("force-schedule"))
             {
+                logger.Info("Running forced delivery");
                 var delivery = new DeliveryLetterJob();
                 delivery.ExecuteJob(false);
 
             }
             else if (args.Contains("getprices"))
             {
+                logger.Info("Running price update");
                 var price = new PriceUpdaterJob();
                 price.ExecuteJob();
             }
-
-
             logger.Info("DONE!");
         }
 
