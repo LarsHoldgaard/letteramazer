@@ -3,6 +3,7 @@ using Castle.MicroKernel.Registration;
 using Castle.Windsor;
 using Castle.Windsor.Installer;
 using LetterAmazer.Business.Services;
+using LetterAmazer.Business.Services.Services.Caching;
 using LetterAmazer.Business.Services.Services.Partners.Invoice;
 using LetterAmazer.Data.Repository.Data;
 using LetterAmazer.Websites.Client.IoC;
@@ -101,6 +102,8 @@ namespace LetterAmazer.Websites.Client
 
             Container.Register(Component.For<EconomicInvoiceService>());
             Container.Register(Component.For<LetterAmazerEntities>());
+            Container.Register(Component.For<HttpCacheService>());
+
         }
 
         public IWindsorContainer Container

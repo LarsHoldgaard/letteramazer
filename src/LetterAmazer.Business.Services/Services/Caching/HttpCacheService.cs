@@ -2,20 +2,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web;
-using LetterAmazer.Business.Services.Domain.Caching;
 using System.Web;
 using System.Web.Caching;
+using LetterAmazer.Business.Services.Domain.Caching;
 using log4net;
 
-namespace LetterAmazer.Business.Services.Services
+namespace LetterAmazer.Business.Services.Services.Caching
 {
-    public class CacheService:ICacheService
+    public class HttpCacheService:ICacheService
     {
-        private static readonly ILog logger = LogManager.GetLogger(typeof(CacheService));
+        private static readonly ILog logger = LogManager.GetLogger(typeof(HttpCacheService));
 
 
         public object GetById(string cacheKey)

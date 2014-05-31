@@ -230,7 +230,7 @@ namespace LetterAmazer.Business.Services.Services
             {
                 if (orderLine.ProductType == ProductType.Credit)
                 {
-                    var credits = orderLine.Price.PriceExVat;
+                    var credits = orderLine.Price.Total;
                     order.Customer.Credit += credits;
                     customerService.Update(order.Customer);
                 }
@@ -259,7 +259,8 @@ namespace LetterAmazer.Business.Services.Services
                 foreach (var orderLine in order.OrderLines)
                 {
                     // if this is the case, there are multiple lines and one of them is not sent yet, which means the order is in progress
-                    if (orderLine.ProductType == ProductType.Letter && ((Letter)orderLine.BaseProduct).LetterStatus == LetterStatus.Created)
+                    if (orderLine.ProductType == ProductType.Letter && 
+                        ((Letter)orderLine.BaseProduct).LetterStatus == LetterStatus.Created)
                     {
                         isOrderDone = false;
                     }
