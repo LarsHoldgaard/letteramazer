@@ -30,6 +30,8 @@ namespace LetterAmazer.Business.Services.Services
         private string mandrillApiUrl;
         private string mandrillApiKey;
         private string notificationEmail;
+        private string salesNotificationEmail;
+        
 
         public MailService()
         {
@@ -40,6 +42,7 @@ namespace LetterAmazer.Business.Services.Services
             this.mandrillApiUrl = ConfigurationManager.AppSettings.Get("LetterAmazer.Mail.Mandrill.ApiUrl");
             this.mandrillApiKey = ConfigurationManager.AppSettings.Get("LetterAmazer.Mail.Mandrill.ApiKey");
             this.notificationEmail = ConfigurationManager.AppSettings.Get("LetterAmazer.Notification.Emails");
+            this.salesNotificationEmail = ConfigurationManager.AppSettings.Get("LetterAmazer.Notification.SalesEmails");
             this.isactivated = bool.Parse(ConfigurationManager.AppSettings.Get("LetterAmazer.Settings.EmailsActivated"));
 
         }
@@ -351,6 +354,63 @@ namespace LetterAmazer.Business.Services.Services
                 vars = variables
             });
             SendTemplate(model);
+        }
+
+        public void NotificationTryService(string company, string email, string country, string letterCount, string phone)
+        {
+            List<string> rep = new List<string>();
+            rep.Add(notificationEmail);
+            rep.Add(salesNotificationEmail);
+
+            foreach (var r in rep)
+            {
+                var template_name = "etteramazer.notification.try_our_service";
+                
+                var model = new MandrillTemplateSend();
+                model.template_name = template_name;
+                model.message.merge = true;
+                model.message.to.Add(new To()
+                {
+                    email = r
+                });
+
+                List<Var> variables = new List<Var>();
+                variables.Add(new Var()
+                {
+                    name = "EMAIL",
+                    content = email
+                });
+                variables.Add(new Var()
+                {
+                    name = "COMPANY",
+                    content = company
+                });
+                variables.Add(new Var()
+                {
+                    name = "COUNTRY",
+                    content = country
+                });
+                variables.Add(new Var()
+                {
+                    name = "LETTERCOUNT",
+                    content = letterCount
+                });
+                variables.Add(new Var()
+                {
+                    name = "PHONE",
+                    content = phone
+                });
+
+                model.message.merge_vars.Add(new Merge_Vars()
+                {
+                    rcpt = r,
+                    vars = variables
+                });
+                SendTemplate(model);
+            }
+
+          
+
         }
     }
 

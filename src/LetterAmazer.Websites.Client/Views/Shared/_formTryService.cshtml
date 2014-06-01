@@ -1,0 +1,39 @@
+﻿@model LetterAmazer.Websites.Client.ViewModels.Shared.TryServiceViewModel
+
+
+<div class="ctaForm" style="text-align: left">
+    
+    <h3>Try our service for free (for businesses)</h3>
+    <p>If you work in a company, you can fill out your information below. Then we will review it, and give you credits to send a couple of letters to try our service.</p>
+    @using (Html.BeginForm("PostTryService", "Home", FormMethod.Post, new { @class = "form" }))
+    {
+        <div class="form-group">
+            <label>Name of organization / company*:</label>
+            @Html.TextBoxFor(c => c.CompanyName, new { @class = "form-control", placeholder = "Organization name" })
+        </div>
+        <div class="form-group">
+            <label>Email address*:</label>
+            @Html.TextBoxFor(c => c.Email, new { @class = "form-control", placeholder = "Email", @type = "email" })
+        </div>
+
+        <div class="form-group">
+            <label>Your country (the country where the organization is registered)*:</label>
+            @Html.DropDownListFor(model => model.SelectedCountry, Model.Countries, new { @class = "form-control" })
+        </div>
+
+        <div class="form-group">
+            <label style="font-weight:normal">Rough estimate: how many letters are sent pr. week? (optional):</label>
+            @Html.TextBoxFor(c => c.LettersAWeek, new { @class = "form-control", placeholder = "Ex. 30-50" })
+        </div>
+        <div class="form-group">
+            <label style="font-weight:normal">Phone number (optional):</label>
+            @Html.TextBoxFor(c => c.PhoneNumber, new { @class = "form-control", placeholder = "Ex. (+45) 42927250" })
+        </div>
+
+        <input type="submit" class="btn btn-primary btn-lg" value="Try our service for free" />
+        <br/><br/>
+        <p><i>We usually respond within 24 hours</i></p>
+    }
+</div>
+
+<img src="@Url.Content("/Content/images/uparrow.png")" style="margin-top:8px; margin-left:35px" />

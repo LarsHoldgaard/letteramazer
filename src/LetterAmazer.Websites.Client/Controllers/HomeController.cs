@@ -22,6 +22,7 @@ using System;
 using System.Web.Mvc;
 using LetterAmazer.Websites.Client.Extensions;
 using LetterAmazer.Websites.Client.ViewModels.Home;
+using LetterAmazer.Websites.Client.ViewModels.Shared;
 using LetterAmazer.Websites.Client.ViewModels.Shared.Utils;
 using LetterAmazer.Websites.Client.ViewModels.User;
 using log4net;
@@ -364,6 +365,28 @@ namespace LetterAmazer.Websites.Client.Controllers
             return RedirectToActionWithError("Account", accountViewModel);
         }
 
+
+        [HttpPost]
+        public ActionResult PostTryService(TryServiceViewModel model)
+        {
+            mailService.NotificationTryService(model.CompanyName,model.Email,model.SelectedCountry,model.LettersAWeek,model.PhoneNumber);
+            return View("ThanksForShowingInterest");
+        }
+
+        public ActionResult VideoOfInterface()
+        {
+            return View();
+        }
+
+        public ActionResult Demo()
+        {
+            return View();
+        }
+
+        public ActionResult ThanksForShowingInterest()
+        {
+            return View();
+        }
 
         [HttpGet, AutoErrorRecovery]
         public ActionResult ForgotPassword()

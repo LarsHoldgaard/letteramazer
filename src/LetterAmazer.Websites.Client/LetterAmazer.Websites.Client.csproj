@@ -204,6 +204,7 @@
     <Compile Include="ViewModels\DashboardViewModel.cs" />
     <Compile Include="ViewModels\RegisterViewModel.cs" />
     <Compile Include="ViewModels\Home\ResellerViewModel.cs" />
+    <Compile Include="ViewModels\Shared\TryServiceViewModel.cs" />
     <Compile Include="ViewModels\Shared\Utils\ControllerHelpers.cs" />
     <Compile Include="ViewModels\User\ApiKeysViewModel.cs" />
     <Compile Include="ViewModels\User\CreateOrganisationViewModel.cs" />
@@ -266,7 +267,9 @@
     <Content Include="Content\images\icons\uploadpdf.png" />
     <Content Include="Content\images\icons\windowed_envelope.jpg" />
     <Content Include="Content\images\icons\writetext.png" />
+    <Content Include="Content\images\imomen_pleasedelete.png" />
     <Content Include="Content\images\letteramazer_small.png" />
+    <Content Include="Content\images\uparrow.png" />
     <Content Include="Content\plugins\bootstrap\css\bootstrap-theme.css" />
     <Content Include="Content\plugins\bootstrap\css\bootstrap-theme.min.css" />
     <Content Include="Content\plugins\bootstrap\css\bootstrap.css" />
@@ -722,6 +725,10 @@
     <Content Include="Views\Payment\Epay.cshtml" />
     <Content Include="Views\User\OrderOrderview.cshtml" />
     <Content Include="Views\Shared\_orderOverview.cshtml" />
+    <Content Include="Views\Shared\_formTryService.cshtml" />
+    <Content Include="Views\Home\ThanksForShowingInterest.cshtml" />
+    <Content Include="Views\Home\VideoOfInterface.cshtml" />
+    <Content Include="Views\Home\Demo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\sql\" />

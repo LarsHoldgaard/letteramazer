@@ -1,4 +1,5 @@
-﻿@model LetterAmazer.Websites.Client.ViewModels.User.SendWindowedLetterViewModel
+﻿@using LetterAmazer.Websites.Client.ViewModels.Shared
+@model LetterAmazer.Websites.Client.ViewModels.User.SendWindowedLetterViewModel
 @section header {
     <link href="@Url.Content("~/Scripts/uploadify/uploadify.css")" rel="stylesheet" type="text/css" />
     <script type="text/javascript" src="@Url.Content("~/Scripts/uploadify/jquery.uploadify.min.js")"></script>
@@ -16,8 +17,57 @@
 }
 
 
-<h1 class="frontpageHeader">We send real letters, worldwide</h1>
 
+<div class="row">
+    <div class="col-md-8">
+        
+        <h1 class="frontpageHeader">We send real letters, worldwide</h1>        
+        <div class="row">
+            <div class="col-md-4 frontPageBox">
+
+                <img src="@Url.Content("~/Content/images/icons/1395498087_cloud-upload.png")" />
+                <span class="lead">
+                    1. You upload a PDF file
+                </span>
+
+
+            </div>
+
+            <div class="col-md-4 frontPageBox">
+
+                <img src="@Url.Content("~/Content/images/icons/1395600604_print.png")" />
+                <span class="lead">
+                    2. We print and send your letter
+                </span>
+
+            </div>
+            <div class="col-md-4 frontPageBox">
+
+                <img src="@Url.Content("~/Content/images/icons/1395498076_130.png")" />
+                <span class="lead">
+                    3. Letters are delivered soon after
+                </span>
+
+            </div>
+        </div>
+        
+        <h2>Our service explained in 46 seconds</h2>
+        <div class="flex-video widescreen">
+            <iframe src="//www.youtube.com/embed/lJKJ3mhCjQQ" frameborder="0" allowfullscreen></iframe>
+        </div>
+        
+        
+
+    </div>
+    <div class="col-md-4">
+        
+        @Html.Partial("_formTryService", new TryServiceViewModel())
+        
+
+    </div>
+</div>
+
+<h2>How do we do it?</h2>
 <div class="row">
     <div class="col-md-4 frontPageBox">
 

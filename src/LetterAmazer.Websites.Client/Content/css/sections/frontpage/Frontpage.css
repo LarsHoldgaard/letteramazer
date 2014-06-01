@@ -18,4 +18,10 @@
   color: black;
   margin-bottom: 15px;
 }
+.ctaForm {
+  margin: 25px;
+}
+.ctaForm label {
+  font-size: 7pt;
+}
 /*# sourceMappingURL=Frontpage.css.map */

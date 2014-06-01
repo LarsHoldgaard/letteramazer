@@ -94,7 +94,9 @@ var SendWindowedLetterViewModel = function(formSelector, data) {
     
     self.isCreditsEnough = ko.computed(function () {
         if (self.paymentMethodId() == self.creditPaymentMethodId) {
-            if (self.getPriceTotal() > self.userCredits) {
+            
+            if (parseFloat(self.getPriceTotal()) > parseFloat(self.userCredits)) {
+                console.log('Comparing ' + self.getPriceTotal() + ' with ' + self.userCredits + ' returned false');
                 return false;
             }
         }

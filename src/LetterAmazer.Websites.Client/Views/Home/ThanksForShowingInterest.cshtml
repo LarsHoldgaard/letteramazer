@@ -1,0 +1,16 @@
+﻿@model dynamic
+
+@{
+    ViewBag.Title = "Thanks for showing an interest";
+    Layout = "~/Views/Shared/_Standard.cshtml";
+}
+
+<h1>Thanks - we will get back to you as soon as possible</h1>
+<p>We will review your information, and get back to you as soon as possible. This usually happens very quickly.</p>
+
+<h2>In the mean time</h2>
+<a href="@Url.Action("Account")" class="btn btn-primary btn-lg" style="min-width: 250px;">Get a free account</a>
+<br /><br />
+<a href="/sendletters/denmark" class="btn btn-primary btn-lg" style="min-width: 250px;">Try our interface</a>
+<br /><br />
+<a href="@Url.Action("VideoOfInterface")" class="btn btn-primary btn-lg" style="min-width:250px;">See video of the interface</a>
