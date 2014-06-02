@@ -727,7 +727,6 @@
     <Content Include="Views\Shared\_orderOverview.cshtml" />
     <Content Include="Views\Shared\_formTryService.cshtml" />
     <Content Include="Views\Home\ThanksForShowingInterest.cshtml" />
-    <Content Include="Views\Home\VideoOfInterface.cshtml" />
     <Content Include="Views\Home\Demo.cshtml" />
   </ItemGroup>
   <ItemGroup>

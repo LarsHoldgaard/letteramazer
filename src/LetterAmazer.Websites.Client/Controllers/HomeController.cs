@@ -373,11 +373,6 @@ namespace LetterAmazer.Websites.Client.Controllers
             return View("ThanksForShowingInterest");
         }
 
-        public ActionResult VideoOfInterface()
-        {
-            return View();
-        }
-
         public ActionResult Demo()
         {
             return View();
