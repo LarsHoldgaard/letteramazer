@@ -215,26 +215,6 @@ namespace LetterAmazer.Business.Utils.Helpers
             return cnt.Values.All(c => c == 0);
         }
 
-        public static string AnalyticsScript(string id)
-        {
-            StringBuilder bld = new StringBuilder();
-            bld.AppendLine("<script type=\"text/javascript\">");
-            bld.AppendLine("var _gaq = _gaq || [];");
-            bld.AppendLine(string.Format("_gaq.push(['_setAccount', '{0}']);", id));
-            bld.AppendLine("_gaq.push(['_trackPageview']);");
-            bld.AppendLine("(function () {");
-            bld.AppendLine("var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;");
-            bld.AppendLine("ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';");
-            bld.AppendLine("var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);");
-            bld.AppendLine("})();");
-            bld.AppendLine("setTimeout(\"_gaq.push(['_trackEvent','15_seconds','read'])\", 15000);")
-            ;
-            bld.AppendLine("</script>");
-            return bld.ToString();
-        }
-
-
-
         public static string RemoveMultipleWhitespaces(string input)
         {
             return System.Text.RegularExpressions.Regex.Replace(input, @"\s+", " ");

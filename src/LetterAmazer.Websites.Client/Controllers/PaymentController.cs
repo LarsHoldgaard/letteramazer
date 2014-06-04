@@ -26,13 +26,16 @@ namespace LetterAmazer.Websites.Client.Controllers
 
         public ActionResult Epay(int id)
         {
-            var acceptUrl = ConfigurationManager.AppSettings["LetterAmazer.Payment.Successful"];
-            var callbackUrl = ConfigurationManager.AppSettings["LetterAmazer.Payment.Epay.CallbackUrl"];
-            var declineUrl = ConfigurationManager.AppSettings["LetterAmazer.Payment.Decline"];
+            var baseUrl = ConfigurationManager.AppSettings.Get("LetterAmazer.BasePath");
+            var acceptUrl = baseUrl+ ConfigurationManager.AppSettings["LetterAmazer.Payment.Successful"];
+            var callbackUrl = baseUrl + ConfigurationManager.AppSettings["LetterAmazer.Payment.Epay.CallbackUrl"];
+            var declineUrl = baseUrl + ConfigurationManager.AppSettings["LetterAmazer.Payment.Decline"];
             var googleTracker = ConfigurationManager.AppSettings["LetterAmazer.Settings.Analytics"];
             var merchantNumber = ConfigurationManager.AppSettings["LetterAmazer.Payment.Epay.MerchantNumber"];
 
             var order = orderService.GetOrderById(id);
+
+            callbackUrl = string.Format(callbackUrl, order.Id);
 
             var epayModel = new EpayViewModel()
             {

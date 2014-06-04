@@ -20,6 +20,17 @@ namespace LetterAmazer.Websites.Client
                 url: "Callback/PaypalIpn/{id}",
                 defaults: new { controller = "Callback", action = "PaypalIpn", id = UrlParameter.Optional }
             );
+            routes.MapRoute(
+                            name: "BitPayIPN",
+                            url: "Callback/BitPay/{id}",
+                            defaults: new { controller = "Callback", action = "BitPay", id = UrlParameter.Optional }
+                        );
+            routes.MapRoute(
+                            name: "EpayIPN",
+                            url: "Callback/Epay/{id}",
+                            defaults: new { controller = "Callback", action = "Epay", id = UrlParameter.Optional }
+                        );
+
 
             routes.MapRoute(
                 name: "SingleLetter",

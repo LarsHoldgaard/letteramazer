@@ -694,7 +694,7 @@
     <Content Include="Views\Home\ForgotPassword.cshtml" />
     <Content Include="Views\Home\ForgotPasswordSuccess.cshtml" />
     <Content Include="Views\Home\RecoverPassword.cshtml" />
-    <Content Include="Views\User\Index.cshtml" />
+    <Content Include="Views\Shared\Index.cshtml" />
     <Content Include="Views\User\Delete.cshtml" />
     <Content Include="Views\User\SendALetter.cshtml" />
     <Content Include="Views\User\Credits.cshtml" />

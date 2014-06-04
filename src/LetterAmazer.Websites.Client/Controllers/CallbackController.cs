@@ -64,9 +64,13 @@ namespace LetterAmazer.Websites.Client.Controllers
             }
         }
 
-        public JsonResult BitPay(string content)
+
+
+        public JsonResult BitPay(string orderid)
         {
-            var method = new EpayMethod(orderService);
+            logger.Info("BitPay IPN POST called. Raw request: " + Request.RawUrl);
+            
+            var method = new BitPayMethod(orderService);
 
             try
             {
@@ -84,6 +88,22 @@ namespace LetterAmazer.Websites.Client.Controllers
 
         public JsonResult Epay(string orderid)
         {
+            try
+            {
+                logger.Info("Raw request: " + Request.RawUrl);
+                logger.Info("Epay IPN GET called");
+                logger.Info("Content of BitPay: " + orderid);
+                logger.Info("Looking at request object: " + Request["orderid"]);
+                logger.Info("Looking at request object: " + Request.QueryString["orderid"]);
+                logger.Info("Amount of querystrings: " + Request.QueryString.Count);
+            }
+            catch (Exception)
+            {
+                logger.Info("Epay Logging error ");
+            }
+        
+
+
             var method = new EpayMethod(orderService);
 
             try

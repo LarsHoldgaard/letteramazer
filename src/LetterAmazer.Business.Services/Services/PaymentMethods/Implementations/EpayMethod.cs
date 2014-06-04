@@ -35,8 +35,12 @@ namespace LetterAmazer.Business.Services.Services.PaymentMethods.Implementations
 
         public void CallbackNotification()
         {
+            var epayOrderIdStr = HttpContext.Current.Request.QueryString["orderid"];
+            var splitted = epayOrderIdStr.Split(',');
+            var firstId = splitted[0];
+            
             int id = 0;
-            int.TryParse(HttpContext.Current.Request.QueryString["orderid"], out id);
+            int.TryParse(firstId, out id);
 
             var order = orderService.GetOrderById(id);
             order.OrderStatus = OrderStatus.Paid;

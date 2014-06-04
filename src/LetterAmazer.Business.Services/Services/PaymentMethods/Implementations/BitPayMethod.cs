@@ -33,7 +33,7 @@ namespace LetterAmazer.Business.Services.Services.PaymentMethods.Implementations
             apiKey = ConfigurationManager.AppSettings.Get("LetterAmazer.Payment.Bitpay.Apikey");
             apiUrl = ConfigurationManager.AppSettings.Get("LetterAmazer.Payment.Bitpay.ApiUrl");
             callbackUrl = baseUrl + ConfigurationManager.AppSettings.Get("LetterAmazer.Payment.Bitpay.CallbackUrl");
-            notificaitonEmail = baseUrl + ConfigurationManager.AppSettings.Get("LetterAmazer.Notification.Emails");
+            notificaitonEmail = ConfigurationManager.AppSettings.Get("LetterAmazer.Notification.Emails");
             successfulUrl = baseUrl + ConfigurationManager.AppSettings.Get("LetterAmazer.Payment.Successful");
             this.orderService = orderService;
         }
@@ -41,7 +41,8 @@ namespace LetterAmazer.Business.Services.Services.PaymentMethods.Implementations
         public string Process(Order order)
         {
             var postUrl = string.Format("{0}/{1}", apiUrl, "invoice");
-
+            callbackUrl = string.Format(callbackUrl, order.Id);
+            
             var model = new BitPayInvoiceViewModel()
             {
                 currency = "EUR",
@@ -83,7 +84,9 @@ namespace LetterAmazer.Business.Services.Services.PaymentMethods.Implementations
         public void CallbackNotification()
         {
             int id = 0;
-            int.TryParse(HttpContext.Current.Request.QueryString["orderid"], out id);
+
+            
+            int.TryParse(HttpContext.Current.Request["orderid"], out id);
 
             var order = orderService.GetOrderById(id);
             order.OrderStatus = OrderStatus.Paid;
