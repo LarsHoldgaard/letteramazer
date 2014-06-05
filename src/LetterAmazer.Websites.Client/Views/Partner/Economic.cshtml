@@ -38,101 +38,111 @@
 
         }
 
+        @if (Model.PartnerInvoices.Any())
+        {
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>
+                                Print document
+                            </th>
+                            <th>
+                                Invoice date
+                            </th>
+                            <th>
+                                Customer name
+                            </th>
+                            <th>Customer country</th>
+                            <th>
+                                Invoice amount
+                            </th>
+                            <th>
+                                Download
+                            </th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody data-bind="foreach: invoices">
+                        <tr>
+                            <td>
+                                <input type="checkbox" data-bind="checked: print, click:updatePrice" />
+                            </td>
+                            <td data-bind="text: invoiceDate"></td>
+                            <td data-bind="text: customerName"></td>
+                            <td data-bind="text: customerCountry"></td>
 
-        <div class="table-responsive">
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>
-                            Print document
-                        </th>
-                        <th>
-                            Invoice date
-                        </th>
-                        <th>
-                            Customer name
-                        </th>
-                        <th>Customer country</th>
-                        <th>
-                            Invoice amount
-                        </th>
-                        <th>
-                            Download
-                        </th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody data-bind="foreach: invoices">
-                    <tr>
-                        <td>
-                            <input type="checkbox" data-bind="checked: print, click:updatePrice" />
-                        </td>
-                        <td data-bind="text: invoiceDate"></td>
-                        <td data-bind="text: customerName"></td>
-                        <td data-bind="text: customerCountry"></td>
-
-                        <td data-bind="text: amount"></td>
-                        <td>
-                            <a data-bind="attr: { href: pdfLink }">Download</a>
-                        </td>
-                        <td data-bind="text: status">
-                            @*<input type="checkbox" data-bind="checked: status" />*@
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+                            <td data-bind="text: amount"></td>
+                            <td>
+                                <a data-bind="attr: { href: pdfLink }">Download</a>
+                            </td>
+                            <td data-bind="text: status">
+                                @*<input type="checkbox" data-bind="checked: status" />*@
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <p style="color:Red">There is no invoices in this period.</p>
+        }
+        
 
     </div>
-        @using (Html.BeginForm("Economic", "Partner", FormMethod.Post))
-        {
-          <h2>2. Pick a country and a payment method</h2>
+    
+    @if (Model.PartnerInvoices.Any())
+    {
+        using (Html.BeginForm("Economic", "Partner", FormMethod.Post))
+         {
+             <h2>2. Pick a country and a payment method</h2>
 
-            <div class="row">
-                <div class="col-md-5">
-                    <div class="dashboardBox" style="text-align: left;">
-                        <p>Select the country we should send this letter to:</p>
-                        <div>
+             <div class="row">
+                 <div class="col-md-5">
+                     <div class="dashboardBox" style="text-align: left;">
+                         <p>Select the country we should send this letter to:</p>
+                         <div>
 
-                            @Html.DropDownListFor(model => model.SelectedCountry, Model.Countries, new Dictionary<string, object> { { "class", "form-control sendaletter_countrylist" }, { "data-bind", "value:countryId" } })
-                            @Html.HiddenFor(m => m.SelectedCountry, new Dictionary<string, object> { { "data-bind", "value:countryId" } })
-
-
+                             @Html.DropDownListFor(model => model.SelectedCountry, Model.Countries, new Dictionary<string, object> {{"class", "form-control sendaletter_countrylist"}, {"data-bind", "value:countryId"}})
+                             @Html.HiddenFor(m => m.SelectedCountry, new Dictionary<string, object> {{"data-bind", "value:countryId"}})
 
 
-                        </div>
 
-                        <p>Select payment method</p>
-                        @Html.DropDownListFor(model => model.PaymentMethodId, Model.PaymentMethods, new Dictionary<string, object>{{ "class", "form-control" }, { "data-bind","value:paymentMethodId"} })
-                        @Html.HiddenFor(m => m.PaymentMethodId, new Dictionary<string, object> { { "data-bind", "value:paymentMethodId" } })
 
-                    </div>
-                </div>
-            </div>
-            <h2>3. Summary and send letters</h2>
-            
-            
-            @Html.HiddenFor(m => m.Token)
-            <div style="text-align:left;">
+                         </div>
 
-                Letters: <label data-bind="text: invoiceCount()"></label><br />
-                Price (ex vat): <label data-bind="text: totalPrice().priceExVat"></label> EUR<br />
-                Price (total): <label data-bind="text: totalPrice().total()"></label> EUR
-                <br/><br/>
+                         <p>Select payment method</p>
+                         @Html.DropDownListFor(model => model.PaymentMethodId, Model.PaymentMethods, new Dictionary<string, object> {{"class", "form-control"}, {"data-bind", "value:paymentMethodId"}})
+                         @Html.HiddenFor(m => m.PaymentMethodId, new Dictionary<string, object> {{"data-bind", "value:paymentMethodId"}})
+
+                     </div>
+                 </div>
+             </div>
+             <h2>3. Summary and send letters</h2>
+
+
+             @Html.HiddenFor(m => m.Token)
+             <div style="text-align: left;">
+
+                 Letters: <label data-bind="text: invoiceCount()"></label><br />
+                 Price (ex vat): <label data-bind="text: totalPrice().priceExVat"></label> EUR<br />
+                 Price (total): <label data-bind="text: totalPrice().total()"></label> EUR
+                 <br/><br/>
                 
                 
 
-                @*<div data-bind="visible: !doneLoading()">
+                 @*<div data-bind="visible: !doneLoading()">
                     <img src="@Url.Content("~/Content/images/icons/ajax-loader.gif")" />
                 </div>*@
 
-                <input type="submit" value="Send all letters now" class="btn btn-lg btn-success" />
-            </div>
+                 <input type="submit" value="Send all letters now" class="btn btn-lg btn-success" />
+             </div>
 
-            @Html.HiddenFor(m => m.SelectedInvoices, new Dictionary<string, object> { { "data-bind", "value:selectedPrintList()" } })
-            @Html.HiddenFor(m=>m.UserId)
-        }
-    
+             @Html.HiddenFor(m => m.SelectedInvoices, new Dictionary<string, object> {{"data-bind", "value:selectedPrintList()"}})
+             @Html.HiddenFor(m => m.UserId)
+         }
+    }
 </div>
 
 <script>
