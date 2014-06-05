@@ -16,35 +16,33 @@ namespace LetterAmazer.Business.Services.Services.Partners.Invoice
 {
     public class EconomicInvoiceService:IPartnerInvoiceService
     {
-        private string accessId;
         private string apiUrl;
         private string privateId;
         private IPartnerService partnerService;
 
         public EconomicInvoiceService(IPartnerService partnerService)
         {
-            this.accessId = ConfigurationManager.AppSettings["LetterAmazer.Apps.Economics.AccessId"];
             this.apiUrl = ConfigurationManager.AppSettings["LetterAmazer.Apps.Economics.ApiUrl"];
             this.privateId = ConfigurationManager.AppSettings["LetterAmazer.Apps.Economics.PrivateAppId"];
             this.partnerService = partnerService;
         }
 
-        public PartnerInvoice GetPartnerInvoiceById(string id)
+        public PartnerInvoice GetPartnerInvoiceById(string accessId, string id)
         {
             var invoiceApiUrl = string.Format("{0}/{1}/{2}", apiUrl, "invoices/booked",id);
 
-            var invoiceString = getJsonStringFromRequest(buildEconomicsHttpRequest(invoiceApiUrl));
+            var invoiceString = getJsonStringFromRequest(buildEconomicsHttpRequest(invoiceApiUrl,accessId));
             var economicsInvoice = JsonConvert.DeserializeObject<EconomicInvoice>(invoiceString);
 
             return getPartnerInvoice(economicsInvoice);
         }
 
-        public List<PartnerInvoice> GetPartnerInvoiceBySpecification(PartnerInvoiceSpecification partnerInvoiceSpecification)
+        public List<PartnerInvoice> GetPartnerInvoiceBySpecification(string accessId, PartnerInvoiceSpecification partnerInvoiceSpecification)
         {
             var invoiceApiUrl = string.Format("{0}/{1}", apiUrl, "invoices/booked?pageSize=999");
 
-            var invoiceString = getJsonStringFromRequest(buildEconomicsHttpRequest(invoiceApiUrl));
-            var economicsInvoices = JsonConvert.DeserializeObject<EconomicsPartnerInvoices>(invoiceString);
+            var invoiceString = getJsonStringFromRequest(buildEconomicsHttpRequest(invoiceApiUrl,accessId));
+            var economicsInvoices = JsonConvert.DeserializeObject<EconomicsPartnerInvoices>(invoiceString); 
             var collection =
                 economicsInvoices.collection.Where(
                     c => c.date >= partnerInvoiceSpecification.From && c.date <= partnerInvoiceSpecification.To).OrderByDescending(c=>c.date);
@@ -108,7 +106,7 @@ namespace LetterAmazer.Business.Services.Services.Partners.Invoice
             
         }
 
-        private HttpWebRequest buildEconomicsHttpRequest(string url)
+        private HttpWebRequest buildEconomicsHttpRequest(string url, string accessId)
         {
             HttpWebRequest req = (HttpWebRequest)WebRequest.Create(url);
             req.Headers.Add("accessId", accessId);

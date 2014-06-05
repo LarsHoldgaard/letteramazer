@@ -226,9 +226,10 @@ namespace LetterAmazer.Websites.Client.Controllers
 
             return View(editOrganisationView);
         }
-        public ActionResult CreateOrganisation()
+        public ActionResult CreateOrganisation(string returnUrl = "")
         {
             var orgView = new CreateOrganisationViewModel();
+            orgView.ReturnUrl = returnUrl;
 
             Helper.FillCountries(countryService, orgView.Countries, SessionHelper.Customer.PreferedCountryId);
             
@@ -278,6 +279,11 @@ namespace LetterAmazer.Websites.Client.Controllers
             var updated_customer = customerService.Update(customer);
             SessionHelper.Customer = updated_customer;
             FormsAuthentication.SetAuthCookie(customer.Id.ToString(), true);
+
+            if (!string.IsNullOrEmpty(model.ReturnUrl))
+            {
+                return Redirect(model.ReturnUrl);
+            }
 
             var profile_model = new DashboardViewModel();
             buildOverviewModel(profile_model);

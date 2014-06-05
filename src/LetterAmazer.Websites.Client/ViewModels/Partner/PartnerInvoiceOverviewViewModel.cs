@@ -25,8 +25,8 @@ namespace LetterAmazer.Websites.Client.ViewModels.Partner
 
         public string SelectedCountry { get; set; }
         public List<SelectListItem> Countries { get; set; }
-
-      
+        public string AccountStatus { get; set; }
+        public string AccessId { get; set; }
     }
 
     public class PartnerInvoiceViewModel
@@ -44,5 +44,7 @@ namespace LetterAmazer.Websites.Client.ViewModels.Partner
         public string Currency { get; set; }
         public decimal Amount { get; set; }
         public bool Status { get; set; }
+
+        
     }
 }

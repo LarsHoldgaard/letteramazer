@@ -164,6 +164,7 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CallbackController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LandingpageController.cs" />
     <Compile Include="Controllers\PartnerController.cs" />
     <Compile Include="Controllers\PaymentController.cs" />
     <Compile Include="Controllers\SingleLetterController.cs" />
@@ -195,6 +196,7 @@
     <Compile Include="ViewModels\Home\PriceDescriptionViewModel.cs" />
     <Compile Include="ViewModels\Home\PriceOverviewViewModel.cs" />
     <Compile Include="ViewModels\Home\SendALetterToViewModel.cs" />
+    <Compile Include="ViewModels\LandingPage\EconomicDkViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\OrderDetailViewModel.cs" />
     <Compile Include="ViewModels\Partner\PartnerInvoiceOverviewViewModel.cs" />
@@ -249,6 +251,7 @@
     </Content>
     <Content Include="Content\images\1455878_10152199113254113_90765289_n.jpg" />
     <Content Include="Content\images\1623763_10151813235096886_1787855136_n.jpg" />
+    <Content Include="Content\images\e-conomic-logo.png" />
     <Content Include="Content\images\icons\1395498076_130.png" />
     <Content Include="Content\images\icons\1395498087_cloud-upload.png" />
     <Content Include="Content\images\icons\1395514602_circle-add.png" />
@@ -728,6 +731,7 @@
     <Content Include="Views\Shared\_formTryService.cshtml" />
     <Content Include="Views\Home\ThanksForShowingInterest.cshtml" />
     <Content Include="Views\Home\Demo.cshtml" />
+    <Content Include="Views\Landingpage\EconomicDk.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\sql\" />

@@ -8,7 +8,7 @@ namespace LetterAmazer.Business.Services.Domain.Partners
 {
     public interface IPartnerInvoiceService
     {
-        PartnerInvoice GetPartnerInvoiceById(string id);
-        List<PartnerInvoice> GetPartnerInvoiceBySpecification(PartnerInvoiceSpecification partnerInvoiceSpecification);
+        PartnerInvoice GetPartnerInvoiceById(string accessId,string id);
+        List<PartnerInvoice> GetPartnerInvoiceBySpecification(string accessId, PartnerInvoiceSpecification partnerInvoiceSpecification);
     }
 }

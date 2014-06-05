@@ -50,14 +50,18 @@ namespace LetterAmazer.Websites.Client.Controllers
             this.fileService = fileService;
         }
 
-        public ActionResult Economic()
+        public ActionResult Economic(string token,string status = "")
         {
-            var model = new PartnerInvoiceOverviewViewModel();
+            var model = new PartnerInvoiceOverviewViewModel()
+            {
+                AccountStatus = status,
+                AccessId = token
+            };
 
-            var invoices = economicInvoiceService.GetPartnerInvoiceBySpecification(new PartnerInvoiceSpecification()
+            var invoices = economicInvoiceService.GetPartnerInvoiceBySpecification(token,new PartnerInvoiceSpecification()
             {
                 From = model.From,
-                To = model.To
+                To = model.To,
             });
 
             Helper.FillCountries(countryService,model.Countries,59);
@@ -77,7 +81,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                     CustomerAddress = partnerInvoice.CustomerAddress,
                     CustomerCity = partnerInvoice.CustomerCity,
                     CustomerCountry = partnerInvoice.CustomerCountry,
-                    CustomerCounty = partnerInvoice.CustomerCounty
+                    CustomerCounty = partnerInvoice.CustomerCounty,
                 });
             }
 
@@ -99,7 +103,7 @@ namespace LetterAmazer.Websites.Client.Controllers
             foreach (var selectedInvoice in model.SelectedInvoices[0].Split(';'))
             {
                 var deliveryCountryId = int.Parse(model.SelectedCountry);
-                var invoice = economicInvoiceService.GetPartnerInvoiceById(selectedInvoice);
+                var invoice = economicInvoiceService.GetPartnerInvoiceById(model.AccessId,selectedInvoice);
 
                 checkout.PartnerTransactions.Add(new PartnerTransaction()
                   {

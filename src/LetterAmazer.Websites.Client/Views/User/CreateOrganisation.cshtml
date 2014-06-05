@@ -17,6 +17,8 @@
         <div class="col-md-8">
             @using (Html.BeginForm("CreateOrganisation", "User", FormMethod.Post))
             {
+                @Html.HiddenFor(m=>m.ReturnUrl)
+                
                 <div class="row">
                     <div class="col-md-6">
                         <label class="form-label" for="OrganisationName">Organisation name<span class="input-required">*</span></label><br />

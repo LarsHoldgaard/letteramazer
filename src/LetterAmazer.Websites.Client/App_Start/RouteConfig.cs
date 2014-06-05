@@ -17,7 +17,7 @@ namespace LetterAmazer.Websites.Client
 
             routes.MapRoute(
                 name: "PaypalIPN",
-                url: "Callback/PaypalIpn/{id}",
+                url: "callback/paypalipn/{id}",
                 defaults: new { controller = "Callback", action = "PaypalIpn", id = UrlParameter.Optional }
             );
             routes.MapRoute(
@@ -34,7 +34,7 @@ namespace LetterAmazer.Websites.Client
 
             routes.MapRoute(
                 name: "SingleLetter",
-                url: "SingleLetter/{action}/{id}",
+                url: "singleletter/{action}/{id}",
                 defaults: new { controller = "SingleLetter", action = "Index", id = UrlParameter.Optional }
             );
 
@@ -53,9 +53,16 @@ namespace LetterAmazer.Websites.Client
 
             routes.MapRoute(
                 name: "User",
-                url: "User/{action}/{id}",
+                url: "user/{action}/{id}",
                 defaults: new { controller = "User", action = "Index", id = UrlParameter.Optional }
             );
+
+            routes.MapRoute(
+              name: "Landingpages",
+              url: "lp/{action}/{id}",
+              defaults: new { controller = "Landingpage", action = "Index", id = UrlParameter.Optional }
+          );
+
 
             routes.MapRoute(
                           name: "Pricing",
@@ -77,7 +84,7 @@ namespace LetterAmazer.Websites.Client
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
 
-            
+
         }
     }
 }

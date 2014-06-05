@@ -9,6 +9,16 @@
 
 
     <h1>E-conomic invoices</h1>
+    
+    @if (string.IsNullOrEmpty(Model.AccountStatus))
+    {
+        <div class="alert alert-warning">
+            @Model.AccountStatus
+            <br/>
+            Test
+        </div>
+    }
+    
 
     From <input id="fromDateInput" type="date" data-bind="value: dateFrom" />
     to <input id="toDateInput" type="date" data-bind="value: dateTo" />
@@ -59,6 +69,7 @@
 
     @using (Html.BeginForm("Economic", "Partner", FormMethod.Post))
     {
+        @Html.HiddenFor(m=>m.AccessId)
         <div>
             @Html.DropDownListFor(model => model.SelectedCountry, Model.Countries, new Dictionary<string, object> { { "class", "form-control sendaletter_countrylist" }, { "data-bind", "value:countryId" } })
             @Html.HiddenFor(m => m.SelectedCountry, new Dictionary<string, object> { { "data-bind", "value:countryId" } })

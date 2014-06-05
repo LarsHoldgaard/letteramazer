@@ -24,6 +24,8 @@ namespace LetterAmazer.Websites.Client.ViewModels.User
         public string SelectedCountry { get; set; }
         public List<SelectListItem> Countries { get; set; }
 
+        public string ReturnUrl { get; set; }
+
         public CreateOrganisationViewModel()
         {
             this.Countries = new List<SelectListItem>();
