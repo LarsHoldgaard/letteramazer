@@ -40,7 +40,7 @@ namespace LetterAmazer.Websites.Client.Controllers
         private ICountryService countryService;
         private IFileService fileService;
         private IPartnerService partnerService;
-         
+
         public PartnerController(IOrderService orderService, IPaymentService paymentService, ICheckoutService checkoutService,
             IOfficeProductService officeProductService, IPriceService priceService, ICountryService countryService, IFileService fileService, EconomicInvoiceService economicInvoiceService,
             IPartnerService partnerService)
@@ -56,37 +56,47 @@ namespace LetterAmazer.Websites.Client.Controllers
             this.partnerService = partnerService;
         }
 
-        public ActionResult Economic(string token,string status = "")
+        public ActionResult Economic(string token, string status = "", string fromDateInput = "", string toDateInput = "")
         {
             if (string.IsNullOrEmpty(token))
             {
-                // some error :)
+                return RedirectToAction("EconomicDk", "Landingpage");
             }
 
-            var split = status.Split(',');
-            status = split[0];
-            var userid = split[1];
-            if (status == "new")
+            if (!string.IsNullOrEmpty(status))
             {
-                var ps = partnerService.GetPartnerAccessBySpecification(new PartnerAccessSpecification()
+                if (string.IsNullOrEmpty(status) || !status.Contains(","))
                 {
-                    PartnerId = 1,
-                    Token = token
-                });
-
-                if (ps.Count == 0)
-                {
-                    // create partnerAccess
-                    partnerService.Create(new PartnerAccess()
-                    {
-                        AccessId = token,
-                        PartnerId = 1,
-                        UserId = int.Parse(userid)
-                    });    
+                    return RedirectToAction("EconomicDk", "Landingpage");
                 }
 
-                
+
+                var split = status.Split(',');
+                status = split[0];
+                var userid = split[1];
+                if (status == "new")
+                {
+                    var ps = partnerService.GetPartnerAccessBySpecification(new PartnerAccessSpecification()
+                    {
+                        PartnerId = 1,
+                        Token = token
+                    });
+
+                    if (ps.Count == 0)
+                    {
+                        // create partnerAccess
+                        partnerService.Create(new PartnerAccess()
+                        {
+                            AccessId = token,
+                            PartnerId = 1,
+                            UserId = int.Parse(userid)
+                        });
+                    }
+
+
+                }
             }
+
 
             var baseUrl = ConfigurationManager.AppSettings.Get("LetterAmazer.BasePath");
             var p = baseUrl + ConfigurationManager.AppSettings.Get("LetterAmazer.Apps.Economics.ReturnUrl") + "?token=" + token;
@@ -96,23 +106,35 @@ namespace LetterAmazer.Websites.Client.Controllers
                 PartnerId = 1,
                 Token = token
             }).FirstOrDefault();
-            
+
 
             var model = new PartnerInvoiceOverviewViewModel()
             {
                 AccountStatus = status,
-                AccessId = token,
+                Token = token,
                 AppUrl = p,
-                UserId = access.UserId
+                UserId = access.UserId,
             };
 
-            var invoices = economicInvoiceService.GetPartnerInvoiceBySpecification(token,new PartnerInvoiceSpecification()
+            if (!string.IsNullOrEmpty(fromDateInput))
+            {
+                model.From = DateTime.Parse(fromDateInput);
+            }
+            if (!string.IsNullOrEmpty(toDateInput))
+            {
+                model.To = DateTime.Parse(toDateInput);
+            }
+
+
+            var invoices = economicInvoiceService.GetPartnerInvoiceBySpecification(token, new PartnerInvoiceSpecification()
             {
                 From = model.From,
                 To = model.To,
             });
 
-            Helper.FillCountries(countryService,model.Countries,59);
+            Helper.FillCountries(countryService, model.Countries, 59);
+            Helper.FillPaymentMethods(paymentService, model.PaymentMethods, PaymentType.Letters);
+
 
             foreach (var partnerInvoice in invoices)
             {
@@ -143,14 +165,14 @@ namespace LetterAmazer.Websites.Client.Controllers
             Checkout checkout = new Checkout()
             {
                 UserId = customerId,
-                PaymentMethodId = 2
+                PaymentMethodId = model.PaymentMethodId
             };
 
 
             foreach (var selectedInvoice in model.SelectedInvoices[0].Split(';'))
             {
                 var deliveryCountryId = int.Parse(model.SelectedCountry);
-                var invoice = economicInvoiceService.GetPartnerInvoiceById(model.AccessId,selectedInvoice);
+                var invoice = economicInvoiceService.GetPartnerInvoiceById(model.Token, selectedInvoice);
 
                 checkout.PartnerTransactions.Add(new PartnerTransaction()
                   {
@@ -159,35 +181,36 @@ namespace LetterAmazer.Websites.Client.Controllers
                       ValueId = int.Parse(invoice.Id)
                   });
 
-                string fileKey = string.Empty;
+                byte[] data;
                 using (var client = new WebClient())
                 {
-                    var data = client.DownloadData(invoice.PdfUrl);
-                    fileKey = fileService.Create(data, Business.Services.Utils.Helpers.GetUploadDateString(Guid.NewGuid().ToString()));
+                    data = client.DownloadData(invoice.PdfUrl);
                 }
+                
+                var uploadFile = fileService.Create(data, Guid.NewGuid().ToString(), FileUploadMode.Temporarily);
+                var priceInfo = priceService.GetPricesFromFiles(new[] { uploadFile }, customerId, deliveryCountryId);
 
-                var priceInfo = priceService.GetPricesFromFiles(new[] { fileKey }, customerId, deliveryCountryId); 
+                    var officeProduct = officeProductService.GetOfficeProductById(priceInfo.OfficeProductId);
 
-                var officeProduct = officeProductService.GetOfficeProductById(priceInfo.OfficeProductId);
-
-
-                var t = new CheckoutLine()
-                {
-                    OfficeProductId = priceInfo.OfficeProductId,
-                    Letter = new Letter()
+                    var t = new CheckoutLine()
                     {
-                        ToAddress = new AddressInfo()
+                        OfficeProductId = priceInfo.OfficeProductId,
+                        Letter = new Letter()
                         {
-                            Country = countryService.GetCountryById(deliveryCountryId)
-                        },
-                        LetterContent = new LetterContent()
-                        {
-                            Path = fileKey
-                        },
-                        OfficeId = officeProduct.OfficeId
-                    }
-                };
-                checkout.CheckoutLines.Add(t);
+                            ToAddress = new AddressInfo()
+                            {
+                                Country = countryService.GetCountryById(deliveryCountryId)
+                            },
+                            LetterContent = new LetterContent()
+                            {
+                                Path = uploadFile,
+                                Content = data
+                            },
+                            OfficeId = officeProduct.OfficeId
+                        }
+                    };
+                    checkout.CheckoutLines.Add(t);
+                
             }
 
             var order = checkoutService.ConvertCheckout(checkout);

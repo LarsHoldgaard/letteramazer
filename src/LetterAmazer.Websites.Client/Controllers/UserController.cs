@@ -748,7 +748,7 @@ namespace LetterAmazer.Websites.Client.Controllers
 
             model.OrderOverviewViewModel = new OrderOverviewViewModel()
             {
-                Orders = buildOrderOverview(SessionHelper.Customer.Id, 5)
+                Orders = buildOrderOverview(SessionHelper.Customer.Id, 10)
             };
             model.Customer = SessionHelper.Customer;
             model.LetterType = SessionHelper.Customer.DefaultLetterType;

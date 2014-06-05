@@ -99,6 +99,25 @@ else
     </div>
 </div>
 
+<hr/>
+
+<h2>Integrations</h2>
+
+<div class="row">
+    <div class="col-md-4">
+        <a href="@Url.Action("EconomicDk","Landingpage")" class="dashboardLink">
+            <div class="dashboardBox pointer">
+                <img src="@Url.Content("~/Content/images/e-conomic-logo.png")" width="180px" />
+
+                <br/><br/>
+                <p>E-conomic: Send your invoices as letters with 1 click.</p>
+            </div>
+        </a>
+    </div>
+
+</div>
+
+
 <hr />
 
 @if (Model.UnpaidInvoices != null && Model.UnpaidInvoices.InvoiceSnippets.Any())

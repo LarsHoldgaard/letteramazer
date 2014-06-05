@@ -19,6 +19,7 @@ namespace LetterAmazer.Business.Services.Services.Partners.Invoice
         private string apiUrl;
         private string privateId;
         private IPartnerService partnerService;
+        
 
         public EconomicInvoiceService(IPartnerService partnerService)
         {
@@ -39,6 +40,17 @@ namespace LetterAmazer.Business.Services.Services.Partners.Invoice
 
         public List<PartnerInvoice> GetPartnerInvoiceBySpecification(string accessId, PartnerInvoiceSpecification partnerInvoiceSpecification)
         {
+            var partnerAccess = partnerService.GetPartnerAccessBySpecification(new PartnerAccessSpecification()
+            {
+                PartnerId = partnerInvoiceSpecification.PartnerId,
+                Token = accessId
+            }).FirstOrDefault();
+
+            if (partnerAccess == null)
+            {
+                throw new ArgumentException("No partnerAccess could be found");
+            }
+
             var invoiceApiUrl = string.Format("{0}/{1}", apiUrl, "invoices/booked?pageSize=999");
 
             var invoiceString = getJsonStringFromRequest(buildEconomicsHttpRequest(invoiceApiUrl,accessId));
@@ -52,8 +64,8 @@ namespace LetterAmazer.Business.Services.Services.Partners.Invoice
             {
                 var partnerTransactions = partnerService.GetPartnerTransactionBySpecification(new PartnerTransactionSpecification()
                 {
-                    CustomerId = 10, // TODO: wtf?
-                    PartnerId = 1,
+                    CustomerId = partnerAccess.UserId,
+                    PartnerId = partnerInvoiceSpecification.PartnerId,
                     ValueId = int.Parse(economicInvoice.id)
                 }).FirstOrDefault();
 
@@ -69,7 +81,7 @@ namespace LetterAmazer.Business.Services.Services.Partners.Invoice
             return new PartnerInvoice()
             {
                 CustomerName = economicInvoice.customerName,
-                PdfUrl = economicInvoice.pdf,
+                PdfUrl =  "http://www.antennahouse.com/XSLsample/pdf/sample-link_1.pdf",//economicInvoice.pdf,
                 InvoiceDate = economicInvoice.date,
                 LetterAmazerStatus = partnerTransaction != null,
                 Id = economicInvoice.id,

@@ -207,15 +207,22 @@ namespace LetterAmazer.Websites.Client.Controllers
                     var customerId = SessionHelper.Customer != null ? SessionHelper.Customer.Id : 0;
                     var data = client.DownloadData(pdfUrl);
 
-                    var fileKey = fileService.Create(data, Business.Services.Utils.Helpers.GetUploadDateString(Guid.NewGuid().ToString()));
-
+                    var fileKey = fileService.Create(data, Guid.NewGuid().ToString(),FileUploadMode.Temporarily);
+                    var fileBytes = fileService.GetFileById(fileKey, FileUploadMode.Temporarily);
+                    var deta = new LetterContent()
+                    {
+                        Content = fileBytes
+                    };
                     var price = priceService.GetPricesFromFiles(new[] { fileKey }, customerId, int.Parse(country));
+                    var officeProduct = officeProductService.GetOfficeProductById(price.OfficeProductId);
 
                     return Json(new
                     {
                         status = "success",
                         price = price,
-                        isAuthenticated = SessionHelper.Customer != null
+                        isAuthenticated = SessionHelper.Customer != null,
+                        numberOfPages = deta.PageCount,
+                        shippingDays = officeProduct.ShippingDays
                     });
                 }
             }

@@ -3,13 +3,15 @@
 @section header {
     <script type="text/javascript" src="@Url.Content("~/Scripts/knockout-3.0.0.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Scripts/internals/economics-viewmodel.js")"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+    <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
 }
 
 <div id="economicInvoiceOverview">
 
 
     <h1>E-conomic invoices</h1>
-    
+
     @if (!string.IsNullOrEmpty(Model.AccountStatus))
     {
         <div class="alert alert-warning">
@@ -22,82 +24,112 @@
             </ol>
         </div>
     }
-    
 
-    From <input id="fromDateInput" type="date" data-bind="value: dateFrom" />
-    to <input id="toDateInput" type="date" data-bind="value: dateTo" />
-    <input type="submit" value="Search" class="btn-sm btn-success" />
+    <div class="dashboardBox">
 
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>
-                    Print document
-                </th>
-                <th>
-                    Invoice date
-                </th>
-                <th>
-                    Customer name
-                </th>
-                <th>Customer country</th>
-                <th>
-                    Invoice amount
-                </th>
-                <th>
-                    Download
-                </th>
-                <th>Status</th>
-            </tr>
-        </thead>
-        <tbody data-bind="foreach: invoices">
-            <tr>
-                <td>
-                    <input type="checkbox" data-bind="checked: print, click:updatePrices" />
-                </td>
-                <td data-bind="text: invoiceDate"></td>
-                <td data-bind="text: customerName"></td>
-                <td data-bind="text: customerCountry"></td>
+        @using (Html.BeginForm("Economic", "Partner", FormMethod.Get))
+        {
+            <text>From</text>            <input id="fromDateInput" name="fromDateInput" type="date" data-bind="value: dateFrom" />
+            <text>to</text>    <input id="toDateInput" name="toDateInput" type="date" data-bind="value: dateTo" />
+            <input type="submit" value="Search" class="btn-sm btn-success" />
 
-                <td data-bind="text: amount"></td>
-                <td>
-                    <a data-bind="attr: { href: pdfLink }">Download</a>
-                </td>
-                <td data-bind="text: status">
-                    @*<input type="checkbox" data-bind="checked: status" />*@
-                </td>
-            </tr>
-        </tbody>
-    </table>
+            @Html.HiddenFor(m => m.Token)
 
 
-    @using (Html.BeginForm("Economic", "Partner", FormMethod.Post))
-    {
-        @Html.HiddenFor(m=>m.AccessId)
-        <div>
-            @Html.DropDownListFor(model => model.SelectedCountry, Model.Countries, new Dictionary<string, object> { { "class", "form-control sendaletter_countrylist" }, { "data-bind", "value:countryId" } })
-            @Html.HiddenFor(m => m.SelectedCountry, new Dictionary<string, object> { { "data-bind", "value:countryId" } })
-            
-            @*@Html.DropDownListFor(model => model.SelectedOriginCountry, Model.Countries, new Dictionary<string, object> { { "class", "form-control sendaletter_countrylist" }, { "data-bind", "value:originCountryId" } })
-            @Html.HiddenFor(m => m.SelectedOriginCountry, new Dictionary<string, object> { { "data-bind", "value:originCountryId" } })*@
+        }
 
-            Amount: <label data-bind="text: invoiceCount()"></label><br />
-            Price: <label data-bind="text:totalPrice().priceExVat"></label><br />
-            Vat (<span data-bind="text:totalPrice().vatPercentage"></span>): <label data-bind="text:totalPrice().vatAmount"></label><br />
-            Total: <label data-bind="text:totalPrice().total()"></label><br />
 
-            <input type="submit" value="Send all letters now" class="btn btn-lg btn-success" />
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>
+                            Print document
+                        </th>
+                        <th>
+                            Invoice date
+                        </th>
+                        <th>
+                            Customer name
+                        </th>
+                        <th>Customer country</th>
+                        <th>
+                            Invoice amount
+                        </th>
+                        <th>
+                            Download
+                        </th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody data-bind="foreach: invoices">
+                    <tr>
+                        <td>
+                            <input type="checkbox" data-bind="checked: print, click:updatePrices" />
+                        </td>
+                        <td data-bind="text: invoiceDate"></td>
+                        <td data-bind="text: customerName"></td>
+                        <td data-bind="text: customerCountry"></td>
+
+                        <td data-bind="text: amount"></td>
+                        <td>
+                            <a data-bind="attr: { href: pdfLink }">Download</a>
+                        </td>
+                        <td data-bind="text: status">
+                            @*<input type="checkbox" data-bind="checked: status" />*@
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
-        
-        @Html.HiddenFor(m => m.SelectedInvoices, new Dictionary<string, object> { { "data-bind", "value:selectedPrintList()" } })
-    }
+
+    </div>
+        @using (Html.BeginForm("Economic", "Partner", FormMethod.Post))
+        {
+          <h2>2. Pick a country and a payment method</h2>
+
+            <div class="row">
+                <div class="col-md-5">
+                    <div class="dashboardBox" style="text-align: left;">
+                        <p>Select the country we should send this letter to:</p>
+                        <div>
+
+                            @Html.DropDownListFor(model => model.SelectedCountry, Model.Countries, new Dictionary<string, object> { { "class", "form-control sendaletter_countrylist" }, { "data-bind", "value:countryId" } })
+                            @Html.HiddenFor(m => m.SelectedCountry, new Dictionary<string, object> { { "data-bind", "value:countryId" } })
+
+
+
+
+                        </div>
+
+                        <p>Select payment method</p>
+                        @Html.DropDownListFor(model => model.PaymentMethodId, Model.PaymentMethods, new Dictionary<string, object>{{ "class", "form-control" }, { "data-bind","value:paymentMethodId"} })
+                        @Html.HiddenFor(m => m.PaymentMethodId, new Dictionary<string, object> { { "data-bind", "value:paymentMethodId" } })
+
+                    </div>
+                </div>
+            </div>
+            <h2>3. Summary and send letters</h2>
+            
+            
+            @Html.HiddenFor(m => m.Token)
+            <div style="text-align:left;">
+
+                Letters: <label data-bind="text: invoiceCount()"></label><br />
+                Price (ex vat): <label data-bind="text: totalPrice().priceExVat"></label> EUR<br />
+                Price (total): <label data-bind="text: totalPrice().total()"></label> EUR
+                <br/><br/>
+                
+                <input type="submit" value="Send all letters now" class="btn btn-lg btn-success" />
+            </div>
+
+            @Html.HiddenFor(m => m.SelectedInvoices, new Dictionary<string, object> { { "data-bind", "value:selectedPrintList()" } })
+            @Html.HiddenFor(m=>m.UserId)
+        }
+    
 </div>
 
 <script>
-    // set standard dates
-    var dateToday = new Date();
-    var dateStart = dateToday.getDate() - 14;
-
 
     var invoices = [
         @foreach (var invoice in Model.PartnerInvoices)
@@ -108,14 +140,22 @@
 
     // set data
     var data = {
-        dateFrom: dateStart,
-        dateTo: dateToday,
+        dateFrom: '@Model.From.ToString("dd-MM-yyyy")',
+        dateTo: '@Model.To.ToString("dd-MM-yyyy")',
         invoiceData: invoices
     };
 
-    
+
     // apply knockout bindings
     var economicViewModel = new EconomicsViewModel('#economicInvoiceOverview', data);
     ko.applyBindings(economicViewModel, document.getElementById(economicInvoiceOverview));
+
+    $('#fromDateInput').datepicker({
+        dateFormat: 'dd-mm-yy'
+    });
+    $('#toDateInput').datepicker({
+        dateFormat: 'dd-mm-yy'
+    });
+
 
 </script>

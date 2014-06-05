@@ -16,6 +16,7 @@ namespace LetterAmazer.Websites.Client.ViewModels.Partner
         public PartnerInvoiceOverviewViewModel()
         {
             this.PartnerInvoices = new List<PartnerInvoiceViewModel>();
+            this.PaymentMethods = new List<SelectListItem>();
             this.Countries = new List<SelectListItem>();
             this.To = DateTime.Now;
             this.From = DateTime.Now.AddDays(-1000);
@@ -25,8 +26,12 @@ namespace LetterAmazer.Websites.Client.ViewModels.Partner
 
         public string SelectedCountry { get; set; }
         public List<SelectListItem> Countries { get; set; }
+
+        public List<SelectListItem> PaymentMethods { get; set; }
+        public int PaymentMethodId { get; set; }
+
         public string AccountStatus { get; set; }
-        public string AccessId { get; set; }
+        public string Token { get; set; }
 
         public string AppUrl {get;set;}
         public int UserId { get; set; }

@@ -73,6 +73,7 @@ var EconomicsViewModel = function (formSelector, data) {
     self.dateTo = data.dateTo;
     self.countryId = ko.observable(0);
 
+    self.paymentMethodId = ko.observable(0);
     self.invoices = ko.observableArray([]);
 
     $(data.invoiceData).each(function (index, ele) {
