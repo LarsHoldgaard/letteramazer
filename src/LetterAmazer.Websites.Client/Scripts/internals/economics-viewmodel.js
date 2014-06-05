@@ -76,7 +76,8 @@ var EconomicsViewModel = function (formSelector, data) {
     self.dateFrom = data.dateFrom;
     self.dateTo = data.dateTo;
     self.countryId = ko.observable(0);
-
+    self.creditPaymentMethodId = data.creditPaymentMethodId;
+    self.userCredits = data.userCredits;
     self.paymentMethodId = ko.observable(0);
     self.invoices = ko.observableArray([]);
 
@@ -160,6 +161,16 @@ var EconomicsViewModel = function (formSelector, data) {
 
         console.log('selectedPrintList: ' + ol);
         return ol;
+    });
+
+    self.isCreditsEnough = ko.computed(function () {
+        if (self.paymentMethodId() == self.creditPaymentMethodId) {
+            if (parseFloat(self.totalPrice().total()) > parseFloat(self.userCredits)) {
+                console.log('Comparing ' + self.totalPrice().total() + ' with ' + self.userCredits + ' returned false');
+                return false;
+            }
+        }
+        return true;
     });
 
 };

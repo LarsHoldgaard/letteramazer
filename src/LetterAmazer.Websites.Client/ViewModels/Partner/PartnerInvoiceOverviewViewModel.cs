@@ -10,6 +10,7 @@ namespace LetterAmazer.Websites.Client.ViewModels.Partner
     {
         public DateTime From { get; set; }
         public DateTime To { get; set; }
+        public decimal UserCredits { get; set; }
 
         public List<PartnerInvoiceViewModel> PartnerInvoices { get; set; }
 

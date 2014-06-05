@@ -138,8 +138,13 @@
                  @*<div data-bind="visible: !doneLoading()">
                     <img src="@Url.Content("~/Content/images/icons/ajax-loader.gif")" />
                 </div>*@
-
-                 <input type="submit" value="Send all letters now" class="btn btn-lg btn-success" />
+                 <div data-bind="visible: isCreditsEnough()">
+                     <input type="submit" value="Send all letters now" class="btn btn-lg btn-success" />
+                 </div>
+                 <div data-bind="visible: !isCreditsEnough()" class="alert alert-warning">
+                     <p>You have selected credits as a payment method, but you do not have enough credits to send this order.</p>
+                     <p>Please select a new payment method, or insert some more money.</p>
+                 </div>
              </div>
 
              @Html.HiddenFor(m => m.SelectedInvoices, new Dictionary<string, object> {{"data-bind", "value:selectedPrintList()"}})
@@ -161,7 +166,9 @@
     var data = {
         dateFrom: '@Model.From.ToString("dd-MM-yyyy")',
         dateTo: '@Model.To.ToString("dd-MM-yyyy")',
-        invoiceData: invoices
+        invoiceData: invoices,
+        creditPaymentMethodId: '2',
+        userCredits: '@Model.UserCredits',
     };
 
 

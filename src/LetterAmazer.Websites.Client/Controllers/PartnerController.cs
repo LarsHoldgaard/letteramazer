@@ -5,11 +5,13 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 using System.Web.UI.WebControls.WebParts;
 using Castle.Windsor.Diagnostics.Extensions;
 using LetterAmazer.Business.Services.Domain.AddressInfos;
 using LetterAmazer.Business.Services.Domain.Checkout;
 using LetterAmazer.Business.Services.Domain.Countries;
+using LetterAmazer.Business.Services.Domain.Customers;
 using LetterAmazer.Business.Services.Domain.Files;
 using LetterAmazer.Business.Services.Domain.Letters;
 using LetterAmazer.Business.Services.Domain.OfficeProducts;
@@ -40,10 +42,11 @@ namespace LetterAmazer.Websites.Client.Controllers
         private ICountryService countryService;
         private IFileService fileService;
         private IPartnerService partnerService;
+        private ICustomerService customerService;
 
         public PartnerController(IOrderService orderService, IPaymentService paymentService, ICheckoutService checkoutService,
             IOfficeProductService officeProductService, IPriceService priceService, ICountryService countryService, IFileService fileService, EconomicInvoiceService economicInvoiceService,
-            IPartnerService partnerService)
+            IPartnerService partnerService, ICustomerService customerService)
         {
             this.economicInvoiceService = economicInvoiceService;
             this.orderService = orderService;
@@ -54,6 +57,7 @@ namespace LetterAmazer.Websites.Client.Controllers
             this.countryService = countryService;
             this.fileService = fileService;
             this.partnerService = partnerService;
+            this.customerService = customerService;
         }
 
         public ActionResult Economic(string token, string status = "", string fromDateInput = "", string toDateInput = "")
@@ -106,6 +110,10 @@ namespace LetterAmazer.Websites.Client.Controllers
                 PartnerId = 1,
                 Token = token
             }).FirstOrDefault();
+            var user = customerService.GetCustomerById(access.UserId);
+            SessionHelper.Customer = user;
+            FormsAuthentication.SetAuthCookie(user.Id.ToString(), true);
+
 
 
             var model = new PartnerInvoiceOverviewViewModel()
@@ -114,6 +122,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                 Token = token,
                 AppUrl = p,
                 UserId = access.UserId,
+                UserCredits = user.CreditsLeft
             };
 
             if (!string.IsNullOrEmpty(fromDateInput))
@@ -152,6 +161,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                     CustomerCity = partnerInvoice.CustomerCity,
                     CustomerCountry = partnerInvoice.CustomerCountry,
                     CustomerCounty = partnerInvoice.CustomerCounty,
+                    
                 });
             }
 
