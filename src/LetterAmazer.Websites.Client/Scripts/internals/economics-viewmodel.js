@@ -60,10 +60,10 @@ function price(exVat, vatPercentage) {
     self.vatPercentage = vatPercentage;
 
     self.total = ko.computed(function () {
-        return self.priceExVat * (1 + self.vatPercentage);
+        return (self.priceExVat * (1 + self.vatPercentage)).toFixed(2);
     });
     self.vatAmount = ko.computed(function () {
-        return self.priceExVat * self.vatPercentage;
+        return (self.priceExVat * self.vatPercentage).toFixed(2);
     });
     self.priceExVatText = ko.computed(function () {
         return self.priceExVat + ' ' + self.currency;
@@ -126,13 +126,21 @@ var EconomicsViewModel = function (formSelector, data) {
     self.doneLoading = ko.computed(function () {
         var doneLoading = true;
         $(self.invoices()).each(function (index, ele) {
-            console.log('invoice status: ' + ele.uploadStatus());
-            if (ele.uploadStatus() === '') {
-                doneLoading = false;
+            if (ele.print()) {
+                console.log('invoice status: ' + ele.uploadStatus());
+                if (ele.uploadStatus() === '') {
+                    doneLoading = false;
+                }
             }
         });
         return doneLoading;
     });
+
+    self.resetUploadStatus = function() {
+        $(self.invoices()).each(function(index, ele) {
+            ele.uploadStatus('');
+        });
+    };
 
     self.updateAllPrices = function () {
         $(self.invoices()).each(function (index, ele)
@@ -145,6 +153,7 @@ var EconomicsViewModel = function (formSelector, data) {
     };
 
     self.updateLetterCountry = function (countryId) {
+        self.resetUploadStatus();
         $(self.invoices()).each(function (index, ele) {
             console.log('setting invoice country to ' + countryId);
             ele.countryId = countryId;

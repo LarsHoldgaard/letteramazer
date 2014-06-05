@@ -9,7 +9,7 @@
 
 <div id="economicInvoiceOverview">
 
-    
+
     <span class="breadcrumbs"><a href="/">LMPost</a> > <a href="@Url.Action("Index","User")">Dashboard</a> > E-conomic integration</span>
 
     <h1>E-conomic invoices</h1>
@@ -91,65 +91,65 @@
         {
             <p style="color:Red">There is no invoices in this period.</p>
         }
-        
+
 
     </div>
-    
+
     @if (Model.PartnerInvoices.Any())
     {
         using (Html.BeginForm("Economic", "Partner", FormMethod.Post))
-         {
-             <h2>2. Pick a country and a payment method</h2>
+        {
+            <h2>2. Pick a country and a payment method</h2>
 
-             <div class="row">
-                 <div class="col-md-5">
-                     <div class="dashboardBox" style="text-align: left;">
-                         <p>Select the country we should send this letter to:</p>
-                         <div>
+            <div class="row">
+                <div class="col-md-5">
+                    <div class="dashboardBox" style="text-align: left;">
+                        <p>Select the country we should send this letter to:</p>
+                        <div>
 
-                             @Html.DropDownListFor(model => model.SelectedCountry, Model.Countries, new Dictionary<string, object> {{"class", "form-control sendaletter_countrylist"}, {"data-bind", "value:countryId"}})
-                             @Html.HiddenFor(m => m.SelectedCountry, new Dictionary<string, object> {{"data-bind", "value:countryId"}})
-
-
+                            @Html.DropDownListFor(model => model.SelectedCountry, Model.Countries, new Dictionary<string, object> { { "class", "form-control sendaletter_countrylist" }, { "data-bind", "value:countryId" } })
+                            @Html.HiddenFor(m => m.SelectedCountry, new Dictionary<string, object> { { "data-bind", "value:countryId" } })
 
 
-                         </div>
-
-                         <p>Select payment method</p>
-                         @Html.DropDownListFor(model => model.PaymentMethodId, Model.PaymentMethods, new Dictionary<string, object> {{"class", "form-control"}, {"data-bind", "value:paymentMethodId"}})
-                         @Html.HiddenFor(m => m.PaymentMethodId, new Dictionary<string, object> {{"data-bind", "value:paymentMethodId"}})
-
-                     </div>
-                 </div>
-             </div>
-             <h2>3. Summary and send letters</h2>
 
 
-             @Html.HiddenFor(m => m.Token)
-             <div style="text-align: left;">
+                        </div>
 
-                 Letters: <label data-bind="text: invoiceCount()"></label><br />
-                 Price (ex vat): <label data-bind="text: totalPrice().priceExVat"></label> EUR<br />
-                 Price (total): <label data-bind="text: totalPrice().total()"></label> EUR
-                 <br/><br/>
-                
-                
+                        <p>Select payment method</p>
+                        @Html.DropDownListFor(model => model.PaymentMethodId, Model.PaymentMethods, new Dictionary<string, object> { { "class", "form-control" }, { "data-bind", "value:paymentMethodId" } })
+                        @Html.HiddenFor(m => m.PaymentMethodId, new Dictionary<string, object> { { "data-bind", "value:paymentMethodId" } })
 
-                 @*<div data-bind="visible: !doneLoading()">
+                    </div>
+                </div>
+            </div>
+            <h2>3. Summary and send letters</h2>
+
+
+            @Html.HiddenFor(m => m.Token)
+            <div class="dashboardBox" style="text-align: left;">
+
+                Letters: <label data-bind="text: invoiceCount()"></label><br />
+                Price (ex vat): <label data-bind="text: totalPrice().priceExVat"></label> EUR<br />
+                Price (total): <label data-bind="text: totalPrice().total()"></label> EUR
+                <br /><br />
+
+
+
+                <div data-bind="visible: !doneLoading()">
                     <img src="@Url.Content("~/Content/images/icons/ajax-loader.gif")" />
-                </div>*@
-                 <div data-bind="visible: isCreditsEnough()">
-                     <input type="submit" value="Send all letters now" class="btn btn-lg btn-success" />
-                 </div>
-                 <div data-bind="visible: !isCreditsEnough()" class="alert alert-warning">
-                     <p>You have selected credits as a payment method, but you do not have enough credits to send this order.</p>
-                     <p>Please select a new payment method, or insert some more money.</p>
-                 </div>
-             </div>
+                </div>
+                <div data-bind="visible: isCreditsEnough()">
+                    <input type="submit" value="Send all letters now" class="btn btn-lg btn-success" />
+                </div>
+                <div data-bind="visible: !isCreditsEnough()" class="alert alert-warning">
+                    <p>You have selected credits as a payment method, but you do not have enough credits to send this order.</p>
+                    <p>Please select a new payment method, or insert some more money.</p>
+                </div>
+            </div>
 
-             @Html.HiddenFor(m => m.SelectedInvoices, new Dictionary<string, object> {{"data-bind", "value:selectedPrintList()"}})
-             @Html.HiddenFor(m => m.UserId)
-         }
+            @Html.HiddenFor(m => m.SelectedInvoices, new Dictionary<string, object> { { "data-bind", "value:selectedPrintList()" } })
+            @Html.HiddenFor(m => m.UserId)
+        }
     }
 </div>
 
@@ -158,7 +158,7 @@
     var invoices = [
         @foreach (var invoice in Model.PartnerInvoices)
         {
-            <text>[{ 'orderid': "@invoice.Id", 'invoiceDate': "@invoice.InvoiceDate", 'customerName': "@invoice.CustomerName", 'customerCountry': "@invoice.CustomerCountry", 'amount': "@invoice.Amount", 'pdfLink': "@invoice.PdfUrl", 'status': "@(invoice.Status?"Sent":"Not sent")" }],</text>
+            <text>[{ 'orderid': "@invoice.Id", 'invoiceDate': "@invoice.InvoiceDate.ToString("dd-MM-yyyy")", 'customerName': "@invoice.CustomerName", 'customerCountry': "@invoice.CustomerCountry", 'amount': "@invoice.Amount", 'pdfLink': "@invoice.PdfUrl", 'status': "@(invoice.Status?"Sent":"Not sent")" }],</text>
         }
     ];
 
