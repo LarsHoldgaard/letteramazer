@@ -65,7 +65,7 @@
                 <tbody data-bind="foreach: invoices">
                     <tr>
                         <td>
-                            <input type="checkbox" data-bind="checked: print, click:updatePrices" />
+                            <input type="checkbox" data-bind="checked: print, click:updatePrice" />
                         </td>
                         <td data-bind="text: invoiceDate"></td>
                         <td data-bind="text: customerName"></td>
@@ -120,6 +120,12 @@
                 Price (total): <label data-bind="text: totalPrice().total()"></label> EUR
                 <br/><br/>
                 
+                
+
+                @*<div data-bind="visible: !doneLoading()">
+                    <img src="@Url.Content("~/Content/images/icons/ajax-loader.gif")" />
+                </div>*@
+
                 <input type="submit" value="Send all letters now" class="btn btn-lg btn-success" />
             </div>
 
@@ -155,6 +161,12 @@
     });
     $('#toDateInput').datepicker({
         dateFormat: 'dd-mm-yy'
+    });
+
+    $('.sendaletter_countrylist').change(function () {
+        var countryId = economicViewModel.countryId();
+        economicViewModel.updateLetterCountry(countryId);
+        economicViewModel.updateAllPrices();
     });
 
 

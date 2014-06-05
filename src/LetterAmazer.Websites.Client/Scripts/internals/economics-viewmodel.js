@@ -10,6 +10,9 @@
     self.jsonPrice = ko.observable(0);
     self.amount = amount;
     self.orderid = orderid;
+    self.countryId = countryId;
+
+    self.uploadStatus = ko.observable('');
     
     self.printingPrice = ko.computed(function () {
         var jsonPrice = self.jsonPrice();
@@ -18,14 +21,14 @@
     });
 
 
-    self.updatePrices = function () {
+    self.updatePrice = function () {
         var printStatus = self.print();
         $.ajax({
             url: '/SingleLetter/GetPriceFromUrl',
             type: 'POST',
             data: {
                 'pdfUrl': self.pdfLink,
-                'country': countryId
+                'country': self.countryId
             },
             dataType: 'json',
             success: function (data) {
@@ -36,6 +39,7 @@
                 }
 
                 self.jsonPrice(data.price);
+                self.uploadStatus('success');
 
             },
             error: function (file, responseText) {
@@ -77,8 +81,16 @@ var EconomicsViewModel = function (formSelector, data) {
     self.invoices = ko.observableArray([]);
 
     $(data.invoiceData).each(function (index, ele) {
+        console.log('economics countryid: ' + self.countryId());
         // todo: should make logic awesome... yes
-        var inv = new invoice(ele[0].orderid,ele[0].invoiceDate, ele[0].customerName, ele[0].customerCountry,ele[0].amount, ele[0].pdfLink, ele[0].status,59);
+        var inv = new invoice(ele[0].orderid,
+            ele[0].invoiceDate,
+            ele[0].customerName,
+            ele[0].customerCountry,
+            ele[0].amount,
+            ele[0].pdfLink,
+            ele[0].status,
+            59);//self.countryId()
         self.invoices.push(inv);
     });
 
@@ -108,6 +120,35 @@ var EconomicsViewModel = function (formSelector, data) {
         });
         return count;
     });
+
+
+    self.doneLoading = ko.computed(function () {
+        var doneLoading = true;
+        $(self.invoices()).each(function (index, ele) {
+            console.log('invoice status: ' + ele.uploadStatus());
+            if (ele.uploadStatus() === '') {
+                doneLoading = false;
+            }
+        });
+        return doneLoading;
+    });
+
+    self.updateAllPrices = function () {
+        $(self.invoices()).each(function (index, ele)
+        {
+            if (ele.print()) {
+                ele.updatePrice();
+            }
+            
+        });
+    };
+
+    self.updateLetterCountry = function (countryId) {
+        $(self.invoices()).each(function (index, ele) {
+            console.log('setting invoice country to ' + countryId);
+            ele.countryId = countryId;
+        });
+    };
 
     self.selectedPrintList = ko.computed(function () {
         var arr = self.invoices();

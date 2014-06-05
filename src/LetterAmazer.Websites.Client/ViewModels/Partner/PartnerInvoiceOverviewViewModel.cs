@@ -19,7 +19,7 @@ namespace LetterAmazer.Websites.Client.ViewModels.Partner
             this.PaymentMethods = new List<SelectListItem>();
             this.Countries = new List<SelectListItem>();
             this.To = DateTime.Now;
-            this.From = DateTime.Now.AddDays(-1000);
+            this.From = DateTime.Now.AddMonths(-3);
         }
 
         public string[] SelectedInvoices { get; set; }
