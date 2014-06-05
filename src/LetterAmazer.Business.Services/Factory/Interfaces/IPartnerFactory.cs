@@ -15,6 +15,8 @@ namespace LetterAmazer.Business.Services.Factory.Interfaces
 
         PartnerTransaction Create(DbPartnerTransactions partners);
         List<PartnerTransaction> Create(List<DbPartnerTransactions> partners);
+        PartnerAccess Create(DbPartnerAccess partners);
+        List<PartnerAccess> Create(List<DbPartnerAccess> partners);
 
 
     }

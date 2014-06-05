@@ -46,6 +46,7 @@ namespace LetterAmazer.Data.Repository.Data
         public DbSet<DbOrganisation> DbOrganisation { get; set; }
         public DbSet<DbOrganisationAddressList> DbOrganisationAddressList { get; set; }
         public DbSet<DbOrganisationProfileSettings> DbOrganisationProfileSettings { get; set; }
+        public DbSet<DbPartnerAccess> DbPartnerAccess { get; set; }
         public DbSet<DbPartners> DbPartners { get; set; }
         public DbSet<DbPartnerTransactions> DbPartnerTransactions { get; set; }
         public DbSet<DbPaymentMethods> DbPaymentMethods { get; set; }

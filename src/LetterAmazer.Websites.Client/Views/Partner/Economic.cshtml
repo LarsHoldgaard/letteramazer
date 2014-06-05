@@ -10,12 +10,16 @@
 
     <h1>E-conomic invoices</h1>
     
-    @if (string.IsNullOrEmpty(Model.AccountStatus))
+    @if (!string.IsNullOrEmpty(Model.AccountStatus))
     {
         <div class="alert alert-warning">
-            @Model.AccountStatus
-            <br/>
-            Test
+            <p>Make sure you add LMPost as an app in e-conomics:</p>
+            <ol>
+                <li>Go to Settings</li>
+                <li>Go to tabs</li>
+                <li>Add tab</li>
+                <li>Add "LMPost" and @Model.AppUrl</li>
+            </ol>
         </div>
     }
     

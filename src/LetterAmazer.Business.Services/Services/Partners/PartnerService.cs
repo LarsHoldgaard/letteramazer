@@ -90,5 +90,47 @@ namespace LetterAmazer.Business.Services.Services.Partners
 
             return GetPartnerTransactionById(partnerT.Id);
         }
+
+        public PartnerAccess GetPartnerAccessById(int id)
+        {
+            var dbPartnerAccess = repository.DbPartnerAccess.FirstOrDefault(c => c.Id == id);
+
+            return partnerFactory.Create(dbPartnerAccess);
+        }
+
+        public List<PartnerAccess> GetPartnerAccessBySpecification(PartnerAccessSpecification specification)
+        {
+            IQueryable<DbPartnerAccess> dbPartnerAccesses = repository.DbPartnerAccess;
+
+            if (specification.UserId > 0)
+            {
+                dbPartnerAccesses = dbPartnerAccesses.Where(c => c.UserId == specification.UserId);
+            }
+            if (specification.PartnerId > 0)
+            {
+                dbPartnerAccesses = dbPartnerAccesses.Where(c => c.PartnerId == specification.PartnerId);
+            }
+            if (!string.IsNullOrEmpty(specification.Token))
+            {
+                dbPartnerAccesses = dbPartnerAccesses.Where(c => c.AccessToken == specification.Token);
+            }
+            return partnerFactory.Create(dbPartnerAccesses.OrderBy(c => c.Id).Skip(specification.Skip).Take(specification.Take).ToList());
+        }
+
+        public PartnerAccess Create(PartnerAccess partnerAccess)
+        {
+            var dbPartnerAccess = new DbPartnerAccess()
+            {
+                AccessToken = partnerAccess.AccessId,
+                DateCreated = DateTime.Now,
+                DateDeleted = null,
+                PartnerId = partnerAccess.PartnerId,
+                UserId = partnerAccess.UserId
+            };
+            repository.DbPartnerAccess.Add(dbPartnerAccess);
+            repository.SaveChanges();
+
+            return GetPartnerAccessById(dbPartnerAccess.Id);
+        }
     }
 }

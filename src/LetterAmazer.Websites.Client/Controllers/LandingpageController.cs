@@ -59,7 +59,7 @@ namespace LetterAmazer.Websites.Client.Controllers
 
                 var publicAppId = ConfigurationManager.AppSettings.Get("LetterAmazer.Apps.Economics.PublicAppId");
                 var baseUrl = ConfigurationManager.AppSettings.Get("LetterAmazer.BasePath");
-                var returnUrl = baseUrl + ConfigurationManager.AppSettings["LetterAmazer.Apps.Economics.ReturnUrl"];
+                var returnUrl = baseUrl + ConfigurationManager.AppSettings["LetterAmazer.Apps.Economics.ReturnUrl"] + "?status=new," + cust.Id;
 
                 var economicAuthUrl = string.Format(ConfigurationManager.AppSettings.Get("LetterAmazer.Apps.Economics.PermissionUrl"),
                     returnUrl, publicAppId);
@@ -67,7 +67,7 @@ namespace LetterAmazer.Websites.Client.Controllers
             
                 if (cust.Organisation != null && cust.Organisation.Id > 0 && !cust.Organisation.IsPrivate)
                 {
-                    return RedirectToAction("EditOrganisation", "User");
+                    return RedirectToAction("EditOrganisation", "User", new { returnUrl = economicAuthUrl });
                 }
                 if (cust.Organisation != null && cust.Organisation.Id > 0)
                 {

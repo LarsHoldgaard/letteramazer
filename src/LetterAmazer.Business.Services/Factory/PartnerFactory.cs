@@ -47,5 +47,23 @@ namespace LetterAmazer.Business.Services.Factory
         {
             return partners.Select(Create).ToList();
         }
+
+        public PartnerAccess Create(DbPartnerAccess access)
+        {
+            return new PartnerAccess()
+            {
+                AccessId = access.AccessToken,
+                DateCreated = access.DateCreated,
+                PartnerId = access.PartnerId,
+                UserId = access.UserId,
+                DateDeleted = (DateTime?)access.DateDeleted,
+                Id = access.Id
+            };
+        }
+
+        public List<PartnerAccess> Create(List<DbPartnerAccess> accesses)
+        {
+            return accesses.Select(Create).ToList();
+        }
     }
 }

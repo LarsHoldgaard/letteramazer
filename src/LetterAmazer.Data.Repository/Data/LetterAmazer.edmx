@@ -383,6 +383,17 @@ warning 6002: The table/view 'LetterAmazer.dbo.DbLog' does not have a primary ke
           <Property Name="LetterSize" Type="int" />
           <Property Name="PreferedCountryId" Type="int" />
         </EntityType>
+        <EntityType Name="DbPartnerAccess">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="PartnerId" Type="int" Nullable="false" />
+          <Property Name="AccessToken" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="DateCreated" Type="datetime" Nullable="false" />
+          <Property Name="DateDeleted" Type="datetime" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
         <EntityType Name="DbPartners">
           <Key>
             <PropertyRef Name="Id" />
@@ -743,6 +754,7 @@ warning 6002: The table/view 'LetterAmazer.dbo.DbLog' does not have a primary ke
           <EntitySet Name="DbOrganisation" EntityType="Self.DbOrganisation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DbOrganisationAddressList" EntityType="Self.DbOrganisationAddressList" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DbOrganisationProfileSettings" EntityType="Self.DbOrganisationProfileSettings" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DbPartnerAccess" EntityType="Self.DbPartnerAccess" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DbPartners" EntityType="Self.DbPartners" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DbPartnerTransactions" EntityType="Self.DbPartnerTransactions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DbPaymentMethods" EntityType="Self.DbPaymentMethods" Schema="dbo" store:Type="Tables" />
@@ -1256,6 +1268,17 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
           <Property Name="PreferedCountryId" Type="Int32" />
           <NavigationProperty Name="DbOrganisation" Relationship="Self.FK_DbOrganisationProfileSettings_DbOrganisation" FromRole="DbOrganisationProfileSettings" ToRole="DbOrganisation" />
         </EntityType>
+        <EntityType Name="DbPartnerAccess">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="PartnerId" Type="Int32" Nullable="false" />
+          <Property Name="AccessToken" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DateDeleted" Type="DateTime" Precision="3" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
         <EntityType Name="DbPartners">
           <Key>
             <PropertyRef Name="Id" />
@@ -1639,6 +1662,7 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
           <EntitySet Name="DbOrganisation" EntityType="Self.DbOrganisation" />
           <EntitySet Name="DbOrganisationAddressList" EntityType="Self.DbOrganisationAddressList" />
           <EntitySet Name="DbOrganisationProfileSettings" EntityType="Self.DbOrganisationProfileSettings" />
+          <EntitySet Name="DbPartnerAccess" EntityType="Self.DbPartnerAccess" />
           <EntitySet Name="DbPartners" EntityType="Self.DbPartners" />
           <EntitySet Name="DbPartnerTransactions" EntityType="Self.DbPartnerTransactions" />
           <EntitySet Name="DbPaymentMethods" EntityType="Self.DbPaymentMethods" />
@@ -2121,6 +2145,18 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
                 <ScalarProperty Name="LetterType" ColumnName="LetterType" />
                 <ScalarProperty Name="LetterSize" ColumnName="LetterSize" />
                 <ScalarProperty Name="PreferedCountryId" ColumnName="PreferedCountryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DbPartnerAccess">
+            <EntityTypeMapping TypeName="LetterAmazer.DbPartnerAccess">
+              <MappingFragment StoreEntitySet="DbPartnerAccess">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="PartnerId" ColumnName="PartnerId" />
+                <ScalarProperty Name="AccessToken" ColumnName="AccessToken" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="DateDeleted" ColumnName="DateDeleted" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

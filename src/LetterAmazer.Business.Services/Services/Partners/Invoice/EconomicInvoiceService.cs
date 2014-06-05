@@ -53,7 +53,7 @@ namespace LetterAmazer.Business.Services.Services.Partners.Invoice
                 var partnerTransactions = partnerService.GetPartnerTransactionBySpecification(new PartnerTransactionSpecification()
                 {
                     CustomerId = 10, // TODO: wtf?
-                    PartnerId = 1, // TODO: wtf?
+                    PartnerId = 1,
                     ValueId = int.Parse(economicInvoice.id)
                 }).FirstOrDefault();
 

@@ -27,6 +27,9 @@ namespace LetterAmazer.Websites.Client.ViewModels.Partner
         public List<SelectListItem> Countries { get; set; }
         public string AccountStatus { get; set; }
         public string AccessId { get; set; }
+
+        public string AppUrl {get;set;}
+        public int UserId { get; set; }
     }
 
     public class PartnerInvoiceViewModel

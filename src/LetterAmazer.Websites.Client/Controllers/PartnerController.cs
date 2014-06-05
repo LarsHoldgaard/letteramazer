@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI.WebControls.WebParts;
 using Castle.Windsor.Diagnostics.Extensions;
 using LetterAmazer.Business.Services.Domain.AddressInfos;
 using LetterAmazer.Business.Services.Domain.Checkout;
@@ -37,8 +39,11 @@ namespace LetterAmazer.Websites.Client.Controllers
         private IPriceService priceService;
         private ICountryService countryService;
         private IFileService fileService;
+        private IPartnerService partnerService;
+         
         public PartnerController(IOrderService orderService, IPaymentService paymentService, ICheckoutService checkoutService,
-            IOfficeProductService officeProductService, IPriceService priceService, ICountryService countryService, IFileService fileService, EconomicInvoiceService economicInvoiceService)
+            IOfficeProductService officeProductService, IPriceService priceService, ICountryService countryService, IFileService fileService, EconomicInvoiceService economicInvoiceService,
+            IPartnerService partnerService)
         {
             this.economicInvoiceService = economicInvoiceService;
             this.orderService = orderService;
@@ -48,14 +53,46 @@ namespace LetterAmazer.Websites.Client.Controllers
             this.priceService = priceService;
             this.countryService = countryService;
             this.fileService = fileService;
+            this.partnerService = partnerService;
         }
 
         public ActionResult Economic(string token,string status = "")
         {
+            if (string.IsNullOrEmpty(token))
+            {
+                // some error :)
+            }
+
+            var split = status.Split(',');
+            status = split[0];
+            var userid = split[1];
+            if (status == "new")
+            {
+                // create partnerAccess
+                partnerService.Create(new PartnerAccess()
+                {
+                    AccessId = token,
+                    PartnerId = 1,
+                    UserId = int.Parse(userid)
+                });
+            }
+
+            var baseUrl = ConfigurationManager.AppSettings.Get("LetterAmazer.BasePath");
+            var p = baseUrl + ConfigurationManager.AppSettings.Get("LetterAmazer.Apps.Economics.ReturnUrl") + "?token=" + token;
+
+            var access = partnerService.GetPartnerAccessBySpecification(new PartnerAccessSpecification()
+            {
+                PartnerId = 1,
+                Token = token
+            }).FirstOrDefault();
+            
+
             var model = new PartnerInvoiceOverviewViewModel()
             {
                 AccountStatus = status,
-                AccessId = token
+                AccessId = token,
+                AppUrl = p,
+                UserId = access.UserId
             };
 
             var invoices = economicInvoiceService.GetPartnerInvoiceBySpecification(token,new PartnerInvoiceSpecification()
@@ -91,11 +128,10 @@ namespace LetterAmazer.Websites.Client.Controllers
         [HttpPost]
         public ActionResult Economic(PartnerInvoiceOverviewViewModel model)
         {
-            var customerId = SessionHelper.Customer != null ? SessionHelper.Customer.Id : 0;
+            var customerId = model.UserId;
             Checkout checkout = new Checkout()
             {
                 UserId = customerId,
-                Email = SessionHelper.Customer.Email,
                 PaymentMethodId = 2
             };
 

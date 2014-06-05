@@ -136,6 +136,8 @@
     <Compile Include="Domain\Partners\IPartnerInvoiceService.cs" />
     <Compile Include="Domain\Partners\IPartnerService.cs" />
     <Compile Include="Domain\Partners\Partner.cs" />
+    <Compile Include="Domain\Partners\PartnerAccess.cs" />
+    <Compile Include="Domain\Partners\PartnerAccessSpecification.cs" />
     <Compile Include="Domain\Partners\PartnerInvoice.cs" />
     <Compile Include="Domain\Partners\PartnerInvoiceSpecification.cs" />
     <Compile Include="Domain\Partners\PartnerJsonDto\EconomicsPartnerInvoices.cs" />
