@@ -68,13 +68,24 @@ namespace LetterAmazer.Websites.Client.Controllers
             var userid = split[1];
             if (status == "new")
             {
-                // create partnerAccess
-                partnerService.Create(new PartnerAccess()
+                var ps = partnerService.GetPartnerAccessBySpecification(new PartnerAccessSpecification()
                 {
-                    AccessId = token,
                     PartnerId = 1,
-                    UserId = int.Parse(userid)
+                    Token = token
                 });
+
+                if (ps.Count == 0)
+                {
+                    // create partnerAccess
+                    partnerService.Create(new PartnerAccess()
+                    {
+                        AccessId = token,
+                        PartnerId = 1,
+                        UserId = int.Parse(userid)
+                    });    
+                }
+
+                
             }
 
             var baseUrl = ConfigurationManager.AppSettings.Get("LetterAmazer.BasePath");

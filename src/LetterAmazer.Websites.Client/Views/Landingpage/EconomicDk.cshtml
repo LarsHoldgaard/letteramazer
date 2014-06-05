@@ -33,7 +33,7 @@
     <div class="col-md-6">
         @using (Html.BeginForm("EconomicDk", "Landingpage", FormMethod.Post, new { @class = "form" }))
         {
-                        <h2>Kom i gang: opret en gratis konto</h2>
+                        <h2>Kom i gang: opret en gratis konto eller log ind</h2>
             <div class="form-group">
                 <label>Email adresse:</label>
                 @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "Email", @type = "email" })
@@ -49,7 +49,8 @@
                 @Html.DropDownListFor(model => model.SelectedCountry, Model.Countries, new { @class = "form-control" })
             </div>
 
-            <input type="submit" class="btn btn-primary btn-lg" value="Opret bruger" />
+            <input type="submit" name="submitBtn" class="btn btn-primary btn-lg" value="Opret gratis bruger" />
+    <input type="submit" name="submitBtn" class="btn btn-primary btn-lg" value="Log ind" />
 
         }
 

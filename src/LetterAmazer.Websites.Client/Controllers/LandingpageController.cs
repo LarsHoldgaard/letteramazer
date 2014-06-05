@@ -22,7 +22,7 @@ namespace LetterAmazer.Websites.Client.Controllers
         private ICustomerService customerService;
         private IOrganisationService organisationService;
 
-        public LandingpageController(ICountryService countryService,ICustomerService customerService,
+        public LandingpageController(ICountryService countryService, ICustomerService customerService,
             IOrganisationService organisationService)
         {
             this.countryService = countryService;
@@ -37,52 +37,66 @@ namespace LetterAmazer.Websites.Client.Controllers
             return View(vm);
         }
 
-        [HttpPost]
-        public ActionResult EconomicDk(EconomicDkViewModel vm)
+        private string getEconomicAuthUrl(string customerId)
         {
-            try
-            {
-                var countryId = int.Parse(vm.SelectedCountry);
+            var publicAppId = ConfigurationManager.AppSettings.Get("LetterAmazer.Apps.Economics.PublicAppId");
+            var baseUrl = ConfigurationManager.AppSettings.Get("LetterAmazer.BasePath");
+            var returnUrl = baseUrl + ConfigurationManager.AppSettings["LetterAmazer.Apps.Economics.ReturnUrl"] + "?status=new," + customerId;
+            var economicAuthUrl = string.Format(ConfigurationManager.AppSettings.Get("LetterAmazer.Apps.Economics.PermissionUrl"),
+                returnUrl, publicAppId);
+            return economicAuthUrl;
+        }
 
-                Customer customer = new Customer();
-
-                customer.Email = vm.Email;
-                customer.Password = vm.Password;
-                customer.CustomerInfo = new AddressInfo();
-                customer.CustomerInfo.Country = countryService.GetCountryById(countryId);
-
-                var cust = customerService.Create(customer);
-
-                SessionHelper.Customer = cust;
-                FormsAuthentication.SetAuthCookie(cust.Id.ToString(), false);
-
-
-                var publicAppId = ConfigurationManager.AppSettings.Get("LetterAmazer.Apps.Economics.PublicAppId");
-                var baseUrl = ConfigurationManager.AppSettings.Get("LetterAmazer.BasePath");
-                var returnUrl = baseUrl + ConfigurationManager.AppSettings["LetterAmazer.Apps.Economics.ReturnUrl"] + "?status=new," + cust.Id;
-
-                var economicAuthUrl = string.Format(ConfigurationManager.AppSettings.Get("LetterAmazer.Apps.Economics.PermissionUrl"),
-                    returnUrl, publicAppId);
-                
+        [HttpPost]
+        public ActionResult EconomicDk(string submitBtn, EconomicDkViewModel vm)
+        {
+            var countryId = int.Parse(vm.SelectedCountry);
             
-                if (cust.Organisation != null && cust.Organisation.Id > 0 && !cust.Organisation.IsPrivate)
-                {
-                    return RedirectToAction("EditOrganisation", "User", new { returnUrl = economicAuthUrl });
-                }
-                if (cust.Organisation != null && cust.Organisation.Id > 0)
-                {
-                    cust.Organisation = null;
-                    customerService.Update(cust);
-                    this.organisationService.Delete(cust.Organisation);
-                }
 
-                return RedirectToAction("CreateOrganisation", "User", new { returnUrl = economicAuthUrl });
-            }
-            catch (Exception ex)
+            Customer customer = new Customer();
+
+            switch (submitBtn)
             {
-                logger.Error(ex);
-                ModelState.AddBusinessError(ex.Message);
+                case "Opret gratis bruger":
+                    try
+                    {
+                        customer.Email = vm.Email;
+                        customer.Password = vm.Password;
+                        customer.CustomerInfo = new AddressInfo();
+                        customer.CustomerInfo.Country = countryService.GetCountryById(countryId);
+
+                        var cust = customerService.Create(customer);
+
+                        SessionHelper.Customer = cust;
+                        FormsAuthentication.SetAuthCookie(cust.Id.ToString(), false);
+
+                        if (cust.Organisation != null && cust.Organisation.Id > 0 && !cust.Organisation.IsPrivate)
+                        {
+                            return RedirectToAction("EditOrganisation", "User", new { returnUrl = getEconomicAuthUrl(cust.Id.ToString()) });
+                        }
+                        if (cust.Organisation != null && cust.Organisation.Id > 0)
+                        {
+                            cust.Organisation = null;
+                            customerService.Update(cust);
+                            this.organisationService.Delete(cust.Organisation);
+                        }
+
+                        return RedirectToAction("CreateOrganisation", "User", new { returnUrl = getEconomicAuthUrl(cust.Id.ToString()) });
+                    }
+                    catch (Exception ex)
+                    {
+                        logger.Error(ex);
+                        ModelState.AddBusinessError(ex.Message);
+                    }
+
+                    break;
+                case "Log ind":
+                    var user = customerService.LoginUser(vm.Email, vm.Password);
+                    SessionHelper.Customer = customer;
+                    FormsAuthentication.SetAuthCookie(user.Id.ToString(),true);
+                    return Redirect(getEconomicAuthUrl(user.Id.ToString()));
             }
+
 
             return RedirectToActionWithError("EconomicDk", vm);
         }
