@@ -9,6 +9,8 @@
 
 <div id="economicInvoiceOverview">
 
+    
+    <span class="breadcrumbs"><a href="/">LMPost</a> > <a href="@Url.Action("Index","User")">Dashboard</a> > E-conomic integration</span>
 
     <h1>E-conomic invoices</h1>
 
@@ -17,10 +19,11 @@
         <div class="alert alert-warning">
             <p>Make sure you add LMPost as an app in e-conomics:</p>
             <ol>
-                <li>Go to Settings</li>
-                <li>Go to tabs</li>
-                <li>Add tab</li>
-                <li>Add "LMPost" and @Model.AppUrl</li>
+                <li>Go to "All Settings"</li>
+                <li>Click "Extensions" in the left menu</li>
+                <li>Click "Extra tabs"</li>
+                <li>Click "New tab"</li>
+                <li>In the name field, write "<b>LMPost</b>" and in the URL field, write "<b>@Model.AppUrl</b>"</li>
             </ol>
         </div>
     }
@@ -29,8 +32,8 @@
 
         @using (Html.BeginForm("Economic", "Partner", FormMethod.Get))
         {
-            <text>From</text>            <input id="fromDateInput" name="fromDateInput" type="date" data-bind="value: dateFrom" />
-            <text>to</text>    <input id="toDateInput" name="toDateInput" type="date" data-bind="value: dateTo" />
+            <text>From</text>            <input id="fromDateInput" name="fromDateInput" type="text" data-bind="value: dateFrom" />
+            <text>to</text>    <input id="toDateInput" name="toDateInput" type="text" data-bind="value: dateTo" />
             <input type="submit" value="Search" class="btn-sm btn-success" />
 
             @Html.HiddenFor(m => m.Token)

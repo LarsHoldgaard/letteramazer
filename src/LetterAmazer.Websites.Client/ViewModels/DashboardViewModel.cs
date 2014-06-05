@@ -24,6 +24,11 @@ namespace LetterAmazer.Websites.Client.ViewModels
         public decimal Credits { get; set; }
         public int LettersLastMonth { get; set; }
         public decimal MoneyLastMoney { get; set; }
+        
+        /// <summary>
+        /// If user doesn't have economic, go to landingpage. if have economic, go to overview
+        /// </summary>
+        public string EconomicPageUrl { get; set; }
 
         public DashboardStatus? DashboardStatus { get; set; }
 

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Security;
+using System.Web.UI.WebControls.WebParts;
 using LetterAmazer.Business.Services.Domain.AddressInfos;
 using LetterAmazer.Business.Services.Domain.Checkout;
 using LetterAmazer.Business.Services.Domain.Countries;
@@ -13,6 +14,7 @@ using LetterAmazer.Business.Services.Domain.Mails;
 using LetterAmazer.Business.Services.Domain.OfficeProducts;
 using LetterAmazer.Business.Services.Domain.Offices;
 using LetterAmazer.Business.Services.Domain.Orders;
+using LetterAmazer.Business.Services.Domain.Partners;
 using LetterAmazer.Business.Services.Domain.Payments;
 using LetterAmazer.Business.Services.Domain.Pricing;
 using LetterAmazer.Business.Services.Domain.Products;
@@ -53,12 +55,15 @@ namespace LetterAmazer.Websites.Client.Controllers
         private ISessionService sessionService;
         private IEnvelopeService envelopeService;
         private IFileService fileService;
+        private IPartnerService partnerService;
+
         public UserController(IOrderService orderService, IPaymentService paymentService,
             ILetterService letterService, ICountryService countryService,
             IPriceService priceService,
             IOrganisationService organisationService, IMailService mailService, IInvoiceService invoiceService,
             ICustomerService customerService,IOfficeService officeService, IOfficeProductService officeProductService,
-            ICheckoutService checkoutService,ISessionService sessionService,IEnvelopeService envelopeService,IFileService fileService)
+            ICheckoutService checkoutService,ISessionService sessionService,IEnvelopeService envelopeService,IFileService fileService,
+            IPartnerService partnerService)
         {
             this.orderService = orderService;
             this.paymentService = paymentService;
@@ -75,6 +80,7 @@ namespace LetterAmazer.Websites.Client.Controllers
             this.sessionService = sessionService;
             this.envelopeService = envelopeService;
             this.fileService = fileService;
+            this.partnerService = partnerService;
         }
 
         public ActionResult Index(int? page, DashboardViewModel model)
@@ -745,7 +751,6 @@ namespace LetterAmazer.Websites.Client.Controllers
 
         private void buildOverviewModel(DashboardViewModel model)
         {
-
             model.OrderOverviewViewModel = new OrderOverviewViewModel()
             {
                 Orders = buildOrderOverview(SessionHelper.Customer.Id, 10)
@@ -754,7 +759,7 @@ namespace LetterAmazer.Websites.Client.Controllers
             model.LetterType = SessionHelper.Customer.DefaultLetterType;
             model.Credits = SessionHelper.Customer.CreditsLeft;
             setStats(model);
-
+            setEconomicUrl(model);
 
             // invoices
             var unpaidInvoices = invoiceService.GetInvoiceBySpecification(new InvoiceSpecification()
@@ -776,6 +781,25 @@ namespace LetterAmazer.Websites.Client.Controllers
                         TotalPrice = unpaidInvoice.PriceTotal
                     });
                 }    
+            }
+        }
+
+        private void setEconomicUrl(DashboardViewModel model)
+        {
+            var economicExist = partnerService.GetPartnerAccessBySpecification(new PartnerAccessSpecification()
+            {
+                PartnerId = 1,
+                UserId = SessionHelper.Customer.Id
+            }).FirstOrDefault();
+
+            // user have e-conomic, and just go to overview
+            if (economicExist != null)
+            {
+                model.EconomicPageUrl = Url.Action("Economic", "Partner",new {token=economicExist.AccessId});
+            }
+            else
+            {
+                model.EconomicPageUrl = Url.Action("EconomicDk", "Landingpage");
             }
         }
 
