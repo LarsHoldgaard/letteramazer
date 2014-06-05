@@ -732,6 +732,7 @@
     <Content Include="Views\Home\ThanksForShowingInterest.cshtml" />
     <Content Include="Views\Home\Demo.cshtml" />
     <Content Include="Views\Landingpage\EconomicDk.cshtml" />
+    <Content Include="Views\Landingpage\LmPostDk.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\sql\" />

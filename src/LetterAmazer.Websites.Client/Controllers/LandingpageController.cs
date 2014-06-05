@@ -1,15 +1,20 @@
 ﻿using System;
 using System.Configuration;
+using System.Linq;
 using System.Web.Mvc;
 using System.Web.Security;
 using LetterAmazer.Business.Services.Domain.AddressInfos;
 using LetterAmazer.Business.Services.Domain.Countries;
 using LetterAmazer.Business.Services.Domain.Customers;
 using LetterAmazer.Business.Services.Domain.Organisation;
+using LetterAmazer.Business.Services.Domain.Products.ProductDetails;
 using LetterAmazer.Business.Utils.Helpers;
 using LetterAmazer.Websites.Client.Extensions;
 using LetterAmazer.Websites.Client.Helpers;
+using LetterAmazer.Websites.Client.ViewModels;
+using LetterAmazer.Websites.Client.ViewModels.Home;
 using LetterAmazer.Websites.Client.ViewModels.LandingPage;
+using LetterAmazer.Websites.Client.ViewModels.Shared.Utils;
 using log4net;
 
 namespace LetterAmazer.Websites.Client.Controllers
@@ -29,6 +34,9 @@ namespace LetterAmazer.Websites.Client.Controllers
             this.customerService = customerService;
             this.organisationService = organisationService;
         }
+
+
+        #region E-conomic
         public ActionResult EconomicDk()
         {
             var vm = new EconomicDkViewModel();
@@ -36,7 +44,7 @@ namespace LetterAmazer.Websites.Client.Controllers
             Helper.FillCountries(countryService, vm.Countries, 59);
             return View(vm);
         }
-
+        
         private string getEconomicAuthUrl(string customerId)
         {
             var publicAppId = ConfigurationManager.AppSettings.Get("LetterAmazer.Apps.Economics.PublicAppId");
@@ -100,5 +108,50 @@ namespace LetterAmazer.Websites.Client.Controllers
 
             return RedirectToActionWithError("EconomicDk", vm);
         }
+
+        #endregion
+
+        #region Adwords landing pages 
+
+        public ActionResult LmPostDk()
+        {
+            var prices = buildPriceViewModel(59); // ID of Denmark. TODO: some IP to countryID?
+
+
+            PriceOverviewViewModel priceOverviewViewModel = new PriceOverviewViewModel();
+            priceOverviewViewModel.PriceViewModel = prices;
+
+
+            var countries = countryService.GetCountryBySpecificaiton(new CountrySpecification()
+            {
+                Take = 999
+            });
+
+            foreach (var country in countries)
+            {
+                priceOverviewViewModel.CountryPriceList.CountryPriceViewModel.Add(new CountryPriceViewModel()
+                {
+                    Alias = country.Alias,
+                    Name = country.Name
+                });
+            }
+
+
+            return View(priceOverviewViewModel);
+        }
+
+        private PriceViewModel buildPriceViewModel(int standardCountryId)
+        {
+
+            PriceViewModel prices = new PriceViewModel();
+            Helper.FillCountries(countryService, prices.Countries, standardCountryId);
+
+            prices.SelectedLetterSizes = ControllerHelpers.GetEnumSelectList<LetterSize>().ToList();
+            prices.SelectedLetterSizes.RemoveAt(1);
+            return prices;
+        }
+
+
+        #endregion
     }
 }

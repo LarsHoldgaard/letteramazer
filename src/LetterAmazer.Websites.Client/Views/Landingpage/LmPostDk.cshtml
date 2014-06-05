@@ -1,0 +1,36 @@
+﻿@model LetterAmazer.Websites.Client.ViewModels.Home.PriceOverviewViewModel
+
+@using LetterAmazer.Websites.Client.Extensions
+@using LetterAmazer.Websites.Client.ViewModels.Shared
+@using Constants = LetterAmazer.Business.Utils.Helpers.Constants
+@{
+    Layout = "~/Views/Shared/_Standard.cshtml";
+    ViewBag.PageTitle = "Send breve online - automatisk udsendelse af dit brev";
+}
+
+@section header{
+    <meta http-equiv="Content-Language" content="da_DK" />
+}
+<h1>Send breve online - automatisk udsendelse af dit brev</h1>
+
+<p>Med LMPost.com, kan du automatisk sende breve. Det er hurtigt og nemt.</p>
+
+<div class="row">
+    <div class="col-md-8">
+        <h2>Vores service forklaret på 46 sekunder</h2>
+        <div class="flex-video widescreen">
+            <iframe src="//www.youtube.com/embed/lJKJ3mhCjQQ" frameborder="0" allowfullscreen></iframe>
+        </div>
+
+
+
+        @Html.Partial("_priceCalculator", Model.PriceViewModel)
+
+
+    </div><div class="col-md-4">
+        @Html.Partial("_formTryService", new TryServiceViewModel())
+
+
+</div>
+</div>
+
