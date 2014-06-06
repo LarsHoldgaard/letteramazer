@@ -13,7 +13,7 @@ namespace LetterAmazer.Data.DTO
         public string AttPerson { get; set; }
         public string Organisation { get; set; }
         public string City { get; set; }
-        public string Country { get; set; }
+        public CountryDTO Country { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Zipcode { get; set; }

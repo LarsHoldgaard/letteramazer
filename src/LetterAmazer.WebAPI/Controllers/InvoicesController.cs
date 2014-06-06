@@ -30,7 +30,7 @@ namespace LetterAmazer.WebAPI.Controllers
         public InvoiceDTO Create(InvoiceDTO invoiceDTO)
         {
             var newInvoice = this.invoiceService.Create(AutoMapper.Mapper.DynamicMap<InvoiceDTO, Invoice>(invoiceDTO));
-            return AutoMapper.Mapper.Map<Invoice, InvoiceDTO>(newInvoice);
+            return AutoMapper.Mapper.DynamicMap<Invoice, InvoiceDTO>(newInvoice);
         }
 
         /// <summary>
@@ -74,7 +74,7 @@ namespace LetterAmazer.WebAPI.Controllers
         /// </summary>
         /// <param name="InvoiceSpecificationDTO"></param>
         /// <returns></returns>
-        [HttpPost, ActionName("Delete")]
+        [HttpPost, ActionName("Find")]
         [CustomAuthorize(Roles = "Admin, Super User")]
         public IList<InvoiceDTO> Find(InvoiceSpecificationDTO invoiceSpecification)
         {
