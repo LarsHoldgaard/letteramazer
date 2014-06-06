@@ -140,6 +140,8 @@
                 </div>
                 <div data-bind="visible: isCreditsEnough()">
                     <input type="submit" value="Send all letters now" class="btn btn-lg btn-success" />
+                    <br/>
+                    <i style="font-size:small">If you use a different e-conomic template than the standard, please @Html.ActionLink("contact us","Contact","Home") to verify the header position.</i>
                 </div>
                 <div data-bind="visible: !isCreditsEnough()" class="alert alert-warning">
                     <p>You have selected credits as a payment method, but you do not have enough credits to send this order.</p>
