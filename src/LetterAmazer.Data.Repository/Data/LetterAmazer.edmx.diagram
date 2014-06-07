@@ -56,6 +56,7 @@
         <AssociationConnector Association="LetterAmazer.FK_DbOrganisationAddressList_DbOrganisation" ManuallyRouted="false" />
         <AssociationConnector Association="LetterAmazer.FK_DbOrganisationProfileSettings_DbOrganisation" ManuallyRouted="false" />
         <AssociationConnector Association="LetterAmazer.FK_DbPartnerTransactions_DbPartners" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="LetterAmazer.DbLeads" Width="1.5" PointX="9.375" PointY="5.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

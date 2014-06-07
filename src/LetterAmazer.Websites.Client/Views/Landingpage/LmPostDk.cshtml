@@ -17,20 +17,38 @@
 
 <div class="row">
     <div class="col-md-8">
-        <h2>Vores service forklaret på 46 sekunder</h2>
+        <h2>Vores tjenste forklaret på 46 sekunder</h2>
         <div class="flex-video widescreen">
             <iframe src="//www.youtube.com/embed/lJKJ3mhCjQQ" frameborder="0" allowfullscreen></iframe>
         </div>
 
+        <h2>Næste skridt</h2>
+        <div class="visible-xs visible-sm">
+            <p>Du kan skrive dig op til at <a href="#tryforfree">prøve vores tjeneste</a>, gratis.</p>    
+        </div>
+        <div class="visible-lg visible-md">
+            <p>Du kan skrive dig op til at prøve vores tjeneste, gratis, i formularen til højre på siden.</p>
+        </div>
+        <p>Du kan også:</p>
+        - @Html.ActionLink("Se en demo af vores system", "Demo","Home")<br />
+        - <a href="/sendletters/denmark">Send et enkelt brev nu</a><br />
+        - @Html.ActionLink("Opret en gratis konto", "Account", "Home")<br />
+        - @Html.ActionLink("Kontakt os", "Contact", "Home") for priser, ved stor volumen
 
+
+        <h2>Hvorfor bruge LMPost.com?</h2>
+        <p>Vi sparer en masse tid.</p>
+        <p>Det tager rigtig lang tid at sende breve, og med vores system, kan det gøres automatisk.</p>
+    <p>Derudover kan breve også bruges til direct-marketing, når der skal masseudsendes breve. Alt dette, kan håndteres nemt i vores system.</p>
 
         @Html.Partial("_priceCalculator", Model.PriceViewModel)
 
 
     </div><div class="col-md-4">
-        @Html.Partial("_formTryService", new TryServiceViewModel())
+              <a id="tryforfree"></a>
+              @Html.Partial("Denmark/_formTryServiceDk", new TryServiceViewModel())
 
 
-</div>
+          </div>
 </div>
 

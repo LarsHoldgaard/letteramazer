@@ -24,7 +24,7 @@ namespace LetterAmazer.Business.Services.Domain.Mails
 
         void NotificationNewOrder(string amount);
         void NotificationNewUser(string email);
-        void NotificationTryService(string company, string email, string country, string letterCount, string phone);
+        void NotificationTryService(string company, string name, string email, string country, string letterCount, string phone);
 
     }
 

@@ -263,6 +263,7 @@
     <Content Include="Content\images\icons\1401042203_money_send_3.png" />
     <Content Include="Content\images\icons\1401042222_information_support.png" />
     <Content Include="Content\images\icons\1401042242_Send_mail.png" />
+    <Content Include="Content\images\icons\1402160429_mail_delivery.png" />
     <Content Include="Content\images\icons\ajax-loader.gif" />
     <Content Include="Content\images\icons\automation.png" />
     <Content Include="Content\images\icons\pdf-icon.png" />
@@ -733,6 +734,7 @@
     <Content Include="Views\Home\Demo.cshtml" />
     <Content Include="Views\Landingpage\EconomicDk.cshtml" />
     <Content Include="Views\Landingpage\LmPostDk.cshtml" />
+    <Content Include="Views\Shared\Denmark\_formTryServiceDk.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\sql\" />

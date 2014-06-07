@@ -356,7 +356,7 @@ namespace LetterAmazer.Business.Services.Services
             SendTemplate(model);
         }
 
-        public void NotificationTryService(string company, string email, string country, string letterCount, string phone)
+        public void NotificationTryService(string company, string name, string email, string country, string letterCount, string phone)
         {
             List<string> rep = new List<string>();
             rep.Add(notificationEmail);
@@ -380,6 +380,12 @@ namespace LetterAmazer.Business.Services.Services
                     name = "EMAIL",
                     content = email
                 });
+                variables.Add(new Var()
+                {
+                    name = "NAME",
+                    content = name
+                });
+
                 variables.Add(new Var()
                 {
                     name = "COMPANY",

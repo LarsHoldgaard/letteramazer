@@ -120,6 +120,9 @@
     <Compile Include="Domain\Invoice\InvoiceLine.cs" />
     <Compile Include="Domain\Invoice\InvoiceSpecification.cs" />
     <Compile Include="Domain\Invoice\InvoiceStatus.cs" />
+    <Compile Include="Domain\Leads\ILeadService.cs" />
+    <Compile Include="Domain\Leads\Lead.cs" />
+    <Compile Include="Domain\Leads\LeadStatus.cs" />
     <Compile Include="Domain\Mails\IMailService.cs" />
     <Compile Include="Domain\Mails\ViewModels\MandrillMessageSend.cs" />
     <Compile Include="Domain\Mails\ViewModels\MandrillTemplateSend.cs" />
@@ -158,11 +161,13 @@
     <Compile Include="Factory\Interfaces\IContentFactory.cs" />
     <Compile Include="Factory\Interfaces\IEnvelopeFactory.cs" />
     <Compile Include="Factory\Interfaces\IInvoiceFactory.cs" />
+    <Compile Include="Factory\Interfaces\ILeadFactory.cs" />
     <Compile Include="Factory\Interfaces\IOfficeProductFactory.cs" />
     <Compile Include="Factory\Interfaces\IOrganisationFactory.cs" />
     <Compile Include="Factory\Interfaces\IPartnerFactory.cs" />
     <Compile Include="Factory\Interfaces\IProductMatrixFactory.cs" />
     <Compile Include="Factory\InvoiceFactory.cs" />
+    <Compile Include="Factory\LeadFactory.cs" />
     <Compile Include="Factory\PartnerFactory.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -186,6 +191,7 @@
     <Compile Include="Factory\ProductMatrixFactory.cs" />
     <Compile Include="Services\DeliveryJobService.cs" />
     <Compile Include="Domain\Organisation\IOrganisationService.cs" />
+    <Compile Include="Services\LeadService.cs" />
     <Compile Include="Services\MailService.cs" />
     <Compile Include="Services\OfficeProductService.cs" />
     <Compile Include="Services\OrganisationService.cs" />

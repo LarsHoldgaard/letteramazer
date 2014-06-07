@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="LetterAmazer.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="LetterAmazer.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="DbApiAccess">
           <Key>
             <PropertyRef Name="Id" />
@@ -201,6 +201,21 @@
           <Property Name="Receiver_Vatnumber" Type="varchar" MaxLength="250" Nullable="false" />
           <Property Name="PriceVat" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="InvoicePaymentMessage" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DbLeads">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DateCreated" Type="datetime" Nullable="false" />
+          <Property Name="DateUpdated" Type="datetime" Nullable="false" />
+          <Property Name="LeadStatus" Type="int" Nullable="false" />
+          <Property Name="OrganisatioName" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="LettersPrWeek" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="PhoneNumber" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="CountryName" Type="varchar" MaxLength="250" Nullable="false" />
         </EntityType>
         <EntityType Name="DbLetters">
           <Key>
@@ -746,6 +761,7 @@ warning 6002: The table/view 'LetterAmazer.dbo.DbLog' does not have a primary ke
           <EntitySet Name="DbFulfillmentPartners" EntityType="Self.DbFulfillmentPartners" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DbInvoiceLines" EntityType="Self.DbInvoiceLines" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DbInvoices" EntityType="Self.DbInvoices" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DbLeads" EntityType="Self.DbLeads" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DbLetters" EntityType="Self.DbLetters" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DbOfficeProducts" EntityType="Self.DbOfficeProducts" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DbOffices" EntityType="Self.DbOffices" Schema="dbo" store:Type="Tables" />
@@ -864,8 +880,7 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
             <End Role="DbShops" EntitySet="DbShops" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="LetterAmazer" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -1761,7 +1776,23 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
             <End Role="DbPartners" EntitySet="DbPartners" />
             <End Role="DbPartnerTransactions" EntitySet="DbPartnerTransactions" />
           </AssociationSet>
+          <EntitySet Name="DbLeads" EntityType="LetterAmazer.DbLeads" />
         </EntityContainer>
+        <EntityType Name="DbLeads">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DateUpdated" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="LeadStatus" Type="Int32" Nullable="false" />
+          <Property Name="OrganisatioName" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="LettersPrWeek" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="PhoneNumber" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CountryName" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2237,6 +2268,22 @@ FROM [dbo].[DbLog] AS [DbLog]</DefiningQuery>
                 <ScalarProperty Name="Logger" ColumnName="Logger" />
                 <ScalarProperty Name="Message" ColumnName="Message" />
                 <ScalarProperty Name="Exception" ColumnName="Exception" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DbLeads">
+            <EntityTypeMapping TypeName="LetterAmazer.DbLeads">
+              <MappingFragment StoreEntitySet="DbLeads">
+                <ScalarProperty Name="CountryName" ColumnName="CountryName" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="LettersPrWeek" ColumnName="LettersPrWeek" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="OrganisatioName" ColumnName="OrganisatioName" />
+                <ScalarProperty Name="LeadStatus" ColumnName="LeadStatus" />
+                <ScalarProperty Name="DateUpdated" ColumnName="DateUpdated" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

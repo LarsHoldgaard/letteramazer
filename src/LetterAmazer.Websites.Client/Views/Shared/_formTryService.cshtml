@@ -26,6 +26,11 @@
             @Html.TextBoxFor(c => c.LettersAWeek, new { @class = "form-control", placeholder = "Ex. 30-50" })
         </div>
         <div class="form-group">
+            <label style="font-weight:normal">Your name (optional):</label>
+            @Html.TextBoxFor(c => c.Name, new { @class = "form-control", placeholder = "Ex. Jon Doe" })
+        </div>
+        
+        <div class="form-group">
             <label style="font-weight:normal">Phone number (optional):</label>
             @Html.TextBoxFor(c => c.PhoneNumber, new { @class = "form-control", placeholder = "Ex. (+45) 42927250" })
         </div>

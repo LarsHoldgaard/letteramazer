@@ -21,6 +21,8 @@ namespace LetterAmazer.Websites.Client.ViewModels.Shared
         [Required(ErrorMessage = "You need to enter a valid e-mail address")]
         public string Email { get; set; }
 
+        public string Name { get; set; }
+
         public string SelectedCountry { get; set; }
         public List<SelectListItem> Countries { get; set; }
 

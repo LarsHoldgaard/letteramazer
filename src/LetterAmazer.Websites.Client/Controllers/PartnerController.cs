@@ -62,6 +62,8 @@ namespace LetterAmazer.Websites.Client.Controllers
 
         public ActionResult Economic(string token, string status = "", string fromDateInput = "", string toDateInput = "")
         {
+            // TODO: would someone please clean up this 100000 line long code? at least make subroutines?
+
             if (string.IsNullOrEmpty(token))
             {
                 return RedirectToAction("EconomicDk", "Landingpage");
@@ -171,6 +173,7 @@ namespace LetterAmazer.Websites.Client.Controllers
         [HttpPost]
         public ActionResult Economic(PartnerInvoiceOverviewViewModel model)
         {
+            // TODO: would someone please clean up this 100000 line long code? at least make subroutines?
             var customerId = model.UserId;
             Checkout checkout = new Checkout()
             {
@@ -231,6 +234,7 @@ namespace LetterAmazer.Websites.Client.Controllers
             if (string.IsNullOrEmpty(redirectUrl))
             {
                 DashboardViewModel dashboardViewModel = new DashboardViewModel();
+                dashboardViewModel.DashboardStatus = DashboardStatus.SendLetter;  
                 return RedirectToAction("Index", "User", dashboardViewModel);
             }
             return Redirect(redirectUrl);

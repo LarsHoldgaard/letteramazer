@@ -1,0 +1,43 @@
+﻿@model LetterAmazer.Websites.Client.ViewModels.Shared.TryServiceViewModel
+
+<div class="ctaForm" style="text-align: left">
+
+    <h3>Prøv vores service gratis</h3>
+    <p>Arbejder du i en virksomhed, udfyld venligst dine oplysninger forneden. Derefter kigger vi det igennem, og giver dig mulighed for at sende et par gratis breve!</p>
+    @using (Html.BeginForm("PostTryService", "Home", FormMethod.Post, new { @class = "form" }))
+    {
+        <div class="form-group">
+            <label>Navn på virksomhed / organisation*:</label>
+            @Html.TextBoxFor(c => c.CompanyName, new { @class = "form-control", placeholder = "Virksomhedsnavn" })
+        </div>
+        <div class="form-group">
+            <label>Email addresse*:</label>
+            @Html.TextBoxFor(c => c.Email, new { @class = "form-control", placeholder = "Email", @type = "email" })
+        </div>
+
+        <div class="form-group">
+            <label>Dit land*:</label>
+            @Html.DropDownListFor(model => model.SelectedCountry, Model.Countries, new { @class = "form-control" })
+        </div>
+
+        <div class="form-group">
+            <label style="font-weight:normal">Groft estimat: hvor mange breve afsendes om ugen? (optional):</label>
+            @Html.TextBoxFor(c => c.LettersAWeek, new { @class = "form-control", placeholder = "Ex. 30-50" })
+        </div>
+        <div class="form-group">
+            <label style="font-weight:normal">Dit navn (ikke påkrævet):</label>
+            @Html.TextBoxFor(c => c.Name, new { @class = "form-control", placeholder = "Ex. Anders Nielsen" })
+        </div>
+
+        <div class="form-group">
+            <label style="font-weight:normal">Telefonnummer (ikke påkrævet):</label>
+            @Html.TextBoxFor(c => c.PhoneNumber, new { @class = "form-control", placeholder = "Ex. (+45) 42927250" })
+        </div>
+
+        <input type="submit" class="btn btn-primary btn-lg" value="Prøv vores tjeneste - gratis" />
+        <br /><br />
+        <p><i>Vi svarer normalt indenfor 24 timer</i></p>
+    }
+</div>
+
+<img src="@Url.Content("/Content/images/uparrow.png")" style="margin-top:8px; margin-left:35px" />

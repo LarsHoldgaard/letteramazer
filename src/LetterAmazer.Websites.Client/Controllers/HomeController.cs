@@ -6,6 +6,7 @@ using LetterAmazer.Business.Services.Domain.Content;
 using LetterAmazer.Business.Services.Domain.Countries;
 using LetterAmazer.Business.Services.Domain.Customers;
 using LetterAmazer.Business.Services.Domain.DeliveryJobs;
+using LetterAmazer.Business.Services.Domain.Leads;
 using LetterAmazer.Business.Services.Domain.Mails;
 using LetterAmazer.Business.Services.Domain.Offices;
 using LetterAmazer.Business.Services.Domain.Organisation;
@@ -43,9 +44,10 @@ namespace LetterAmazer.Websites.Client.Controllers
         private IPriceUpdater priceUpdater;
         private IContentService contentService;
         private IPaymentService paymentService;
+        private ILeadService leadService;
         public HomeController(ICustomerService customerService,IPriceUpdater priceUpdater,
             IMailService mailService, ICountryService countryService, IPriceService priceService, IOrganisationService organisationService,
-            IContentService contentService,IPaymentService paymentService)
+            IContentService contentService,IPaymentService paymentService,ILeadService leadService)
         {
             this.customerService = customerService;
             this.countryService = countryService;
@@ -55,6 +57,7 @@ namespace LetterAmazer.Websites.Client.Controllers
             this.priceUpdater = priceUpdater;
             this.contentService = contentService;
             this.paymentService = paymentService;
+            this.leadService = leadService;
         }
 
         public ActionResult Index()
@@ -201,7 +204,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                 SendWindowedLetterViewModel = windowedModel
             };
 
-            Helper.FillCountries(countryService, sendaletterto.SendWindowedLetterViewModel.Countries,59);
+            Helper.FillCountries(countryService, sendaletterto.SendWindowedLetterViewModel.Countries,country.Id);
             Helper.FillPaymentMethods(paymentService, windowedModel.PaymentMethods, PaymentType.Letters);
             
             foreach (var acountry in countries)
@@ -369,7 +372,18 @@ namespace LetterAmazer.Websites.Client.Controllers
         [HttpPost]
         public ActionResult PostTryService(TryServiceViewModel model)
         {
-            mailService.NotificationTryService(model.CompanyName,model.Email,model.SelectedCountry,model.LettersAWeek,model.PhoneNumber);
+            var country = countryService.GetCountryById(int.Parse(model.SelectedCountry));
+            mailService.NotificationTryService(model.CompanyName, model.Name, model.Email, country.Name, model.LettersAWeek, model.PhoneNumber);
+            var lead = leadService.Create(new Lead()
+            {
+                Email = model.Email,
+                LettersPrWeek = model.LettersAWeek,
+                Name = model.Name,
+                OrganisationName = model.CompanyName,
+                PhoneNumber = model.PhoneNumber,
+                CountryName = country.Name
+            });
+            ViewBag.LeadId = lead.Id; 
             return View("ThanksForShowingInterest");
         }
 
