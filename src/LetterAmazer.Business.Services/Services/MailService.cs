@@ -11,6 +11,7 @@ using LetterAmazer.Business.Services.Domain.Invoice;
 using LetterAmazer.Business.Services.Domain.Mails;
 using LetterAmazer.Business.Services.Domain.Mails.ViewModels;
 using LetterAmazer.Business.Services.Domain.Orders;
+using LetterAmazer.Business.Services.Domain.Products;
 using LetterAmazer.Business.Services.Utils;
 using log4net;
 using Newtonsoft.Json;
@@ -149,6 +150,71 @@ namespace LetterAmazer.Business.Services.Services
             });
 
             SendTemplate(model);
+        }
+
+        public void SendOrderPaid(Order order)
+        {
+            var template_name = "letteramazer.order.order_paid";
+
+            var model = new MandrillTemplateSend();
+            model.template_name = template_name;
+            model.message.merge = false;
+            model.message.to.Add(new To()
+            {
+                email = order.Customer.Email
+            });
+            model.message.merge_vars.Add(new Merge_Vars()
+            {
+                rcpt = order.Customer.Email,
+            });
+
+            StringBuilder orderlineBuilder = new StringBuilder();
+            foreach (var orderLine in order.OrderLines.Where(c=>c.ProductType != ProductType.Payment))
+            {
+                var orderlineName = orderLine.ProductType == ProductType.Letter ? "Letter" : "Credits";
+                orderlineBuilder.AppendLine(string.Format("{0}: {1} EUR<br/>", orderlineName, Math.Round(orderLine.Price.PriceExVat,2)));
+            }
+
+            List<Var> variables = new List<Var>();
+            variables.Add(new Var()
+            {
+                name = "ORDERID",
+                content = order.Id.ToString()
+            });
+            variables.Add(new Var()
+            {
+                name = "PRICEEXVAT",
+                content = Math.Round(order.Price.PriceExVat,2).ToString()
+            });
+            variables.Add(new Var()
+            {
+                name = "VATPERCENTAGE",
+                content = Math.Round(order.Price.VatPercentage,2).ToString()
+            });
+            variables.Add(new Var()
+            {
+                name = "VATPRICE",
+                content = Math.Round(order.Price.VatPrice,2).ToString()
+            });
+            variables.Add(new Var()
+            {
+                name = "TOTAL",
+                content = Math.Round(order.Price.Total,2).ToString()
+            });
+            variables.Add(new Var()
+            {
+                name = "ORDERLINES",
+                content = orderlineBuilder.ToString()
+            });
+
+            model.message.merge_vars.Add(new Merge_Vars()
+            {
+                rcpt = notificationEmail,
+                vars = variables
+            });
+
+            SendTemplate(model);
+
         }
 
         public void SendInvoice(Order order, Invoice invoice)

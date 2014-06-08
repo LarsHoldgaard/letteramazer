@@ -1,0 +1,15 @@
+﻿@using LetterAmazer.Business.Utils.Helpers
+@model dynamic
+
+@{
+    Layout = "~/Views/Shared/_Standard.cshtml";
+    ViewBag.PageTitle = "Bitcoin confirmation - waiting";
+}
+
+<h1>Thanks for your payment - it will finish within the next 10 minutes</h1>
+<p>When you pay Bitcoin, there is a need to wait approximately 10 minutes before the payment is confirmed by the network.</p>
+<p>When the payment is confirmed, your order will be fulfilled.</p>
+@if (SessionHelper.Customer != null)
+{
+    <a href="@Url.Action("BitcoinConfirmation","Payment")" class="btn btn-lg btn-primary">Go to your dashboard</a>    
+}

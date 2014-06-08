@@ -86,6 +86,8 @@
                     
                     <div data-bind="visible: isCreditsEnough()">
                         <input type="submit" value="Send letters now" class="btn btn-success btn-lg" data-bind="visible: status() && doneLoading()" />    
+                        <br/><br/>
+                        <i>Please verify the address field of your letters, is inside the gray rectangle (see below)</i>
                     </div>
                     <div data-bind="visible: !isCreditsEnough()" class="alert alert-warning">
                         <p>You have selected credits as a payment method, but you do not have enough credits to send this order.</p>

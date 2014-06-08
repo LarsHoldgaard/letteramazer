@@ -14,6 +14,7 @@ namespace LetterAmazer.Business.Services.Domain.Mails
         void ConfirmUser(Customer customer);
         void SendLetter(Order order);
 
+        void SendOrderPaid(Order order);
         void SendInvoice(Order order, Invoice.Invoice invoice);
 
         void NotificationInvoiceCreated();

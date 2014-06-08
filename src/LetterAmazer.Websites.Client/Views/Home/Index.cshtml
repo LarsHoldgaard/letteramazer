@@ -20,8 +20,8 @@
 
 <div class="row">
     <div class="col-md-8">
-        
-        <h1 class="frontpageHeader">We send real letters, worldwide</h1>        
+
+        <h1 class="frontpageHeader">We send real letters, worldwide</h1>
         <div class="row">
             <div class="col-md-4 frontPageBox">
 
@@ -43,26 +43,43 @@
             </div>
             <div class="col-md-4 frontPageBox">
 
-                <img src="@Url.Content("~/Content/images/icons/1402160429_mail_delivery.png")" />
+                <img src="@Url.Content("~/Content/images/icons/1395498076_130.png")" />
                 <span class="lead">
                     3. Letters are delivered soon after
                 </span>
 
             </div>
         </div>
-        
-        <h2>Our service explained in 46 seconds</h2>
+
+        <h2>Our service explained in 65 seconds</h2>
         <div class="flex-video widescreen">
-            <iframe src="//www.youtube.com/embed/lJKJ3mhCjQQ" frameborder="0" allowfullscreen></iframe>
+            <iframe src="//www.youtube.com/embed/aBfAEVf018g" frameborder="0" allowfullscreen></iframe>
         </div>
-        
-        
+
+        <div class="row">
+            <div class="col-md-4">
+                <a href="@Url.Action("Demo")" class="btn btn-primary btn-lg" style="min-width: 180px; margin-top: 8px; margin-bottom: 8px; ">See video of use</a>
+
+            </div>
+
+            <div class="col-md-4">
+                <a href="@Url.Action("Account")" class="btn btn-primary btn-lg" style="min-width: 180px; margin-top: 8px; margin-bottom: 8px;">Get a free account</a>
+            </div>
+            <div class="col-md-4">
+                <a href="/sendletters/denmark" class="btn btn-primary btn-lg" style="min-width: 180px; margin-top: 8px; margin-bottom: 8px; ">Try our interface</a>
+            </div>
+
+        </div>
+
+
+
+
 
     </div>
     <div class="col-md-4">
-        
+
         @Html.Partial("_formTryService", new TryServiceViewModel())
-        
+
 
     </div>
 </div>
@@ -97,7 +114,7 @@
     </div>
     <div class="col-md-4 frontPageBox">
 
-        <img src="@Url.Content("~/Content/images/icons/1402160429_mail_delivery.png")" />
+        <img src="@Url.Content("~/Content/images/icons/1395498076_130.png")" />
         <span class="lead">
             3. Letters are delivered soon after
         </span>
@@ -105,7 +122,6 @@
             Your letter is delivered to the specified address. Usually the next day
             <br /><a href="#step_three_shipping">Read more</a>
         </span>
-
     </div>
 </div>
 

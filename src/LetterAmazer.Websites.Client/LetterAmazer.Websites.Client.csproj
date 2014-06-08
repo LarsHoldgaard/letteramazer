@@ -163,10 +163,12 @@
     <Compile Include="Attributes\AutoErrorRecoveryAttribute.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CallbackController.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LandingpageController.cs" />
     <Compile Include="Controllers\PartnerController.cs" />
     <Compile Include="Controllers\PaymentController.cs" />
+    <Compile Include="Controllers\RezidorController.cs" />
     <Compile Include="Controllers\SingleLetterController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Extensions\CustomerExtensions.cs" />
@@ -683,7 +685,6 @@
     </Content>
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\Faq.cshtml" />
@@ -735,6 +736,9 @@
     <Content Include="Views\Landingpage\EconomicDk.cshtml" />
     <Content Include="Views\Landingpage\LmPostDk.cshtml" />
     <Content Include="Views\Shared\Denmark\_formTryServiceDk.cshtml" />
+    <Content Include="Views\Error\NotFound.cshtml" />
+    <Content Include="Views\Error\Error.cshtml" />
+    <Content Include="Views\Payment\BitcoinConfirmation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\sql\" />

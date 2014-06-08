@@ -253,6 +253,7 @@ namespace LetterAmazer.Business.Services.Services
                     organisationService.Update(organisation);
                 }
             }
+            mailService.SendOrderPaid(order);
         }
 
         public void DeleteOrder(Order order)

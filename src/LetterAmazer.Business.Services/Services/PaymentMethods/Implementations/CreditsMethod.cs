@@ -46,14 +46,11 @@ namespace LetterAmazer.Business.Services.Services.PaymentMethods.Implementations
             organisationService.Update(customer.Organisation);
             var updated_customer = customerService.Update(customer);
 
-
-            order.OrderStatus =OrderStatus.Paid;
-            order.DatePaid = DateTime.Now;
-
-            orderService.Update(order);
+            CallbackNotification(order);
 
             SessionHelper.Customer = updated_customer;
             FormsAuthentication.SetAuthCookie(customer.Id.ToString(), true);
+
 
             return string.Empty;
         }
@@ -63,9 +60,23 @@ namespace LetterAmazer.Business.Services.Services.PaymentMethods.Implementations
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// This is a hack, and a credit payment page should be made
+        /// </summary>
+        /// <param name="order"></param>
+        public void CallbackNotification(Order order)
+        {
+            order.OrderStatus = OrderStatus.Paid;
+            order.DatePaid = DateTime.Now;
+
+            orderService.Update(order);
+
+            orderService.ReplenishOrderLines(order);
+            orderService.Update(order);            
+        }
         public void CallbackNotification()
         {
-            throw new NotImplementedException();
+
         }
 
         public void ChargeBacks(Order order)

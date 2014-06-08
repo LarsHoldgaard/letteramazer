@@ -103,6 +103,9 @@ namespace LetterAmazer.Websites.Client.Controllers
             return View(invoiceModel);
         }
 
-
+        public ActionResult BitcoinConfirmation()
+        {
+            return View();
+        }
     }
 }
