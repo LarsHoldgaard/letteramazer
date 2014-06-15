@@ -76,7 +76,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                         var cust = customerService.Create(customer);
 
                         SessionHelper.Customer = cust;
-                        FormsAuthentication.SetAuthCookie(cust.Id.ToString(), false);
+                        FormsAuthentication.SetAuthCookie(cust.Id.ToString(), true);
 
                         if (cust.Organisation != null && cust.Organisation.Id > 0 && !cust.Organisation.IsPrivate)
                         {

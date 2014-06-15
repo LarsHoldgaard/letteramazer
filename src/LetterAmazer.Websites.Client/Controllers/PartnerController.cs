@@ -4,6 +4,7 @@ using System.Configuration;
 using System.Linq;
 using System.Net;
 using System.Web;
+using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Security;
 using System.Web.UI.WebControls.WebParts;
@@ -124,7 +125,8 @@ namespace LetterAmazer.Websites.Client.Controllers
                 Token = token,
                 AppUrl = p,
                 UserId = access.UserId,
-                UserCredits = user.CreditsLeft
+                UserCredits = user.CreditsLeft,
+                AccessToken = access.AccessId
             };
 
             if (!string.IsNullOrEmpty(fromDateInput))
@@ -163,14 +165,14 @@ namespace LetterAmazer.Websites.Client.Controllers
                     CustomerCity = partnerInvoice.CustomerCity,
                     CustomerCountry = partnerInvoice.CustomerCountry,
                     CustomerCounty = partnerInvoice.CustomerCounty,
-                    
+                    DownloadPdfLink = "/partner/GetEconomicInvoice?pdfUrl=" + partnerInvoice.PdfUrl +"&token=" + token
                 });
             }
 
             return View(model);
         }
 
-        [HttpPost]
+        [System.Web.Mvc.HttpPost]
         public ActionResult Economic(PartnerInvoiceOverviewViewModel model)
         {
             // TODO: would someone please clean up this 100000 line long code? at least make subroutines?
@@ -194,11 +196,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                       ValueId = int.Parse(invoice.Id)
                   });
 
-                byte[] data;
-                using (var client = new WebClient())
-                {
-                    data = client.DownloadData(invoice.PdfUrl);
-                }
+                byte[] data=economicInvoiceService.GetEconomicPdfBytes(model.AccessToken, invoice.PdfUrl);
                 
                 var uploadFile = fileService.Create(data, Guid.NewGuid().ToString(), FileUploadMode.Temporarily);
                 var priceInfo = priceService.GetPricesFromFiles(new[] { uploadFile }, customerId, deliveryCountryId);
@@ -240,6 +238,10 @@ namespace LetterAmazer.Websites.Client.Controllers
             return Redirect(redirectUrl);
         }
 
-
+        public ActionResult GetEconomicInvoice(string token, string pdfUrl)
+        {
+            var data = economicInvoiceService.GetEconomicPdfBytes(token, pdfUrl);
+            return File(data, "application/pdf");
+        }
     }
 }

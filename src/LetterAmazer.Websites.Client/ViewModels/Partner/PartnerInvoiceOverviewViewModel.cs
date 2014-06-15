@@ -11,9 +11,10 @@ namespace LetterAmazer.Websites.Client.ViewModels.Partner
         public DateTime From { get; set; }
         public DateTime To { get; set; }
         public decimal UserCredits { get; set; }
-
+        public string AccessToken { get; set; }
         public List<PartnerInvoiceViewModel> PartnerInvoices { get; set; }
 
+        
         public PartnerInvoiceOverviewViewModel()
         {
             this.PartnerInvoices = new List<PartnerInvoiceViewModel>();
@@ -54,6 +55,7 @@ namespace LetterAmazer.Websites.Client.ViewModels.Partner
         public decimal Amount { get; set; }
         public bool Status { get; set; }
 
+        public string DownloadPdfLink { get; set; }
         
     }
 }

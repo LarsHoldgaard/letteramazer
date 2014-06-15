@@ -1,4 +1,4 @@
-﻿function invoice(orderid, invoiceDate, customerName, customerCountry, amount,pdfLink, status, countryId) {
+﻿function invoice(orderid, invoiceDate, customerName, customerCountry, amount, pdfLink, status, countryId, accessId, downloadPdfLink) {
     var self = this;
 
     self.pdfLink = pdfLink;
@@ -11,6 +11,8 @@
     self.amount = amount;
     self.orderid = orderid;
     self.countryId = countryId;
+    self.accessId = accessId;
+    self.downloadPdfLink = downloadPdfLink;
 
     self.uploadStatus = ko.observable('');
     
@@ -24,11 +26,12 @@
     self.updatePrice = function () {
         var printStatus = self.print();
         $.ajax({
-            url: '/SingleLetter/GetPriceFromUrl',
+            url: '/SingleLetter/GetPriceFromEconomicInvoice',
             type: 'POST',
             data: {
                 'pdfUrl': self.pdfLink,
-                'country': self.countryId
+                'country': self.countryId,
+                'accessId': self.accessId
             },
             dataType: 'json',
             success: function (data) {
@@ -49,6 +52,21 @@
         });
 
     };
+
+    //self.downloadPdf = function() {
+    //    $.ajax({
+    //        url: '/Partner/GetEconomicInvoice',
+    //        type: 'POST',
+    //        data: {
+    //            'token': self.accessId,
+    //            'pdfUrl': self.pdfLink
+    //        },
+    //        dataType: 'json',
+    //        success: function (data) {
+                
+    //        }
+    //    });
+    //};
 }
 
 
@@ -83,7 +101,7 @@ var EconomicsViewModel = function (formSelector, data) {
 
     $(data.invoiceData).each(function (index, ele) {
         console.log('economics countryid: ' + self.countryId());
-        // todo: should make logic awesome... yes
+
         var inv = new invoice(ele[0].orderid,
             ele[0].invoiceDate,
             ele[0].customerName,
@@ -91,7 +109,9 @@ var EconomicsViewModel = function (formSelector, data) {
             ele[0].amount,
             ele[0].pdfLink,
             ele[0].status,
-            59);//self.countryId()
+            59,
+            ele[0].accessId,
+            ele[0].downloadPdfLink);//self.countryId()
         self.invoices.push(inv);
     });
 

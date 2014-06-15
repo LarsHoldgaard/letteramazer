@@ -54,6 +54,7 @@ namespace LetterAmazer.Business.Services.Domain.Partners.PartnerJsonDto
 
         public decimal netAmount { get; set; }
         public decimal vatAmount { get; set; }
+        public string self { get; set; }
     }
 
     public class EconomicCustomer

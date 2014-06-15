@@ -10,7 +10,7 @@ namespace LetterAmazer.Websites.Client.ViewModels
     {
         public LoginViewModel LoginViewModel { get; set; }
         public RegisterViewModel RegisterViewModel { get; set; }
-
+        public string ReturnUrl { get; set; }
         public AccountViewModel()
         {
             this.LoginViewModel = new LoginViewModel();

@@ -20,6 +20,7 @@ using LetterAmazer.Business.Services.Domain.Pricing;
 using LetterAmazer.Business.Services.Domain.Products;
 using LetterAmazer.Business.Services.Domain.Products.ProductDetails;
 using LetterAmazer.Business.Services.Domain.Session;
+using LetterAmazer.Business.Services.Services.Partners.Invoice;
 using LetterAmazer.Business.Utils.Helpers;
 using LetterAmazer.Websites.Client.Attributes;
 using LetterAmazer.Websites.Client.Helpers;
@@ -56,6 +57,7 @@ namespace LetterAmazer.Websites.Client.Controllers
         private IEnvelopeService envelopeService;
         private IFileService fileService;
         private IPartnerService partnerService;
+        private EconomicInvoiceService economicInvoiceService;
 
         public UserController(IOrderService orderService, IPaymentService paymentService,
             ILetterService letterService, ICountryService countryService,
@@ -63,7 +65,7 @@ namespace LetterAmazer.Websites.Client.Controllers
             IOrganisationService organisationService, IMailService mailService, IInvoiceService invoiceService,
             ICustomerService customerService,IOfficeService officeService, IOfficeProductService officeProductService,
             ICheckoutService checkoutService,ISessionService sessionService,IEnvelopeService envelopeService,IFileService fileService,
-            IPartnerService partnerService)
+            IPartnerService partnerService, EconomicInvoiceService economicInvoiceService)
         {
             this.orderService = orderService;
             this.paymentService = paymentService;
@@ -81,6 +83,7 @@ namespace LetterAmazer.Websites.Client.Controllers
             this.envelopeService = envelopeService;
             this.fileService = fileService;
             this.partnerService = partnerService;
+            this.economicInvoiceService = economicInvoiceService;
         }
 
         public ActionResult Index(int? page, DashboardViewModel model)
@@ -154,7 +157,9 @@ namespace LetterAmazer.Websites.Client.Controllers
             {
                 ValidateInput();
 
-                var order = new SingleLetterController(orderService, paymentService, countryService, priceService, customerService,officeService, officeProductService,checkoutService,sessionService,fileService,envelopeService).CreateOrderFromViewModel(model);
+                var order = new SingleLetterController(orderService, paymentService, countryService, priceService, 
+                    customerService,officeService, officeProductService,checkoutService,sessionService,fileService,
+                    envelopeService,economicInvoiceService).CreateOrderFromViewModel(model);
 
                 var storedOrder = orderService.Create(order);
 

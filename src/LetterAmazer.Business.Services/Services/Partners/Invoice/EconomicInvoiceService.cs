@@ -1,15 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using LetterAmazer.Business.Services.Domain.Files;
 using LetterAmazer.Business.Services.Domain.Partners;
 using LetterAmazer.Business.Services.Domain.Partners.PartnerJsonDto;
 using LetterAmazer.Business.Services.Domain.Pricing;
+using LetterAmazer.Business.Services.Utils;
 using Newtonsoft.Json;
 
 namespace LetterAmazer.Business.Services.Services.Partners.Invoice
@@ -19,13 +22,15 @@ namespace LetterAmazer.Business.Services.Services.Partners.Invoice
         private string apiUrl;
         private string privateId;
         private IPartnerService partnerService;
+        private IFileService fileService;
         
 
-        public EconomicInvoiceService(IPartnerService partnerService)
+        public EconomicInvoiceService(IPartnerService partnerService, IFileService fileService)
         {
             this.apiUrl = ConfigurationManager.AppSettings["LetterAmazer.Apps.Economics.ApiUrl"];
             this.privateId = ConfigurationManager.AppSettings["LetterAmazer.Apps.Economics.PrivateAppId"];
             this.partnerService = partnerService;
+            this.fileService = fileService;
         }
 
         public PartnerInvoice GetPartnerInvoiceById(string accessId, string id)
@@ -55,9 +60,11 @@ namespace LetterAmazer.Business.Services.Services.Partners.Invoice
 
             var invoiceString = getJsonStringFromRequest(buildEconomicsHttpRequest(invoiceApiUrl,accessId));
             var economicsInvoices = JsonConvert.DeserializeObject<EconomicsPartnerInvoices>(invoiceString); 
+           
             var collection =
                 economicsInvoices.collection.Where(
                     c => c.date >= partnerInvoiceSpecification.From && c.date <= partnerInvoiceSpecification.To).OrderByDescending(c=>c.date);
+
 
             var invoices = new List<PartnerInvoice>();
             foreach (var economicInvoice in collection)
@@ -69,19 +76,33 @@ namespace LetterAmazer.Business.Services.Services.Partners.Invoice
                     ValueId = int.Parse(economicInvoice.id)
                 }).FirstOrDefault();
 
-                invoices.Add(getPartnerInvoice(economicInvoice, partnerTransactions));
+                var partnerInvoice = getPartnerInvoice(economicInvoice, partnerTransactions);
+                invoices.Add(partnerInvoice);
             }
 
             return invoices;
         }
 
+        public byte[] GetEconomicPdfBytes(string accessId,string pdfUrl)
+        {
+            var request = buildEconomicsHttpRequest(pdfUrl, accessId);
+            var response = request.GetResponse();
+            var data = new byte[0];
+
+            using (Stream stream = response.GetResponseStream())
+            {
+                data= Helpers.GetBytes(stream);
+            }
+
+            return data;
+        }
 
         private PartnerInvoice getPartnerInvoice(EconomicInvoice economicInvoice, PartnerTransaction partnerTransaction = null)
         {
             return new PartnerInvoice()
             {
                 CustomerName = economicInvoice.customerName,
-                PdfUrl =  "http://www.antennahouse.com/XSLsample/pdf/sample-link_1.pdf",//economicInvoice.pdf,
+                PdfUrl = economicInvoice.self + "/pdf", // this is a PDF link that requires access tokens
                 InvoiceDate = economicInvoice.date,
                 LetterAmazerStatus = partnerTransaction != null,
                 Id = economicInvoice.id,

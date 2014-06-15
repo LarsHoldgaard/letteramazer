@@ -1,11 +1,17 @@
 ﻿using System.Reflection;
+using System.Web.Providers.Entities;
+using System.Web.Security;
 using Castle.MicroKernel.Registration;
 using Castle.Windsor;
 using Castle.Windsor.Installer;
 using LetterAmazer.Business.Services;
+using LetterAmazer.Business.Services.Domain.Customers;
+using LetterAmazer.Business.Services.Services;
 using LetterAmazer.Business.Services.Services.Caching;
 using LetterAmazer.Business.Services.Services.Partners.Invoice;
+using LetterAmazer.Business.Utils.Helpers;
 using LetterAmazer.Data.Repository.Data;
+using LetterAmazer.Websites.Client.Attributes;
 using LetterAmazer.Websites.Client.IoC;
 using System;
 using System.Collections.Generic;
@@ -122,5 +128,7 @@ namespace LetterAmazer.Websites.Client
         {
             get { return ServiceFactory.Container; }
         }
+
+
     }
 }

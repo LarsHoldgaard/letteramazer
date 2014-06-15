@@ -20,6 +20,7 @@ using LetterAmazer.Business.Services.Domain.Pricing;
 using LetterAmazer.Business.Services.Domain.Products.ProductDetails;
 using LetterAmazer.Business.Services.Domain.Session;
 using LetterAmazer.Business.Services.Exceptions;
+using LetterAmazer.Business.Services.Services.Partners.Invoice;
 using LetterAmazer.Business.Thumbnail;
 using LetterAmazer.Websites.Client.Helpers;
 using LetterAmazer.Websites.Client.ViewModels.Home;
@@ -52,10 +53,12 @@ namespace LetterAmazer.Websites.Client.Controllers
         private IOfficeProductService officeProductService;
         private IFileService fileService;
         private IEnvelopeService envelopeService;
+        private EconomicInvoiceService economicInvoiceService;
 
         public SingleLetterController(IOrderService orderService, IPaymentService paymentService,
             ICountryService countryService, IPriceService priceService,ICustomerService customerService, IOfficeService officeService, 
-            IOfficeProductService officeProductService, ICheckoutService checkoutService,ISessionService sessionService, IFileService fileService,IEnvelopeService envelopeService)
+            IOfficeProductService officeProductService, ICheckoutService checkoutService,ISessionService sessionService, IFileService fileService,IEnvelopeService envelopeService,
+            EconomicInvoiceService economicInvoiceService)
         {
             this.orderService = orderService;
             this.paymentService = paymentService;
@@ -68,6 +71,7 @@ namespace LetterAmazer.Websites.Client.Controllers
             this.sessionService = sessionService;
             this.fileService = fileService;
             this.envelopeService = envelopeService;
+            this.economicInvoiceService = economicInvoiceService;
         }
 
         [HttpGet]
@@ -197,17 +201,19 @@ namespace LetterAmazer.Websites.Client.Controllers
         }
 
         [HttpPost]
-        public JsonResult GetPriceFromUrl(string pdfUrl,
-            string country)
+        public JsonResult GetPriceFromEconomicInvoice(string pdfUrl,
+            string country,string accessId)
         {
-            try
-            {
-                using (var client = new WebClient())
-                {
-                    var customerId = SessionHelper.Customer != null ? SessionHelper.Customer.Id : 0;
-                    var data = client.DownloadData(pdfUrl);
+            var customerId = SessionHelper.Customer != null ? SessionHelper.Customer.Id : 0;
+            var bytes = economicInvoiceService.GetEconomicPdfBytes(accessId, pdfUrl);
+            return GetPriceFromBytes(bytes, country, customerId);
+        }
 
-                    var fileKey = fileService.Create(data, Guid.NewGuid().ToString(),FileUploadMode.Temporarily);
+        private JsonResult GetPriceFromBytes(byte[] data, string country, int customerId)
+        {
+             try
+            {  
+                 var fileKey = fileService.Create(data, Guid.NewGuid().ToString(),FileUploadMode.Temporarily);
                     var fileBytes = fileService.GetFileById(fileKey, FileUploadMode.Temporarily);
                     var deta = new LetterContent()
                     {
@@ -225,7 +231,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                         shippingDays = officeProduct.ShippingDays
                     });
                 }
-            }
+            
             catch (Exception)
             {
                 return Json(new
@@ -236,6 +242,18 @@ namespace LetterAmazer.Websites.Client.Controllers
                     numberOfPages = 0,
                     isAuthenticated = SessionHelper.Customer != null,
                 });
+            }
+        }
+
+        [HttpPost]
+        public JsonResult GetPriceFromUrl(string pdfUrl,
+            string country)
+        {
+            var customerId = SessionHelper.Customer != null ? SessionHelper.Customer.Id : 0;
+            using (var client = new WebClient())
+            {
+                var data = client.DownloadData(pdfUrl);
+                return GetPriceFromBytes(data, country, customerId);
             }
         }
 
@@ -316,12 +334,6 @@ namespace LetterAmazer.Websites.Client.Controllers
             return File(filename, "application/pdf", Path.GetFileName(filename));
         }
 
-
-        public ActionResult Confirmation()
-        {
-            return View();
-        }
-
         public Order CreateOrderFromViewModel(SendWindowedLetterViewModel model)
         {
             return CreateOrderFromViewModel(new CreateSingleLetterModel()
@@ -349,7 +361,7 @@ namespace LetterAmazer.Websites.Client.Controllers
             //// TODO: stop being a fuck-tard
             model.UploadFile = model.UploadFile[0].Split(';');
 
-            var order = new SingleLetterController(orderService, paymentService, countryService, priceService, customerService, officeService, officeProductService, checkoutService, sessionService, fileService, envelopeService).
+            var order = new SingleLetterController(orderService, paymentService, countryService, priceService, customerService, officeService, officeProductService, checkoutService, sessionService, fileService, envelopeService,economicInvoiceService).
                 CreateOrderFromViewModel(model);
 
             var updated_order = orderService.Create(order);

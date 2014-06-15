@@ -274,9 +274,12 @@ namespace LetterAmazer.Websites.Client.Controllers
         }
 
 
-        public ActionResult Account()
+        public ActionResult Account(string ReturnUrl = "")
         {
-            AccountViewModel viewModel= new AccountViewModel();
+            AccountViewModel viewModel= new AccountViewModel()
+            {
+                ReturnUrl = ReturnUrl
+            };
 
             Helper.FillCountries(countryService, viewModel.RegisterViewModel.Countries, 59);
             return View(viewModel);
@@ -293,14 +296,21 @@ namespace LetterAmazer.Websites.Client.Controllers
                 if (customer != null)
                 {
                     SessionHelper.Customer = customer;
-                    FormsAuthentication.SetAuthCookie(customer.Id.ToString(), model.Remember ?? false);
+                    FormsAuthentication.SetAuthCookie(customer.Id.ToString(), true);
 
                     if (!string.IsNullOrEmpty(model.ReturnUrl))
                     {
                         return Redirect(model.ReturnUrl);
                     }
 
-                    return RedirectToAction("Index", "User");    
+                    if (string.IsNullOrEmpty(accountViewModel.ReturnUrl))
+                    {
+                        return RedirectToAction("Index", "User");        
+                    }
+                    else
+                    {
+                        return Redirect(accountViewModel.ReturnUrl);
+                    }    
                 }
                 ModelState.AddBusinessError("Email and password combination is invalid");
                 
@@ -344,7 +354,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                 var cust = customerService.Create(customer);
 
                 SessionHelper.Customer = cust;
-                FormsAuthentication.SetAuthCookie(cust.Id.ToString(), false);
+                FormsAuthentication.SetAuthCookie(cust.Id.ToString(), true);
 
                 if (cust.Organisation != null && cust.Organisation.Id > 0 && !cust.Organisation.IsPrivate)
                 {
