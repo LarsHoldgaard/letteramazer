@@ -276,6 +276,7 @@
     <Content Include="Content\images\icons\writetext.png" />
     <Content Include="Content\images\imomen_pleasedelete.png" />
     <Content Include="Content\images\letteramazer_small.png" />
+    <Content Include="Content\images\lmpost_logo.png" />
     <Content Include="Content\images\uparrow.png" />
     <Content Include="Content\plugins\bootstrap\css\bootstrap-theme.css" />
     <Content Include="Content\plugins\bootstrap\css\bootstrap-theme.min.css" />
