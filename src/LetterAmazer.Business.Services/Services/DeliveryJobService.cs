@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LetterAmazer.Business.Services.Domain.DeliveryJobs;
+using LetterAmazer.Business.Services.Domain.Files;
 using LetterAmazer.Business.Services.Domain.FulfillmentPartners;
 using LetterAmazer.Business.Services.Domain.Fulfillments;
 using LetterAmazer.Business.Services.Domain.Letters;
@@ -23,6 +24,7 @@ namespace LetterAmazer.Business.Services.Services
     {
         private static readonly ILog logger = LogManager.GetLogger(typeof(DeliveryJobService));
 
+        private IFileService fileService;
         private IOrderService orderService;
         private IOfficeService officeService;
         private IFulfillmentPartnerService fulfillmentPartnerService;
@@ -30,13 +32,15 @@ namespace LetterAmazer.Business.Services.Services
         private IMailService mailService;
 
         public DeliveryJobService(IOrderService orderService,
-            IOfficeService officeService, IFulfillmentPartnerService fulfillmentPartnerService, ILetterService letterService, IMailService mailService)
+            IOfficeService officeService, IFulfillmentPartnerService fulfillmentPartnerService, ILetterService letterService, IMailService mailService,
+            IFileService fileService)
         {
             this.orderService = orderService;
             this.officeService = officeService;
             this.fulfillmentPartnerService = fulfillmentPartnerService;
             this.letterService = letterService;
             this.mailService = mailService;
+            this.fileService = fileService;
         }
 
         public void Execute(bool runSchedule)
@@ -56,6 +60,8 @@ namespace LetterAmazer.Business.Services.Services
             logger.Info("Relevant orders count: " + relevantOrders.Count);
 
             var letters = getLettersFromOrders(relevantOrders);
+            getPdfBytes(letters);
+            
 
             logger.Info("Letters in orders: " + letters.Count);
 
@@ -79,6 +85,15 @@ namespace LetterAmazer.Business.Services.Services
             catch (Exception ex)
             {
                 logger.Error(ex);
+            }
+        }
+
+        private void getPdfBytes(IEnumerable<Letter> letters)
+        {
+            foreach (var letter in letters)
+            {
+                var data = fileService.GetFileById(letter.LetterContent.Path);
+                letter.LetterContent.Content = data;
             }
         }
 
