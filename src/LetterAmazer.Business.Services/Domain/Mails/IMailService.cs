@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LetterAmazer.Business.Services.Domain.Customers;
+using LetterAmazer.Business.Services.Domain.Letters;
 using LetterAmazer.Business.Services.Domain.Orders;
 
 namespace LetterAmazer.Business.Services.Domain.Mails
@@ -14,6 +15,7 @@ namespace LetterAmazer.Business.Services.Domain.Mails
         void ConfirmUser(Customer customer);
         void SendLetter(Order order);
 
+        void SendHandimailFulfillment(string receiverEmail, List<Letter> letters);
         void SendOrderPaid(Order order);
         void SendInvoice(Order order, Invoice.Invoice invoice);
 

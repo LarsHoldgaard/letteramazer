@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LetterAmazer.Business.Services.Domain.Customers;
 using LetterAmazer.Business.Services.Domain.Invoice;
+using LetterAmazer.Business.Services.Domain.Letters;
 using LetterAmazer.Business.Services.Domain.Mails;
 using LetterAmazer.Business.Services.Domain.Mails.ViewModels;
 using LetterAmazer.Business.Services.Domain.Orders;
@@ -27,6 +28,7 @@ namespace LetterAmazer.Business.Services.Services
         private string baseUrl;
         private string invoiceUrl;
         private string createUrl;
+        
 
         private string mandrillApiUrl;
         private string mandrillApiKey;
@@ -77,6 +79,34 @@ namespace LetterAmazer.Business.Services.Services
                     var result = streamReader.ReadToEnd();
                 }
             }
+        }
+
+        public void SendHandimailFulfillment(string receiverEmail, List<Letter> letters)
+        {
+            var template_name = "letteramazer.fulfillment.handikuvertering";
+
+            var model = new MandrillTemplateSend();
+            model.template_name = template_name;
+            model.message.merge = true;
+            model.message.to.Add(new To()
+            {
+                email = receiverEmail
+            });
+            model.message.merge_vars.Add(new Merge_Vars()
+            {
+                rcpt = receiverEmail
+            });
+
+            foreach (var letter in letters)
+            {
+                model.message.attachments.Add(new Attachment()
+                {
+                    content = Helpers.GetString(letter.LetterContent.Content),
+                    name = letter.Id.ToString(),
+                    type = "application/pdf"
+                });
+            }
+            SendTemplate(model);   
         }
 
         public void ResetPassword(Customer customer)

@@ -10,6 +10,7 @@ namespace LetterAmazer.Business.Services.Domain.FulfillmentPartners
     {
         Jupiter=0,
         PostalMethods=1,
-        Intermail = 2
+        Intermail = 2,
+        Handikuvertering=3
     }
 }

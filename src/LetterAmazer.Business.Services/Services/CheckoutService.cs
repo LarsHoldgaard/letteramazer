@@ -128,6 +128,7 @@ namespace LetterAmazer.Business.Services.Services
 
             order.PartnerTransactions = checkout.PartnerTransactions;
             setReturnPostId(checkout);
+            setCustomNumbers(checkout);
             return order;
         }
 
@@ -172,9 +173,20 @@ namespace LetterAmazer.Business.Services.Services
             foreach (var letter in checkout.CheckoutLines.Where(c=>c.ProductType== ProductType.Letter))
             {
                 var fileData = fileService.GetFileById(letter.Letter.LetterContent.Path);
-                var converted = PdfHelper.WriteIdOnPdf(fileData, checkout.OrderNumber);
+                var converted = PdfHelper.WriteIdOnPdf(fileData, letter.Letter.ReturnLabel.ToString());
                 fileService.Create(converted, letter.Letter.LetterContent.Path);
             }
+        }
+
+        private void setCustomNumbers(Checkout checkout)
+        {
+            foreach (var letter in checkout.CheckoutLines.Where(c => c.ProductType == ProductType.Letter))
+            {
+                var fileData = fileService.GetFileById(letter.Letter.LetterContent.Path);
+                var converted = PdfHelper.WriteSameStrOnAllPages(fileData, letter.Letter.ReturnLabel.ToString());
+                fileService.Create(converted, letter.Letter.LetterContent.Path);
+            }
+            
         }
 
         /// <summary>

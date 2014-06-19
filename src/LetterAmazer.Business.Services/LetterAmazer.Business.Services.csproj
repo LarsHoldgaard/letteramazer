@@ -181,6 +181,7 @@
     <Compile Include="Services\CurrencyService.cs" />
     <Compile Include="Services\EnvelopeService.cs" />
     <Compile Include="Services\FileService.cs" />
+    <Compile Include="Services\FulfillmentJobs\HandikuverteringService.cs" />
     <Compile Include="Services\FulfillmentJobs\IntermailService.cs" />
     <Compile Include="Services\FulfillmentJobs\PostalMethodsService.cs" />
     <Compile Include="Services\InvoiceService.cs" />

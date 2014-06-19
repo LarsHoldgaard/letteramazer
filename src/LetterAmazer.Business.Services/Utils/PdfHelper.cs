@@ -84,6 +84,45 @@ namespace LetterAmazer.Business.Utils.Helpers
             return finalBytes;
         }
 
+
+        public static byte[] WriteSameStrOnAllPages(byte[] inPDF, string str)
+        {
+            byte[] finalBytes;
+
+            //Another in-memory PDF
+            using (var ms = new MemoryStream())
+            {
+                //Bind a reader to the bytes that we created above
+                using (var reader = new PdfReader(inPDF))
+                {
+                    //Bind a stamper to our reader
+                    using (var stamper = new PdfStamper(reader, ms))
+                    {
+
+                        //Setup a font to use
+                        var baseFont = BaseFont.CreateFont(BaseFont.TIMES_ROMAN, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
+
+                        //Get the raw PDF stream "on top" of the existing content
+                        int readerNumber = reader.NumberOfPages+1;
+                        for (int i = 1; i < readerNumber; i++)
+                        {
+                            var cb = stamper.GetOverContent(i);
+                            //Draw some text
+                            cb.BeginText();
+                            cb.SetFontAndSize(baseFont, 7);
+                            cb.ShowTextAligned(PdfContentByte.ALIGN_LEFT, str, 8, 5, 0);
+                            cb.EndText();
+                        }
+                    }
+                }
+
+                //Once again, grab the bytes before closing things out
+                finalBytes = ms.ToArray();
+            }
+            return finalBytes;
+        }
+
+
         public static byte[] WriteIdOnPdf(byte[] inPDF, string str)
         {
             byte[] finalBytes;
