@@ -2,6 +2,7 @@
 using LetterAmazer.Business.Services.Factory;
 using LetterAmazer.Business.Services.Factory.Interfaces;
 using LetterAmazer.Business.Services.Services;
+using LetterAmazer.Business.Services.Services.Caching;
 using LetterAmazer.Data.Repository.Data;
 using System;
 using System.Collections.Generic;
@@ -124,7 +125,7 @@ namespace LetterAmazer.WebAPI.Common
             // TODO : we need to find some way to make this initiallization on correct way
             LetterAmazerEntities entity = new LetterAmazerEntities();
             IOrganisationFactory factory = new OrganisationFactory(entity);
-            IOrganisationService organisationService = new OrganisationService(entity, factory);
+            IOrganisationService organisationService = new OrganisationService(entity, factory, new HttpCacheService());
             var apiAccess = organisationService.GetApiKeys(apiTokenHeaderValues.First(),apiTokenHeaderValues.Last());
 
             if (apiAccess != null)

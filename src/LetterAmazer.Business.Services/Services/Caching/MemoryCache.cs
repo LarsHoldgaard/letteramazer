@@ -14,7 +14,11 @@ namespace LetterAmazer.Business.Services.Services.Caching
 {
     public class MemoryCache:ICacheService
     {
-      
+        public void Clear()
+        {
+            System.Runtime.Caching.MemoryCache.Default.Dispose();
+        }
+
         public object GetById(string cacheKey)
         {
             if (ContainsKey(cacheKey))

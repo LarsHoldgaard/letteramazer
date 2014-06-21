@@ -169,7 +169,6 @@
     <Compile Include="Controllers\LandingpageController.cs" />
     <Compile Include="Controllers\PartnerController.cs" />
     <Compile Include="Controllers\PaymentController.cs" />
-    <Compile Include="Controllers\RezidorController.cs" />
     <Compile Include="Controllers\SingleLetterController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Extensions\CustomerExtensions.cs" />
@@ -224,7 +223,6 @@
     <Content Include="Content\css\Main.css">
       <DependentUpon>Main.less</DependentUpon>
     </Content>
-    <Content Include="Content\css\Main.min.css" />
     <Content Include="Content\css\sections\frontpage\Frontpage.css">
       <DependentUpon>Frontpage.less</DependentUpon>
     </Content>
@@ -740,6 +738,7 @@
     <Content Include="Views\Error\NotFound.cshtml" />
     <Content Include="Views\Error\Error.cshtml" />
     <Content Include="Views\Payment\BitcoinConfirmation.cshtml" />
+    <Content Include="Views\Home\UserAlreadyConfirmed.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\sql\" />

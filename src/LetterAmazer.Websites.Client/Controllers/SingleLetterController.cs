@@ -183,7 +183,7 @@ namespace LetterAmazer.Websites.Client.Controllers
             {
                 HttpPostedFileBase uploadFile = Request.Files[0];
 
-                var fileStorageName = uploadFile.FileName;
+                var fileStorageName = HelperMethods.ConvertToFriendlyUrl(uploadFile.FileName);
                 var keyName = fileService.Create(Business.Services.Utils.Helpers.GetBytes(uploadFile.InputStream),
                     fileStorageName,FileUploadMode.Temporarily);
                 

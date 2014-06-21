@@ -88,6 +88,10 @@ namespace LetterAmazer.Websites.Client.Controllers
 
         public ActionResult Index(int? page, DashboardViewModel model)
         {
+            // reload customer to be sure credits is updated
+            var customerId = SessionHelper.Customer.Id;
+            SessionHelper.Customer = customerService.GetCustomerById(customerId);
+
             buildOverviewModel(model);
 
             return View(model);

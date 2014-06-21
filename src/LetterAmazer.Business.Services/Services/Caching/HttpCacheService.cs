@@ -14,6 +14,23 @@ namespace LetterAmazer.Business.Services.Services.Caching
         private static readonly ILog logger = LogManager.GetLogger(typeof(HttpCacheService));
 
 
+        public void Clear()
+        {
+            List<string> keys = new List<string>();
+            // retrieve application Cache enumerator
+            IDictionaryEnumerator enumerator = HttpContext.Current.Cache.GetEnumerator();
+            // copy all keys that currently exist in Cache
+            while (enumerator.MoveNext())
+            {
+                keys.Add(enumerator.Key.ToString());
+            }
+            // delete every key from cache
+            for (int i = 0; i < keys.Count; i++)
+            {
+                HttpContext.Current.Cache.Remove(keys[i]);
+            }
+        }
+
         public object GetById(string cacheKey)
         {
             if (ContainsKey(cacheKey))

@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using LetterAmazer.Business.Services.Domain.Caching;
 using LetterAmazer.Business.Services.Domain.Customers;
 using LetterAmazer.Business.Services.Domain.Organisation;
 using LetterAmazer.Business.Services.Domain.Products.ProductDetails;
@@ -17,11 +19,12 @@ namespace LetterAmazer.Business.Services.Services
         private const decimal StartCreditAmount = 0;
         private IOrganisationFactory organisationFactory;
         private LetterAmazerEntities repository;
-
-        public OrganisationService(LetterAmazerEntities repository, IOrganisationFactory organisationFactory)
+        private ICacheService cacheService;
+        public OrganisationService(LetterAmazerEntities repository, IOrganisationFactory organisationFactory,ICacheService cacheService)
         {
             this.repository = repository;
             this.organisationFactory = organisationFactory;
+            this.cacheService = cacheService;
         }
 
         public Organisation Create(Organisation organisation)
@@ -118,33 +121,40 @@ namespace LetterAmazer.Business.Services.Services
 
         public Organisation GetOrganisationById(int id)
         {
-            var dbOrganisation = repository.DbOrganisation.FirstOrDefault(c => c.Id == id);
-
-
-            if (dbOrganisation == null)
+            var cacheKey = cacheService.GetCacheKey(MethodBase.GetCurrentMethod().Name, id.ToString());
+            if (!cacheService.ContainsKey(cacheKey))
             {
-                throw new ArgumentException("Item doesn't exist with ID: " + id);
+                var dbOrganisation = repository.DbOrganisation.AsNoTracking().FirstOrDefault(c => c.Id == id);
+                
+
+                if (dbOrganisation == null)
+                {
+                    throw new ArgumentException("Item doesn't exist with ID: " + id);
+                }
+
+                var dbOrganisationSettings =
+                  repository.DbOrganisationProfileSettings.FirstOrDefault(c => c.OrganisationId == id);
+
+                if (dbOrganisationSettings == null)
+                {
+                    throw new ArgumentException("No organisation settings with ID: " + id);
+                }
+
+                var dbAddresses = repository.DbOrganisationAddressList.Where(c => c.OrganisationId == id);
+                var addresses = organisationFactory.CreateAddressList(dbAddresses.ToList());
+
+                var dbApis = repository.DbApiAccess.Where(c => c.OrganisationId == id);
+                var apis = organisationFactory.CreateApiKeys(dbApis.ToList());
+
+                var organisation = organisationFactory.Create(dbOrganisation, dbOrganisationSettings);
+                organisation.AddressList = addresses;
+                organisation.ApiKeys = apis;
+
+                cacheService.Create(cacheKey, organisation);
+                return organisation;
             }
-
-            var dbOrganisationSettings =
-              repository.DbOrganisationProfileSettings.FirstOrDefault(c => c.OrganisationId == id);
-
-            if (dbOrganisationSettings == null)
-            {
-                throw new ArgumentException("No organisation settings with ID: " + id);
-            }
-
-            var dbAddresses = repository.DbOrganisationAddressList.Where(c => c.OrganisationId == id);
-            var addresses = organisationFactory.CreateAddressList(dbAddresses.ToList());
-
-            var dbApis = repository.DbApiAccess.Where(c => c.OrganisationId == id);
-            var apis = organisationFactory.CreateApiKeys(dbApis.ToList());
-
-            var organisation = organisationFactory.Create(dbOrganisation, dbOrganisationSettings);
-            organisation.AddressList = addresses;
-            organisation.ApiKeys = apis;
-
-            return organisation;
+            return (Organisation) (cacheService.GetById(cacheKey));
+            
         }
 
         public AddressList GetAddressListById(int id)

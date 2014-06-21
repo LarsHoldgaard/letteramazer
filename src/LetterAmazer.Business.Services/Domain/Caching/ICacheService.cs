@@ -8,6 +8,7 @@ namespace LetterAmazer.Business.Services.Domain.Caching
 {
     public interface ICacheService
     {
+        void Clear();
         object GetById(string cacheKey);
         object Create(string cacheKey, object obj);
         object Create(string cacheKey, object obj,DateTime expire);

@@ -1,7 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Web.Caching;
 using LetterAmazer.Business.Services.Domain.AddressInfos;
+using LetterAmazer.Business.Services.Domain.Caching;
 using LetterAmazer.Business.Services.Domain.Content;
 using LetterAmazer.Business.Services.Domain.Countries;
 using LetterAmazer.Business.Services.Domain.Customers;
@@ -45,9 +48,10 @@ namespace LetterAmazer.Websites.Client.Controllers
         private IContentService contentService;
         private IPaymentService paymentService;
         private ILeadService leadService;
+        private ICacheService cacheService;
         public HomeController(ICustomerService customerService,IPriceUpdater priceUpdater,
             IMailService mailService, ICountryService countryService, IPriceService priceService, IOrganisationService organisationService,
-            IContentService contentService,IPaymentService paymentService,ILeadService leadService)
+            IContentService contentService,IPaymentService paymentService,ILeadService leadService,ICacheService cacheService)
         {
             this.customerService = customerService;
             this.countryService = countryService;
@@ -58,6 +62,7 @@ namespace LetterAmazer.Websites.Client.Controllers
             this.contentService = contentService;
             this.paymentService = paymentService;
             this.leadService = leadService;
+            this.cacheService = cacheService;
         }
 
         public ActionResult Index()
@@ -73,6 +78,12 @@ namespace LetterAmazer.Websites.Client.Controllers
             Helper.FillCountries(countryService, windowedModel.Countries, 59);
 
             return View(windowedModel);
+        }
+
+        public ActionResult ClearCache()
+        {
+            cacheService.Clear();
+            return Content("ok");
         }
 
         public ActionResult Faq()
@@ -372,10 +383,12 @@ namespace LetterAmazer.Websites.Client.Controllers
             catch (Exception ex)
             {
                 logger.Error(ex);
-                ModelState.AddBusinessError(ex.Message);
+                ModelState.AddModelError("Register",ex.Message);
+                ModelState.AddModelError(string.Empty, ex.Message);
+                //ModelState.AddBusinessError(ex.Message);
             }
 
-            return RedirectToActionWithError("Account", accountViewModel);
+            return RedirectToAction("Account", accountViewModel);
         }
 
 
@@ -499,12 +512,20 @@ namespace LetterAmazer.Websites.Client.Controllers
                     RegistrationKey = key
                 }).FirstOrDefault();
 
-                customerService.ActivateUser(customer);
+                if (customer != null)
+                {
+                    customerService.ActivateUser(customer);
 
-                SessionHelper.Customer = customer;
-                FormsAuthentication.SetAuthCookie(customer.Id.ToString(), true);
+                    SessionHelper.Customer = customer;
+                    FormsAuthentication.SetAuthCookie(customer.Id.ToString(), true);
 
-                return RedirectToAction("Index", "User");
+                    return RedirectToAction("Index", "User");
+                }
+                else
+                {
+                    return View("UserAlreadyConfirmed");
+                }
+
             }
             catch (Exception ex)
             {
