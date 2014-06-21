@@ -169,7 +169,8 @@
 }
 
 <script>
-
+    /// this is an object that holds the filenames of client and server, so we can lookup the values
+    var fileList = {};
 
     var createLetterData = {
         userCredits: '@Model.UserCredits',
@@ -198,12 +199,15 @@
                     'height': '100',
                     'style': 'margin-top: 28px; margin-left: 20px; height: 65px; width: 65px; display: block;'
                 });
-
+                
                 //originCountryId
                 var uploadedLetter = new letter(data.key, '', viewModel.countryId(), viewModel.originCountryId());
                 viewModel.letters.push(uploadedLetter);
 
                 viewModel.updateAllPrices();
+
+                cleanString(file.name);
+
             } else {
                 $(template).find('.dz-error-message').remove();
                 $(template).addClass('dz-error');
@@ -222,11 +226,13 @@
         removedfile: function (file) {
             var vLetters = viewModel.letters();
             for (var i = 0; i < vLetters.length; i++) {
-                if (vLetters[i].filePath == file.name) {
+                var lookup = fileList[file.name].serverFileName;
+                if (vLetters[i].filePath == lookup) {
                     viewModel.letters.splice(i, 1);
                     continue;
                 }
             }
+            delete fileList[file.name];
 
             var template = file.previewTemplate;
             $(template).remove();
@@ -256,8 +262,14 @@
             }
         }
 
-        var template = 'div.dz-preview:contains(' + val + ')';
-        $(template).remove();
+        for (var file in fileList) {
+            var obj = fileList[file];
+            if (obj.serverFileName == val) {
+                var template = 'div.dz-preview:contains(' + obj.fileName + ')';
+                $(template).remove();
+                delete fileList[obj.fileName];
+            }
+        }
     });
 
 
@@ -274,4 +286,19 @@
             viewModel.updateAllPrices();
         });
     });
+
+    function cleanString(str) {
+        return $.ajax({
+            url: '/SingleLetter/StripString',
+            type: 'POST',
+            async: false,
+            data: {
+                'str': str
+            },
+            dataType: 'json',
+            success: function (data) {
+                fileList[str] = { "serverFileName": data.str, "fileName": str };
+            }
+        });
+    }
 </script>

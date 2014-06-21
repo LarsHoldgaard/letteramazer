@@ -177,6 +177,16 @@ namespace LetterAmazer.Websites.Client.Controllers
         }
 
         [HttpPost]
+        public JsonResult StripString(string str)
+        {
+            var stripped = HelperMethods.ConvertToFriendlyUrl(str);
+            return Json(new
+            {
+                str = stripped
+            });
+        }
+
+        [HttpPost]
         public JsonResult Upload()
         {
             try
@@ -184,6 +194,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                 HttpPostedFileBase uploadFile = Request.Files[0];
 
                 var fileStorageName = HelperMethods.ConvertToFriendlyUrl(uploadFile.FileName);
+                //var fileStorageName = uploadFile.FileName; //HelperMethods.ConvertToFriendlyUrl(uploadFile.FileName);
                 var keyName = fileService.Create(Business.Services.Utils.Helpers.GetBytes(uploadFile.InputStream),
                     fileStorageName,FileUploadMode.Temporarily);
                 
