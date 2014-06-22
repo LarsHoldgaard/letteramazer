@@ -15,7 +15,7 @@ namespace LetterAmazer.Business.Services.Services.FulfillmentJobs
     public class HandikuverteringService : IFulfillmentService
     {
         // this is 15mb
-        private const int thresholdBytes = 15728640;
+        private const int thresholdBytes = 1572864;
 
         private static readonly ILog logger = LogManager.GetLogger(typeof(IntermailService));
 

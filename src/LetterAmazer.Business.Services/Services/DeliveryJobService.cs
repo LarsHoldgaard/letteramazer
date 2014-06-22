@@ -117,6 +117,12 @@ namespace LetterAmazer.Business.Services.Services
                 logger.Info("We are running the following job: Intermail");
                 fulfillmentService = new IntermailService(orderService,mailService);
             }
+            else if (fulfillmentPartner.PartnerJob == PartnerJob.Handikuvertering)
+            {
+                logger.Info("We are running the following job: Handikuvertering");
+                fulfillmentService = new HandikuverteringService(orderService, mailService);
+            } 
+            
 
             if (fulfillmentService != null)
             {

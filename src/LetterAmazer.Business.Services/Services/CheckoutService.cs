@@ -10,6 +10,7 @@ using LetterAmazer.Business.Services.Domain.Checkout;
 using LetterAmazer.Business.Services.Domain.Countries;
 using LetterAmazer.Business.Services.Domain.Customers;
 using LetterAmazer.Business.Services.Domain.Files;
+using LetterAmazer.Business.Services.Domain.FulfillmentPartners;
 using LetterAmazer.Business.Services.Domain.OfficeProducts;
 using LetterAmazer.Business.Services.Domain.Offices;
 using LetterAmazer.Business.Services.Domain.Orders;
@@ -29,18 +30,21 @@ namespace LetterAmazer.Business.Services.Services
         private IPriceService priceService;
         private ICustomerService customerService;
         private IOfficeProductService officeProductService;
+        private IFulfillmentPartnerService fulfillmentPartnerService;
         private IFileService fileService;
+        private IOfficeService officeService;
         private IOrganisationService organisationService;
 
-        public CheckoutService(IPriceService priceService,
-            ICustomerService customerService,
-            IOfficeProductService officeProductService, IFileService fileService, IOrganisationService organisationService)
+        public CheckoutService(IPriceService priceService,ICustomerService customerService,
+            IOfficeProductService officeProductService, IFileService fileService, IOrganisationService organisationService, IFulfillmentPartnerService fulfillmentPartnerService, IOfficeService officeService)
         {
             this.priceService = priceService;
             this.customerService = customerService;
             this.officeProductService = officeProductService;
             this.fileService = fileService;
             this.organisationService = organisationService;
+            this.fulfillmentPartnerService = fulfillmentPartnerService;
+            this.officeService = officeService;
         }
 
         public Order ConvertCheckout(Checkout checkout)
@@ -182,9 +186,16 @@ namespace LetterAmazer.Business.Services.Services
         {
             foreach (var letter in checkout.CheckoutLines.Where(c => c.ProductType == ProductType.Letter))
             {
-                var fileData = fileService.GetFileById(letter.Letter.LetterContent.Path);
-                var converted = PdfHelper.WriteSameStrOnAllPages(fileData, letter.Letter.ReturnLabel.ToString());
-                fileService.Create(converted, letter.Letter.LetterContent.Path);
+                var officeProduct = officeProductService.GetOfficeProductById(letter.OfficeProductId);
+                var office = officeService.GetOfficeById(officeProduct.OfficeId);
+                var fulfillment = fulfillmentPartnerService.GetFulfillmentPartnerById(office.FulfillmentPartnerId);
+
+                if (fulfillment.PartnerJob == PartnerJob.Handikuvertering)
+                {
+                    var fileData = fileService.GetFileById(letter.Letter.LetterContent.Path);
+                    var converted = PdfHelper.WriteSameStrOnAllPages(fileData, letter.Letter.ReturnLabel.ToString());
+                    fileService.Create(converted, letter.Letter.LetterContent.Path);   
+                }
             }
             
         }
