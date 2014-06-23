@@ -388,7 +388,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                 //ModelState.AddBusinessError(ex.Message);
             }
 
-            return RedirectToAction("Account", accountViewModel);
+            return View("Account", accountViewModel);
         }
 
 

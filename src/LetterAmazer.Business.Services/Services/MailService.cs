@@ -101,7 +101,7 @@ namespace LetterAmazer.Business.Services.Services
             {
                 model.message.attachments.Add(new Attachment()
                 {
-                    content = Helpers.GetString(letter.LetterContent.Content),
+                    content = Convert.ToBase64String(letter.LetterContent.Content),
                     name = letter.Id.ToString(),
                     type = "application/pdf"
                 });

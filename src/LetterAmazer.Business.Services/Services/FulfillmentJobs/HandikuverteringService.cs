@@ -14,8 +14,8 @@ namespace LetterAmazer.Business.Services.Services.FulfillmentJobs
 {
     public class HandikuverteringService : IFulfillmentService
     {
-        // this is 15mb
-        private const int thresholdBytes = 1572864;
+        // this is 20mb
+        private const int thresholdBytes = 20971520;
 
         private static readonly ILog logger = LogManager.GetLogger(typeof(IntermailService));
 
@@ -51,14 +51,19 @@ namespace LetterAmazer.Business.Services.Services.FulfillmentJobs
                     mailsInThisLetter.Clear();
                     currentFileSize = letter.LetterContent.Content.Length;
                 }
-                mailsInThisLetter.Add(letter);
+                mailsInThisLetter.Add(letter);    
+                
             }
             SendLetters(mailsInThisLetter);
+
+            orderService.UpdateByLetters(letters);
+            
         }
 
         private void SendLetters(List<Letter> letters)
         {
             mailService.SendHandimailFulfillment(email,letters);
+
         }
     }
 

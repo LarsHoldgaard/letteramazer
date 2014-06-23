@@ -34,13 +34,8 @@
         <h3>Get your free account now</h3>
         @using (Html.BeginForm("Register", "Home", FormMethod.Post, new { @class = "form" }))
         {
-            @Html.ValidationSummary(false)
-            @Html.ValidationSummary()
-            @Html.ValidationMessage("Business")
             @Html.ValidationMessage("Register")
-            @Html.BusinessErrorMessageBox()
-
-
+        
             <div class="form-group">
                 <label>Email address</label>
                 @Html.TextBoxFor(m => m.RegisterViewModel.Email, new { @class = "form-control", placeholder = "Email", @type = "email" })

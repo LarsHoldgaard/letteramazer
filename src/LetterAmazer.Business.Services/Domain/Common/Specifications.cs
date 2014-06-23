@@ -21,8 +21,6 @@ namespace LetterAmazer.Business.Services.Domain.Common
 
         public override string ToString()
         {
-            Stopwatch watch = new Stopwatch();
-            watch.Start();
             var type = GetType();
 
             var list = new List<string>();
@@ -38,9 +36,7 @@ namespace LetterAmazer.Business.Services.Domain.Common
             }
 
             var res= String.Join("&", list.ToArray());
-            watch.Stop();
-
-            Console.WriteLine("ToString() of specifications took: " + watch.ElapsedMilliseconds + " ms");
+            
             return res;
         }
 

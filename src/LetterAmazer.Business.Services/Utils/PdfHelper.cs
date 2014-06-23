@@ -141,7 +141,7 @@ namespace LetterAmazer.Business.Utils.Helpers
                     {
 
                         //Setup a font to use
-                        var baseFont = BaseFont.CreateFont(BaseFont.HELVETICA_BOLD, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
+                        var baseFont = BaseFont.CreateFont(BaseFont.TIMES_ROMAN, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
 
                         //Get the raw PDF stream "on top" of the existing content
                         var cb = stamper.GetOverContent(1);
@@ -150,7 +150,7 @@ namespace LetterAmazer.Business.Utils.Helpers
                         cb.BeginText();
                         
                         cb.SetFontAndSize(baseFont, 8);
-                        cb.ShowTextAligned(PdfContentByte.ALIGN_LEFT,str,58,805,0);
+                        cb.ShowTextAligned(PdfContentByte.ALIGN_LEFT,str,29,755,0);
                         cb.EndText();
                         
                     }

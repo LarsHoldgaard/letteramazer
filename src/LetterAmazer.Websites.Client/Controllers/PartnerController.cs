@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -131,11 +132,11 @@ namespace LetterAmazer.Websites.Client.Controllers
 
             if (!string.IsNullOrEmpty(fromDateInput))
             {
-                model.From = DateTime.Parse(fromDateInput);
+                model.From = DateTime.ParseExact(fromDateInput,"dd-MM-yyyy",null);
             }
             if (!string.IsNullOrEmpty(toDateInput))
             {
-                model.To = DateTime.Parse(toDateInput);
+                model.To = DateTime.ParseExact(toDateInput, "dd-MM-yyyy", null);
             }
 
 
