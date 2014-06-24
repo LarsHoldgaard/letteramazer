@@ -44,6 +44,13 @@
     </div>
     
     <div>
+        <div data-bind="foreach: officeProductList()">
+            <h3><label data-bind="text: title"></label></h3>
+
+        </div>
+    </div>
+    
+    <div>
 
         <h2>3. Summary and send letters</h2>
 
@@ -272,6 +279,8 @@
             viewModel.updateOriginCountry(countryId);
             viewModel.updateAllPrices();
         });
+
+        viewModel.updateOfficeProducts();
     });
 
     function cleanString(str) {

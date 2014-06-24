@@ -49,6 +49,9 @@
     };
 }
 
+function officeProduct() {
+    self.title = 'hello';
+}
 
 var SendWindowedLetterViewModel = function(formSelector, data) {
     var self = this;
@@ -60,7 +63,7 @@ var SendWindowedLetterViewModel = function(formSelector, data) {
     self.countryId = ko.observable(0);
     self.paymentMethodId = ko.observable(0);
     self.originCountryId = ko.observable(0);
-
+    self.officeProductList = ko.observableArray([]);
 
     self.letters = ko.observableArray([]);
     self.selectedFiles = ko.computed(function () {
@@ -73,6 +76,22 @@ var SendWindowedLetterViewModel = function(formSelector, data) {
         }
         return ol;
     });
+
+    self.updateOfficeProducts = function() {
+        $.ajax({
+            url: '/SingleLetter/GetOfficeProducts',
+            type: 'POST',
+            data: {
+                'country': self.countryId
+            },
+            dataType: 'json',
+            success: function(data) {
+                $(data).each(function(index, ele) {
+                    self.officeProductList.push(new officeProduct());
+                });
+            }
+        });
+    };
 
     self.updateAllPrices = function () {
         $(self.letters()).each(function (index, ele) {

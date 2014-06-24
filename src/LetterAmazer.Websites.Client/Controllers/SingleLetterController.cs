@@ -32,6 +32,7 @@ using System.Web;
 using System.Web.Mvc;
 using LetterAmazer.Websites.Client.ViewModels;
 using LetterAmazer.Business.Utils.Helpers;
+using Newtonsoft.Json;
 using ProductType = LetterAmazer.Business.Services.Domain.Products.ProductType;
 
 namespace LetterAmazer.Websites.Client.Controllers
@@ -183,6 +184,19 @@ namespace LetterAmazer.Websites.Client.Controllers
             return Json(new
             {
                 str = stripped
+            });
+        }
+
+        [HttpPost]
+        public JsonResult GetOfficeProducts(int country)
+        {
+            var officeProducts = officeProductService.GetOfficeProductBySpecification(new OfficeProductSpecification()
+            {
+                CountryId = country
+            });
+
+            return Json(new { 
+                officeProducts = JsonConvert.SerializeObject(officeProducts)   
             });
         }
 
