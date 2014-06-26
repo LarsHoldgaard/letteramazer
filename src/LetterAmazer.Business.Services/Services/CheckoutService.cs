@@ -232,7 +232,7 @@ namespace LetterAmazer.Business.Services.Services
                         Name = checkout.Email,
                         Address = new AddressInfo()
                         {
-                            Country = new Country() { Id = checkout.RecipientCountry}
+                            Country = new Country() { Id = checkout.OriginCountry}
                         }
                     };
                     var organisation_stored = organisationService.Create(organisation);

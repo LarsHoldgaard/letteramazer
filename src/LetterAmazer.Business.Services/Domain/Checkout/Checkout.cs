@@ -25,7 +25,7 @@ namespace LetterAmazer.Business.Services.Domain.Checkout
         public List<CheckoutLine> CheckoutLines { get; set; }
 
         public int RecipientCountry { get; set; }
-
+        public int OriginCountry { get; set; }
         public int PaymentMethodId { get; set; }
 
         public Checkout()
