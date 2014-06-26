@@ -56,16 +56,19 @@ namespace LetterAmazer.Business.Services.Services
                     {
                         bucketName = temp_bucketname;
                     }
-                    
-                    var obj = client.GetObject(new GetObjectRequest()
+
+                    var res = new GetObjectRequest()
                     {
                         BucketName = bucketName,
                         Key = path
-                    });
-                    var fileBytes = Helpers.GetBytes(obj.ResponseStream);
+                    };
+                    using (var obj = client.GetObject(res)) {
+                        var fileBytes = Helpers.GetBytes(obj.ResponseStream);
 
-                    cacheService.Create(cacheKey, fileBytes);
-                    return fileBytes;
+                        cacheService.Create(cacheKey, fileBytes);
+                        return fileBytes;
+                    }
+                    
                 }
             }
             return (byte[])cacheService.GetById(cacheKey);

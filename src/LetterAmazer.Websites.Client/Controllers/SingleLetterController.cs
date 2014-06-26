@@ -201,7 +201,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                 return Json(new
                 {
                     status = "success",
-                    key = keyName
+                    key = keyName,
                 });
             }
             catch (Exception ex)
