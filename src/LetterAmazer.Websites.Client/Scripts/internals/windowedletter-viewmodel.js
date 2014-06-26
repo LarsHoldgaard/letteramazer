@@ -10,6 +10,7 @@
     self.priceExVat = ko.observable(0);
     self.priceTotal = ko.observable(0);
     self.vatPercentage = ko.observable(0);
+    self.addressInfo = null;
 
     self.updatePrice = function () {
         $.ajax({
@@ -49,8 +50,24 @@
     };
 }
 
-function officeProduct() {
-    self.title = 'hello';
+function address(country, att, address, state, city) {
+    self.country = country;
+    self.att = att;
+    self.address = address;
+    self.state = state;
+    self.city = city;
+}
+
+function officeProduct(id, enabled, quality, papersize, type, priceExVat, total, vatPercentage, currency) {
+    self.id = id;
+    self.enabled = enabled;
+    self.quality = quality;
+    self.papersize = papersize;
+    self.type = type;
+    self.priceExVat = priceExVat;
+    self.total = total;
+    self.vatPercentage = vatPercentage;
+    self.currency = currency;
 }
 
 var SendWindowedLetterViewModel = function(formSelector, data) {
@@ -85,9 +102,29 @@ var SendWindowedLetterViewModel = function(formSelector, data) {
                 'country': self.countryId
             },
             dataType: 'json',
-            success: function(data) {
-                $(data).each(function(index, ele) {
-                    self.officeProductList.push(new officeProduct());
+            success: function (data) {
+                data = JSON.parse(data);
+                $(data.officeProducts).each(function (index, ele) {
+                    alert(ele.Id);
+                
+                    //console.log(ele.officeProducts]);
+                    //console.log(ele);
+                    //console.log(ele[0]);
+
+
+                    //$(ele).each(function (index2, ele2) {
+                    //    console.log(ele2);
+                    //});
+                    //console.log(ele.officeProducts.Id);
+                    //console.log(ele.Envelope.Id);
+                    //self.officeProductList.push(new officeProduct(
+                    //    ele.Id, ele.Enabled, ele.EnvelopeViewModel.Quality,
+                    //    ele.EnvelopeViewModel.PaperSize, ele.EnvelopeViewModel.Type,
+                    //    ele.OfficeProductPriceViewModel.PriceExVat,
+                    //    ele.OfficeProductPriceViewModel.Total,
+                    //    ele.OfficeProductPriceViewModel.VatPercentage,
+                    //    ele.OfficeProductPriceViewModel.Currency
+                    //    ));
                 });
             }
         });

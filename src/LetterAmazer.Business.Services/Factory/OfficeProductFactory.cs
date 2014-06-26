@@ -47,7 +47,8 @@ namespace LetterAmazer.Business.Services.Factory
                 ShippingDays = dbproducts.ShippingWeekdays,
                 Enabled =dbproducts.Enabled,
                 Automatic = dbproducts.Automatic,
-                DeliveryLabel = (DeliveryLabel)dbproducts.DeliveryLabel
+                DeliveryLabel = (DeliveryLabel)dbproducts.DeliveryLabel,
+                EnvelopeId = dbproducts.EnvelopeId
             };
 
             officeProduct.ProductMatrixLines = productMatrixService.GetProductMatrixBySpecification(

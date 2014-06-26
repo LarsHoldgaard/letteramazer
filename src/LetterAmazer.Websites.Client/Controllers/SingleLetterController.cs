@@ -34,6 +34,7 @@ using LetterAmazer.Websites.Client.ViewModels;
 using LetterAmazer.Business.Utils.Helpers;
 using Newtonsoft.Json;
 using ProductType = LetterAmazer.Business.Services.Domain.Products.ProductType;
+using LetterAmazer.Websites.Client.ViewModels.Shared;
 
 namespace LetterAmazer.Websites.Client.Controllers
 {
@@ -195,8 +196,24 @@ namespace LetterAmazer.Websites.Client.Controllers
                 CountryId = country
             });
 
-            return Json(new { 
-                officeProducts = JsonConvert.SerializeObject(officeProducts)   
+            List<OfficeProductViewModel> models = new List<OfficeProductViewModel>();
+            foreach (var officeProd in officeProducts) {
+                var envelope = envelopeService.GetEnvelopeById(officeProd.EnvelopeId);
+                models.Add(new OfficeProductViewModel()
+                {
+                    Id = officeProd.Id,
+                    Enabled = true,
+                    Envelope = new EnvelopeViewModel() { 
+                        Id = envelope.Id,
+                        Quality = "God",
+                        Type = "Window",
+                        PaperSize = "A4"
+                    }
+                });
+            }
+
+            return Json(new {
+                officeProducts = JsonConvert.SerializeObject(models)   
             });
         }
 

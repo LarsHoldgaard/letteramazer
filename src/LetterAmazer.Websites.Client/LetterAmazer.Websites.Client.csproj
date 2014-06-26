@@ -208,6 +208,7 @@
     <Compile Include="ViewModels\DashboardViewModel.cs" />
     <Compile Include="ViewModels\RegisterViewModel.cs" />
     <Compile Include="ViewModels\Home\ResellerViewModel.cs" />
+    <Compile Include="ViewModels\Shared\OfficeProductViewModel.cs" />
     <Compile Include="ViewModels\Shared\TryServiceViewModel.cs" />
     <Compile Include="ViewModels\Shared\Utils\ControllerHelpers.cs" />
     <Compile Include="ViewModels\User\ApiKeysViewModel.cs" />
