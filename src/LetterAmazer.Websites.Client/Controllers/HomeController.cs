@@ -91,6 +91,11 @@ namespace LetterAmazer.Websites.Client.Controllers
             return View();
         }
 
+        public ActionResult Manual()
+        {
+            return View();
+        }
+
         public ActionResult Business()
         {
             return View();
