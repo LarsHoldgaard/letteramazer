@@ -11,7 +11,7 @@
     <meta http-equiv="Content-Language" content="da_DK" />
 }
 
-<h1>Send dine E-conomic faktura som fysiske breve</h1>
+<h1>Send dine E-conomic fakturaer som fysiske breve</h1>
 
 @Html.ValidationSummary()
 @Html.BusinessErrorMessageBox()
@@ -21,7 +21,13 @@
 <div class="row">
     <div class="col-md-6">
 
+        <h3>Hvad er LMPost.com?</h3>
+        <div class="flex-video widescreen">
+            <iframe src="//www.youtube.com/embed/O2ON3S8uRBM" frameborder="0" allowfullscreen></iframe>
+        </div>
+
         <h3>Sådan installerer du app'en</h3>
+
         <ol>
             <li>
                 Du opretter en <b>gratis</b> bruger på denne side (eller logger ind med en eksisterende)
@@ -31,15 +37,41 @@
             <li>Du oprettes vores app som en fane, inde i dit E-conomic system</li>
         </ol>
         Alle skridt er designet til at være intuitive. Start med at opret en LMPost konto.
-        
 
-        @*<h3>Video af installation</h3>
-        <iframe width="420" height="315" src="//www.youtube.com/embed/YHoidN7f0Ig" frameborder="0" allowfullscreen></iframe>*@
+        <h3>Video: Installation og brug</h3>
+        <div class="flex-video widescreen">
+            <iframe src="//www.youtube.com/embed/QdycMSjOem8" frameborder="0" allowfullscreen></iframe>
+        </div>
+
+
+        <h3>Ofte stillede spørgsmål</h3>
+        <p>
+            <b>Hvor hurtigt når brevene frem?</b><br />
+            Vi sender alle hverdage, og vi bruger A-post hos Post Danmark. Det når derfor frem indenfor 1-2 hverdage, alt efter hvornår du sender fakturaen.
+        </p>
+
+
+
+        <p>
+            <b>Når jeg åbner appen som en fane i e-conomic, får jeg en fejl</b><br />
+            Dette kan ske hvis du har kopieret et forkert link. Et rigtigt link vil ligne følgende:<br />
+            https://www.lmpost.com/partner/Economic?token=jsqMaiWi2ZpjqzI7ftFuPWcw9_9bCw_APCyhBjA3HWc2
+            <br /><br />
+            Ofte vil denne fejl opstå hvis man f.eks. får tilføjet et " tegn i slutningen af linket.
+        </p>
+
+        <h3>Kontakt</h3>
+        <p>
+            Du kan altid stille spørgsmål til os på:<br />
+            Telefon: (+45) 61793650<br />
+            E-mail: info@lmpost.com
+        </p>
+
     </div>
     <div class="col-md-6">
         @using (Html.BeginForm("EconomicDk", "Landingpage", FormMethod.Post, new { @class = "form" }))
         {
-                        <h2>Kom i gang: opret en gratis konto eller log ind</h2>
+            <h2>Kom i gang: opret en gratis konto eller log ind</h2>
             <div class="form-group">
                 <label>Email adresse:</label>
                 @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "Email", @type = "email" })
@@ -56,11 +88,17 @@
             </div>
 
             <input type="submit" name="submitBtn" class="btn btn-primary btn-lg" value="Opret gratis bruger" />
-    <input type="submit" name="submitBtn" class="btn btn-primary btn-lg" value="Log ind" />
+            <input type="submit" name="submitBtn" class="btn btn-primary btn-lg" value="Log ind" />
 
+            <ul class="list-checkmarks" style="margin-top:8px;">
+                <li><img src="/Content/images/icons/1400886751_onebit_34.png" class="checkmark" /> Send dine faktura på få sekunder</li>
+                <li><img src="/Content/images/icons/1400886751_onebit_34.png" class="checkmark" /> Betal ved brug, ikke et sekund før</li>
+                <li><img src="/Content/images/icons/1400886751_onebit_34.png" class="checkmark" /> Ingen skjulte udgifter eller betingelser</li>
+            </ul>
         }
 
-        
+
+
     </div>
 
 
