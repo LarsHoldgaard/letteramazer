@@ -3,6 +3,7 @@ using System.Configuration;
 using System.Linq;
 using System.Net;
 using iTextSharp.text;
+using iTextSharp.text.pdf.qrcode;
 using LetterAmazer.Business.Services.Domain.AddressInfos;
 using LetterAmazer.Business.Services.Domain.Checkout;
 using LetterAmazer.Business.Services.Domain.Countries;
@@ -232,7 +233,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                 return Json(new
                 {
                     status = "success",
-                    key = keyName
+                    key = keyName,
                 });
             }
             catch (Exception ex)
@@ -389,7 +390,8 @@ namespace LetterAmazer.Websites.Client.Controllers
                 PaymentMethodId = model.PaymentMethodId,
                 LetterSize = model.LetterSize,
                 LetterType = model.LetterType,
-                Email = model.Email
+                Email = model.Email,
+                OriginCountry = int.Parse(model.SelectedOriginCountry)
             });
         }
 
@@ -436,13 +438,14 @@ namespace LetterAmazer.Websites.Client.Controllers
                 UserId = SessionHelper.Customer != null ? SessionHelper.Customer.Id : 0,
                 Email = model.Email,
                 PaymentMethodId = model.PaymentMethodId,
-                RecipientCountry=model.DestinationCountry
+                RecipientCountry=model.DestinationCountry,
+                OriginCountry = model.OriginCountry
             };
             
             foreach (var uploadFile in model.UploadFile)
             {
                 var customerId = SessionHelper.Customer != null ? SessionHelper.Customer.Id : 0;
-                var priceInfo = priceService.GetPricesFromFiles(new[] { uploadFile }, customerId, model.DestinationCountry);
+                var priceInfo = priceService.GetPricesFromFiles(new[] { uploadFile }, customerId, model.DestinationCountry,model.OriginCountry);
                 var fileBytes = fileService.GetFileById(uploadFile, FileUploadMode.Temporarily);
                 var officeProduct = officeProductService.GetOfficeProductById(priceInfo.OfficeProductId);
 
@@ -460,7 +463,7 @@ namespace LetterAmazer.Websites.Client.Controllers
                             Path = uploadFile,
                             Content = fileBytes
                         },
-                        OfficeId = officeProduct.OfficeId
+                        OfficeId = officeProduct.OfficeId,
                     }
                 };
                 checkout.CheckoutLines.Add(t);                

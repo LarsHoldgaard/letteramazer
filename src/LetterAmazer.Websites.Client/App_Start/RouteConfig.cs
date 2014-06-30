@@ -44,13 +44,6 @@ namespace LetterAmazer.Websites.Client
                 defaults: new { controller = "Error", action = "Index", id = UrlParameter.Optional }
             );
 
-            //TODO: delete this crap
-            routes.MapRoute(
-                name: "Rezidor",
-                url: "rezidor/{action}/{id}",
-                defaults: new { controller = "Rezidor", action = "Index", id = UrlParameter.Optional }
-            );
-
             routes.MapRoute(
                 name: "Invoice",
                 url: "payment/{action}/{id}",

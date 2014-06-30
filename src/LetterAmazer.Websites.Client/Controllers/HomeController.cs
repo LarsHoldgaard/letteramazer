@@ -190,7 +190,6 @@ namespace LetterAmazer.Websites.Client.Controllers
 
             var windowedModel = new SendWindowedLetterViewModel()
             {
-                PaymentMethodId = SessionHelper.Customer != null ? 2 : 1,
                 LetterType = (int)LetterType.Windowed,
                 UseUploadFile = true,
                 IsLoggedIn = SessionHelper.Customer != null

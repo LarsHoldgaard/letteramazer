@@ -188,22 +188,18 @@ namespace LetterAmazer.Business.Services.Services
 
             var model = new MandrillTemplateSend();
             model.template_name = template_name;
-            model.message.merge = false;
+            model.message.merge = true;
             model.message.to.Add(new To()
             {
                 email = order.Customer.Email
             });
-            model.message.merge_vars.Add(new Merge_Vars()
-            {
-                rcpt = order.Customer.Email,
-            });
-
             StringBuilder orderlineBuilder = new StringBuilder();
             foreach (var orderLine in order.OrderLines.Where(c=>c.ProductType != ProductType.Payment))
             {
                 var orderlineName = orderLine.ProductType == ProductType.Letter ? "Letter" : "Credits";
                 orderlineBuilder.AppendLine(string.Format("{0}: {1} EUR<br/>", orderlineName, Math.Round(orderLine.Price.PriceExVat,2)));
             }
+
 
             List<Var> variables = new List<Var>();
             variables.Add(new Var()
@@ -237,12 +233,13 @@ namespace LetterAmazer.Business.Services.Services
                 content = orderlineBuilder.ToString()
             });
 
-            model.message.merge_vars.Add(new Merge_Vars()
+            var mergeVars = new Merge_Vars()
             {
-                rcpt = notificationEmail,
+                rcpt = order.Customer.Email,
                 vars = variables
-            });
+            };
 
+            model.message.merge_vars.Add(mergeVars);
             SendTemplate(model);
 
         }

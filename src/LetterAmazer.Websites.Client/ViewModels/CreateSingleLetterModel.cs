@@ -27,6 +27,7 @@ namespace LetterAmazer.Websites.Client.ViewModels
         public string ZipCode { get; set; }
         public string DestinationCity { get; set; }
         public string DestinationAddress { get; set; }
+        public int OriginCountry { get; set; }
         public int PaymentMethodId { get; set; }
 
         public int? LetterSize { get; set; }
