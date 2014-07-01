@@ -150,7 +150,11 @@
         </div>
     </div>
 
-
+    if (Model.IsLoggedIn)
+     {
+             @Html.HiddenFor(m=>m.SelectedOriginCountry)
+     }
+        
     @Html.HiddenFor(model => model.LetterType)
     @Html.HiddenFor(model => model.UseUploadFile)
 }

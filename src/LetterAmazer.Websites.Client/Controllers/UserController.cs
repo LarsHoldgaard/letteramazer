@@ -103,20 +103,19 @@ namespace LetterAmazer.Websites.Client.Controllers
         {
             var customer = SessionHelper.Customer;
 
-            if (customer.CreditsLeft <= 0.0m)
-            {
-                DashboardViewModel dashboardViewModel = new DashboardViewModel();
-                return RedirectToAction("Index", "User", dashboardViewModel);
-            }
-
             var windowedModel = new SendWindowedLetterViewModel()
             {
                 PaymentMethodId = customer != null ? 2 : 1, // if logged in, credits, otherwise PayPal
                 LetterType = (int)LetterType.Windowed,
                 UseUploadFile = true,
                 IsLoggedIn = customer != null,
-                UserCredits = customer != null ? customer.CreditsLeft : 0.0m
+                UserCredits = customer != null ? customer.CreditsLeft : 0.0m,
             };
+
+            if (customer != null)
+            {
+                windowedModel.SelectedOriginCountry = customer.Organisation.Address.Country.Id.ToString();
+            }
 
             Helper.FillPaymentMethods(paymentService,windowedModel.PaymentMethods,PaymentType.Letters);
             Helper.FillCountries(countryService, windowedModel.Countries, 59);
