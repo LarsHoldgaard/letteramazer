@@ -226,6 +226,9 @@
     <Content Include="Content\css\sections\frontpage\Frontpage.css">
       <DependentUpon>Frontpage.less</DependentUpon>
     </Content>
+    <Content Include="Content\css\sections\manual\manual.css">
+      <DependentUpon>manual.less</DependentUpon>
+    </Content>
     <Content Include="Content\css\sections\site\Shame.css">
       <DependentUpon>Shame.less</DependentUpon>
     </Content>
@@ -275,6 +278,17 @@
     <Content Include="Content\images\imomen_pleasedelete.png" />
     <Content Include="Content\images\letteramazer_small.png" />
     <Content Include="Content\images\lmpost_logo.png" />
+    <Content Include="Content\images\manual\Screenshot 2014-06-30_22.20.19.png" />
+    <Content Include="Content\images\manual\Screenshot 2014-06-30_22.20.29.png" />
+    <Content Include="Content\images\manual\Screenshot 2014-06-30_22.20.50.png" />
+    <Content Include="Content\images\manual\Screenshot 2014-06-30_22.21.06.png" />
+    <Content Include="Content\images\manual\Screenshot 2014-06-30_22.21.15.png" />
+    <Content Include="Content\images\manual\Screenshot 2014-06-30_22.21.34.png" />
+    <Content Include="Content\images\manual\Screenshot 2014-06-30_22.22.17.png" />
+    <Content Include="Content\images\manual\Screenshot 2014-06-30_22.22.24.png" />
+    <Content Include="Content\images\manual\Screenshot 2014-06-30_22.22.34.png" />
+    <Content Include="Content\images\manual\Screenshot 2014-06-30_22.22.38.png" />
+    <Content Include="Content\images\manual\Screenshot 2014-06-30_22.22.46.png" />
     <Content Include="Content\images\uparrow.png" />
     <Content Include="Content\plugins\bootstrap\css\bootstrap-theme.css" />
     <Content Include="Content\plugins\bootstrap\css\bootstrap-theme.min.css" />
@@ -385,6 +399,10 @@
     <Content Include="Content\css\sections\user\OrderDetails.less" />
     <Content Include="Content\css\sections\user\OrderDetails.css.map">
       <DependentUpon>OrderDetails.css</DependentUpon>
+    </Content>
+    <Content Include="Content\css\sections\manual\manual.less" />
+    <Content Include="Content\css\sections\manual\manual.css.map">
+      <DependentUpon>manual.css</DependentUpon>
     </Content>
     <None Include="Properties\PublishProfiles\FileDEploy.pubxml" />
     <None Include="Properties\PublishProfiles\Stat.pubxml" />
@@ -739,6 +757,7 @@
     <Content Include="Views\Error\Error.cshtml" />
     <Content Include="Views\Payment\BitcoinConfirmation.cshtml" />
     <Content Include="Views\Home\UserAlreadyConfirmed.cshtml" />
+    <Content Include="Views\Home\Manual.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\sql\" />

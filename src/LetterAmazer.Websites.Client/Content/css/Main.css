@@ -152,6 +152,10 @@ body > main > .container {
 .ctaForm p {
   font-size: 11pt;
 }
+.manual_screenshot {
+  max-width: 500px;
+  border: 1px solid #d9d9d9;
+}
 .dashboardBox {
   padding: 20px;
   background-color: white;
