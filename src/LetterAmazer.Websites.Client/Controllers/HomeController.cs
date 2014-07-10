@@ -158,15 +158,28 @@ namespace LetterAmazer.Websites.Client.Controllers
             return View();
         }
 
+        #region Hacks for marketing
+        public ActionResult GetOffer()
+        {
+            Session["getoffer"] = true;
+            return RedirectToAction("Account");
+        }
+
+        public ActionResult NoEmail()
+        {
+            Session["noemail"] = true;
+            return RedirectToAction("Account");
+        }
+
+        #endregion
+
         public ActionResult Pricing()
         {
             var prices = buildPriceViewModel(59); // ID of Denmark. TODO: some IP to countryID?
 
-            
             PriceOverviewViewModel priceOverviewViewModel = new PriceOverviewViewModel();
             priceOverviewViewModel.PriceViewModel = prices;
 
-            
             var countries = countryService.GetCountryBySpecificaiton(new CountrySpecification()
             {
                 Take = 999

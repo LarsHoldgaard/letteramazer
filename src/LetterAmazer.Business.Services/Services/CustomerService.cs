@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Reflection;
+using System.Web;
 using LetterAmazer.Business.Services.Domain.Caching;
 using LetterAmazer.Business.Services.Domain.Customers;
 using LetterAmazer.Business.Services.Domain.Mails;
@@ -149,6 +150,7 @@ namespace LetterAmazer.Business.Services.Services
                 dbCustomer.DateCreated = DateTime.Now;
                 dbCustomer.RegistrationKey = Guid.NewGuid().ToString();
                 dbCustomer.AccountStatus = (int) (customer.AccountStatus);
+                
 
                 if (customer.Organisation != null && customer.Organisation.Id > 0)
                 {
@@ -180,9 +182,23 @@ namespace LetterAmazer.Business.Services.Services
             cacheService.Delete(cacheService.GetCacheKey("GetCustomerById",id.ToString()));
 
             var storedCustomer = GetCustomerById(id);
-            mailService.ConfirmUser(storedCustomer);
-            mailService.NotificationNewUser(customer.Email);
 
+
+            // this is a hack, yes... but saved me like 10 hrs of work ;)
+            if (HttpContext.Current.Session["noemail"] != null && (bool) HttpContext.Current.Session["noemail"] == true)
+            {
+                storedCustomer.DateActivated = DateTime.Now;
+                storedCustomer.RegisterKey = string.Empty;
+                Update(storedCustomer);
+            }
+            else
+            {
+                mailService.ConfirmUser(storedCustomer);
+                mailService.NotificationNewUser(customer.Email);
+    
+            }
+
+            
             return storedCustomer;
         }
 

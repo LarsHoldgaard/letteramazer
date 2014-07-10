@@ -265,6 +265,11 @@ namespace LetterAmazer.Websites.Client.Controllers
             organisation.IsPrivate = false;
             organisation.Address.Country = country;
 
+            if ((Session["getoffer"] != null && (bool)Session["getoffer"] == true) || (Session["noemail"] != null && (bool)Session["noemail"] == true))
+            {
+                organisation.Credit = 5;
+            }
+
             var stored_organisation = organisationService.Create(organisation);
 
 
@@ -310,6 +315,12 @@ namespace LetterAmazer.Websites.Client.Controllers
             organisation.Name = SessionHelper.Customer.Email;
             organisation.IsPrivate = true;
             organisation.Address.Country = SessionHelper.Customer.CustomerInfo.Country;
+
+            if ((Session["getoffer"] != null && (bool)Session["getoffer"] == true) || (Session["noemail"] != null && (bool)Session["noemail"] == true))
+            {
+                organisation.Credit = 5;
+            }
+
 
             var stored_organisation = organisationService.Create(organisation);
 
