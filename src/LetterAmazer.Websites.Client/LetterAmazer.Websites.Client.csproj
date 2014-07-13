@@ -404,6 +404,7 @@
     <Content Include="Content\css\sections\manual\manual.css.map">
       <DependentUpon>manual.css</DependentUpon>
     </Content>
+    <Content Include="Content\files\Place.docx" />
     <None Include="Properties\PublishProfiles\FileDEploy.pubxml" />
     <None Include="Properties\PublishProfiles\Stat.pubxml" />
     <None Include="Scripts\jquery-2.0.3.intellisense.js" />
