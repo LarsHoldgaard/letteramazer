@@ -468,6 +468,16 @@ namespace LetterAmazer.Websites.Client.Controllers
             return RedirectToActionWithError("ForgotPassword", model);
         }
 
+        public ActionResult SendUSEmail() {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult SendUSEmail(string email) {
+            mailService.SendUSSale(email);
+            return View();
+        }
+
         public ActionResult ForgotPasswordSuccess()
         {
             return View();

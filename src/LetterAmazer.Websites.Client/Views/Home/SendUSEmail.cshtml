@@ -1,0 +1,36 @@
+﻿@{
+    ViewBag.Title = "SendUSEmail";
+}
+
+<h1>Send email</h1>
+
+<div id="statusDiv">
+
+</div>
+
+<input type="text" id="emailbox" placeholder="Enter e-mail" />
+
+<input type="button" value="Send" id="sendEmailNotificationBtn" />
+
+<script>
+    $('#sendEmailNotificationBtn').click(function () {
+        var emailVal = $('#emailbox').val();
+        
+        $('#statusDiv').empty();
+        $.ajax({
+            url: '/SendUSEmail',
+            type: 'POST',
+            data: {
+                'email': eml
+            },
+            dataType: 'json',
+            success: function (data) {
+                $('#statusDiv').html('<div class="bg-success">The email was successfully added</div>');
+            },
+            error: function (file, responseText) {
+                $('#statusDiv').html('<div class="bg-danger">Error! Was not added. Please call us :)</div>');
+            }
+        });
+    });
+
+</script>

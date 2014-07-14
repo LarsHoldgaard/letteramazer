@@ -29,6 +29,7 @@ namespace LetterAmazer.Business.Services.Domain.Mails
         void NotificationNewUser(string email);
         void NotificationTryService(string company, string name, string email, string country, string letterCount, string phone);
 
+        void SendUSSale(string email);
     }
 
 }

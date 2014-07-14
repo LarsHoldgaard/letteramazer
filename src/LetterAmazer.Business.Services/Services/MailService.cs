@@ -511,6 +511,22 @@ namespace LetterAmazer.Business.Services.Services
           
 
         }
+
+
+        public void SendUSSale(string email)
+        {
+            var template_name = "letteramazer.notification.sendussale";
+
+            var model = new MandrillTemplateSend();
+            model.template_name = template_name;
+            model.message.merge = false;
+            model.message.to.Add(new To()
+            {
+                email = email
+            });
+
+            SendTemplate(model);
+        }
     }
 
 }

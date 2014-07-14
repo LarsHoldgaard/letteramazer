@@ -759,6 +759,7 @@
     <Content Include="Views\Payment\BitcoinConfirmation.cshtml" />
     <Content Include="Views\Home\UserAlreadyConfirmed.cshtml" />
     <Content Include="Views\Home\Manual.cshtml" />
+    <Content Include="Views\Home\SendUSEmail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\sql\" />
