@@ -161,7 +161,7 @@
     var invoices = [
         @foreach (var invoice in Model.PartnerInvoices)
         {
-            <text>[{ 'orderid': "@invoice.Id", 'invoiceDate': "@invoice.InvoiceDate.ToString("dd-MM-yyyy")", 'customerName': "@invoice.CustomerName", 'customerCountry': "@invoice.CustomerCountry", 'amount': "@invoice.Amount", 'pdfLink': "@invoice.PdfUrl", 'status': "@(invoice.Status?"Sent":"Not sent")", 'accessId': "@Model.AccessToken", 'downloadPdfLink': "@Html.Raw(invoice.DownloadPdfLink)" }],</text>
+            <text>[{ 'orderid': "@invoice.Id", 'invoiceDate': "@invoice.InvoiceDate.ToString("dd-MM-yyyy")", 'customerName': "@Html.Raw(invoice.CustomerName)", 'customerCountry': "@Html.Raw(invoice.CustomerCountry)", 'amount': "@invoice.Amount", 'pdfLink': "@invoice.PdfUrl", 'status': "@(invoice.Status?"Sent":"Not sent")", 'accessId': "@Model.AccessToken", 'downloadPdfLink': "@Html.Raw(invoice.DownloadPdfLink)" }],</text>
         }
     ];
 
