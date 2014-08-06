@@ -17,6 +17,7 @@ namespace LetterAmazer.Business.Services.Services.FulfillmentJobs
         // this is 20mb
         private const int thresholdBytes = 20971520;
 
+        private const int maxAttachments = 100;
         private static readonly ILog logger = LogManager.GetLogger(typeof(IntermailService));
 
         private IMailService mailService;
@@ -38,6 +39,7 @@ namespace LetterAmazer.Business.Services.Services.FulfillmentJobs
 
         public void Process(IEnumerable<Letter> letters)
         {
+            int count = 0;
             int currentFileSize = 0;
             List<Letter> mailsInThisLetter = new List<Letter>();
             foreach (var letter in letters)
@@ -45,14 +47,15 @@ namespace LetterAmazer.Business.Services.Services.FulfillmentJobs
                 currentFileSize += letter.LetterContent.Content.Length;
 
                 // time to create a new email
-                if (currentFileSize > thresholdBytes)
+                if (currentFileSize > thresholdBytes || count >= maxAttachments)
                 {
                     SendLetters(mailsInThisLetter);
                     mailsInThisLetter.Clear();
                     currentFileSize = letter.LetterContent.Content.Length;
+                    count = 0;
                 }
-                mailsInThisLetter.Add(letter);    
-                
+                mailsInThisLetter.Add(letter);
+                count++;
             }
             SendLetters(mailsInThisLetter);
 
