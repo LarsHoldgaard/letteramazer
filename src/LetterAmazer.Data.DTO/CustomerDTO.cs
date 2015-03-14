@@ -22,6 +22,7 @@ namespace LetterAmazer.Data.DTO
         public decimal CreditLimit { get; set; }
         public string ResetPasswordKey { get; set; }
         public string RegisterKey { get; set; }
+        public string BenjaminProperty { get; set; }
         public string AccountStatus { get; set; }
     }
 }
